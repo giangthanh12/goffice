@@ -1,0 +1,17 @@
+﻿KPI chung
+1) 5 đầu việc mỗi ngày * 20 = 100 đầu việc/tháng
+2) Trễ deadline không quá 10%
+3) Công việc không đạt yêu cầu không quá 5%
+4) Đi muộn không quá 3 lần/tháng
+--------------
+Tech
+5) Phản hồi khách hàng trong vòng 30 phút sau khi nhận thông tin
+------------
+Sale
+5) Đạt mục tiêu doanh thu (sẽ cụ thể theo từng tháng và từng cá nhân)
+--------------
+MKT
+5) Đạt mục tiêu data (sẽ cụ thể theo từng tháng, từng cá nhân và từng chiến dịch)
+----------------
+
+Nếu không đạt KPI --> Lương nhận 75, 80, 90% ???

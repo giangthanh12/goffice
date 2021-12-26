@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<document type="BLUMIND" editor_version="3.2.902.24361" document_version="3.0.0.0">
+  <!--Create by Blumind, you can download it free from http://www.blumind.org-->
+  <information>
+    <author>Admin</author>
+    <company>
+    </company>
+    <version>3.0</version>
+    <description>
+    </description>
+  </information>
+  <attributes>
+    <item name="editor_show_sidebar">True</item>
+  </attributes>
+  <charts active_chart="0">
+    <chart name="New Chart 1" type="MindMap">
+      <remark>
+      </remark>
+      <layout>MIND_MAP</layout>
+      <style>
+        <back_color>White</back_color>
+        <fore_color>Black</fore_color>
+        <line_color>LightSlateGray</line_color>
+        <border_color>SlateGray</border_color>
+        <node_back_color>LightGray</node_back_color>
+        <node_fore_color>Black</node_fore_color>
+        <select_color>RoyalBlue</select_color>
+        <hover_color>MediumSlateBlue</hover_color>
+        <link_line_color>Green</link_line_color>
+        <widget_margin>1</widget_margin>
+        <picture_thumb_size>100, 100</picture_thumb_size>
+      </style>
+      <nodes>
+        <node id="1" text="CSKH cũ/KH đang sử dụng DV/SP của công ty" x="998" y="377" width="279" height="42" text_b="12, 12, 255, 18">
+          <style>
+            <back_color>Silver</back_color>
+            <fore_color>Black</fore_color>
+            <border_color>Black</border_color>
+            <padding>12</padding>
+          </style>
+          <nodes>
+            <node id="2" text="Duy trì trao đổi/quan tâm KH: Gửi tin nhắn hoặc gọi điện theo định kỳ (1 lần/tháng) để thu thập ý kiến và cảm nhận sau khi mua và sử dụng dịch vụ/SP của công ty" x="20" y="295" width="898" height="22" text_b="2, 2, 894, 18" />
+            <node id="3" text="Giới thiệu những sản phẩm mới tới KH (VD KH thiết kế web =&gt;&gt;&gt; giới thiệu G-Office/Velo Spa,...)" x="378" y="387" width="540" height="22" text_b="2, 2, 536, 18" />
+            <node id="4" text="Tạo thẻ thành viên (Tùy vào mức độ sử dụng DV của công ty) =&gt; tích điểm =&gt; đưa ra các chường trình KM/ưu đãi phù hợp" x="238" y="479" width="680" height="22" text_b="2, 2, 676, 18" />
+            <node id="5" text="Thu thập cảm nhận từ KH ngay sau khi được hỗ trợ về kỹ thuật: Gửi phiếu khảo sát mức độ hài lòng của KH sau khi được tư vấn mua hàng hoặc khắc phục lỗi kỹ thuật khi dùng SP" x="1357" y="347" width="982" height="22" text_b="2, 2, 978, 18" />
+            <node id="6" text="Gọi điện/Gửi email/Chat qua zalo OA thu thập phản hồi hoặc mức độ hài lòng của KH sau khi được hỗ trợ (1 tuần sau)" x="1357" y="427" width="652" height="22" text_b="2, 2, 648, 18" />
+          </nodes>
+          <lines>
+            <line target="2" begin_side="Left" end_side="Right" begin_rect="998, 377, 279, 42" end_rect="20, 295, 898, 22" />
+            <line target="3" begin_side="Left" end_side="Right" begin_rect="998, 377, 279, 42" end_rect="378, 387, 540, 22" />
+            <line target="4" begin_side="Left" end_side="Right" begin_rect="998, 377, 279, 42" end_rect="238, 479, 680, 22" />
+            <line target="5" begin_side="Right" end_side="Left" begin_rect="998, 377, 279, 42" end_rect="1357, 347, 982, 22" />
+            <line target="6" begin_side="Right" end_side="Left" begin_rect="998, 377, 279, 42" end_rect="1357, 427, 652, 22" />
+          </lines>
+        </node>
+      </nodes>
+    </chart>
+  </charts>
+</document>

@@ -1,0 +1,33 @@
+#viewfile{color:#5648f9}
+#viewfile p span{padding: 0 10px;}
+#viewfile .fa-trash{color:#e34103;padding-right: 10px;}
+#viewfile .fa-trash:hover{cursor: pointer;}
+#viewfile .fa-download{padding-left: 10px;}
+#listnhatky{margin-top: 10px;
+    height: 420px;
+    overflow-y: scroll;
+    
+}
+.modal-slide-in .modal-dialog .modal-body{
+    flex-grow:1 !important;
+}
+
+/* width */
+#listnhatky::-webkit-scrollbar {
+    width: 5px;
+  }
+  
+  /* Track */
+  #listnhatky::-webkit-scrollbar-track {
+    background: #fff; 
+  }
+   
+  /* Handle */
+  #listnhatky::-webkit-scrollbar-thumb {
+    background: #888; 
+  }
+  
+  /* Handle on hover */
+  #listnhatky::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+  }

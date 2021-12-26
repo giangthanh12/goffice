@@ -1,0 +1,33 @@
+﻿Hotjob:
+	1. Tin theo nhà tuyển dụng - đang làm
+	2. Fix lỗi cms
+
+Phong: 
+	1. G-tech: Gửi thông báo thanh toán qua email
+	2. Unesco: Gửi thông báo thanh toán qua email
+	3. BDS: Tìm lại hợp đồng
+	4. HappyAgri: 
+	5. Saka
+	6. Fosvina
+	7. HVKT
+	8. Vanphongre
+
+Đat: 
+	1. Daisuko
+	2. Hotjob
+	3. Phần mềm bán hàng Lê Nguyễn
+	4. Phần mềm bán hàng anh Hùng
+	5. Chốt hợp đồng anh Hướng, HT Luxury Hotel
+	6. Quản lý CTV Velo
+	7. Quản lý CTV Greekdoor
+	8. Quản lý CTV Igems
+	9. Tìm kiếm khách hàng mới
+
+Quỳnh: 
+	1. EDU: Bàn giao vận hành vào t4
+	2. Hà Ngọc: Bàn giao trong tuần
+	3. Tìm giải pháp cho server ND
+	
+	
+
+	

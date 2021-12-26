@@ -1,0 +1,541 @@
+<link rel="stylesheet" type="text/css" href="<?= HOME ?>/styles/app-assets/css/pages/app-user.css" />
+<div class="app-content content">
+    <div class="content-overlay"></div>
+    <div class="header-navbar-shadow"></div>
+    <div class="content-wrapper container-xxl p-0">
+        <div class="content-header row"></div>
+        <div class="content-body">
+            <!-- users list start -->
+            <section class="app-user-list">
+                <!-- users filter start -->
+                <div class="card">
+                    <div class="d-flex justify-content-between align-items-center mx-50 row pt-2 pb-2">
+                        <div class="col-md-4 user_role"></div>
+                        <div class="col-md-4 user_plan"></div>
+                        <div class="col-md-4 user_status"></div>
+                    </div>
+                </div>
+                <!-- users filter end -->
+                <!-- list section start -->
+                <div class="card">
+                    <div class="card-datatable table-responsive pt-0">
+                        <table class="user-list-table table">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th></th>
+                                    <th>Họ tên</th>
+                                    <th>Giới tính</th>
+                                    <th>Email</th>
+                                    <th>Điện thoại</th>
+                                    <th>Kết quả phỏng vấn</th>
+                                    <th>Ghi chú</th>
+                                    <th>Tình trạng</th>
+                                    <th>...</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+
+                    <div class="modal fade text-left" id="modals-slide-in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel16" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="myModalLabel16">Thêm mới ứng viên</h4>
+                                    <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                    </button> -->
+                                </div>
+                                <div class="modal-body">
+                                    <!-- <input type="hidden" id="id" name="id" /> -->
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <form class="form-validate" enctype="multipart/form-data" id="dg">
+                                                <div class="form-group">
+                                                    <label for="ten_day_du">Họ và tên</label>
+                                                    <input type="text" class="form-control" id="ten_day_du" name="ten_day_du" />
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="ngay_sinh">Ngày sinh</label>
+                                                    <input type="text" id="ngay_sinh" name="ngay_sinh" class="form-control flatpickr-basic" placeholder="DD/MM/YYYY" />
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="d-block mb-1">Giới tính</label>
+                                                    <div class="custom-control custom-radio custom-control-inline">
+                                                        <input type="radio" id="nam" name="gioi_tinh" class="custom-control-input" value="1" />
+                                                        <label class="custom-control-label" for="nam">Nam</label>
+                                                    </div>
+                                                    <div class="custom-control custom-radio custom-control-inline">
+                                                        <input type="radio" id="nu" name="gioi_tinh" class="custom-control-input" value="2" />
+                                                        <label class="custom-control-label" for="nu">Nữ</label>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="dien_thoai">Số điện thoại</label>
+                                                    <input type="text" class="form-control" id="dien_thoai" name="dien_thoai" />
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="email">Email</label>
+                                                    <input type="text" class="form-control" id="email" name="email" />
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="vi_tri">Vị trí</label>
+                                                    <input type="text" class="form-control" id="vi_tri" name="vi_tri" />
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="ghi_chu">Ghi chú</label>
+                                                    <textarea id="ghi_chu" name="ghi_chu" class="form-control" /></textarea>
+                                                </div>
+
+                                                <div class="d-flex flex-sm-row flex-column mt-2">
+                                                    <button type="button" onclick="saveadd()" class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Cập nhật</button>
+                                                    <button type="reset" class="btn btn-outline-secondary" data-dismiss="modal">Bỏ qua</button>
+                                                </div>
+                                            </form>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Modal to edit user -->
+                    <div class="modal fade text-left" id="updateinfo" role="dialog" aria-labelledby="myModalLabel16" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="myModalLabel16">Cập nhật thông tin ứng viên</h4>
+                                    <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                    </button> -->
+                                </div>
+                                <div class="modal-body">
+                                    <!-- <input type="hidden" id="id" name="id" /> -->
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <ul class="nav nav-pills" role="tablist">
+                                                <li class="nav-item">
+                                                    <a class="nav-link d-flex align-items-center active" id="tab-1" data-toggle="tab" href="#tab1" aria-controls="information" role="tab" aria-selected="false">
+                                                        <i data-feather="info"></i><span class="d-none d-sm-block">Thông tin chung</span>
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link d-flex align-items-center" id="tab-2" data-toggle="tab" href="#tab2" aria-controls="account" role="tab" aria-selected="true">
+                                                        <i data-feather="user"></i><span class="d-none d-sm-block">Thông tin gia đình</span>
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link d-flex align-items-center" id="tab-3" data-toggle="tab" href="#tab3" aria-controls="social" role="tab" aria-selected="false">
+                                                        <i data-feather="share-2"></i><span class="d-none d-sm-block">Trình độ học vấn</span>
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link d-flex align-items-center" id="tab-4" data-toggle="tab" href="#tab4" aria-controls="social" role="tab" aria-selected="false">
+                                                        <i data-feather="share-2"></i><span class="d-none d-sm-block">Kinh nghiệm làm việc</span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                            <div class="tab-content">
+                                                <div class="tab-pane active" id="tab1" aria-labelledby="tab1" role="tabpanel">
+                                                    <!-- users edit Info form start -->
+                                                    <form class="form-validate" enctype="multipart/form-data" id="thongtin">
+                                                        <div class="media mb-2 col-12">
+                                                            <div class="col-lg-4 d-flex mt-1 px-0">
+                                                                <img id="avatar" src="" alt="users avatar" class="user-avatar users-avatar-shadow rounded mr-2 my-25 cursor-pointer" height="90" width="90" />
+                                                                <div class="media-body col-lg-12 mt-50">
+                                                                    <h4 id="ungvien">No name</h4>
+                                                                    <div class="d-flex mt-1 px-0">
+                                                                        <label class="btn btn-primary mr-75 mb-0" for="hinhanh">
+                                                                            <span class="d-none d-sm-block">Thay ảnh</span>
+                                                                            <input class="form-control" type="file" id="hinhanh" name="hinhanh" hidden accept="image/png, image/jpeg, image/jpg" onchange="thayanh()" />
+                                                                            <span class="d-block d-sm-none">
+                                                                                <i class="mr-0" data-feather="edit"></i>
+                                                                            </span>
+                                                                        </label>
+                                                                        <!-- <button class="btn btn-outline-secondary d-none d-sm-block">Remove</button> -->
+                                                                        <!-- <button class="btn btn-outline-secondary d-block d-sm-none">
+                                                                        <i class="mr-0" data-feather="trash-2"></i>
+                                                                        </button> -->
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-3 d-flex mt-1 px-0">
+                                                                <div class="form-group">
+                                                                    <label class="d-block mb-1">Giới tính</label>
+                                                                    <div class="custom-control custom-radio custom-control-inline">
+                                                                        <input type="radio" id="male" name="gender" class="custom-control-input" value="1" />
+                                                                        <label class="custom-control-label" for="male">Nam</label>
+                                                                    </div>
+                                                                    <div class="custom-control custom-radio custom-control-inline">
+                                                                        <input type="radio" id="female" name="gender" class="custom-control-input" value="2" />
+                                                                        <label class="custom-control-label" for="female">Nữ</label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-6 d-flex mt-1 px-0">
+                                                                <div class="form-group">
+                                                                    <label class="d-block mb-1">Tình trạng hôn nhân</label>
+                                                                    <div class="custom-control custom-radio custom-control-inline">
+                                                                        <input type="radio" id="tthn1" name="tthonnhan" class="custom-control-input" value="1" />
+                                                                        <label class="custom-control-label" for="tthn1">Đã có gia đình</label>
+                                                                    </div>
+                                                                    <div class="custom-control custom-radio custom-control-inline">
+                                                                        <input type="radio" id="tthn2" name="tthonnhan" class="custom-control-input" value="2" />
+                                                                        <label class="custom-control-label" for="tthn2">Chưa có gia đình</label>
+                                                                    </div>
+                                                                    <!-- <div class="custom-control custom-radio custom-control-inline">
+                                                                        <input type="radio" id="hopdong3" name="hopdong" class="custom-control-input" value="3" />
+                                                                        <label class="custom-control-label" for="hopdong3">Chính thức</label>
+                                                                    </div>
+                                                                    <div class="custom-control custom-radio custom-control-inline">
+                                                                        <input type="radio" id="hopdong4" name="hopdong" class="custom-control-input" value="4" />
+                                                                        <abel class="custom-control-label" for="hopdong4">Cộng tác viên</label>
+                                                                    </div> -->
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row mt-1">
+                                                            <div class="col-12">
+                                                                <h4 class="mb-1">
+                                                                    <i data-feather="user" class="font-medium-4 mr-25"></i>
+                                                                    <span class="align-middle">Thông tin cá nhân</span>
+                                                                </h4>
+                                                            </div>
+                                                            <div class="col-lg-4 col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="hoten">Họ và tên</label>
+                                                                    <input id="hoten" type="text" class="form-control" placeholder="Nhập họ và tên" name="hoten" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-4 col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="quoctich">Quốc tịch</label>
+                                                                    <input id="quoctich" type="text" class="form-control" placeholder="Quốc tịch" name="quoctich" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-2 col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="dantoc">Dân tộc</label>
+                                                                    <input id="dantoc" type="text" class="form-control" placeholder="Dân tộc" name="dantoc" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-2 col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="tongiao">Tôn giáo</label>
+                                                                    <input id="tongiao" type="text" class="form-control" placeholder="Tôn giáo" name="tongiao" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-4 col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="ngaysinh">Ngày sinh</label>
+                                                                    <input id="ngaysinh" name="ngaysinh" type="text" class="form-control flatpickr-validation flatpickr" placeholder="13 May 2001" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-2 col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="noisinh">Nơi sinh</label>
+                                                                    <select id="noisinh" name="noisinh" class="select2-data-array form-control"></select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-2 col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="nguyenquan">Nguyên quán</label>
+                                                                    <select id="nguyenquan" name="nguyenquan" class="select2-data-array form-control"></select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-2 col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="luongchinhthuc">Lương chính thức</label>
+                                                                    <input id="luongchinhthuc" type="text" class="form-control" placeholder="Lương chính thức" name="luongchinhthuc" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-2 col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="luongthuviec">Lương thử việc</label>
+                                                                    <input id="luongthuviec" type="text" class="form-control" placeholder="Lương thử việc" name="luongthuviec" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-8 col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="ghichu">Giới thiệu bản thân</label>
+                                                                    <textarea id="ghichu" class="form-control" placeholder="Giới thiệu bản thân" name="ghichu"></textarea>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-2 col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="nguon">Nguồn ứng viên</label>
+                                                                    <select id="nguon" name="nguon" class="select2-data-array form-control"></select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-2 col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="chiendich">Chiến dịch</label>
+                                                                    <select id="chiendich" name="chiendich" class="select2-data-array form-control"></select>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-12">
+                                                                <h4 class="mb-1 mt-2">
+                                                                    <i data-feather="map-pin" class="font-medium-4 mr-25"></i>
+                                                                    <span class="align-middle">Thông tin pháp lý</span>
+                                                                </h4>
+                                                            </div>
+                                                            <div class="col-lg-4 col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="cmnd">CMND/CCCD/Hộ chiếu</label>
+                                                                    <input id="cmnd" type="text" class="form-control" name="cmnd" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-4 col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="ngaycap">Ngày cấp</label>
+                                                                    <input id="ngaycap" name="ngaycap" type="text" class="form-control flatpickr-validation flatpickr" placeholder="13 May 2001" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-4 col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="noicap">Nơi cấp</label>
+                                                                    <select id="noicap" name="noicap" class="select2-data-array form-control"></select>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-12">
+                                                                <h4 class="mb-1 mt-2">
+                                                                    <i data-feather="map-pin" class="font-medium-4 mr-25"></i>
+                                                                    <span class="align-middle">Thông tin liên hệ</span>
+                                                                </h4>
+                                                            </div>
+                                                            <div class="col-lg-4 col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="thuongtru">Thường trú</label>
+                                                                    <input id="thuongtru" type="text" class="form-control" name="thuongtru" placeholder="Thường trú" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-4 col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="choohiennay">Chỗ ở hiện nay</label>
+                                                                    <input id="choohiennay" name="choohiennay" type="text" class="form-control flatpickr-validation flatpickr" placeholder="Chỗ ở hiện nay" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-2 col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="dienthoai">Điện thoại</label>
+                                                                    <input id="dienthoai" type="text" class="form-control" name="dienthoai" placeholder="0989848886" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-2 col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="e_mail">Email</label>
+                                                                    <input id="e_mail" name="e_mail" type="text" class="form-control flatpickr-validation flatpickr" placeholder="info@gemstech.com.vn" />
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-12 d-flex flex-sm-row flex-column mt-2">
+                                                                <button type="button" onclick="updateinfo()" class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Cập nhật</button>
+                                                                <button type="reset" class="btn btn-outline-secondary" data-dismiss="modal">Bỏ qua</button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                    <!-- users edit Info form ends -->
+                                                </div>
+
+                                                <div class="tab-pane" id="tab2" aria-labelledby="tab2" role="tabpanel">
+                                                    <form class="form-validate" id="fm-tab2">
+                                                        <div class="row">
+                                                            <div class="form-group col-md-4">
+                                                                <label for="ttuv1">Họ và tên</label>
+                                                                <input type="text" name="ttuv1" id="ttuv1" class="form-control" placeholder="Họ và tên" />
+                                                            </div>
+                                                            <div class="form-group col-md-4">
+                                                                <label for="ttuv2">Ngày sinh</label>
+                                                                <input type="text" id="ttuv2" name="ttuv2" class="form-control flatpickr-basic" placeholder="DD/MM/YYYY" />
+                                                            </div>
+                                                            <div class="form-group col-md-4">
+                                                                <label for="ttuv3">Nghề nghiệp</label>
+                                                                <input type="text" id="ttuv3" name="ttuv3" class="form-control" placeholder="Nghề nghiệp" />
+                                                            </div>
+                                                            <div class="form-group col-md-4">
+                                                                <label for="ttuv4">Điện thoại</label>
+                                                                <input type="text" id="ttuv4" name="ttuv4" class="form-control" placeholder="Điện thoại" />
+                                                            </div>
+                                                            <div class="form-group col-md-4">
+                                                                <label for="ttuv5">Địa chỉ</label>
+                                                                <input type="text" id="ttuv5" name="ttuv5" class="form-control" placeholder="Địa chỉ" />
+                                                            </div>
+                                                            <div class="form-group col-md-4">
+                                                                <label for="ttuv6">Mối quan hệ</label>
+                                                                <input type="text" id="ttuv6" name="ttuv6" class="form-control" placeholder="Mối quan hệ" />
+                                                            </div>
+
+                                                            <div class="col-12 d-flex flex-sm-row flex-column mt-2">
+                                                                <button type="button" onclick="savemember()" class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Cập nhật</button>
+                                                                <button type="button" onclick="clearfmtab2()" class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Clear</button>
+                                                                <button type="reset" class="btn btn-outline-secondary" data-dismiss="modal">Bỏ qua</button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                    <div class="table-responsive border rounded mt-1">
+                                                        <h6 class="py-1 mx-1 mb-0 font-medium-2">
+                                                            <i data-feather="lock" class="font-medium-3 mr-25"></i>
+                                                            <span class="align-middle">Chi tiết</span>
+                                                        </h6>
+                                                        <table class="table table-striped table-borderless" id="member-list-table">
+                                                            <thead class="thead-light ">
+                                                                <tr>
+                                                                    <th></th>
+                                                                    <th>Mối quan hệ</th>
+                                                                    <th>Họ tên</th>
+                                                                    <th>Nghề nghiệp</th>
+                                                                    <th>Điện thoại</th>
+                                                                    <th></th>
+                                                                </tr>
+                                                            </thead>
+                                                        </table>
+                                                    </div>
+                                                </div>
+
+                                                <div class="tab-pane" id="tab3" aria-labelledby="tab3" role="tabpanel">
+                                                    <form class="form-validate" id="fm-tab3">
+                                                        <div class="row">
+                                                            <div class="form-group col-md-4">
+                                                                <label for="hvuv1">Từ ngày</label>
+                                                                <input type="text" id="hvuv1" name="hvuv1" class="form-control flatpickr-basic" placeholder="DD/MM/YYYY" />
+                                                            </div>
+
+                                                            <div class="form-group col-md-4">
+                                                                <label for="hvuv2">Đến ngày</label>
+                                                                <input type="text" id="hvuv2" name="hvuv2" class="form-control flatpickr-basic" placeholder="DD/MM/YYYY" />
+                                                            </div>
+                                                            <div class="form-group col-md-4">
+                                                                <label for="hvuv3">Nơi đào tạo</label>
+                                                                <input type="text" id="hvuv3" name="hvuv3" class="form-control" placeholder="Nơi đào tạo" />
+                                                            </div>
+                                                            <div class="form-group col-md-4">
+                                                                <label for="hvuv4">Chuyên ngành</label>
+                                                                <input type="text" id="hvuv4" name="hvuv4" class="form-control" placeholder="Chuyên ngành" />
+                                                            </div>
+                                                            <div class="form-group col-md-4">
+                                                                <label for="hvuv5">Hình thức</label>
+                                                                <input type="text" id="hvuv5" name="hvuv5" class="form-control" placeholder="Hình thức đào tạo" />
+                                                            </div>
+                                                            <div class="form-group col-md-4">
+                                                                <label for="hvuv6">Bằng cấp</label>
+                                                                <input type="text" id="hvuv6" name="hvuv6" class="form-control" placeholder="Bằng cấp" />
+                                                            </div>
+
+                                                            <div class="col-12 d-flex flex-sm-row flex-column mt-2">
+                                                                <button type="button" onclick="savehv()" class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Cập nhật</button>
+                                                                <button type="button" onclick="clearfmtab3()" class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Clear</button>
+                                                                <button type="reset" class="btn btn-outline-secondary" data-dismiss="modal">Bỏ qua</button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                    <div class="table-responsive border rounded mt-1">
+                                                        <h6 class="py-1 mx-1 mb-0 font-medium-2">
+                                                            <i data-feather="lock" class="font-medium-3 mr-25"></i>
+                                                            <span class="align-middle">Chi tiết</span>
+                                                        </h6>
+                                                        <table class="table table-striped table-borderless" id="hocvan-list-table">
+                                                            <thead class="thead-light ">
+                                                                <tr>
+                                                                    <th></th>
+                                                                    <th>Từ ngày</th>
+                                                                    <th>Đến ngày</th>
+                                                                    <th>Nơi đào tạo</th>
+                                                                    <th>Chuyên ngành</th>
+                                                                    <th>Bằng cấp</th>
+                                                                    <th></th>
+                                                                </tr>
+                                                            </thead>
+                                                        </table>
+                                                    </div>
+                                                </div>
+
+                                                <div class="tab-pane" id="tab4" aria-labelledby="tab4" role="tabpanel">
+                                                    <form class="form-validate" id="fm-tab4">
+                                                        <div class="row">
+                                                            <div class="form-group col-md-2">
+                                                                <label for="knuv1">Từ ngày</label>
+                                                                <input type="text" id="knuv1" name="knuv1" class="form-control flatpickr-basic" placeholder="DD/MM/YYYY" />
+                                                            </div>
+                                                            <div class="form-group col-md-2">
+                                                                <label for="knuv2">Đến ngày</label>
+                                                                <input type="text" id="knuv2" name="knuv2" class="form-control flatpickr-basic" placeholder="DD/MM/YYYY" />
+                                                            </div>
+                                                            <div class="form-group col-md-4">
+                                                                <label for="knuv3">Công ty</label>
+                                                                <input type="text" id="knuv3" name="knuv3" class="form-control" placeholder="Công ty" />
+                                                            </div>
+                                                            <div class="form-group col-md-4">
+                                                                <label for="knuv4">Vị trí</label>
+                                                                <input type="text" id="knuv4" name="knuv4" class="form-control" placeholder="Vị trí" />
+                                                            </div>
+                                                            <div class="form-group col-md-4">
+                                                                <label for="knuv5">Người tham chiếu</label>
+                                                                <input type="text" id="knuv5" name="knuv5" class="form-control" placeholder="Người tham chiếu" />
+                                                            </div>
+                                                            <div class="form-group col-md-4">
+                                                                <label for="knuv6">Điện thoại</label>
+                                                                <input type="text" id="knuv6" name="knuv6" class="form-control" placeholder="0989848886" />
+                                                            </div>
+                                                            <div class="form-group col-md-4">
+                                                                <label for="knuv7">Ghi chú</label>
+                                                                <input type="text" id="knuv7" name="knuv7" class="form-control" placeholder="Ghi chú" />
+                                                            </div>
+                                                            <div class="form-group col-md-8">
+                                                                <label for="knuv8">Dự án</label>
+                                                                <textarea id="knuv8" name="knuv8" rows="5" class="form-control" placeholder="Mô tả các dự án" ></textarea>
+                                                            </div>
+
+                                                            <div class="col-12 d-flex flex-sm-row flex-column mt-2">
+                                                                <button type="button" onclick="savekn()" class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Cập nhật</button>
+                                                                <button type="button" onclick="clearfmtab4()" class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Clear</button>
+                                                                <button type="reset" class="btn btn-outline-secondary" data-dismiss="modal">Bỏ qua</button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                    <div class="table-responsive border rounded mt-1">
+                                                        <h6 class="py-1 mx-1 mb-0 font-medium-2">
+                                                            <i data-feather="lock" class="font-medium-3 mr-25"></i>
+                                                            <span class="align-middle">Chi tiết</span>
+                                                        </h6>
+                                                        <table class="table table-striped table-borderless" id="kinhnghiem-list-table">
+                                                            <thead class="thead-light ">
+                                                                <tr>
+                                                                    <th></th>
+                                                                    <th>Từ ngày</th>
+                                                                    <th>Đến ngày</th>
+                                                                    <th>Công ty</th>
+                                                                    <th>Vị trí</th>
+                                                                    <th></th>
+                                                                </tr>
+                                                            </thead>
+                                                        </table>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">Cập nhật</button>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Bỏ qua</button>
+                          </div> -->
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+<script src="<?= HOME ?>/js/ungvien.js"></script>

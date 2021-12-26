@@ -1,0 +1,23 @@
+﻿- Tài khoản nhà đầu tư thêm trường tài khoản kho (Có thể để trống).
+- Thêm module check giao dịch khi hết phiên:
+	Check tiền gốc.
+	Check số lượng mua, bán.
+	Check tổng tiền mua, bán.
+	Check giá tham chiếu trong ngày.
+	Check tài khoản bank.
+	
+- Công cụ import dữ liệu kho (2 file).
+- Import giao dịch kho từ phần mềm KBS (File excel), kiểm tra giao dịch trên kho còn thiếu.
+- Phí bán = 0.25%*Giá TT
+- Module tài khoản kho thêm phần công thức tính tỷ lệ.
+- Công thức  tỷ lệ kho: 
+	7166: (NAV-tiền gốc)/Giá trị vốn CP
+	Kho khác: (NAV-tiền gốc)/Min (Giá trị vốn CP,Tiền gốc)
+- Công thức tính tiền cần bổ sung (Tiền cần bổ sung <0 thì chính là số tiền có thể rút): 
+	7166: Tiền gốc*Tỷ lệ cọc yêu cầu - (NAV - Tiền gốc)
+	Kho khác: Min(Tiền gốc, Giá trị vốn CP)*Tỷ lệ cọc yêu cầu - (NAV - Tiền gốc).
+- Sửa lệnh lưu Id lệnh cũ, giao diện nhìn thấy thông tin lệnh cũ.
+- Onchange thay tìm kiếm.
+- Giờ đặt đưa xuống cuối.
+- Chốt tất toán, đưa số tiền lãi lỗi tất toán vào thu chi, 
+các tính toán liên quan tất toán sẽ tính từ thời điểm sau ngày chốt.
