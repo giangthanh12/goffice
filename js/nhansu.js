@@ -517,9 +517,9 @@ function thayanh(){
 
 function them() {
     var info = {};
-    info.tinh_trang = $("#tinh_trang").val();
+    info.status = $("#tinh_trang").val();
     info.name = $("#fullname").val();
-    info.dien_thoai = $("#dien_thoai").val();
+    info.phoneNumber = $("#dien_thoai").val();
     info.email = $("#user-email").val();
     $.ajax({
         type: "POST",

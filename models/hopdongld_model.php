@@ -44,7 +44,7 @@ class hopdongld_Model extends Model{
                 FORMAT(insuranceSalary,0) AS luong_bao_hiem,
                 FORMAT(allowance,0) AS phu_cap,
                 DATE_FORMAT(startDate,'%d/%m/%Y') as ngay_di_lam,
-                DATE_FORMAT(severanceDate,'%d/%m/%Y') as ngay_ket_thuc
+                DATE_FORMAT(stopDate,'%d/%m/%Y') as ngay_ket_thuc
                 FROM laborcontract $dieukien");
         $temp = $query->fetchAll(PDO::FETCH_ASSOC);
         $result = $temp[0];
