@@ -77,5 +77,28 @@ class group_roles extends Controller{
         echo json_encode($jsonObj);
     }
 
+    function getMenus(){
+        $groupId = isset($_REQUEST['groupId']) ? $_REQUEST['groupId'] : 0;
+        $json = $this->model->getMenus($groupId);
+        echo json_encode($json);
+    }
+
+    function setFunctionRole(){
+        $groupId = isset($_REQUEST['groupId']) ? $_REQUEST['groupId'] : 0;
+        $funcId = isset($_REQUEST['funcId']) ? $_REQUEST['funcId'] : 0;
+        $check = isset($_REQUEST['check']) ? $_REQUEST['check'] : 0;
+        $this->model->setFunctionRole($groupId,$funcId,$check);
+        echo $funcId;
+    }
+
+    function setMenuRole(){
+        $groupId = isset($_REQUEST['groupId']) ? $_REQUEST['groupId'] : 0;
+        $menuId = isset($_REQUEST['menuId']) ? $_REQUEST['menuId'] : 0;
+        $check = isset($_REQUEST['check']) ? $_REQUEST['check'] : 0;
+        if($groupId>0 && $menuId>0)
+        $this->model->setMenuRole($groupId,$menuId,$check);
+    }
+
+
 }
 ?>
