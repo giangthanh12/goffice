@@ -5,7 +5,7 @@ class Auth_Model extends Model{
     }
 
     function checkIn($username, $password){
-        $query = $this->db->query("SELECT id, username, staffId, department,token, extNum, sipPass,
+        $query = $this->db->query("SELECT id, username, staffId, groupId,token, extNum, sipPass,
           (SELECT name FROM staffs WHERE id=staffId) AS staffName,
        (SELECT email FROM staffs WHERE id=staffId) AS email,
           (SELECT IF(avatar='',CONCAT('".URLFILE."','/uploads/useravatar.png'),CONCAT('".URLFILE."/',avatar)) FROM staffs WHERE id=staffId) AS avatar,
@@ -24,5 +24,25 @@ class Auth_Model extends Model{
         $query = $this->update("task", ['status'=>3,'label'=>'Deadline'], " status IN (1,2) AND deadline<'$today' ");
         return $query;
     }
+
+    function checkInfoUser($code,$name,$date,$email,$phone) {
+        $data = array();
+          $query = $this->db->query("SELECT email FROM staffs WHERE id = $code AND name = '$name' AND birthDay = '$date' AND email = '$email' AND phoneNumber = $phone");
+          $row = $query->fetchAll(PDO::FETCH_ASSOC);
+          if(isset($row[0])) {
+            $data['email'] = $row[0]['email'];
+            $query = $this->db->query("SELECT id, username FROM users WHERE staffId = $code");
+            $row = $query->fetchAll(PDO::FETCH_ASSOC);
+            $data['user'] = $row[0];
+            return $data;
+          }
+          return false;
+   
+      }
+      function updatePassword($userId, $passwordUpdate) {
+          $result = $this->update('users', ['password'=>$passwordUpdate], " id=$userId ");
+          if($result) return true;
+          return false;
+      }
 }
 ?>

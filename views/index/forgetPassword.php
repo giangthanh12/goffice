@@ -49,44 +49,43 @@
                     </div>
                     <div class="d-flex col-lg-4 align-items-center auth-bg px-2 p-lg-5">
                         <div class="col-12 col-sm-8 col-md-6 col-lg-12 px-xl-2 mx-auto">
-                            <h2 class="card-title font-weight-bold mb-1">Welcome to G-Office</h2>
-                            <p class="card-text mb-2">Đăng nhập để bắt đầu phiên làm việc</p>
-                            <form class="auth-login-form mt-2" id="login-form" method="POST">
+                            <h2 class="card-title font-weight-bold mb-1">Chào bạn, bạn vui lòng xác thực một số thông tin sau:</h2>
+                            <p class="card-text mb-2"></p>
+                            <form class="auth-login-form mt-2" id="resetPassword-form" method="POST">
                                 <div class="form-group">
-                                    <label class="form-label" for="login-email">Mã doanh nghiệp</label>
-                                    <div class="input-group mb-2">
-                                        <input class="form-control" id="taxCode" type="text" name="taxCode" required
-                                                 placeholder="Mã doanh nghiệp" aria-describedby="taxCode" autofocus=""
-                                                 tabindex="1"/>
-                                        <div class="input-group-append">
-                                            <a class="input-group-text text-danger font-weight-bold" id="editTaxCode">Edit</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label" for="login-email">Tên đăng nhập</label>
-                                    <input class="form-control" id="username" type="text" name="username"
-                                           placeholder="Tên đăng nhập" aria-describedby="username" autofocus=""
+                                    <label class="form-label" for="login-email">Mã nhân viên</label>
+                                    <input class="form-control" id="code" type="text" required name="code"
+                                            aria-describedby="code" autofocus=""
                                            tabindex="1"/>
                                 </div>
                                 <div class="form-group">
-                                    <div class="d-flex justify-content-between">
-                                        <label for="login-password">Mật khẩu</label>
-                                        <a href="<?= HOME ?>/forgetPassword"><small>Quên mật khẩu?</small></a>
-                                    </div>
-                                    <div class="input-group input-group-merge form-password-toggle">
-                                        <input class="form-control form-control-merge" id="password"
-                                               type="password" name="password" placeholder="Mật khẩu"
-                                               aria-describedby="password" tabindex="2"/>
-                                        <div class="input-group-append">
-                                                <span class="input-group-text cursor-pointer">
-                                                    <i data-feather="eye"></i>
-                                                </span>
-                                        </div>
-                                    </div>
+                                    <label class="form-label" for="login-email">Họ và tên</label>
+                                    <input class="form-control" id="name" type="name" required name="name"
+                                            aria-describedby="name" autofocus=""
+                                           tabindex="1"/>
                                 </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="login-email">Ngày tháng năm sinh</label>
+                                    <input class="form-control" id="date" data-date-format="DD MMMM YYYY" type="date" required name="date"
+                                            aria-describedby="date" autofocus=""
+                                           tabindex="1"/>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="login-email">Email</label>
+                                    <input class="form-control" id="email" required type="email" name="email"
+                                            aria-describedby="email" autofocus=""
+                                           tabindex="1"/>
+                                </div>
+                              
+                                <div class="form-group">
+                                    <label class="form-label" for="login-email">Số điện thoại</label>
+                                    <input class="form-control" id="phone" required type="number" name="phone"
+                                            aria-describedby="phone" autofocus=""
+                                           tabindex="1"/>
+                                </div>
+                               
                                 <button class="btn btn-primary btn-block" tabindex="4" type="submit">
-                                    ĐĂNG NHẬP
+                                    Lấy lại mật khẩu
                                 </button>
                             </form>
                             <p class="text-center mt-1">

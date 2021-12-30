@@ -22,7 +22,14 @@ class Bootstrap
             if (empty($url[0])) {
                 require "views/index/login.php";
                 return false;
-            } elseif ($url[0] != "auth" || empty($url[1])) {
+            } 
+            
+            elseif($url[0] == "forgetPassword") {
+                require "views/index/forgetPassword.php";
+                return false;
+                
+            }
+            elseif ($url[0] != "auth" || empty($url[1])) {
                 header('Location: ' . HOME);
                 return false;
             }
