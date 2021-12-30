@@ -96,7 +96,7 @@ class functions {
 		$level=($parentid==0)?0:$level+1;
 		foreach($menu as $value) {
 			$value['level']=$level;
-			if($value['cha'] == $parentid) {
+			if($value['parentId'] == $parentid) {
 				$ketqua[]=$value;
 				functions::dequy($menu,$value['id'],$level);
 			}
@@ -250,36 +250,40 @@ class functions {
         return $kq;
     }
 
-  // public static function workingday($month,$year,$hours) { // tinh so ngay lam viec thong thang
-  //   $type = CAL_GREGORIAN;
-  //   $day_count = cal_days_in_month($type, $month, $year);
-  //   $workday=0;
-  //   $workhours=0;
-  //   for ($i = 1; $i <= $day_count; $i++) {
-  //       // if ($i<10) $i = '0'.$i;
-  //       $date = $year.'-'.$month.'-'.$i; //format date
-  //       $get_name = date('l', strtotime($date)); //get week day
-  //       $day_name = substr($get_name, 0, 3); // Trim day name to 3 chars
-  //       if ($day_name == 'Sun')
-  //           $workhours = $workhours + $hours[1];
-  //       elseif ($day_name == 'Mon')
-  //           $workhours = $workhours + $hours[2];
-  //       elseif ($day_name == 'Tue')
-  //           $workhours = $workhours + $hours[3];
-  //       elseif ($day_name == 'Wed')
-  //           $workhours = $workhours + $hours[4];
-  //       elseif ($day_name == 'Thu')
-  //           $workhours = $workhours + $hours[5];
-  //       elseif ($day_name == 'Fri')
-  //           $workhours = $workhours + $hours[6];
-  //       elseif ($day_name == 'Sat')
-  //           $workhours = $workhours + $hours[7];
-  //   }
-  //   $workday = ROUND($workhours/8,1);
-  //   return $workday;
-  // }
+    public static function sendmail($from, $tolist, $cclist, $bcc, $subject, $noidung,$textpart)
+    {
+        $mailjetApiKey = '2af6c853730029edd01747dfb4a82947';
+        $mailjetApiSecret = '045cdbb126cc83131834e072d226bdb0';
+        $messageData = ['Messages' => [[
+            'From' => $from,
+            'To' => $tolist,
+            "Cc" => $cclist,
+            "Bcc" => $bcc,
+            'Subject' => $subject,
+            'TextPart' => $textpart,
+            'HTMLPart' => $noidung
+            ]]
+        ];
+        $jsonData = json_encode($messageData);
+        $ch = curl_init('https://api.mailjet.com/v3.1/send');
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
+        curl_setopt($ch, CURLOPT_USERPWD, "{$mailjetApiKey}:{$mailjetApiSecret}");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json','Content-Length: ' . strlen($jsonData)]);
+        $response = curl_exec($ch);
+        return $response;
+    }
 
-
+    public static function generateRandomString($length = 10) {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
+    }
 
 }
 ?>

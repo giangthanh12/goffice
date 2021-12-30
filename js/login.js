@@ -1,8 +1,10 @@
 var isRtl = $('html').attr('data-textdirection') === 'rtl';
+
 $(function (){
     var folder = '';
     if(localStorage.getItem("folder")!=null){
         folder = localStorage.getItem("folder");
+     
         saveFolder(folder);
         $('#taxCode').val(folder);
         $('#taxCode').attr("readonly","readonly");
@@ -19,6 +21,11 @@ $(function (){
     })
     $('#login-form').on("submit",function (){
         login();
+        return false;
+    })
+    // resetPassword
+    $('#resetPassword-form').on("submit",function (){
+        resetPassword();
         return false;
     })
     $('#editTaxCode').on("click",function (){
@@ -42,6 +49,7 @@ function saveFolder(folder){
 function login() {
     var username = $('#username').val();
     var password = $('#password').val();
+   
     if (username.length == 0 || password.length == 0) {
         notify_error("Bạn chưa điền đủ thông tin");
         return false;
@@ -83,6 +91,37 @@ function login() {
             processData: false
         });
     }
+}
+
+//resetpassword
+function resetPassword() {
+    var xhr = new XMLHttpRequest();
+    var formData = new FormData($('#resetPassword-form')[0]);
+    $.ajax({
+        url: baseHome + '/auth/resetPassword',  //server script to process data
+        type: 'POST',
+        xhr: function () {
+            return xhr;
+        },
+        data: formData,
+        dataType: 'json',
+        success: function (data) {
+            $('#resetPassword-form').trigger("reset");
+            if (data.success) {
+                console.log(data.msg);
+                notyfi_success(data.msg);
+            }
+            else  {
+                console.log(data.msg);
+                notify_error(data.msg);
+            }
+                
+        },
+        cache: false,
+        contentType: false,
+        processData: false
+    });
+
 }
 
 $(function () {
