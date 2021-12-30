@@ -164,12 +164,12 @@ $(function () {
 function loaddata(id) {
   
     $('#updateinfo').modal('show');
-    $(".modal-title").html('Cập nhật thông tin hợp đồng');
+    $(".modal-title").html('Cập nhật thông tin menu');
     $.ajax({
         type: "POST",
         dataType: "json",
         data: { id: id },
-        url: baseHome + "/hopdonglaodong/loaddata",
+        url: baseHome + "/menu/loaddata",
         success: function (data) {
             $('#name').val(data.name);
             $('#link').val(data.link);
