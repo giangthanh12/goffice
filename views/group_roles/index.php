@@ -62,16 +62,18 @@
                                             <div class="col-12"> 
                                                 <div class="table-responsive border rounded mt-1">
                                                     <table class="table table-striped table-borderless">
-                                                        <thead class="thead-light">
+                                                        <thead class="thead-light" id="theadSetRoles">
                                                             <tr>
                                                                 <th>Chức năng</th>
                                                                 <th></th>
                                                                 <th></th>
                                                                 <th></th>
                                                                 <th></th>
+                                                                <th></th>
+                                                                <th></th>
                                                             </tr>
                                                         </thead>
-                                                        <tbody>
+                                                        <tbody id="bodySetRoles">
                                                             <tr>
                                                                 <td>Admin</td>
                                                                 <td>
@@ -96,33 +98,6 @@
                                                                     <div class="custom-control custom-checkbox">
                                                                         <input type="checkbox" class="custom-control-input" id="admin-delete" />
                                                                         <label class="custom-control-label" for="admin-delete">Delete</label>
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Admin</td>
-                                                                <td>
-                                                                    <div class="custom-control custom-checkbox">
-                                                                        <input type="checkbox" class="custom-control-input" id="admin-read-1" />
-                                                                        <label class="custom-control-label" for="admin-read-1">Read</label>
-                                                                    </div>
-                                                                </td>
-                                                                <td>
-                                                                    <div class="custom-control custom-checkbox">
-                                                                        <input type="checkbox" class="custom-control-input" id="admin-write-1" />
-                                                                        <label class="custom-control-label" for="admin-write-1">Write</label>
-                                                                    </div>
-                                                                </td>
-                                                                <td>
-                                                                    <div class="custom-control custom-checkbox">
-                                                                        <input type="checkbox" class="custom-control-input" id="admin-create-1" />
-                                                                        <label class="custom-control-label" for="admin-create-1">Create</label>
-                                                                    </div>
-                                                                </td>
-                                                                <td>
-                                                                    <div class="custom-control custom-checkbox">
-                                                                        <input type="checkbox" class="custom-control-input" id="admin-delete-1" />
-                                                                        <label class="custom-control-label" for="admin-delete-1">Delete</label>
                                                                     </div>
                                                                 </td>
                                                             </tr>
