@@ -15,10 +15,11 @@
                         <table class="user-list-table table">
                             <thead class="thead-light">
                                 <tr>
+                                    <th>ID</th>
                                     <th>Tên function</th>
                                     <th>menu</th>
                                     <th>Icon</th>
-                                    <th>Tình trạng</th>
+                                    <th>Loại</th>
                                     <th>Thao tác</th>
                                 </tr>
                             </thead>
@@ -42,14 +43,14 @@
                                             <form class="form-validate" enctype="multipart/form-data" id="dg">
                                                 <div class="row mt-1">
                                                     <div class="col-md-6  form-group">
-                                                    <label for="link">name</label>
+                                                    <label for="link">Tên function</label>
                                                         <input id="name" name="name" type="text" class="form-control" />
                                                     </div>
                                                     <div class="col-md-6  form-group">
                                                         <label for="tinh_trang">Tình trạng</label>
                                                         <select id="tinh_trang" class="form-control" name="tinh_trang">
-                                                            <option value="0">not active</option>
-                                                            <option value="1">active</option>
+                                                            <option value="0">Deactive</option>
+                                                            <option value="1">Active</option>
                                                         </select>
                                                     </div>
                                                     <div class="col-md-6 form-group">
@@ -77,8 +78,9 @@
                                                     <div class="col-md-6  form-group">
                                                         <label for="type">Loại</label>
                                                         <select id="type" class="form-control" name="type">
-                                                            <option value="1">Đã kích hoạt</option>
-                                                            <option value="2">Chưa kích hoạt</option>
+                                                            <option value="1">Header</option>
+                                                            <option value="2">Table</option>
+                                                            <option value="3">Underground</option>
                                                         </select>
                                                     </div>
                                                     <div class="col-12 d-flex flex-sm-row flex-column mt-2">

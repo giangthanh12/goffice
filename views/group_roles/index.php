@@ -37,7 +37,7 @@
                                                 </div>
 
                                                 <div class="d-flex flex-sm-row flex-column mt-2">
-                                                    <button type="button" onclick="saveGroupRole()" class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Cập nhật</button>
+<!--                                                    <button type="button" onclick="saveGroupRole()" class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Cập nhật</button>-->
                                                     <button type="reset" class="btn btn-outline-secondary" data-dismiss="modal">Bỏ qua</button>
                                                 </div>
                                             </form>

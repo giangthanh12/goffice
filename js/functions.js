@@ -29,10 +29,11 @@ $(function () {
             ajax: baseHome + "/function_menu/list",
             ordering: false,
             columns: [
+                { data: "id" },
                 { data: "name" },
                 { data: "menu" },
                 { data: "icon" },
-                { data: "active" },
+                { data: "type" },
                 { data: "" },
             ],
           
@@ -41,10 +42,24 @@ $(function () {
             columnDefs: [
               
                 {
-                    targets: -3,
+                    targets: 3,
                     render: function (data, type, full, meta) {
                       
                         return `<i class="${full['icon']}"></i>`;
+
+                    },
+                },
+                {
+                    targets: 4,
+                    render: function (data, type, full, meta) {
+                      $typeName = '';
+                        if(data==1)
+                            $typeName='Header';
+                        if(data==2)
+                            $typeName='Table';
+                        if(data==3)
+                            $typeName='Underground';
+                        return $typeName;
 
                     },
                 },
@@ -180,10 +195,8 @@ function loaddata(id) {
             $('#type').val(data.type).change();
             $('#menuid').val(data.menuid).change();
             $('#sortOrder').val(data.sortOrder);
-            $('#tinh_trang').val(data.active).change().attr("disabled", false);
+            $('#tinh_trang').val(data.active).change();
             url = baseHome + '/function_menu/update?id=' + id;
-
-         
         },
         error: function () {
             notify_error('Lỗi truy xuất database');
@@ -197,13 +210,11 @@ function savekh() {
     info.name = $("#name").val();
     info.function = $("#function").val();
     info.icon = $("#icon").val();
-    info.type = $("#icon").val();
+    info.type = $("#type").val();
     info.menuid = $("#menuid").val();
     info.parentid = $("#parentid").val();
-    info.active = $("#tinh_trang").val();
     info.sortOrder = $("#sortOrder").val();
-    
-
+    info.active = $("#tinh_trang").val();
     $.ajax({
         type: "POST",
         dataType: "json",
@@ -226,7 +237,6 @@ function savekh() {
 }
 
 function xoa(id) {
- alert(id);
     Swal.fire({
         title: 'Xóa dữ liệu',
         text: "Bạn có chắc chắn muốn xóa!",

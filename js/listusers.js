@@ -12,39 +12,8 @@ $(function () {
 
     var dtUserTable = $(".user-list-table"),
         newUserSidebar = $(".new-user-modal"),
-        newUserForm = $(".add-new-user"),
+        newUserForm = $(".add-new-user");
         // selectArray = $('.select2-data-array'),
-        quequan = $('#quequan'),
-        noicap = $('#noicap'),
-        statusObj = {
-            1: { title: "Thực tập sinh", class: "badge-light-warning" },
-            2: { title: "Thử việc", class: "badge-light-success" },
-            3: { title: "Chính thức", class: "badge-light-secondary" },
-        };
-
-
-
-    $.ajax({ // tải thành phố vào select2 province
-        type: "GET",
-        dataType: "json",
-        async: false,
-        url: baseHome + "/listusers/province",
-        success: function (data) {
-            quequan.wrap('<div class="position-relative"></div>').select2({
-                dropdownAutoWidth: true,
-                dropdownParent: quequan.parent(),
-                width: '100%',
-                data: data
-            });
-            noicap.wrap('<div class="position-relative"></div>').select2({
-                dropdownAutoWidth: true,
-                dropdownParent: noicap.parent(),
-                width: '100%',
-                data: data
-            });
-        },
-    });
-
     // var assetPath = "styles/app-assets/",
     // userView = "listusers/view",
     // userEdit = "listusers/edit";
@@ -76,7 +45,6 @@ $(function () {
                     responsivePriority: 2,
                     targets: 0,
                 },
-
                 {
                     // User full name and username
                     targets: 2,
@@ -133,14 +101,14 @@ $(function () {
                     //     return "<span class='text-truncate align-middle'>" + roleBadgeObj['Subscriber'] + $role + "</span>";
                     // },
                 },
-                {
-                    // User Status
-                    targets: 5,
-                    render: function (data, type, full, meta) {
-                        var $status = full["status"];
-                        return '<span class="badge badge-pill ' + statusObj[$status].class + '" text-capitalized>' + statusObj[$status].title + "</span>";
-                    },
-                },
+                // {
+                //     // User Status
+                //     targets: 5,
+                //     render: function (data, type, full, meta) {
+                //         var $status = full["status"];
+                //         return '<span class="badge badge-pill ' + statusObj[$status].class + '" text-capitalized>' + statusObj[$status].title + "</span>";
+                //     },
+                // },
                 {
                     // Actions
                     targets: -1,
@@ -150,38 +118,11 @@ $(function () {
                         var html = '';
                         html += '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" data-toggle="modal" data-target="#updateinfo" title="Chỉnh sửa" onclick="loaddata(' + full['id'] + ')">';
                         html += '<i class="fas fa-pencil-alt"></i>';
-                        html += '</button> &nbsp;';
-                        html += '<button type="button" class="btn btn-icon btn-outline-secondary waves-effect"  title="Thôi việc" onclick="thoiviec(' + full['id'] + ')">';
-                        html += '<i class="far fa-calendar-times"></i>';
-                        html += '</button> &nbsp;';
+                        html += '</button>';
                         html += '<button type="button" class="btn btn-icon btn-outline-danger waves-effect" title="Xóa" onclick="xoa(' + full['id'] + ')">';
                         html += '<i class="fas fa-trash-alt"></i>';
                         html += '</button>';
                         return html;
-                        // return (
-                        //     '<div class="btn-group">' +
-                        //     '<a class="btn btn-sm dropdown-toggle hide-arrow" data-toggle="dropdown">' +
-                        //     feather.icons["more-vertical"].toSvg({ class: "font-small-4" }) +
-                        //     "</a>" +
-                        //     '<div class="dropdown-menu dropdown-menu-right">' +
-                        //     '<a href="javascript:void(0)" class="dropdown-item" data-toggle="modal" data-target="#updateinfo" onclick="loaddata('+full["id"]+')">' +
-                        //     feather.icons["file-text"].toSvg({ class: "font-small-4 mr-50" }) +
-                        //     "Xem/sửa</a>" +
-                        //     '<a href="javascript:void(0)" class="dropdown-item" onclick="thoiviec('+full["id"]+')" >' +
-                        //     feather.icons["archive"].toSvg({ class: "font-small-4 mr-50" }) +
-                        //     "Thôi việc</a>" +
-                        //     '<a href="javascript:void(0)" class="dropdown-item delete-record" onclick="xoa('+full["id"]+')">' +
-                        //     feather.icons["trash-2"].toSvg({ class: "font-small-4 mr-50" }) +
-                        //     "Xóa</a></div>" +
-                        //     "</div>" +
-                        //     "</div>"
-                        // );
-                        // '<a href="' +
-                        // userEdit +
-                        // '?id=' + full["id"] +
-                        // '" class="dropdown-item">' +
-                        // feather.icons["archive"].toSvg({ class: "font-small-4 mr-50" }) +
-                        // "Cập nhật</a>" +
                     },
                 },
             ],
@@ -225,7 +166,7 @@ $(function () {
                     display: $.fn.dataTable.Responsive.display.modal({
                         header: function (row) {
                             var data = row.data();
-                            return "Details of " + data["name"];
+                            return "Details of " + data["username"];
                         },
                     }),
                     type: "column",
@@ -256,7 +197,6 @@ $(function () {
                                 var val = $.fn.dataTable.util.escapeRegex($(this).val());
                                 column.search(val ? "^" + val + "$" : "", true, false).draw();
                             });
-
                         column
                             .data()
                             .unique()

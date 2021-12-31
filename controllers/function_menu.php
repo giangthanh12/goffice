@@ -48,7 +48,7 @@ class function_menu extends Controller{
             'function' => isset($_REQUEST['function']) ? $_REQUEST['function'] : '',
             'parentid' => !empty($_REQUEST['parentid']) ? $_REQUEST['parentid'] : 0,
             'sortOrder' => !empty($_REQUEST['sortOrder']) ? $_REQUEST['sortOrder'] : 0,
-            'active' => isset($_REQUEST['active']) ? $_REQUEST['active'] : 0,
+            'active' => 1,
             'type' => isset($_REQUEST['type']) ? $_REQUEST['type'] : 1,
         );
        
@@ -78,8 +78,8 @@ class function_menu extends Controller{
             'function' => isset($_REQUEST['function']) ? $_REQUEST['function'] : '',
             'parentid' => !empty($_REQUEST['parentid']) ? $_REQUEST['parentid'] : 0,
             'sortOrder' => !empty($_REQUEST['sortOrder']) ? $_REQUEST['sortOrder'] : 0,
-            'active' => isset($_REQUEST['active']) ? $_REQUEST['active'] : 0,
-            'type' => isset($_REQUEST['type']) ? $_REQUEST['type'] : 1,
+            'type' => $_REQUEST['type'],
+            'active' => $_REQUEST['active']
         );
         if($this->model->updateObj($id, $data)){
             $jsonObj['msg'] = 'Cập nhật dữ liệu thành công';
