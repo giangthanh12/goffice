@@ -12,6 +12,27 @@ class Common_Model extends Model {
         return $result;
     }
 
+    function getListStaff(){
+        $result = array();
+        $query = $this->db->query("SELECT id, name AS `text`
+              FROM staffs WHERE status IN (1,2,3,4) ORDER BY name ASC");
+        if ($query) {
+            $temp = $query->fetchAll(PDO::FETCH_ASSOC);
+            $result = $temp;
+        }
+        return $result;
+    }
+    function getListGroup(){
+        $result = array();
+        $query = $this->db->query("SELECT id, name AS `text`
+              FROM grouproles WHERE status >0 ORDER BY id ASC");
+        if ($query) {
+            $temp = $query->fetchAll(PDO::FETCH_ASSOC);
+            $result = $temp;
+        }
+        return $result;
+    }
+
     function linhvuc()
     {
         $result = array();

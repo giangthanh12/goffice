@@ -24,6 +24,16 @@ class common extends Controller
         echo json_encode($jsonObj);
     }
 
+    function listStaff(){
+        $json = $this->model->getListStaff();
+        echo json_encode($json);
+    }
+
+    function listGroup(){
+        $json = $this->model->getListGroup();
+        echo json_encode($json);
+    }
+
     function loaikh()
 	{
 		$jsonObj = $this->model->loaikh();

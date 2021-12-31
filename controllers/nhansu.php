@@ -2,12 +2,18 @@
 
 class Nhansu extends Controller
 {
+    private $funs;
     function __construct()
     {
         parent::__construct();
+        $model = new model();
+        $checkMenuRole = $model->checkMenuRole('nhansu');
+        if($checkMenuRole==false)
+            header('location:'.HOME);
     }
 
     function index(){
+        $this->view->funs = $funs = $this->model->getFunctions('nhansu');
         require "layouts/header.php";
         $this->view->render("nhansu/index");
         require "layouts/footer.php";
@@ -17,6 +23,10 @@ class Nhansu extends Controller
     {
         $data = $this->model->getnhanvien();
         echo json_encode($data);
+    }
+    function getFunctions(){
+        $funs = $this->model->getFunctions('nhansu');
+        echo json_encode($funs);
     }
 
     function loaddata()

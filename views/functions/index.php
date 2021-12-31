@@ -14,19 +14,19 @@
                     <div class="card-datatable table-responsive pt-0">
                         <table class="user-list-table table">
                             <thead class="thead-light">
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Tên function</th>
-                                    <th>menu</th>
-                                    <th>Icon</th>
-                                    <th>Loại</th>
-                                    <th>Thao tác</th>
-                                </tr>
+                            <tr>
+                                <th>ID</th>
+                                <th>Tên function</th>
+                                <th>menu</th>
+                                <th>Icon</th>
+                                <th>Loại</th>
+                                <th>Thao tác</th>
+                            </tr>
                             </thead>
                         </table>
                     </div>
 
-              
+
                     <div class="modal fade text-left" id="updateinfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel16" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                             <div class="modal-content">
@@ -43,7 +43,7 @@
                                             <form class="form-validate" enctype="multipart/form-data" id="dg">
                                                 <div class="row mt-1">
                                                     <div class="col-md-6  form-group">
-                                                    <label for="link">Tên function</label>
+                                                        <label for="link">Tên function</label>
                                                         <input id="name" name="name" type="text" class="form-control" />
                                                     </div>
                                                     <div class="col-md-6  form-group">
@@ -58,7 +58,7 @@
                                                         <input id="function" name="function" type="text" class="form-control" />
                                                     </div>
                                                     <div class="col-md-6 form-group">
-                                                    <label for="icon">Icon</label>
+                                                        <label for="icon">Icon</label>
                                                         <input id="icon" name="icon" type="text" class="form-control" />
                                                     </div>
                                                     <div class="col-md-6 form-group">
@@ -70,6 +70,10 @@
                                                         <label for="parentid">Cha</label>
                                                         <select id="parentid" class="form-control" name="parentid">
                                                         </select>
+                                                    </div>
+                                                    <div class="col-md-6 form-group">
+                                                        <label for="color">Màu sắc</label>
+                                                        <input id="color" name="color" type="text" class="form-control" />
                                                     </div>
                                                     <div class="col-md-6 form-group">
                                                         <label for="sortOrder">Sắp xếp</label>
@@ -98,7 +102,7 @@
                     </div>
 
 
-                    
+
                 </div>
             </section>
         </div>

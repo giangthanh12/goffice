@@ -21,15 +21,15 @@
                     <div class="card-datatable table-responsive pt-0">
                         <table class="user-list-table table">
                             <thead class="thead-light">
-                                <tr>
-                                    <th></th>
-                                    <th>Họ tên</th>
-                                    <th>Email</th>
-                                    <th>Điện thoại</th>
-                                    <th>Phòng ban</th>
-                                    <th>Hợp đồng</th>
-                                    <th>...</th>
-                                </tr>
+                            <tr>
+                                <th></th>
+                                <th>Họ tên</th>
+                                <th>Email</th>
+                                <th>Điện thoại</th>
+                                <th>Phòng ban</th>
+                                <th>Hợp đồng</th>
+                                <th>...</th>
+                            </tr>
                             </thead>
                         </table>
                     </div>
@@ -45,13 +45,13 @@
                                     <div class="form-group">
                                         <label class="form-label" for="fullname">Họ tên</label>
                                         <input
-                                            type="text"
-                                            class="form-control dt-full-name"
-                                            id="fullname"
-                                            placeholder="Họ và tên đầy đủ"
-                                            name="fullname"
-                                            aria-label="John Doe"
-                                            aria-describedby="basic-icon-default-fullname2"
+                                                type="text"
+                                                class="form-control dt-full-name"
+                                                id="fullname"
+                                                placeholder="Họ và tên đầy đủ"
+                                                name="fullname"
+                                                aria-label="John Doe"
+                                                aria-describedby="basic-icon-default-fullname2"
                                         />
                                     </div>
                                     <div class="form-group">
@@ -61,13 +61,13 @@
                                     <div class="form-group">
                                         <label class="form-label" for="user-email">Email</label>
                                         <input
-                                            type="text"
-                                            id="user-email"
-                                            class="form-control dt-email"
-                                            placeholder="Email cá nhân"
-                                            aria-label="john.doe@example.com"
-                                            aria-describedby="basic-icon-default-email2"
-                                            name="user-email"
+                                                type="text"
+                                                id="user-email"
+                                                class="form-control dt-email"
+                                                placeholder="Email cá nhân"
+                                                aria-label="john.doe@example.com"
+                                                aria-describedby="basic-icon-default-email2"
+                                                name="user-email"
                                         />
                                         <small class="form-text text-muted"> Hòm thư cá nhân gmail </small>
                                     </div>
@@ -312,57 +312,57 @@
                                                     <!-- users edit account form start -->
                                                     <form class="form-validate" id="add_account">
                                                         <div class="rows">
-                                                        <div class="col-md-4">
-                                                        <h3>Tạo tài khoản mới</h3>
-                                                            <div class="form-group">
-                                                                <label for="email">Username</label>
-                                                                <input type="text" class="form-control" placeholder="Email" onchange="check_username();"  name="add_username" id="add_username" />
-                                                                <p class="note_status"></p>
-                                                            </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="rows">
-                                                        <div class="col-md-4">
-                                                            <div class="form-group">
-                                                                <label for="password">Mật khẩu</label>
-                                                                <input type="password" class="form-control" placeholder="Nhập mật khẩu "  name="add_password" id="add_password" />
-                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <h3>Tạo tài khoản mới</h3>
+                                                                <div class="form-group">
+                                                                    <label for="email">Username</label>
+                                                                    <input type="text" class="form-control" placeholder="Email" onchange="check_username();"  name="add_username" id="add_username" />
+                                                                    <p class="note_status"></p>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                         <div class="rows">
-                                                        <div class="col-md-4">
-                                                            <div class="form-group">
-                                                            <button type="submit" id="btn_add_users" onclick="add_users();return false;" class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1 waves-effect waves-float waves-light">Tạo tài khoản</button>
+                                                            <div class="col-md-4">
+                                                                <div class="form-group">
+                                                                    <label for="password">Mật khẩu</label>
+                                                                    <input type="password" class="form-control" placeholder="Nhập mật khẩu "  name="add_password" id="add_password" />
+                                                                </div>
                                                             </div>
+                                                        </div>
+                                                        <div class="rows">
+                                                            <div class="col-md-4">
+                                                                <div class="form-group">
+                                                                    <button type="submit" id="btn_add_users" onclick="add_users();return false;" class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1 waves-effect waves-float waves-light">Tạo tài khoản</button>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </form>
                                                     <form class="form-validate" id="form_account">
                                                         <div class="row">
-                                                                <div class="col-md-4">
+                                                            <div class="col-md-4">
                                                                 <div class="form-group">
                                                                     <label for="email">E-mail</label>
                                                                     <input type="text" class="form-control" placeholder="Email" onchange="check_username_edit();"  name="edit_username" id="edit_username" />
                                                                     <p class="note_status_edit"></p>
                                                                     <input type="hidden"  name="id_user" id="id_user" />
                                                                 </div>
+                                                            </div>
+                                                            <div class="col-md-4 show_pass">
+                                                                <div class="form-group">
+                                                                    <label for="edit_password">Nhập mật khẩu mới</label>
+                                                                    <input type="password" class="form-control" placeholder="Password" name="edit_password" id="edit_password" />
                                                                 </div>
-                                                                <div class="col-md-4 show_pass">
-                                                                    <div class="form-group">
-                                                                        <label for="edit_password">Nhập mật khẩu mới</label>
-                                                                        <input type="password" class="form-control" placeholder="Password" name="edit_password" id="edit_password" />
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-4 btn_show_pass">
-                                                                    <div class="form-group">
+                                                            </div>
+                                                            <div class="col-md-4 btn_show_pass">
+                                                                <div class="form-group">
                                                                     <button  class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1 waves-effect waves-float waves-light" onclick="show_pass();return false">Đổi mật khẩu</button>
-                                                                    </div>
                                                                 </div>
-                                                                <div class="col-md-4 btn_hidden_pass">
-                                                                    <div class="form-group">
+                                                            </div>
+                                                            <div class="col-md-4 btn_hidden_pass">
+                                                                <div class="form-group">
                                                                     <button  class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1 waves-effect waves-float waves-light" onclick="hidden_pass();return false">Đóng</button>
-                                                                    </div>
                                                                 </div>
+                                                            </div>
                                                             <div class="clear"></div>
                                                             <div class="col-lg-4 col-md-6">
                                                                 <div class="form-group">
@@ -393,150 +393,150 @@
                                                                     </h6>
                                                                     <table class="table table-striped table-borderless">
                                                                         <thead class="thead-light">
-                                                                            <tr>
-                                                                                <th>Module</th>
-                                                                                <th>Read</th>
-                                                                                <th>Write</th>
-                                                                                <th>Create</th>
-                                                                                <th>Delete</th>
-                                                                            </tr>
+                                                                        <tr>
+                                                                            <th>Module</th>
+                                                                            <th>Read</th>
+                                                                            <th>Write</th>
+                                                                            <th>Create</th>
+                                                                            <th>Delete</th>
+                                                                        </tr>
                                                                         </thead>
                                                                         <tbody>
-                                                                            <tr>
-                                                                                <td>Admin</td>
-                                                                                <td>
-                                                                                    <div class="custom-control custom-checkbox">
-                                                                                        <input type="checkbox" class="custom-control-input" id="admin-read" checked />
-                                                                                        <label class="custom-control-label" for="admin-read"></label>
-                                                                                    </div>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <div class="custom-control custom-checkbox">
-                                                                                        <input type="checkbox" class="custom-control-input" id="admin-write" />
-                                                                                        <label class="custom-control-label" for="admin-write"></label>
-                                                                                    </div>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <div class="custom-control custom-checkbox">
-                                                                                        <input type="checkbox" class="custom-control-input" id="admin-create" />
-                                                                                        <label class="custom-control-label" for="admin-create"></label>
-                                                                                    </div>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <div class="custom-control custom-checkbox">
-                                                                                        <input type="checkbox" class="custom-control-input" id="admin-delete" />
-                                                                                        <label class="custom-control-label" for="admin-delete"></label>
-                                                                                    </div>
-                                                                                </td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td>Staff</td>
-                                                                                <td>
-                                                                                    <div class="custom-control custom-checkbox">
-                                                                                        <input type="checkbox" class="custom-control-input" id="staff-read" />
-                                                                                        <label class="custom-control-label" for="staff-read"></label>
-                                                                                    </div>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <div class="custom-control custom-checkbox">
-                                                                                        <input type="checkbox" class="custom-control-input" id="staff-write" checked />
-                                                                                        <label class="custom-control-label" for="staff-write"></label>
-                                                                                    </div>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <div class="custom-control custom-checkbox">
-                                                                                        <input type="checkbox" class="custom-control-input" id="staff-create" />
-                                                                                        <label class="custom-control-label" for="staff-create"></label>
-                                                                                    </div>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <div class="custom-control custom-checkbox">
-                                                                                        <input type="checkbox" class="custom-control-input" id="staff-delete" />
-                                                                                        <label class="custom-control-label" for="staff-delete"></label>
-                                                                                    </div>
-                                                                                </td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td>Author</td>
-                                                                                <td>
-                                                                                    <div class="custom-control custom-checkbox">
-                                                                                        <input type="checkbox" class="custom-control-input" id="author-read" checked />
-                                                                                        <label class="custom-control-label" for="author-read"></label>
-                                                                                    </div>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <div class="custom-control custom-checkbox">
-                                                                                        <input type="checkbox" class="custom-control-input" id="author-write" />
-                                                                                        <label class="custom-control-label" for="author-write"></label>
-                                                                                    </div>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <div class="custom-control custom-checkbox">
-                                                                                        <input type="checkbox" class="custom-control-input" id="author-create" checked />
-                                                                                        <label class="custom-control-label" for="author-create"></label>
-                                                                                    </div>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <div class="custom-control custom-checkbox">
-                                                                                        <input type="checkbox" class="custom-control-input" id="author-delete" />
-                                                                                        <label class="custom-control-label" for="author-delete"></label>
-                                                                                    </div>
-                                                                                </td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td>Contributor</td>
-                                                                                <td>
-                                                                                    <div class="custom-control custom-checkbox">
-                                                                                        <input type="checkbox" class="custom-control-input" id="contributor-read" />
-                                                                                        <label class="custom-control-label" for="contributor-read"></label>
-                                                                                    </div>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <div class="custom-control custom-checkbox">
-                                                                                        <input type="checkbox" class="custom-control-input" id="contributor-write" />
-                                                                                        <label class="custom-control-label" for="contributor-write"></label>
-                                                                                    </div>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <div class="custom-control custom-checkbox">
-                                                                                        <input type="checkbox" class="custom-control-input" id="contributor-create" />
-                                                                                        <label class="custom-control-label" for="contributor-create"></label>
-                                                                                    </div>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <div class="custom-control custom-checkbox">
-                                                                                        <input type="checkbox" class="custom-control-input" id="contributor-delete" />
-                                                                                        <label class="custom-control-label" for="contributor-delete"></label>
-                                                                                    </div>
-                                                                                </td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td>User</td>
-                                                                                <td>
-                                                                                    <div class="custom-control custom-checkbox">
-                                                                                        <input type="checkbox" class="custom-control-input" id="user-read" />
-                                                                                        <label class="custom-control-label" for="user-read"></label>
-                                                                                    </div>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <div class="custom-control custom-checkbox">
-                                                                                        <input type="checkbox" class="custom-control-input" id="user-create" />
-                                                                                        <label class="custom-control-label" for="user-create"></label>
-                                                                                    </div>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <div class="custom-control custom-checkbox">
-                                                                                        <input type="checkbox" class="custom-control-input" id="user-write" />
-                                                                                        <label class="custom-control-label" for="user-write"></label>
-                                                                                    </div>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <div class="custom-control custom-checkbox">
-                                                                                        <input type="checkbox" class="custom-control-input" id="user-delete" checked />
-                                                                                        <label class="custom-control-label" for="user-delete"></label>
-                                                                                    </div>
-                                                                                </td>
-                                                                            </tr>
+                                                                        <tr>
+                                                                            <td>Admin</td>
+                                                                            <td>
+                                                                                <div class="custom-control custom-checkbox">
+                                                                                    <input type="checkbox" class="custom-control-input" id="admin-read" checked />
+                                                                                    <label class="custom-control-label" for="admin-read"></label>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div class="custom-control custom-checkbox">
+                                                                                    <input type="checkbox" class="custom-control-input" id="admin-write" />
+                                                                                    <label class="custom-control-label" for="admin-write"></label>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div class="custom-control custom-checkbox">
+                                                                                    <input type="checkbox" class="custom-control-input" id="admin-create" />
+                                                                                    <label class="custom-control-label" for="admin-create"></label>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div class="custom-control custom-checkbox">
+                                                                                    <input type="checkbox" class="custom-control-input" id="admin-delete" />
+                                                                                    <label class="custom-control-label" for="admin-delete"></label>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>Staff</td>
+                                                                            <td>
+                                                                                <div class="custom-control custom-checkbox">
+                                                                                    <input type="checkbox" class="custom-control-input" id="staff-read" />
+                                                                                    <label class="custom-control-label" for="staff-read"></label>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div class="custom-control custom-checkbox">
+                                                                                    <input type="checkbox" class="custom-control-input" id="staff-write" checked />
+                                                                                    <label class="custom-control-label" for="staff-write"></label>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div class="custom-control custom-checkbox">
+                                                                                    <input type="checkbox" class="custom-control-input" id="staff-create" />
+                                                                                    <label class="custom-control-label" for="staff-create"></label>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div class="custom-control custom-checkbox">
+                                                                                    <input type="checkbox" class="custom-control-input" id="staff-delete" />
+                                                                                    <label class="custom-control-label" for="staff-delete"></label>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>Author</td>
+                                                                            <td>
+                                                                                <div class="custom-control custom-checkbox">
+                                                                                    <input type="checkbox" class="custom-control-input" id="author-read" checked />
+                                                                                    <label class="custom-control-label" for="author-read"></label>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div class="custom-control custom-checkbox">
+                                                                                    <input type="checkbox" class="custom-control-input" id="author-write" />
+                                                                                    <label class="custom-control-label" for="author-write"></label>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div class="custom-control custom-checkbox">
+                                                                                    <input type="checkbox" class="custom-control-input" id="author-create" checked />
+                                                                                    <label class="custom-control-label" for="author-create"></label>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div class="custom-control custom-checkbox">
+                                                                                    <input type="checkbox" class="custom-control-input" id="author-delete" />
+                                                                                    <label class="custom-control-label" for="author-delete"></label>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>Contributor</td>
+                                                                            <td>
+                                                                                <div class="custom-control custom-checkbox">
+                                                                                    <input type="checkbox" class="custom-control-input" id="contributor-read" />
+                                                                                    <label class="custom-control-label" for="contributor-read"></label>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div class="custom-control custom-checkbox">
+                                                                                    <input type="checkbox" class="custom-control-input" id="contributor-write" />
+                                                                                    <label class="custom-control-label" for="contributor-write"></label>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div class="custom-control custom-checkbox">
+                                                                                    <input type="checkbox" class="custom-control-input" id="contributor-create" />
+                                                                                    <label class="custom-control-label" for="contributor-create"></label>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div class="custom-control custom-checkbox">
+                                                                                    <input type="checkbox" class="custom-control-input" id="contributor-delete" />
+                                                                                    <label class="custom-control-label" for="contributor-delete"></label>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>User</td>
+                                                                            <td>
+                                                                                <div class="custom-control custom-checkbox">
+                                                                                    <input type="checkbox" class="custom-control-input" id="user-read" />
+                                                                                    <label class="custom-control-label" for="user-read"></label>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div class="custom-control custom-checkbox">
+                                                                                    <input type="checkbox" class="custom-control-input" id="user-create" />
+                                                                                    <label class="custom-control-label" for="user-create"></label>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div class="custom-control custom-checkbox">
+                                                                                    <input type="checkbox" class="custom-control-input" id="user-write" />
+                                                                                    <label class="custom-control-label" for="user-write"></label>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div class="custom-control custom-checkbox">
+                                                                                    <input type="checkbox" class="custom-control-input" id="user-delete" checked />
+                                                                                    <label class="custom-control-label" for="user-delete"></label>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
                                                                         </tbody>
                                                                     </table>
                                                                 </div>
@@ -566,7 +566,7 @@
                                                                         </span>
                                                                     </div>
                                                                     <input id="twitter" name="twitter" type="text" class="form-control"
-                                                                        aria-describedby="basic-addon3"
+                                                                           aria-describedby="basic-addon3"
                                                                     />
                                                                 </div>
                                                             </div>
@@ -579,10 +579,10 @@
                                                                         </span>
                                                                     </div>
                                                                     <input
-                                                                        id="facebook" name="facebook"
-                                                                        type="text"
-                                                                        class="form-control"
-                                                                        aria-describedby="basic-addon4"
+                                                                            id="facebook" name="facebook"
+                                                                            type="text"
+                                                                            class="form-control"
+                                                                            aria-describedby="basic-addon4"
                                                                     />
                                                                 </div>
                                                             </div>
@@ -595,11 +595,11 @@
                                                                         </span>
                                                                     </div>
                                                                     <input
-                                                                        id="instagram" name="instagram"
-                                                                        type="text"
-                                                                        class="form-control"
-                                                                        placeholder="Link"
-                                                                        aria-describedby="basic-addon5"
+                                                                            id="instagram" name="instagram"
+                                                                            type="text"
+                                                                            class="form-control"
+                                                                            placeholder="Link"
+                                                                            aria-describedby="basic-addon5"
                                                                     />
                                                                 </div>
                                                             </div>
@@ -623,10 +623,10 @@
                                                                         </span>
                                                                     </div>
                                                                     <input
-                                                                        id="wechat" name="wechat"
-                                                                        type="text"
-                                                                        class="form-control"
-                                                                        aria-describedby="basic-addon12"
+                                                                            id="wechat" name="wechat"
+                                                                            type="text"
+                                                                            class="form-control"
+                                                                            aria-describedby="basic-addon12"
                                                                     />
                                                                 </div>
                                                             </div>
@@ -690,5 +690,8 @@
         </div>
     </div>
 </div>
-
+<script>
+    var userFuns = JSON.parse('<?=json_encode($this->funs)?>');
+    console.log(userFuns);
+</script>
 <script src="<?=HOME?>/js/nhansu.js"></script>

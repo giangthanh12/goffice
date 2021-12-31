@@ -6,11 +6,11 @@
 
 $(function () {
 
-   
+
     return_combobox_multi('#menuid', baseHome + '/menu/combo', 'Lựa chọn menu');
 
     var basicPickr = $('.flatpickr-basic');
-   
+
     // Default
     if (basicPickr.length) { // thư viện định dạng ngày tháng năm
         basicPickr.flatpickr({
@@ -36,15 +36,15 @@ $(function () {
                 { data: "type" },
                 { data: "" },
             ],
-          
+
 
 
             columnDefs: [
-              
+
                 {
                     targets: 3,
                     render: function (data, type, full, meta) {
-                      
+
                         return `<i class="${full['icon']}"></i>`;
 
                     },
@@ -52,7 +52,7 @@ $(function () {
                 {
                     targets: 4,
                     render: function (data, type, full, meta) {
-                      $typeName = '';
+                        $typeName = '';
                         if(data==1)
                             $typeName='Header';
                         if(data==2)
@@ -63,7 +63,7 @@ $(function () {
 
                     },
                 },
-           
+
                 {
                     // Actions
                     targets: -1,
@@ -97,7 +97,7 @@ $(function () {
                 search: "Tìm kiếm",
                 searchPlaceholder: "Tìm kiếm tại đây",
                 paginate: {
-                   
+
                     previous: "&nbsp;",
                     next: "&nbsp;",
                 },
@@ -108,7 +108,7 @@ $(function () {
                     text: "Thêm mới",
                     className: "add-new btn btn-primary mt-50",
                     init: function (api, node, config) {
-                        $(node).removeClass("btn-secondary"); 
+                        $(node).removeClass("btn-secondary");
                     },
                     action: function (e, dt, node, config) {
                         $("#updateinfo").modal('show');
@@ -125,11 +125,11 @@ $(function () {
                         url = baseHome + "/function_menu/add";
                     },
                 },
-               
+
             ],
-          
+
             initComplete: function () {
-              
+
 
             },
         });
@@ -179,7 +179,7 @@ $(function () {
 });
 
 function loaddata(id) {
-  
+
     $('#updateinfo').modal('show');
     $(".modal-title").html('Cập nhật chức năng');
     $.ajax({
@@ -194,6 +194,7 @@ function loaddata(id) {
             $('#parentid').val(data.parentid).change();
             $('#type').val(data.type).change();
             $('#menuid').val(data.menuid).change();
+            $('#color').val(data.color);
             $('#sortOrder').val(data.sortOrder);
             $('#tinh_trang').val(data.active).change();
             url = baseHome + '/function_menu/update?id=' + id;
@@ -205,7 +206,7 @@ function loaddata(id) {
 }
 // dùng chung cho phần update và thêm
 function savekh() {
-    
+
     var info = {};
     info.name = $("#name").val();
     info.function = $("#function").val();
@@ -213,6 +214,7 @@ function savekh() {
     info.type = $("#type").val();
     info.menuid = $("#menuid").val();
     info.parentid = $("#parentid").val();
+    info.color = $("#color").val();
     info.sortOrder = $("#sortOrder").val();
     info.active = $("#tinh_trang").val();
     $.ajax({

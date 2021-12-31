@@ -21,33 +21,53 @@ $(function () {
             2: { title: "Thử việc", class: "badge-light-success" },
             3: { title: "Chính thức", class: "badge-light-secondary" },
         };
+    var button = [];
+    let i = 0;
+    userFuns.forEach(function (item,index){
+        if(item.type==1) {
+            button[i] = {
+                text: item.name,
+                className: "add-new btn btn-" + item.color + " mt-50",
+                // attr: {
+                //     "data-toggle": "modal",
+                //     "data-target": "#modals-slide-in",
+                // },
+                init: function (api, node, config) {
+                    $(node).removeClass("btn-secondary");
+                },
+                action: function (e, dt, node, config) {
+                    actionMenu(item.function);
+                }
+            };
+            i++;
+        }
+    })
 
 
-
-      $.ajax({ // tải thành phố vào select2 province
-          type: "GET",
-          dataType: "json",
-          async: false,
-          url: baseHome + "/nhansu/province",
-          success: function (data) {
-              quequan.wrap('<div class="position-relative"></div>').select2({
+    $.ajax({ // tải thành phố vào select2 province
+        type: "GET",
+        dataType: "json",
+        async: false,
+        url: baseHome + "/nhansu/province",
+        success: function (data) {
+            quequan.wrap('<div class="position-relative"></div>').select2({
                 dropdownAutoWidth: true,
                 dropdownParent: quequan.parent(),
                 width: '100%',
                 data: data
-              });
-              noicap.wrap('<div class="position-relative"></div>').select2({
+            });
+            noicap.wrap('<div class="position-relative"></div>').select2({
                 dropdownAutoWidth: true,
                 dropdownParent: noicap.parent(),
                 width: '100%',
                 data: data
-              });
-          },
-      });
+            });
+        },
+    });
 
     // var assetPath = "styles/app-assets/",
-        // userView = "nhansu/view",
-        // userEdit = "nhansu/edit";
+    // userView = "nhansu/view",
+    // userEdit = "nhansu/edit";
     // if ($("body").attr("data-framework") === "laravel") {
     //     assetPath = $("body").attr("data-asset-path");
     //     userView = assetPath + "app/user/view";
@@ -153,15 +173,13 @@ $(function () {
                     orderable: false,
                     render: function (data, type, full, meta) {
                         var html = '';
-                        html += '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" data-toggle="modal" data-target="#updateinfo" title="Chỉnh sửa" onclick="loaddata(' + full['id'] + ')">';
-                        html += '<i class="fas fa-pencil-alt"></i>';
-                        html += '</button> &nbsp;';
-                        html += '<button type="button" class="btn btn-icon btn-outline-secondary waves-effect"  title="Thôi việc" onclick="thoiviec(' + full['id'] + ')">';
-                        html += '<i class="far fa-calendar-times"></i>';
-                        html += '</button> &nbsp;';
-                        html += '<button type="button" class="btn btn-icon btn-outline-danger waves-effect" title="Xóa" onclick="xoa(' + full['id'] + ')">';
-                        html += '<i class="fas fa-trash-alt"></i>';
-                        html += '</button>';
+                        userFuns.forEach(function (item){
+                            if(item.type==2) {
+                                html += '<button type="button" class="btn btn-icon btn-outline-' + item.color + ' waves-effect"  title="Chỉnh sửa" onclick="' + item.function + '(' + full['id'] + ')">';
+                                html += '<i class="' + item.icon + '"></i>';
+                                html += '</button> &nbsp;';
+                            }
+                        })
                         return html;
                         // return (
                         //     '<div class="btn-group">' +
@@ -211,19 +229,7 @@ $(function () {
                 },
             },
             // Buttons with Dropdown
-            buttons: [
-                {
-                    text: "Thêm mới",
-                    className: "add-new btn btn-primary mt-50",
-                    attr: {
-                        "data-toggle": "modal",
-                        "data-target": "#modals-slide-in",
-                    },
-                    init: function (api, node, config) {
-                        $(node).removeClass("btn-secondary");
-                    },
-                },
-            ],
+            buttons: [button],
             // For responsive popup
             responsive: {
                 details: {
@@ -315,6 +321,9 @@ $(function () {
     }
 
     // Check Validity
+    function actionMenu(func){
+        alert(func);
+    }
     function checkValidity(el) {
         if (el.validate().checkForm()) {
             submitBtn.attr("disabled", false);
@@ -357,28 +366,29 @@ $(function () {
 });
 
 function loaddata(id) {
+    $('#updateinfo').modal('show');
     $.ajax({
         type: "POST",
         dataType: "json",
         data: { id: id },
         url: baseHome + "/nhansu/loaddata",
         success: function (result) {
-        var data = result.nhanvien;
+            var data = result.nhanvien;
 
             $('#nhanvien').html(data.name);
             $('#avatar').attr('src', data.hinh_anh);
             if (data.gender==1)
-               $("#male").prop("checked", true).trigger("click");
+                $("#male").prop("checked", true).trigger("click");
             else
-               $("#female").prop("checked", true).trigger("click");
+                $("#female").prop("checked", true).trigger("click");
             if (data.status==1)
-               $("#hopdong1").prop("checked", true).trigger("click");
+                $("#hopdong1").prop("checked", true).trigger("click");
             else if (data.status==2)
-               $("#hopdong2").prop("checked", true).trigger("click");
+                $("#hopdong2").prop("checked", true).trigger("click");
             else if (data.status==3)
-               $("#hopdong3").prop("checked", true).trigger("click");
+                $("#hopdong3").prop("checked", true).trigger("click");
             else if (data.status==4)
-               $("#hopdong4").prop("checked", true).trigger("click");
+                $("#hopdong4").prop("checked", true).trigger("click");
             $('#hoten').val(data.name);
             $('#ngaysinh').flatpickr({
                 monthSelectorType: "static",
@@ -410,21 +420,21 @@ function loaddata(id) {
 
             var account = result.account;
             if (account != 0){
-            $('#form_account').css("display","block");
-            $('#add_account').css("display","none");
-            $('.btn_show_pass').css("display","block");
-            $('.btn_hidden_pass').css("display","none");
-            $('.show_pass').css("display","none");
+                $('#form_account').css("display","block");
+                $('#add_account').css("display","none");
+                $('.btn_show_pass').css("display","block");
+                $('.btn_hidden_pass').css("display","none");
+                $('.show_pass').css("display","none");
 
-            $('#edit_username').val(account.username);
-            $('#id_user').val(account.id);
-            $('#ext_num').val(account.extNum);
-            $('#sip_pass').val(account.sipPass);
+                $('#edit_username').val(account.username);
+                $('#id_user').val(account.id);
+                $('#ext_num').val(account.extNum);
+                $('#sip_pass').val(account.sipPass);
 
-            $('#users_tinh_trang').attr("disabled", false);
-            $('#users_tinh_trang').val(account.status);
-            $('#nhom').attr("disabled", false);
-            $('#nhom').val(account.department);
+                $('#users_tinh_trang').attr("disabled", false);
+                $('#users_tinh_trang').val(account.status);
+                $('#nhom').attr("disabled", false);
+                $('#nhom').val(account.department);
 
             }else{
                 $('#form_account').css("display","none");
@@ -506,8 +516,8 @@ function thayanh(){
         success: function(data){
             data = JSON.parse(data);
             if (data.success) {
-               notyfi_success(data.msg);
-               $('#avatar').attr('src', data.filename);
+                notyfi_success(data.msg);
+                $('#avatar').attr('src', data.filename);
             }
             else
                 notify_error(data.msg);
@@ -596,8 +606,8 @@ function thoiviec(id){
                 data: {id: id},
                 success: function(data){
                     if (data.success) {
-                       notyfi_success(data.msg);
-                       $(".user-list-table").DataTable().ajax.reload( null, false );
+                        notyfi_success(data.msg);
+                        $(".user-list-table").DataTable().ajax.reload( null, false );
                     }
                     else
                         notify_error(data.msg);
@@ -633,8 +643,8 @@ function check_username(){
         url: baseHome + "/nhansu/checkUsername",
         success: function (data) {
             if (data.success) {
-            //    $('.note_status').html(data.msg);
-             //   $('.note_status').css("color","green");
+                //    $('.note_status').html(data.msg);
+                //   $('.note_status').css("color","green");
                 $("#btn_add_users").attr("disabled", false);
             }
             else{
@@ -661,8 +671,8 @@ function check_username_edit(){
         url: baseHome + "/nhansu/checkUsername",
         success: function (data) {
             if (data.success) {
-             //   $('.note_status_edit').html(data.msg);
-           //     $('.note_status_edit').css("color","green");
+                //   $('.note_status_edit').html(data.msg);
+                //     $('.note_status_edit').css("color","green");
                 $("#btn_edit_users").attr("disabled", false);
             }
             else{
@@ -721,7 +731,7 @@ function update_users() {
         url: baseHome + "/nhansu/update_users",
         success: function(data) {
             if (data.success) {
-              //  loaddata(info.nhan_vien);
+                //  loaddata(info.nhan_vien);
                 notyfi_success(data.msg);
             }
             else{
@@ -784,7 +794,7 @@ function update_nhanvien_info1() {
         url: baseHome + "/nhansu/update_nhanvien_info",
         success: function(data) {
             if (data.success) {
-              //  loaddata(info.nhan_vien);
+                //  loaddata(info.nhan_vien);
                 notyfi_success(data.msg);
             }
             else{
@@ -795,4 +805,8 @@ function update_nhanvien_info1() {
             notify_error('Cập nhật user không thành công');
         }
     });
+}
+
+function thoiviec(id){
+    alert(id);
 }
