@@ -32,11 +32,11 @@
                                     <input  type="checkbox" class="custom-control-input input-filter" id="3" data-value="3" checked="">
                                     <label class="custom-control-label" for="3">Khẩn</label>
                                 </div>
-                                <div class="custom-control custom-control-info custom-checkbox mb-1">
+                                <div class="custom-control custom-control-warning custom-checkbox mb-1">
                                     <input type="checkbox" class="custom-control-input input-filter" id="2" data-value="2" checked="">
                                     <label class="custom-control-label" for="2">Quan trọng</label>
                                 </div>
-                                <div class="custom-control custom-control-success custom-checkbox mb-1">
+                                <div class="custom-control  custom-control-info custom-checkbox mb-1">
                                     <input type="checkbox" class="custom-control-input input-filter" id="1" data-value="1" checked="">
                                     <label class="custom-control-label" for="1">Bình thường</label>
                                 </div>

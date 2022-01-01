@@ -371,10 +371,10 @@ function list_to_do(status = '') {
                 }
                 else if (element.process >=33 && element.process < 66)
                 {
-                    var  $color = '#00CFE8';
+                    var  $color = '#FF9F43';
                 }
                 else {
-                    var  $color = '#28C76F';
+                    var  $color = '#00CFE8';
                 }
                 
                 html += '<li class="todo-item"><div class="todo-title-wrapper"><div class="todo-title-area">';
@@ -437,10 +437,10 @@ $('.input-filter').on('click', function() {
                 }
                 else if (element.process >=33 && element.process < 66)
                 {
-                    var  $color = '#00CFE8';
+                    var  $color = '#FF9F43';
                 }
                 else {
-                    var  $color = '#28C76F';
+                    var  $color = '#00CFE8';
                 }
                 html += '<li class="todo-item"><div class="todo-title-wrapper"><div class="todo-title-area">';
                 html += '<i data-feather="more-vertical" class="drag-icon"></i><div class="title-wrapper">';
