@@ -16,7 +16,7 @@ class menu_Model extends Model
         if ($temp[0]['dem']==0) { return $result; } 
         
        
-        $query = $this->db->query("SELECT id,name, link, icon, parentId, sortOrder,
+        $query = $this->db->query("SELECT id,name, link, icon, parentId, sortOrder,type,
      
             IF(active=1,'Đã kích hoạt','Chưa kích hoạt') AS active  FROM g_menus $dieukien ORDER BY sortOrder");
             if($query) {

@@ -16,13 +16,9 @@
     <link rel="stylesheet" type="text/css" href="<?= HOME ?>/styles/app-assets/css/bootstrap-extended.css">
     <link rel="stylesheet" type="text/css" href="<?= HOME ?>/styles/app-assets/css/components.css">
     <link rel="stylesheet" type="text/css" href="<?= HOME ?>/styles/app-assets/css/pages/page-auth.css">
-    <link rel="stylesheet" type="text/css" href="<?= HOME ?>/styles/app-assets/vendors/css/pickers/flatpickr/flatpickr.min.css">
-    <link rel="stylesheet" type="text/css" href="<?= HOME ?>/styles/app-assets/css/plugins/forms/pickers/form-flat-pickr.css">
-
     <script src="<?= HOME ?>/styles/app-assets/vendors/js/vendors.min.js"></script>
     <script src="<?= HOME ?>/styles/app-assets/vendors/js/extensions/toastr.min.js"></script>
     <script src="<?= HOME ?>/styles/app-assets/js/core/app.js"></script>
-    <script src="<?= HOME ?>/styles/app-assets/vendors/js/pickers/flatpickr/flatpickr.min.js"></script>
     <script>
         let baseHome = '<?= HOME ?>';
     </script>
@@ -50,29 +46,50 @@
                         </div>
                         <div class="d-flex col-lg-4 align-items-center auth-bg px-2 p-lg-5">
                             <div class="col-12 col-sm-8 col-md-6 col-lg-12 px-xl-2 mx-auto">
-                                <h2 class="card-title font-weight-bold mb-1">Vui lòng nhập địa chỉ Email để xác nhận thay đổi mật khẩu</h2>
-                                <p class="card-text mb-2"></p>
-                                <form class="auth-login-form mt-2" id="reset-password-form" method="POST">
-                                    <div class="form-group">
+                                <h2 class="card-title font-weight-bold mb-1">Welcome to G-Office</h2>
+                                <p class="card-text mb-2">Thay đổi mật khẩu</p>
+                                <form class="auth-login-form mt-2" id="change-password-form" method="POST">
+                                    <input class="form-control" type="hidden" value="<?= $_REQUEST['activeCode'] ?>" name="activeCode" aria-describedby="activeCode" autofocus="" tabindex="1" />
+                                    <div class="form-group d-none">
                                         <label class="form-label" for="login-email">Mã doanh nghiệp</label>
                                         <div class="input-group mb-2">
-                                            <input class="form-control" id="taxCode" type="text" name="taxCode" required placeholder="Mã doanh nghiệp" aria-describedby="taxCode" autofocus="" tabindex="1" />
+                                            <input class="form-control" type="text" value="<?= $_REQUEST['taxCode'] ?>" name="taxCode" aria-describedby="taxCode" autofocus="" tabindex="1" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="d-flex justify-content-between">
+                                            <label for="login-password">Mật khẩu mới</label>
+                                        </div>
+                                        <div class="input-group input-group-merge form-password-toggle">
+                                            <input class="form-control form-control-merge" id="newPass" type="password" name="newPass" placeholder="Mật khẩu mới" aria-describedby="password" tabindex="2" />
                                             <div class="input-group-append">
-                                                <a class="input-group-text text-danger font-weight-bold" id="editTaxCode">Edit</a>
+                                                <span class="input-group-text cursor-pointer">
+                                                    <i data-feather="eye"></i>
+                                                </span>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <input class="form-control" id="email" type="email" name="email" aria-describedby="email" autofocus="" tabindex="1" placeholder="Địa chỉ email" />
+                                        <div class="d-flex justify-content-between">
+                                            <label for="login-password">Xác nhận mật khẩu</label>
+                                            <a href="<?= HOME ?>/login"><small>Đăng nhập?</small></a>
+                                        </div>
+                                        <div class="input-group input-group-merge form-password-toggle">
+                                            <input class="form-control form-control-merge" id="confirmPass" type="password" name="confirmPass" placeholder="Xác nhận mật khẩu" aria-describedby="password" tabindex="2" />
+                                            <div class="input-group-append">
+                                                <span class="input-group-text cursor-pointer">
+                                                    <i data-feather="eye"></i>
+                                                </span>
+                                            </div>
+                                        </div>
                                     </div>
-
                                     <button class="btn btn-primary btn-block" tabindex="4" type="submit">
-                                        Lấy lại mật khẩu
+                                        Cập nhật
                                     </button>
                                 </form>
                                 <p class="text-center mt-1">
                                     <span>Hotline: </span>
-                                    <a href="tel:0346788118"><span>&nbsp;098 984 8886</span></a>
+                                    <a href="tel:0346788118"><span>&nbsp;034 678 8118</span></a>
                                 </p>
                                 <div class="divider my-1">
                                     <div class="divider-text">or</div>

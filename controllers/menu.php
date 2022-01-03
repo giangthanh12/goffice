@@ -2,6 +2,8 @@
 class menu extends Controller{
     function __construct(){
         parent::__construct();
+        if($_SESSION['user']['classify']>1)
+            header('location'.HOME);
     }
 
     function index(){

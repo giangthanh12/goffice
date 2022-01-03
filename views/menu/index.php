@@ -18,7 +18,7 @@
                                     <th>Tên menu</th>
                                     <th>Link</th>
                                     <th>Icon</th>
-                                 
+                                    <th>Loại</th>
                                     <th>Tình trạng</th>
                                     <th>Thao tác</th>
                                 </tr>

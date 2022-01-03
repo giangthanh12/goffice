@@ -1,13 +1,23 @@
 <?php
 class phongban extends Controller{
+    private $funs;
     function __construct(){
         parent::__construct();
+        $model = new model();
+        $checkMenuRole = $model->checkMenuRole('phongban');
+        if($checkMenuRole==false)
+            header('location:'.HOME);
     }
 
     function index(){
+        $this->view->funs = $funs = $this->model->getFunctions('phongban');
         require "layouts/header.php";
         $this->view->render("phongban/index");
         require "layouts/footer.php";
+    }
+    function getFunctions(){
+        $funs = $this->model->getFunctions('phongban');
+        echo json_encode($funs);
     }
 
     function list()

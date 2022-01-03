@@ -781,7 +781,7 @@
                 ?>
                 <li class=" nav-item">
                     <a class="d-flex align-items-center" href="<?= $parMenu['link'] ?>">
-                        <i data-feather="<?= $parMenu['icon'] ?>"></i>
+                        <i class="<?= $parMenu['icon'] ?>"></i>
                         <span class="menu-title text-truncate" data-i18n="File Manager"><?= $parMenu['name'] ?></span>
                     </a>
                     <ul class="menu-content">
@@ -792,7 +792,7 @@
                             ?>
                             <li>
                                 <a class="d-flex align-items-center" href="<?= $subMenu['link'] ?>">
-                                    <i data-feather="<?= $subMenu['icon'] ?>"></i>
+                                    <i class="<?= $subMenu['icon'] ?>"></i>
                                     <span class="menu-item text-truncate"
                                           data-i18n="LoginV1"><?= $subMenu['name'] ?></span>
                                 </a>

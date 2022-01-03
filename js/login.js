@@ -9,6 +9,7 @@ $(function (){
         $('#taxCode').val(folder);
         $('#taxCode').attr("readonly","readonly");
     }
+    
     $('#taxCode').on('focusout',function (){
         folder=this.value;
         if(folder!="") {
@@ -19,20 +20,29 @@ $(function (){
             $('#taxCode').focus();
         }
     })
+
     $('#login-form').on("submit",function (){
         login();
         return false;
     })
+
     // resetPassword
-    $('#resetPassword-form').on("submit",function (){
+    $('#reset-password-form').on("submit",function (){
         resetPassword();
         return false;
     })
+    
+    $('#change-password-form').on("submit",function (){
+        changePass();
+        return false;
+    })
+
     $('#editTaxCode').on("click",function (){
         $('#taxCode').removeAttr("readonly");
         $('#taxCode').focus();
     })
 });
+
 function saveFolder(folder){
     $.ajax({
         url: baseHome + '/saveFolder',  //server script to process data
@@ -96,7 +106,7 @@ function login() {
 //resetpassword
 function resetPassword() {
     var xhr = new XMLHttpRequest();
-    var formData = new FormData($('#resetPassword-form')[0]);
+    var formData = new FormData($('#reset-password-form')[0]);
     $.ajax({
         url: baseHome + '/auth/resetPassword',  //server script to process data
         type: 'POST',
@@ -106,22 +116,45 @@ function resetPassword() {
         data: formData,
         dataType: 'json',
         success: function (data) {
-            $('#resetPassword-form').trigger("reset");
             if (data.success) {
-                console.log(data.msg);
-                notyfi_success(data.msg);
+                $('#reset-password-form').trigger("reset");
+                notyfi_success(data.message);
+            } else {
+                notify_error(data.message);
             }
-            else  {
-                console.log(data.msg);
-                notify_error(data.msg);
-            }
-                
+
         },
         cache: false,
         contentType: false,
         processData: false
     });
+}
 
+function changePass() {
+    var xhr = new XMLHttpRequest();
+    var formData = new FormData($('#change-password-form')[0]);
+    $.ajax({
+        url: baseHome + '/auth/changePass',  //server script to process data
+        type: 'POST',
+        xhr: function () {
+            return xhr;
+        },
+        data: formData,
+        dataType: 'json',
+        success: function (data) {
+            if (data.success) {
+                notyfi_success(data.message);
+                setTimeout(function () {window.location.href = baseHome}, 3000);
+                // ;
+            } else {
+                notify_error(data.message);
+            }
+
+        },
+        cache: false,
+        contentType: false,
+        processData: false
+    });
 }
 
 $(function () {

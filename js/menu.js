@@ -1,9 +1,3 @@
-
-
-
-
-
-
 $(function () {
 
 
@@ -34,16 +28,29 @@ $(function () {
                 { data: "name" },
                 { data: "link" },
                 { data: "icon" },
+                { data: "type" },
                 { data: "active" },
                 { data: "" },
             ],
             columnDefs: [
               
                 {
-                    targets: -3,
+                    targets: 2,
                     render: function (data, type, full, meta) {
                       
                         return `<i class="${full['icon']}"></i>`;
+
+                    },
+                },
+                {
+                    targets: 3,
+                    render: function (data, type, full, meta) {
+                        if(full['type']==1)
+                        return `Platform`;
+                        if(full['type']==2)
+                            return `Plugin`;
+                        if(full['type']==3)
+                            return `Truy cập nhanh`;
 
                     },
                 },
