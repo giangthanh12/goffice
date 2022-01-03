@@ -10,7 +10,7 @@ class menu_Model extends Model
     
         $result = array();
         $dieukien = " WHERE active=1 ";
-        $query = $this->db->query("SELECT COUNT(1) AS dem FROM g_menus $dieukien AND parentId = 0 ORDER BY sortOrder");
+        $query = $this->db->query("SELECT COUNT(1) AS dem FROM g_menus $dieukien ");
       
         $temp = $query->fetchAll(PDO::FETCH_ASSOC);
         if ($temp[0]['dem']==0) { return $result; } 
@@ -18,7 +18,7 @@ class menu_Model extends Model
        
         $query = $this->db->query("SELECT id,name, link, icon, parentId, sortOrder,type,
      
-            IF(active=1,'Đã kích hoạt','Chưa kích hoạt') AS active  FROM g_menus $dieukien ORDER BY sortOrder");
+            IF(active=1,'Đã kích hoạt','Chưa kích hoạt') AS active  FROM g_menus $dieukien ORDER BY type,parentId,sortOrder");
             if($query) {
                 $temp = $query->fetchAll(PDO::FETCH_ASSOC);
              
@@ -32,14 +32,14 @@ class menu_Model extends Model
              return $result;
                 
     }
-    function get_data_combo(){
+    function get_data_combo($type){
         $result = array();
-        $dieukien = " WHERE active=1 ";
-        $query = $this->db->query("SELECT COUNT(1) AS dem FROM g_menus $dieukien AND parentId = 0 ORDER BY sortOrder");
+        $dieukien = " WHERE active=1 AND type=$type";
+        $query = $this->db->query("SELECT COUNT(1) AS dem FROM g_menus $dieukien ");
       
         $temp = $query->fetchAll(PDO::FETCH_ASSOC);
         if ($temp[0]['dem']==0) { return $result; } 
-        $query = $this->db->query("SELECT id, parentId, name AS text FROM g_menus $dieukien ORDER BY sortOrder");
+        $query = $this->db->query("SELECT id, parentId, name AS text FROM g_menus $dieukien ORDER BY parentId,sortOrder");
         if($query) {
             $temp = $query->fetchAll(PDO::FETCH_ASSOC);
          

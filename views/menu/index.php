@@ -14,20 +14,21 @@
                     <div class="card-datatable table-responsive pt-0">
                         <table class="user-list-table table">
                             <thead class="thead-light">
-                                <tr>
-                                    <th>Tên menu</th>
-                                    <th>Link</th>
-                                    <th>Icon</th>
-                                    <th>Loại</th>
-                                    <th>Tình trạng</th>
-                                    <th>Thao tác</th>
-                                </tr>
+                            <tr>
+                                <th>Tên menu</th>
+                                <th>Link</th>
+                                <th>Icon</th>
+                                <th>Loại</th>
+                                <th>Tình trạng</th>
+                                <th>Thao tác</th>
+                            </tr>
                             </thead>
                         </table>
                     </div>
 
-              
-                    <div class="modal fade text-left" id="updateinfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel16" aria-hidden="true">
+
+                    <div class="modal fade text-left" id="updateinfo" tabindex="-1" role="dialog"
+                         aria-labelledby="myModalLabel16" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -43,8 +44,16 @@
                                             <form class="form-validate" enctype="multipart/form-data" id="dg">
                                                 <div class="row mt-1">
                                                     <div class="col-md-6 col-md-6 form-group">
-                                                    <label for="link">name</label>
-                                                        <input id="name" name="name" type="text" class="form-control" />
+                                                        <label for="link">Tên menu</label>
+                                                        <input id="name" name="name" type="text" class="form-control"/>
+                                                    </div>
+                                                    <div class="col-md-6 col-md-6 form-group">
+                                                        <label for="type">Loại menu</label>
+                                                        <select id="type" class="form-control" name="type">
+                                                            <option value="1">Platform</option>
+                                                            <option value="2">Plugin</option>
+                                                            <option value="3">Truy cập nhanh</option>
+                                                        </select>
                                                     </div>
                                                     <div class="col-md-6 col-md-6 form-group">
                                                         <label for="tinh_trang">Tình trạng</label>
@@ -55,12 +64,12 @@
                                                     </div>
                                                     <div class="col-md-6 form-group">
                                                         <label for="link">Link</label>
-                                                        <input id="link" name="link" type="text" class="form-control" />
+                                                        <input id="link" name="link" type="text" class="form-control"/>
                                                     </div>
-                                                   
+
                                                     <div class="col-md-6 form-group">
-                                                    <label for="icon">Icon</label>
-                                                        <input id="icon" name="icon" type="text" class="form-control" />
+                                                        <label for="icon">Icon</label>
+                                                        <input id="icon" name="icon" type="text" class="form-control"/>
                                                     </div>
                                                     <div class="col-md-6 form-group">
                                                         <label for="parentId">Cha</label>
@@ -69,12 +78,18 @@
                                                     </div>
                                                     <div class="col-md-6 form-group">
                                                         <label for="sortOrder">Sắp xếp</label>
-                                                        <input id="sortOrder" name="sortOrder" type="text" class="form-control" />
+                                                        <input id="sortOrder" name="sortOrder" type="text"
+                                                               class="form-control"/>
                                                     </div>
 
                                                     <div class="col-12 d-flex flex-sm-row flex-column mt-2">
-                                                        <button type="button" onclick="savekh()" class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Cập nhật</button>
-                                                        <button type="reset" class="btn btn-outline-secondary" data-dismiss="modal">Bỏ qua</button>
+                                                        <button type="button" onclick="savekh()"
+                                                                class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Cập
+                                                            nhật
+                                                        </button>
+                                                        <button type="reset" class="btn btn-outline-secondary"
+                                                                data-dismiss="modal">Bỏ qua
+                                                        </button>
                                                     </div>
                                                 </div>
                                             </form>
@@ -87,7 +102,6 @@
                     </div>
 
 
-                    
                 </div>
             </section>
         </div>

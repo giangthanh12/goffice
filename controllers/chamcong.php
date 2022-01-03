@@ -112,7 +112,7 @@ class chamcong extends Controller
 
     function checkdate()
     {
-        $nhanvien = isset($_SESSION['user']['nhan_vien']) ? $_SESSION['user']['nhan_vien'] : 0;
+        $nhanvien = $_REQUEST['nhanvienid'];
         $date = isset($_REQUEST['ngay']) ? $_REQUEST['ngay'] : '';
         if ($this->model->checkdate($date, $nhanvien) == 0) {
             $jsonObj['mess'] = "Success";
