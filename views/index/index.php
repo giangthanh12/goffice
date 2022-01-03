@@ -550,9 +550,10 @@
                                     <div class="media">
                                         <img src="<?=HOME?>/styles/app-assets/images/portrait/small/avatar-s-15.jpg" class="rounded mr-1" height="30" alt="Google Chrome" />
                                         <h6 class="align-self-center mb-0">Nguyễn Thế Quỳnh</h6>
+                                      
                                     </div>
                                     <div class="d-flex align-items-center">
-                                        <div class="font-weight-bold text-body-heading mr-1">54.4%</div>
+                                        <div class="font-weight-bold text-body-heading mr-1">80.4%</div>
                                         <div id="browser-state-chart-primary"></div>
                                     </div>
                                 </div>
@@ -721,6 +722,7 @@
         </div>
     </div>
 </div>
+
 <!-- END: Content-->
 <script src="<?=HOME?>/styles/app-assets/vendors/js/charts/apexcharts.min.js"></script>
 <script src="<?=HOME?>/styles/app-assets/js/scripts/pages/dashboard-ecommerce.js"></script>
