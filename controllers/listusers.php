@@ -109,7 +109,7 @@ class listusers extends Controller
 
     function getMenus(){
         $userId = isset($_REQUEST['userId']) ? $_REQUEST['userId'] : 0;
-        $json = $this->model->getMenus($userId);
+        $json = $this->model->getMenusByUser($userId);
         echo json_encode($json);
     }
 

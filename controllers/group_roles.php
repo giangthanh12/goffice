@@ -79,7 +79,7 @@ class group_roles extends Controller{
 
     function getMenus(){
         $groupId = isset($_REQUEST['groupId']) ? $_REQUEST['groupId'] : 0;
-        $json = $this->model->getMenus($groupId);
+        $json = $this->model->getMenusByGroup($groupId);
         echo json_encode($json);
     }
 

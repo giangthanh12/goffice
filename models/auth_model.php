@@ -5,7 +5,7 @@ class Auth_Model extends Model{
     }
 
     function checkIn($username, $password){
-        $query = $this->db->query("SELECT id, username, staffId,token, extNum, sipPass,
+        $query = $this->db->query("SELECT id, username, staffId,classify,groupId,token, extNum, sipPass,
           (SELECT name FROM staffs WHERE id=staffId) AS staffName,
        (SELECT email FROM staffs WHERE id=staffId) AS email,
           (SELECT IF(avatar='',CONCAT('".URLFILE."','/uploads/useravatar.png'),CONCAT('".URLFILE."/',avatar)) FROM staffs WHERE id=staffId) AS avatar,

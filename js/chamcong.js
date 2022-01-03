@@ -248,14 +248,14 @@ document.addEventListener('DOMContentLoaded', function () {
         // btnDeleteEvent.removeClass('d-none');
         ngay.setDate(eventToUpdate.start, true, 'Y-m-d');
         congid = eventToUpdate.extendedProps.congid;
-        giovao.setDate(eventToUpdate.extendedProps.giovao, true, 'Y-m-d');
-        giora.setDate(eventToUpdate.extendedProps.giora, true, 'Y-m-d');
         // eventToUpdate.allDay === true ? allDaySwitch.prop('checked', true) : allDaySwitch.prop('checked', false);
         // eventToUpdate.end !== null
         //     ? end.setDate(eventToUpdate.end, true, 'Y-m-d')
         //     : end.setDate(eventToUpdate.start, true, 'Y-m-d');
         sidebar.find(selectCongSang).val(eventToUpdate.extendedProps.congsang).trigger('change');
         sidebar.find(selectCongChieu).val(eventToUpdate.extendedProps.congchieu).trigger('change');
+        giovao.setDate(eventToUpdate.extendedProps.giovao, true, 'Y-m-d');
+        giora.setDate(eventToUpdate.extendedProps.giora, true, 'Y-m-d');
         // eventToUpdate.extendedProps.guests !== undefined
         //     ? eventGuests.val(eventToUpdate.extendedProps.guests).trigger('change')
         //     : null;

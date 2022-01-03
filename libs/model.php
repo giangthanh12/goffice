@@ -51,14 +51,14 @@ class Model
     }
 
     /////////////////////////////////// end cac ham phu khac /////////////////////////////////////////
-    function getMenus($parentId)
+    function getMenus($parentId,$type)
     {
         $classUser = $_SESSION['user']['classify'];
         $userId = $_SESSION['user']['id'];
         $groupId = $_SESSION['user']['groupId'];
         $menus = [];
         if ($classUser == 1) {
-            $dieukien = " WHERE active = 1 AND parentId=$parentId ";
+            $dieukien = " WHERE active = 1 AND parentId=$parentId AND type=$type ";
             $query = $this->db->query("SELECT id,link,icon,name FROM g_menus $dieukien ORDER BY sortOrder");
             $menus = $query->fetchAll();
         } else {
@@ -76,7 +76,7 @@ class Model
                     $listMenu = $temp[0]['menuIds'];
             }
 
-            $dieukien = " WHERE active = 1 AND parentId=$parentId ";
+            $dieukien = " WHERE active = 1 AND parentId=$parentId AND type=$type ";
             if ($listMenu != '') {
                 $dieukien .= " AND id IN ($listMenu) ";
                 $query = $this->db->query("SELECT id,link,icon,name FROM g_menus $dieukien ORDER BY sortOrder");

@@ -299,7 +299,8 @@ $(function () {
 
     // Check Validity
     function actionMenu(func){
-        alert(func);
+        if(func=='add')
+            add();
     }
     function checkValidity(el) {
         if (el.validate().checkForm()) {
@@ -784,6 +785,6 @@ function update_nhanvien_info1() {
     });
 }
 
-function thoiviec(id){
-    alert(id);
+function add(){
+    $('#modals-slide-in').modal('show');
 }

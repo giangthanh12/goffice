@@ -58,7 +58,7 @@ class listusers_model extends Model
         return $query;
     }
 
-    function getMenus($userId)
+    function getMenusByUser($userId)
     {
         $query = $this->db->query("SELECT menuIds,functionIds
           FROM userroles WHERE userId=$userId");

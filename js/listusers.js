@@ -59,7 +59,7 @@ $(function () {
                         html += '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" title="Chỉnh sửa" onclick="getData(' + full["id"] + ')">';
                         html += '<i class="fas fa-pencil-alt"></i>';
                         html += '</button> &nbsp;';
-                        html += '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" title="Chỉnh sửa" onclick="setRoles(' + full["id"] + ','+full["groupId"] +')">';
+                        html += '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" title="Set roles" onclick="setRoles(' + full["id"] + ','+full["groupId"] +')">';
                         html += '<i class="fas fa-arrows-alt"></i>';
                         html += '</button> &nbsp;';
                         html += '<button type="button" class="btn btn-icon btn-outline-danger waves-effect" title="Xóa" onclick="deleteGroupRole(' + full["id"] + ')">';
@@ -169,6 +169,7 @@ function getData(id) {
             $('#username').val(data.username);
             $('#staffId').val(data.staffId).change();
             $('#groupId').val(data.groupId).change();
+            $('#password').val('');
             url = baseHome + '/listusers/update?id=' + id;
         },
         error: function () {
