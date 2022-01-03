@@ -7,13 +7,17 @@ class project_Model extends Model{
         if(empty($status)) {
             $query = $this->db->query("SELECT id, image, name, level,process,
              DATE_FORMAT(deadline,'%d-%m-%Y') as deadline,
-            (SELECT avatar FROM staffs WHERE id=assignerId) AS avatar
+            (SELECT avatar FROM staffs WHERE id=assignerId) AS avatar,
+            (SELECT name FROM projectlevels WHERE id=level) AS nameLevel,
+            (SELECT color FROM projectlevels WHERE id=level) AS colorLevel
             FROM projects WHERE status > 0 ORDER BY id DESC");
         }
         else {
             $query = $this->db->query("SELECT id, image, name, level,process,
             DATE_FORMAT(deadline,'%d-%m-%Y') as deadline,
-            (SELECT avatar FROM staffs WHERE id=assignerId) AS avatar
+            (SELECT avatar FROM staffs WHERE id=assignerId) AS avatar,
+            (SELECT name FROM projectlevels WHERE id=level) AS nameLevel,
+            (SELECT color FROM projectlevels WHERE id=level) AS colorLevel
             FROM projects WHERE status = $status ORDER BY id DESC");
         }
         $row = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -24,6 +28,18 @@ class project_Model extends Model{
         $query = $this->db->query("SELECT id, name, avatar as hinh_anh FROM staffs");
         $row = $query->fetchAll(PDO::FETCH_ASSOC);
         return $row;
+    }
+    function getLevelProject(){
+        $result = array();
+        $query = $this->db->query("SELECT id,color, concat('<span style=\"color:',color,';\">',name,'<span>') AS text FROM projectlevels WHERE status = 2");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+    function getStatusProject(){
+        $result = array();
+        $query = $this->db->query("SELECT id,color, name AS text FROM projectstatus WHERE status = 2");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
     }
 
     function updateProject($id,$data) {
@@ -55,6 +71,8 @@ class project_Model extends Model{
     function filterLevel($filter) {
         $query = $this->db->query("SELECT id, image, name, level,process,
             DATE_FORMAT(deadline,'%d-%m-%Y') as deadline,
+            (SELECT name FROM projectlevels WHERE id=level) AS nameLevel,
+            (SELECT color FROM projectlevels WHERE id=level) AS colorLevel,
             (SELECT avatar FROM staffs WHERE id=assignerId) AS avatar
             FROM projects WHERE status > 0 AND level in ($filter) ");
              $data = $query->fetchAll(PDO::FETCH_ASSOC);

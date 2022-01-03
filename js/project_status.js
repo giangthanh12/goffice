@@ -1,7 +1,10 @@
+
+
+
+
+
+
 $(function () {
-
-
-    return_combobox_multi('#parentId', baseHome + '/menu/combo', 'Lựa chọn cha cho menu');
 
     var basicPickr = $('.flatpickr-basic');
    
@@ -22,38 +25,32 @@ $(function () {
     if (dtUserTable.length) {
         dtUserTable.DataTable({
             // ajax: assetPath + "data/user-list.json", // JSON file to add data
-            ajax: baseHome + "/menu/list",
+            ajax: baseHome + "/project_status/list",
             ordering: false,
             columns: [
                 { data: "name" },
-                { data: "link" },
-                { data: "icon" },
-                { data: "type" },
-                { data: "active" },
+                { data: "color" },
+                {data: "status"},
                 { data: "" },
             ],
             columnDefs: [
               
                 {
-                    targets: 2,
+                    targets: -3,
                     render: function (data, type, full, meta) {
-                      
-                        return `<i class="${full['icon']}"></i>`;
-
+                        return `<div style="width:20px; height:20px; background:${full['color']}"></div>`
                     },
                 },
                 {
-                    targets: 3,
+                    targets: -2,
                     render: function (data, type, full, meta) {
-                        if(full['type']==1)
-                        return `Platform`;
-                        if(full['type']==2)
-                            return `Plugin`;
-                        if(full['type']==3)
-                            return `Truy cập nhanh`;
+                      
+                        if(full['status'] == 1) return 'Chưa kích hoạt';
+                        return 'Đang kích hoạt'
 
                     },
                 },
+              
            
                 {
                     // Actions
@@ -103,25 +100,16 @@ $(function () {
                     },
                     action: function (e, dt, node, config) {
                         $("#updateinfo").modal('show');
-                        $(".modal-title").html('Thêm menu mới');
-                        // $('#nhan_vien').val('').change();
+                        $(".modal-title").html('Thêm trạng thái cho dự án');
                         $('#name').val('');
-                        $('#link').val('');
-                        $('#icon').val('');
-                        $('#sortOrder').val('');
-                        $('#parentId').val('').change();
-                        $('#tinh_trang').val('1').attr("disabled", true);
+                        $('#color').val('');
+                        $('#status').val('2').attr("disabled", true);
                         // $('#ghi_chu').val('');
-                        url = baseHome + "/menu/add";
+                        url = baseHome + "/project_status/add";
                     },
                 },
                
             ],
-           
-            initComplete: function () {
-            
-
-            },
         });
 
     }
@@ -140,10 +128,10 @@ $(function () {
         form.validate({
             errorClass: "error",
             rules: {
-                "user-fullname": {
+                "name": {
                     required: true,
                 },
-                "user-name": {
+                "color": {
                     required: true,
                 },
                 "user-email": {
@@ -160,7 +148,6 @@ $(function () {
             }
         });
     }
-
     // To initialize tooltip with body container
     $("body").tooltip({
         selector: '[data-toggle="tooltip"]',
@@ -171,22 +158,17 @@ $(function () {
 function loaddata(id) {
   
     $('#updateinfo').modal('show');
-    $(".modal-title").html('Cập nhật thông tin menu');
+    $(".modal-title").html('Cập nhật trạng thái cho dự án');
     $.ajax({
         type: "POST",
         dataType: "json",
         data: { id: id },
-        url: baseHome + "/menu/loaddata",
+        url: baseHome + "/project_status/loaddata",
         success: function (data) {
             $('#name').val(data.name);
-            $('#link').val(data.link);
-            $('#icon').val(data.icon);
-            $('#parentId').val(data.parentId).change();
-            $('#sortOrder').val(data.sortOrder);
-            $('#tinh_trang').val(data.active).change().attr("disabled", false);
-            url = baseHome + '/menu/update?id=' + id;
-
-         
+            $('#color').val(data.color);
+            $('#status').val(data.status).change().attr("disabled", false);
+            url = baseHome + '/project_status/update?id=' + id;
         },
         error: function () {
             notify_error('Lỗi truy xuất database');
@@ -194,24 +176,18 @@ function loaddata(id) {
     });
 }
 // dùng chung cho phần update và thêm
-function savekh() {
+function saveLevelProject() {
     
     var info = {};
     info.name = $("#name").val();
-    info.link = $("#link").val();
-    info.icon = $("#icon").val();
-    info.parentId = $("#parentId").val();
-    info.active = $("#tinh_trang").val();
-    info.sortOrder = $("#sortOrder").val();
-    
-
+    info.color = $("#color").val();
+    info.status = $("#status").val();
     $.ajax({
         type: "POST",
         dataType: "json",
         data: info,
         url: url,
         success: function (data) {
-            return_combobox_multi('#parentId', baseHome + '/menu/combo', 'Lựa chọn cha cho menu');
             if (data.success) {
                 notyfi_success(data.msg);
                 $('#updateinfo').modal('hide');
@@ -227,7 +203,6 @@ function savekh() {
 }
 
 function xoa(id) {
-
     Swal.fire({
         title: 'Xóa dữ liệu',
         text: "Bạn có chắc chắn muốn xóa!",
@@ -242,12 +217,11 @@ function xoa(id) {
     }).then(function (result) {
         if (result.value) {
             $.ajax({
-                url: baseHome + "/menu/del",
+                url: baseHome + "/project_status/del",
                 type: 'post',
                 dataType: "json",
                 data: { id: id },
                 success: function (data) {
-                    return_combobox_multi('#parentId', baseHome + '/menu/combo', 'Lựa chọn cha cho menu');
                     if (data.success) {
                         notyfi_success(data.msg);
                         $(".user-list-table").DataTable().ajax.reload(null, false);
@@ -258,10 +232,4 @@ function xoa(id) {
             });
         }
     });
-}
-
-function changePB() {
-    var opt = $("#phong_ban").val();
-    return_combobox_multi('#vi_tri', baseHome + '/vitri/combo?phongban=' + opt, 'Lựa chọn vị trí');
-    $('#vi_tri').val('').attr("disabled", false);
 }

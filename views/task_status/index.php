@@ -1,5 +1,5 @@
 <!-- <link rel="stylesheet" type="text/css" href="<?= HOME ?>/styles/app-assets/css/pages/app-kanban.css"> -->
-<script src="<?= HOME ?>/js/menu.js"></script>
+<script src="<?= HOME ?>/js/task_status.js"></script>
 
 <div class="app-content content">
     <div class="content-overlay"></div>
@@ -15,11 +15,9 @@
                         <table class="user-list-table table">
                             <thead class="thead-light">
                                 <tr>
-                                    <th>Tên menu</th>
-                                    <th>Link</th>
-                                    <th>Icon</th>
-                                    <th>Loại</th>
-                                    <th>Tình trạng</th>
+                                    <th>Label Task</th>
+                                    <th>Mã màu</th>
+                                    <th>Trạng thái</th>
                                     <th>Thao tác</th>
                                 </tr>
                             </thead>
@@ -42,38 +40,23 @@
                                         <div class="card-body">
                                             <form class="form-validate" enctype="multipart/form-data" id="dg">
                                                 <div class="row mt-1">
-                                                    <div class="col-md-6 col-md-6 form-group">
-                                                    <label for="link">name</label>
+                                                    <div class="col-md-12 form-group">
+                                                    <label for="link">Label Task</label>
                                                         <input id="name" name="name" type="text" class="form-control" />
                                                     </div>
-                                                    <div class="col-md-6 col-md-6 form-group">
-                                                        <label for="tinh_trang">Tình trạng</label>
-                                                        <select id="tinh_trang" class="form-control" name="tinh_trang">
-                                                            <option value="0">Chọn tình trạng</option>
-                                                            <option value="1">Đang kích hoạt</option>
+                                                    <div class="col-md-12 form-group">
+                                                        <label for="color">Mã màu</label>
+                                                        <input id="color" name="color" type="text" class="form-control" />
+                                                    </div>
+                                                    <div class="col-md-12  form-group">
+                                                        <label for="status">Tình trạng</label>
+                                                        <select id="status" class="form-control" name="status">
+                                                            <option value="1">Chưa kích hoạt</option>
+                                                            <option value="2">Đang kích hoạt</option>
                                                         </select>
                                                     </div>
-                                                    <div class="col-md-6 form-group">
-                                                        <label for="link">Link</label>
-                                                        <input id="link" name="link" type="text" class="form-control" />
-                                                    </div>
-                                                   
-                                                    <div class="col-md-6 form-group">
-                                                    <label for="icon">Icon</label>
-                                                        <input id="icon" name="icon" type="text" class="form-control" />
-                                                    </div>
-                                                    <div class="col-md-6 form-group">
-                                                        <label for="parentId">Cha</label>
-                                                        <select id="parentId" class="form-control" name="parentId">
-                                                        </select>
-                                                    </div>
-                                                    <div class="col-md-6 form-group">
-                                                        <label for="sortOrder">Sắp xếp</label>
-                                                        <input id="sortOrder" name="sortOrder" type="text" class="form-control" />
-                                                    </div>
-
                                                     <div class="col-12 d-flex flex-sm-row flex-column mt-2">
-                                                        <button type="button" onclick="savekh()" class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Cập nhật</button>
+                                                        <button type="button" onclick="saveStatusTask()" class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Cập nhật</button>
                                                         <button type="reset" class="btn btn-outline-secondary" data-dismiss="modal">Bỏ qua</button>
                                                     </div>
                                                 </div>

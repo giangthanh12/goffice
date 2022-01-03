@@ -37,16 +37,6 @@ class todo_Model extends Model{
             FROM tasks WHERE id=$id");
         if ($query) {
             $data = $query->fetchAll(PDO::FETCH_ASSOC);
-            // $query = $this->db->query("SELECT ngay_gio, noi_dung,
-            //    (SELECT hinh_anh FROM nhanvien WHERE id=nhan_vien) AS hinhanh,
-            //    (SELECT name FROM nhanvien WHERE id=nhan_vien) AS nhanvien
-            //    FROM comment WHERE cong_viec=$id ORDER BY ngay_gio DESC ");
-            // $comment = array();
-            // if ($query)
-            //     $comment = $query->fetchAll(PDO::FETCH_ASSOC);
-            // $comtext = '';
-            // foreach ($comment AS $row)
-            //     $comtext .= '<div class="media mb-1"><div class="avatar bg-light-success my-0 ml-0 mr-50"><img src="'.$row['hinhanh'].'" alt="Avatar" height="32" /></div><div class="media-body"><p class="mb-0"><span class="font-weight-bold">'.$row['nhanvien'].'</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<small class="text-muted">'.$row['ngay_gio'].'</small></p><p>'.$row['noi_dung'].'</p></div></div>';
             $result = $data[0];
         }
         return $result;

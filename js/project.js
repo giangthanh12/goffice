@@ -1,11 +1,4 @@
-/*=========================================================================================
-    File Name: app-todo.js
-    Description: app-todo
-    ----------------------------------------------------------------------------------------
-    Item Name: Vuexy  - Vuejs, HTML & Laravel Admin Dashboard Template
-    Author: PIXINVENT
-    Author URL: http://www.themeforest.net/user/pixinvent
-==========================================================================================*/
+
 
 "use strict";
 
@@ -31,13 +24,30 @@ $(function () {
         todoTaskListWrapper = $(".todo-task-list-wrapper"),
         listItemFilter = $(".list-group-filters"),
         noResults = $(".no-results"),
+        statusProject = $('#status'),
+        levelProject = $('#level'),
         // checkboxId = 100,
         isRtl = $("html").attr("data-textdirection") === "rtl";
-
- 
-
     list_to_do();
-  
+    load_select($('#level'), baseHome + '/project/getLevelProject','Cấp độ dự án');
+    load_select($('#status'), baseHome + '/project/getStatusProject', 'Trạng thái dự án');
+
+    $('#level').change(function() {
+        changeColorLevel();
+    })
+    $('#status').change(function() {
+        changeColorStatus();
+    })
+    // biến đổi màu cho select
+     function changeColorLevel() {
+        var style = $('option:selected', levelProject).attr('style');
+        $(levelProject).attr('style', `${style}`);
+     }
+     function changeColorStatus() {
+        var style = $('option:selected', statusProject).attr('style');
+        $(statusProject).attr('style', `${style}`);
+     }
+
 
     // if it is not touch device
     if (!$.app.menu.is_touch_device()) {
@@ -182,13 +192,15 @@ $(function () {
             quill_editor.html('');
             $('#customRadio1').attr('checked','true');
             $('#process').val("");
+ 
+           
             $('#task-due-date').val('DD-MM-YYYY');
-            $('#status').val(1).attr("disabled", true);
+        
             $('#id').val(0); // them du an mac dinh id = 0
             load_select2(taskAssignSelect);
+            
         });
     }
-
     // Add New ToDo List Item
 
     // To add new todo form
@@ -196,9 +208,13 @@ $(function () {
         newTaskForm.validate({
             ignore: ".ql-container *", // ? ignoring quill editor icon click, that was creating console error
             rules: {
-                todoTitleAdd: {
+                "name": {
                     required: true,
                 },
+                "process": {
+                    required: true,
+                },
+               
                 "task-assigned": {
                     required: true,
                 },
@@ -215,12 +231,14 @@ $(function () {
                 var name = $('#name').val();
                 var assigneedId = $("#task-assigned").val();
                 var process = $("#process").val();
-                var myRadio = $("input[name=customRadio]");
-                var level = myRadio.filter(":checked").val();
+                // var myRadio = $("input[name=customRadio]");
+                // var level = myRadio.filter(":checked").val();
                 var date = $(".sidebar-todo-modal .task-due-date").val();
                 var description = taskDesc.find(".ql-editor p").html();
                 var status = $("#status").val();
+                var level = $("#level").val();
                 var id = $("#id").val();
+
                 $.ajax({
                     type: "POST",
                     dataType: "json",
@@ -251,9 +269,13 @@ $(function () {
 
     // To open todo list item modal on click of item
     $(document).on("click", ".todo-task-list-wrapper .todo-item .todo-title", function (e) {
+        	
+        var validator = $( "#form-modal-todo" ).validate(); // reset form
+        validator.resetForm();
         newTaskModal.modal("show");
         addBtn.addClass("d-none");
         updateBtns.removeClass("d-none");
+        
         if ($(this).hasClass("completed")) {
             modalTitle.html('<button type="button" class="btn btn-sm btn-outline-success complete-todo-item waves-effect waves-float waves-light" data-dismiss="modal">Completed</button>');
         } else {
@@ -273,27 +295,29 @@ $(function () {
                 $('#task-due-date').val(obj.deadline);
                 $('#customRadio'+obj.level).attr('checked','true');
                 $('#id').val(obj.id);
-                $('#status').val(obj.status).attr("disabled", false);
+                $('#status').val(obj.status);
+                $('#level').val(obj.level);
                 $('#process').val(obj.process);
                 load_select2(taskAssignSelect);
                 $("#task-assigned").val(obj.assigneeId);
-          
-             
-                
+                changeColorLevel();
+                changeColorStatus();
             }
         });
     });
 
   
-    // Lọc dự án
+    // Tìm kiếm dự án
     if (todoFilter.length) {
         todoFilter.on("keyup", function () {
             var value = $(this).val().toLowerCase();
             if (value !== "") {
+               
                 $(".todo-item").filter(function () {
                     $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+                 
                 });
-                var tbl_row = $(".todo-item:visible").length; //here tbl_test is table name
+                var tbl_row = $(".todo-item:visible").length; 
 
                 //Check if table has row or not
                 if (tbl_row == 0) {
@@ -338,7 +362,6 @@ function load_select2(select2) {
         type: "GET",
         dataType: "json",
         async: false,
-     
         url: baseHome + "/project/getStaff",
         success: function (data) {
             var html = "";
@@ -353,6 +376,27 @@ function load_select2(select2) {
         },
     });
 }
+
+function load_select(selectId,url,place) {
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        async: false,
+        url: url,
+        success: function (data) {
+            var html = '<option value="" disabled selected hidden>'+place+'</option>';
+            data.forEach(function (element, index) {
+                html += `<option style="color:${element.color}"  value="${element.id}">${element.text}</option> `;
+                console.log(element.text);
+            });
+
+            selectId.html(html);
+        },
+    });
+}
+
+
+
 // lấy dự án
 function list_to_do(status = '') {
     $.ajax({
@@ -362,7 +406,6 @@ function list_to_do(status = '') {
         data: {status:status},
         url: baseHome + "/project/getdata",
         success: function (data) {
-            
             var mailread = "";
             var html = "";
             data.forEach(function (element, index) {
@@ -376,7 +419,6 @@ function list_to_do(status = '') {
                 else {
                     var  $color = '#00CFE8';
                 }
-                
                 html += '<li class="todo-item"><div class="todo-title-wrapper"><div class="todo-title-area">';
                 html += '<i data-feather="more-vertical" class="drag-icon"></i><div class="title-wrapper">';
                 html += '<img style="border-radius: 50%;" src="'+  baseHome + '/' +element.avatar + '" alt="" height="32" width="32" /><span class="todo-title" id="'+element.id+'">' + element.name + '</span>&nbsp;';
@@ -384,12 +426,8 @@ function list_to_do(status = '') {
                 html += ` <div class="progress" style="height: 6px; width: 100px; margin-top: 5px; margin-right: 70px;">
                             <div class="progress-bar" id="process-project" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: ${element.process}%; background:${$color};"></div>
                         </div>`;
-                if (element.level ==3)
-                    html += '<div class="badge badge-pill badge-light-danger" style="width: 100px;">Khẩn</div>';
-                else if (element.level ==2)
-                    html += '<div class="badge badge-pill badge-light-warning" style="width: 100px;">Quan trọng</div>';
-                else 
-                html += '<div class="badge badge-pill badge-light-info" style="width: 100px;">Bình thường</div>';
+            
+                html += '<div class="badge" style="width: 100px; margin-right: 0.5rem; background-color: rgb(247, 244, 244); color: '+element.colorLevel+'">'+element.nameLevel+'</div>';
                 html += `<small style="width: 70px;" class="text-nowrap text-muted mr-1">${element.deadline}</small>`;
              
                 html += '';
@@ -399,15 +437,10 @@ function list_to_do(status = '') {
         }
     });
 }
-// lọc dự án
-$('.status-project').on('click',function() {
-    var status = $(this).data('status');
-    list_to_do(status);
- 
-})
+
+
 // lọc cấp độ
 function filter(classname) {
-    
     let filter = [];
     $('.'+classname+':checked').each(function(index, input) {
      
@@ -415,7 +448,53 @@ function filter(classname) {
     });
    return filter;
 }
+// load list-group-labels
+    function load_level_project() {
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            async: false,
+            url: baseHome + '/project/getLevelProject',
+            success: function (data) {
+                var html = "";
+                data.forEach(function (element, index) {
+                   html+= `<div class="custom-control  custom-checkbox mb-1">
+                                <input  type="checkbox" class="custom-control-input input-filter" id="${element.id}" data-value="${element.id}" checked="">
+                                <label class="custom-control-label" for="${element.id}">${element.text}</label>
+                            </div>`
+                });
 
+                $('.list-group-labels').html(html);
+          
+            },
+        });
+    }
+    load_level_project() 
+// end list-group-labels
+
+//list-group-filters
+function load_status_project() {
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        async: false,
+        url: baseHome + '/project/getStatusProject',
+        success: function (data) {
+            var html = "";
+            data.forEach(function (element, index) {
+               html+= `<a onclick="filterStatus(this)" href="javascript:void(0)" data-status="${element.id}" class="list-group-item list-group-item-action status-project">
+                            <span style="color:${element.color}" class="align-middle">Dự án ${element.text.toLowerCase()}</span>
+                        </a>`
+            });
+            $('.list-group-filters').html(html);
+        },
+    });
+}
+load_status_project() 
+function filterStatus(element) {
+   var status = element.getAttribute('data-status')
+    list_to_do(status);
+}
 
 $('.input-filter').on('click', function() {
  
@@ -444,19 +523,13 @@ $('.input-filter').on('click', function() {
                 }
                 html += '<li class="todo-item"><div class="todo-title-wrapper"><div class="todo-title-area">';
                 html += '<i data-feather="more-vertical" class="drag-icon"></i><div class="title-wrapper">';
-                html += '<img style="border-radius: 50%;" src="'+  baseHome + '/' +element.avatar +  '" alt="" height="32" width="32" /><span class="todo-title" id="'+element.id+'">' + element.name + '</span>&nbsp;';
+                html += '<img style="border-radius: 50%;" src="'+  baseHome + '/' +element.avatar + '" alt="" height="32" width="32" /><span class="todo-title" id="'+element.id+'">' + element.name + '</span>&nbsp;';
                 html += '</div></div><div class="todo-item-action"><div class="badge-wrapper mr-1">';
                 html += ` <div class="progress" style="height: 6px; width: 100px; margin-top: 5px; margin-right: 70px;">
                             <div class="progress-bar" id="process-project" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: ${element.process}%; background:${$color};"></div>
                         </div>`;
-                if (element.level ==3)
-                    html += '<div class="badge badge-pill badge-light-danger" style="width: 100px;">Khẩn</div>';
-                else if (element.level ==2)
-                    html += '<div class="badge badge-pill badge-light-warning" style="width: 100px;">Quan trọng</div>';
-                else 
-                html += '<div class="badge badge-pill badge-light-info" style="width: 100px;">Bình thường</div>';
+                html += '<div class="badge" style="width: 100px; margin-right: 0.5rem; background-color: rgb(247, 244, 244); color: '+element.colorLevel+'">'+element.nameLevel+'</div>';
                 html += `<small style="width: 70px;" class="text-nowrap text-muted mr-1">${element.deadline}</small>`;
-             
                 html += '';
                 html += "</div></li>";
             });
@@ -465,27 +538,37 @@ $('.input-filter').on('click', function() {
     });
 })
 
-
-
-
-
-
 function del() {
     var id = $("#id").val();
-    $.ajax({
-        type: "POST",
-        dataType: "json",
-        data: { id:id},
-        url: baseHome + "/project/del",
-        success: function (data) {
-            if (data.success == true) {
-                notyfi_success("Cập nhật thành công");
-                list_to_do();
-            } else {
-                notify_error(data.msg);
-                return false;
-            }
+    Swal.fire({
+        title: 'Xóa dữ liệu',
+        text: "Bạn có chắc chắn muốn xóa!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Tôi đồng ý',
+        customClass: {
+            confirmButton: 'btn btn-primary',
+            cancelButton: 'btn btn-outline-danger ml-1'
         },
+        buttonsStyling: false
+    }).then(function (result) {
+        if (result.value) {
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                data: { id:id},
+                url: baseHome + "/project/del",
+                success: function (data) {
+                    if (data.success == true) {
+                        notyfi_success("Cập nhật thành công");
+                        list_to_do();
+                    } else {
+                        notify_error(data.msg);
+                        return false;
+                    }
+                },
+            });
+        }
     });
 }
 

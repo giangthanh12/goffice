@@ -14,12 +14,8 @@
                                 </button>
                             </div>
                             <div class="list-group list-group-filters">
-                                <a href="javascript:void(0)" data-status="1" class="list-group-item list-group-item-action status-project">
-                                    <i data-feather="star"   class="font-medium-3 mr-50 "></i> <span class="align-middle">Dự án thực hiện</span>
-                                </a>
-                                <a href="javascript:void(0)" data-status="2" class="list-group-item list-group-item-action status-project">
-                                    <i data-feather="check" class="font-medium-3 mr-50"></i> <span class="align-middle">Dự án kết thúc</span>
-                                </a>
+                               
+                              
                             </div>
 
                             <div class=" px-2 d-flex justify-content-between">
@@ -28,18 +24,8 @@
                                 </h5>
                             </div>
                             <div class="list-group list-group-labels" style="padding: 0 21px;">
-                                <div class="custom-control custom-control-danger custom-checkbox mb-1">
-                                    <input  type="checkbox" class="custom-control-input input-filter" id="3" data-value="3" checked="">
-                                    <label class="custom-control-label" for="3">Khẩn</label>
-                                </div>
-                                <div class="custom-control custom-control-warning custom-checkbox mb-1">
-                                    <input type="checkbox" class="custom-control-input input-filter" id="2" data-value="2" checked="">
-                                    <label class="custom-control-label" for="2">Quan trọng</label>
-                                </div>
-                                <div class="custom-control  custom-control-info custom-checkbox mb-1">
-                                    <input type="checkbox" class="custom-control-input input-filter" id="1" data-value="1" checked="">
-                                    <label class="custom-control-label" for="1">Bình thường</label>
-                                </div>
+                                
+                              
                             </div>
                         </div>
                     </div>
@@ -100,7 +86,7 @@
                                         <div class="action-tags">
                                             <div class="form-group">
                                                 <label for="todoTitleAdd" class="form-label">Tên dự án</label>
-                                                <input type="text" id="name" name="name" class="new-todo-item-title form-control" placeholder="Title" />
+                                                <input type="text"  id="name" name="name" class="new-todo-item-title form-control" placeholder="Title" />
                                                 <input type="hidden" id="id" name="id">
                                             </div>
 
@@ -110,25 +96,15 @@
                                             </div>
                                             <div class="form-group">
                                                 <label for="process" class="form-label">Tiến độ(%)</label>
-                                                <input type="text" id="process" name="process" class="process form-control" />
+                                                <input type="text"  id="process" name="process" class="process form-control" />
                                                
                                             </div>
 
                                             <div class="form-group">
-
-                                                <div class="demo-inline-spacing">
-                                                    <div class="custom-control custom-radio custom-control-info">
-                                                        <input type="radio" id="customRadio1" name="customRadio" value="1" class="custom-control-input" checked="">
-                                                        <label class="custom-control-label text-info" for="customRadio1">Bình thường</label>
-                                                    </div>
-                                                    <div class="custom-control custom-radio custom-control-warning">
-                                                        <input type="radio" id="customRadio2" name="customRadio" value="2" class="custom-control-input">
-                                                        <label class="custom-control-label text-warning" for="customRadio2">Quan trọng</label>
-                                                    </div>
-                                                    <div class="custom-control custom-radio custom-control-danger">
-                                                        <input type="radio" id="customRadio3" name="customRadio" value="3" class="custom-control-input">
-                                                        <label class="custom-control-label text-danger" for="customRadio3">Khẩn</label>
-                                                    </div>
+                                                <div class="form-group">
+                                                    <label for="level">Cấp độ</label>
+                                                    <select id="level" class="form-control" name="level">
+                                                    </select>
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -154,8 +130,6 @@
                                             <label for="status" class="form-label d-block">Trạng thái</label>
                                             
                                             <select class="select2 form-control" id="status" name="status">
-                                                <option value="1">Chưa hoàn thành</option>
-                                                <option value="2">Đã hoàn thành</option>
                                             
                                             </select>
                                         </div>

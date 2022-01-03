@@ -181,30 +181,7 @@ $(function () {
                             }
                         })
                         return html;
-                        // return (
-                        //     '<div class="btn-group">' +
-                        //     '<a class="btn btn-sm dropdown-toggle hide-arrow" data-toggle="dropdown">' +
-                        //     feather.icons["more-vertical"].toSvg({ class: "font-small-4" }) +
-                        //     "</a>" +
-                        //     '<div class="dropdown-menu dropdown-menu-right">' +
-                        //     '<a href="javascript:void(0)" class="dropdown-item" data-toggle="modal" data-target="#updateinfo" onclick="loaddata('+full["id"]+')">' +
-                        //     feather.icons["file-text"].toSvg({ class: "font-small-4 mr-50" }) +
-                        //     "Xem/sửa</a>" +
-                        //     '<a href="javascript:void(0)" class="dropdown-item" onclick="thoiviec('+full["id"]+')" >' +
-                        //     feather.icons["archive"].toSvg({ class: "font-small-4 mr-50" }) +
-                        //     "Thôi việc</a>" +
-                        //     '<a href="javascript:void(0)" class="dropdown-item delete-record" onclick="xoa('+full["id"]+')">' +
-                        //     feather.icons["trash-2"].toSvg({ class: "font-small-4 mr-50" }) +
-                        //     "Xóa</a></div>" +
-                        //     "</div>" +
-                        //     "</div>"
-                        // );
-                        // '<a href="' +
-                        // userEdit +
-                        // '?id=' + full["id"] +
-                        // '" class="dropdown-item">' +
-                        // feather.icons["archive"].toSvg({ class: "font-small-4 mr-50" }) +
-                        // "Cập nhật</a>" +
+                      
                     },
                 },
             ],

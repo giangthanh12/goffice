@@ -19,6 +19,16 @@ class project extends Controller
         $json = $this->model->get_data($status);
         echo json_encode($json);
     }
+    // get levelproject
+    function getLevelProject(){
+        $json = $this->model->getLevelProject();
+        echo json_encode($json);
+    }
+    function getStatusProject() {
+        $json = $this->model->getStatusProject();
+        echo json_encode($json);
+    }
+
     function getStaff() {
         $json = $this->model->getStaff();
         echo json_encode($json);

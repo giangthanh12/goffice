@@ -5,7 +5,7 @@ $url = explode('/', $url);
 session_start();
 date_default_timezone_set("Asia/Ho_Chi_Minh");
 ini_set('display_errors', 1);
-define('HOME', 'http://' . $_SERVER['HTTP_HOST'] . '/goffice');
+define('HOME', 'http://' . $_SERVER['HTTP_HOST'] . '/WEB-G-OFFICE');
 
 
 if ($url[0] == "saveFolder") {
