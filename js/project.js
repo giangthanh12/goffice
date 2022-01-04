@@ -192,11 +192,12 @@ $(function () {
             quill_editor.html('');
             $('#customRadio1').attr('checked','true');
             $('#process').val("");
- 
-           
-            $('#task-due-date').val('DD-MM-YYYY');
-        
+            
             $('#id').val(0); // them du an mac dinh id = 0
+         
+            $('#task-due-date').val('DD-MM-YYYY');
+            $('#level').val('').change();
+            $('#status').val('').change();
             load_select2(taskAssignSelect);
             
         });
@@ -214,7 +215,12 @@ $(function () {
                 "process": {
                     required: true,
                 },
-               
+                "status": {
+                    required: true,
+                },
+                "level": {
+                    required: true,
+                },
                 "task-assigned": {
                     required: true,
                 },
@@ -386,7 +392,7 @@ function load_select(selectId,url,place) {
         success: function (data) {
             var html = '<option value="" disabled selected hidden>'+place+'</option>';
             data.forEach(function (element, index) {
-                html += `<option style="color:${element.color}"  value="${element.id}">${element.text}</option> `;
+                html += `<option style="color:${element.color}"  value="${element.id}"><li>${element.text}</li></option>`;
                 console.log(element.text);
             });
 
@@ -409,24 +415,16 @@ function list_to_do(status = '') {
             var mailread = "";
             var html = "";
             data.forEach(function (element, index) {
-                if(element.process < 33) {
-                   var $color = '#EA5455';
-                }
-                else if (element.process >=33 && element.process < 66)
-                {
-                    var  $color = '#FF9F43';
-                }
-                else {
-                    var  $color = '#00CFE8';
-                }
+                var img = element.avatar ? baseHome + '/users/gemstech/' +element.avatar : baseHome+ '/users/gemstech/uploads/useravatar.png';
                 html += '<li class="todo-item"><div class="todo-title-wrapper"><div class="todo-title-area">';
                 html += '<i data-feather="more-vertical" class="drag-icon"></i><div class="title-wrapper">';
-                html += '<img style="border-radius: 50%;" src="'+  baseHome + '/' +element.avatar + '" alt="" height="32" width="32" /><span class="todo-title" id="'+element.id+'">' + element.name + '</span>&nbsp;';
+                html += '<img style="border-radius: 50%;" src="'+  img + '" alt="" height="32" width="32" /><span class="todo-title" id="'+element.id+'">' + element.name + '</span>&nbsp;';
                 html += '</div></div><div class="todo-item-action"><div class="badge-wrapper mr-1">';
-                html += ` <div class="progress" style="height: 6px; width: 100px; margin-top: 5px; margin-right: 70px;">
-                            <div class="progress-bar" id="process-project" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: ${element.process}%; background:${$color};"></div>
+                html+= `<div class="progress" style="height: 16px; width: 100px; margin-top: 5px; margin-right: 70px; font-size: 8px;">
+                            <div class="progress-bar" role="progressbar" aria-valuenow="${element.process}" aria-valuemin="${element.process}" aria-valuemax="100" style="width: ${element.process}%; background:${element.colorStatus};">
+                            ${element.process}%
+                            </div>
                         </div>`;
-            
                 html += '<div class="badge" style="width: 100px; margin-right: 0.5rem; background-color: rgb(247, 244, 244); color: '+element.colorLevel+'">'+element.nameLevel+'</div>';
                 html += `<small style="width: 70px;" class="text-nowrap text-muted mr-1">${element.deadline}</small>`;
              
@@ -460,7 +458,7 @@ function filter(classname) {
                 data.forEach(function (element, index) {
                    html+= `<div class="custom-control  custom-checkbox mb-1">
                                 <input  type="checkbox" class="custom-control-input input-filter" id="${element.id}" data-value="${element.id}" checked="">
-                                <label class="custom-control-label" for="${element.id}">${element.text}</label>
+                                <label style="font-weight:600;" class="custom-control-label" for="${element.id}">${element.text}</label>
                             </div>`
                 });
 
@@ -483,7 +481,7 @@ function load_status_project() {
             var html = "";
             data.forEach(function (element, index) {
                html+= `<a onclick="filterStatus(this)" href="javascript:void(0)" data-status="${element.id}" class="list-group-item list-group-item-action status-project">
-                            <span style="color:${element.color}" class="align-middle">Dự án ${element.text.toLowerCase()}</span>
+                            <span style="color:${element.color}" class="align-middle">${element.text}</span>
                         </a>`
             });
             $('.list-group-filters').html(html);
@@ -511,25 +509,19 @@ $('.input-filter').on('click', function() {
             var html = "";
             console.log(data);
             data.forEach(function (element, index) {
-                if(element.process < 33) {
-                   var $color = '#EA5455';
-                }
-                else if (element.process >=33 && element.process < 66)
-                {
-                    var  $color = '#FF9F43';
-                }
-                else {
-                    var  $color = '#00CFE8';
-                }
+                var img = element.avatar ? baseHome + '/users/gemstech/' +element.avatar : baseHome+ '/users/gemstech/uploads/useravatar.png';
                 html += '<li class="todo-item"><div class="todo-title-wrapper"><div class="todo-title-area">';
                 html += '<i data-feather="more-vertical" class="drag-icon"></i><div class="title-wrapper">';
                 html += '<img style="border-radius: 50%;" src="'+  baseHome + '/' +element.avatar + '" alt="" height="32" width="32" /><span class="todo-title" id="'+element.id+'">' + element.name + '</span>&nbsp;';
                 html += '</div></div><div class="todo-item-action"><div class="badge-wrapper mr-1">';
-                html += ` <div class="progress" style="height: 6px; width: 100px; margin-top: 5px; margin-right: 70px;">
-                            <div class="progress-bar" id="process-project" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: ${element.process}%; background:${$color};"></div>
+                html+= `<div class="progress" style="height: 16px; width: 100px; margin-top: 5px; margin-right: 70px; font-size: 8px;">
+                            <div class="progress-bar" role="progressbar" aria-valuenow="${element.process}" aria-valuemin="${element.process}" aria-valuemax="100" style="width: ${element.process}%; background:${element.colorStatus};">
+                            ${element.process}%
+                            </div>
                         </div>`;
                 html += '<div class="badge" style="width: 100px; margin-right: 0.5rem; background-color: rgb(247, 244, 244); color: '+element.colorLevel+'">'+element.nameLevel+'</div>';
                 html += `<small style="width: 70px;" class="text-nowrap text-muted mr-1">${element.deadline}</small>`;
+             
                 html += '';
                 html += "</div></li>";
             });

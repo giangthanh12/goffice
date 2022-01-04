@@ -57,6 +57,8 @@ class project extends Controller
         );
       
       $result = $this->model->updateProject($id,$data); // vừa update vừa insert,
+  
+      
       if ($result) {
         $jsonObj['msg'] = "Cập nhật thành công";
         $jsonObj['success'] = true;

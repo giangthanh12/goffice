@@ -34,6 +34,12 @@ $(function () {
                 { data: "" },
             ],
             columnDefs: [
+                {
+                    targets: -4,
+                    render: function (data, type, full, meta) {
+                        return `<span style='font-weight: 600; color:${full['color']}'>${full['name']}</span>`
+                    },
+                },
               
                 {
                     targets: -3,

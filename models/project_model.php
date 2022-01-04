@@ -6,19 +6,21 @@ class project_Model extends Model{
     function get_data($status) {
         if(empty($status)) {
             $query = $this->db->query("SELECT id, image, name, level,process,
-             DATE_FORMAT(deadline,'%d-%m-%Y') as deadline,
-            (SELECT avatar FROM staffs WHERE id=assignerId) AS avatar,
-            (SELECT name FROM projectlevels WHERE id=level) AS nameLevel,
-            (SELECT color FROM projectlevels WHERE id=level) AS colorLevel
-            FROM projects WHERE status > 0 ORDER BY id DESC");
+            DATE_FORMAT(deadline,'%d-%m-%Y') as deadline,
+           (SELECT avatar FROM staffs WHERE id=a.assigneeId) AS avatar,
+           (SELECT name FROM projectlevels WHERE id=a.level) AS nameLevel,
+           (SELECT color FROM projectlevels WHERE id=a.level) AS colorLevel,
+           (SELECT color FROM projectstatus WHERE id=a.status) AS colorStatus
+           FROM projects a WHERE status > 0 ORDER BY id DESC");
         }
         else {
             $query = $this->db->query("SELECT id, image, name, level,process,
             DATE_FORMAT(deadline,'%d-%m-%Y') as deadline,
-            (SELECT avatar FROM staffs WHERE id=assignerId) AS avatar,
-            (SELECT name FROM projectlevels WHERE id=level) AS nameLevel,
-            (SELECT color FROM projectlevels WHERE id=level) AS colorLevel
-            FROM projects WHERE status = $status ORDER BY id DESC");
+           (SELECT avatar FROM staffs WHERE id=a.assigneeId) AS avatar,
+           (SELECT name FROM projectlevels WHERE id=a.level) AS nameLevel,
+           (SELECT color FROM projectlevels WHERE id=a.level) AS colorLevel,
+           (SELECT color FROM projectstatus WHERE id=a.status) AS colorStatus
+           FROM projects a WHERE status > 0 ORDER BY id DESC");
         }
         $row = $query->fetchAll(PDO::FETCH_ASSOC);
         return $row;
