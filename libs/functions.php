@@ -284,6 +284,16 @@ class functions {
         }
         return $randomString;
     }
+    public static function checkFuns($funcs,$link){
+        $checkFun = false;
+        foreach ($funcs as $item){
+            if($item['function'] == $link){
+                $checkFun=true;
+                break;
+            }
+        }
+        return $checkFun;
+    }
 
 }
 ?>

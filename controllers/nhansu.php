@@ -2,18 +2,20 @@
 
 class Nhansu extends Controller
 {
-    private $funs;
+    private $funcs;
+
     function __construct()
     {
         parent::__construct();
         $model = new model();
         $checkMenuRole = $model->checkMenuRole('nhansu');
-        if($checkMenuRole==false)
-            header('location:'.HOME);
+        if ($checkMenuRole == false)
+            header('location:' . HOME);
     }
 
-    function index(){
-        $this->view->funs = $funs = $this->model->getFunctions('nhansu');
+    function index()
+    {
+        $this->view->funs = $this->funcs = $this->model->getFunctions('nhansu');
         require "layouts/header.php";
         $this->view->render("nhansu/index");
         require "layouts/footer.php";
@@ -24,14 +26,16 @@ class Nhansu extends Controller
         $data = $this->model->getnhanvien();
         echo json_encode($data);
     }
-    function getFunctions(){
+
+    function getFunctions()
+    {
         $funs = $this->model->getFunctions('nhansu');
         echo json_encode($funs);
     }
 
     function loaddata()
     {
-        $id=isset($_REQUEST['id'])?$_REQUEST['id']:0;
+        $id = isset($_REQUEST['id']) ? $_REQUEST['id'] : 0;
         $json = $this->model->getdata($id);
         echo json_encode($json);
     }
@@ -40,7 +44,7 @@ class Nhansu extends Controller
     {
         $data = $_REQUEST['data'];
         $id = $_REQUEST['id'];
-        if ($this->model->updateinfo($data,$id)) {
+        if ($this->model->updateinfo($data, $id)) {
             $jsonObj['msg'] = "Cập nhật dữ liệu thành công";
             $jsonObj['success'] = true;
         } else {
@@ -55,16 +59,16 @@ class Nhansu extends Controller
         $id = $_REQUEST['myid'];
         $filename = $_FILES['hinhanh']['name'];
         $hinhanh = '';
-        if ($filename!='') {
+        if ($filename != '') {
             $dir = ROOT_DIR . '/uploads/nhanvien/';
             $file = functions::uploadfile('hinhanh', $dir, $id);
-            if ($file!='')
-                $hinhanh = 'uploads/nhanvien/'.$file;
+            if ($file != '')
+                $hinhanh = 'uploads/nhanvien/' . $file;
         }
-        if ($this->model->thayanh($hinhanh,$id)) {
-            $jsonObj['filename'] = URLFILE."/".$hinhanh;
-            if($id == $_SESSION['user']['staffId'])
-                $_SESSION['user']['avatar'] = URLFILE."/".$hinhanh;
+        if ($this->model->thayanh($hinhanh, $id)) {
+            $jsonObj['filename'] = URLFILE . "/" . $hinhanh;
+            if ($id == $_SESSION['user']['staffId'])
+                $_SESSION['user']['avatar'] = URLFILE . "/" . $hinhanh;
             $jsonObj['msg'] = "Cập nhật dữ liệu thành công";
             $jsonObj['success'] = true;
         } else {
@@ -76,15 +80,22 @@ class Nhansu extends Controller
 
     function them()
     {
-        $data = $_REQUEST['data'];
-        if ($this->model->them($data)) {
-            $jsonObj['msg'] = "Cập nhật dữ liệu thành công";
-            $jsonObj['success'] = true;
+        $checkFun = functions::checkFuns($this->funcs, 'add()');
+        if ($checkFun) {
+            $data = $_REQUEST['data'];
+            if ($this->model->them($data)) {
+                $jsonObj['msg'] = "Cập nhật dữ liệu thành công";
+                $jsonObj['success'] = true;
+            } else {
+                $jsonObj['msg'] = "Lỗi khi cập nhật database";
+                $jsonObj['success'] = false;
+            }
         } else {
-            $jsonObj['msg'] = "Lỗi khi cập nhật database";
+            $jsonObj['msg'] = "Bạn không có quyền sử dụng chức năng này";
             $jsonObj['success'] = false;
         }
         echo json_encode($jsonObj);
+
     }
 
     function xoa()
@@ -94,7 +105,7 @@ class Nhansu extends Controller
             $jsonObj['msg'] = "Cập nhật dữ liệu thành công";
             $jsonObj['success'] = true;
         } else {
-            $jsonObj['msg'] = "Lỗi khi xóa dữ liệu".$id;
+            $jsonObj['msg'] = "Lỗi khi xóa dữ liệu" . $id;
             $jsonObj['success'] = false;
         }
         echo json_encode($jsonObj);
@@ -107,26 +118,27 @@ class Nhansu extends Controller
             $jsonObj['msg'] = "Cập nhật dữ liệu thành công";
             $jsonObj['success'] = true;
         } else {
-            $jsonObj['msg'] = "Lỗi khi cập nhật database".$id;
+            $jsonObj['msg'] = "Lỗi khi cập nhật database" . $id;
             $jsonObj['success'] = false;
         }
         echo json_encode($jsonObj);
     }
 
-    function province() {
+    function province()
+    {
         $data = $this->model->province();
         echo json_encode($data);
     }
 
     /*== check nhan_vien đã có users */
-    function checkUsername() {
+    function checkUsername()
+    {
         $username = $_REQUEST['username'];
         $id = $_REQUEST['id'];
-        if ($this->model->checkUsername($username,$id)>0){
+        if ($this->model->checkUsername($username, $id) > 0) {
             $jsonObj['msg'] = "Email đã tồn tại";
             $jsonObj['success'] = false;
-        }
-        else {
+        } else {
             $jsonObj['msg'] = "Email hợp lệ";
             $jsonObj['success'] = true;
         }
@@ -139,9 +151,9 @@ class Nhansu extends Controller
         $data['staffId'] = $post['nhan_vien'];
         $data['username'] = $post['username'];
         $data['usernameMd5'] = md5($post['username']);
-        $pass =  md5($post['password']);
+        $pass = md5($post['password']);
         $data['password'] = md5($pass);
-        $data['status'] = 1 ;
+        $data['status'] = 1;
 
 
         if ($this->model->them_users($data)) {
@@ -154,13 +166,14 @@ class Nhansu extends Controller
         echo json_encode($jsonObj);
     }
 
-    function update_users(){
+    function update_users()
+    {
         $post = $_REQUEST['data'];
         $id = $post['id_user'];
         $data['username'] = $post['username'];
         $data['usernameMd5'] = md5($post['username']);
 
-        if($post['password'] != "" ){
+        if ($post['password'] != "") {
             $data['password'] = md5(md5($post['password']));
         }
 
@@ -168,7 +181,7 @@ class Nhansu extends Controller
         $data['status'] = $post['tinh_trang'];
         $data['extNum'] = $post['ext_num'];
 
-        if ($this->model->update_users($data,$id)) {
+        if ($this->model->update_users($data, $id)) {
             $jsonObj['msg'] = "Cập nhật dữ liệu thành công";
             $jsonObj['success'] = true;
         } else {
@@ -200,7 +213,8 @@ class Nhansu extends Controller
         echo json_encode($jsonObj);
     }
 
-    function update_nhanvien_info(){
+    function update_nhanvien_info()
+    {
         $post = $_REQUEST['data'];
 
         $nhanvien_id = $post['nhanvien_id'];
@@ -211,7 +225,7 @@ class Nhansu extends Controller
         $data['wechat'] = $post['wechat'];
         $data['linkein'] = $post['linkein'];
 
-        if ($this->model->update_nhanvien_info($data,$nhanvien_id)) {
+        if ($this->model->update_nhanvien_info($data, $nhanvien_id)) {
             $jsonObj['msg'] = "Cập nhật dữ liệu thành công";
             $jsonObj['success'] = true;
         } else {
