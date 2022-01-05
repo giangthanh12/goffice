@@ -200,6 +200,12 @@ $(function () {
             load_select2(taskAssignSelect, baseHome + "/project/getStaff",'Người quản lý dự án');
             load_select2($('#assigneeId'), baseHome + "/project/getStaff",'');
             $('#assigneeId').val([]).change();
+            userFuns.forEach(function(item,value) {
+            if (item.function == 'add') {
+                $('#updateProject').attr('style','display:inline-block');
+            }
+        })
+            
         });
     }
     // Add New ToDo List Item
@@ -276,15 +282,20 @@ $(function () {
     });
 
     // To open todo list item modal on click of item
-    userFuns.forEach(function(item,value) {
-        if(item.function == 'loaddata') {
+
             $(document).on("click", ".todo-task-list-wrapper .todo-item .todo-title", function (e) {
+
                 var validator = $( "#form-modal-todo" ).validate(); // reset form
                 validator.resetForm();
                 newTaskModal.modal("show");
                 addBtn.addClass("d-none");
                 updateBtns.removeClass("d-none");
-                
+                $('#updateProject').attr('style','display:none');
+                 userFuns.forEach(function(item,value) {
+                if (item.function == 'loaddata') {
+                        $('#updateProject').attr('style','display:inline-block');
+                    }
+                })
                 if ($(this).hasClass("completed")) {
                     modalTitle.html('<button type="button" class="btn btn-sm btn-outline-success complete-todo-item waves-effect waves-float waves-light" data-dismiss="modal">Completed</button>');
                 } else {
@@ -316,8 +327,7 @@ $(function () {
                     }
                 });
             });
-        }
-    });
+  
     
 
   

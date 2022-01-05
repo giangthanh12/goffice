@@ -8,11 +8,10 @@ class task_labels extends Controller{
         if ($checkMenuRole == false)
         header('location:' . HOME);
         self::$funcs = $model->getFunctions('task_labels'); 
-        
     }
 
     function index(){
-        $this->view->funs  = $this->model->getFunctions('task_labels');
+        $this->view->funs  = self::$funcs;
         require "layouts/header.php";
         $this->view->render("task_labels/index");
         require "layouts/footer.php";
@@ -61,14 +60,8 @@ class task_labels extends Controller{
 
     function loaddata()
     {
-        if(functions::checkFuns(self::$funcs,'loaddata')) {
         $id = isset($_REQUEST['id'])?$_REQUEST['id']:0;
         $json = $this->model->getdata($id);
-        }
-        else {
-            $json['msg'] = 'Không có quyền truy cập';
-            $json['success'] = false;
-        }
         echo json_encode($json);
     }
     function update() {

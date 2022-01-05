@@ -11,7 +11,7 @@ class project_status extends Controller{
     }
 
     function index(){
-        $this->view->funs  = $this->model->getFunctions('project_status');
+        $this->view->funs  = self::$funcs;
         require "layouts/header.php";
         $this->view->render("project_status/index");
         require "layouts/footer.php";
@@ -69,13 +69,9 @@ class project_status extends Controller{
 
     function loaddata()
     {
-        if(functions::checkFuns(self::$funcs,'loaddata')) {
+     
         $id = isset($_REQUEST['id'])?$_REQUEST['id']:0;
         $json = $this->model->getdata($id);
-        } else {
-            $json['msg'] = 'Không có quyền truy cập';
-            $json['success'] = false;
-        }
         echo json_encode($json);
     }
     function update() {

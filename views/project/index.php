@@ -145,9 +145,9 @@
                                             </select>
                                         </div>
                                         <div class="form-group my-1">
-                                            <?php if(functions::checkFuns($this->funs, 'loaddata')) { ?>
-                                            <button type="submit" class="btn btn-primary">Cập nhật</button>
-                                            <?php } ?>
+                                       
+                                                <button type="submit" style="display:none;" id="updateProject" class="btn btn-primary">Cập nhật</button>
+                                           
                                             <button type="button" class="btn btn-outline-secondary" id="btn_boqua" data-dismiss="modal">Bỏ qua</button>
                                             <?php if(functions::checkFuns($this->funs, 'del')) { ?>
                                                 <button type="button" class="btn btn-danger update-btn d-none" data-dismiss="modal" onclick="del()">Xóa</button>

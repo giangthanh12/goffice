@@ -13,7 +13,7 @@ class project extends Controller
     }
 
     function index(){
-        $this->view->funs  = $this->model->getFunctions('project');
+        $this->view->funs  = self::$funcs;
         require "layouts/header.php";
         $this->view->render("project/index");
         require "layouts/footer.php";
@@ -33,7 +33,6 @@ class project extends Controller
         $json = $this->model->getStatusProject();
         echo json_encode($json);
     }
-
     function getStaff() {
         $json = $this->model->getStaff();
         echo json_encode($json);
