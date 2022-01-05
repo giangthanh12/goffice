@@ -15,7 +15,7 @@ class group_roles_model extends Model
         return $result;
     }
 
-    function getMenus($groupId)
+    function getMenusByGroup($groupId)
     {
         $result = array();
         $query = $this->db->query("SELECT functionIds,menuIds

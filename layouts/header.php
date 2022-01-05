@@ -657,91 +657,17 @@
                 <a class="d-flex align-items-center" href="">
                     <i data-feather="home"></i>
                     <span class="menu-title text-truncate" data-i18n="Dashboards">Dashboard</span>
+                </a>
             </li>
-            <!--                <li class=" navigation-header">-->
-            <!--                    <span data-i18n="Apps &amp; Pages">Truy cập nhanh</span>-->
-            <!--                    <i data-feather="more-horizontal"></i>-->
-            <!--                </li>-->
-            <!--                <li class=" nav-item">-->
-            <!--                    <a class="d-flex align-items-center" href="chatbox">-->
-            <!--                        <i data-feather="message-square"></i>-->
-            <!--                        <span class="menu-title text-truncate" data-i18n="Chat">Chat nội bộ</span>-->
-            <!--                    </a>-->
-            <!--                </li>-->
-            <!--                <li class=" nav-item">-->
-            <!--                    <a class="d-flex align-items-center" href="inbox">-->
-            <!--                        <i data-feather="mail"></i>-->
-            <!--                        <span class="menu-title text-truncate" data-i18n="Email">Thông báo</span>-->
-            <!--                    </a>-->
-            <!--                </li>-->
-            <!--                <li class=" nav-item">-->
-            <!--                    <a class="d-flex align-items-center" href="congviec">-->
-            <!--                        <i data-feather="check-square"></i>-->
-            <!--                        <span class="menu-title text-truncate" data-i18n="Todo">Công việc</span>-->
-            <!--                    </a>-->
-            <!--                </li>-->
-            <!--                <li class=" nav-item">-->
-            <!--                    <a class="d-flex align-items-center" href="todo">-->
-            <!--                        <i data-feather="check-square"></i>-->
-            <!--                        <span class="menu-title text-truncate" data-i18n="Todo">Todo</span>-->
-            <!--                    </a>-->
-            <!--                </li>-->
-            <!--                <li class=" nav-item">-->
-            <!--                    <a class="d-flex align-items-center" href="calendar">-->
-            <!--                        <i data-feather="calendar"></i>-->
-            <!--                        <span class="menu-title text-truncate" data-i18n="Calendar">Lịch làm việc</span>-->
-            <!--                    </a>-->
-            <!--                </li>-->
-            <!--                <li class=" nav-item">-->
-            <!--                    <a class="d-flex align-items-center" href="#">-->
-            <!--                        <i data-feather="file-text"></i>-->
-            <!--                        <span class="menu-title text-truncate" data-i18n="Invoice">Báo cáo</span>-->
-            <!--                    </a>-->
-            <!--                    <ul class="menu-content">-->
-            <!--                        <li>-->
-            <!--                            <a class="d-flex align-items-center" href="app-invoice-list.html">-->
-            <!--                                <i data-feather="circle"></i>-->
-            <!--                                <span class="menu-item text-truncate" data-i18n="List">Công việc</span>-->
-            <!--                            </a>-->
-            <!--                        </li>-->
-            <!--                        <li>-->
-            <!--                            <a class="d-flex align-items-center" href="baocaodoanhthu">-->
-            <!--                                <i data-feather="circle"></i>-->
-            <!--                                <span class="menu-item text-truncate" data-i18n="Preview">Doanh thu</span>-->
-            <!--                            </a>-->
-            <!--                        </li>-->
-            <!--                        <li>-->
-            <!--                            <a class="d-flex align-items-center" href="app-invoice-edit.html">-->
-            <!--                                <i data-feather="circle"></i>-->
-            <!--                                <span class="menu-item text-truncate" data-i18n="Edit">KPI</span>-->
-            <!--                            </a>-->
-            <!--                        </li>-->
-            <!--                        <li>-->
-            <!--                            <a class="d-flex align-items-center" href="chamcong">-->
-            <!--                                <i data-feather="circle"></i>-->
-            <!--                                <span class="menu-item text-truncate" data-i18n="Add">Chấm công</span>-->
-            <!--                            </a>-->
-            <!--                        </li>-->
-            <!--                        <li>-->
-            <!--                            <a class="d-flex align-items-center" href="bangchamcong">-->
-            <!--                                <i data-feather="circle"></i>-->
-            <!--                                <span class="menu-item text-truncate" data-i18n="Add">Tổng hợp chấm công</span>-->
-            <!--                            </a>-->
-            <!--                        </li>-->
-            <!--                        <li>-->
-            <!--                            <a class="d-flex align-items-center" href="bangluong">-->
-            <!--                                <i data-feather="circle"></i>-->
-            <!--                                <span class="menu-item text-truncate" data-i18n="Add">Bảng lương</span>-->
-            <!--                            </a>-->
-            <!--                        </li>-->
-            <!--                    </ul>-->
-            <!--                </li>-->
-            <?php if ($_SESSION['user']['classify'] == 1) { ?>
-                <li class=" nav-item">
-                    <a class="d-flex align-items-center" href="nhacungcap">
-                        <!--                        <i data-feather='users'></i>-->
-                        <!--                        <span class="menu-title text-truncate" data-i18n="Doitac">Nhà cung cấp</span>-->
-                    </a>
+            <?php
+            $url = isset($_GET['url']) ? $_GET['url'] : null;
+            $url = rtrim($url, '/');
+            $url = explode('/', $url);
+            if ($_SESSION['user']['classify'] == 1) {
+                ?>
+                <li class="navigation-header">
+                    <span data-i18n="Admin">Admin</span>
+                    <i data-feather="more-horizontal"></i>
                 </li>
                 <li class=" nav-item">
                     <a class="d-flex align-items-center" href="#">
@@ -749,13 +675,13 @@
                         <span class="menu-title text-truncate" data-i18n="File Manager">Quản lý users</span>
                     </a>
                     <ul class="menu-content">
-                        <li>
+                        <li <?=($url[0]=='group_roles')?'class="active"':'' ?> >
                             <a class="d-flex align-items-center" href="group_roles">
                                 <i data-feather="user"></i>
                                 <span class="menu-item text-truncate" data-i18n="LoginV1">Nhóm quyền hạn</span>
                             </a>
                         </li>
-                        <li>
+                        <li <?=($url[0]=='listusers')?'class="active"':'' ?>>
                             <a class="d-flex align-items-center" href="listusers">
                                 <i data-feather="user"></i>
                                 <span class="menu-item text-truncate" data-i18n="LoginV1">Danh sách users</span>
@@ -764,41 +690,96 @@
                     </ul>
                 </li>
             <?php } ?>
-            <li class=" navigation-header">
-                <span data-i18n="Apps &amp; Pages">PLATFORM</span>
+<!--            Truy cập nhanh-->
+            <li class="navigation-header">
+                <span data-i18n="Truy cập nhanh">Truy cập nhanh</span>
                 <i data-feather="more-horizontal"></i>
-            </li>
-            <li class=" nav-item">
-                <a class="d-flex align-items-center" href="nhacungcap">
-                    <!--                        <i data-feather='users'></i>-->
-                    <!--                        <span class="menu-title text-truncate" data-i18n="Doitac">Nhà cung cấp</span>-->
-                </a>
             </li>
             <?php
             $model = new model();
-            $menus = $model->getMenus(0);
+            $menus = $model->getMenus(0, 3);
             foreach ($menus as $parMenu) {
+                $hasSub = 0;
+                if ($parMenu['link'] == $url[0])
+                    $active = 'active';
+                else
+                    $active = '';
+                $parId = $parMenu['id'];
+                $subMenus = $model->getMenus($parId, 3);
+                $hasSub = count($subMenus);
                 ?>
-                <li class=" nav-item">
+                <li class="<?=$active ?> nav-item">
                     <a class="d-flex align-items-center" href="<?= $parMenu['link'] ?>">
                         <i class="<?= $parMenu['icon'] ?>"></i>
-                        <span class="menu-title text-truncate" data-i18n="File Manager"><?= $parMenu['name'] ?></span>
+                        <span class="menu-title text-truncate" data-i18n="<?= $parMenu['name'] ?>"><?= $parMenu['name'] ?></span>
                     </a>
-                    <ul class="menu-content">
-                        <?php
-                        $parId = $parMenu['id'];
-                        $subMenus = $model->getMenus($parId);
-                        foreach ($subMenus as $subMenu) {
-                            ?>
-                            <li>
-                                <a class="d-flex align-items-center" href="<?= $subMenu['link'] ?>">
-                                    <i class="<?= $subMenu['icon'] ?>"></i>
-                                    <span class="menu-item text-truncate"
-                                          data-i18n="LoginV1"><?= $subMenu['name'] ?></span>
-                                </a>
-                            </li>
-                        <?php } ?>
-                    </ul>
+                    <?php
+                    if ($hasSub > 0) {
+                        ?>
+                        <ul class="menu-content">
+                            <?php
+                            foreach ($subMenus as $subMenu) {
+                                if ($subMenu['link'] == $url[0])
+                                    $activeSub = 'class="active"';
+                                else
+                                    $activeSub = '';
+                                ?>
+                                <li <?= $activeSub ?>>
+                                    <a class="d-flex align-items-center" href="<?= $subMenu['link'] ?>">
+                                        <i class="<?= $subMenu['icon'] ?>"></i>
+                                        <span class="menu-item text-truncate"
+                                              data-i18n="<?= $subMenu['name'] ?>"><?= $subMenu['name'] ?></span>
+                                    </a>
+                                </li>
+                            <?php } ?>
+                        </ul>
+                    <?php } ?>
+                </li>
+            <?php } ?>
+<!--            Platform-->
+            <li class="navigation-header">
+                <span data-i18n="Platform">Platform</span>
+                <i data-feather="more-horizontal"></i>
+            </li>
+            <?php
+            $model = new model();
+            $menus = $model->getMenus(0, 1);
+            foreach ($menus as $parMenu) {
+                $hasSub = 0;
+                if ($parMenu['link'] == $url[0])
+                    $active = 'active';
+                else
+                    $active = '';
+                $parId = $parMenu['id'];
+                $subMenus = $model->getMenus($parId, 1);
+                $hasSub = count($subMenus);
+                ?>
+                <li class="<?=$active ?> nav-item">
+                    <a class="d-flex align-items-center" href="<?= $parMenu['link'] ?>">
+                        <i class="<?= $parMenu['icon'] ?>"></i>
+                        <span class="menu-title text-truncate" data-i18n="<?= $parMenu['name'] ?>"><?= $parMenu['name'] ?></span>
+                    </a>
+                    <?php
+                    if ($hasSub > 0) {
+                        ?>
+                        <ul class="menu-content">
+                            <?php
+                            foreach ($subMenus as $subMenu) {
+                                if ($subMenu['link'] == $url[0])
+                                    $activeSub = 'class="active"';
+                                else
+                                    $activeSub = '';
+                                ?>
+                                <li <?= $activeSub ?>>
+                                    <a class="d-flex align-items-center" href="<?= $subMenu['link'] ?>">
+                                        <i class="<?= $subMenu['icon'] ?>"></i>
+                                        <span class="menu-item text-truncate"
+                                              data-i18n="<?= $subMenu['name'] ?>"><?= $subMenu['name'] ?></span>
+                                    </a>
+                                </li>
+                            <?php } ?>
+                        </ul>
+                    <?php } ?>
                 </li>
             <?php } ?>
         </ul>
