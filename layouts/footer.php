@@ -32,6 +32,8 @@
 <script src="<?=HOME?>/styles/app-assets/js/core/app-menu.min.js"></script>
 <script src="<?=HOME?>/styles/app-assets/js/core/app.min.js"></script>
 <script src="<?=HOME?>/styles/app-assets/vendors/js/forms/select/select2.full.min.js"></script>
+<script src="<?=HOME?>/styles/app-assets/js/scripts/forms/form-select2.js"></script>
+
 <script src="<?=HOME?>/styles/app-assets/vendors/js/extensions/toastr.min.js"></script>
 <script src="<?=HOME?>/styles/app-assets/vendors/js/extensions/sweetalert2.all.min.js"></script>
 
