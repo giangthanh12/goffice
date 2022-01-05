@@ -9,9 +9,11 @@
                     <div class="todo-app-menu">
                         <div class="sidebar-menu-list">
                             <div class="add-task">
+                                <?php if(functions::checkFuns($this->funs,'add')) { ?>
                                 <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#new-task-modal">
                                     Thêm dự án
                                 </button>
+                                <?php } ?>
                             </div>
                             <div class="list-group list-group-filters">
                                
@@ -91,13 +93,22 @@
                                             </div>
 
                                             <div class="form-group position-relative">
-                                                <label for="task-assigned" class="form-label d-block">Giao cho</label>
-                                                <select class="select2 form-control" id="task-assigned" name="task-assigned"></select>
+                                                <label for="managerId" class="form-label d-block">Quản lý dự án</label>
+                                                <select  class="select2 form-control" id="managerId" name="managerId"></select>
                                             </div>
+                                    
+                                            
+                                                <div class="form-group">
+                                                <label for="assigneeId">Giao cho</label>
+                                                    <select class="select2 form-control" multiple="multiple"
+                                                            id="assigneeId" name="assigneeId">
+                                                    
+                                                    </select>
+                                                </div>
+                                          
                                             <div class="form-group">
                                                 <label for="process" class="form-label">Tiến độ(%)</label>
                                                 <input type="text"  id="process" name="process" class="process form-control" />
-                                               
                                             </div>
 
                                             <div class="form-group">
@@ -134,9 +145,14 @@
                                             </select>
                                         </div>
                                         <div class="form-group my-1">
-                                            <button type="submit" class="btn btn-primary">Cập nhật</button>
+                                       
+                                                <button type="submit" style="display:none;" id="updateProject" class="btn btn-primary">Cập nhật</button>
+                                           
                                             <button type="button" class="btn btn-outline-secondary" id="btn_boqua" data-dismiss="modal">Bỏ qua</button>
-                                            <button type="button" class="btn btn-danger update-btn d-none" data-dismiss="modal" onclick="del()">Xóa</button>
+                                            <?php if(functions::checkFuns($this->funs, 'del')) { ?>
+                                                <button type="button" class="btn btn-danger update-btn d-none" data-dismiss="modal" onclick="del()">Xóa</button>
+                                            <?php } ?>
+                                          
                                         </div>
                                     </div>
                                 </form>
@@ -150,4 +166,9 @@
         </div>
     </div>
 </div>
+<script>
+    var userFuns = JSON.parse('<?=json_encode($this->funs)?>');
+    console.log(userFuns);
+</script>
+
 <script src="<?= HOME ?>/js/project.js"></script>
