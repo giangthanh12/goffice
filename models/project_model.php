@@ -7,7 +7,7 @@ class project_Model extends Model{
         if(empty($status)) {
             $query = $this->db->query("SELECT id, image, name, level,process,
             DATE_FORMAT(deadline,'%d-%m-%Y') as deadline,
-           (SELECT avatar FROM staffs WHERE id=a.assigneeId) AS avatar,
+           (SELECT avatar FROM staffs WHERE id=a.managerId) AS avatar,
            (SELECT name FROM projectlevels WHERE id=a.level) AS nameLevel,
            (SELECT color FROM projectlevels WHERE id=a.level) AS colorLevel,
            (SELECT color FROM projectstatus WHERE id=a.status) AS colorStatus
@@ -16,7 +16,7 @@ class project_Model extends Model{
         else {
             $query = $this->db->query("SELECT id, image, name, level,process,
             DATE_FORMAT(deadline,'%d-%m-%Y') as deadline,
-           (SELECT avatar FROM staffs WHERE id=a.assigneeId) AS avatar,
+           (SELECT avatar FROM staffs WHERE id=a.managerId) AS avatar,
            (SELECT name FROM projectlevels WHERE id=a.level) AS nameLevel,
            (SELECT color FROM projectlevels WHERE id=a.level) AS colorLevel,
            (SELECT color FROM projectstatus WHERE id=a.status) AS colorStatus
@@ -73,7 +73,7 @@ class project_Model extends Model{
     function filterLevel($filter) {
         $query = $this->db->query("SELECT id, image, name, level,process,
             DATE_FORMAT(deadline,'%d-%m-%Y') as deadline,
-            (SELECT avatar FROM staffs WHERE id=a.assigneeId) AS avatar,
+            (SELECT avatar FROM staffs WHERE id=a.managerId) AS avatar,
            (SELECT name FROM projectlevels WHERE id=a.level) AS nameLevel,
            (SELECT color FROM projectlevels WHERE id=a.level) AS colorLevel,
            (SELECT color FROM projectstatus WHERE id=a.status) AS colorStatus

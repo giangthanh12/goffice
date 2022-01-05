@@ -13,7 +13,7 @@ $(function () {
         addTaskBtn = $(".add-task button"),
         updateBtns = $(".update-btn"),
         taskDesc = $("#task-desc"),
-        taskAssignSelect = $("#task-assigned"), // trong form
+        taskAssignSelect = $("#managerId"), // trong form
         taskTag = $("#task-tag"),
         overlay = $(".body-content-overlay"),
         menuToggle = $(".menu-toggle"),
@@ -31,7 +31,8 @@ $(function () {
     list_to_do();
     load_select($('#level'), baseHome + '/project/getLevelProject','Cấp độ dự án');
     load_select($('#status'), baseHome + '/project/getStatusProject', 'Trạng thái dự án');
-
+    
+    
     $('#level').change(function() {
         changeColorLevel();
     })
@@ -196,8 +197,9 @@ $(function () {
             $('#task-due-date').val('DD-MM-YYYY');
             $('#level').val('').change();
             $('#status').val('').change();
-            load_select2(taskAssignSelect);
-            
+            load_select2(taskAssignSelect, baseHome + "/project/getStaff",'Người quản lý dự án');
+            load_select2($('#assigneeId'), baseHome + "/project/getStaff",'');
+            $('#assigneeId').val([]).change();
         });
     }
     // Add New ToDo List Item
@@ -219,7 +221,10 @@ $(function () {
                 "level": {
                     required: true,
                 },
-                "task-assigned": {
+                "managerId": {
+                    required: true,
+                },
+                "assigneeId": {
                     required: true,
                 },
                 "task-due-date": {
@@ -233,10 +238,9 @@ $(function () {
             var isValid = newTaskForm.valid();
             if (isValid) {
                 var name = $('#name').val();
-                var assigneedId = $("#task-assigned").val();
+                var managerId = $("#managerId").val();
+                var assigneeId = $('#assigneeId').val();
                 var process = $("#process").val();
-                // var myRadio = $("input[name=customRadio]");
-                // var level = myRadio.filter(":checked").val();
                 var date = $(".sidebar-todo-modal .task-due-date").val();
                 var description = taskDesc.find(".ql-editor p").html();
                 var status = $("#status").val();
@@ -246,7 +250,7 @@ $(function () {
                 $.ajax({
                     type: "POST",
                     dataType: "json",
-                    data: { id: id, name: name, assigneedId: assigneedId, process: process, level: level, date: date, description: description, status:status },
+                    data: { id: id, name: name, assigneeId:assigneeId, managerId: managerId, process: process, level: level, date: date, description: description, status:status },
                     url: baseHome + "/project/update",
                     success: function (data) {
                         if (data.success == true) {
@@ -272,43 +276,49 @@ $(function () {
     });
 
     // To open todo list item modal on click of item
-    $(document).on("click", ".todo-task-list-wrapper .todo-item .todo-title", function (e) {
-        	
-        var validator = $( "#form-modal-todo" ).validate(); // reset form
-        validator.resetForm();
-        newTaskModal.modal("show");
-        addBtn.addClass("d-none");
-        updateBtns.removeClass("d-none");
-        
-        if ($(this).hasClass("completed")) {
-            modalTitle.html('<button type="button" class="btn btn-sm btn-outline-success complete-todo-item waves-effect waves-float waves-light" data-dismiss="modal">Completed</button>');
-        } else {
-          
-            modalTitle.html('Chi tiết dự án');
+    userFuns.forEach(function(item,value) {
+        if(item.function == 'loaddata') {
+            $(document).on("click", ".todo-task-list-wrapper .todo-item .todo-title", function (e) {
+                var validator = $( "#form-modal-todo" ).validate(); // reset form
+                validator.resetForm();
+                newTaskModal.modal("show");
+                addBtn.addClass("d-none");
+                updateBtns.removeClass("d-none");
+                
+                if ($(this).hasClass("completed")) {
+                    modalTitle.html('<button type="button" class="btn btn-sm btn-outline-success complete-todo-item waves-effect waves-float waves-light" data-dismiss="modal">Completed</button>');
+                } else {
+                  
+                    modalTitle.html('Chi tiết dự án');
+                }
+                var id = this.id;
+                $.ajax({
+                    type: "GET",
+                    dataType: "json",
+                    data: {id: id},
+                    url: baseHome + "/project/getitem",
+                    success: function (obj) {
+                        newTaskForm.find(".new-todo-item-title").val(obj.name);
+                        var quill_editor = $("#task-desc .ql-editor p");
+                        quill_editor.html(obj.description);
+                        $('#task-due-date').val(obj.deadline);
+                        $('#customRadio'+obj.level).attr('checked','true');
+                        $('#id').val(obj.id);
+                        $('#status').val(obj.status);
+                        $('#level').val(obj.level);
+                        $('#process').val(obj.process);
+                        load_select2(taskAssignSelect, baseHome + "/project/getStaff",'Người quản lý dự án');
+                        load_select2($('#assigneeId'), baseHome + "/project/getStaff",'');
+                        $(taskAssignSelect).val(obj.managerId);
+                        $('#assigneeId').val(obj.assigneeId.split(','));
+                        changeColorLevel();
+                        changeColorStatus();
+                    }
+                });
+            });
         }
-        var id = this.id;
-        $.ajax({
-            type: "GET",
-            dataType: "json",
-            data: {id: id},
-            url: baseHome + "/project/getitem",
-            success: function (obj) {
-                newTaskForm.find(".new-todo-item-title").val(obj.name);
-                var quill_editor = $("#task-desc .ql-editor p");
-                quill_editor.html(obj.description);
-                $('#task-due-date').val(obj.deadline);
-                $('#customRadio'+obj.level).attr('checked','true');
-                $('#id').val(obj.id);
-                $('#status').val(obj.status);
-                $('#level').val(obj.level);
-                $('#process').val(obj.process);
-                load_select2(taskAssignSelect);
-                $("#task-assigned").val(obj.assigneeId);
-                changeColorLevel();
-                changeColorStatus();
-            }
-        });
     });
+    
 
   
     // Tìm kiếm dự án
@@ -361,14 +371,16 @@ $(window).on("resize", function () {
 });
 
 // load nhân viên
-function load_select2(select2) {
+function load_select2(select2, url, place) {
     $.ajax({
         type: "GET",
         dataType: "json",
         async: false,
-        url: baseHome + "/project/getStaff",
+        url: url,
         success: function (data) {
-            var html = "";
+           var html ='';
+            if(place != '')
+            html = '<option value="" disabled selected hidden>'+place+'</option>';
             data.forEach(function (element, index) {
                 if (element.selected==true) 
                 var select = 'selected';
