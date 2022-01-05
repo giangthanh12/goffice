@@ -92,8 +92,7 @@ class project extends Controller
           $result = $this->model->updateProject($id,$data); // vừa update vừa insert,
         }
         else {
-            echo 1;
-            return;
+           
             $result = false;
         }
       if ($result) {
