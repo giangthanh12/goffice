@@ -18,7 +18,6 @@ class Auth_Model extends Model{
         else
             return [];
     }
-
     function updateDeadline(){
         $today = date('Y-m-d',strtotime('+ 2 day'));
         $query = $this->update("task", ['status'=>3,'label'=>'Deadline'], " status IN (1,2) AND deadline<'$today' ");

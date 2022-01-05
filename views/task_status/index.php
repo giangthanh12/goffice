@@ -15,7 +15,7 @@
                         <table class="user-list-table table">
                             <thead class="thead-light">
                                 <tr>
-                                    <th>Label Task</th>
+                                    <th>Task Status</th>
                                     <th>Mã màu</th>
                                     <th>Trạng thái</th>
                                     <th>Thao tác</th>
@@ -41,7 +41,7 @@
                                             <form class="form-validate" enctype="multipart/form-data" id="dg">
                                                 <div class="row mt-1">
                                                     <div class="col-md-12 form-group">
-                                                    <label for="link">Label Task</label>
+                                                    <label for="link">Task status</label>
                                                         <input id="name" name="name" type="text" class="form-control" />
                                                     </div>
                                                     <div class="col-md-12 form-group">
