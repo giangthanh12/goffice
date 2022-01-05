@@ -51,6 +51,31 @@ class Model
     }
 
     /////////////////////////////////// end cac ham phu khac /////////////////////////////////////////
+    function sendmail($from, $tolist, $cclist, $bcc, $subject, $noidung, $textpart)
+    {
+        $mailjetApiKey = '2af6c853730029edd01747dfb4a82947';
+        $mailjetApiSecret = '045cdbb126cc83131834e072d226bdb0';
+        $messageData = [
+            'Messages' => [[
+                'From' => $from,
+                'To' => $tolist,
+                "Cc" => $cclist,
+                "Bcc" => $bcc,
+                'Subject' => $subject,
+                'TextPart' => $textpart,
+                'HTMLPart' => $noidung
+            ]]
+        ];
+        $jsonData = json_encode($messageData);
+        $ch = curl_init('https://api.mailjet.com/v3.1/send');
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
+        curl_setopt($ch, CURLOPT_USERPWD, "{$mailjetApiKey}:{$mailjetApiSecret}");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json', 'Content-Length: ' . strlen($jsonData)]);
+        $response = curl_exec($ch);
+        return $response;
+    }
     function getMenus($parentId,$type)
     {
         $classUser = $_SESSION['user']['classify'];
@@ -156,5 +181,3 @@ class Model
             return false;
     }
 }
-
-?>

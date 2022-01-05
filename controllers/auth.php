@@ -133,7 +133,7 @@ class auth extends Controller
         }
         $data = [
           'password' => md5(md5($newPass)),
-          // 'activeCode' => ''
+          'activeCode' => ''
         ];
         $result = $this->model->changePass($userId, $data);
         if ($result == 0) {
