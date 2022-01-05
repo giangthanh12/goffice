@@ -5,7 +5,7 @@ $url = explode('/', $url);
 session_start();
 date_default_timezone_set("Asia/Ho_Chi_Minh");
 ini_set('display_errors', 1);
-define('HOME', 'http://' . $_SERVER['HTTP_HOST'] . '/WEB-G-OFFICE');
+define('HOME', 'http://' . $_SERVER['HTTP_HOST'] . '/web-g-office');
 
 
 if ($url[0] == "saveFolder") {
@@ -38,8 +38,13 @@ if (isset($_SESSION['folder'])) {
         $app = new bootstrap();
     }
 } else {
-
-    require "views/index/login.php";
+    if($url[0] == "forgetPassword") {
+        require "views/index/forgetPassword.php";
+    } elseif($url[0] == "changePassword") {
+        require "views/index/changePassword.php";
+    } else {
+        require "views/index/login.php";
+    }
 }
 // }
 ?>

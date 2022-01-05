@@ -9,6 +9,14 @@ class Bootstrap
         $url = explode('/', $url);
         $folder = $_SESSION['folder'];
         if (file_exists('users/' . $folder . '/startup.php') == false) {
+            if($url[0] == "forgetPassword") {
+                require "views/index/forgetPassword.php";
+                return false;
+            }
+            if($url[0] == "changePassword") {
+                require "views/index/changePassword.php";
+                return false;
+            }
             if ($url[0] != "auth")
                 require "views/index/login.php";
             else {
@@ -18,22 +26,22 @@ class Bootstrap
             }
             return false;
         }
-        if ((!isset($_SESSION[SID]))) {
+        if ($url[0] == "forgetPassword") {
+            require "views/index/forgetPassword.php";
+            return false;
+        }
+        if($url[0] == "changePassword") {
+            require "views/index/changePassword.php";
+            return false;
+        }
+        if (!isset($_SESSION[SID])) {
             if (empty($url[0])) {
                 require "views/index/login.php";
                 return false;
-            } 
-            
-            elseif($url[0] == "forgetPassword") {
-                require "views/index/forgetPassword.php";
-                return false;
-                
-            }
-            elseif ($url[0] != "auth" || empty($url[1])) {
+            } elseif ($url[0] != "auth" || empty($url[1])) {
                 header('Location: ' . HOME);
                 return false;
             }
-
         }
         if (empty($url[0])) {
             $url[0] = "index";

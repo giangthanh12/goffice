@@ -21,7 +21,23 @@ $(function () {
         modal = $("#updateinfo"),
         form = $("#dg");
     // Users List datatable
-
+    var button = [];
+    let i = 0;
+    userFuns.forEach(function (item,index){
+        if(item.type==1) {
+            button[i] = {
+                text: item.name,
+                className: "add-new btn btn-" + item.color + " mt-50",
+                init: function (api, node, config) {
+                    $(node).removeClass("btn-secondary");
+                },
+                action: function (e, dt, node, config) {
+                    actionMenu(item.function);
+                }
+            };
+            i++;
+        }
+    })
 
     if (dtUserTable.length) {
         dtUserTable.DataTable({
@@ -65,12 +81,13 @@ $(function () {
                     orderable: false,
                     render: function (data, type, full, meta) {
                         var html = '';
-                        html += '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" title="Chỉnh sửa" onclick="loaddata(' + full['id'] + ')">';
-                        html += '<i class="fas fa-pencil-alt"></i>';
-                        html += '</button> &nbsp;';
-                        html += '<button type="button" class="btn btn-icon btn-outline-danger waves-effect" title="Xóa" id="confirm-text" onclick="xoa(' + full['id'] + ')">';
-                        html += '<i class="fas fa-trash-alt"></i>';
-                        html += '</button>';
+                        userFuns.forEach(function (item){
+                            if(item.type==2) {
+                                html += '<button type="button" class="btn btn-icon btn-outline-' + item.color + ' waves-effect"  title="'+item.name+'" onclick="' + item.function + '(' + full['id'] + ')">';
+                                html += '<i class="' + item.icon + '"></i>';
+                                html += '</button> &nbsp;';
+                            }
+                        });
                         return html;
                     },
                     width: 100
@@ -97,29 +114,23 @@ $(function () {
                 },
             },
             // Buttons with Dropdown// tạo một button thêm mới
-            buttons: [
-                {
-                    text: "Thêm mới",
-                    className: "add-new btn btn-primary mt-50",
-                    init: function (api, node, config) {
-                        $(node).removeClass("btn-secondary"); 
-                    },
-                    action: function (e, dt, node, config) {
-                        $("#updateinfo").modal('show');
-                        $(".modal-title").html('Thêm trạng thái cho task');
-                        $('#name').val('');
-                        $('#color').val('');
-                        $('#status').val('2').attr("disabled", true);
-                        // $('#ghi_chu').val('');
-                        url = baseHome + "/task_status/add";
-                    },
-                },
-               
-            ],
+            buttons: [button],
         });
 
     }
-
+    function actionMenu(func){
+        if(func=='add')
+            add();
+    }
+    function add(){
+        $("#updateinfo").modal('show');
+        $(".modal-title").html('Thêm trạng thái cho task');
+        $('#name').val('');
+        $('#color').val('');
+        $('#status').val('2').attr("disabled", true);
+        // $('#ghi_chu').val('');
+        url = baseHome + "/task_status/add";
+    }
     // Check Validity
     function checkValidity(el) {
         if (el.validate().checkForm()) {
@@ -208,7 +219,7 @@ function saveStatusTask() {
     });
 }
 
-function xoa(id) {
+function del(id) {
     Swal.fire({
         title: 'Xóa dữ liệu',
         text: "Bạn có chắc chắn muốn xóa!",

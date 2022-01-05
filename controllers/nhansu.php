@@ -42,6 +42,7 @@ class Nhansu extends Controller
 
     function updateinfo()
     {
+    
         $data = $_REQUEST['data'];
         $id = $_REQUEST['id'];
         if ($this->model->updateinfo($data, $id)) {

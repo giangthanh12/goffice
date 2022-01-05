@@ -1,5 +1,5 @@
 <!-- <link rel="stylesheet" type="text/css" href="<?= HOME ?>/styles/app-assets/css/pages/app-kanban.css"> -->
-<script src="<?= HOME ?>/js/task_labels.js"></script>
+
 
 <div class="app-content content">
     <div class="content-overlay"></div>
@@ -76,3 +76,9 @@
         </div>
     </div>
 </div>
+<script>
+    var userFuns = JSON.parse('<?=json_encode($this->funs)?>');
+    console.log(userFuns);
+</script>
+
+<script src="<?= HOME ?>/js/task_labels.js"></script>
