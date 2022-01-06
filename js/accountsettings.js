@@ -21,9 +21,9 @@ $(function () {
 
             let social = data.social
             if (staffInfo.avatar!='')
-                $('#avatar').attr('src', staffInfo.avatar);
+                $('#avatar').attr('src', baseUrlFile+'/'+staffInfo.avatar);
             else
-                $('#avatar').attr('src', baseUrlFile + '/uploads/avatar-s-11.jpg');
+                $('#avatar').attr('src', baseHome + '/layouts/useravatar.png');
             $('#username').val(staffInfo.email);
             $('#name').val(staffInfo.name);
             $('#email').val(staffInfo.email);
@@ -81,8 +81,8 @@ function thayanh() {
         success: function (data) {
             if (data.success) {
                 notyfi_success(data.msg);
-                $('#avatar').attr('src', data.filename);
-                $('#hungsua2').attr('src', data.filename);
+                $('#avatar').attr('src', baseUrlFile+'/'+data.filename);
+                $('#hungsua2').attr('src', baseUrlFile+'/'+data.filename);
             }
             else
                 notify_error(data.msg);
@@ -96,8 +96,8 @@ function xoaanh() {
         url: baseHome + "/accountsettings/xoaanh",
         success: function (data) {
             if (data.success){
-                $('#avatar').attr('src', baseUrlFile + '/uploads/avatar-s-11.jpg');
-                $('#hungsua2').attr('src', baseUrlFile + '/uploads/avatar-s-11.jpg');
+                $('#avatar').attr('src', baseHome + '/layouts/useravatar.png');
+                $('#hungsua2').attr('src', baseHome + '/layouts/useravatar.png');
             }
         },
     });

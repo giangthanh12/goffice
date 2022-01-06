@@ -11,7 +11,6 @@ class accountsettings_Model extends Model
     {
         $result = array();
         $query = $this->db->query("SELECT *,
-        IF(avatar='',CONCAT('" . URLFILE . "','/uploads/useravatar.png'),CONCAT('" . URLFILE . "/',avatar)) AS avatar,
         DATE_FORMAT(birthday,'%d/%m/%Y') AS ngaysinh,
         DATE_FORMAT(idDate,'%d/%m/%Y') AS ngaycap
         FROM staffs WHERE id=$id");
