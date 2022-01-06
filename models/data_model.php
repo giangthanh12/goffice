@@ -6,21 +6,6 @@ class Data_Model extends Model
         parent::__construct();
     }
 
-    // function listAll()
-    // {
-    //     $result = array();
-    //     $result['data'] = [];
-    //     $dieukien = " WHERE status > 0 AND status != 6 ";
-
-    //     $query = $this->db->query("SELECT *
-    //         FROM data $dieukien ");
-    //     $temp = $query->fetchAll(PDO::FETCH_ASSOC);
-    //     if ($temp) {
-    //         $result['data'] = $temp;
-    //     }
-    //     return $result;
-    // }
-
     function listObj($keyword, $nhanvien, $tungay, $denngay, $offset, $rows)
     {
         $result = array();
@@ -61,30 +46,6 @@ class Data_Model extends Model
         }
         return $result;
     }
-
-    // function listObjApi($keyword, $offset, $rows)
-    // {
-    //     $result = array();
-    //     $result['data'] = [];
-    //     $dieukien = " WHERE status > 0 AND status != 6 AND status != 9 ";
-    //     if ($keyword != '') {
-    //         $dieukien .= " AND name LIKE '%$keyword%' OR dien_thoai LIKE '%$keyword%' ";
-    //     }
-
-    //     $query = $this->db->query("SELECT *,
-    //         DATE_FORMAT(inputDate,'%d/%m/%Y') as ngaynhap,
-    //         IF(assignmentDate!='',DATE_FORMAT(assignmentDate,'%d/%m/%Y'),'') as assignmentDate,
-    //         IF(birthDay!='',DATE_FORMAT(birthDay,'%d/%m/%Y'),'') as birthDay,
-    //         (SELECT name FROM staffs WHERE id = inputId) as nguoinhap,
-    //         (SELECT name FROM loaikh WHERE id=type) as loaikh,
-    //         (SELECT name FROM staffs WHERE id = staffId) as nhanvien
-    //         FROM data $dieukien ORDER BY inputDate DESC LIMIT $offset,$rows  ");
-    //     $temp = $query->fetchAll(PDO::FETCH_ASSOC);
-    //     if ($temp) {
-    //         $result['data'] = $temp;
-    //     }
-    //     return $result;
-    // }
 
     function addObj($data)
     {

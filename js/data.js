@@ -459,6 +459,7 @@ function savenhatky() {
 }
 
 function chiadata() {
+    $("#chiacho").val('').change();
     var table = $(".user-list-table").DataTable();
     var rows = table.column(1).checkboxes.selected();
     var listdata = '';
@@ -482,7 +483,7 @@ function savechia() {
     $.ajax({
         type: "POST",
         dataType: "json",
-        data: { data: data, nhanvien: chiacho },
+        data: { data: data, cstaffId: chiacho },
         url: baseHome + "/data/chiadata",
         success: function (data) {
             if (data.success) {

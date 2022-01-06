@@ -217,8 +217,8 @@ class data extends Controller
     function chiadata()
     {
         $data = $_REQUEST['data'];
-        $nhanvien = $_REQUEST['nhanvien'];
-        if ($this->model->chiadata($nhanvien, $data)) {
+        $staffId = $_REQUEST['cstaffId'];
+        if ($this->model->chiadata($staffId, $data)) {
             $jsonObj['msg'] = "Cập nhật dữ liệu thành công";
             $jsonObj['success'] = true;
         } else {
