@@ -413,11 +413,34 @@ function load_select(selectId,url,place) {
         success: function (data) {
             var html = '<option value="" disabled selected hidden>'+place+'</option>';
             data.forEach(function (element, index) {
-                html += `<option style="color:${element.color}"  value="${element.id}"><li>${element.text}</li></option>`;
+                html += `<option data-style="${element.color}"  value="${element.id}">${element.text}</option>`;
                 console.log(element.text);
             });
 
             selectId.html(html);
+            //test
+         
+            if (selectId.length) {
+                function renderBullets(option) {
+                    if (!option.id) {
+                        return option.text;
+                    }
+                    var style = $(option.element).data('style');
+                    var $bullet = `<span style="color:${style}; font-weight:600;">${option.text}</span>`;
+                    return $bullet;
+                }
+
+                selectId.wrap('<div class="position-relative"></div>').select2({
+                    placeholder: place,
+                    // dropdownParent: selectCongSang.parent(),
+                    templateResult: renderBullets,
+                    templateSelection: renderBullets,
+                    minimumResultsForSearch: -1,
+                    escapeMarkup: function (es) {
+                        return es;
+                    }
+                });
+            }
         },
     });
 }
