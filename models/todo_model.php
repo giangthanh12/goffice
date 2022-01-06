@@ -4,31 +4,69 @@ class todo_Model extends Model{
         parent::__construst();
     }
 
-    function get_data($nhanvien){
-        $dieukien = " WHERE status>0 AND assigneeId=$nhanvien ";
-        $query = $this->db->query("SELECT id, title, label, DATE_FORMAT(deadline, '%e %b, %Y') AS deadline, status,
-            (SELECT avatar FROM staffs WHERE id=a.assignerId) AS avatar,
-            (SELECT name FROM staffs WHERE id=a.assignerId) AS nguoigiao,
-            (SELECT COUNT(1) FROM commenttasks WHERE taskId=a.id) AS comment
-            FROM tasks a $dieukien ORDER BY id DESC ");
+    function getList($nhanvien,$project){
+        $dieukien = " WHERE status>0 ";
+        if ($project>0) {
+            $dieukien .= " AND projectId=$project ";
+            $query = $this->db->query("SELECT id, title, label, assigneeId, description, deadline,status,
+                (SELECT avatar FROM staffs WHERE id=a.assigneeId) AS avatar,
+                (SELECT name FROM tasklabels WHERE id=a.label) AS labelText,
+                (SELECT color FROM tasklabels WHERE id=a.label) AS labelColor,
+                (SELECT COUNT(1) FROM commenttasks WHERE taskId=a.id) AS comment
+                FROM tasks a $dieukien ORDER BY id DESC ");
+        }
+        elseif ($nhanvien>0) {
+            $dieukien .= " AND assigneeId=$nhanvien ";
+            $query = $this->db->query("SELECT id, title, label, assigneeId, description, deadline,status,
+                (SELECT avatar FROM staffs WHERE id=a.assignerId) AS avatar,
+                (SELECT name FROM tasklabels WHERE id=a.label) AS labelText,
+                (SELECT color FROM tasklabels WHERE id=a.label) AS labelColor,
+                (SELECT COUNT(1) FROM commenttasks WHERE taskId=a.id) AS comment
+                FROM tasks a $dieukien ORDER BY id DESC ");
+        }
+        $data = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $data;
+        // DATE_FORMAT(deadline, '%e %b, %Y') AS timeline,
+    }
+
+    function getProject($nhanvien){
+        $loc = '"'.$nhanvien.'"';
+        $dieukien = " WHERE status>0  AND assigneeId LIKE '%$loc%' ";
+        $query = $this->db->query("SELECT id, name FROM projects $dieukien ORDER BY id DESC ");
         $data = $query->fetchAll(PDO::FETCH_ASSOC);
         return $data;
     }
 
-    function get_nhanvien($id){
+    function getLabel(){
+        $loc = '"'.$nhanvien.'"';
+        $query = $this->db->query("SELECT * FROM tasklabels WHERE status=1 ");
+        $data = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $data;
+    }
+
+    function getEmployee(){
         $result = array();
-        $query = $this->db->query("SELECT id, name, IF(avatar='','".HOME."/styles/default-avatar.jpg',avatar) AS hinh_anh,
-              IF(id=$id,'true','false') AS selected
+        $query = $this->db->query("SELECT id, name, avatar
               FROM staffs WHERE status IN (1,2,3,4) ORDER BY name ASC");
-        if ($query) {
-            $temp = $query->fetchAll(PDO::FETCH_ASSOC);
-            foreach ($temp AS $key=>$val)
-                if ($val['id']==$id)
-                    $temp[$key]['selected']=true;
-            $result = $temp;
-        }
+        if ($query)
+            $result = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }
+
+    function capnhat($id, $data) {
+        if ($id==0) {
+            $data['status'] = 1;
+            $data['assignmentDate'] = date('Y-m-d');
+            $data['updated'] = date('Y-m-d');
+            $data['assignerId'] = $_SESSION['user']['staffId'];
+            $query = $this->insert("tasks", $data);
+        }
+        else {
+            $query = $this->update("tasks", $data, " id=$id ");
+        }
+        return $query;
+    }
+
 
     function getitem($id){
         $result = array();
@@ -42,25 +80,6 @@ class todo_Model extends Model{
         return $result;
     }
 
-    function capnhat($id, $data, $file, $comment,$deadline) {
-        if ($id==0) {
-            $data['status'] = 1;
-            $data['assignmentDate'] = date('Y-m-d');
-            $data['updated'] = date('Y-m-d');
-            $data['assignerId'] = $_SESSION['user']['nhan_vien'];
-            $data['description'] = $comment;
-            $data['deadline'] = $deadline;
-            $query = $this->insert("tasks", $data);
-        }
-        else {
-            $query = $this->update("tasks", $data, " id=$id ");
-            // if($comment!='') {
-            //     $row = ['nhan_vien'=>$_SESSION['user']['nhan_vien'], 'cong_viec'=>$id, 'ngay_gio'=>date('Y-m-d H:i:s'),'noi_dung'=>$comment, 'tinh_trang'=>1];
-            //     $query = $this->insert("comment", $row);
-            // }
-        }
-        return $query;
-    }
 
     function comment($id){
         $data = array();

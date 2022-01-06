@@ -3,11 +3,39 @@ class todo extends Controller{
     function __construct(){
         parent::__construct();
     }
+
     function index(){
         require "layouts/header.php";
+        // $_SESSION['user']['staffId'];
+        $project = isset($_REQUEST['project'])?$_REQUEST['project']:0;
+        $nhanvien = (isset($_REQUEST['nhanvien']) && $_REQUEST['nhanvien']>0)?$_REQUEST['nhanvien']:7;
+        $this->view->list=$this->model->getList($nhanvien, $project);
+        $this->view->project=$this->model->getProject($nhanvien);
+        $this->view->tag=$this->model->getLabel();
+        $this->view->employee=$this->model->getEmployee();
         $this->view->render("todo/index");
         require "layouts/footer.php";
     }
+
+    function update(){
+        $id = $_REQUEST['id'];
+        $title = $_REQUEST['newTitle'];
+        $deadline = $_REQUEST['newDeadline'];
+        $label = isset($_REQUEST['newLabel'])?$_REQUEST['newLabel'][0]:0;
+        $nhanvien = $_REQUEST['newAssignee'];
+        $description = $_REQUEST['newDescription'];
+        $data = array('title'=>$title, 'deadline'=>$deadline,'description'=>$description, 'label'=>$label, 'assigneeId'=>$nhanvien);
+        if ($this->model->capnhat($id, $data)) {
+            $jsonObj['msg'] = "Cập nhật thành công";
+            $jsonObj['success'] = true;
+        } else {
+            $jsonObj['msg'] = "Cập nhật không thành công".$nhanvien;
+            $jsonObj['success'] = false;
+        }
+        $jsonObj = json_encode($jsonObj);
+        echo $jsonObj;
+    }
+
 
     function getData(){
         $nhanvien = (isset($_REQUEST['nhanvien']) && $_REQUEST['nhanvien']>0)?$_REQUEST['nhanvien']:$_SESSION['user']['staffId'];
@@ -27,25 +55,6 @@ class todo extends Controller{
         echo json_encode($json);
     }
 
-    function update(){
-        $id = $_REQUEST['id'];
-        $title = $_REQUEST['title'];
-        $deadline = date("Y-m-d", strtotime($_REQUEST['deadline']));
-        $label = $_REQUEST['label'];
-        $nhanvien = ($_REQUEST['nhanvien']>0)?$_REQUEST['nhanvien']:$_SESSION['user']['staffId'];
-        $file = $_REQUEST['file'];
-        $comment = $_REQUEST['comment'];
-        $data = array('title'=>$title, 'description'=>$comment, 'label'=>$label, 'assigneeId'=>$nhanvien);
-        if ($this->model->capnhat($id, $data, $file, $comment,$deadline)) {
-            $jsonObj['msg'] = "Cập nhật thành công";
-            $jsonObj['success'] = true;
-        } else {
-            $jsonObj['msg'] = "Cập nhật không thành công";
-            $jsonObj['success'] = false;
-        }
-        $jsonObj = json_encode($jsonObj);
-        echo $jsonObj;
-    }
 
     function comment(){
         $id = $_REQUEST['id'];
