@@ -321,7 +321,8 @@ $(function () {
                         load_select2(taskAssignSelect, baseHome + "/project/getStaff",'Người quản lý dự án');
                         load_select2($('#assigneeId'), baseHome + "/project/getStaff",'');
                         $(taskAssignSelect).val(obj.managerId);
-                        $('#assigneeId').val(obj.assigneeId.split(','));
+                        
+                        $('#assigneeId').val(obj.assigneeId);
                         changeColorLevel();
                         changeColorStatus();
                     }

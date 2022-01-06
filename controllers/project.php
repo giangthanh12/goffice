@@ -22,6 +22,7 @@ class project extends Controller
     function getData(){
         $status = $_REQUEST['status'];
         $json = $this->model->get_data($status);
+        
         echo json_encode($json);
     }
     // get levelproject
@@ -43,7 +44,7 @@ class project extends Controller
             $assignerId = $_SESSION['user']['staffId'];
             $name = $_REQUEST['name'];
             $managerId = $_REQUEST['managerId'];
-            $assigneeId = implode(',',$_REQUEST['assigneeId']);
+            $assigneeId = str_replace(']','',str_replace('[', '', json_encode($_REQUEST['assigneeId'])));
             $process = $_REQUEST['process'];
             $level = $_REQUEST['level'];
             $description = $_REQUEST['description'];
@@ -108,6 +109,7 @@ class project extends Controller
     function getitem() {
         $id = $_REQUEST['id'];
         $data = $this->model->getProjectById($id);
+        $data['assigneeId'] =  explode(',',str_replace('"','',$data['assigneeId']) );
         echo json_encode($data);
     }
 
