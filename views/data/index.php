@@ -16,8 +16,8 @@
                 <div class="card">
                     <div class="d-flex align-items-center mx-50 row pt-2 pb-2">
                         <div class="col-md-3 data_nhanvien form-group hidden">
-                            <label for="nhanvien">Phụ trách</label>
-                            <select id="nhanvien" name="nhanvien" class="form-control">
+                            <label for="staffId">Phụ trách</label>
+                            <select id="staffId" name="staffId" class="form-control">
                             </select>
                         </div>
 
@@ -40,18 +40,18 @@
                                 <!-- <h6 class="mb-0">DataTable with Buttons</h6> -->
                             </div>
                             <div class="dt-buttons ml-1 text-right">
-                                <button class="dt-button add-new btn btn-danger mt-50" onclick="showcall()" tabindex="0" aria-controls="DataTables_Table_0" type="button">
+                                <!-- <button class="dt-button add-new btn btn-danger mt-50" onclick="showcall()" tabindex="0" aria-controls="DataTables_Table_0" type="button">
                                     <span>Gọi điện</span>
-                                </button>
+                                </button> -->
                                 <button class="dt-button add-new btn btn-primary mt-50" onclick="showadd()" tabindex="0" aria-controls="DataTables_Table_0" type="button">
                                     <span>Thêm mới</span>
                                 </button>
                                 <button class="dt-button btn btn-primary mt-50" onclick="chiadata()" tabindex="0" aria-controls="DataTables_Table_0" type="button">
                                     <span>Chia data</span>
                                 </button>
-                                <button class="dt-button btn btn-primary mt-50" onclick="movetolead()" tabindex="0" aria-controls="DataTables_Table_0" type="button">
+                                <!-- <button class="dt-button btn btn-primary mt-50" onclick="movetolead()" tabindex="0" aria-controls="DataTables_Table_0" type="button">
                                     <span>Chuyển sang lead</span>
-                                </button>
+                                </button> -->
                                 <button class="dt-button btn btn-primary mt-50" onclick="nhapexcel()" tabindex="0" aria-controls="DataTables_Table_0" type="button">
                                     <span>Nhập excel</span>
                                 </button>
@@ -78,36 +78,36 @@
 
                         <div class="modal modal-slide-in new-user-modal fade" id="addnew">
                             <div class="modal-dialog">
-                                <form class="add-new-user modal-content pt-0">
+                                <form class="add-new-user modal-content pt-0" id="frm-add">
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">×</button>
                                     <div class="modal-header mb-1">
                                         <h5 class="modal-title" id="exampleModalLabel">Thêm data mới</h5>
                                     </div>
                                     <div class="modal-body flex-grow-1">
                                         <div class="form-group">
-                                            <label for="ho_ten">Khách hàng</label>
-                                            <input id="ho_ten" type="text" class="form-control" name="ho_ten" />
+                                            <label for="name">Khách hàng</label>
+                                            <input id="name" type="text" class="form-control" name="name" />
                                         </div>
                                         <div class="form-group">
-                                            <label for="dien_thoai">Điện thoại</label>
-                                            <input id="dien_thoai" name="dien_thoai" type="text" class="form-control" />
+                                            <label for="phoneNumber">Điện thoại</label>
+                                            <input id="phoneNumber" name="phoneNumber" type="text" class="form-control" />
                                         </div>
                                         <div class="form-group">
-                                            <label for="dia_chi">Địa chỉ</label>
-                                            <input id="dia_chi" type="text" class="form-control" name="dia_chi" />
+                                            <label for="address">Địa chỉ</label>
+                                            <input id="address" type="text" class="form-control" name="address" />
                                         </div>
                                         <div class="form-group">
                                             <label for="email">Email</label>
                                             <input id="email" type="text" class="form-control" name="email" />
                                         </div>
                                         <div class="form-group">
-                                            <label for="phan_loai">Nguồn khách hàng</label>
-                                            <select id="phan_loai" class="select2 form-control phan-loai" name="phan_loai">
+                                            <label for="sourceId">Nguồn khách hàng</label>
+                                            <select id="sourceId" class="select2 form-control phan-loai" name="sourceId">
                                             </select>
                                         </div>
                                         <div class="form-group">
-                                            <label for="ghi_chu">Ghi chú</label>
-                                            <textarea id="ghi_chu" name="ghi_chu" rows="3" class="form-control"></textarea>
+                                            <label for="note">Ghi chú</label>
+                                            <textarea id="note" name="note" rows="3" class="form-control"></textarea>
                                         </div>
                                         <button type="button" onclick="saveadd()" class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Cập nhật</button>
                                         <button type="reset" class="btn btn-outline-secondary" data-dismiss="modal">Bỏ qua</button>
@@ -131,7 +131,7 @@
                                                     <span class="align-middle">Cập nhật</span>
                                                 </a>
                                             </li>
-                                            <li class="nav-item" >
+                                            <li class="nav-item">
                                                 <a class="nav-link nav-link-activity" data-toggle="tab" href="#tab-activity">
                                                     <i data-feather='file-text'></i>
                                                     <span class="align-middle">Nhật ký data</span>
@@ -140,54 +140,50 @@
                                         </ul>
                                         <div class="tab-content mt-2">
                                             <div class="tab-pane tab-pane-update fade show active" id="tab-update" role="tabpanel">
-                                                <form class="update-item-form">
+                                                <form class="update-item-form" id="frm-edit">
                                                     <div class="form-group">
-                                                        <label for="hoten">Khách hàng</label>
-                                                        <input id="hoten" type="text" class="form-control" name="hoten" />
+                                                        <label for="ename">Khách hàng</label>
+                                                        <input id="ename" type="text" class="form-control" name="name" />
                                                     </div>
                                                     <div class="form-group">
-                                                        <label for="dienthoai">Điện thoại</label>
-                                                        <input id="dienthoai" name="dienthoai" type="text" class="form-control" />
+                                                        <label for="ephoneNumber">Điện thoại</label>
+                                                        <input id="ephoneNumber" name="phoneNumber" type="text" class="form-control" />
                                                     </div>
                                                     <div class="form-group">
-                                                        <label for="data_email">Email</label>
-                                                        <input id="data_email" type="text" class="form-control" name="data_email" />
+                                                        <label for="eemail">Email</label>
+                                                        <input id="eemail" type="text" class="form-control" name="email" />
                                                     </div>
                                                     <div class="form-group">
-                                                        <label for="diachi">Địa chỉ</label>
-                                                        <input id="diachi" type="text" class="form-control" name="diachi" />
+                                                        <label for="eaddress">Địa chỉ</label>
+                                                        <input id="eaddress" type="text" class="form-control" name="address" />
                                                     </div>
                                                     <div class="form-group">
-                                                        <label for="phanloai">Nguồn khách hàng</label>
-                                                        <select id="phanloai" class="select2 form-control phan-loai" name="phanloai"></select>
+                                                        <label for="esourceId">Nguồn khách hàng</label>
+                                                        <select id="esourceId" class="select2 form-control phan-loai" name="sourceId"></select>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label for="diachi">Tên Công ty</label>
-                                                        <input id="cong_ty" type="text" class="form-control" name="cong_ty" />
+                                                        <label for="econnectorName">Tên Công ty</label>
+                                                        <input id="econnectorName" type="text" class="form-control" name="connectorName" />
                                                     </div>
                                                     <div class="form-group">
-                                                        <label for="diachi">Mã số thuế</label>
-                                                        <input id="mst" type="text" class="form-control" name="mst" />
+                                                        <label for="etaxCode">Mã số thuế</label>
+                                                        <input id="etaxCode" type="text" class="form-control" name="etaxCode" />
                                                     </div>
                                                     <div class="form-group">
-                                                        <label for="diachi">Lĩnh vực hoạt động</label>
-                                                        <input id="linh_vuc" type="text" class="form-control" name="linh_vuc" />
-                                                    </div>
-
-
-
-
-                                                    <div class="form-group">
-                                                        <label for="phutrach">Phụ trách</label>
-                                                        <select id="phutrach" class="select2 form-control" name="phutrach"></select>
+                                                        <label for="etype">Lĩnh vực hoạt động</label>
+                                                        <select id="etype" class="select2 form-control phan-loai" name="type"></select>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label for="ghichu">Ghi chú</label>
-                                                        <textarea id="ghichu" name="ghichu" rows="3" class="form-control"></textarea>
+                                                        <label for="estaffId">Phụ trách</label>
+                                                        <select id="estaffId" class="select2 form-control" name="staffId"></select>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label for="tinhtrang">Tình trạng</label>
-                                                        <select id="tinhtrang" class="select2 form-control" name="tinhtrang"></select>
+                                                        <label for="enote">Ghi chú</label>
+                                                        <textarea id="enote" name="note" rows="3" class="form-control"></textarea>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="estatus">Tình trạng</label>
+                                                        <select id="estatus" class="select2 form-control" name="status"></select>
                                                     </div>
                                                     <div class="d-flex flex-wrap mb-2">
                                                         <button type="button" onclick="saveedit()" class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Cập nhật</button>
@@ -196,14 +192,14 @@
                                                 </form>
                                             </div>
                                             <div class="tab-pane tab-pane-activity pb-1 fade" id="tab-activity" role="tabpanel">
-                                                
-                                                <form>
+
+                                                <form id="frm-report">
                                                     <label>Nội dung</label>
                                                     <div class="form-group">
-                                                        <textarea type="text" class="form-control" name="noidung" id="noidung" ></textarea>
+                                                        <textarea type="text" class="form-control" name="description" id="description"></textarea>
                                                     </div>
                                                     <div class="d-flex flex-wrap mb-2">
-                                                    <button type="button" onclick="savenhatky()" class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Thêm nhật ký</button>
+                                                        <button type="button" onclick="savenhatky()" class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Thêm nhật ký</button>
                                                     </div>
                                                 </form>
                                                 <div id="listnhatky" style="position: relative;height: 450px;">
@@ -365,7 +361,7 @@
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <form id="fm-nhapexcel">
+                                        <form id="frm-nhapexcel">
                                             <div class="form-group">
                                                 <label class="form-label mr-4" for="file">Tải file mẫu</label>
                                                 <a target="_blank" href="<?= URLFILE ?>/uploads/data.xlsx" style="color: blue;">Tải xuống <i class="fas fa-download"></i></a>
@@ -379,29 +375,27 @@
                                                     <label class="custom-file-label" for="file">Chọn file</label>
                                                 </div>
                                             </div>
-                                            <div class="form-group">
-                                                        <label for="phutrach">Phụ trách (để trống nếu chọn chính mình)</label>
-                                                        <select id="phutrach_import" class="select2 form-control" name="phutrach_import"></select>
+                                            <!-- <div class="form-group">
+                                                <label for="phutrach">Phụ trách (để trống nếu chọn chính mình)</label>
+                                                <select id="phutrach_import" class="select2 form-control" name="phutrach_import"></select>
                                             </div>
 
                                             <div class="form-group">
                                                 <label for="phan_loai_import">Nguồn khách hàng</label>
                                                 <select id="phan_loai_import" class="select2 form-control phan-loai" name="phan_loai_import">
                                                 </select>
-                                            </div>
-                                            
-
+                                            </div> -->
 
                                         </form>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-primary waves-effect waves-float waves-light" data-dismiss="modal" onclick="savenhap()">Xác nhận</button>
+                                        <button type="button" class="btn btn-primary waves-effect waves-float waves-light" onclick="savenhap()">Xác nhận</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="modal fade text-left" id="showcall" tabindex="-1" aria-labelledby="myModalLabel18" aria-hidden="true" role="dialog">
+                        <!-- <div class="modal fade text-left" id="showcall" tabindex="-1" aria-labelledby="myModalLabel18" aria-hidden="true" role="dialog">
                             <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -411,25 +405,25 @@
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                            <div class="form-group">
-                                                <label for="call_number">Nhập số điện thoại</label>
-                                                <input id="call_number" type="text" class="form-control" name="call_number" required/>
-                                            </div>
-                                            <input id="data" name="data" type="hidden">
+                                        <div class="form-group">
+                                            <label for="call_number">Nhập số điện thoại</label>
+                                            <input id="call_number" type="text" class="form-control" name="call_number" required />
+                                        </div>
+                                        <input id="data" name="data" type="hidden">
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-primary waves-effect waves-float waves-light" data-dismiss="modal" onclick="call($('#call_number').val())">Xác nhận</button>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
             </section>
         </div>
     </div>
 </div>
 <script>
-    let username = '<?php echo $_SESSION['user']['hoten'] ?>';
-    let hinhanh = '<?php echo $_SESSION['user']['hinhanh'] ?>';
+    let username = '<?php echo $_SESSION['user']['username'] ?>';
+    let hinhanh = '<?php echo $_SESSION['user']['avatar'] ?>';
 </script>
 <script src="<?= HOME ?>/js/data.js"></script>

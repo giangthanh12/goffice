@@ -5,38 +5,41 @@ class data extends Controller
     {
         parent::__construct();
     }
-    function index(){
+
+    function index()
+    {
         require "layouts/header.php";
         $this->view->render("data/index");
         require "layouts/footer.php";
     }
 
-    function movetolead()
-    {
-        $data = $_REQUEST['data'];
-        if ($this->model->movetolead($data)) {
-            $jsonObj['msg'] = "Cập nhật dữ liệu thành công";
-            $jsonObj['success'] = true;
-        } else {
-            $jsonObj['msg'] = "Cập nhật dữ liệu không thành công";
-            $jsonObj['success'] = false;
-        }
-        echo json_encode($jsonObj);
-    }
-    function movelead_id()
-    {
-        $data = $_REQUEST['id'];
-        if ($this->model->movetolead($data)) {
-            $jsonObj['msg'] = "Cập nhật dữ liệu thành công";
-            $jsonObj['success'] = true;
-        } else {
-            $jsonObj['msg'] = "Cập nhật dữ liệu không thành công";
-            $jsonObj['success'] = false;
-        }
-        echo json_encode($jsonObj);
-    }
+    // function movetolead()
+    // {
+    //     $data = $_REQUEST['data'];
+    //     if ($this->model->movetolead($data)) {
+    //         $jsonObj['msg'] = "Cập nhật dữ liệu thành công";
+    //         $jsonObj['success'] = true;
+    //     } else {
+    //         $jsonObj['msg'] = "Cập nhật dữ liệu không thành công";
+    //         $jsonObj['success'] = false;
+    //     }
+    //     echo json_encode($jsonObj);
+    // }
 
-    function nhapexcel()
+    // function movelead_id()
+    // {
+    //     $data = $_REQUEST['id'];
+    //     if ($this->model->movetolead($data)) {
+    //         $jsonObj['msg'] = "Cập nhật dữ liệu thành công";
+    //         $jsonObj['success'] = true;
+    //     } else {
+    //         $jsonObj['msg'] = "Cập nhật dữ liệu không thành công";
+    //         $jsonObj['success'] = false;
+    //     }
+    //     echo json_encode($jsonObj);
+    // }
+
+    function importData()
     {
         require_once 'libs/phpexcel/PHPExcel/IOFactory.php';
         try {
@@ -49,40 +52,35 @@ class data extends Controller
             $highestColumn = $objWorksheet->getHighestColumn();
             $highestColumnIndex = PHPExcel_Cell::columnIndexFromString($highestColumn);
             $banghi = 0;
-            $phutrach = isset($_REQUEST['phutrach_import']) ? $_REQUEST['phutrach_import'] : '';
-            if($phutrach == ""){$phutrach = $_SESSION['user']['nhan_vien'];}
 
             for ($row = 3; $row <= $highestRow; $row++) {
                 $tenkh = $objPHPExcel->getActiveSheet()->getCell("B$row")->getValue();
-                $dienthoai = $objPHPExcel->getActiveSheet()->getCell("C$row")->getValue();
+                $phoneNumber = $objPHPExcel->getActiveSheet()->getCell("C$row")->getValue();
                 if ($tenkh != '') {
-                    $dienthoai = str_replace("'", "", $dienthoai);
-                    $checkdt = $this->model->checkdt($dienthoai);
-                    if ($checkdt == true) {
+                    $phoneNumber = str_replace("'", "", $phoneNumber);
+                    $checkPhoneNumber = $this->model->checkPhoneNumber($phoneNumber, 0);
+                    if ($checkPhoneNumber == true) {
                         $email = $objPHPExcel->getActiveSheet()->getCell("D$row")->getValue();
                         $diachi = $objPHPExcel->getActiveSheet()->getCell("E$row")->getValue();
                         $congty = $objPHPExcel->getActiveSheet()->getCell("F$row")->getValue();
                         $mst = $objPHPExcel->getActiveSheet()->getCell("G$row")->getValue();
-                        $linhvuc = $objPHPExcel->getActiveSheet()->getCell("H$row")->getValue();
-                        $website = $objPHPExcel->getActiveSheet()->getCell("I$row")->getValue();
-                        $social = $objPHPExcel->getActiveSheet()->getCell("J$row")->getValue();
-                        $ghichu = $objPHPExcel->getActiveSheet()->getCell("K$row")->getValue();
+                        // $linhvuc = $objPHPExcel->getActiveSheet()->getCell("H$row")->getValue();
+                        $website = $objPHPExcel->getActiveSheet()->getCell("H$row")->getValue();
+                        $social = $objPHPExcel->getActiveSheet()->getCell("I$row")->getValue();
+                        $ghichu = $objPHPExcel->getActiveSheet()->getCell("J$row")->getValue();
                         $data = [
-                            'ngay_nhap' => date('Y-m-d'),
-                            'ho_ten' => $tenkh,
-                            'dien_thoai' => $dienthoai,
+                            'inputDate' => date('Y-m-d'),
+                            'name' => $tenkh,
+                            'phoneNumber' => $phoneNumber,
                             'email' => $email,
-                            'ghi_chu' => $ghichu,
-                            'dia_chi' => $diachi,
-                            'cong_ty' => $congty,
-                            'mst' => $mst,
-                            'linh_vuc' => $linhvuc,
+                            'note' => $ghichu,
+                            'address' => $diachi,
+                            'connectorName' => $congty,
+                            'taxCode' => $mst,
+                            // 'linh_vuc' => $linhvuc,
                             'website' => $website,
                             'social' => $social,
-                            'phan_loai' => isset($_REQUEST['phan_loai_import']) ? $_REQUEST['phan_loai_import'] : 2,
-                            'nguoi_nhap' => $_SESSION['user']['nhan_vien'],
-                            'nhan_vien' => $phutrach,
-                            'tinh_trang' => 1
+                            'status' => 1
                         ];
                         if ($this->model->addObj($data))
                             $banghi++;
@@ -103,21 +101,21 @@ class data extends Controller
         echo json_encode($jsonObj);
     }
 
-    function listAll()
-    {
-        $result = $this->model->listAll();
-        echo json_encode($result);
-    }
+    // function listAll()
+    // {
+    //     $result = $this->model->listAll();
+    //     echo json_encode($result);
+    // }
 
-    function listWeb()
+    function list()
     {
-        // $phutrach = isset($_SESSION['user']['nhan_vien']) ? $_SESSION['user']['nhan_vien'] : (isset($_REQUEST['phu_trach']) ? $$_REQUEST['phu_trach'] : '');
+        // $phutrach = isset($_SESSION['user']['staffId']) ? $_SESSION['user']['staffId'] : (isset($_REQUEST['phu_trach']) ? $$_REQUEST['phu_trach'] : '');
         $keyword = isset($_REQUEST['search']['value']) ? $_REQUEST['search']['value'] : (isset($_REQUEST['keyword']) ? $_REQUEST['keyword'] : '');
         $offset = isset($_REQUEST['start']) ? $_REQUEST['start'] : 0;
         $rows = isset($_REQUEST['length']) ? $_REQUEST['length'] : 30;
         // $page = isset($_REQUEST['page']) ? $_REQUEST['page']: 1;
         // $offset = ($page - 1) * $rows;
-        $nhanvien = isset($_REQUEST['nhan_vien']) && $_REQUEST['nhan_vien'] != '' && $_REQUEST['nhan_vien'] != 0 ? $_REQUEST['nhan_vien'] : $_SESSION['user']['nhan_vien'];
+        $nhanvien = isset($_REQUEST['nhanvien']) && $_REQUEST['nhanvien'] != '' && $_REQUEST['nhanvien'] != 0 ? $_REQUEST['nhanvien'] : '';
         $tungay = isset($_REQUEST['tu_ngay']) && $_REQUEST['tu_ngay'] != '' ? date("Y-m-d", strtotime(str_replace('/', '-', $_REQUEST['tu_ngay']))) : '';
         $denngay = isset($_REQUEST['den_ngay']) && $_REQUEST['den_ngay'] != '' ? date("Y-m-d", strtotime(str_replace('/', '-', $_REQUEST['den_ngay']))) : '';
         $result = $this->model->listObj($keyword, $nhanvien, $tungay, $denngay, $offset, $rows);
@@ -130,15 +128,15 @@ class data extends Controller
         echo json_encode($data);
     }
 
-    function listApi()
-    {
-        $keyword =  isset($_REQUEST['keyword']) ? $_REQUEST['keyword'] : '';
-        $rows = isset($_REQUEST['length']) ? $_REQUEST['length'] : 30;
-        $page = isset($_REQUEST['page']) ? $_REQUEST['page'] : 1;
-        $offset = ($page - 1) * $rows;
-        $result = $this->model->listObjApi($keyword, $offset, $rows);
-        echo json_encode($result);
-    }
+    // function listApi()
+    // {
+    //     $keyword =  isset($_REQUEST['keyword']) ? $_REQUEST['keyword'] : '';
+    //     $rows = isset($_REQUEST['length']) ? $_REQUEST['length'] : 30;
+    //     $page = isset($_REQUEST['page']) ? $_REQUEST['page'] : 1;
+    //     $offset = ($page - 1) * $rows;
+    //     $result = $this->model->listObjApi($keyword, $offset, $rows);
+    //     echo json_encode($result);
+    // }
 
     function loaddata()
     {
@@ -156,18 +154,17 @@ class data extends Controller
 
     function add()
     {
-        $data['ho_ten'] = isset($_REQUEST['ho_ten']) ? $_REQUEST['ho_ten'] : '';
-        $data['dien_thoai'] = isset($_REQUEST['dien_thoai']) ? $_REQUEST['dien_thoai'] : '';
-        $data['dia_chi'] = isset($_REQUEST['dia_chi']) ? $_REQUEST['dia_chi'] : '';
+        $data['name'] = isset($_REQUEST['name']) ? $_REQUEST['name'] : '';
+        $data['phoneNumber'] = isset($_REQUEST['phoneNumber']) ? $_REQUEST['phoneNumber'] : '';
+        $data['address'] = isset($_REQUEST['address']) ? $_REQUEST['address'] : '';
         $data['email'] = isset($_REQUEST['email']) ? $_REQUEST['email'] : '';
-        $data['phan_loai'] = isset($_REQUEST['phan_loai']) ? $_REQUEST['phan_loai'] : 0;
-        $data['ghi_chu'] = isset($_REQUEST['ghi_chu']) ? $_REQUEST['ghi_chu'] : '';
-        $data['nguoi_nhap'] = isset($_SESSION['user']['nhan_vien']) ? $_SESSION['user']['nhan_vien'] : (isset($_REQUEST['nguoi_nhap']) ? $_REQUEST['nguoi_nhap'] : 0);
-        $data['ngay_nhap'] = date('Y-m-d');
-        $data['nhan_vien'] = $_SESSION['user']['nhan_vien'];
-        $data['tinh_trang'] = 1;
-        $checkdt = $this->model->checkdt($data['dien_thoai']);
-        if ($checkdt == true) {
+        $data['sourceId'] = isset($_REQUEST['sourceId']) ? $_REQUEST['sourceId'] : 0;
+        $data['note'] = isset($_REQUEST['note']) ? $_REQUEST['note'] : '';
+        $data['inputId'] = isset($_SESSION['user']['staffId']) ? $_SESSION['user']['staffId'] : (isset($_REQUEST['inputId']) ? $_REQUEST['inputId'] : 0);
+        $data['inputDate'] = date('Y-m-d');
+        $data['status'] = 1;
+        $checkPhoneNumber = $this->model->checkPhoneNumber($data['phoneNumber'], 0);
+        if ($checkPhoneNumber == true) {
             if ($this->model->addObj($data)) {
                 $jsonObj['msg'] = "Cập nhật dữ liệu thành công";
                 $jsonObj['success'] = true;
@@ -186,16 +183,23 @@ class data extends Controller
     function update()
     {
         $id = $_REQUEST['id'];
-        $data['ho_ten'] = isset($_REQUEST['ho_ten']) ? $_REQUEST['ho_ten'] : '';
-        $data['dien_thoai'] = isset($_REQUEST['dien_thoai']) ? $_REQUEST['dien_thoai'] : '';
-        $data['dia_chi'] = isset($_REQUEST['dia_chi']) ? $_REQUEST['dia_chi'] : '';
-        $data['email'] = isset($_REQUEST['email']) ? $_REQUEST['email'] : '';
-        $data['phan_loai'] = isset($_REQUEST['phan_loai']) ? $_REQUEST['phan_loai'] : 0;
-        $data['ghi_chu'] = isset($_REQUEST['ghi_chu']) ? $_REQUEST['ghi_chu'] : '';
-        $data['nhan_vien'] = isset($_REQUEST['nhan_vien']) ? $_REQUEST['nhan_vien'] : 0;
-        $data['tinh_trang'] = isset($_REQUEST['tinh_trang']) ? $_REQUEST['tinh_trang'] : 1;
-        $checkdt = $this->model->checkeditdt($data['dien_thoai'],$id);
-        if ($checkdt == true) {
+        $data['name'] = isset($_REQUEST['ename']) ? $_REQUEST['ename'] : '';
+        $data['phoneNumber'] = isset($_REQUEST['ephoneNumber']) ? $_REQUEST['ephoneNumber'] : '';
+        $data['address'] = isset($_REQUEST['eaddress']) ? $_REQUEST['eaddress'] : '';
+        $data['email'] = isset($_REQUEST['eemail']) ? $_REQUEST['eemail'] : '';
+        $data['sourceId'] = isset($_REQUEST['esourceId']) ? $_REQUEST['esourceId'] : 0;
+        $data['connectorName'] = isset($_REQUEST['econnectorName']) ? $_REQUEST['econnectorName'] : '';
+        $data['taxCode'] = isset($_REQUEST['etaxCode']) ? $_REQUEST['etaxCode'] : '';
+        $data['type'] = isset($_REQUEST['etype']) ? $_REQUEST['etype'] : 0;
+        $data['note'] = isset($_REQUEST['enote']) ? $_REQUEST['enote'] : '';
+        $staffId = isset($_REQUEST['estaffId']) ? $_REQUEST['estaffId'] : 0;
+        if ($staffId != 0) {
+            $data['staffId'] = $staffId;
+            $data['assignmentDate'] = date('Y-m-d');
+        } 
+        $data['status'] = isset($_REQUEST['estatus']) ? $_REQUEST['estatus'] : 1;
+        $checkPhoneNumber = $this->model->checkPhoneNumber($data['phoneNumber'], $id);
+        if ($checkPhoneNumber == true) {
             if ($this->model->updateObj($id, $data)) {
                 $jsonObj['msg'] = 'Cập nhật dữ liệu thành công';
                 $jsonObj['success'] = true;
@@ -213,8 +217,8 @@ class data extends Controller
     function chiadata()
     {
         $data = $_REQUEST['data'];
-        $nhanvien = $_REQUEST['nhanvien'];
-        if ($this->model->chiadata($nhanvien, $data)) {
+        $staffId = $_REQUEST['cstaffId'];
+        if ($this->model->chiadata($staffId, $data)) {
             $jsonObj['msg'] = "Cập nhật dữ liệu thành công";
             $jsonObj['success'] = true;
         } else {
@@ -225,19 +229,19 @@ class data extends Controller
         echo json_encode($jsonObj);
     }
 
-    function addnhatky()
+    function addDataReport()
     {
-        $iddata = $_REQUEST['iddata'];
-        $ghichu = $_REQUEST['ghi_chu'];
-        $nhanvien = isset($_SESSION['user']['nhan_vien']) ? $_SESSION['user']['nhan_vien'] : (isset($_REQUEST['nhanvienid']) ? $_REQUEST['nhanvienid'] : 0);
+        $dataId = $_REQUEST['dataId'];
+        $description = $_REQUEST['description'];
+        $staffId = isset($_SESSION['user']['staffId']) ? $_SESSION['user']['staffId'] : 0;
         $data = [
-            'id_data' => $iddata,
-            'nhan_vien' => $nhanvien,
-            'ngay_gio' => date('Y-m-d H:i:s'),
-            'ghi_chu' => $ghichu,
-            'tinh_trang' => 1
+            'dataId' => $dataId,
+            'staffId' => $staffId,
+            'dateTime' => date('Y-m-d H:i:s'),
+            'description' => $description,
+            'status' => 1
         ];
-        if ($this->model->addnhatky($data)) {
+        if ($this->model->addDataReport($data)) {
             $jsonObj['msg'] = "Cập nhật nhật ký thành công";
             $jsonObj['success'] = true;
         } else {
@@ -250,7 +254,7 @@ class data extends Controller
     function del()
     {
         $id = $_REQUEST['id'];
-        $data = ['tinh_trang' => 0];
+        $data = ['status' => 0];
         if ($this->model->updateObj($id, $data)) {
             $jsonObj['msg'] = "Xóa dữ liệu thành công";
             $jsonObj['success'] = true;

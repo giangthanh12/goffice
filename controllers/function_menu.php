@@ -7,17 +7,13 @@ class function_menu extends Controller{
     }
 
     function index(){
-
-
         require "layouts/header.php";
         $this->view->render("functions/index");
         require "layouts/footer.php";
     }
 
-
     function list()
     {
-
         $datatable['data']=$this->model->listObj();
         foreach ($datatable['data'] AS $key=>$row) {
 
