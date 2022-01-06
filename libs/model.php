@@ -162,7 +162,7 @@ class Model
             $query = $this->db->query("SELECT menuIds FROM grouproles WHERE id=$groupId AND status=1");
             $temp = $query->fetchAll(PDO::FETCH_ASSOC);
             if (isset($temp[0]['menuIds']) && $temp[0]['menuIds'] != '')
-                $listMenu = $temp[0]['menuIds'];
+                $listMenu = $temp[0]['menuIds']; // lấy danh sách menuid của user
             $query = $this->db->query("SELECT menuIds FROM userroles WHERE userId=$userId AND status=1");
             $temp = $query->fetchAll(PDO::FETCH_ASSOC);
             if (isset($temp[0]['menuIds']) && $temp[0]['menuIds'] != '') {
