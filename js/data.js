@@ -1,4 +1,4 @@
-var dataid = 0;
+var dataId = 0;
 var statusObj = [];
 $(function () {
     "use strict";
@@ -14,13 +14,14 @@ $(function () {
         });
     }
 
-    return_combobox_multi('#nhanvien', baseHome + '/common/nhanvien', 'Chọn nhân viên');
-    return_combobox_multi('#phanloai', baseHome + '/common/loaikh', 'Chọn loại khách hàng');
-    return_combobox_multi('#phan_loai', baseHome + '/common/loaikh', 'Chọn loại khách hàng');
-    return_combobox_multi('#phan_loai_import', baseHome + '/common/loaikh', 'Chọn loại khách hàng');
+    return_combobox_multi('#estaffId', baseHome + '/common/nhanvien', 'Chọn nhân viên');
+    return_combobox_multi('#esourceId', baseHome + '/common/datasource', 'Chọn loại khách hàng');
+    return_combobox_multi('#sourceId', baseHome + '/common/datasource', 'Chọn loại khách hàng');
+    return_combobox_multi('#sourceId_import', baseHome + '/common/datasource', 'Chọn loại khách hàng');
+    return_combobox_multi('#etype', baseHome + '/common/datatype', 'Chọn lĩnh vực hoạt động');
     return_combobox_multi('#phutrach', baseHome + '/common/nhanvien', 'Chọn nhân viên');
     return_combobox_multi('#chiacho', baseHome + '/common/nhanvien', 'Chọn nhân viên');
-    return_combobox_multi('#tinhtrang', baseHome + '/common/tinhtrangdata', 'Chọn tình trạng data');
+    return_combobox_multi('#estatus', baseHome + '/common/datastatus', 'Chọn tình trạng data');
 
     return_combobox_multi('#phutrach_import', baseHome + '/common/nhanvien', 'Chọn nhân viên');
 
@@ -30,9 +31,8 @@ $(function () {
         type: "GET",
         dataType: "json",
         async: false,
-        url: baseHome + "/common/tinhtrangdata",
+        url: baseHome + "/common/datastatus",
         success: function (data) {
-            console.log(data);
             statusObj = data;
         },
     });
@@ -44,7 +44,7 @@ $(function () {
     // Users List datatable
     if (dtUserTable.length) {
         var table = dtUserTable.DataTable({
-            ajax: baseHome + "/data/listWeb",
+            ajax: baseHome + "/data/list",
             "processing": true,
             "serverSide": true,
             "ordering": false,
@@ -59,12 +59,12 @@ $(function () {
                 // columns according to JSON
                 { data: "" },
                 { data: "id" },
-                { data: "ho_ten" },
-                { data: "dien_thoai" },
-                { data: "loaikh" },
-                { data: "ngaychia" },
-                { data: "nhanvien" },
-                { data: "tinh_trang" },
+                { data: "name" },
+                { data: "phoneNumber" },
+                { data: "source" },
+                { data: "assignmentDate" },
+                { data: "staff" },
+                { data: "status" },
                 { data: "" },
             ],
             columnDefs: [
@@ -109,19 +109,19 @@ $(function () {
                             Admin: feather.icons["slack"].toSvg({ class: "font-medium-3 text-danger mr-50" }),
                         };
                         return '<a href="javascript:void(0)" onclick="loaddata(' + full["id"] + ')" >' +
-                            '<span class="align-middle font-weight-bold">' + roleBadgeObj['Subscriber'] + full["ho_ten"] + "</span></a>";
+                            '<span class="align-middle font-weight-bold">' + roleBadgeObj['Subscriber'] + full["name"] + "</span></a>";
                     },
                 },
                 {
                     targets: 3,
                     render: function (data, type, full, meta) {
-                        return "<span class='text-truncate align-middle'>" + feather.icons["phone"].toSvg({ class: "font-medium-3 text-primary mr-50" }) + full["dien_thoai"] + "</span>";
+                        return "<span class='text-truncate align-middle'>" + feather.icons["phone"].toSvg({ class: "font-medium-3 text-primary mr-50" }) + full["phoneNumber"] + "</span>";
                     },
                 },
                 {
                     targets: 7,
                     render: function (data, type, full, meta) {
-                        var $status = full["tinh_trang"];
+                        var $status = full["status"];
                         if ($status == 1) {
                             return '<span class="badge badge-success" text-capitalized>' + statusObj[$status - 1].text + "</span>";
                         } else if ($status == 2) {
@@ -151,13 +151,13 @@ $(function () {
                     targets: -1,
                     title: feather.icons["database"].toSvg({ class: "font-medium-3 text-success mr-50" }),
                     render: function (data, type, full, meta) {
-                        var html = '<div style="width:200px;text-align:right">';
-                        html += '<button type="button" class="btn btn-icon btn-outline-success waves-effect"  title="Gọi" onclick="call(\'' + full['dien_thoai'] + '\')">';
-                        html += '<i class="fas fa-phone-alt"></i>';
-                        html += '</button> &nbsp;';
-                        html += '<button type="button" class="btn btn-icon btn-outline-warning waves-effect" data-toggle="tooltip" data-placement="top" data-original-title="Chuyển sang Lead" onclick="movelead_id(' + full['id'] +')">';
-                        html += '<i class="fas fa-heart"></i>';
-                        html += '</button> &nbsp;';
+                        var html = '<div style="text-align:right">';
+                        // html += '<button type="button" class="btn btn-icon btn-outline-success waves-effect"  title="Gọi" onclick="call(\'' + full['phoneNumber'] + '\')">';
+                        // html += '<i class="fas fa-phone-alt"></i>';
+                        // html += '</button> &nbsp;';
+                        // html += '<button type="button" class="btn btn-icon btn-outline-warning waves-effect" data-toggle="tooltip" data-placement="top" data-original-title="Chuyển sang Lead" onclick="movelead_id(' + full['id'] + ')">';
+                        // html += '<i class="fas fa-heart"></i>';
+                        // html += '</button> &nbsp;';
                         html += '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" title="Chỉnh sửa" onclick="loaddata(' + full['id'] + ')">';
                         html += '<i class="fas fa-pencil-alt"></i>';
                         html += '</button> &nbsp;';
@@ -166,7 +166,7 @@ $(function () {
                         html += '</button></div>';
                         return html;
                     },
-                    width: 100
+                    width: 150
                 },
             ],
             displayLength: 30,
@@ -235,30 +235,56 @@ $(function () {
     }
 
     // Form Validation
-    if (form.length) {
-        form.validate({
-            errorClass: "error",
-            rules: {
-                "user-fullname": {
-                    required: true,
-                },
-                "user-name": {
-                    required: true,
-                },
-                "user-email": {
-                    required: true,
-                },
-            },
-        });
 
-        form.on("submit", function (e) {
-            var isValid = form.valid();
-            e.preventDefault();
-            if (isValid) {
-                modal.modal("hide");
+    $('#frm-add').each(function () {
+        var $this = $(this);
+        $this.validate({
+            rules: {
+                name: {
+                    required: true
+                },
+                phoneNumber: {
+                    required: true
+                },
             }
         });
-    }
+    });
+
+    $('#frm-edit').each(function () {
+        var $this = $(this);
+        $this.validate({
+            rules: {
+                name: {
+                    required: true
+                },
+                phoneNumber: {
+                    required: true
+                },
+            }
+        });
+    });
+
+    $('#frm-report').each(function () {
+        var $this = $(this);
+        $this.validate({
+            rules: {
+                description: {
+                    required: true
+                }
+            }
+        });
+    });
+
+    $('#frm-nhapexcel').each(function () {
+        var $this = $(this);
+        $this.validate({
+            rules: {
+                file: {
+                    required: true
+                }
+            }
+        });
+    });
 
     // To initialize tooltip with body container
     $("body").tooltip({
@@ -273,7 +299,7 @@ function search() {
     var denngay = $("#denngay").val();
     if (nhanvien != '' || tungay != '' || denngay != '') {
         var table = $(".user-list-table").DataTable();
-        table.ajax.url(baseHome + "/data/listWeb?nhan_vien=" + nhanvien + "&tu_ngay=" + tungay + "&den_ngay=" + denngay).load();
+        table.ajax.url(baseHome + "/data/list?nhan_vien=" + nhanvien + "&tu_ngay=" + tungay + "&den_ngay=" + denngay).load();
         table.draw();
     }
 }
@@ -282,19 +308,18 @@ function showadd() {
     $("#addnew").modal('show');
     $("#modal-title1").html('Thêm data mới');
     $('#name').val('');
-    $('#ten_day_du').val('');
-    $('#dai_dien').val('');
-    $('#tinh_trang').val('').change();
-    $('#phan_loai').val('').change();
-    $('#ghi_chu').val('');
+    $('#phoneNumber').val('');
+    $('#address').val('');
+    $('#email').val('');
+    $('#sourceId').val('').change();
+    $('#note').val('');
     url = baseHome + "/data/add";
 }
 
-function showcall() {
-    $("#showcall").modal('show');
-    $('#call_number').val('');
-}
-
+// function showcall() {
+//     $("#showcall").modal('show');
+//     $('#call_number').val('');
+// }
 
 function loaddata(id) {
     $('#updateinfo').modal('show');
@@ -307,22 +332,23 @@ function loaddata(id) {
         url: baseHome + "/data/loaddata",
         success: function (result) {
             let data = result.data;
-            let histories = result.histories;
-            dataid = id;
-            $('#hoten').val(data.ho_ten);
-            $('#dienthoai').val(data.dien_thoai);
-            $('#data_email').val(data.email);
-            $('#diachi').val(data.dia_chi);
-            $('#phanloai').val(data.phan_loai).change();
-            $('#phutrach').val(data.nhan_vien).change();
-            $('#tinhtrang').val(data.tinh_trang).change();
-            $('#ghichu').val(data.ghi_chu);
-            $('#cong_ty').val(data.cong_ty);
-            $('#mst').val(data.mst);
-            $('#linh_vuc').val(data.linh_vuc);
+            let datareports = result.datareports;
+            dataId = id;
+            $('#ename').val(data.name);
+            $('#ephoneNumber').val(data.phoneNumber);
+            $('#eemail').val(data.email);
+            $('#eaddress').val(data.address);
+            $('#esourceId').val(data.sourceId).change();
+            $('#estaffId').val(data.staffId).change();
+            $('#estatus').val(data.status).change();
+            $('#enote').val(data.note);
+            $('#econnectorName').val(data.connectorName);
+            $('#etaxCode').val(data.taxCode);
+            $('#etype').val(data.type).change();
+            $('#description').val('');
             $('#listnhatky').html('');
-            histories.map(history => {
-                return $('#listnhatky').append('<div class="media mb-1"><div class="avatar bg-light-success my-0 ml-0 mr-50"><img src="' + history.hinhanh + '" alt="Avatar" height="32" /></div><div class="media-body"><p class="mb-0"><span class="font-weight-bold">' + history.username + '</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<small class="text-muted">' + history.ngay_gio + '</small></p><p>' + history.ghi_chu + '</p></div></div>');
+            datareports.map(history => {
+                return $('#listnhatky').append('<div class="media mb-1"><div class="avatar bg-light-success my-0 ml-0 mr-50"><img src="' + history.hinhanh + '" alt="Avatar" height="32" /></div><div class="media-body"><p class="mb-0"><span class="font-weight-bold">' + history.username + '</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<small class="text-muted">' + history.dateTime + '</small></p><p>' + history.description + '</p></div></div>');
             });
             var chatUsersListWrapper = $('#listnhatky');
             var chatUserList = new PerfectScrollbar(chatUsersListWrapper[0]);
@@ -335,53 +361,24 @@ function loaddata(id) {
 }
 
 function saveadd() {
-    var info = {};
-    info.ho_ten = $("#ho_ten").val();
-    info.dien_thoai = $("#dien_thoai").val();
-    info.dia_chi = $("#dia_chi").val();
-    info.email = $("#email").val();
-    info.phan_loai = $("#phan_loai").val();
-    info.ghi_chu = $("#ghi_chu").val();
-    $.ajax({
-        type: "POST",
-        dataType: "json",
-        data: info,
-        url: baseHome + "/data/add",
-        success: function (data) {
-            if (data.success) {
-                notyfi_success(data.msg);
-                $('#addnew').modal('hide');
-                $(".user-list-table").DataTable().ajax.reload(null, false);
-            }
-            else
-                notify_error(data.msg);
-        },
-        error: function () {
-            notify_error('Cập nhật không thành công');
-        }
-    });
-}
-
-function saveedit() {
-    var info = {};
-    info.ho_ten = $("#hoten").val();
-    info.dien_thoai = $("#dienthoai").val();
-    info.dia_chi = $("#diachi").val();
-    info.email = $("#data_email").val();
-    info.phan_loai = $("#phanloai").val();
-    info.ghi_chu = $("#ghichu").val();
-    info.nhan_vien = $("#phutrach").val();
-    info.tinh_trang = $("#tinhtrang").val();
-    if (dataid > 0) {
+    var isValid = $('#frm-add').valid();
+    if (isValid) {
+        var info = {};
+        info.name = $("#name").val();
+        info.phoneNumber = $("#phoneNumber").val();
+        info.address = $("#address").val();
+        info.email = $("#email").val();
+        info.sourceId = $("#sourceId").val();
+        info.note = $("#note").val();
         $.ajax({
             type: "POST",
             dataType: "json",
             data: info,
-            url: baseHome + "/data/update?id=" + dataid,
+            url: baseHome + "/data/add",
             success: function (data) {
                 if (data.success) {
                     notyfi_success(data.msg);
-                    $('#updateinfo').modal('hide');
+                    $('#addnew').modal('hide');
                     $(".user-list-table").DataTable().ajax.reload(null, false);
                 }
                 else
@@ -392,32 +389,72 @@ function saveedit() {
             }
         });
     }
+}
 
+function saveedit() {
+    var isValid = $('#frm-edit').valid();
+    if (isValid) {
+        var info = {};
+        info.ename = $("#ename").val();
+        info.ephoneNumber = $("#ephoneNumber").val();
+        info.eaddress = $("#eaddress").val();
+        info.eemail = $("#eemail").val();
+        info.esourceId = $("#esourceId").val();
+        info.econnectorName = $("#econnectorName").val();
+        info.etaxCode = $("#etaxCode").val();
+        info.etype = $("#etype").val();
+        info.enote = $("#enote").val();
+        info.estaffId = $("#estaffId").val();
+        info.estatus = $("#estatus").val();
+        if (dataId > 0) {
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                data: info,
+                url: baseHome + "/data/update?id=" + dataId,
+                success: function (data) {
+                    if (data.success) {
+                        notyfi_success(data.msg);
+                        $('#updateinfo').modal('hide');
+                        $(".user-list-table").DataTable().ajax.reload(null, false);
+                    }
+                    else
+                        notify_error(data.msg);
+                },
+                error: function () {
+                    notify_error('Cập nhật không thành công');
+                }
+            });
+        }
+    }
 }
 
 function savenhatky() {
-    var info = {};
-    info.iddata = dataid;
-    info.ghi_chu = $("#noidung").val();
-    if (dataid > 0) {
-        $.ajax({
-            type: "POST",
-            dataType: "json",
-            data: info,
-            url: baseHome + "/data/addnhatky",
-            success: function (data) {
-                if (data.success) {
-                    notyfi_success(data.msg);
-                    $('#addnhatky').modal('hide');
-                    $('#listnhatky').prepend('<div class="media mb-1"><div class="avatar bg-light-success my-0 ml-0 mr-50"><img src="' + hinhanh + '" alt="Avatar" height="32" /></div><div class="media-body"><p class="mb-0"><span class="font-weight-bold">' + username + '</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<small class="text-muted">' + now + '</small></p><p>' + info.ghi_chu + '</p></div></div>');
+    var isValid = $('#frm-report').valid();
+    if (isValid) {
+        var info = {};
+        info.dataId = dataId;
+        info.description = $("#description").val();
+        if (dataId > 0) {
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                data: info,
+                url: baseHome + "/data/addDataReport",
+                success: function (data) {
+                    if (data.success) {
+                        notyfi_success(data.msg);
+                        $('#description').val('');
+                        $('#listnhatky').prepend('<div class="media mb-1"><div class="avatar bg-light-success my-0 ml-0 mr-50"><img src="' + hinhanh + '" alt="Avatar" height="32" /></div><div class="media-body"><p class="mb-0"><span class="font-weight-bold">' + username + '</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<small class="text-muted">' + now + '</small></p><p>' + info.description + '</p></div></div>');
+                    }
+                    else
+                        notify_error(data.msg);
+                },
+                error: function () {
+                    notify_error('Cập nhật không thành công');
                 }
-                else
-                    notify_error(data.msg);
-            },
-            error: function () {
-                notify_error('Cập nhật không thành công');
-            }
-        });
+            });
+        }
     }
 }
 
@@ -462,92 +499,92 @@ function savechia() {
     });
 }
 
-function movetolead() {
-    var table = $(".user-list-table").DataTable();
-    var rows = table.column(1).checkboxes.selected();
-    var listlead = '';
-    rows.each(function (item) {
-        listlead += item + ',';
-    })
-    listlead = listlead.slice(0, -1);
+// function movetolead() {
+//     var table = $(".user-list-table").DataTable();
+//     var rows = table.column(1).checkboxes.selected();
+//     var listlead = '';
+//     rows.each(function (item) {
+//         listlead += item + ',';
+//     })
+//     listlead = listlead.slice(0, -1);
 
-    if (rows.length > 0) {
-        $.ajax({
-            type: "POST",
-            dataType: "json",
-            data: { data: listlead },
-            url: baseHome + "/data/movetolead",
-            success: function (data) {
-                if (data.success) {
-                    notyfi_success(data.msg);
-                    $(".user-list-table").DataTable().ajax.reload(null, false);
-                }
-                else
-                    notify_error(data.msg);
-            },
-            error: function () {
-                notify_error('Cập nhật không thành công');
-            }
-        });
-    } else {
-        notify_error('Không có bản ghi nào được chọn');
-    }
-}
-function movelead_id(id) {
+//     if (rows.length > 0) {
+//         $.ajax({
+//             type: "POST",
+//             dataType: "json",
+//             data: { data: listlead },
+//             url: baseHome + "/data/movetolead",
+//             success: function (data) {
+//                 if (data.success) {
+//                     notyfi_success(data.msg);
+//                     $(".user-list-table").DataTable().ajax.reload(null, false);
+//                 }
+//                 else
+//                     notify_error(data.msg);
+//             },
+//             error: function () {
+//                 notify_error('Cập nhật không thành công');
+//             }
+//         });
+//     } else {
+//         notify_error('Không có bản ghi nào được chọn');
+//     }
+// }
 
-        $.ajax({
-            type: "POST",
-            dataType: "json",
-            data: { id: id },
-            url: baseHome + "/data/movelead_id",
-            success: function (data) {
-                if (data.success) {
-                    notyfi_success(data.msg);
-                    $(".user-list-table").DataTable().ajax.reload(null, false);
-                }
-                else
-                    notify_error(data.msg);
-            },
-            error: function () {
-                notify_error('Cập nhật không thành công');
-            }
-        });
-    
-}
+// function movelead_id(id) {
 
+//     $.ajax({
+//         type: "POST",
+//         dataType: "json",
+//         data: { id: id },
+//         url: baseHome + "/data/movelead_id",
+//         success: function (data) {
+//             if (data.success) {
+//                 notyfi_success(data.msg);
+//                 $(".user-list-table").DataTable().ajax.reload(null, false);
+//             }
+//             else
+//                 notify_error(data.msg);
+//         },
+//         error: function () {
+//             notify_error('Cập nhật không thành công');
+//         }
+//     });
 
-
-
-
-
+// }
 
 function nhapexcel() {
     $("#nhapexcel").modal('show');
     $("#modal-title5").html('Nhập data từ file excel');
+    $("#file").val('');
+    $("#frm-nhapexcel").reset();
 }
 
 function savenhap() {
-    var myform = new FormData($("#fm-nhapexcel")[0]);
-    $.ajax({
-        type: "POST",
-        dataType: "json",
-        data: myform,
-        url: baseHome + "/data/nhapexcel",
-        contentType: false,
-        processData: false,
-        success: function (data) {
-            if (data.success) {
-                notyfi_success(data.msg);
-                $('#nhapexcel').modal('hide');
-                $(".user-list-table").DataTable().ajax.reload(null, false);
+    var isValid = $('#frm-nhapexcel').valid();
+    if (isValid) {
+        var myform = new FormData($("#frm-nhapexcel")[0]);
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            data: myform,
+            url: baseHome + "/data/importData",
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                if (data.success) {
+                    notyfi_success(data.msg);
+                    $('#nhapexcel').modal('hide');
+                    $(".user-list-table").DataTable().ajax.reload(null, false);
+                }
+                else
+                    notify_error(data.msg);
+            },
+            error: function () {
+                notify_error('Cập nhật không thành công');
             }
-            else
-                notify_error(data.msg);
-        },
-        error: function () {
-            notify_error('Cập nhật không thành công');
-        }
-    });
+        });
+    }
 }
 
 function xoa(id) {
@@ -585,6 +622,6 @@ function xoa(id) {
 
 function call(number) {
     // number = '0'+number;
-    DialByLine('audio','',number);
+    DialByLine('audio', '', number);
     // alert(number)
 }

@@ -54,40 +54,30 @@ class Common_Model extends Model {
         return $result;
     }
 
-    function loaikh()
+    function datasource()
     {
         $temp = array();
-        $query = $this->db->query("SELECT id, name AS text FROM loaikh WHERE tinh_trang = 1 ");
+        $query = $this->db->query("SELECT id, name AS text FROM datasource WHERE status = 1 ");
         if($query){
             $temp = $query->fetchAll(PDO::FETCH_ASSOC);
         }
         return $temp;
     }
 
-    function tinhtrangdata()
+    function datatype()
     {
         $temp = array();
-        $query = $this->db->query("SELECT id, name AS text FROM tinhtrangdata WHERE tinh_trang = 1 ");
+        $query = $this->db->query("SELECT id, name AS text FROM datatype WHERE status = 1 ");
         if($query){
             $temp = $query->fetchAll(PDO::FETCH_ASSOC);
         }
         return $temp;
     }
 
-    function phanloaidata()
+    function datastatus()
     {
         $temp = array();
-        $query = $this->db->query("SELECT id, name AS text FROM phanloaidata WHERE tinh_trang = 1 ");
-        if($query){
-            $temp = $query->fetchAll(PDO::FETCH_ASSOC);
-        }
-        return $temp;
-    }
-    
-    function mangdata()
-    {
-        $temp = array();
-        $query = $this->db->query("SELECT id, name AS text FROM mangdata WHERE tinh_trang = 1 ");
+        $query = $this->db->query("SELECT id, name AS text FROM datastatus WHERE status = 1 ");
         if($query){
             $temp = $query->fetchAll(PDO::FETCH_ASSOC);
         }

@@ -34,27 +34,21 @@ class common extends Controller
         echo json_encode($json);
     }
 
-    function loaikh()
+    function datasource()
 	{
-		$jsonObj = $this->model->loaikh();
+		$jsonObj = $this->model->datasource();
 		echo json_encode($jsonObj);
 	}
 
-    function tinhtrangdata()
-    {
-        $jsonObj = $this->model->tinhtrangdata();
-        echo json_encode($jsonObj);
-    }
+    function datatype()
+	{
+		$jsonObj = $this->model->datatype();
+		echo json_encode($jsonObj);
+	}
 
-    function phanloaidata()
+    function datastatus()
     {
-        $jsonObj = $this->model->phanloaidata();
-        echo json_encode($jsonObj);
-    }
-
-    function mangdata()
-    {
-        $jsonObj = $this->model->mangdata();
+        $jsonObj = $this->model->datastatus();
         echo json_encode($jsonObj);
     }
 

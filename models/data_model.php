@@ -6,39 +6,39 @@ class Data_Model extends Model
         parent::__construct();
     }
 
-    function listAll()
-    {
-        $result = array();
-        $result['data'] = [];
-        $dieukien = " WHERE tinh_trang > 0 AND tinh_trang != 6 ";
+    // function listAll()
+    // {
+    //     $result = array();
+    //     $result['data'] = [];
+    //     $dieukien = " WHERE status > 0 AND status != 6 ";
 
-        $query = $this->db->query("SELECT *
-            FROM data $dieukien ");
-        $temp = $query->fetchAll(PDO::FETCH_ASSOC);
-        if ($temp) {
-            $result['data'] = $temp;
-        }
-        return $result;
-    }
+    //     $query = $this->db->query("SELECT *
+    //         FROM data $dieukien ");
+    //     $temp = $query->fetchAll(PDO::FETCH_ASSOC);
+    //     if ($temp) {
+    //         $result['data'] = $temp;
+    //     }
+    //     return $result;
+    // }
 
     function listObj($keyword, $nhanvien, $tungay, $denngay, $offset, $rows)
     {
         $result = array();
         $result['data'] = [];
         $result['total'] = 0;
-    
-        $dieukien = " WHERE tinh_trang > 0 AND tinh_trang != 6 AND tinh_trang != 9 ";
+
+        $dieukien = " WHERE status > 0 ";
         if ($keyword != '') {
-            $dieukien .= " AND (ho_ten LIKE '%$keyword%' OR dien_thoai LIKE '%$keyword%') ";
+            $dieukien .= " AND (name LIKE '%$keyword%' OR phoneNumber LIKE '%$keyword%') ";
         }
-        if ($nhanvien > 0 && $nhanvien!=1 && $nhanvien!=2) {
-            $dieukien .= " AND nhan_vien = $nhanvien ";
+        if ($nhanvien > 0 && $nhanvien != 1 && $nhanvien != 2) {
+            $dieukien .= " AND staffId = $nhanvien ";
         }
         if ($tungay != '') {
-            $dieukien .= " AND ngay_nhap >= '$tungay' ";
+            $dieukien .= " AND inputDate >= '$tungay' ";
         }
         if ($denngay != '') {
-            $dieukien .= " AND ngay_nhap <= '$denngay' ";
+            $dieukien .= " AND inputDate <= '$denngay' ";
         }
         $query = $this->db->query("SELECT id FROM data $dieukien ");
         $temp = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -48,13 +48,13 @@ class Data_Model extends Model
         }
 
         $query = $this->db->query("SELECT *,
-            DATE_FORMAT(ngay_nhap,'%d/%m/%Y') as ngaynhap,
-            IF(ngay_chia!='',DATE_FORMAT(ngay_chia,'%d/%m/%Y'),'') as ngaychia,
-            IF(ngay_sinh!='',DATE_FORMAT(ngay_sinh,'%d/%m/%Y'),'') as ngaysinh,
-            (SELECT name FROM nhanvien WHERE id = nguoi_nhap) as nguoinhap,
-            (SELECT name FROM loaikh WHERE id=phan_loai) as loaikh,
-            (SELECT name FROM nhanvien WHERE id = nhan_vien) as nhanvien
-            FROM data $dieukien ORDER BY ngay_nhap DESC LIMIT $offset,$rows ");
+            DATE_FORMAT(inputDate,'%d/%m/%Y') as inputDate,
+            IF(assignmentDate!='',DATE_FORMAT(assignmentDate,'%d/%m/%Y'),'') as assignmentDate,
+            IF(birthDay!='',DATE_FORMAT(birthDay,'%d/%m/%Y'),'') as birthDay,
+            (SELECT name FROM staffs WHERE id = inputId) as input,
+            (SELECT name FROM datasource WHERE id= sourceId) as source,
+            IFNULL((SELECT name FROM staffs WHERE id = staffId),'') as staff
+            FROM data $dieukien ORDER BY id DESC LIMIT $offset,$rows ");
         $temp = $query->fetchAll(PDO::FETCH_ASSOC);
         if ($temp) {
             $result['data'] = $temp;
@@ -62,29 +62,29 @@ class Data_Model extends Model
         return $result;
     }
 
-    function listObjApi($keyword, $offset, $rows)
-    {
-        $result = array();
-        $result['data'] = [];
-        $dieukien = " WHERE tinh_trang > 0 AND tinh_trang != 6 AND tinh_trang != 9 ";
-        if ($keyword != '') {
-            $dieukien .= " AND ho_ten LIKE '%$keyword%' OR dien_thoai LIKE '%$keyword%' ";
-        }
+    // function listObjApi($keyword, $offset, $rows)
+    // {
+    //     $result = array();
+    //     $result['data'] = [];
+    //     $dieukien = " WHERE status > 0 AND status != 6 AND status != 9 ";
+    //     if ($keyword != '') {
+    //         $dieukien .= " AND name LIKE '%$keyword%' OR dien_thoai LIKE '%$keyword%' ";
+    //     }
 
-        $query = $this->db->query("SELECT *,
-            DATE_FORMAT(ngay_nhap,'%d/%m/%Y') as ngaynhap,
-            IF(ngay_chia!='',DATE_FORMAT(ngay_chia,'%d/%m/%Y'),'') as ngaychia,
-            IF(ngay_sinh!='',DATE_FORMAT(ngay_sinh,'%d/%m/%Y'),'') as ngaysinh,
-            (SELECT name FROM nhanvien WHERE id = nguoi_nhap) as nguoinhap,
-            (SELECT name FROM loaikh WHERE id=phan_loai) as loaikh,
-            (SELECT name FROM nhanvien WHERE id = nhan_vien) as nhanvien
-            FROM data $dieukien ORDER BY ngay_nhap DESC LIMIT $offset,$rows  ");
-        $temp = $query->fetchAll(PDO::FETCH_ASSOC);
-        if ($temp) {
-            $result['data'] = $temp;
-        }
-        return $result;
-    }
+    //     $query = $this->db->query("SELECT *,
+    //         DATE_FORMAT(inputDate,'%d/%m/%Y') as ngaynhap,
+    //         IF(assignmentDate!='',DATE_FORMAT(assignmentDate,'%d/%m/%Y'),'') as assignmentDate,
+    //         IF(birthDay!='',DATE_FORMAT(birthDay,'%d/%m/%Y'),'') as birthDay,
+    //         (SELECT name FROM staffs WHERE id = inputId) as nguoinhap,
+    //         (SELECT name FROM loaikh WHERE id=type) as loaikh,
+    //         (SELECT name FROM staffs WHERE id = staffId) as nhanvien
+    //         FROM data $dieukien ORDER BY inputDate DESC LIMIT $offset,$rows  ");
+    //     $temp = $query->fetchAll(PDO::FETCH_ASSOC);
+    //     if ($temp) {
+    //         $result['data'] = $temp;
+    //     }
+    //     return $result;
+    // }
 
     function addObj($data)
     {
@@ -101,27 +101,28 @@ class Data_Model extends Model
         $temp = $query->fetchAll(PDO::FETCH_ASSOC);
         $result['data'] = $temp[0];
         $query = $this->db->query("SELECT *,
-            (SELECT hinh_anh FROM nhanvien WHERE id = a.nhan_vien) AS hinhanh,
-            (SELECT name FROM nhanvien WHERE id = a.nhan_vien) AS username 
-            FROM lichsu_data a WHERE tinh_trang = 1 AND id_data = $id ORDER BY ngay_gio DESC");
+            (SELECT IF(avatar='',CONCAT('" . URLFILE . "','/uploads/useravatar.png'),CONCAT('" . URLFILE . "/',avatar)) FROM staffs WHERE id=a.staffId) AS hinhanh,
+            (SELECT name FROM staffs WHERE id = a.staffId) AS username,
+            IF(dateTime!='',DATE_FORMAT(dateTime,'%d/%m/%Y %H:%i:%s'),'') as dateTime
+            FROM datareports a WHERE status = 1 AND dataId = $id ORDER BY dateTime DESC");
         $temp = $query->fetchAll(PDO::FETCH_ASSOC);
         if ($temp)
-            $result['histories'] = $temp;
+            $result['datareports'] = $temp;
         return $result;
     }
 
-    function getHistory($id)
-    {
-        $result = array();
-        $query = $this->db->query("SELECT *,
-            (SELECT email FROM users WHERE id = a.nhan_vien) AS username,
-            (SELECT hinh_anh FROM nhanvien WHERE id = a.nhan_vien) AS avatar
-            FROM lichsu_data a WHERE tinh_trang = 1 AND id_data = $id ORDER BY ngay_gio ASC");
-        $temp = $query->fetchAll(PDO::FETCH_ASSOC);
-        if ($temp)
-            $result = $temp;
-        return $result;
-    }
+    // function getHistory($id)
+    // {
+    //     $result = array();
+    //     $query = $this->db->query("SELECT *,
+    //         (SELECT email FROM users WHERE id = a.staffId) AS username,
+    //         (SELECT hinh_anh FROM staffs WHERE id = a.staffId) AS avatar
+    //         FROM lichsu_data a WHERE status = 1 AND id_data = $id ORDER BY ngay_gio ASC");
+    //     $temp = $query->fetchAll(PDO::FETCH_ASSOC);
+    //     if ($temp)
+    //         $result = $temp;
+    //     return $result;
+    // }
 
     function updateObj($id, $data)
     {
@@ -135,41 +136,44 @@ class Data_Model extends Model
         $rows = explode(',', $data);
         foreach ($rows as $row) {
             $id = $row;
-            $query = $this->db->query("SELECT tinh_trang FROM data WHERE id = $id");
+            $query = $this->db->query("SELECT status FROM data WHERE id = $id");
             $temp = $query->fetchAll(PDO::FETCH_ASSOC);
-            $tinhtrang = $temp[0]['tinh_trang'];
+            $tinhtrang = $temp[0]['status'];
             if ($tinhtrang == 1 || $tinhtrang == '') {
-                $update = ['tinh_trang' => 2, 'nhan_vien' => $nhanvien, 'ngay_chia' => date('Y-m-d')];
+                $update = ['status' => 2, 'staffId' => $nhanvien, 'assignmentDate' => date('Y-m-d')];
             } else {
-                $update = ['nhan_vien' => $nhanvien, 'ngay_chia' => date('Y-m-d')];
+                $update = ['staffId' => $nhanvien, 'assignmentDate' => date('Y-m-d')];
             }
             $ok = $this->update("data", $update, " id=$id ");
         }
         return $ok;
     }
 
-    function movetolead($data)
-    {
-        $ok = false;
-        $rows = explode(',', $data);
-        foreach ($rows as $row) {
-            $id = $row;
-            $update = ['tinh_trang' => 6];
-            $ok = $this->update("data", $update, "id=$id");
-        }
-        return $ok;
-    }
+    // function movetolead($data)
+    // {
+    //     $ok = false;
+    //     $rows = explode(',', $data);
+    //     foreach ($rows as $row) {
+    //         $id = $row;
+    //         $update = ['status' => 6];
+    //         $ok = $this->update("data", $update, "id=$id");
+    //     }
+    //     return $ok;
+    // }
 
-    function checkdt($dienthoai)
+    function checkPhoneNumber($phoneNumber, $id)
     {
-        if ($dienthoai != '') {
-            $dieukien = " WHERE tinh_trang > 0 AND dien_thoai='$dienthoai'";
+        if ($phoneNumber != '') {
+            $dieukien = " WHERE status > 0 AND phoneNumber='$phoneNumber'";
+            if($id > 0) {
+                $dieukien .= " AND id != $id "; 
+            }
             $query = $this->db->query("SELECT COUNT(id) AS total FROM data $dieukien ");
             $row = $query->fetchAll(PDO::FETCH_ASSOC);
             if ($row[0]['total'] > 0)
                 return false;
             else {
-                $query = $this->db->query("SELECT COUNT(id) AS total FROM khachhang WHERE tinh_trang > 0 AND dien_thoai = '$dienthoai' ");
+                $query = $this->db->query("SELECT COUNT(id) AS total FROM customer WHERE status > 0 AND phoneNumber = '$phoneNumber' ");
                 $row = $query->fetchAll(PDO::FETCH_ASSOC);
                 if ($row[0]['total'] > 0)
                     return false;
@@ -180,29 +184,9 @@ class Data_Model extends Model
             return true;
     }
 
-    function checkeditdt($dienthoai, $id)
+    function addDataReport($data)
     {
-        if ($dienthoai != '') {
-            $dieukien = " WHERE tinh_trang > 0 AND id != $id AND dien_thoai='$dienthoai'";
-            $query = $this->db->query("SELECT COUNT(id) AS total FROM data $dieukien ");
-            $row = $query->fetchAll(PDO::FETCH_ASSOC);
-            if ($row[0]['total'] > 0)
-                return false;
-            else {
-                $query = $this->db->query("SELECT COUNT(id) AS total FROM khachhang WHERE tinh_trang > 0 AND dien_thoai = '$dienthoai' ");
-                $row = $query->fetchAll(PDO::FETCH_ASSOC);
-                if ($row[0]['total'] > 0) {
-                    return false;
-                }
-                return true;
-            }
-        } else
-            return true;
-    }
-
-    function addnhatky($data)
-    {
-        $query = $this->insert('lichsu_data', $data);
+        $query = $this->insert('datareports', $data);
         return $query;
     }
 }
