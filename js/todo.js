@@ -22,6 +22,7 @@ $(function () {
         updateBtns = $(".update-btn"),
         taskDesc = $("#task-desc"),
         taskAssignSelect = $("#task-assigned"),
+        taskAssignList = $("#task-assigned-list"),
         taskTag = $("#task-tag"),
         overlay = $(".body-content-overlay"),
         menuToggle = $(".menu-toggle"),
@@ -126,7 +127,20 @@ $(function () {
 
         return $person;
     }
-
+    // Chọn nhân viên để hiển thị công việc
+    if (taskAssignList.length) {
+        taskAssignList.wrap('<div class="position-relative" style="min-width:250px"></div>');
+        taskAssignList.select2({
+            placeholder: "Chọn nhân viên",
+            dropdownParent: taskAssignList.parent(),
+            templateResult: assignTask,
+            templateSelection: assignTask,
+            escapeMarkup: function (es) {
+                return es;
+            },
+        });
+        taskAssignList.val('').trigger("change");
+    }
     // Task Assign Select2
     if (taskAssignSelect.length) {
         taskAssignSelect.wrap('<div class="position-relative"></div>');
@@ -241,7 +255,14 @@ $(function () {
                                 rtl: isRtl,
                             });
                             $(newTaskModal).modal("hide");
-                            $("#my-task-list").load(window.location.href + " #my-task-list");
+                            var projectId = $('#projectId').val();
+                            var assigneeId = taskAssignList.val();
+                            if (projectId>0)
+                                $("#my-task-list").load(window.location.href + "?project="+projectId+ " #my-task-list");
+                            else if (assigneeId>0)
+                                $("#my-task-list").load(window.location.href + "?assignee="+assigneeId+ " #my-task-list");
+                            else
+                                $("#my-task-list").load(window.location.href + " #my-task-list");
                         } else {
                             toastr["error"](data.msg, "💾 Task Action!", {
                                 closeButton: true,
@@ -337,15 +358,54 @@ $(function () {
     // Task checkbox change
     todoTaskListWrapper.on("change", ".custom-checkbox", function (event) {
         var $this = $(this).find("input");
+        var taskId = $this.attr("id").replace('customCheck','');
         if ($this.prop("checked")) {
-            $this.closest(".todo-item").addClass("completed");
-            toastr["success"]("Task Completed", "Congratulations!! 🎉", {
-                closeButton: true,
-                tapToDismiss: false,
-                rtl: isRtl,
-            });
+            $.post(
+                "todo/checkOut", {id:taskId, status:4},
+                function (data, status) {
+                    if (data.success) {
+                        toastr["success"]("Task Completed", "Congratulations!! 🎉", {
+                            closeButton: true,
+                            tapToDismiss: false,
+                            rtl: isRtl,
+                        });
+                    } else {
+                        toastr["error"](data.msg, "💾 Task Action!", {
+                            closeButton: true,
+                            tapToDismiss: false,
+                            rtl: isRtl,
+                        });
+                    }
+                },
+                "json"
+            );
+            // $this.closest(".todo-item").addClass("completed");
+            // toastr["success"]("Task Completed", "Congratulations!! 🎉", {
+            //     closeButton: true,
+            //     tapToDismiss: false,
+            //     rtl: isRtl,
+            // });
         } else {
-            $this.closest(".todo-item").removeClass("completed");
+            // $this.closest(".todo-item").removeClass("completed");
+            $.post(
+                "todo/checkOut", {id:taskId, status:2},
+                function (data, status) {
+                    if (data.success) {
+                        toastr["success"]("Task updated", "---", {
+                            closeButton: true,
+                            tapToDismiss: false,
+                            rtl: isRtl,
+                        });
+                    } else {
+                        toastr["error"](data.msg, "💾 Task Action!", {
+                            closeButton: true,
+                            tapToDismiss: false,
+                            rtl: isRtl,
+                        });
+                    }
+                },
+                "json"
+            );
         }
     });
     todoTaskListWrapper.on("click", ".custom-checkbox", function (event) {
@@ -357,13 +417,14 @@ $(function () {
         newTaskModal.modal("show");
         addBtn.addClass("d-none");
         updateBtns.removeClass("d-none");
-        if ($(this).hasClass("completed")) {
-            modalTitle.html('<button type="button" class="btn btn-sm btn-outline-success complete-todo-item waves-effect waves-float waves-light" data-dismiss="modal">Completed</button>');
-        } else {
-            modalTitle.html('<button type="button" class="btn btn-sm btn-outline-secondary complete-todo-item waves-effect waves-float waves-light" data-dismiss="modal">Mark Complete</button>');
-        }
-        // taskTitle = $(this).find('.todo-title');
         var taskId = $(this).find(".taskId").text();
+        // if ($(this).hasClass("completed")) {
+        //     modalTitle.html('<button type="button" class="btn btn-sm btn-outline-success complete-todo-item waves-effect waves-float waves-light" data-dismiss="modal">Completed</button>');
+        // } else {
+            modalTitle.html('<button type="button" onclick="markCompleted('+taskId+')"class="btn btn-sm btn-outline-secondary complete-todo-item waves-effect waves-float waves-light" data-dismiss="modal">Hoàn thành</button>');
+        // }
+        // taskTitle = $(this).find('.todo-title');
+
         $("#taskId").val(taskId);
         var $title = $(this).find(".todo-title").html();
         var thisLabel = $(this).find(".badge-pill").attr("data-id");
@@ -403,7 +464,14 @@ $(function () {
                                 rtl: isRtl,
                             });
                             $(newTaskModal).modal("hide");
-                            $("#my-task-list").load(window.location.href + " #my-task-list");
+                            var projectId = $('#projectId').val();
+                            var assigneeId = taskAssignList.val();
+                            if (projectId>0)
+                                $("#my-task-list").load(window.location.href + "?project="+projectId+ " #my-task-list");
+                            else if (assigneeId>0)
+                                $("#my-task-list").load(window.location.href + "?assignee="+assigneeId+ " #my-task-list");
+                            else
+                                $("#my-task-list").load(window.location.href + " #my-task-list");
                         } else {
                             toastr["error"](data.msg, "💾 Task Action!", {
                                 closeButton: true,
@@ -491,9 +559,58 @@ $(window).on("resize", function () {
 });
 
 function listTaskPro(projectId){
+    $('#projectId').val(projectId);
     $("#my-task-list").load(window.location.href + "?project="+projectId+ " #my-task-list");
 }
 
 function listMyTask(){
+    $('#projectId').val(0);
     $("#my-task-list").load(window.location.href + " #my-task-list");
+}
+
+function listStatus(status){
+    $('#projectId').val(0);
+    $("#my-task-list").load(window.location.href + "?status="+status+ " #my-task-list");
+}
+
+function listDeadline(){
+    $('#projectId').val(0);
+    $("#my-task-list").load(window.location.href + "?deadline=true #my-task-list");
+}
+
+function listOtherTask(assigneeId){
+    if (assigneeId>0) {
+        $('#projectId').val(0);
+        $("#my-task-list").load(window.location.href + "?assignee="+assigneeId+ " #my-task-list");
+    }
+}
+
+function markCompleted(taskId){
+    $.post(
+        "todo/checkOut", {id:taskId, status:6},
+        function (data, status) {
+            if (data.success) {
+                toastr["success"]("Task completed", "Congratulations!! 🎉", {
+                    closeButton: true,
+                    tapToDismiss: false,
+                    rtl: isRtl,
+                });
+                var projectId = $('#projectId').val();
+                var assigneeId = $("#task-assigned-list").val();
+                if (projectId>0)
+                    $("#my-task-list").load(window.location.href + "?project="+projectId+ " #my-task-list");
+                else if (assigneeId>0)
+                    $("#my-task-list").load(window.location.href + "?assignee="+assigneeId+ " #my-task-list");
+                else
+                    $("#my-task-list").load(window.location.href + " #my-task-list");
+            } else {
+                toastr["error"](data.msg, "💾 Task Action!", {
+                    closeButton: true,
+                    tapToDismiss: false,
+                    rtl: isRtl,
+                });
+            }
+        },
+        "json"
+    );
 }

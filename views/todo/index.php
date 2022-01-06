@@ -18,14 +18,14 @@
                                     <i data-feather="mail" class="font-medium-3 mr-50"></i>
                                     <span class="align-middle"> My task</span>
                                 </a>
-                                <a href="javascript:void(0)" class="list-group-item list-group-item-action">
+                                <a href="javascript:void(0)" onclick="listDeadline()" class="list-group-item list-group-item-action">
                                     <i data-feather="star" class="font-medium-3 mr-50"></i> <span class="align-middle">Trễ deadline</span>
                                 </a>
-                                <a href="javascript:void(0)" class="list-group-item list-group-item-action">
+                                <a href="javascript:void(0)" onclick="listStatus(6)" class="list-group-item list-group-item-action">
                                     <i data-feather="check" class="font-medium-3 mr-50"></i> <span class="align-middle">Đã hoàn thành</span>
                                 </a>
-                                <a href="javascript:void(0)" class="list-group-item list-group-item-action">
-                                    <i data-feather="trash" class="font-medium-3 mr-50"></i> <span class="align-middle">Đã báo cáo</span>
+                                <a href="javascript:void(0)" onclick="listStatus(0)"class="list-group-item list-group-item-action">
+                                    <i data-feather="trash" class="font-medium-3 mr-50"></i> <span class="align-middle">Đã xóa</span>
                                 </a>
                             </div>
                             <div class="mt-3 px-2 d-flex justify-content-between">
@@ -33,6 +33,7 @@
                                 <i data-feather="plus" class="cursor-pointer"></i>
                             </div>
                             <div class="list-group list-group-labels">
+                                <input type="hidden" id="projectId" />
                                 <?php
                                   foreach ($this->project AS $item)
                                       echo '
@@ -68,18 +69,18 @@
                                 </div>
                             </div>
                             <div class="dropdown">
-                                <a href="javascript:void(0);" class="dropdown-toggle hide-arrow mr-1" id="todoActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i data-feather="more-vertical" class="font-medium-2 text-body"></i>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="todoActions">
-                                    <a class="dropdown-item sort-asc" href="javascript:void(0)">Sort A - Z</a>
-                                    <a class="dropdown-item sort-desc" href="javascript:void(0)">Sort Z - A</a>
-                                    <a class="dropdown-item" href="javascript:void(0)">Sort Assignee</a>
-                                    <a class="dropdown-item" href="javascript:void(0)">Sort Due Date</a>
-                                    <a class="dropdown-item" href="javascript:void(0)">Sort Today</a>
-                                    <a class="dropdown-item" href="javascript:void(0)">Sort 1 Week</a>
-                                    <a class="dropdown-item" href="javascript:void(0)">Sort 1 Month</a>
-                                </div>
+                              <!-- <input type="hidden" id="assigneeId" /> -->
+                              <select class="select2 form-control" id="task-assigned-list" onchange="listOtherTask(this.value)">
+                                  <?php
+                                      foreach ($this->employee AS $item) {
+                                          if ($item['avatar']!='')
+                                              $avatar = HOME.'/users/gemstech/uploads/nhanvien/'.$item['avatar'];
+                                          else
+                                              $avatar = HOME.'/users/gemstech/uploads/useravatar.png';
+                                          echo '<option data-img="'.$avatar.'" value="'.$item['id'].'">'.$item['name'].'</option>';
+                                      }
+                                  ?>
+                              </select>
                             </div>
                         </div>
                         <!-- Todo search ends -->
@@ -93,6 +94,7 @@
                                         $avatar = HOME.'/users/gemstech/uploads/nhanvien/'.$item['avatar'];
                                     else
                                         $avatar = HOME.'/users/gemstech/uploads/useravatar.png';
+                                    $checked = ($item['status']==4)?'checked="true"':'';
                                     echo '
                                     <li class="todo-item">
                                         <div class="todo-title-wrapper">
@@ -101,7 +103,7 @@
                                                 <i data-feather="more-vertical" class="drag-icon"></i>
                                                 <div class="title-wrapper">
                                                     <div class="custom-control custom-checkbox">
-                                                        <input type="checkbox" class="custom-control-input" id="customCheck'.$item['id'].'" />
+                                                        <input type="checkbox" class="custom-control-input" id="customCheck'.$item['id'].'" '.$checked.'/>
                                                         <label class="custom-control-label" for="customCheck'.$item['id'].'"></label>
                                                     </div>
                                                     <span class="todo-title">'.$item['title'].'</span>
@@ -161,7 +163,6 @@
                                                                 $avatar = HOME.'/users/gemstech/uploads/useravatar.png';
                                                             echo '<option data-img="'.$avatar.'" value="'.$item['id'].'">'.$item['name'].'</option>';
                                                         }
-
                                                     ?>
                                                 </select>
                                             </div>

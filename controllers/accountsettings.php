@@ -24,7 +24,7 @@ class accountsettings extends Controller
 
     function thayanh()
     {
-        $id = isset($_SESSION['user']['staffId']) ? $_SESSION['user']['staffId'] : 0;
+        $id =  $_SESSION['user']['staffId'];
         $filename = $_FILES['hinhanh']['name'];
         $fname = explode('.', $filename);
         $hinhanh = '';
@@ -39,8 +39,8 @@ class accountsettings extends Controller
             }
         }
         if ($this->model->thayanh($hinhanh, $id)) {
-            $_SESSION['user']['avatar'] = URLFILE."/".$hinhanh;
-            $jsonObj['filename'] = URLFILE."/".$hinhanh;
+            $_SESSION['user']['avatar'] = $hinhanh;
+            $jsonObj['filename'] = $hinhanh;
             $jsonObj['msg'] = "Cập nhật dữ liệu thành công";
             $jsonObj['success'] = true;
         } else {
