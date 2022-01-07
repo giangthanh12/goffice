@@ -18,7 +18,6 @@ $(function () {
     return_combobox_multi('#esourceId', baseHome + '/common/datasource', 'Chọn loại khách hàng');
     return_combobox_multi('#sourceId', baseHome + '/common/datasource', 'Chọn loại khách hàng');
     return_combobox_multi('#sourceId_import', baseHome + '/common/datasource', 'Chọn loại khách hàng');
-    return_combobox_multi('#etype', baseHome + '/common/datatype', 'Chọn lĩnh vực hoạt động');
     return_combobox_multi('#phutrach', baseHome + '/common/nhanvien', 'Chọn nhân viên');
     return_combobox_multi('#chiacho', baseHome + '/common/nhanvien', 'Chọn nhân viên');
     return_combobox_multi('#estatus', baseHome + '/common/datastatus', 'Chọn tình trạng data');
@@ -344,7 +343,7 @@ function loaddata(id) {
             $('#enote').val(data.note);
             $('#econnectorName').val(data.connectorName);
             $('#etaxCode').val(data.taxCode);
-            $('#etype').val(data.type).change();
+            $('#etype').val(data.type);
             $('#description').val('');
             $('#listnhatky').html('');
             datareports.map(history => {

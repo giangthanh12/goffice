@@ -171,7 +171,7 @@
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="etype">Lĩnh vực hoạt động</label>
-                                                        <select id="etype" class="select2 form-control phan-loai" name="type"></select>
+                                                        <input type="text" id="etype" class="form-control" name="type" />
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="estaffId">Phụ trách</label>

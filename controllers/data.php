@@ -64,10 +64,10 @@ class data extends Controller
                         $diachi = $objPHPExcel->getActiveSheet()->getCell("E$row")->getValue();
                         $congty = $objPHPExcel->getActiveSheet()->getCell("F$row")->getValue();
                         $mst = $objPHPExcel->getActiveSheet()->getCell("G$row")->getValue();
-                        // $linhvuc = $objPHPExcel->getActiveSheet()->getCell("H$row")->getValue();
-                        $website = $objPHPExcel->getActiveSheet()->getCell("H$row")->getValue();
-                        $social = $objPHPExcel->getActiveSheet()->getCell("I$row")->getValue();
-                        $ghichu = $objPHPExcel->getActiveSheet()->getCell("J$row")->getValue();
+                        $type = $objPHPExcel->getActiveSheet()->getCell("H$row")->getValue();
+                        $website = $objPHPExcel->getActiveSheet()->getCell("I$row")->getValue();
+                        $social = $objPHPExcel->getActiveSheet()->getCell("J$row")->getValue();
+                        $ghichu = $objPHPExcel->getActiveSheet()->getCell("K$row")->getValue();
                         $data = [
                             'inputDate' => date('Y-m-d'),
                             'name' => $tenkh,
@@ -77,7 +77,7 @@ class data extends Controller
                             'address' => $diachi,
                             'connectorName' => $congty,
                             'taxCode' => $mst,
-                            // 'linh_vuc' => $linhvuc,
+                            'type' => $type,
                             'website' => $website,
                             'social' => $social,
                             'status' => 1
