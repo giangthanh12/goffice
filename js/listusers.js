@@ -5,9 +5,7 @@ $(function () {
 
     var dtUserTable = $(".user-list-table"),
         modal = $("#updateinfo"),
-        form = $("#dg"),
-        slStaff = $('#staffId'),
-        slGroup = $('#groupId');
+        form = $("#dg");
     $.ajax({
         type: "GET",
         dataType: "json",
@@ -62,7 +60,7 @@ $(function () {
                         html += '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" title="Set roles" onclick="setRoles(' + full["id"] + ','+full["groupId"] +')">';
                         html += '<i class="fas fa-arrows-alt"></i>';
                         html += '</button> &nbsp;';
-                        html += '<button type="button" class="btn btn-icon btn-outline-danger waves-effect" title="Xóa" onclick="deleteGroupRole(' + full["id"] + ')">';
+                        html += '<button type="button" class="btn btn-icon btn-outline-danger waves-effect" title="Xóa" onclick="deleteUser(' + full["id"] + ')">';
                         html += '<i class="fas fa-trash-alt"></i>';
                         html += '</button>';
                         return html;
@@ -178,30 +176,55 @@ function getData(id) {
     });
 }
 function save() {
-
-    var info = {};
-    info.username = $("#username").val();
-    info.staffId = $("#staffId").val();
-    info.groupId = $("#groupId").val();
-    info.password = $("#password").val();
-    $.ajax({
-        type: "POST",
-        dataType: "json",
-        data: info,
-        url: url,
-        success: function (data) {
-            if (data.code==200) {
-                notyfi_success(data.message);
-                $('#updateinfo').modal('hide');
-                $(".user-list-table").DataTable().ajax.reload(null, false);
-            }
-            else
-                notify_error(data.message);
-        },
-        error: function () {
-            notify_error('Cập nhật không thành công');
+    // var info = {};
+    // info.username = $("#username").val();
+    // info.staffId = $("#staffId").val();
+    // info.groupId = $("#groupId").val();
+    // info.password = $("#password").val();
+    // $.ajax({
+    //     type: "POST",
+    //     dataType: "json",
+    //     data: info,
+    //     url: url,
+    //     success: function (data) {
+    //         if (data.code==200) {
+    //             notyfi_success(data.message);
+    //             $('#updateinfo').modal('hide');
+    //             $(".user-list-table").DataTable().ajax.reload(null, false);
+    //         }
+    //         else
+    //             notify_error(data.message);
+    //     },
+    //     error: function () {
+    //         notify_error('Cập nhật không thành công');
+    //     }
+    // });
+    $('#fm').validate({
+        submitHandler: function (form) {
+            var formData = new FormData(form);
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: formData,
+                async: false,
+                cache: false,
+                contentType: false,
+                enctype: 'multipart/form-data',
+                processData: false,
+                dataType: "json",
+                success: function (data) {
+                    if (data.code==200) {
+                        notyfi_success(data.message);
+                        $('#updateinfo').modal('hide');
+                        $(".user-list-table").DataTable().ajax.reload(null, false);
+                    } else
+                        notify_error(data.message);
+                }
+            });
+            return false;
         }
     });
+    $('#fm').submit();
 }
 
 function saveGroupRole() {
@@ -288,7 +311,7 @@ function setRoles(userId)
     });
 }
 
-function deleteGroupRole(id) {
+function deleteUser(id) {
     Swal.fire({
         title: 'Xóa dữ liệu',
         text: "Bạn có chắc chắn muốn xóa!",
@@ -303,17 +326,17 @@ function deleteGroupRole(id) {
     }).then(function (result) {
         if (result.value) {
             $.ajax({
-                url: baseHome + "/listusers/deleteGroupRole",
+                url: baseHome + "/listusers/del",
                 type: 'post',
                 dataType: "json",
                 data: { id: id },
                 success: function (data) {
-                    if (data.success) {
-                        notyfi_success(data.msg);
+                    if (data.code==200) {
+                        notyfi_success(data.message);
                         $(".user-list-table").DataTable().ajax.reload(null, false);
                     }
                     else
-                        notify_error(data.msg);
+                        notify_error(data.message);
                 },
             });
         }
