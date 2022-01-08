@@ -14,7 +14,7 @@ class listusers_model extends Model
             (SELECT name FROM staffs WHERE id=staffId) as staffName,
             (SELECT name FROM grouproles WHERE id=groupId) as groupName,
             (SELECT avatar FROM staffs WHERE id=staffId) as avatar
-            FROM users WHERE status > 0 ORDER BY id DESC ");
+            FROM users WHERE status > 0 AND username!='admin' ORDER BY id DESC ");
         if ($query)
             $nhanvien['data'] = $query->fetchAll(PDO::FETCH_ASSOC);
         return $nhanvien;
@@ -24,7 +24,7 @@ class listusers_model extends Model
     {
         $result = array();
         $query = $this->db->query("SELECT *
-          FROM users WHERE id=$id");
+          FROM users WHERE id=$id AND username!='admin'");
         $temp = $query->fetchAll(PDO::FETCH_ASSOC);
         if (isset($temp[0]))
             $result = $temp[0];
@@ -35,14 +35,14 @@ class listusers_model extends Model
     function checkUsername($username)
     {
         $query = $this->db->query("SELECT count(id) AS total
-          FROM users WHERE username='$username'");
+          FROM users WHERE username='$username' AND username!='admin'");
         $temp = $query->fetchAll(PDO::FETCH_ASSOC);
         return $temp[0]['total'];
     }
 
     function updateObj($data, $id)
     {
-        $query = $this->update("users", $data, " id=$id ");
+        $query = $this->update("users", $data, " id=$id AND username!='admin' ");
         return $query;
     }
 
@@ -54,7 +54,7 @@ class listusers_model extends Model
 
     function delObj($id)
     {
-        $query = $this->update("users", ['status' => 0], " id=$id ");
+        $query = $this->update("users", ['status' => 0], " id=$id AND username!='admin' ");
         return $query;
     }
 

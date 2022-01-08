@@ -76,11 +76,12 @@ class listusers extends Controller
     {
         $id = $_REQUEST['id'];
         if ($this->model->delObj($id)) {
-            $jsonObj['msg'] = "Cập nhật dữ liệu thành công";
-            $jsonObj['success'] = true;
+            $jsonObj['message'] = "Cập nhật dữ liệu thành công";
+            $jsonObj['code'] = 200;
         } else {
-            $jsonObj['msg'] = "Lỗi khi xóa dữ liệu" . $id;
-            $jsonObj['success'] = false;
+            $jsonObj['message'] = "Lỗi khi xóa dữ liệu" ;
+            $jsonObj['code'] = 401;
+            $jsonObj['data'] = $id;
         }
         echo json_encode($jsonObj);
     }

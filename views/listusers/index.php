@@ -33,7 +33,7 @@
                                     <!-- <input type="hidden" id="id" name="id" /> -->
                                     <div class="card">
                                         <div class="card-body">
-                                            <form class="form-validate" enctype="multipart/form-data" id="dg">
+                                            <form class="form-validate" enctype="multipart/form-data" id="fm">
                                                 <div class="col-12">
                                                     <div class="form-group row">
                                                         <div class="col-sm-3 col-form-label">
