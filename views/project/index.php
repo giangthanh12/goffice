@@ -105,7 +105,6 @@
                                                     
                                                     </select>
                                                 </div>
-                                          
                                             <div class="form-group">
                                                 <label for="process" class="form-label">Tiến độ(%)</label>
                                                 <input type="text"  id="process" name="process" class="process form-control" />
@@ -114,7 +113,7 @@
                                             <div class="form-group">
                                                 <div class="form-group">
                                                     <label for="level">Cấp độ</label>
-                                                    <select id="level" class="form-control form-control-lg" name="level">
+                                                    <select id="level" class="select2 form-control form-control-lg" name="level">
                                                     </select>
                                                 </div>
                                             </div>
@@ -140,7 +139,7 @@
                                         <div class="form-group position-relative">
                                             <label for="status" class="form-label d-block">Trạng thái</label>
                                             
-                                            <select class="form-control form-control-lg" id="status" name="status">
+                                            <select class="form-control select2 form-control-lg" id="status" name="status">
                                             
                                             </select>
                                         </div>

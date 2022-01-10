@@ -1,45 +1,67 @@
 var url = '';
 var dtDVTable = $("#dichvu-list-table");
+var transactionTable = $("#transaction-list-table");
 var khid = '';
 $(function () {
     "use strict";
+    return_combobox_multi('#staffId', baseHome + '/customer/getStaff', 'Chọn nhân viên chăm sóc');
+    return_combobox_multi('#nationalId', baseHome + '/customer/getNational', 'Chọn quốc gia');
+    return_combobox_multi('#staffId1', baseHome + '/customer/getStaff', 'Chọn nhân viên chăm sóc');
+    return_combobox_multi('#staffId2', baseHome + '/customer/getStaff', 'Chọn nhân viên chăm sóc');
+    return_combobox_multi('#nationalId1', baseHome + '/customer/getNational', 'Chọn quốc gia');
+    return_combobox_multi('#provinceId', baseHome + '/customer/getProvince', 'Chọn tỉnh thành');
+    return_combobox_multi('#provinceId1', baseHome + '/customer/getProvince', 'Chọn tỉnh thành');
+    return_combobox_multi('#provinceId2', baseHome + '/customer/getProvince', 'Chọn tỉnh thành');
+    $('#provinceId2').val('').change();
+    $('#classify').select2({
+        placeholder: 'Phân loại khách hàng',
+        dropdownParent: $('#classify').parent(),
+    });
+    $('#type').select2({
+        placeholder: 'Loại hình hoạt động',
+        dropdownParent: $('#type').parent(),
+    });
 
-    return_combobox_multi('#linh_vuc', baseHome + '/common/linhvuc', 'Chọn lĩnh vực');
-    return_combobox_multi('#linh_vuc_e', baseHome + '/common/linhvuc', 'Chọn lĩnh vực');
-    return_combobox_multi('#phu_trach', baseHome + '/common/nhanvien', 'Chọn nhân viên');
-    return_combobox_multi('#phu_trach_e', baseHome + '/common/nhanvien', 'Chọn nhân viên');
-    return_combobox_multi('#phan_loai_import', baseHome + '/common/loaikh', 'Chọn loại khách hàng');
-    return_combobox_multi('#phutrach_import', baseHome + '/common/nhanvien', 'Chọn nhân viên');
+    $('#type2').select2({
+        placeholder: 'Loại hình hoạt động',
+        dropdownParent: $('#type2').parent(),
+    });
+  
+    $('#type2').val('').change();
+
     $('#phutrach_import').val('').change();
     var dtUserTable = $(".user-list-table"),
         modal = $("#updateinfo"),
         form = $("#dg");
-
+    
     // Users List datatable
     if (dtUserTable.length) {
-        dtUserTable.DataTable({
+     var table =   dtUserTable.DataTable({
             // ajax: assetPath + "data/user-list.json", // JSON file to add data
-            ajax: baseHome + "/khachhang/list",
+            ajax: baseHome + "/customer/list",
             autoWidth: false,
             ordering: false,
             columns: [
-                // columns according to JSON
-                // { data: "" },
-                { data: "name" },
+                { data: "fullName" },
                 { data: "phoneNumber" },
                 { data: "website" },
                 { data: "email" },
-                { data: "status" },
+                { data: "field"},
+                { data: "classify"},
+                { data: "type"},
+                { data: "provinceId"},
+                { data: "address"},
                 { data: "" },
             ],
             columnDefs: [
+              
 
                 {
                     // User full name and username
                     targets: 0,
                     responsivePriority: 4,
                     render: function (data, type, full, meta) {
-                        var $name = full["name"],
+                        var $name = full["fullName"],
                             $uname = full["office"];
                         if ($name == '') {
                             $name = full["fullName"];
@@ -73,32 +95,49 @@ $(function () {
                         return "<span class='text-truncate align-middle'>" + roleBadgeObj['Subscriber'] + $role + "</span>";
                     },
                 },
-                
+                {
+                    targets: 2,
+                    render: function (data, type, full, meta) {
+                        return "<div class='text-wrap width-200'>" + full['website'] + "</div>";
+                    },
+                },
                 {
                     targets: 4,
                     visible: false,
                 },
                 {
+                    targets: 5,
+                    visible: false,
+                },
+                {
+                    targets: 6,
+                    visible: false,
+                },
+                {
+                    targets: 7,
+                    visible: false,
+                },
+                {
+                    targets: 8,
+                    visible: false,
+                },
+                {
                     // Actions
-                    targets: -1,
-                    title: feather.icons["database"].toSvg({ class: "font-medium-3 text-success mr-50" }),
+                    targets: 9,
+                    title: feather.icons["database"].toSvg({ class: "font-medium-3  text-success mr-50" }),
                     orderable: false,
                     render: function (data, type, full, meta) {
                         var html = '';
-                        html += '<div style="width:150px;text-align:right">';
-                        html += '<button type="button" class="btn btn-icon btn-outline-success waves-effect" data-toggle="tooltip" data-placement="top" data-original-title="Tạo báo giá" onclick="loadbaogia(' + full['id'] + ')">';
-                        html += '<i class="fas fa-cart-plus"></i>';
-                        html += '</button> &nbsp;';
-
+                        html += '<div d-flex justify-content-start style="width::150px;text-align:left">';
                         html += '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" title="Chỉnh sửa" onclick="loaddata(' + full['id'] + ')">';
                         html += '<i class="fas fa-pencil-alt"></i>';
                         html += '</button> &nbsp;';
-                        html += '<button type="button" class="btn btn-icon btn-outline-danger waves-effect" title="Xóa" id="confirm-text" onclick="xoa(' + full['id'] + ')">';
+                        html += '<button type="button" class="btn btn-icon btn-outline-danger waves-effect" title="Xóa" id="confirm-text" onclick="del(' + full['id'] + ')">';
                         html += '<i class="fas fa-trash-alt"></i>';
                         html += '</button></div>';
                         return html;
                     },
-                    width: 100
+             
                 },
             ],
             // order: [[2, "desc"]],
@@ -114,7 +153,7 @@ $(function () {
             language: {
                 sLengthMenu: "Show _MENU_",
                 search: "Search",
-                searchPlaceholder: "11111111112..",
+                searchPlaceholder: "Tìm kiếm...",
                 paginate: {
                     // remove previous & next text from pagination
                     previous: "&nbsp;",
@@ -125,34 +164,40 @@ $(function () {
             buttons: [
                 {
                     text: "Thêm mới",
-                    className: "add-new btn btn-primary mt-50",
+                    className: "add-new  btn btn-primary mt-50",
                     init: function (api, node, config) {
                         $(node).removeClass("btn-secondary");
                     },
                     action: function (e, dt, node, config) {
                         $("#addinfo").modal('show');
                         $(".modal-title").html('Thêm khách hàng mới');
-                        $('#name').val('');
-                        $('#ten_day_du').val('');
-                        $('#dai_dien').val('');
-                        $('#dien_thoai').val('');
+                        $('#fullName').val('');
+                        $('#taxCode').val('');
+                        $('#address').val('');
+                        $('#phoneNumber').val('');
                         $('#email').val('');
                         $('#website').val('');
-                        $('#van_phong').val('');
-                        $('#dia_chi').val('');
-                        $('#ma_so').val('');
-                        $('#chuc_vu').val('');
-                        $('#linh_vuc').val('').change();
-                        $('#loai').val(0).change();
-                        $('#phu_trach').val('').change();
-                        $('#tinh_trang').val('1').attr("disabled", true);
-                        $('#phan_loai').val('1').attr("disabled", true);
-                        $('#ghi_chu').val('');
+                        $('#office').val('');
+                        $('#field').val('');
+                        $('#fieldDetail').val('');
+                        $('#staffId').val('').change();
+                        $('#rank').val('').change();
+                        $('#bussinessName').val('');
+                        $('#bussinessAddress').val('');
+                        $('#bussinessPlace').val('');
+                        $('#representative').val('');
+                        $('#authorized').val('');
+                        $('#note').val('');
+                        $('#classify').val('').change();
+                        $('#type').val('').change();
+                        $('#nationalId').val(237).change();
+                        $('#provinceId').val('').change();
+                        $('#status').val('1').attr("disabled", true);
                     },
                 },
                 {
                     text: "Nhập excel",
-                    className: " btn btn-primary mt-50",
+                    className: " btn  btn-primary mt-50",
                     init: function (api, node, config) {
                         $(node).removeClass("btn-secondary");
                     },
@@ -161,40 +206,19 @@ $(function () {
                     },
                 },
             ],
-            // For responsive popup
-            // responsive: {
-            //     details: {
-            //         display: $.fn.dataTable.Responsive.display.modal({
-            //             header: function (row) {
-            //                 var data = row.data();
-            //                 return "Details of " + data["name"];
-            //             },
-            //         }),
-            //         type: "column",
-            //         renderer: $.fn.dataTable.Responsive.renderer.tableAll({
-            //             tableClass: "table",
-            //             columnDefs: [
-            //                 {
-            //                     targets: 8,
-            //                     visible: false,
-            //                 },
-            //                 {
-            //                     targets: 1,
-            //                     visible: false,
-            //                 },
-            //             ],
-            //         }),
-            //     },
-            // },
+
             initComplete: function () {
                 // Adding role filter once table initialized
-                this.api()
-                    .columns(4)
+             var api =   this.api();
+                 api.columns(5)
                     .every(function () {
                         var column = this;
-                        var select = $('<select id="kh_tinhtrang" class="form-control text-capitalize mb-md-0 mb-2"><option value=""> Tình trạng </option></select>')
-                            .appendTo(".kh_tinhtrang")
-                            .on("change", function () {
+                     
+                        $("#classify2").select2({
+                                placeholder: 'Phân loại khách hàng',
+                                dropdownParent: $("#classify2").parent(),
+                            });
+                            $("#classify2").on("change", function () {
                                 var val = $.fn.dataTable.util.escapeRegex($(this).val());
                                 column.search(val ? "^" + val + "$" : "", true, false).draw();
                             });
@@ -206,22 +230,37 @@ $(function () {
                             .each(function (d, j) {
                                 var $stt_output = "";
                                 if (d == 1) {
-                                    $stt_output = "Khách hàng mới";
+                                    $stt_output = "Khách hàng";
                                 } else if (d == 2) {
-                                    $stt_output = "Đang sử dụng dịch vụ";
-                                } else if (d == 4) {
-                                    $stt_output = "Đã dừng dùng dịch vụ";
+                                    $stt_output = "Đối tác";
                                 }
                                 if ($stt_output != '') {
-                                    select.append('<option value="' + d + '" class="text-capitalize">' + $stt_output + "</option>");
+                                    $("#classify2").append('<option value="' + d + '" class="text-capitalize">' + $stt_output + "</option>");
                                 }
                             });
+                           
+                            $("#classify2").val('').change(); // sau khi thêm option mới thêm val('');
                     });
-
             },
         });
 
     }
+
+    // lọc tỉnh
+
+    $('#provinceId2').change(function() {
+        table.column($(this).data('column'))
+             .search($(this).val())
+             .draw()
+    })
+
+    // lọc loại hình hoạt động
+
+    $('#type2').change(function() {
+        table.column($(this).data('column'))
+             .search($(this).val())
+             .draw()
+    })
 
     // Check Validity
     function checkValidity(el) {
@@ -232,18 +271,75 @@ $(function () {
         }
     }
 
-    // Form Validation
+    // Form Validation add 
     if (form.length) {
         form.validate({
             errorClass: "error",
             rules: {
-                "user-fullname": {
+                "fullName": {
                     required: true,
                 },
-                "user-name": {
+                "taxCode": {
                     required: true,
                 },
-                "user-email": {
+                "address": {
+                    required: true,
+                },
+                "phoneNumber": {
+                    required: true,
+                },
+                "email": {
+                    required: true,
+                },
+                "website": {
+                    required: true,
+                },
+                "staffId": {
+                    required: true,
+                },
+                "office": {
+                    required: true,
+                },
+                "field": {
+                    required: true,
+                },
+                "fieldDetail": {
+                    required: true,
+                },
+                "rank": {
+                    required: true,
+                },
+                "bussinessName": {
+                    required: true,
+                },
+                "bussinessAddress": {
+                    required: true,
+                },
+                "bussinessPlace": {
+                    required: true,
+                },
+                "representative": {
+                    required: true,
+                },
+                "authorized": {
+                    required: true,
+                },
+                "note": {
+                    required: true,
+                },
+                "classify": {
+                    required: true,
+                },
+                "type": {
+                    required: true,
+                },
+                "nationalId": {
+                    required: true,
+                },
+                "provinceId": {
+                    required: true,
+                },
+                "status": {
                     required: true,
                 },
             },
@@ -253,10 +349,92 @@ $(function () {
             var isValid = form.valid();
             e.preventDefault();
             if (isValid) {
-                modal.modal("hide");
+                saveadd();
             }
         });
     }
+    //form validate edit
+    if ($('#dg1').length) {
+        $('#dg1').validate({
+            errorClass: "error",
+            rules: {
+                "fullName1": {
+                    required: true,
+                },
+                "taxCode1": {
+                    required: true,
+                },
+                "address1": {
+                    required: true,
+                },
+                "phoneNumber1": {
+                    required: true,
+                },
+                "email1": {
+                    required: true,
+                },
+                "website1": {
+                    required: true,
+                },
+                "staffId1": {
+                    required: true,
+                },
+                "office1": {
+                    required: true,
+                },
+                "field1": {
+                    required: true,
+                },
+                "fieldDetail1": {
+                    required: true,
+                },
+                "rank1": {
+                    required: true,
+                },
+                "bussinessName1": {
+                    required: true,
+                },
+                "bussinessAddress1": {
+                    required: true,
+                },
+                "bussinessPlace1": {
+                    required: true,
+                },
+                "representative1": {
+                    required: true,
+                },
+                "authorized1": {
+                    required: true,
+                },
+                "classify1": {
+                    required: true,
+                },
+                "type1": {
+                    required: true,
+                },
+                "nationalId1": {
+                    required: true,
+                },
+                "provinceId1": {
+                    required: true,
+                },
+                "status1": {
+                    required: true,
+                },
+            },
+        });
+
+        $('#dg1').on("submit", function (e) {
+            var isValid = $('#dg1').valid();
+            e.preventDefault();
+            if (isValid) {
+                saveedit();
+            }
+        });
+    }
+
+
+
 
     // To initialize tooltip with body container
     $("body").tooltip({
@@ -274,27 +452,33 @@ function loaddata(id) {
         type: "POST",
         dataType: "json",
         data: { id: id },
-        url: baseHome + "/khachhang/loaddata",
+        url: baseHome + "/customer/loaddata",
         success: function (data) {
-            $('#name_e').val(data.name);
-            $('#ten_day_du_e').val(data.fullName);
-            $('#dai_dien_e').val(data.representative);
-            $('#dien_thoai_e').val(data.phoneNumber);
-            $('#email_e').val(data.email);
-            $('#website_e').val(data.website);
-            $('#van_phong_e').val(data.office);
-            $('#dia_chi_e').val(data.address);
-            $('#ma_so_e').val(data.taxCode);
-            $('#chuc_vu_e').val(data.position);
-            $('#linh_vuc_e').val(data.field).change();
-            $('#phu_trach_e').val(data.staffInCharge).change();
-            $('#loai_e option[value=' + data.type + ']').attr('selected', 'selected').change();
-            $('#tinh_trang_e').attr("disabled", false);
-            $('#tinh_trang_e').val(data.status);
-            $('#phan_loai_e').attr("disabled", false);
-            $('#phan_loai_e').val(data.classify);
-            $('#ghi_chu_e').val(data.note);
-            //loaddichvu(id);
+         console.log(data.fullName);
+            $('#fullName1').val(data.fullName);
+            $('#taxCode1').val(data.taxCode);
+            $('#address1').val(data.address);
+            $('#phoneNumber1').val(data.phoneNumber);
+            $('#email1').val(data.email);
+            $('#website1').val(data.website);
+            $('#staffId1').val(data.staffid).change();
+            $('#office1').val(data.office);
+            $('#field1').val(data.field);
+            $('#fieldDetail1').val(data.fieldDetail);
+            $('#rank1').val(data.rank).change();
+            $('#bussinessName1').val(data.businessName);
+            $('#bussinessAddress1').val(data.businessAddress);
+            $('#bussinessPlace1').val(data.businessPlace);
+            $('#representative1').val(data.representative);
+            $('#authorized1').val(data.authorized);
+            $('#note1').val(data.note);
+            $('#classify1').val(data.classify);
+            $('#type1').val(data.type).change();
+            $('#nationalId1').val(data.nationalId).change();
+            $('#provinceId1').val(data.provinceId).change();
+            $('#status1').val(data.status).attr("disabled", true);
+            loaddichvu(id);
+            loadTransaction(id);
         },
         error: function () {
             notify_error('Lỗi truy xuất database');
@@ -303,62 +487,24 @@ function loaddata(id) {
 }
 
 function loaddichvu(id) {
+
     if (dtDVTable.length) {
+    
         dtDVTable.DataTable({
-            ajax: baseHome + "/khachhang/loaddichvu?id=" + id,
+            ajax: baseHome + "/customer/loadContact?id=" + id,
             destroy: true,
+
             columns: [
                 // columns according to JSON
-                { data: "id" },
-                { data: "dich_vu" },
-                { data: "ten_mien" },
-                { data: "ngay_bd" },
-                { data: "ngay_kt" },
-                // { data: "" },
+                { data: "name" },
+                { data: "phoneNumber" },
+                { data: "email" },
+                { data: "facebook" },
             ],
             columnDefs: [
-                {
-                    // For Responsive
-                    targets: 0,
-                    className: "control",
-                    orderable: false,
-                    responsivePriority: 2,
-                    visible: false
-                },
-                {
-                    // User full name and username
-                    targets: 1,
-                },
-                {
-                    targets: 2,
-                },
-                {
-                    // Actions
-                    targets: -1,
-                    title: feather.icons["database"].toSvg({ class: "font-medium-3 text-center text-success mr-50" }),
-                    orderable: false,
-                    render: function (data, type, full, meta) {
-                        var html = '';
-                        html += '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" title="Chỉnh sửa" onclick="loadmember(' + full['id'] + ')">';
-                        html += '<i class="fas fa-pencil-alt"></i>';
-                        html += '</button> &nbsp;';
-                        html += '<button type="button" class="btn btn-icon btn-outline-danger waves-effect" title="Xóa" onclick="delmember(' + full['id'] + ')">';
-                        html += '<i class="fas fa-trash-alt"></i>';
-                        html += '</button>';
-                        return html;
-                    },
-                    width: 150
-                },
+            
             ],
-            // dom:
-            //     '<"d-flex justify-content-between align-items-center header-actions mx-1 row mt-75"' +
-            //     '<"col-lg-12 col-xl-6" l>' +
-            //     '<"col-lg-12 col-xl-6 pl-xl-75 pl-0"<"dt-action-buttons text-xl-right text-lg-left text-md-right text-left d-flex align-items-center justify-content-lg-end align-items-center flex-sm-nowrap flex-wrap mr-1"<"mr-1"f>B>>' +
-            //     ">t" +
-            //     '<"d-flex justify-content-between mx-2 row mb-1"' +
-            //     '<"col-sm-12 col-md-6"i>' +
-            //     '<"col-sm-12 col-md-6"p>' +
-            //     ">",
+            
             language: {
                 sLengthMenu: "Show _MENU_",
                 search: "Search",
@@ -370,7 +516,7 @@ function loaddichvu(id) {
                 }
             },
 
-            // // For responsive popup
+            // For responsive popup
             responsive: {
                 details: {
                     display: $.fn.dataTable.Responsive.display.modal({
@@ -399,30 +545,135 @@ function loaddichvu(id) {
     }
 }
 
+//load transaction
+function loadTransaction(id) {
+
+    if (transactionTable.length) {
+    
+        transactionTable.DataTable({
+            ajax: baseHome + "/customer/loadTransaction?id=" + id,
+            destroy: true,
+
+            columns: [
+                // columns according to JSON
+                { data: "date" },
+                { data: "type" },
+                { data: "asset" },
+                { data: "description" },
+            ],
+            columnDefs: [
+                {
+                    // Actions
+                    targets: 1,
+                  
+                    orderable: false,
+                    render: function (data, type, full, meta) {
+                        var html = '';
+                       if(full['type'] == 1) {
+                          html =  `<div class="badge badge-pill badge-light-info">Đơn hàng</div>`;
+                       }
+                       else if (full['type'] == 2) {
+                        html =  `<div class="badge badge-pill badge-light-primary">Hợp đồng</div>`;
+                       }
+                       else if(full['type'] == 3) {
+                        html =   `<div class="badge badge-pill badge-light-success">Thanh toán</div>`;
+                       }
+                        return html;
+                    },
+                    width: 150
+                },
+                {
+                    // Actions
+                    targets: 2,
+                    orderable: true,
+                    render: function (data, type, full, meta) {
+                        var html = '';
+                        html = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(full['asset']);
+                        return html;
+                    },
+                 
+                },
+            ],
+            // dom:
+            //     '<"d-flex justify-content-between align-items-center header-actions mx-1 row mt-75"' +
+            //     '<"col-lg-12 col-xl-6" l>' +
+            //     '<"col-lg-12 col-xl-6 pl-xl-75 pl-0"<"dt-action-buttons text-xl-right text-lg-left text-md-right text-left d-flex align-items-center justify-content-lg-end align-items-center flex-sm-nowrap flex-wrap mr-1"<"mr-1"f>B>>' +
+            //     ">t" +
+            //     '<"d-flex justify-content-between mx-2 row mb-1"' +
+            //     '<"col-sm-12 col-md-6"i>' +
+            //     '<"col-sm-12 col-md-6"p>' +
+            //     ">",
+            language: {
+                sLengthMenu: "Show _MENU_",
+                search: "Search",
+                searchPlaceholder: "Search..",
+                paginate: {
+                    // remove previous & next text from pagination
+                    previous: "&nbsp;",
+                    next: "&nbsp;",
+                }
+            },
+
+            // For responsive popup
+            responsive: {
+                details: {
+                    display: $.fn.dataTable.Responsive.display.modal({
+                        header: function (row) {
+                            var data = row.data();
+                            return "Details of " + data["name"];
+                        },
+                    }),
+                    type: "column",
+                    renderer: $.fn.dataTable.Responsive.renderer.tableAll({
+                        tableClass: "table",
+                        columnDefs: [
+                            {
+                                targets: 2,
+                                visible: false,
+                            },
+                            {
+                                targets: 3,
+                                visible: false,
+                            },
+                        ],
+                    }),
+                },
+            }
+        });
+    }
+}
+
+
+
 function saveadd() {
     var info = {};
-    info.name = $("#name").val();
-    info.ma_so = $("#ma_so").val();
-    info.ten_day_du = $("#ten_day_du").val();
-    info.dia_chi = $("#dia_chi").val();
-    info.dien_thoai = $("#dien_thoai").val();
-    info.website = $("#website").val();
+    info.fullName = $("#fullName").val();
+    info.taxCode = $("#taxCode").val();
+    info.address = $("#address").val();
+    info.phoneNumber = $("#phoneNumber").val();
     info.email = $("#email").val();
-    info.van_phong = $("#van_phong").val();
-    info.dai_dien = $("#dai_dien").val();
-    info.chuc_vu = $("#chuc_vu").val();
-    info.loai = $("#loai").val();
-    info.linh_vuc = $("#linh_vuc").val();
-    info.ghi_chu = $("#ghi_chu").val();
-    info.nhan_vien = $("#nhan_vien").val();
-    info.phu_trach = $("#phu_trach").val();
-    info.tinh_trang = $("#tinh_trang").val();
-    info.phan_loai = $("#phan_loai").val();
+    info.website = $("#website").val();
+    info.staffId = $("#staffId").val();
+    info.office = $("#office").val();
+    info.field = $("#field").val();
+    info.fieldDetail = $("#fieldDetail").val();
+    info.rank = $("#rank").val();
+    info.bussinessName = $("#bussinessName").val();
+    info.bussinessAddress = $("#bussinessAddress").val();
+    info.bussinessPlace = $("#bussinessPlace").val();
+    info.representative = $("#representative").val();
+    info.authorized = $("#authorized").val();
+    info.note = $("#note").val();
+    info.classify = $("#classify").val();
+    info.type = $("#type").val();
+    info.nationalId = $("#nationalId").val();
+    info.provinceId = $("#provinceId").val();
+    info.status = $("#status").val();
     $.ajax({
         type: "POST",
         dataType: "json",
         data: info,
-        url: baseHome + "/khachhang/add",
+        url: baseHome + "/customer/add",
         success: function (data) {
             if (data.success) {
                 notyfi_success(data.msg);
@@ -440,28 +691,33 @@ function saveadd() {
 
 function saveedit() {
     var info = {};
-    info.name = $("#name_e").val();
-    info.ma_so = $("#ma_so_e").val();
-    info.ten_day_du = $("#ten_day_du_e").val();
-    info.dia_chi = $("#dia_chi_e").val();
-    info.dien_thoai = $("#dien_thoai_e").val();
-    info.website = $("#website_e").val();
-    info.email = $("#email_e").val();
-    info.van_phong = $("#van_phong_e").val();
-    info.dai_dien = $("#dai_dien_e").val();
-    info.chuc_vu = $("#chuc_vu_e").val();
-    info.loai = $("#loai_e").val();
-    info.linh_vuc = $("#linh_vuc_e").val();
-    info.ghi_chu = $("#ghi_chu_e").val();
-    info.nhan_vien = $("#nhan_vien_e").val();
-    info.phu_trach = $("#phu_trach_e").val();
-    info.tinh_trang = $("#tinh_trang_e").val();
-    info.phan_loai = $("#phan_loai_e").val();
+    info.fullName = $("#fullName1").val();
+    info.taxCode = $("#taxCode1").val();
+    info.address = $("#address1").val();
+    info.phoneNumber = $("#phoneNumber1").val();
+    info.email = $("#email1").val();
+    info.website = $("#website1").val();
+    info.staffId = $("#staffId1").val();
+    info.office = $("#office1").val();
+    info.field = $("#field1").val();
+    info.fieldDetail = $("#fieldDetail1").val();
+    info.rank = $("#rank1").val();
+    info.bussinessName = $("#bussinessName1").val();
+    info.bussinessAddress = $("#bussinessAddress1").val();
+    info.bussinessPlace = $("#bussinessPlace1").val();
+    info.representative = $("#representative1").val();
+    info.authorized = $("#authorized1").val();
+    info.note = $("#note1").val();
+    info.classify = $("#classify1").val();
+    info.type = $("#type1").val();
+    info.nationalId = $("#nationalId1").val();
+    info.provinceId = $("#provinceId1").val();
+    info.status = $("#status1").val();
     $.ajax({
         type: "POST",
         dataType: "json",
         data: info,
-        url: baseHome + '/khachhang/update?id=' + khid,
+        url: baseHome + '/customer/update?id=' + khid,
         success: function (data) {
             if (data.success) {
                 notyfi_success(data.msg);
@@ -477,7 +733,7 @@ function saveedit() {
     });
 }
 
-function xoa(id) {
+function del(id) {
     Swal.fire({
         title: 'Xóa dữ liệu',
         text: "Bạn có chắc chắn muốn xóa!",
@@ -492,7 +748,7 @@ function xoa(id) {
     }).then(function (result) {
         if (result.value) {
             $.ajax({
-                url: baseHome + "/khachhang/del",
+                url: baseHome + "/customer/del",
                 type: 'post',
                 dataType: "json",
                 data: { id: id },
