@@ -19,10 +19,8 @@ class project extends Controller
         require "layouts/footer.php";
     }
 
-    function getData(){
-        $status = $_REQUEST['status'];
-        $json = $this->model->get_data($status);
-        
+    function getdata(){
+        $json = $this->model->get_data();
         echo json_encode($json);
     }
     // get levelproject
@@ -132,19 +130,19 @@ class project extends Controller
         $jsonObj = json_encode($jsonObj);
         echo $jsonObj;
     }
-    function filterLevel() {
+    
+    function filter() {
         $filter = isset($_REQUEST['filters']) ? $_REQUEST['filters'] : [];
+        $status = isset($_REQUEST['status']) ? $_REQUEST['status'] : '';
         if(count($filter) > 0) {
           $filter = implode(',',$filter);
-          $data =  $this->model->filterLevel($filter);
         }
         else {
-            $data = $this->model->get_data('');
+            $filter = '';
         }
+        $data =  $this->model->filterLevel($filter,$status);
         echo json_encode($data);
     }
-
-
 }
 
 ?>

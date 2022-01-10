@@ -11,11 +11,6 @@ class Khachhang_Model extends Model{
         return $result;
     }
 
-    // function listDel(){
-    //     $query = $this->db->query("SELECT * FROM khachhang WHERE tinh_trang = 0 ");
-    //     $result['data'] = $query->fetchAll(PDO::FETCH_ASSOC);
-    //     return $result;
-    // }
 
     function get_data_combo(){
         $result = array();

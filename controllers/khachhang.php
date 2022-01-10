@@ -54,8 +54,6 @@ class Khachhang extends Controller
                             'staffId' => $phutrach,
                             'classify' => 1,
                             'status' => 1
-
-                          
                         ];
                         if ($this->model->addObj($data))
                             $banghi++;
