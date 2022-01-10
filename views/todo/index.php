@@ -24,7 +24,7 @@
                                 <a href="javascript:void(0)" onclick="listStatus(6)" class="list-group-item list-group-item-action">
                                     <i data-feather="check" class="font-medium-3 mr-50"></i> <span class="align-middle">Đã hoàn thành</span>
                                 </a>
-                                <a href="javascript:void(0)" onclick="listStatus(0)"class="list-group-item list-group-item-action">
+                                <a href="javascript:void(0)" onclick="listStatus(0)" class="list-group-item list-group-item-action">
                                     <i data-feather="trash" class="font-medium-3 mr-50"></i> <span class="align-middle">Đã xóa</span>
                                 </a>
                             </div>
@@ -95,6 +95,7 @@
                                     else
                                         $avatar = HOME.'/users/gemstech/uploads/useravatar.png';
                                     $checked = ($item['status']==4)?'checked="true"':'';
+                                    $dnone = (($item['status']==6) || ($item['status']==0))?'d-none':'';
                                     echo '
                                     <li class="todo-item">
                                         <div class="todo-title-wrapper">
@@ -102,7 +103,7 @@
                                                 <span class="taskId d-none">'.$item['id'].'</span>
                                                 <i data-feather="more-vertical" class="drag-icon"></i>
                                                 <div class="title-wrapper">
-                                                    <div class="custom-control custom-checkbox">
+                                                    <div class="custom-control custom-checkbox '.$dnone.'">
                                                         <input type="checkbox" class="custom-control-input" id="customCheck'.$item['id'].'" '.$checked.'/>
                                                         <label class="custom-control-label" for="customCheck'.$item['id'].'"></label>
                                                     </div>
@@ -118,6 +119,7 @@
                                                     <img src="'.$avatar.'" alt="user-avatar" height="32" width="32" />
                                                 </div>
                                                 <span class="taskDescription d-none">'.$item['description'].'</span>
+                                                <span class="taskProject d-none">'.$item['projectId'].'</span>
                                             </div>
                                         </div>
                                     </li>
@@ -139,7 +141,7 @@
                                     <div class="modal-header align-items-center mb-1">
                                         <h5 class="modal-title">Add Task</h5>
                                         <div class="todo-item-action d-flex align-items-center justify-content-between ml-auto">
-                                            <span class="todo-item-favorite cursor-pointer mr-75"><i data-feather="star" class="font-medium-2"></i></span>
+                                            <!-- <span class="todo-item-favorite cursor-pointer mr-75"><i data-feather="star" class="font-medium-2"></i></span> -->
                                             <button type="button" class="close font-large-1 font-weight-normal py-0" data-dismiss="modal" aria-label="Close">
                                                 ×
                                             </button>
@@ -151,6 +153,15 @@
                                                 <input type="hidden" id="taskId" name="taskId" />
                                                 <label for="todoTitleAdd" class="form-label">Công việc</label>
                                                 <input type="text" id="todoTitleAdd" name="todoTitleAdd" class="new-todo-item-title form-control" placeholder="Title" />
+                                            </div>
+                                            <div class="form-group position-relative">
+                                                <label for="task-assigned" class="form-label d-block">Thuộc dự án/nhóm công việc</label>
+                                                <select class="select2 form-control" id="onProject" name="onProject">
+                                                    <?php
+                                                        foreach ($this->project AS $item)
+                                                            echo '<option value="'.$item['id'].'">'.$item['name'].'</option>';
+                                                    ?>
+                                                </select>
                                             </div>
                                             <div class="form-group position-relative">
                                                 <label for="task-assigned" class="form-label d-block">Người thực hiện</label>
@@ -172,7 +183,8 @@
                                             </div>
                                             <div class="form-group">
                                                 <label for="task-tag" class="form-label d-block">Nhãn</label>
-                                                <select class="form-control task-tag" id="task-tag" name="task-tag" multiple="multiple">
+                                                <!-- <select class="form-control task-tag" id="task-tag" name="task-tag" multiple="multiple"> -->
+                                                <select class="form-control task-tag" id="task-tag" name="task-tag" >
                                                     <?php foreach($this->tag AS $item)
                                                         echo '<option value="'.$item['id'].'">'.$item['name'].'</option>';
                                                     ?>
@@ -198,7 +210,7 @@
                                                 Cancel
                                             </button>
                                             <button type="button" class="btn btn-primary d-none update-btn update-todo-item mr-1">Update</button>
-                                            <button type="button" class="btn btn-outline-danger update-btn d-none" data-dismiss="modal">Delete</button>
+                                            <button type="button" onclick="deleteTask()" class="btn btn-outline-danger update-btn d-none" data-dismiss="modal">Delete</button>
                                         </div>
                                     </div>
                                 </form>

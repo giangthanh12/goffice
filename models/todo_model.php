@@ -9,7 +9,7 @@ class todo_Model extends Model{
             $today = date('Y-m-d');
             $dieukien = " WHERE status>0 AND assigneeId=$nhanvien AND ((endDate>deadline) OR (endDate='0000-00-00' AND deadline<'$today')) ";
             $query = $this->db->query("SELECT id, title, label, assigneeId, description, deadline,status,
-                (SELECT avatar FROM staffs WHERE id=a.assigneeId) AS avatar,
+                (SELECT avatar FROM staffs WHERE id=a.assigneeId) AS avatar, projectId,
                 (SELECT name FROM tasklabels WHERE id=a.label) AS labelText,
                 (SELECT color FROM tasklabels WHERE id=a.label) AS labelColor,
                 (SELECT COUNT(1) FROM commenttasks WHERE taskId=a.id) AS comment
@@ -22,7 +22,7 @@ class todo_Model extends Model{
             if ($project>0) {
                 $dieukien .= " AND projectId=$project ";
                 $query = $this->db->query("SELECT id, title, label, assigneeId, description, deadline,status,
-                    (SELECT avatar FROM staffs WHERE id=a.assigneeId) AS avatar,
+                    (SELECT avatar FROM staffs WHERE id=a.assigneeId) AS avatar, projectId,
                     (SELECT name FROM tasklabels WHERE id=a.label) AS labelText,
                     (SELECT color FROM tasklabels WHERE id=a.label) AS labelColor,
                     (SELECT COUNT(1) FROM commenttasks WHERE taskId=a.id) AS comment
@@ -31,7 +31,7 @@ class todo_Model extends Model{
             elseif ($nhanvien>0) {
                 $dieukien .= " AND assigneeId=$nhanvien ";
                 $query = $this->db->query("SELECT id, title, label, assigneeId, description, deadline,status,
-                    (SELECT avatar FROM staffs WHERE id=a.assignerId) AS avatar,
+                    (SELECT avatar FROM staffs WHERE id=a.assignerId) AS avatar, projectId,
                     (SELECT name FROM tasklabels WHERE id=a.label) AS labelText,
                     (SELECT color FROM tasklabels WHERE id=a.label) AS labelColor,
                     (SELECT COUNT(1) FROM commenttasks WHERE taskId=a.id) AS comment

@@ -23,6 +23,7 @@ $(function () {
         taskDesc = $("#task-desc"),
         taskAssignSelect = $("#task-assigned"),
         taskAssignList = $("#task-assigned-list"),
+        onProject = $("#onProject"),
         taskTag = $("#task-tag"),
         overlay = $(".body-content-overlay"),
         menuToggle = $(".menu-toggle"),
@@ -132,7 +133,7 @@ $(function () {
         taskAssignList.wrap('<div class="position-relative" style="min-width:250px"></div>');
         taskAssignList.select2({
             placeholder: "Chọn nhân viên",
-            dropdownParent: taskAssignList.parent(),
+              dropdownParent: taskAssignList.parent(),
             templateResult: assignTask,
             templateSelection: assignTask,
             escapeMarkup: function (es) {
@@ -141,6 +142,14 @@ $(function () {
         });
         taskAssignList.val('').trigger("change");
     }
+    // Chọn dự án cho công việc
+    if (onProject.length) {
+        onProject.wrap('<div class="position-relative"></div>');
+        onProject.select2({
+            placeholder: "Unassigned",
+        });
+    }
+
     // Task Assign Select2
     if (taskAssignSelect.length) {
         taskAssignSelect.wrap('<div class="position-relative"></div>');
@@ -211,6 +220,7 @@ $(function () {
             quill_editor[0].innerHTML = "";
             taskAssignSelect.val("").trigger("change");
             taskTag.val("").trigger("change");
+            onProject.val("").trigger("change");
         });
     }
 
@@ -435,6 +445,8 @@ $(function () {
         flatPickr.val(deadline);
         var thisLabel = $(this).find(".badge-pill").attr("data-id");
         taskTag.val(thisLabel).trigger("change");
+        var projectId = $(this).find(".taskProject").text();
+        onProject.val(projectId).trigger("change");
         var desc = $(this).find(".taskDescription").html();
         var quill_editor = $("#task-desc .ql-editor");
         quill_editor[0].innerHTML = desc;
@@ -448,6 +460,7 @@ $(function () {
             if (isValid) {
                 var taskId = $("#taskId").val();
                 var newTitle = newTaskForm.find(".new-todo-item-title").val();
+                var newProject = onProject.val();
                 var newAssignee = taskAssignSelect.val();
                 var newDeadline = flatPickr.val();
                 var newLabel = taskTag.val();
@@ -455,7 +468,7 @@ $(function () {
                 var newDescription = quill_editor[0].innerHTML;
                 $.post(
                     "todo/update",
-                    { id: taskId, newTitle: newTitle, newAssignee: newAssignee, newDeadline: newDeadline, newLabel: newLabel, newDescription: newDescription },
+                    { id: taskId, newTitle: newTitle, newProject: newProject, newAssignee: newAssignee, newDeadline: newDeadline, newLabel: newLabel, newDescription: newDescription },
                     function (data, status) {
                         if (data.success) {
                             toastr["success"](data.msg, "💾 Task Action!", {
@@ -591,6 +604,37 @@ function markCompleted(taskId){
         function (data, status) {
             if (data.success) {
                 toastr["success"]("Task completed", "Congratulations!! 🎉", {
+                    closeButton: true,
+                    tapToDismiss: false,
+                    rtl: isRtl,
+                });
+                var projectId = $('#projectId').val();
+                var assigneeId = $("#task-assigned-list").val();
+                if (projectId>0)
+                    $("#my-task-list").load(window.location.href + "?project="+projectId+ " #my-task-list");
+                else if (assigneeId>0)
+                    $("#my-task-list").load(window.location.href + "?assignee="+assigneeId+ " #my-task-list");
+                else
+                    $("#my-task-list").load(window.location.href + " #my-task-list");
+            } else {
+                toastr["error"](data.msg, "💾 Task Action!", {
+                    closeButton: true,
+                    tapToDismiss: false,
+                    rtl: isRtl,
+                });
+            }
+        },
+        "json"
+    );
+}
+
+function deleteTask(){
+    var taskId = $("#taskId").val();
+    $.post(
+        "todo/checkOut", {id:taskId, status:0},
+        function (data, status) {
+            if (data.success) {
+                toastr["success"]("Xóa task thành công", "--", {
                     closeButton: true,
                     tapToDismiss: false,
                     rtl: isRtl,

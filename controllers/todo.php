@@ -21,11 +21,12 @@ class todo extends Controller{
     function update(){
         $id = $_REQUEST['id'];
         $title = $_REQUEST['newTitle'];
+        $project = isset($_REQUEST['newProject'])?$_REQUEST['newProject'][0]:0;
         $deadline = $_REQUEST['newDeadline'];
         $label = isset($_REQUEST['newLabel'])?$_REQUEST['newLabel'][0]:0;
         $nhanvien = $_REQUEST['newAssignee'];
         $description = $_REQUEST['newDescription'];
-        $data = array('title'=>$title, 'deadline'=>$deadline,'description'=>$description, 'label'=>$label, 'assigneeId'=>$nhanvien);
+        $data = array('title'=>$title, 'projectId'=>$project, 'deadline'=>$deadline,'description'=>$description, 'label'=>$label, 'assigneeId'=>$nhanvien);
         if ($this->model->capnhat($id, $data)) {
             $jsonObj['msg'] = "Cập nhật thành công";
             $jsonObj['success'] = true;
