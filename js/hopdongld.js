@@ -37,6 +37,7 @@ $(function () {
                 { data: "vitri" },
                 { data: "status" },
                 { data: "type" },
+        
                 { data: "" },
             ],
             columnDefs: [

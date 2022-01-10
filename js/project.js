@@ -315,13 +315,12 @@ $(function () {
                         $('#task-due-date').val(obj.deadline);
                         $('#customRadio'+obj.level).attr('checked','true');
                         $('#id').val(obj.id);
-                        $('#status').val(obj.status);
-                        $('#level').val(obj.level);
+                        $('#status').val(obj.status).change();
+                        $('#level').val(obj.level).change();
                         $('#process').val(obj.process);
                         load_select2(taskAssignSelect, baseHome + "/project/getStaff",'Người quản lý dự án');
                         load_select2($('#assigneeId'), baseHome + "/project/getStaff",'');
                         $(taskAssignSelect).val(obj.managerId);
-                        
                         $('#assigneeId').val(obj.assigneeId);
                         changeColorLevel();
                         changeColorStatus();
@@ -448,7 +447,7 @@ function load_select(selectId,url,place) {
 
 
 // lấy dự án
-function list_to_do(status = '') {
+function list_to_do() {
     $.ajax({
         type: "GET",
         dataType: "json",
@@ -459,10 +458,10 @@ function list_to_do(status = '') {
             var mailread = "";
             var html = "";
             data.forEach(function (element, index) {
-                var img = element.avatar ? baseHome + '/users/gemstech/' +element.avatar : baseHome+ '/users/gemstech/uploads/useravatar.png';
+                var img = baseHome + '/users/gemstech/' +element.avatar;
                 html += '<li class="todo-item"><div class="todo-title-wrapper"><div class="todo-title-area">';
                 html += '<i data-feather="more-vertical" class="drag-icon"></i><div class="title-wrapper">';
-                html += '<img style="border-radius: 50%;" src="'+  img + '" alt="" height="32" width="32" /><span class="todo-title" id="'+element.id+'">' + element.name + '</span>&nbsp;';
+                html += '<img style="border-radius: 50%;" onerror='+"this.src='https://velo.vn/goffice-test/layouts/useravatar.png'"+' src="'+  img + '" alt="" height="32" width="32" /><span class="todo-title" id="'+element.id+'">' + element.name + '</span>&nbsp;';
                 html += '</div></div><div class="todo-item-action"><div class="badge-wrapper mr-1">';
                 html+= `<div class="progress" style="height: 16px; width: 100px; margin-top: 5px; margin-right: 70px; font-size: 8px;">
                             <div class="progress-bar" role="progressbar" aria-valuenow="${element.process}" aria-valuemin="${element.process}" aria-valuemax="100" style="width: ${element.process}%; background:${element.colorStatus};">
@@ -533,24 +532,28 @@ function load_status_project() {
     });
 }
 load_status_project() 
+var status;
 function filterStatus(element) {
-   var status = element.getAttribute('data-status');
-   console.log(status);
-    list_to_do(status);
+    status = element.getAttribute('data-status');
+    filterProject(status);
+    // list_to_do(status);
 }
 
 $('.input-filter').on('click', function() {
- 
+    filterProject(status);
+})
+
+// filter status and level
+function filterProject(status) {
     var filters = filter('input-filter');
-    
+
     $.ajax({
         type: "GET",
         dataType: "json",
         async: false,
-        data: {filters:filters},
-        url: baseHome + "/project/filterLevel",
+        data: {status:status,filters:filters},
+        url: baseHome + "/project/filter",
         success: function (data) {
-            var mailread = "";
             var html = "";
             data.forEach(function (element, index) {
                 var img = element.avatar ? baseHome + '/users/gemstech/' +element.avatar : baseHome+ '/users/gemstech/uploads/useravatar.png';
@@ -565,14 +568,15 @@ $('.input-filter').on('click', function() {
                         </div>`;
                 html += '<div class="badge" style="width: 100px; margin-right: 0.5rem; background-color: rgb(247, 244, 244); color: '+element.colorLevel+'">'+element.nameLevel+'</div>';
                 html += `<small style="width: 70px;" class="text-nowrap text-muted mr-1">${element.deadline}</small>`;
-             
                 html += '';
                 html += "</div></li>";
             });
             $("#todo-task-list").html(html);
         }
     });
-})
+}
+
+
 
 function del() {
     var id = $("#id").val();
