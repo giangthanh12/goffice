@@ -37,6 +37,7 @@ $(function () {
         dtUserTable.DataTable({
             ajax: baseHome + "/staff/getData",
             ordering: false, // bỏ sắp xếp mặc định
+           
             columns: [
                 // columns according to JSON
                 { data: "name" },
@@ -50,7 +51,7 @@ $(function () {
                 {
                     // User full name and username
                     targets: 0,
-                    responsivePriority: 4,
+                
                     render: function (data, type, full, meta) {
                         var $name = full["name"],
                          
@@ -169,30 +170,7 @@ $(function () {
                 }
             }],
             // For responsive popup
-            responsive: {
-                details: {
-                    display: $.fn.dataTable.Responsive.display.modal({
-                        header: function (row) {
-                            var data = row.data();
-                            return "Details of " + data["name"];
-                        },
-                    }),
-                    type: "column",
-                    renderer: $.fn.dataTable.Responsive.renderer.tableAll({
-                        tableClass: "table",
-                        columnDefs: [
-                            {
-                                targets: 2,
-                                visible: false,
-                            },
-                            {
-                                targets: 3,
-                                visible: false,
-                            },
-                        ],
-                    }),
-                },
-            },
+            
             initComplete: function () {
                
             },
@@ -288,8 +266,21 @@ function loaddata(id) {
             $('#idAddress').val(data.idAddress);
             $('#vssId').val(data.vssId);
             $('#nationality').val(data.nationality);
-             $("#description").val(data.description);
+            $("#description").val(data.description);
             $("#id").val(id);
+            var staffInfo = result.staff_info;
+            if (staffInfo != 0){
+                $('#twitter').val(staffInfo.twitter);
+                $('#facebook').val(staffInfo.facebook);
+                $('#instagram').val(staffInfo.instagram);
+                $('#zalo').val(staffInfo.zalo);
+                $('#wechat').val(staffInfo.wechat);
+                $('#linkein').val(staffInfo.linkein);
+            }else{
+                $('#socailForm').trigger("reset");
+            }
+
+
             loadRecord(id);
         },
         error: function(){
@@ -358,6 +349,41 @@ function changeImage(){
         },
     });
 }
+
+
+
+
+function updateInfoStaff() {
+    var info = {};
+    info.staffId = $("#id").val();
+    info.twitter = $("#twitter").val();
+    info.facebook = $("#facebook").val();
+    info.instagram = $("#instagram").val();
+    info.zalo = $("#zalo").val();
+    info.wechat = $("#wechat").val();
+    info.linkein = $("#linkein").val();
+    console.log(info);
+   
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        data: {data:info},
+        url: baseHome + "/staff/updateInfoStaff",
+        success: function(data) {
+            if (data.success) {
+              //  loaddata(info.nhan_vien);
+                notyfi_success(data.msg);
+            }
+            else{
+                notify_error(data.msg);
+            }
+        },
+        error: function(){
+            notify_error('Cập nhật user không thành công');
+        }
+    });
+}
+
 
 function addStaff() {
     var info = {};
@@ -485,33 +511,7 @@ function loadRecord(id) {
                     previous: "&nbsp;",
                     next: "&nbsp;",
                 }
-            },
-
-            // For responsive popup
-            responsive: {
-                details: {
-                    display: $.fn.dataTable.Responsive.display.modal({
-                        header: function (row) {
-                            var data = row.data();
-                            return "Details of " + data["name"];
-                        },
-                    }),
-                    type: "column",
-                    renderer: $.fn.dataTable.Responsive.renderer.tableAll({
-                        tableClass: "table",
-                        columnDefs: [
-                            {
-                                targets: 2,
-                                visible: false,
-                            },
-                            {
-                                targets: 3,
-                                visible: false,
-                            },
-                        ],
-                    }),
-                },
-            }
+            },           
         });
     }
 }

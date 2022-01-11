@@ -34,7 +34,7 @@ class staff extends Controller
         $json = $this->model->getdata($id);
         echo json_encode($json);
     }
- function getProvince() {
+    function getProvince() {
         $jsonObj = $this->model->getProvince();
         echo json_encode($jsonObj);
     }
@@ -144,51 +144,9 @@ class staff extends Controller
         echo json_encode($jsonObj);
     }
 
-    function add_users()
-    {
-        $post = $_REQUEST['data'];
-        $data['staffId'] = $post['nhan_vien'];
-        $data['username'] = $post['username'];
-        $data['usernameMd5'] = md5($post['username']);
-        $pass = md5($post['password']);
-        $data['password'] = md5($pass);
-        $data['status'] = 1;
+   
 
-
-        if ($this->model->them_users($data)) {
-            $jsonObj['msg'] = "Cập nhật dữ liệu thành công";
-            $jsonObj['success'] = true;
-        } else {
-            $jsonObj['msg'] = "Lỗi khi cập nhật database";
-            $jsonObj['success'] = false;
-        }
-        echo json_encode($jsonObj);
-    }
-
-    function update_users()
-    {
-        $post = $_REQUEST['data'];
-        $id = $post['id_user'];
-        $data['username'] = $post['username'];
-        $data['usernameMd5'] = md5($post['username']);
-
-        if ($post['password'] != "") {
-            $data['password'] = md5(md5($post['password']));
-        }
-
-        $data['sipPass'] = $post['sip_pass'];
-        $data['status'] = $post['tinh_trang'];
-        $data['extNum'] = $post['ext_num'];
-
-        if ($this->model->update_users($data, $id)) {
-            $jsonObj['msg'] = "Cập nhật dữ liệu thành công";
-            $jsonObj['success'] = true;
-        } else {
-            $jsonObj['msg'] = "Lỗi khi cập nhật database";
-            $jsonObj['success'] = false;
-        }
-        echo json_encode($jsonObj);
-    }
+   
 
 
     function add_nhanvien_info()
@@ -212,11 +170,10 @@ class staff extends Controller
         echo json_encode($jsonObj);
     }
 
-    function update_nhanvien_info()
+    function updateInfoStaff()
     {
         $post = $_REQUEST['data'];
-
-        $nhanvien_id = $post['nhanvien_id'];
+        $staffId = $post['staffId'];
         $data['twitter'] = $post['twitter'];
         $data['facebook'] = $post['facebook'];
         $data['instagram'] = $post['instagram'];
@@ -224,7 +181,7 @@ class staff extends Controller
         $data['wechat'] = $post['wechat'];
         $data['linkein'] = $post['linkein'];
 
-        if ($this->model->update_nhanvien_info($data, $nhanvien_id)) {
+        if ($this->model->updateInfoStaff($data, $staffId)) {
             $jsonObj['msg'] = "Cập nhật dữ liệu thành công";
             $jsonObj['success'] = true;
         } else {

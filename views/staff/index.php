@@ -129,6 +129,11 @@
                                                         <i data-feather="user"></i><span class="d-none d-sm-block">Lịch sử công tác</span>
                                                     </a>
                                                 </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link d-flex align-items-center" id="social-tab" data-toggle="tab" href="#social" aria-controls="social" role="tab" aria-selected="false">
+                                                        <i data-feather="share-2"></i><span class="d-none d-sm-block">Social</span>
+                                                    </a>
+                                                </li>
                                                 
                                             </ul>
                                             <div class="tab-content">
@@ -288,7 +293,7 @@
                                                 </div>
                                                 <!-- Account Tab starts -->
                                                 <div class="tab-pane" id="account" aria-labelledby="account-tab" role="tabpanel">
-                                                <div class="table-responsive border rounded mt-1">
+                                                    <div class="table-responsive border rounded mt-1">
                                                         <h6 class="py-1 mx-1 mb-0 font-medium-2">
                                                             <i data-feather="lock" class="font-medium-3 mr-25"></i>
                                                             <span class="align-middle">Chi tiết</span>
@@ -307,8 +312,105 @@
                                                         </table>
                                                     </div>
                                                 </div>
-                                                
-                                               
+                                                <!-- Social Tab starts -->
+                                                <div class="tab-pane" id="social" aria-labelledby="social-tab" role="tabpanel">
+                                                    <!-- users edit social form start -->
+                                                    <form class="form-validate" id="socailForm">
+                                                        <div class="row">
+                                                            <div class="col-lg-4 col-md-6 form-group">
+                                                                <label for="twitter-input">Twitter</label>
+                                                                <div class="input-group input-group-merge">
+                                                                    <div class="input-group-prepend">
+                                                                        <span class="input-group-text" id="basic-addon3">
+                                                                            <i data-feather="twitter" class="font-medium-2"></i>
+                                                                        </span>
+                                                                    </div>
+                                                                    <input id="twitter" name="twitter" type="text" class="form-control"
+                                                                        aria-describedby="basic-addon3"
+                                                                    />
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-4 col-md-6 form-group">
+                                                                <label for="facebook-input">Facebook</label>
+                                                                <div class="input-group input-group-merge">
+                                                                    <div class="input-group-prepend">
+                                                                        <span class="input-group-text" id="basic-addon4">
+                                                                            <i data-feather="facebook" class="font-medium-2"></i>
+                                                                        </span>
+                                                                    </div>
+                                                                    <input
+                                                                        id="facebook" name="facebook"
+                                                                        type="text"
+                                                                        class="form-control"
+                                                                        aria-describedby="basic-addon4"
+                                                                    />
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-4 col-md-6 form-group">
+                                                                <label for="instagram-input">Instagram</label>
+                                                                <div class="input-group input-group-merge">
+                                                                    <div class="input-group-prepend">
+                                                                        <span class="input-group-text" id="basic-addon5">
+                                                                            <i data-feather="instagram" class="font-medium-2"></i>
+                                                                        </span>
+                                                                    </div>
+                                                                    <input
+                                                                        id="instagram" name="instagram"
+                                                                        type="text"
+                                                                        class="form-control"
+                                                                        placeholder="Link"
+                                                                        aria-describedby="basic-addon5"
+                                                                    />
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-4 col-md-6 form-group">
+                                                                <label for="github-input">Zalo</label>
+                                                                <div class="input-group input-group-merge">
+                                                                    <div class="input-group-prepend">
+                                                                        <span class="input-group-text" id="basic-addon9">
+                                                                            <i data-feather="github" class="font-medium-2"></i>
+                                                                        </span>
+                                                                    </div>
+                                                                    <input id="zalo" name="zalo" type="text" class="form-control"  aria-describedby="basic-addon9" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-4 col-md-6 form-group">
+                                                                <label for="codepen-input">Wechat</label>
+                                                                <div class="input-group input-group-merge">
+                                                                    <div class="input-group-prepend">
+                                                                        <span class="input-group-text" id="basic-addon12">
+                                                                            <i data-feather="codepen" class="font-medium-2"></i>
+                                                                        </span>
+                                                                    </div>
+                                                                    <input
+                                                                        id="wechat" name="wechat"
+                                                                        type="text"
+                                                                        class="form-control"
+                                                                        aria-describedby="basic-addon12"
+                                                                    />
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-4 col-md-6 form-group">
+                                                                <label for="slack-input">LinkedIn</label>
+                                                                <div class="input-group input-group-merge">
+                                                                    <div class="input-group-prepend">
+                                                                        <span class="input-group-text" id="basic-addon11">
+                                                                            <i data-feather="slack" class="font-medium-2"></i>
+                                                                        </span>
+                                                                    </div>
+                                                                    <input id="linkein" name="linkein" type="text" class="form-control"  aria-describedby="basic-addon11" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-12 d-flex flex-sm-row flex-column mt-2">
+                                                                <!-- <button type="button"  id="add_nhanvien_info" onclick="add_nhanvien_info()" class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Thêm</button> -->
+                                                                <button type="button"  id="update_nhanvien_info" onclick="updateInfoStaff(); return false;" class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Cập nhật</button>
+                                                                <button type="reset" class="btn btn-outline-secondary" data-dismiss="modal">Bỏ qua</button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                    <!-- users edit social form ends -->
+                                                </div>
+                                                <!-- Social Tab ends -->
                                             </div>
                                         </div>
                                     </div>

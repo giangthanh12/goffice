@@ -38,6 +38,7 @@ class group_roles_model extends Model
         FROM g_menus WHERE active > 0 ORDER BY sortOrder,id");
         $result = $query->fetchAll(PDO::FETCH_ASSOC);
         $result = functions::dequy($result, 0, 1);
+   
         foreach ($result as $key => $menu) {
             $menuId = $menu['id'];
             $result[$key]['checked'] = 0;

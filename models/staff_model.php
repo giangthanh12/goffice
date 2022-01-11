@@ -33,9 +33,9 @@ class staff_Model extends Model{
         $query3 = $this->db->query("SELECT * FROM staffinfo WHERE staffId = $id");
         $temp = $query3->fetchAll(PDO::FETCH_ASSOC);
         if(isset($temp[0]))
-            $result['nhanvien_info'] = $temp[0];
+            $result['staff_info'] = $temp[0];
         else
-            $result['nhanvien_info'] = 0;
+            $result['staff_info'] = 0;
         
         return $result;
     }
@@ -85,7 +85,17 @@ class staff_Model extends Model{
         $query = $this->update("staffs", ['status'=>2], " id=$id ");
         return $query;
     }
-
+    function updateInfoStaff($data,$id){
+        $query = $this->db->query("SELECT COUNT(1) AS dem FROM staffinfo WHERE staffId=$id");
+        $temp = $query->fetchAll(PDO::FETCH_ASSOC);
+        if ($temp[0]['dem']==0) {
+            $data['staffId'] = $id;
+            $query = $this->insert("staffinfo", $data);
+            return $query;
+        } 
+        $query = $this->update("staffinfo", $data, " staffId=$id ");
+        return $query;
+    }
  
 
    
