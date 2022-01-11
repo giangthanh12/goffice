@@ -13,7 +13,7 @@ class staff extends Controller
     {
      
         require "layouts/header.php";
-        $this->view->render("nhansu/index");
+        $this->view->render("staff/index");
         require "layouts/footer.php";
     }
 
@@ -128,14 +128,7 @@ class staff extends Controller
         $data = $this->model->province();
         echo json_encode($data);
     }
-    function getDepartment() {
-        $data = $this->model->getDepartment();
-        echo json_encode($data);
-    }
-    function getShift() {
-        $data = $this->model->getShift();
-        echo json_encode($data);
-    }
+   
     /*== check nhan_vien đã có users */
     function checkUsername()
     {

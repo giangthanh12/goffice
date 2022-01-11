@@ -9,8 +9,7 @@
 ==========================================================================================*/
 $(function () {
     return_combobox_multi('#idAddress', baseHome + '/staff/getProvince', 'Nơi cấp');
-    return_combobox_multi('#departmentId', baseHome + '/staff/getDepartment', 'Phòng ban');
-    return_combobox_multi('#shiftId', baseHome + '/staff/getShift', 'Ca làm');
+ 
     "use strict";
     
     var dtUserTable = $(".user-list-table"),
@@ -32,39 +31,6 @@ $(function () {
             });
         }
 
-    // $('#birthday').flatpickr({
-    //     // monthSelectorType: "static",
-    //     // altInput: true,
-    //     // defaultDate: data.birthDay,
-    //     altFormat: "j F, Y",
-    //     dateFormat: "d/m/Y",
-    // });
-    // var button = [];
-    // let i = 0;
-    // userFuns.forEach(function (item,index){
-    //     if(item.type==1) {
-    //         button[i] = {
-    //             text: item.name,
-    //             className: "add-new btn btn-" + item.color + " mt-50",
-    //             // attr: {
-    //             //     "data-toggle": "modal",
-    //             //     "data-target": "#modals-slide-in",
-    //             // },
-    //             init: function (api, node, config) {
-    //                 $(node).removeClass("btn-secondary");
-    //             },
-    //             action: function (e, dt, node, config) {
-    //                 actionMenu(item.function);
-    //             }
-    //         };
-    //         i++;
-    //     }
-    // })
-
-
-  
-
- 
 
     // Users List datatable
     if (dtUserTable.length) {
@@ -325,47 +291,6 @@ function loaddata(id) {
              $("#description").val(data.description);
             $("#id").val(id);
             loadRecord(id);
-
-            // var account = result.account;
-            // if (account != 0){
-            //     $('#form_account').css("display","block");
-            //     $('#add_account').css("display","none");
-            //     $('.btn_show_pass').css("display","block");
-            //     $('.btn_hidden_pass').css("display","none");
-            //     $('.show_pass').css("display","none");
-
-            //     $('#edit_username').val(account.username);
-            //     $('#id_user').val(account.id);
-            //     $('#ext_num').val(account.extNum);
-            //     $('#sip_pass').val(account.sipPass);
-
-            //     $('#users_tinh_trang').attr("disabled", false);
-            //     $('#users_tinh_trang').val(account.status);
-            //     $('#nhom').attr("disabled", false);
-            //     $('#nhom').val(account.department);
-
-            // }else{
-            //     $('#form_account').css("display","none");
-            //     $('#add_account').css("display","block");
-            // }
-
-            // var nhanvien_info = result.nhanvien_info;
-            // if (nhanvien_info != 0){
-            //     $('#twitter').val(nhanvien_info.twitter);
-            //     $('#facebook').val(nhanvien_info.facebook);
-            //     $('#instagram').val(nhanvien_info.instagram);
-            //     $('#zalo').val(nhanvien_info.zalo);
-            //     $('#wechat').val(nhanvien_info.wechat);
-            //     $('#linkein').val(nhanvien_info.linkein);
-            //     $('#update_nhanvien_info').css("display","block");
-            //     $('#add_nhanvien_info').css("display","none");
-            // }else{
-            //     $('#update_nhanvien_info').css("display","none");
-            //     $('#add_nhanvien_info').css("display","block");
-            // }
-
-
-
         },
         error: function(){
             notify_error('Lỗi truy xuất database');
@@ -497,103 +422,6 @@ function del(id){
     });
 }
 
-// function thoiviec(id){
-
-//     Swal.fire({
-//         title: 'Thôi việc',
-//         text: "Bạn có chắc chắn!",
-//         icon: 'warning',
-//         showCancelButton: true,
-//         confirmButtonText: 'Tôi đồng ý',
-//         customClass: {
-//             confirmButton: 'btn btn-primary',
-//             cancelButton: 'btn btn-outline-danger ml-1'
-//         },
-//         buttonsStyling: false
-//     }).then(function (result) {
-//         if (result.value) {
-//             $.ajax({
-//                 url: baseHome + "/nhansu/thoiviec",
-//                 type: 'post',
-//                 dataType: "json",
-//                 data: {id: id},
-//                 success: function(data){
-//                     if (data.success) {
-//                         notyfi_success(data.msg);
-//                         $(".user-list-table").DataTable().ajax.reload( null, false );
-//                     }
-//                     else
-//                         notify_error(data.msg);
-//                 },
-//             });
-//         }
-//     });
-
-// }
-
-
-function update_users() {
-    var info = {};
-    info.nhan_vien = $("#id").val();
-    info.id_user = $("#id_user").val();
-    info.username = $("#edit_username").val();
-    info.password = $("#edit_password").val();
-    info.tinh_trang = $("#users_tinh_trang").val();
-    info.ext_num = $("#ext_num").val();
-    info.sip_pass = $("#sip_pass").val();
-    $.ajax({
-        type: "POST",
-        dataType: "json",
-        data: {data:info},
-        url: baseHome + "/nhansu/update_users",
-        success: function(data) {
-            if (data.success) {
-                //  loaddata(info.nhan_vien);
-                notyfi_success(data.msg);
-            }
-            else{
-                notify_error(data.msg);
-            }
-        },
-        error: function(){
-            notify_error('Cập nhật user không thành công');
-        }
-    });
-}
-
-
-
-
-
-
-function update_nhanvien_info1() {
-    var info = {};
-    info.nhanvien_id = $("#id").val();
-    info.twitter = $("#twitter").val();
-    info.facebook = $("#facebook").val();
-    info.instagram = $("#instagram").val();
-    info.zalo = $("#zalo").val();
-    info.wechat = $("#wechat").val();
-    info.linkein = $("#linkein").val();
-    $.ajax({
-        type: "POST",
-        dataType: "json",
-        data: {data:info},
-        url: baseHome + "/nhansu/update_nhanvien_info",
-        success: function(data) {
-            if (data.success) {
-                //  loaddata(info.nhan_vien);
-                notyfi_success(data.msg);
-            }
-            else{
-                notify_error(data.msg);
-            }
-        },
-        error: function(){
-            notify_error('Cập nhật user không thành công');
-        }
-    });
-}
 
 function add(){
     $('#modals-slide-in').modal('show');
@@ -622,26 +450,7 @@ function loadRecord(id) {
                 { data: "stopDate" },
             ],
             columnDefs: [
-                // {
-                //     // Actions
-                //     targets: 1,
-                  
-                //     orderable: false,
-                //     render: function (data, type, full, meta) {
-                //         var html = '';
-                //        if(full['type'] == 1) {
-                //           html =  `<div class="badge badge-pill badge-light-info">Đơn hàng</div>`;
-                //        }
-                //        else if (full['type'] == 2) {
-                //         html =  `<div class="badge badge-pill badge-light-primary">Hợp đồng</div>`;
-                //        }
-                //        else if(full['type'] == 3) {
-                //         html =   `<div class="badge badge-pill badge-light-success">Thanh toán</div>`;
-                //        }
-                //         return html;
-                //     },
-                //     width: 150
-                // },
+           
                 {
                     // Actions
                     targets: 2,
@@ -666,15 +475,7 @@ function loadRecord(id) {
                  
                 },
             ],
-            // dom:
-            //     '<"d-flex justify-content-between align-items-center header-actions mx-1 row mt-75"' +
-            //     '<"col-lg-12 col-xl-6" l>' +
-            //     '<"col-lg-12 col-xl-6 pl-xl-75 pl-0"<"dt-action-buttons text-xl-right text-lg-left text-md-right text-left d-flex align-items-center justify-content-lg-end align-items-center flex-sm-nowrap flex-wrap mr-1"<"mr-1"f>B>>' +
-            //     ">t" +
-            //     '<"d-flex justify-content-between mx-2 row mb-1"' +
-            //     '<"col-sm-12 col-md-6"i>' +
-            //     '<"col-sm-12 col-md-6"p>' +
-            //     ">",
+        
             language: {
                 sLengthMenu: "Show _MENU_",
                 search: "Search",

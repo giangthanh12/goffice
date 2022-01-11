@@ -86,73 +86,19 @@ class staff_Model extends Model{
         return $query;
     }
 
-    function thoiviec($id){
-        $query = $this->update("staffs", ['status'=>6], " id=$id ");
-        return $query;
-    }
-    function getShift() {
-        $result = array();
-        $query = $this->db->query("SELECT id, shift AS `text` FROM shift WHERE status=1");
-        if ($query)
-            $result = $query->fetchAll(PDO::FETCH_ASSOC);
-        return $result;
-    }
+ 
 
-    function province(){
-        $result = array();
-        $query = $this->db->query("SELECT id, name AS `text` FROM province WHERE status=1");
-        if ($query)
-            $result = $query->fetchAll(PDO::FETCH_ASSOC);
-        return $result;
-    }
-    function getDepartment() {
-        $result = array();
-        $query = $this->db->query("SELECT id, name AS `text` FROM department WHERE status=1");
-        if ($query)
-            $result = $query->fetchAll(PDO::FETCH_ASSOC);
-        return $result;
-    }
+   
+  
 
-/*== Get account by ID nhan_vien ===== */
-    function getAccountbyId($id){
-        $result = array();
-        $query = $this->db->query("SELECT * FROM users WHERE staffId = $id");
-        if ($query)
-            $result = $query->fetchAll(PDO::FETCH_ASSOC);
-        return $result;
-    }
 
-    function checkUsername($username,$id){
-        $query = $this->db->query("SELECT COUNT(id) as total FROM users WHERE username = '$username' AND id!=$id");
-        $temp = $query->fetchAll(PDO::FETCH_ASSOC);
-        return $temp[0]['total'];
-    }
 
-    function them_users($data){
-        $query = $this->insert("users", $data);
-        return $query;
-    }
-    function update_users($data,$id){
-        $query = $this->update("users", $data, " id=$id ");
-        return $query;
-    }
+  
 
- /** Social  nhanvien_info*/       
-    function getNhanvienInfoId($id){
-        $result = array();
-        $query = $this->db->query("SELECT * FROM staffinfo WHERE staffId = $id");
-        if ($query)
-            $result = $query->fetchAll(PDO::FETCH_ASSOC);
-        return $result;
-    }
-    function them_nhanvien_info($data){
-        $query = $this->insert("staffinfo", $data);
-        return $query;
-    }
-    function update_nhanvien_info($data,$id){
-        $query = $this->update("staffinfo", $data, " staffId=$id ");
-        return $query;
-    }
+
+
+
+  
 
 }
 ?>
