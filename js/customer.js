@@ -73,8 +73,8 @@ $(function () {
                             '<a href="javascript:void(0)" onclick="loaddata(' + full["id"] + ')" data-toggle="modal" data-target="#updateinfo" class="user_name text-truncate"><span class="font-weight-bold">' +
                             $name +
                             "</span></a>" +
-                            '<small class="emp_post text-muted">@' +
-                            $uname +
+                            '' +
+                          
                             "</small>" +
                             "</div>" +
                             "</div>";
@@ -172,24 +172,24 @@ $(function () {
                         $("#addinfo").modal('show');
                         $(".modal-title").html('Thêm khách hàng mới');
                         $('#fullName').val('');
-                        $('#taxCode').val('');
-                        $('#address').val('');
+                        // $('#taxCode').val('');
+                        // $('#address').val('');
                         $('#phoneNumber').val('');
                         $('#email').val('');
                         $('#website').val('');
-                        $('#office').val('');
-                        $('#field').val('');
-                        $('#fieldDetail').val('');
+                        // $('#office').val('');
+                        // $('#field').val('');
+                        // $('#fieldDetail').val('');
                         $('#staffId').val('').change();
-                        $('#rank').val('').change();
-                        $('#bussinessName').val('');
-                        $('#bussinessAddress').val('');
-                        $('#bussinessPlace').val('');
-                        $('#representative').val('');
-                        $('#authorized').val('');
-                        $('#note').val('');
-                        $('#classify').val('').change();
-                        $('#type').val('').change();
+                        // $('#rank').val('').change();
+                        // $('#bussinessName').val('');
+                        // $('#bussinessAddress').val('');
+                        // $('#bussinessPlace').val('');
+                        // $('#representative').val('');
+                        // $('#authorized').val('');
+                        // $('#note').val('');
+                        // $('#classify').val('').change();
+                        // $('#type').val('').change();
                         $('#nationalId').val(237).change();
                         $('#provinceId').val('').change();
                         $('#status').val('1').attr("disabled", true);
@@ -279,12 +279,12 @@ $(function () {
                 "fullName": {
                     required: true,
                 },
-                "taxCode": {
-                    required: true,
-                },
-                "address": {
-                    required: true,
-                },
+                // "taxCode": {
+                //     required: true,
+                // },
+                // "address": {
+                //     required: true,
+                // },
                 "phoneNumber": {
                     required: true,
                 },
@@ -294,51 +294,51 @@ $(function () {
                 "website": {
                     required: true,
                 },
-                "staffId": {
-                    required: true,
-                },
-                "office": {
-                    required: true,
-                },
-                "field": {
-                    required: true,
-                },
-                "fieldDetail": {
-                    required: true,
-                },
-                "rank": {
-                    required: true,
-                },
-                "bussinessName": {
-                    required: true,
-                },
-                "bussinessAddress": {
-                    required: true,
-                },
-                "bussinessPlace": {
-                    required: true,
-                },
-                "representative": {
-                    required: true,
-                },
-                "authorized": {
-                    required: true,
-                },
-                "note": {
-                    required: true,
-                },
-                "classify": {
-                    required: true,
-                },
-                "type": {
-                    required: true,
-                },
-                "nationalId": {
-                    required: true,
-                },
-                "provinceId": {
-                    required: true,
-                },
+                // "staffId": {
+                //     required: true,
+                // },
+                // "office": {
+                //     required: true,
+                // },
+                // "field": {
+                //     required: true,
+                // },
+                // "fieldDetail": {
+                //     required: true,
+                // },
+                // "rank": {
+                //     required: true,
+                // },
+                // "bussinessName": {
+                //     required: true,
+                // },
+                // "bussinessAddress": {
+                //     required: true,
+                // },
+                // "bussinessPlace": {
+                //     required: true,
+                // },
+                // "representative": {
+                //     required: true,
+                // },
+                // "authorized": {
+                //     required: true,
+                // },
+                // "note": {
+                //     required: true,
+                // },
+                // "classify": {
+                //     required: true,
+                // },
+                // "type": {
+                //     required: true,
+                // },
+                // "nationalId": {
+                //     required: true,
+                // },
+                // "provinceId": {
+                //     required: true,
+                // },
                 "status": {
                     required: true,
                 },
@@ -361,12 +361,12 @@ $(function () {
                 "fullName1": {
                     required: true,
                 },
-                "taxCode1": {
-                    required: true,
-                },
-                "address1": {
-                    required: true,
-                },
+                // "taxCode1": {
+                //     required: true,
+                // },
+                // "address1": {
+                //     required: true,
+                // },
                 "phoneNumber1": {
                     required: true,
                 },
@@ -376,51 +376,51 @@ $(function () {
                 "website1": {
                     required: true,
                 },
-                "staffId1": {
-                    required: true,
-                },
-                "office1": {
-                    required: true,
-                },
-                "field1": {
-                    required: true,
-                },
-                "fieldDetail1": {
-                    required: true,
-                },
-                "rank1": {
-                    required: true,
-                },
-                "bussinessName1": {
-                    required: true,
-                },
-                "bussinessAddress1": {
-                    required: true,
-                },
-                "bussinessPlace1": {
-                    required: true,
-                },
-                "representative1": {
-                    required: true,
-                },
-                "authorized1": {
-                    required: true,
-                },
-                "classify1": {
-                    required: true,
-                },
-                "type1": {
-                    required: true,
-                },
-                "nationalId1": {
-                    required: true,
-                },
-                "provinceId1": {
-                    required: true,
-                },
-                "status1": {
-                    required: true,
-                },
+                // "staffId1": {
+                //     required: true,
+                // },
+                // "office1": {
+                //     required: true,
+                // },
+                // "field1": {
+                //     required: true,
+                // },
+                // "fieldDetail1": {
+                //     required: true,
+                // },
+                // "rank1": {
+                //     required: true,
+                // },
+                // "bussinessName1": {
+                //     required: true,
+                // },
+                // "bussinessAddress1": {
+                //     required: true,
+                // },
+                // "bussinessPlace1": {
+                //     required: true,
+                // },
+                // "representative1": {
+                //     required: true,
+                // },
+                // "authorized1": {
+                //     required: true,
+                // },
+                // "classify1": {
+                //     required: true,
+                // },
+                // "type1": {
+                //     required: true,
+                // },
+                // "nationalId1": {
+                //     required: true,
+                // },
+                // "provinceId1": {
+                //     required: true,
+                // },
+                // "status1": {
+                //     required: true,
+                // },
             },
         });
 
@@ -648,24 +648,24 @@ function loadTransaction(id) {
 function saveadd() {
     var info = {};
     info.fullName = $("#fullName").val();
-    info.taxCode = $("#taxCode").val();
-    info.address = $("#address").val();
+    // info.taxCode = $("#taxCode").val();
+    // info.address = $("#address").val();
     info.phoneNumber = $("#phoneNumber").val();
     info.email = $("#email").val();
     info.website = $("#website").val();
     info.staffId = $("#staffId").val();
-    info.office = $("#office").val();
-    info.field = $("#field").val();
-    info.fieldDetail = $("#fieldDetail").val();
-    info.rank = $("#rank").val();
-    info.bussinessName = $("#bussinessName").val();
-    info.bussinessAddress = $("#bussinessAddress").val();
-    info.bussinessPlace = $("#bussinessPlace").val();
-    info.representative = $("#representative").val();
-    info.authorized = $("#authorized").val();
-    info.note = $("#note").val();
-    info.classify = $("#classify").val();
-    info.type = $("#type").val();
+    // info.office = $("#office").val();
+    // info.field = $("#field").val();
+    // info.fieldDetail = $("#fieldDetail").val();
+    // info.rank = $("#rank").val();
+    // info.bussinessName = $("#bussinessName").val();
+    // info.bussinessAddress = $("#bussinessAddress").val();
+    // info.bussinessPlace = $("#bussinessPlace").val();
+    // info.representative = $("#representative").val();
+    // info.authorized = $("#authorized").val();
+    // info.note = $("#note").val();
+    // info.classify = $("#classify").val();
+    // info.type = $("#type").val();
     info.nationalId = $("#nationalId").val();
     info.provinceId = $("#provinceId").val();
     info.status = $("#status").val();

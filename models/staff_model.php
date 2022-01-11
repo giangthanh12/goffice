@@ -1,28 +1,25 @@
 <?php
-class Nhansu_Model extends Model{
+class staff_Model extends Model{
     function __construst(){
         parent::__construst();
     }
 
-    function getnhanvien(){
+    function getStaff(){
         $nhanvien = array();
-        $query = $this->db->query("SELECT id, name, email, phoneNumber,  status, 
-            IF(avatar='',CONCAT('".URLFILE."','/uploads/useravatar.png'),CONCAT('".URLFILE."/',avatar)) AS avatar,
-            IFNULL((SELECT name FROM branch WHERE branch.id=(SELECT branch FROM laborcontract
-        WHERE laborcontract.staffId=staffs.id LIMIT 1)),'') AS branch, 
-            IFNULL((SELECT name FROM department WHERE department.id=(SELECT department FROM laborcontract
-        WHERE laborcontract.staffId=staffs.id LIMIT 1)),'') AS department
-            FROM staffs WHERE status IN (1,2,3,4) ORDER BY id DESC ");
+        $query = $this->db->query("SELECT id, name, email, phoneNumber, 
+            IF(avatar='',CONCAT('".URLFILE."','/uploads/useravatar.png'),CONCAT('".URLFILE."/',avatar)) AS avatar
+            FROM staffs WHERE status = 1 ORDER BY id DESC");
         if ($query)
-            $nhanvien['data'] = $query->fetchAll(PDO::FETCH_ASSOC);
-        return $nhanvien;
+            $data['data'] = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $data;
     }
 
     function getdata($id){
         $result = array();
-        $query = $this->db->query("SELECT *,
-          IF(avatar='',CONCAT('".URLFILE."','/uploads/useravatar.png'),CONCAT('".URLFILE."/',avatar)) AS hinh_anh
-          FROM staffs WHERE id=$id");
+        $query = $this->db->query("SELECT *, IF(avatar='',CONCAT('".URLFILE."','/uploads/useravatar.png'),CONCAT('".URLFILE."/',avatar)) AS avatar, 
+        DATE_FORMAT(birthDay,'%d/%m/%Y') as birthDay,
+        DATE_FORMAT(idDate,'%d/%m/%Y') as idDate
+        FROM staffs WHERE id=$id");
         $temp = $query->fetchAll(PDO::FETCH_ASSOC);
         $result['nhanvien'] = $temp[0];
       
@@ -43,12 +40,33 @@ class Nhansu_Model extends Model{
         return $result;
     }
 
+    function loadRecord($id) {
+        $data = array();
+        $query = $this->db->query("SELECT *,
+         DATE_FORMAT(startDate,'%d/%m/%Y') as startDate,
+         DATE_FORMAT(stopDate,'%d/%m/%Y') as stopDate,
+         (SELECT name FROM laborcontract WHERE id = a.contractId) as nameContract,
+         (SELECT name FROM department WHERE id = a.departmentId) as department
+         FROM records a WHERE staffId = $id AND status = 1 ORDER BY id DESC");
+        $data['data'] = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $data;
+    }
+
+    function getProvince() {
+        $result = array();
+        $query = $this->db->query("SELECT id, name AS `text` FROM province WHERE status = 1");
+        if ($query)
+            $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+
     function updateinfo($data,$id){
         $query = $this->update("staffs", $data, " id=$id ");
         return $query;
     }
 
-    function thayanh($file,$id){
+    function changeImage($file,$id){
         if ($file=='')
             return false;
         else {
@@ -58,13 +76,13 @@ class Nhansu_Model extends Model{
         }
     }
 
-    function them($data){
+    function add($data){
         $query = $this->insert("staffs", $data);
         return $query;
     }
 
-    function xoa($id){
-        $query = $this->update("staffs", ['status'=>0], " id=$id ");
+    function del($id){
+        $query = $this->update("staffs", ['status'=>2], " id=$id ");
         return $query;
     }
 
@@ -72,10 +90,24 @@ class Nhansu_Model extends Model{
         $query = $this->update("staffs", ['status'=>6], " id=$id ");
         return $query;
     }
+    function getShift() {
+        $result = array();
+        $query = $this->db->query("SELECT id, shift AS `text` FROM shift WHERE status=1");
+        if ($query)
+            $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
 
     function province(){
         $result = array();
         $query = $this->db->query("SELECT id, name AS `text` FROM province WHERE status=1");
+        if ($query)
+            $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+    function getDepartment() {
+        $result = array();
+        $query = $this->db->query("SELECT id, name AS `text` FROM department WHERE status=1");
         if ($query)
             $result = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;
