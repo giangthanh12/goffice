@@ -35,18 +35,23 @@
                                     <i data-feather="check" class="font-medium-3 mr-50"></i> <span class="align-middle">Đã hoàn thành</span>
                                 </a>
                                 <a href="javascript:void(0)" onclick="listStatus(0)"
-                                   class="list-group-item list-group-item-action">
+                                   class="list-group-item list-group-item-action d-none">
                                     <i data-feather="trash" class="font-medium-3 mr-50"></i> <span class="align-middle">Đã xóa</span>
                                 </a>
                             </div>
                             <div class="mt-3 px-2 d-flex justify-content-between">
                                 <h6 class="section-label mb-1">Việc theo dự án</h6>
-                                <i data-feather="plus" class="cursor-pointer"></i>
+                                <!--                                <i data-feather="plus" class="cursor-pointer"></i>-->
                             </div>
                             <div class="list-group list-group-labels" id="list_project">
                                 <input type="hidden" id="projectId"/>
-                                <a href="javascript:void(0)" onclick="listTaskPro(0)" class="list-group-item list-group-item-action d-flex align-items-center">
+                                <a href="javascript:void(0)" onclick="listTaskPro(-1)"
+                                   class="list-group-item list-group-item-action d-flex align-items-center">
                                     <span class="bullet bullet-sm mr-1" style="background: #00ff00"></span>Toàn bộ</a>
+                                <a href="javascript:void(0)" onclick="listTaskPro(0)"
+                                   class="list-group-item list-group-item-action d-flex align-items-center">
+                                    <span class="bullet bullet-sm mr-1" style="background: #0c0c0c"></span>Công việc cá
+                                    nhân</a>
                                 <?php
                                 foreach ($this->project as $item)
                                     echo '
@@ -92,7 +97,7 @@
                                             $avatar = URLFILE . '/' . $item['avatar'];
                                         else
                                             $avatar = HOME . '/layouts/useravatar.png';
-                                        echo '<option data-img="' . $avatar . '" value="' . $item['id'] . '">' . $item['name'] . '</option>';
+                                        echo '<option data-img="' . $avatar . '" value="' . $item['id'] . '" ' . $selected . '>' . $item['name'] . '</option>';
                                     }
                                     ?>
                                 </select>
@@ -127,14 +132,15 @@
                                             </div>
                                             <div class="todo-item-action">
                                                 <div class="badge-wrapper mr-1">
-                                                   <div class="badge" data-id="'.$item['label'].'" style="width: 100px; margin-right: 0.5rem; background-color: rgb(247, 244, 244); color: '. $item['labelColor'].'">'.$item['labelText'].'</div>
+                                                   <div class="badge" data-id="' . $item['label'] . '" style="width: 100px; margin-right: 0.5rem; background-color: rgb(247, 244, 244); color: ' . $item['labelColor'] . '">' . $item['labelText'] . '</div>
                                                 </div>
-                                                <small class="text-nowrap text-muted mr-1">' . $item['deadline'] . '</small>
+                                                <small class="text-nowrap text-muted mr-1">' . date("d/m/Y", strtotime($item['deadline'])) . '</small>
                                                 <div class="avatar" data-id="' . $item['assigneeId'] . '">
                                                     <img onerror="this.src=\'' . HOME . '/layouts/useravatar.png\'" src="' . $avatar . '" alt="user-avatar" height="32" width="32" />
                                                 </div>
                                                 <span class="taskDescription d-none">' . $item['description'] . '</span>
                                                 <span class="taskProject d-none">' . $item['projectId'] . '</span>
+                                                <span class="taskStatus d-none">' . $item['status'] . '</span>
                                             </div>
                                         </div>
                                     </li>
@@ -176,6 +182,7 @@
                                                 <label for="task-assigned" class="form-label d-block">Thuộc dự án/nhóm
                                                     công việc</label>
                                                 <select class="select2 form-control" id="onProject" name="onProject">
+                                                    <option value="0" selected>Công việc cá nhân</option>
                                                     <?php
                                                     foreach ($this->project as $item)
                                                         echo '<option value="' . $item['id'] . '">' . $item['name'] . '</option>';
@@ -208,7 +215,7 @@
                                                 <!-- <select class="form-control task-tag" id="task-tag" name="task-tag" multiple="multiple"> -->
                                                 <select class="form-control task-tag" id="task-tag" name="task-tag">
                                                     <?php foreach ($this->tag as $item)
-                                                        echo '<option data-color="'.$item['color'].'" value="' . $item['id'] . '">' . $item['name'] . '</option>';
+                                                        echo '<option data-color="' . $item['color'] . '" value="' . $item['id'] . '">' . $item['name'] . '</option>';
                                                     ?>
                                                 </select>
                                             </div>
@@ -267,9 +274,12 @@
     </div>
 </div>
 <script type="text/javascript">
-    let funAdd = <?=$this->funAdd?>;
-    let funEdit = <?=$this->funEdit?>;
-    let funDel = <?=$this->funDel?>;
-    let staffId = <?=$_SESSION['user']['staffId']?>;
+    var funAdd = <?=$this->funAdd?>,
+        funEdit = <?=$this->funEdit?>,
+        funDel = <?=$this->funDel?>,
+        staffId = '<?=$_SESSION['user']['staffId']?>',
+        today = '<?= date('d/m/Y') ?>',
+        proId = -1,
+        taskStatus = '',deadline='false';
 </script>
 <script src="<?= HOME ?>/js/todo.js"></script>

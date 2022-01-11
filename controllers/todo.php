@@ -25,9 +25,9 @@ class todo extends Controller
     function index()
     {
         require "layouts/header.php";
-        $deadline = isset($_REQUEST['deadline']) ? $_REQUEST['deadline'] : false;
+        $deadline = isset($_REQUEST['deadline']) ? $_REQUEST['deadline'] : 'false';
         $status = isset($_REQUEST['status']) ? $_REQUEST['status'] : '';
-        $project = isset($_REQUEST['project']) ? $_REQUEST['project'] : 0;
+        $project = isset($_REQUEST['project']) ? $_REQUEST['project'] : -1;
         $staffId = isset($_REQUEST['assignee']) ? $_REQUEST['assignee'] : $_SESSION['user']['staffId'];
         $this->view->list = $this->model->getList($staffId, $project, $status, $deadline,1);
         $this->view->project = $this->model->getProject($staffId);
@@ -45,7 +45,7 @@ class todo extends Controller
         if (self::$funAdd == 1) {
             $title = $_REQUEST['newTitle'];
             $project = isset($_REQUEST['newProject'][0]) ? $_REQUEST['newProject'][0] : 0;
-            $deadline = $_REQUEST['newDeadline'];
+            $deadline = functions::convertDate($_REQUEST['newDeadline']);
             $label = isset($_REQUEST['newLabel'][0]) ? $_REQUEST['newLabel'][0] : 0;
             $nhanvien = $_REQUEST['newAssignee'];
             $description = $_REQUEST['newDescription'];
@@ -70,9 +70,9 @@ class todo extends Controller
         if (self::$funEdit == 1) {
             $id = $_REQUEST['id'];
             $title = $_REQUEST['newTitle'];
-            $project = isset($_REQUEST['newProject'][0]) ? $_REQUEST['newProject'][0] : 0;
-            $deadline = $_REQUEST['newDeadline'];
-            $label = isset($_REQUEST['newLabel'][0]) ? $_REQUEST['newLabel'][0] : 0;
+            $project = isset($_REQUEST['newProject']) ? $_REQUEST['newProject'] : 0;
+            $deadline = functions::convertDate($_REQUEST['newDeadline']);
+            $label = isset($_REQUEST['newLabel']) ? $_REQUEST['newLabel'] : 0;
             $nhanvien = $_REQUEST['newAssignee'];
             $description = $_REQUEST['newDescription'];
             $data = array('title' => $title, 'projectId' => $project, 'deadline' => $deadline, 'description' => $description, 'label' => $label, 'assigneeId' => $nhanvien);
