@@ -219,7 +219,9 @@ $(function () {
                     required: true,
                 },
                 "process": {
-                    required: true,
+                    min:0,
+                    max:100,
+                    number: true
                 },
                 "status": {
                     required: true,

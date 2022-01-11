@@ -43,7 +43,7 @@ class project extends Controller
             $name = $_REQUEST['name'];
             $managerId = $_REQUEST['managerId'];
             $assigneeId = str_replace(']','',str_replace('[', '', json_encode($_REQUEST['assigneeId'])));
-            $process = $_REQUEST['process'];
+            $process = !empty($_REQUEST['process']) ? $_REQUEST['process'] : 0;
             $level = $_REQUEST['level'];
             $description = $_REQUEST['description'];
             $status = $_REQUEST['status'];
@@ -69,7 +69,7 @@ class project extends Controller
             $name = $_REQUEST['name'];
             $managerId = $_REQUEST['managerId'];
             $assigneeId = implode(',',$_REQUEST['assigneeId']);
-            $process = $_REQUEST['process'];
+            $process = !empty($_REQUEST['process']) ? $_REQUEST['process'] : 0;
             $level = $_REQUEST['level'];
             $description = $_REQUEST['description'];
             $status = $_REQUEST['status'];
