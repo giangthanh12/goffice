@@ -128,12 +128,13 @@ $(function () {
 
         return $person;
     }
+
     // Chọn nhân viên để hiển thị công việc
     if (taskAssignList.length) {
         taskAssignList.wrap('<div class="position-relative" style="min-width:250px"></div>');
         taskAssignList.select2({
             placeholder: "Chọn nhân viên",
-              dropdownParent: taskAssignList.parent(),
+            dropdownParent: taskAssignList.parent(),
             templateResult: assignTask,
             templateSelection: assignTask,
             escapeMarkup: function (es) {
@@ -256,7 +257,14 @@ $(function () {
                 var newDescription = quill_editor[0].innerHTML;
                 $.post(
                     "todo/update",
-                    { id: taskId, newTitle: newTitle, newAssignee: newAssignee, newDeadline: newDeadline, newLabel: newLabel, newDescription: newDescription },
+                    {
+                        id: taskId,
+                        newTitle: newTitle,
+                        newAssignee: newAssignee,
+                        newDeadline: newDeadline,
+                        newLabel: newLabel,
+                        newDescription: newDescription
+                    },
                     function (data, status) {
                         if (data.success) {
                             toastr["success"](data.msg, "💾 Task Action!", {
@@ -267,10 +275,10 @@ $(function () {
                             $(newTaskModal).modal("hide");
                             var projectId = $('#projectId').val();
                             var assigneeId = taskAssignList.val();
-                            if (projectId>0)
-                                $("#my-task-list").load(window.location.href + "?project="+projectId+ " #my-task-list");
-                            else if (assigneeId>0)
-                                $("#my-task-list").load(window.location.href + "?assignee="+assigneeId+ " #my-task-list");
+                            if (projectId > 0)
+                                $("#my-task-list").load(window.location.href + "?project=" + projectId + " #my-task-list");
+                            else if (assigneeId > 0)
+                                $("#my-task-list").load(window.location.href + "?assignee=" + assigneeId + " #my-task-list");
                             else
                                 $("#my-task-list").load(window.location.href + " #my-task-list");
                         } else {
@@ -368,10 +376,10 @@ $(function () {
     // Task checkbox change
     todoTaskListWrapper.on("change", ".custom-checkbox", function (event) {
         var $this = $(this).find("input");
-        var taskId = $this.attr("id").replace('customCheck','');
+        var taskId = $this.attr("id").replace('customCheck', '');
         if ($this.prop("checked")) {
             $.post(
-                "todo/checkOut", {id:taskId, status:4},
+                "todo/checkOut", {id: taskId, status: 4},
                 function (data, status) {
                     if (data.success) {
                         toastr["success"]("Task Completed", "Congratulations!! 🎉", {
@@ -398,7 +406,7 @@ $(function () {
         } else {
             // $this.closest(".todo-item").removeClass("completed");
             $.post(
-                "todo/checkOut", {id:taskId, status:2},
+                "todo/checkOut", {id: taskId, status: 2},
                 function (data, status) {
                     if (data.success) {
                         toastr["success"]("Task updated", "---", {
@@ -431,7 +439,8 @@ $(function () {
         // if ($(this).hasClass("completed")) {
         //     modalTitle.html('<button type="button" class="btn btn-sm btn-outline-success complete-todo-item waves-effect waves-float waves-light" data-dismiss="modal">Completed</button>');
         // } else {
-            modalTitle.html('<button type="button" onclick="markCompleted('+taskId+')"class="btn btn-sm btn-outline-secondary complete-todo-item waves-effect waves-float waves-light" data-dismiss="modal">Hoàn thành</button>');
+        if (funEdit == 1)
+            modalTitle.html('<button type="button" onclick="markCompleted(' + taskId + ')"class="btn btn-sm btn-outline-secondary complete-todo-item waves-effect waves-float waves-light" data-dismiss="modal">Hoàn thành</button>');
         // }
         // taskTitle = $(this).find('.todo-title');
 
@@ -468,7 +477,15 @@ $(function () {
                 var newDescription = quill_editor[0].innerHTML;
                 $.post(
                     "todo/update",
-                    { id: taskId, newTitle: newTitle, newProject: newProject, newAssignee: newAssignee, newDeadline: newDeadline, newLabel: newLabel, newDescription: newDescription },
+                    {
+                        id: taskId,
+                        newTitle: newTitle,
+                        newProject: newProject,
+                        newAssignee: newAssignee,
+                        newDeadline: newDeadline,
+                        newLabel: newLabel,
+                        newDescription: newDescription
+                    },
                     function (data, status) {
                         if (data.success) {
                             toastr["success"](data.msg, "💾 Task Action!", {
@@ -479,10 +496,10 @@ $(function () {
                             $(newTaskModal).modal("hide");
                             var projectId = $('#projectId').val();
                             var assigneeId = taskAssignList.val();
-                            if (projectId>0)
-                                $("#my-task-list").load(window.location.href + "?project="+projectId+ " #my-task-list");
-                            else if (assigneeId>0)
-                                $("#my-task-list").load(window.location.href + "?assignee="+assigneeId+ " #my-task-list");
+                            if (projectId > 0)
+                                $("#my-task-list").load(window.location.href + "?project=" + projectId + " #my-task-list");
+                            else if (assigneeId > 0)
+                                $("#my-task-list").load(window.location.href + "?assignee=" + assigneeId + " #my-task-list");
                             else
                                 $("#my-task-list").load(window.location.href + " #my-task-list");
                         } else {
@@ -571,36 +588,36 @@ $(window).on("resize", function () {
     }
 });
 
-function listTaskPro(projectId){
+function listTaskPro(projectId) {
     $('#projectId').val(projectId);
-    $("#my-task-list").load(window.location.href + "?project="+projectId+ " #my-task-list");
+    $("#my-task-list").load(window.location.href + "?project=" + projectId + " #my-task-list");
 }
 
-function listMyTask(){
+function listMyTask() {
     $('#projectId').val(0);
     $("#my-task-list").load(window.location.href + " #my-task-list");
 }
 
-function listStatus(status){
+function listStatus(status) {
     $('#projectId').val(0);
-    $("#my-task-list").load(window.location.href + "?status="+status+ " #my-task-list");
+    $("#my-task-list").load(window.location.href + "?status=" + status + " #my-task-list");
 }
 
-function listDeadline(){
+function listDeadline() {
     $('#projectId').val(0);
     $("#my-task-list").load(window.location.href + "?deadline=true #my-task-list");
 }
 
-function listOtherTask(assigneeId){
-    if (assigneeId>0) {
+function listOtherTask(assigneeId) {
+    if (assigneeId > 0) {
         $('#projectId').val(0);
-        $("#my-task-list").load(window.location.href + "?assignee="+assigneeId+ " #my-task-list");
+        $("#my-task-list").load(window.location.href + "?assignee=" + assigneeId + " #my-task-list");
     }
 }
 
-function markCompleted(taskId){
+function markCompleted(taskId) {
     $.post(
-        "todo/checkOut", {id:taskId, status:6},
+        "todo/checkOut", {id: taskId, status: 6},
         function (data, status) {
             if (data.success) {
                 toastr["success"]("Task completed", "Congratulations!! 🎉", {
@@ -610,10 +627,10 @@ function markCompleted(taskId){
                 });
                 var projectId = $('#projectId').val();
                 var assigneeId = $("#task-assigned-list").val();
-                if (projectId>0)
-                    $("#my-task-list").load(window.location.href + "?project="+projectId+ " #my-task-list");
-                else if (assigneeId>0)
-                    $("#my-task-list").load(window.location.href + "?assignee="+assigneeId+ " #my-task-list");
+                if (projectId > 0)
+                    $("#my-task-list").load(window.location.href + "?project=" + projectId + " #my-task-list");
+                else if (assigneeId > 0)
+                    $("#my-task-list").load(window.location.href + "?assignee=" + assigneeId + " #my-task-list");
                 else
                     $("#my-task-list").load(window.location.href + " #my-task-list");
             } else {
@@ -628,10 +645,10 @@ function markCompleted(taskId){
     );
 }
 
-function deleteTask(){
+function deleteTask() {
     var taskId = $("#taskId").val();
     $.post(
-        "todo/checkOut", {id:taskId, status:0},
+        "todo/checkOut", {id: taskId, status: 0},
         function (data, status) {
             if (data.success) {
                 toastr["success"]("Xóa task thành công", "--", {
@@ -641,10 +658,10 @@ function deleteTask(){
                 });
                 var projectId = $('#projectId').val();
                 var assigneeId = $("#task-assigned-list").val();
-                if (projectId>0)
-                    $("#my-task-list").load(window.location.href + "?project="+projectId+ " #my-task-list");
-                else if (assigneeId>0)
-                    $("#my-task-list").load(window.location.href + "?assignee="+assigneeId+ " #my-task-list");
+                if (projectId > 0)
+                    $("#my-task-list").load(window.location.href + "?project=" + projectId + " #my-task-list");
+                else if (assigneeId > 0)
+                    $("#my-task-list").load(window.location.href + "?assignee=" + assigneeId + " #my-task-list");
                 else
                     $("#my-task-list").load(window.location.href + " #my-task-list");
             } else {

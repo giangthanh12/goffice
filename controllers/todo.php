@@ -1,7 +1,21 @@
 <?php
 class todo extends Controller{
+    static private $funAdd=0,$funEdit=0,$funDel=0;
     function __construct(){
         parent::__construct();
+        $model = new model();
+        $checkMenuRole = $model->checkMenuRole('todo');
+        if ($checkMenuRole == false)
+            header('location:' . HOME);
+        $funcs = $model->getFunctions('todo');
+        foreach ($funcs as $item){
+            if($item['function']=='add')
+                self::$funAdd=1;
+            if($item['function']=='edit')
+                self::$funEdit=1;
+            if($item['function']=='del')
+                self::$funDel=1;
+        }
     }
 
     function index(){
@@ -14,6 +28,9 @@ class todo extends Controller{
         $this->view->project=$this->model->getProject();
         $this->view->tag=$this->model->getLabel();
         $this->view->employee=$this->model->getEmployee();
+        $this->view->funAdd = self::$funAdd;
+        $this->view->funEdit = self::$funEdit;
+        $this->view->funDel = self::$funDel;
         $this->view->render("todo/index");
         require "layouts/footer.php";
     }
@@ -21,9 +38,9 @@ class todo extends Controller{
     function update(){
         $id = $_REQUEST['id'];
         $title = $_REQUEST['newTitle'];
-        $project = isset($_REQUEST['newProject'])?$_REQUEST['newProject'][0]:0;
+        $project = isset($_REQUEST['newProject'][0])?$_REQUEST['newProject'][0]:0;
         $deadline = $_REQUEST['newDeadline'];
-        $label = isset($_REQUEST['newLabel'])?$_REQUEST['newLabel'][0]:0;
+        $label = isset($_REQUEST['newLabel'][0])?$_REQUEST['newLabel'][0]:0;
         $nhanvien = $_REQUEST['newAssignee'];
         $description = $_REQUEST['newDescription'];
         $data = array('title'=>$title, 'projectId'=>$project, 'deadline'=>$deadline,'description'=>$description, 'label'=>$label, 'assigneeId'=>$nhanvien);
