@@ -1,49 +1,50 @@
 <?php
 
-class Nhansu extends Controller
+class staff extends Controller
 {
     private $funcs;
 
     function __construct()
     {
         parent::__construct();
-        $model = new model();
-        $checkMenuRole = $model->checkMenuRole('nhansu');
-        if ($checkMenuRole == false)
-            header('location:' . HOME);
+      
     }
-
     function index()
     {
-        $this->view->funs = $this->funcs = $this->model->getFunctions('nhansu');
+     
         require "layouts/header.php";
-        $this->view->render("nhansu/index");
+        $this->view->render("staff/index");
         require "layouts/footer.php";
     }
 
     function getData()
     {
-        $data = $this->model->getnhanvien();
+        $data = $this->model->getStaff();
         echo json_encode($data);
     }
-
-    function getFunctions()
-    {
-        $funs = $this->model->getFunctions('nhansu');
-        echo json_encode($funs);
+    function loadRecord() {
+        $id = $_REQUEST['id'];
+        $data = $this->model->loadRecord($id);
+        echo json_encode($data);
     }
-
+   
     function loaddata()
     {
         $id = isset($_REQUEST['id']) ? $_REQUEST['id'] : 0;
         $json = $this->model->getdata($id);
         echo json_encode($json);
     }
-
+ function getProvince() {
+        $jsonObj = $this->model->getProvince();
+        echo json_encode($jsonObj);
+    }
     function updateinfo()
     {
     
         $data = $_REQUEST['data'];
+        $data['birthDay'] = date("Y-m-d",strtotime(str_replace('/', '-',$data['birthDay'] )));
+        $data['idDate'] = date("Y-m-d",strtotime(str_replace('/', '-',$data['idDate'] )));
+        
         $id = $_REQUEST['id'];
         if ($this->model->updateinfo($data, $id)) {
             $jsonObj['msg'] = "Cập nhật dữ liệu thành công";
@@ -55,7 +56,7 @@ class Nhansu extends Controller
         echo json_encode($jsonObj);
     }
 
-    function thayanh()
+    function changeImage()
     {
         $id = $_REQUEST['myid'];
         $filename = $_FILES['hinhanh']['name'];
@@ -66,7 +67,7 @@ class Nhansu extends Controller
             if ($file != '')
                 $hinhanh = 'uploads/nhanvien/' . $file;
         }
-        if ($this->model->thayanh($hinhanh, $id)) {
+        if ($this->model->changeImage($hinhanh, $id)) {
             $jsonObj['filename'] = URLFILE . "/" . $hinhanh;
             if ($id == $_SESSION['user']['staffId'])
                 $_SESSION['user']['avatar'] = URLFILE . "/" . $hinhanh;
@@ -79,30 +80,27 @@ class Nhansu extends Controller
         echo json_encode($jsonObj);
     }
 
-    function them()
+    function add()
     {
-        $checkFun = functions::checkFuns($this->funcs, 'add()');
-        if ($checkFun) {
+
             $data = $_REQUEST['data'];
-            if ($this->model->them($data)) {
+            $data['birthday'] = date("Y-m-d",strtotime(str_replace('/', '-',$data['birthday'] )));
+          
+            if ($this->model->add($data)) {
                 $jsonObj['msg'] = "Cập nhật dữ liệu thành công";
                 $jsonObj['success'] = true;
             } else {
                 $jsonObj['msg'] = "Lỗi khi cập nhật database";
                 $jsonObj['success'] = false;
             }
-        } else {
-            $jsonObj['msg'] = "Bạn không có quyền sử dụng chức năng này";
-            $jsonObj['success'] = false;
-        }
         echo json_encode($jsonObj);
 
     }
 
-    function xoa()
+    function del()
     {
         $id = $_REQUEST['id'];
-        if ($this->model->xoa($id)) {
+        if ($this->model->del($id)) {
             $jsonObj['msg'] = "Cập nhật dữ liệu thành công";
             $jsonObj['success'] = true;
         } else {
@@ -130,7 +128,7 @@ class Nhansu extends Controller
         $data = $this->model->province();
         echo json_encode($data);
     }
-
+   
     /*== check nhan_vien đã có users */
     function checkUsername()
     {

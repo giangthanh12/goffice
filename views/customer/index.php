@@ -51,13 +51,11 @@
                         </table>
                     </div>
                     <div class="modal fade text-left" id="addinfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel16" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h4 class="modal-title" id="myModalLabel16"></h4>
-                                    <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                    </button> -->
+                               
                                 </div>
                                 <div class="modal-body">
                                     <!-- <input type="hidden" id="id" name="id" /> -->
@@ -65,13 +63,13 @@
                                         <div class="card-body">
                                             <form class="form-validate" enctype="multipart/form-data" id="dg">
                                                 <div class="row mt-1">
-                                                    <div class="col-lg-4 col-md-6">
+                                                    <div class="col-lg-6 col-md-6">
                                                         <div class="form-group">
                                                             <label for="fullName">Tên khách hàng</label>
                                                             <input id="fullName" type="text" class="form-control" name="fullName" />
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-4 col-md-6">
+                                                    <!-- <div class="col-lg-4 col-md-6">
                                                         <div class="form-group">
                                                             <label for="taxCode">Mã số thuế</label>
                                                             <input id="taxCode" name="taxCode" type="text" class="form-control" />
@@ -82,29 +80,29 @@
                                                             <label for="address">Địa chỉ cư trú</label>
                                                             <input id="address" type="text" class="form-control" name="address" />
                                                         </div>
-                                                    </div>
+                                                    </div> -->
                                                     
-                                                    <div class="col-lg-4 col-md-6">
+                                                    <div class="col-lg-6 col-md-6">
                                                         <div class="form-group">
                                                             <label for="phoneNumber">Số điện thoại</label>
                                                             <input id="phoneNumber" type="text" class="form-control" name="phoneNumber" />
                                                         </div>
                                                     </div>
 
-                                                    <div class="col-lg-4 col-md-6">
+                                                    <div class="col-lg-6 col-md-6">
                                                         <div class="form-group">
                                                             <label for="email">Email</label>
                                                             <input id="email" type="text" class="form-control" name="email" />
                                                         </div>
                                                     </div>
 
-                                                    <div class="col-lg-4 col-md-6">
+                                                    <div class="col-lg-6 col-md-6">
                                                         <div class="form-group">
                                                             <label for="website">Website</label>
                                                             <input id="website" type="text" class="form-control" name="website" />
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-4 col-md-6">
+                                                    <div class="col-lg-6 col-md-6">
                                                         <div class="form-group">
                                                             <label for="staffId">Nhân viên chăm sóc</label>
                                                             <select id="staffId" class="select2 form-control" name="staffId">
@@ -112,7 +110,7 @@
                                                         </div>
                                                     </div>
                                                     
-                                                    <div class="col-lg-4 col-md-6">
+                                                    <!-- <div class="col-lg-4 col-md-6">
                                                         <div class="form-group">
                                                             <label for="office">Tên văn phòng khách hàng</label>
                                                             <input id="office" type="text" class="form-control" name="office" />
@@ -129,8 +127,8 @@
                                                             <label for="fieldDetail">Mô tả lĩnh vực</label>
                                                             <input id="fieldDetail" name="fieldDetail" type="text" class="form-control" />
                                                         </div>
-                                                    </div>
-                                                    <div class="col-lg-4 col-md-6">
+                                                    </div> -->
+                                                    <!-- <div class="col-lg-6 col-md-6">
                                                         <div class="form-group">
                                                             <label for="rank">Hạng khách hàng</label>
                                                             <select id="rank" class="form-control" name="rank">
@@ -138,8 +136,8 @@
                                                                 <option value="2">VIP</option>
                                                             </select>
                                                         </div>
-                                                    </div>
-                                                    <div class="col-lg-4 col-md-6">
+                                                    </div> -->
+                                                    <!-- <div class="col-lg-4 col-md-6">
                                                         <div class="form-group">
                                                             <label for="bussinessName">Tên doanh nghiệp của khách hàng</label>
                                                             <input id="bussinessName" name="bussinessName" type="text" class="form-control" />
@@ -174,8 +172,8 @@
                                                             <label for="note">Chú thích</label>
                                                             <input id="note" type="text" class="form-control" name="note" />
                                                         </div>
-                                                    </div>
-                                                    <div class="col-lg-4 col-md-6">
+                                                    </div> -->
+                                                    <!-- <div class="col-lg-4 col-md-6">
                                                         <div class="form-group">
                                                             <label for="classify">Phân loại khách hàng</label>
                                                             <select id="classify" class="select2 form-control" name="classify">
@@ -193,15 +191,15 @@
                                                                 <option value="3">Dịch vụ</option>
                                                             </select>
                                                         </div>
-                                                    </div>
-                                                    <div class="col-lg-4 col-md-6">
+                                                    </div> -->
+                                                    <div class="col-lg-6 col-md-6">
                                                         <div class="form-group">
                                                             <label for="nationalId">Quốc gia</label>
                                                             <select id="nationalId" class="select2 form-control" name="nationalId">
                                                             </select>
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-4 col-md-6">
+                                                    <div class="col-lg-6 col-md-6">
                                                         <div class="form-group">
                                                             <label for="provinceId">Province</label>
                                                             <select id="provinceId" class="select2 form-control" name="provinceId">
@@ -209,7 +207,7 @@
                                                         </div>
                                                     </div>
 
-                                                    <div class="col-lg-4 col-md-6">
+                                                    <div class="col-lg-6 col-md-6">
                                                         <div class="form-group">
                                                             <label for="status">Trạng thái</label>
                                                             <select id="status" class="select2 form-control" name="status">
