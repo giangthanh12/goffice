@@ -14,35 +14,7 @@ $(function () {
     var Font = Quill.import("formats/font");
     Font.whitelist = ["sofia", "slabo", "roboto", "inconsolata", "ubuntu"];
     Quill.register(Font, true);
-
-    $.ajax({ // Count unread email
-        type: "GET",
-        dataType: "text",
-        async: false,
-        url: baseHome + "/inbox/unread",
-        success: function (data) {
-            $(".message-item-count").html(data);
-        },
-    });
-
-    $.ajax({ // nhân viên vào select2 cho email to và CC, BCC
-        type: "GET",
-        dataType: "json",
-        async: false,
-        url: baseHome + "/inbox/nhanvien",
-        success: function (data) {
-            var html = '<option data-avatar="' + baseHome + '/layouts/allavatar.png" value="0">Tất cả</option>';
-            data.forEach(function (item, index) {
-                html += '<option data-avatar="' + item["avata"] + '" value="' + item["id"] + '">' + item["name"] + "</option>";
-            });
-            $("#email-to").html(html);
-            $("#emailCC").html(html);
-            $("#emailBCC").html(html);
-        },
-    });
-
-    list('inbox');
-
+    $('.custom-control-input').prop('checked', false);
     var compose = $(".compose-email"),
         composeModal = $("#compose-mail"),
         menuToggle = $(".menu-toggle"),
@@ -71,6 +43,13 @@ $(function () {
         editorEl = $("#message-editor .editor"),
         overlay = $(".body-content-overlay"),
         isRtl = $("html").attr("data-textdirection") === "rtl";
+
+    var assetPath = "../../../app-assets/";
+
+    if ($("body").attr("data-framework") === "laravel") {
+        assetPath = $("body").attr("data-asset-path");
+    }
+
     // Toggle BCC on mount
     if (wrapperBCC.length) {
         wrapperBCC.toggle();
@@ -95,15 +74,6 @@ $(function () {
         });
     }
 
-
-    $("#file-input").change(function(e){
-         var html = $('#listfile').html();
-         var files = e.target.files;
-         for(var i=0;i<files.length;i++){
-            html += '<li>'+files[i].name+'<li>';
-         }
-         $('#listfile').html(html);
-    });
     // if it is not touch device
     if (!$.app.menu.is_touch_device()) {
         // Email left Sidebar
@@ -137,7 +107,7 @@ $(function () {
             class: "mr-0",
         });
         if ($(option.element).data("avatar")) {
-            avatarImg = "<img src='" + $(option.element).data("avatar") + "' alt='avatar' />";
+            avatarImg = "<img src='" + assetPath + "images/avatars/" + $(option.element).data("avatar") + "' alt='avatar' />";
         }
 
         var $avatar = "<div class='d-flex flex-wrap align-items-center'>" + "<div class='avatar avatar-sm my-0 mr-50'>" + "<span class='avatar-content'>" + avatarImg + "</span>" + "</div>" + option.text + "</div>";
@@ -207,7 +177,6 @@ $(function () {
             // quill editor content
             var quill_editor = $(".compose-form .ql-editor");
             quill_editor[0].innerHTML = "";
-            $('#listfile').html('')
         });
     }
 
@@ -237,25 +206,11 @@ $(function () {
     }
 
     // Email Right sidebar toggle
-    if (emailUserList.find("li").length) {
-        emailUserList.find("li").on("click", function (e) {
-            $.ajax({
-                type: "GET",
-                dataType: "json",
-                async: false,
-                data: { id: this.id },
-                url: baseHome + "/inbox/get_detail",
-                success: function (data) {
-                    $("#nguoigui").text(data.senderName);
-                    $("#avatar").attr("src", data.avatar);
-                    $("#noidung").text(data.date);
-                    $("#noidung").html(data.content);
-                    $("#myid").attr('value',data.id);
-                },
-            });
-            emailDetails.toggleClass("show");
-        });
-    }
+    // if (emailUserList.find("li").length) {
+    //     emailUserList.find("li").on("click", function (e) {
+    //         emailDetails.toggleClass("show");
+    //     });
+    // }
 
     // Add class active on click of sidebar list
     if (listGroupMsg.find("a").length) {
@@ -315,91 +270,36 @@ $(function () {
     }
 
     // select all
-    $(document).on("click", ".email-app-list .selectAll input", function () {
-        if ($(this).is(":checked")) {
-            userActions.find(".custom-checkbox input").prop("checked", this.checked).closest(".media").addClass("selected-row-bg");
-        } else {
-            userActions.find(".custom-checkbox input").prop("checked", "").closest(".media").removeClass("selected-row-bg");
-        }
-    });
+    // $(document).on("click", ".email-app-list .selectAll input", function () {
+    //     if ($(this).is(":checked")) {
+    //         userActions.find(".custom-checkbox input").prop("checked", this.checked).closest(".media").addClass("selected-row-bg");
+    //     } else {
+    //         userActions.find(".custom-checkbox input").prop("checked", "").closest(".media").removeClass("selected-row-bg");
+    //     }
+    // });
 
     // Delete selected Mail from list
-    if (mailDelete.length) {
-        mailDelete.on("click", function () {
-            if (userActions.find(".custom-checkbox input:checked").length) {
-                var checkboxes = $('.checkboxes:checkbox:checked');
-                var ids = '';
-                for (var checkbox of checkboxes) {
-                    if (ids=='')
-                        ids = checkbox.value;
-                    else
-                        ids = ids+','+checkbox.value;
-                }
-                $.ajax({
-                    url: baseHome + "/inbox/xoa",
-                    type: "post",
-                    dataType: "json",
-                    data: { ids: ids },
-                    success: function (data) {
-                        if (data.success) {
-                            notyfi_success(data.msg);
-                            // userActions.find(".custom-checkbox input:checked").closest(".media").remove();
-                            // emailAppList.find(".selectAll input").prop("checked", false);
-                            // // toastr["error"]("You have removed email.", "Mail Deleted!", {
-                            // //     closeButton: true,
-                            // //     tapToDismiss: false,
-                            // //     rtl: isRtl,
-                            // // });
-                            // userActions.find(".custom-checkbox input").prop("checked", "");
-                            var boz = $('#boz').val();
-                            list(boz);
-                        } else
-                            notify_error(data.msg);
-                    },
-                });
-            } else {
-                notyfi_success("Bạn chưa tick checkbox nào");
-            }
-        });
-    }
+    // if (mailDelete.length) {
+    //     mailDelete.on("click", function () {
+    //         if (userActions.find(".custom-checkbox input:checked").length) {
+    //             userActions.find(".custom-checkbox input:checked").closest(".media").remove();
+    //             emailAppList.find(".selectAll input").prop("checked", false);
+    //             toastr["error"]("You have removed email.", "Mail Deleted!", {
+    //                 closeButton: true,
+    //                 tapToDismiss: false,
+    //                 rtl: isRtl,
+    //             });
+    //             userActions.find(".custom-checkbox input").prop("checked", "");
+    //         }
+    //     });
+    // }
 
     // Mark mail unread
-    if (mailUnread.length) {
-        // mailUnread.on("click", function () {
-        //     userActions.find(".custom-checkbox input:checked").closest(".media").removeClass("mail-read");
-        // });
-        mailUnread.on("click", function () {
-            if (userActions.find(".custom-checkbox input:checked").length) {
-                var checkboxes = $('.checkboxes:checkbox:checked');
-                var ids = '';
-                for (var checkbox of checkboxes) {
-                    if (ids=='')
-                        ids = checkbox.value;
-                    else
-                        ids = ids+','+checkbox.value;
-                }
-                $.ajax({
-                    url: baseHome + "/inbox/markunread",
-                    type: "post",
-                    dataType: "json",
-                    data: { ids: ids },
-                    success: function (data) {
-                        if (data.success) {
-                            notyfi_success(data.msg);
-                            // userActions.find(".custom-checkbox input:checked").closest(".media").remove();
-                            // emailAppList.find(".selectAll input").prop("checked", false);
-                            // userActions.find(".custom-checkbox input").prop("checked", "");
-                            var boz = $('#boz').val();
-                            list(boz);
-                        } else
-                            notify_error(data.msg);
-                    },
-                });
-            } else {
-                notyfi_success("Bạn chưa tick checkbox nào");
-            }
-        });
-    }
+    // if (mailUnread.length) {
+    //     mailUnread.on("click", function () {
+    //         userActions.find(".custom-checkbox input:checked").closest(".media").removeClass("mail-read");
+    //     });
+    // }
 
     // Filter
     if (emailSearch.length) {
@@ -444,39 +344,54 @@ $(function () {
         });
     }
 
+    $("#file-input").change(function(e){
+         var html = $('#listfile').html();
+         var files = e.target.files;
+         for(var i=0;i<files.length;i++){
+            html += '<li>'+files[i].name+'<li>';
+         }
+         $('#listfile').html(html);
+    });
+
     // On navbar search and bookmark Icon click, hide compose mail
     $(".nav-link-search, .bookmark-star").on("click", function () {
         composeModal.modal("hide");
     });
 
     $('#form-send').on("submit", function(e) {
-        var formData = new FormData(this);
-        var receiverName = JSON.stringify($("#email-to").val())
-        formData.append('receiverName', receiverName);
-        formData.append('tieude', $("#emailSubject").val());
-        var quill_editor = $(".compose-form .ql-editor");
-        formData.append('subContent', quill_editor[0].innerHTML);
-        $.ajax({
-            method: "POST",
-            url: baseHome + "/inbox/send",
-            data: formData,
-            mimeType: "multipart/form-data",
-            cache: false, // do not cache this request
-            contentType: false, // prevent missing boundary string
-            processData: false, // do not transform to query string
-            dataType: "json",
-        }).done(function(response) {
-            if (response.success) {
-                notyfi_success(response.msg);
-                var receiver = response.receiver;
-                var data = {'type':'inbox','receiverid':receiver.toString()};
-                connection.send(JSON.stringify(data));
-                $('#compose-mail').modal('hide');
-            }
-            else notify_error(response.msg);
-        });
+        var emailTo = $('#email-to').val();
+        if (emailTo.length>0) {
+            var formData = new FormData(this);
+            // var receiverName = JSON.stringify($("#email-to").val())
+            // formData.append('receiverName', receiverName);
+            // formData.append('tieude', $("#emailSubject").val());
+            var quill_editor = $(".compose-form .ql-editor");
+            formData.append('body', quill_editor[0].innerHTML);
+            $.ajax({
+                method: "POST",
+                url: "inbox/sendMsg",
+                data: formData,
+                mimeType: "multipart/form-data",
+                cache: false, // do not cache this request
+                contentType: false, // prevent missing boundary string
+                processData: false, // do not transform to query string
+                dataType: "json",
+            }).done(function(response) {
+                if (response.success) {
+                    notyfi_success(response.msg);
+                    // var receiver = response.receiver;
+                    // var data = {'type':'inbox','receiverid':receiver.toString()};
+                    // connection.send(JSON.stringify(data));
+                    $('#compose-mail').modal('hide');
+                }
+                else notify_error(response.msg);
+            });
+
+        } else
+            notify_error('Bạn chưa chọn người nhận tin');
         event.preventDefault(); // <- avoid reloading
     });
+
 });
 
 $(window).on("resize", function () {
@@ -490,86 +405,199 @@ $(window).on("resize", function () {
     }
 });
 
-function list(type) {
-    $.ajax({ // tải dữ liệu chính
-        type: "GET",
-        dataType: "json",
-        async: false,
-        data: {type:type},
-        url: baseHome + "/inbox/getdata",
-        success: function (data) {
-            var html = "";
-            data.forEach(function (element, index) {
-                html += '<li class="media" id="' + element.id + '"><div class="media-left pr-50"><div class="avatar">';
-                html += '<img src="' + element.avatar + '" alt="avatar img holder" /></div>';
-                html += '<div class="user-action"><div class="custom-control custom-checkbox">';
-                html += '<input type="checkbox" class="custom-control-input checkboxes" id="x' + element.id + '" value="'+element.id+'" />';
-                html += '<label class="custom-control-label" for="x' + element.id + '"></label></div>';
-                html += '<span class="email-favorite"><i data-feather="star"></i></span></div></div>';
-                html += '<div class="media-body"><div class="mail-details"><div class="mail-items">';
-                html += '<h5 class="mb-25">' + element.senderName + '</h5><span class="text-truncate">🎯 ' + element.title + " </span>";
-                html += '</div><div class="mail-meta-item">';
-                if (element.status == 1)
-                    html += '<span class="mr-50 bullet bullet-success bullet-sm"></span>';
-                if (element.status == 2)
-                    html += '<span class="mr-50 bullet bullet-danger bullet-sm"></span>';
-                html += '<span class="mail-date">' + element.dateTime + "</span></div></div>";
-                html += '<div class="mail-message"><p class="text-truncate mb-0">' + element.subContent + "</p></div></div></li>";
-                // $("#email-list").append(html);
-            });
-            $("#email-list").html(html);
+function toggleEmail(id) {
+    $.post(
+        "inbox/loadMsg", {id:id},
+        function (data, status) {
+            if (data.success) {
+                $('#msgId').val(data.data['id']);
+                $('#msgSender').val(data.data['senderId']);
+                $('#senderImg').attr('src', baseHome+'/users/gemstech/uploads/nhanvien/'+data.data['avatar']);
+                $('#senderName').text(data.data['senderName']);
+                $('#msgSubject').text(data.data['title']);
+                $('#dateTime').text(data.data['dateTime']);
+                $('#msgContent').html(data.data['content']);
+                if (data.data['attachmentFile'].length>0) {
+                    var files = data.data['attachmentFile'].split(",");
+                    var attachedFiles = '<ul>';
+                    files.forEach(function(item, index){
+                        attachedFiles += '<li><a href="'+baseUrlFile+'/uploads/dinhkem/'+item+'" target="_blank">'+item+' </a></li>'
+                    });
+                    attachedFiles += '</ul>';
+                    $('#attachedFiles').html(attachedFiles);
+                }
+                $(".email-app-details").toggleClass("show");
+            } else {
+                toastr["error"](data.msg, "Database error!", {
+                    closeButton: true,
+                    tapToDismiss: false,
+                    rtl: isRtl,
+                });
+            }
         },
-    });
-    $('#boz').val(type);
+        "json"
+    );
 }
 
-// function send() {
-//     var quill_editor = $(".compose-form .ql-editor");
-//     var receiverName = $("#email-to").val();
-//     // var data = new FormData($('#form-send'));
-//     // var info = {};
-//     // info.title = $("#emailSubject").val();
-//     // info.noi_dung = quill_editor[0].innerHTML;
-//     // info.status = 1;
-//     $.ajax({
-//         type: "POST",
-//         dataType: "json",
-//         // data: { data: data, receiverName: receiverName},
-//         data: new FormData($('#form-send')),
-//         mimeType: "multipart/form-data",
-//         contentType: false,
-//         cache:false,
-//         processData:false,
-//         url: baseHome + "/inbox/send",
-//         success: function (xdata) {
-//             if (xdata.success) {
-//                 notyfi_success(xdata.msg);
-//                 // var receiver = data.receiver;
-//                 // var data = {'type':'inbox','receiverid':receiver.toString()};
-//                 // connection.send(JSON.stringify(data));
-//             }
-//             else notify_error(xdata.msg);
-//         },
-//         error: function () {
-//             notify_error("Server error");
-//         },
-//     });
+function listInbox() {
+    $(".email-app-details").removeClass('show');
+    $("#selectedType").val('inbox');
+    $("#my-task-list").load(window.location.href + " #my-task-list");
+    $("#delMsgButton").removeClass('d-none');
+}
+
+function listSent() {
+    $("#selectedType").val('sent');
+    $(".email-app-details").removeClass('show');
+    $("#my-task-list").load(window.location.href + "?type=sent #my-task-list");
+    $("#delMsgButton").removeClass('d-none');
+}
+
+function listTrash() {
+    $("#selectedType").val('trash');
+    $(".email-app-details").removeClass('show');
+    $("#my-task-list").load(window.location.href + "?type=trash #my-task-list");
+    $("#delMsgButton").addClass('d-none');
+}
+
+function deleteMsg() {
+    if ($(".user-action").find(".custom-checkbox input:checked").length) {
+        var temp = $(".user-action").find(".custom-checkbox input:checked").closest(".media");
+        var oChild = '';
+        var i = 0;
+        for(i = 0; i < temp.length; i++){
+            if (oChild=='')
+                oChild = temp[i].id;
+            else
+                oChild += ','+temp[i].id;
+        }
+        $.post(
+            "inbox/deleteMsg", {ids:oChild},
+            function (data, status) {
+                if (data.success) {
+                    $(".user-action").find(".custom-checkbox input:checked").closest(".media").remove();
+                    toastr["success"]("You have removed email.", "Mail Deleted!", {
+                        closeButton: true,
+                        tapToDismiss: false,
+                        rtl: isRtl,
+                    });
+                    $("#listType").load(window.location.href + " #listType");
+                } else {
+                    toastr["error"](data.msg, "💾 Task Action!", {
+                        closeButton: true,
+                        tapToDismiss: false,
+                        rtl: isRtl,
+                    });
+                }
+            },
+            "json"
+        );
+    } else {
+        toastr["error"]("Chưa tick tin nhắn cần xóa.", "Vui lòng chọn!", {
+            closeButton: true,
+            tapToDismiss: false,
+            rtl: isRtl,
+        });
+        // $(".user-action")
+    }
+}
+
+function removeMsg() {
+    var id = $('#msgId').val();
+    $.post(
+        "inbox/deleteMsg", {ids:id},
+        function (data, status) {
+            if (data.success) {
+                $("#listType").load(window.location.href + " #listType");
+                $(".email-app-details").removeClass('show');
+                var seletedType = $('#selectedType').val();
+                if (seletedType=='inbox')
+                    $("#my-task-list").load(window.location.href + " #my-task-list");
+                else
+                    $("#my-task-list").load(window.location.href + "?type=sent #my-task-list");
+            } else {
+                toastr["error"](data.msg, "💾 Task Action!", {
+                    closeButton: true,
+                    tapToDismiss: false,
+                    rtl: isRtl,
+                });
+            }
+        },
+        "json"
+    );
+}
+
+function replyMsg() {
+    var sender = $('#msgSender').val();
+    var subject = $('#msgSubject').text() + ' [reply]';
+    var content = '<br>--------------<br>'+ $('#msgContent').html();
+    $('#email-to').val(sender).trigger("change");
+    $('#emailSubject').val(subject);
+    var quill_editor = $(".compose-form .ql-editor");
+    quill_editor[0].innerHTML = content;
+    $("#compose-mail").modal("show");
+}
+
+function forwardMsg() {
+    var sender = $('#msgSender').val();
+    var subject = $('#msgSubject').text() + ' [reply]';
+    var content = '<br>--------------<br>'+ $('#msgContent').html();
+    $('#email-to').val('').trigger("change");
+    $('#emailSubject').val(subject);
+    var quill_editor = $(".compose-form .ql-editor");
+    quill_editor[0].innerHTML = content;
+    $("#compose-mail").modal("show");
+}
+
+// function displayAttach() {
+//     var fullPath = $('#file-input').val();
+//     if (fullPath) {
+//         var startIndex = (fullPath.indexOf('\\') >= 0 ? fullPath.lastIndexOf('\\') : fullPath.lastIndexOf('/'));
+//         var filename = fullPath.substring(startIndex);
+//         if (filename.indexOf('\\') === 0 || filename.indexOf('/') === 0)
+//             filename = filename.substring(1);
+//         $('#attachment').text(filename);
+//     }
 // }
 
-function xoa() {
-    document.getElementById("myCheck").click();
-    var id = $('#myid').attr('value');
-    $.ajax({
-        url: baseHome + "/inbox/xoa",
-        type: "post",
-        dataType: "json",
-        data: { ids: id },
-        success: function (data) {
-            if (data.success) {
-                notyfi_success(data.msg);
-                $("#"+id).remove();
-            } else
-                notify_error(data.msg);
-        },
-    });
-}
+// function sendMsg() {
+//     var emailto = $('#email-to').val();
+//     if (emailto.length>0) {
+//         var fd = new FormData();
+//         fd.append('emailto',emailto);
+//         fd.append('subject',$('#emailSubject').val());
+//         fd.append('body',$('#msgBody').html());
+//         var files = $('#file-input')[0].files;
+//         console.log(files);
+//         if(files.length > 0 ){
+//             fd.append('files',files);
+//         }
+//         $.ajax({
+//            url: 'inbox/sendMsg',
+//            type: 'post',
+//            data: fd,
+//            contentType: false,
+//            processData: false,
+//            dataType: "json",
+//            success: function(response){
+//               if(response.success){
+//                  // $("#img").attr("src",response);
+//                  // $(".preview img").show(); // Display image element
+//               }else{
+//                   toastr["error"](response.msg, "💾 Message not sent!", {
+//                       closeButton: true,
+//                       tapToDismiss: false,
+//                       rtl: isRtl,
+//                   });
+//               }
+//            },
+//         });
+//           //
+//     } else {
+//         toastr["error"]('Bạn chưa chọn người nhận thông báo', "💾 Message not sent!", {
+//             closeButton: true,
+//             tapToDismiss: false,
+//             rtl: isRtl,
+//         });
+//     }
+// }
