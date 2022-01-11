@@ -172,24 +172,10 @@ $(function () {
                         $("#addinfo").modal('show');
                         $(".modal-title").html('Thêm khách hàng mới');
                         $('#fullName').val('');
-                        // $('#taxCode').val('');
-                        // $('#address').val('');
                         $('#phoneNumber').val('');
                         $('#email').val('');
                         $('#website').val('');
-                        // $('#office').val('');
-                        // $('#field').val('');
-                        // $('#fieldDetail').val('');
                         $('#staffId').val('').change();
-                        // $('#rank').val('').change();
-                        // $('#bussinessName').val('');
-                        // $('#bussinessAddress').val('');
-                        // $('#bussinessPlace').val('');
-                        // $('#representative').val('');
-                        // $('#authorized').val('');
-                        // $('#note').val('');
-                        // $('#classify').val('').change();
-                        // $('#type').val('').change();
                         $('#nationalId').val(237).change();
                         $('#provinceId').val('').change();
                         $('#status').val('1').attr("disabled", true);
@@ -279,12 +265,6 @@ $(function () {
                 "fullName": {
                     required: true,
                 },
-                // "taxCode": {
-                //     required: true,
-                // },
-                // "address": {
-                //     required: true,
-                // },
                 "phoneNumber": {
                     required: true,
                 },
@@ -294,51 +274,6 @@ $(function () {
                 "website": {
                     required: true,
                 },
-                // "staffId": {
-                //     required: true,
-                // },
-                // "office": {
-                //     required: true,
-                // },
-                // "field": {
-                //     required: true,
-                // },
-                // "fieldDetail": {
-                //     required: true,
-                // },
-                // "rank": {
-                //     required: true,
-                // },
-                // "bussinessName": {
-                //     required: true,
-                // },
-                // "bussinessAddress": {
-                //     required: true,
-                // },
-                // "bussinessPlace": {
-                //     required: true,
-                // },
-                // "representative": {
-                //     required: true,
-                // },
-                // "authorized": {
-                //     required: true,
-                // },
-                // "note": {
-                //     required: true,
-                // },
-                // "classify": {
-                //     required: true,
-                // },
-                // "type": {
-                //     required: true,
-                // },
-                // "nationalId": {
-                //     required: true,
-                // },
-                // "provinceId": {
-                //     required: true,
-                // },
                 "status": {
                     required: true,
                 },
@@ -361,12 +296,6 @@ $(function () {
                 "fullName1": {
                     required: true,
                 },
-                // "taxCode1": {
-                //     required: true,
-                // },
-                // "address1": {
-                //     required: true,
-                // },
                 "phoneNumber1": {
                     required: true,
                 },
@@ -376,51 +305,6 @@ $(function () {
                 "website1": {
                     required: true,
                 },
-                // "staffId1": {
-                //     required: true,
-                // },
-                // "office1": {
-                //     required: true,
-                // },
-                // "field1": {
-                //     required: true,
-                // },
-                // "fieldDetail1": {
-                //     required: true,
-                // },
-                // "rank1": {
-                //     required: true,
-                // },
-                // "bussinessName1": {
-                //     required: true,
-                // },
-                // "bussinessAddress1": {
-                //     required: true,
-                // },
-                // "bussinessPlace1": {
-                //     required: true,
-                // },
-                // "representative1": {
-                //     required: true,
-                // },
-                // "authorized1": {
-                //     required: true,
-                // },
-                // "classify1": {
-                //     required: true,
-                // },
-                // "type1": {
-                //     required: true,
-                // },
-                // "nationalId1": {
-                //     required: true,
-                // },
-                // "provinceId1": {
-                //     required: true,
-                // },
-                // "status1": {
-                //     required: true,
-                // },
             },
         });
 
@@ -517,30 +401,7 @@ function loaddichvu(id) {
             },
 
             // For responsive popup
-            responsive: {
-                details: {
-                    display: $.fn.dataTable.Responsive.display.modal({
-                        header: function (row) {
-                            var data = row.data();
-                            return "Details of " + data["name"];
-                        },
-                    }),
-                    type: "column",
-                    renderer: $.fn.dataTable.Responsive.renderer.tableAll({
-                        tableClass: "table",
-                        columnDefs: [
-                            {
-                                targets: 2,
-                                visible: false,
-                            },
-                            {
-                                targets: 3,
-                                visible: false,
-                            },
-                        ],
-                    }),
-                },
-            }
+           
         });
     }
 }
@@ -594,15 +455,7 @@ function loadTransaction(id) {
                  
                 },
             ],
-            // dom:
-            //     '<"d-flex justify-content-between align-items-center header-actions mx-1 row mt-75"' +
-            //     '<"col-lg-12 col-xl-6" l>' +
-            //     '<"col-lg-12 col-xl-6 pl-xl-75 pl-0"<"dt-action-buttons text-xl-right text-lg-left text-md-right text-left d-flex align-items-center justify-content-lg-end align-items-center flex-sm-nowrap flex-wrap mr-1"<"mr-1"f>B>>' +
-            //     ">t" +
-            //     '<"d-flex justify-content-between mx-2 row mb-1"' +
-            //     '<"col-sm-12 col-md-6"i>' +
-            //     '<"col-sm-12 col-md-6"p>' +
-            //     ">",
+        
             language: {
                 sLengthMenu: "Show _MENU_",
                 search: "Search",
@@ -648,24 +501,10 @@ function loadTransaction(id) {
 function saveadd() {
     var info = {};
     info.fullName = $("#fullName").val();
-    // info.taxCode = $("#taxCode").val();
-    // info.address = $("#address").val();
     info.phoneNumber = $("#phoneNumber").val();
     info.email = $("#email").val();
     info.website = $("#website").val();
     info.staffId = $("#staffId").val();
-    // info.office = $("#office").val();
-    // info.field = $("#field").val();
-    // info.fieldDetail = $("#fieldDetail").val();
-    // info.rank = $("#rank").val();
-    // info.bussinessName = $("#bussinessName").val();
-    // info.bussinessAddress = $("#bussinessAddress").val();
-    // info.bussinessPlace = $("#bussinessPlace").val();
-    // info.representative = $("#representative").val();
-    // info.authorized = $("#authorized").val();
-    // info.note = $("#note").val();
-    // info.classify = $("#classify").val();
-    // info.type = $("#type").val();
     info.nationalId = $("#nationalId").val();
     info.provinceId = $("#provinceId").val();
     info.status = $("#status").val();
@@ -798,279 +637,7 @@ function savenhap() {
 
 
 
-///// ADD bao gia js
 
-
-function loadbaogia(id) {
-    $('#modal_baogia').modal('show');
-    $(".modal-title").html('Tạo báo giá');
-    $("#table_sp").empty();
-    $("#viewfile").empty();
-    var dateObj = new Date();
-    var thang = dateObj.getMonth();
-    thang = thang+1;
-    thang = thang > 9 ? thang : '0' + thang;
-    var ngay = dateObj.getDate();
-    ngay = ngay > 9 ? ngay : '0' + ngay;
-    var dateToUse = dateObj.getFullYear() + "-" + thang + "-" + ngay;
-        
-    $('#ngay').val(dateToUse);
-    $('#tong_donhang').val('');
-    $('#chiet_khau').val('');
-    $('#thanh_toan').val('');
-    $('#file_bg').val('');
-    $('#khach_hang_bg').empty();
-    $('#nhan_vien_bg').val(0);
-    $('#nhan_vien_bg').trigger("change");
-    $('#dich_vu').val(0);
-    $('#dich_vu').trigger("change");
-    $('#san_pham').val(0);
-    $('#san_pham').trigger("change");
-    $('.btn-add').attr("disabled", true);
-    $('#ghi_chu_bg').val('');
-
-    
-    $.ajax({
-        type: "POST",
-        dataType: "json",
-        data: { id: id },
-        url: baseHome + "/baogia/load_id_kh",
-        success: function (data) {
-            $("#khach_hang_bg").val(data.id).trigger('change');
-        },
-        error: function () {
-            notify_error('Lỗi truy xuất database');
-        }
-    });
-
-    var nhan_vien = $('#nhan_vien_bg');
-
-    var dich_vu = $('#dich_vu');
-    var san_pham = $('#san_pham');
-    $.ajax({ 
-        type: "GET",
-        dataType: "json",
-        async: false,
-        url: baseHome + "/baogia/nhanvien",
-        success: function (data) {
-            nhan_vien.wrap('<div class="position-relative"></div>').select2({
-            dropdownAutoWidth: true,
-            dropdownParent: nhan_vien.parent(),
-            width: '100%',
-            data: data
-            });
-        },
-    });
-    var khach_hang = $('#khach_hang_bg');
-    $.ajax({ 
-        type: "GET",
-        dataType: "json",
-        data:{id:id},
-        async: false,
-        url: baseHome + "/baogia/loaddata_kh",
-        success: function (data) {
-            khach_hang.wrap('<div class="position-relative"></div>').select2({
-            dropdownAutoWidth: true,
-            dropdownParent: khach_hang.parent(),
-            width: '100%',
-            data: data
-            });
-        },
-    });
-
-    $.ajax({ 
-        type: "GET",
-        dataType: "json",
-        async: false,
-        url: baseHome + "/baogia/dichvu",
-        success: function (data) {
-            dich_vu.wrap('<div class="position-relative"></div>').select2({
-            dropdownAutoWidth: true,
-            dropdownParent: dich_vu.parent(),
-            width: '100%',
-            data: data
-            });
-        },
-    });
-
-    $.ajax({ 
-        type: "GET",
-        dataType: "json",
-        async: false,
-        url: baseHome + "/baogia/sanpham",
-        success: function (data) {
-            san_pham.wrap('<div class="position-relative"></div>').select2({
-            dropdownAutoWidth: true,
-            dropdownParent: san_pham.parent(),
-            width: '100%',
-            data: data
-            });
-        },
-    });
-
-}
-
-
-function load_dichvu(){
-    var id = $('#dich_vu').val();
-    var khach_hang = $('#khach_hang_bg').val();
-    var nhan_vien = $('#nhan_vien_bg').val();
-    if(khach_hang >0 && nhan_vien>0){
-        $(".btn-add").attr("disabled", false);
-    }else{
-        $(".btn-add").attr("disabled", true);
-    }
-    $.ajax({
-        type: "POST",
-        dataType: "json",
-        data: { id: id},
-        url: baseHome + "/baogia/load_dichvu",
-        success: function (data) {
-            var stt = $('#stt').val();
-            var i =  Number(stt) + 1;
-            $('#stt').val(i);
-            $('#table_sp').append('<tr id="arr'+i+'"><td>'+data.name+'</td><td><input type="text" id="don_gia'+i+'" onkeyup="load_tien('+i+')" name="don_gia[]" class="form-control input format_number" value="'+data.don_gia+'"></td><td><input type="hidden" name="id_sp[]" id="id_sp['+i+']" value="'+data.id+'"></input><input type="hidden" name="loai[]" id="loai['+i+']" value="0"></input><input type="text" onkeyup="load_tien('+i+')" name="so_luong[]" id="so_luong'+i+'" value="1" class="form-control input" ></td><td><input type="text" id="chiet_khau'+i+'" onkeyup="load_tien('+i+')" name="chiet_khau_tm[]" class="form-control input format_number" value="0"></td><td><select name="thue[]" id="thue'+i+'" class="thue'+i+' form-control" onchange="load_tien('+i+')"><option value="0">Không</option><option value="5">5%</option><option value="10">10%</option></select></td><td><input type="text" id="tien_thue'+i+'" name="tien_thue[]" onkeyup="load_tien('+i+')" value="'+data.thue_vat+'" class="form-control input format_number"></td><td><input type="date" id="ngay_s" name="ngay_s[]" class="form-control" placeholder="Ngày bắt đầu" ><input type="date" id="ngay_e" name="ngay_e[]" class="form-control" style="margin-top:4px" placeholder="Ngày kết thúc"> </td><td><input type="text" id="thanh_tien'+i+'" name="thanh_tien[]" class="form-control input  format_number" readonly></td><td><a  onclick="remove_tr('+i+');return false"><i class="fas fa-trash-alt"></i></a></td></tr>');
-            
-            $('#dich_vu').val(0);
-            $('#dich_vu').trigger("change");
-            $('#san_pham').val(0);
-            $('#san_pham').trigger("change");
-            $("#thue"+i).val(data.tax).trigger('change');
-        },
-        error: function () {
-        }
-    });
-    
-}
-
-function load_sanpham(){
-    var id = $('#san_pham').val();
-    var khach_hang = $('#khach_hang_bg').val();
-    var nhan_vien = $('#nhan_vien_bg').val();
-    if(khach_hang >0 && nhan_vien>0){
-        $(".btn-add").attr("disabled", false);
-    }else{
-        $(".btn-add").attr("disabled", true);
-    }
-    $.ajax({
-        type: "POST",
-        dataType: "json",
-        data: { id: id},
-        url: baseHome + "/baogia/load_sanpham",
-        success: function (data) {
-            var stt = $('#stt').val();
-            var i =  Number(stt) + 1;
-            $('#stt').val(i);
-
-            $('#table_sp').append('<tr id="arr'+i+'"><td>'+data.name+'</td><td><input type="text" id="don_gia'+i+'" onkeyup="load_tien('+i+')" name="don_gia[]" class="form-control input format_number" value="'+data.don_gia+'"></td><td><input type="hidden" name="id_sp[]" id="id_sp['+i+']" value="'+data.id+'"></input><input type="hidden" name="loai[]" id="loai['+i+']" value="1"></input><input type="text" onkeyup="load_tien('+i+')" name="so_luong[]" id="so_luong'+i+'" value="1" class="form-control input" ></td><td><input type="text" id="chiet_khau'+i+'" onkeyup="load_tien('+i+')" name="chiet_khau_tm[]" class="form-control input format_number" value="0"></td><td><select name="thue[]" id="thue'+i+'" class="thue'+i+' form-control" onchange="load_tien('+i+')"><option value="0">Không</option><option value="5">5%</option><option value="10">10%</option></select></td><td><input type="text" id="tien_thue'+i+'" name="tien_thue[]" onkeyup="load_tien('+i+')" value="'+data.thue_vat+'" class="form-control input format_number"></td><td><input type="date" id="ngay_s" name="ngay_s[]" class="form-control" placeholder="Ngày bắt đầu" ><input type="date" id="ngay_e" name="ngay_e[]" class="form-control" style="margin-top:4px" placeholder="Ngày kết thúc"> </td><td><input type="text" id="thanh_tien'+i+'" name="thanh_tien[]" class="form-control input  format_number" readonly></td><td><a  onclick="remove_tr('+i+');return false"><i class="fas fa-trash-alt"></i></a></td></tr>');
-            $('#dich_vu').val(0);
-            $('#dich_vu').trigger("change");
-            $('#san_pham').val(0);
-            $('#san_pham').trigger("change");
-            $("#thue"+i).val(data.tax).trigger('change');
-
-        },
-        error: function () {
-        }
-    });
-    
-}
-
-function check_ghichu_csbg(){
-    var ghichu = $('#ghi_chu_care').val();
-    if(ghichu == ''){
-        $(".btn-add").attr("disabled", true);
-    }else{
-        $(".btn-add").attr("disabled", false);
-    }
-}
-
-
-
-function remove_tr(i){
-    $("#arr"+i).remove();
-    tong_thanh_toan();
-}
-
-function load_tien(i){
-    var chiet_khau = $("#chiet_khau"+i).val();
-    chiet_khau = chiet_khau.replace(/,/g,'');
-    var tax = Number($("#thue"+i).val());
-    var tien_dv = $("#don_gia"+i).val();
-    tien_dv = tien_dv.replace(/,/g,'');
-    var so_luong = Number($("#so_luong"+i).val());
-    var tien_thue = $("#tien_thue"+i).val();
-    tien_thue = tien_thue.replace(/,/g,'');
-
-   
-    if(tax == 0){
-         tienthue = 0;
-    }else{
-         tienthue = (tien_dv-chiet_khau)*so_luong*tax/100;
-    }
-    thanhtien = (tien_dv*so_luong)+tienthue-chiet_khau;
-    $("#chiet_khau"+i).val(formatCurrency(chiet_khau+''.replace(/[,VNĐ]/g,'')));
-    $("#don_gia"+i).val(formatCurrency(tien_dv+''.replace(/[,VNĐ]/g,'')));
-    $("#tien_thue"+i).val(formatCurrency(tienthue+''.replace(/[,VNĐ]/g,'')));
-    $("#thanh_tien"+i).val(formatCurrency(thanhtien+''.replace(/[,VNĐ]/g,'')));
-
-    tong_thanh_toan();
-}
-
-function tong_thanh_toan(){
-    var thanhtien = 0;
-    $("input[name='thanh_tien[]']")
-    .map(function(){
-       thanhtien+=Number($(this).val().replace(/,/g,'')); 
-    });
-    $('#tong_donhang').val(formatCurrency(thanhtien+''.replace(/[,VNĐ]/g,'')));
-
-    var chiet_khau = $('#chiet_khau').val();
-        chiet_khau = Number(chiet_khau.replace(/,/g,''));
-    var thanh_toan = $('#thanh_toan').val();
-    thanh_toan = Number(thanh_toan.replace(/,/g,''));
-    thanh_toan = thanhtien - chiet_khau;
-    $('#thanh_toan').val(formatCurrency(thanh_toan+''.replace(/[,VNĐ]/g,'')));
-
-}
-
-
-
-function check_form(){
-    var khach_hang = $('#khach_hang_bg').val();
-    var nhan_vien = $('#nhan_vien_bg').val();
-    var thanh_toan = $('#thanh_toan').val();
-
-    if(khach_hang >0 && nhan_vien>0 && thanh_toan != ""){
-        $(".btn-add").attr("disabled", false);
-    }else{
-        $(".btn-add").attr("disabled", true);
-    }
-
-}
-
-function savetk() {
-    var myform = new FormData($("#dg_bg")[0]);
-        $.ajax({
-            type: "POST",
-            dataType: "json",
-            data: myform,
-            url : baseHome + "/baogia/add_to_kh",
-            contentType: false,
-            processData: false,
-            success: function (data) {
-                if (data.success) {
-                    notyfi_success(data.msg);
-                    window.location.href='baogia';
-                }
-                else
-                    notify_error(data.msg);
-            },
-            error: function () {
-                notify_error('Cập nhật không thành công');
-            }
-        });
-}
 
 
 
