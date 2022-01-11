@@ -141,22 +141,28 @@ $(function () {
                             return '<span class="badge badge-warning" text-capitalized>' + statusObj[$status - 1].text + "</span>";
                         } else if ($status == 10) {
                             return '<span class="badge badge-warning" text-capitalized>' + statusObj[$status - 1].text + "</span>";
+                        } else if ($status == 11) {
+                            return '<span class="badge badge-warning" text-capitalized>' + statusObj[$status - 1].text + "</span>";
                         } else {
                             return '';
                         }
                     },
+                    width: 50
                 },
                 {
                     targets: -1,
                     title: feather.icons["database"].toSvg({ class: "font-medium-3 text-success mr-50" }),
                     render: function (data, type, full, meta) {
-                        var html = '<div style="text-align:right">';
+                        var html = '<div style="text-align:right;width: 130px;">';
                         // html += '<button type="button" class="btn btn-icon btn-outline-success waves-effect"  title="Gọi" onclick="call(\'' + full['phoneNumber'] + '\')">';
                         // html += '<i class="fas fa-phone-alt"></i>';
                         // html += '</button> &nbsp;';
                         // html += '<button type="button" class="btn btn-icon btn-outline-warning waves-effect" data-toggle="tooltip" data-placement="top" data-original-title="Chuyển sang Lead" onclick="movelead_id(' + full['id'] + ')">';
                         // html += '<i class="fas fa-heart"></i>';
                         // html += '</button> &nbsp;';
+                        html += '<button type="button" class="btn btn-icon btn-outline-warning waves-effect" data-toggle="tooltip" data-placement="top" data-original-title="Chuyển sang khách hàng" onclick="moveToCustomer(' + full['id'] + ',' + full['status'] + ')">';
+                        html += '<i class="fas fa-retweet"></i>';
+                        html += '</button> &nbsp;';
                         html += '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" title="Chỉnh sửa" onclick="loaddata(' + full['id'] + ')">';
                         html += '<i class="fas fa-pencil-alt"></i>';
                         html += '</button> &nbsp;';
@@ -553,6 +559,43 @@ function savechia() {
 
 // }
 
+function moveToCustomer(id, status)
+{
+    if(status!=11) {
+        Swal.fire({
+            title: 'Chuyển data thành khách hàng',
+            text: "Bạn có chắc chắn muốn thay đổi!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Tôi đồng ý',
+            customClass: {
+                confirmButton: 'btn btn-primary',
+                cancelButton: 'btn btn-outline-danger ml-1'
+            },
+            buttonsStyling: false
+        }).then(function (result) {
+            if (result.value) {
+                $.ajax({
+                    url: baseHome + "/data/moveToCustomer",
+                    type: 'post',
+                    dataType: "json",
+                    data: { id: id },
+                    success: function (data) {
+                        if (data.success) {
+                            notyfi_success(data.msg);
+                            $(".user-list-table").DataTable().ajax.reload(null, false);
+                        }
+                        else
+                            notify_error(data.msg);
+                    },
+                });
+            }
+        });
+    } else {
+        notify_error('Data đã được chuyển sang khách hàng!');
+    }
+}
+
 function nhapexcel() {
     $("#nhapexcel").modal('show');
     $("#modal-title5").html('Nhập data từ file excel');
@@ -608,7 +651,6 @@ function xoa(id) {
                 data: { id: id },
                 success: function (data) {
                     if (data.success) {
-                        $('.modal').modal('hide');
                         notyfi_success(data.msg);
                         $(".user-list-table").DataTable().ajax.reload(null, false);
                     }
