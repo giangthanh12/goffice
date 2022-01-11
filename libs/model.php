@@ -118,7 +118,7 @@ class Model
         $groupId = $_SESSION['user']['groupId'];
         $functions = [];
         if ($classUser == 1) {
-            $dieukien = " WHERE active = 1 AND menuId=(SELECT id FROM g_menus WHERE link='$menuLink') ";
+            $dieukien = " WHERE active = 1 AND menuId=(SELECT id FROM g_menus WHERE link='$menuLink' AND type<3 LIMIT 1) ";
             $query = $this->db->query("SELECT id,function,icon,name,type,color FROM g_functions $dieukien ORDER BY sortOrder");
             $functions = $query->fetchAll();
         } else {
@@ -136,7 +136,7 @@ class Model
                     $listFuns = $temp[0]['functionIds'];
             }
 
-            $dieukien = " WHERE active = 1 AND menuId=(SELECT id FROM g_menus WHERE link='$menuLink') ";
+            $dieukien = " WHERE active = 1 AND menuId=(SELECT id FROM g_menus WHERE link='$menuLink' AND type<3 LIMIT 1) ";
             if ($listFuns != '') {
                 $dieukien .= " AND id IN ($listFuns) ";
                 $query = $this->db->query("SELECT id,function,icon,name,type,color FROM g_functions $dieukien ORDER BY sortOrder");
