@@ -43,13 +43,15 @@
                                 <h6 class="section-label mb-1">Việc theo dự án</h6>
                                 <i data-feather="plus" class="cursor-pointer"></i>
                             </div>
-                            <div class="list-group list-group-labels">
+                            <div class="list-group list-group-labels" id="list_project">
                                 <input type="hidden" id="projectId"/>
+                                <a href="javascript:void(0)" onclick="listTaskPro(0)" class="list-group-item list-group-item-action d-flex align-items-center">
+                                    <span class="bullet bullet-sm mr-1" style="background: #00ff00"></span>Toàn bộ</a>
                                 <?php
                                 foreach ($this->project as $item)
                                     echo '
                                       <a href="javascript:void(0)" onclick="listTaskPro(' . $item['id'] . ')" class="list-group-item list-group-item-action d-flex align-items-center">
-                                          <span class="bullet bullet-sm bullet-primary mr-1"></span>' . $item['name'] . '</a>
+                                          <span class="bullet bullet-sm mr-1" style="background: ' . $item['color'] . '"></span>' . $item['name'] . '</a>
                                       ';
                                 ?>
                             </div>
@@ -87,7 +89,7 @@
                                     <?php
                                     foreach ($this->employee as $item) {
                                         if ($item['avatar'] != '')
-                                            $avatar = URLFILE . '/uploads/nhanvien/' . $item['avatar'];
+                                            $avatar = URLFILE . '/' . $item['avatar'];
                                         else
                                             $avatar = HOME . '/layouts/useravatar.png';
                                         echo '<option data-img="' . $avatar . '" value="' . $item['id'] . '">' . $item['name'] . '</option>';
@@ -104,9 +106,9 @@
                                 <?php
                                 foreach ($this->list as $item) {
                                     if ($item['avatar'] != '')
-                                        $avatar = HOME . '/users/gemstech/uploads/nhanvien/' . $item['avatar'];
+                                        $avatar = URLFILE . '/' . $item['avatar'];
                                     else
-                                        $avatar = HOME . '/users/gemstech/uploads/useravatar.png';
+                                        $avatar = HOME . '/layouts/useravatar.png';
                                     $checked = ($item['status'] == 4) ? 'checked="true"' : '';
                                     $dnone = (($item['status'] == 6) || ($item['status'] == 0)) ? 'd-none' : '';
                                     echo '
@@ -125,11 +127,11 @@
                                             </div>
                                             <div class="todo-item-action">
                                                 <div class="badge-wrapper mr-1">
-                                                    <div class="badge badge-pill badge-light-' . $item['labelColor'] . '" data-id="' . $item['label'] . '">' . $item['labelText'] . '</div>
+                                                   <div class="badge" data-id="'.$item['label'].'" style="width: 100px; margin-right: 0.5rem; background-color: rgb(247, 244, 244); color: '. $item['labelColor'].'">'.$item['labelText'].'</div>
                                                 </div>
                                                 <small class="text-nowrap text-muted mr-1">' . $item['deadline'] . '</small>
                                                 <div class="avatar" data-id="' . $item['assigneeId'] . '">
-                                                    <img onerror="this.src=\''.HOME . '/users/gemstech/uploads/useravatar.png\'" src="' . $avatar . '" alt="user-avatar" height="32" width="32" />
+                                                    <img onerror="this.src=\'' . HOME . '/layouts/useravatar.png\'" src="' . $avatar . '" alt="user-avatar" height="32" width="32" />
                                                 </div>
                                                 <span class="taskDescription d-none">' . $item['description'] . '</span>
                                                 <span class="taskProject d-none">' . $item['projectId'] . '</span>
@@ -188,9 +190,9 @@
                                                     <?php
                                                     foreach ($this->employee as $item) {
                                                         if ($item['avatar'] != '')
-                                                            $avatar = HOME . '/users/gemstech/uploads/nhanvien/' . $item['avatar'];
+                                                            $avatar = URLFILE . '/' . $item['avatar'];
                                                         else
-                                                            $avatar = HOME . '/users/gemstech/uploads/useravatar.png';
+                                                            $avatar = HOME . '/layouts/useravatar.png';
                                                         echo '<option data-img="' . $avatar . '" value="' . $item['id'] . '">' . $item['name'] . '</option>';
                                                     }
                                                     ?>
@@ -206,7 +208,7 @@
                                                 <!-- <select class="form-control task-tag" id="task-tag" name="task-tag" multiple="multiple"> -->
                                                 <select class="form-control task-tag" id="task-tag" name="task-tag">
                                                     <?php foreach ($this->tag as $item)
-                                                        echo '<option value="' . $item['id'] . '">' . $item['name'] . '</option>';
+                                                        echo '<option data-color="'.$item['color'].'" value="' . $item['id'] . '">' . $item['name'] . '</option>';
                                                     ?>
                                                 </select>
                                             </div>
@@ -226,13 +228,13 @@
                                             </div>
                                         </div>
                                         <div class="form-group my-1">
-                                            <button type="submit" class="btn btn-primary d-none add-todo-item mr-1">
-                                                Add
-                                            </button>
-                                            <button type="button" class="btn btn-outline-secondary add-todo-item d-none"
-                                                    data-dismiss="modal">
-                                                Cancel
-                                            </button>
+                                            <?php
+                                            if ($this->funAdd) {
+                                                ?>
+                                                <button type="submit" class="btn btn-primary d-none add-todo-item mr-1">
+                                                    Add
+                                                </button>
+                                            <?php } ?>
                                             <?php
                                             if ($this->funEdit) {
                                                 ?>
@@ -243,10 +245,14 @@
                                             <?php }
                                             if ($this->funDel) { ?>
                                                 <button type="button" onclick="deleteTask()"
-                                                        class="btn btn-outline-danger update-btn d-none"
-                                                        data-dismiss="modal">Delete
+                                                        class="btn btn-outline-danger update-btn d-none">
+                                                    Delete
                                                 </button>
                                             <?php } ?>
+                                            <button type="button" class="btn btn-outline-secondary cancel-todo-item"
+                                                    data-dismiss="modal">
+                                                Cancel
+                                            </button>
                                         </div>
                                     </div>
                                 </form>
@@ -264,5 +270,6 @@
     let funAdd = <?=$this->funAdd?>;
     let funEdit = <?=$this->funEdit?>;
     let funDel = <?=$this->funDel?>;
+    let staffId = <?=$_SESSION['user']['staffId']?>;
 </script>
 <script src="<?= HOME ?>/js/todo.js"></script>
