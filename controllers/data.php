@@ -13,6 +13,33 @@ class data extends Controller
         require "layouts/footer.php";
     }
 
+    function moveToCustomer()
+    {
+        $id = $_REQUEST['id'];
+        $json = $this->model->getData($id);
+        $data = [
+            'fullName' => $json['data']['name'],
+            'address' => $json['data']['address'],
+            'email' => $json['data']['email'],
+            'website' => $json['data']['website'],
+            'phoneNumber' => $json['data']['phoneNumber'],
+            'staffInCharge' => $json['data']['staffInCharge'],
+            'staffId' => $json['data']['staffId'],
+            'field' => $json['data']['field'],
+            'note' => $json['data']['note'],
+            'taxCode' => $json['data']['taxCode'],
+            'note' => $json['data']['note']
+        ];
+        if ($this->model->moveToCustomer($id, $data)) {
+            $jsonObj['msg'] = "Cập nhật dữ liệu thành công";
+            $jsonObj['success'] = true;
+        } else {
+            $jsonObj['msg'] = "Cập nhật dữ liệu không thành công";
+            $jsonObj['success'] = false;
+        }
+        echo json_encode($jsonObj);
+    }
+
     // function movetolead()
     // {
     //     $data = $_REQUEST['data'];
@@ -196,7 +223,7 @@ class data extends Controller
         if ($staffId != 0) {
             $data['staffId'] = $staffId;
             $data['assignmentDate'] = date('Y-m-d');
-        } 
+        }
         $data['status'] = isset($_REQUEST['estatus']) ? $_REQUEST['estatus'] : 1;
         $checkPhoneNumber = $this->model->checkPhoneNumber($data['phoneNumber'], $id);
         if ($checkPhoneNumber == true) {

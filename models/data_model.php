@@ -6,6 +6,14 @@ class Data_Model extends Model
         parent::__construct();
     }
 
+    function moveToCustomer($id, $data)
+    {
+        $ok = false;
+        $this->update("data", ['status' => 11], " id=$id ");
+        $ok = $this->insert("customer", $data);
+        return $ok;
+    }
+
     function listObj($keyword, $nhanvien, $tungay, $denngay, $offset, $rows)
     {
         $result = array();
@@ -94,6 +102,7 @@ class Data_Model extends Model
     function chiadata($nhanvien, $data)
     {
         $ok = false;
+        $staffInCharge = $_SESSION['user']['staffId'];
         $rows = explode(',', $data);
         foreach ($rows as $row) {
             $id = $row;
@@ -101,9 +110,9 @@ class Data_Model extends Model
             $temp = $query->fetchAll(PDO::FETCH_ASSOC);
             $tinhtrang = $temp[0]['status'];
             if ($tinhtrang == 1 || $tinhtrang == '') {
-                $update = ['status' => 2, 'staffId' => $nhanvien, 'assignmentDate' => date('Y-m-d')];
+                $update = ['status' => 2, 'staffInCharge' => $staffInCharge, 'staffId' => $nhanvien, 'assignmentDate' => date('Y-m-d')];
             } else {
-                $update = ['staffId' => $nhanvien, 'assignmentDate' => date('Y-m-d')];
+                $update = ['staffInCharge' => $staffInCharge, 'staffId' => $nhanvien, 'assignmentDate' => date('Y-m-d')];
             }
             $ok = $this->update("data", $update, " id=$id ");
         }
