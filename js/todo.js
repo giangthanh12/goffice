@@ -11,7 +11,7 @@
 $(function () {
     var // taskTitle,
         url = '',
-        flatPickr = $(".task-due-date"),
+        deadLinePickr = $(".task-due-date"),
         newTaskModal = $(".sidebar-todo-modal"),
         newTaskForm = $("#form-modal-todo"),
         favoriteStar = $(".todo-item-favorite"),
@@ -117,7 +117,7 @@ $(function () {
         }
         var $person =
             '<div class="media align-items-center">' +
-            '<img onerror="this.src=\''+baseHome+'/layouts/useravatar.png\'" class="d-block rounded-circle mr-50" src="' +
+            '<img onerror="this.src=\'' + baseHome + '/layouts/useravatar.png\'" class="d-block rounded-circle mr-50" src="' +
             $(option.element).data("img") +
             '" height="26" width="26" alt="' +
             option.text +
@@ -141,7 +141,7 @@ $(function () {
                 return es;
             },
         });
-        taskAssignList.val('').trigger("change");
+        taskAssignList.val(staffId).trigger("change");
     }
 
     // Chọn dự án cho công việc
@@ -173,13 +173,14 @@ $(function () {
         }
         var $person =
             '<div class="media align-items-center">' +
-            '<span class="bullet bullet-sm mr-50" style="background: '+$(option.element).data("color")+'"></span>'+
+            '<span class="bullet bullet-sm mr-50" style="background: ' + $(option.element).data("color") + '"></span>' +
             '<div class="media-body"><p class="mb-0">' +
             option.text +
             "</p></div></div>";
 
         return $person;
     }
+
     // Task Tags
     if (taskTag.length) {
         taskTag.wrap('<div class="position-relative"></div>');
@@ -202,9 +203,9 @@ $(function () {
     }
 
     // Flat Picker
-    if (flatPickr.length) {
-        flatPickr.flatpickr({
-            dateFormat: "Y-m-d",
+    if (deadLinePickr.length) {
+        deadLinePickr.flatpickr({
+            dateFormat: "d/m/Y",
             defaultDate: "today",
             onReady: function (selectedDates, dateStr, instance) {
                 if (instance.isMobile) {
@@ -231,7 +232,7 @@ $(function () {
     // On add new item button click, clear sidebar-right field fields
     if (addTaskBtn.length) {
         addTaskBtn.on("click", function (e) {
-            url = baseHome+'/todo/add';
+            url = baseHome + '/todo/add';
             addBtn.removeClass("d-none");
             updateBtns.addClass("d-none");
             modalTitle.text("Add Task");
@@ -241,9 +242,10 @@ $(function () {
             newTaskModal.find(".new-todo-item-title").val("");
             var quill_editor = taskDesc.find(".ql-editor");
             quill_editor[0].innerHTML = "";
-            taskAssignSelect.val("").trigger("change");
+            taskAssignSelect.val(staffId).trigger("change");
             taskTag.val("").trigger("change");
-            onProject.val("").trigger("change");
+            onProject.val("0").trigger("change");
+            deadLinePickr.val(today);
         });
     }
 
@@ -273,7 +275,7 @@ $(function () {
                 var taskId = 0;
                 var newTitle = newTaskForm.find(".new-todo-item-title").val();
                 var newAssignee = taskAssignSelect.val();
-                var newDeadline = flatPickr.val();
+                var newDeadline = deadLinePickr.val();
                 var newLabel = taskTag.val();
                 var quill_editor = $("#task-desc .ql-editor");
                 var newDescription = quill_editor[0].innerHTML;
@@ -288,7 +290,7 @@ $(function () {
                         newDescription: newDescription
                     },
                     function (data, status) {
-                        if (data.code==200) {
+                        if (data.code == 200) {
                             toastr["success"](data.message, "💾 Task Action!", {
                                 closeButton: true,
                                 tapToDismiss: false,
@@ -297,12 +299,9 @@ $(function () {
                             $(newTaskModal).modal("hide");
                             var projectId = $('#projectId').val();
                             var assigneeId = taskAssignList.val();
-                            if (projectId > 0)
-                                $("#my-task-list").load(window.location.href + "?project=" + projectId + "&assignee=" + staffId + " #my-task-list");
-                            else if (assigneeId > 0)
-                                $("#my-task-list").load(window.location.href + "?assignee=" + assigneeId + " #my-task-list");
-                            else
-                                $("#my-task-list").load(window.location.href + "?assignee=" + staffId + " #my-task-list");
+                            proId = projectId;
+                            staffId = assigneeId;
+                            loadTaskList(proId, staffId, taskStatus, 'false');
                         } else {
                             toastr["error"](data.message, "💾 Task Action!", {
                                 closeButton: true,
@@ -403,7 +402,7 @@ $(function () {
             $.post(
                 "todo/checkOut", {id: taskId, status: 4},
                 function (data, status) {
-                    if (data.code==200) {
+                    if (data.code == 200) {
                         toastr["success"]("Task Completed", "Congratulations!! 🎉", {
                             closeButton: true,
                             tapToDismiss: false,
@@ -430,7 +429,7 @@ $(function () {
             $.post(
                 "todo/checkOut", {id: taskId, status: 2},
                 function (data, status) {
-                    if (data.code==200) {
+                    if (data.code == 200) {
                         toastr["success"]("Task updated", "💾 Task Action", {
                             closeButton: true,
                             tapToDismiss: false,
@@ -461,8 +460,7 @@ $(function () {
         // if ($(this).hasClass("completed")) {
         //     modalTitle.html('<button type="button" class="btn btn-sm btn-outline-success complete-todo-item waves-effect waves-float waves-light" data-dismiss="modal">Completed</button>');
         // } else {
-        if (funEdit == 1)
-            modalTitle.html('<button type="button" onclick="markCompleted(' + taskId + ')"class="btn btn-sm btn-outline-secondary complete-todo-item waves-effect waves-float waves-light" data-dismiss="modal">Hoàn thành</button>');
+
         // }
         // taskTitle = $(this).find('.todo-title');
 
@@ -473,7 +471,7 @@ $(function () {
         var assigneeId = $(this).find(".avatar").attr("data-id");
         taskAssignSelect.val(assigneeId).trigger("change");
         var deadline = $(this).find(".text-nowrap").text();
-        flatPickr.val(deadline);
+        deadLinePickr.val(deadline);
         var thisLabel = $(this).find(".badge").attr("data-id");
         taskTag.val(thisLabel).trigger("change");
         var projectId = $(this).find(".taskProject").text();
@@ -481,7 +479,17 @@ $(function () {
         var desc = $(this).find(".taskDescription").html();
         var quill_editor = $("#task-desc .ql-editor");
         quill_editor[0].innerHTML = desc;
-        url = baseHome+'/todo/update';
+        var status = $(this).find(".taskStatus").html();
+        if (status == 6) {
+            url = '';
+            modalTitle.empty();
+            updateBtns.addClass("d-none");
+        } else {
+            if (funEdit == 1)
+                modalTitle.html('<button type="button" onclick="markCompleted(' + taskId + ')"class="btn btn-sm btn-outline-secondary complete-todo-item waves-effect waves-float waves-light" data-dismiss="modal">Hoàn thành</button>');
+            url = baseHome + '/todo/update';
+            updateBtns.removeClass("d-none");
+        }
     });
 
     // Updating Data Values to Fields
@@ -494,7 +502,7 @@ $(function () {
                 var newTitle = newTaskForm.find(".new-todo-item-title").val();
                 var newProject = onProject.val();
                 var newAssignee = taskAssignSelect.val();
-                var newDeadline = flatPickr.val();
+                var newDeadline = deadLinePickr.val();
                 var newLabel = taskTag.val();
                 var quill_editor = $("#task-desc .ql-editor");
                 var newDescription = quill_editor[0].innerHTML;
@@ -510,7 +518,7 @@ $(function () {
                         newDescription: newDescription
                     },
                     function (data, status) {
-                        if (data.code==200) {
+                        if (data.code == 200) {
                             toastr["success"](data.message, "💾 Task Action!", {
                                 closeButton: true,
                                 tapToDismiss: false,
@@ -519,12 +527,9 @@ $(function () {
                             $(newTaskModal).modal("hide");
                             var projectId = $('#projectId').val();
                             var assigneeId = taskAssignList.val();
-                            if (projectId > 0)
-                                $("#my-task-list").load(window.location.href + "?project=" + projectId + "&assignee=" + staffId + " #my-task-list");
-                            else if (assigneeId > 0)
-                                $("#my-task-list").load(window.location.href + "?assignee=" + assigneeId + " #my-task-list");
-                            else
-                                $("#my-task-list").load(window.location.href + "?assignee=" + staffId + " #my-task-list");
+                            proId = projectId;
+                            staffId = assigneeId;
+                            loadTaskList(proId, staffId, taskStatus, 'false');
                         } else {
                             toastr["error"](data.message, "💾 Task Action!", {
                                 closeButton: true,
@@ -611,59 +616,81 @@ $(window).on("resize", function () {
     }
 });
 
-function listTaskPro(projectId) {
-    $('#projectId').val(projectId);
-    $("#my-task-list").load(window.location.href + "?project=" + projectId + "&assignee=" + staffId + " #my-task-list");
+function listTaskPro(project) {
+    $('#projectId').val(project);
+    proId = project;
+    loadTaskList(proId, staffId, taskStatus, 'false');
 }
 
 function listMyTask() {
-    $('#projectId').val(0);
-    $("#my-task-list").load(window.location.href + "?assignee=" + staffId + " #my-task-list");
+   // $('#projectId').val(-1);
+    taskStatus='';
+   // proId = -1;
+    deadline='false';
+    loadTaskList(proId, staffId, taskStatus, );
 }
 
 function listStatus(status) {
-    $('#projectId').val(0);
-    $("#my-task-list").load(window.location.href + "?status=" + status + "&assignee=" + staffId + " #my-task-list");
+  //  $('#projectId').val(-1);
+    //proId = -1;
+    taskStatus = status;
+    deadline='false';
+    loadTaskList(proId, staffId, taskStatus, );
 }
 
 function listDeadline() {
-    $('#projectId').val(0);
-    $("#my-task-list").load(window.location.href + "?deadline=true&assignee=" + staffId + " #my-task-list");
+  //  $('#projectId').val(-1);
+  //  proId = -1;
+    taskStatus='';
+    deadline='true';
+    loadTaskList(proId, staffId, taskStatus);
 }
 
 function listOtherTask(assigneeId) {
     if (assigneeId > 0) {
         staffId = assigneeId;
-        $('#projectId').val(0);
-        $("#my-task-list").load(window.location.href + "?assignee=" + assigneeId + " #my-task-list");
+        $('#projectId').val(-1);
+        proId=-1;
+        loadTaskList(proId, staffId, taskStatus, 'false');
         getProject(assigneeId);
     }
 }
 
-function getProject(assigneeId){
+function getProject(assigneeId) {
     $("#list_project").empty();
+    $("#onProject").empty();
     $.post(
         "todo/getProject", {staffId: assigneeId},
         function (data, status) {
             console.log(data.data);
-            var html = '<input type="hidden" id="projectId"/>' +
+            var showPro = '<input type="hidden" id="projectId"/>' +
+                '<a href="javascript:void(0)" onclick="listTaskPro(-1)" class="list-group-item list-group-item-action d-flex align-items-center">' +
+                '<span class="bullet bullet-sm mr-1" style="background: #00ff00"></span>Toàn bộ</a>' +
                 '<a href="javascript:void(0)" onclick="listTaskPro(0)" class="list-group-item list-group-item-action d-flex align-items-center">' +
-                '<span class="bullet bullet-sm mr-1" style="background: #00ff00"></span>Toàn bộ</a>';
-            data.data.forEach(function (item){
-                html+='<a href="javascript:void(0)" onclick="listTaskPro('+item.id+')" class="list-group-item list-group-item-action d-flex align-items-center">' +
-                    '<span class="bullet bullet-sm mr-1" style="background: '+item.color+'"></span>'+item.name+'</a>';
+                '<span class="bullet bullet-sm mr-1" style="background: #0c0c0c"></span>Công việc cá nhân</a>';
+            var slPro = '<option value="0" selected>Công việc cá nhân</option>';
+            data.data.forEach(function (item) {
+                showPro += '<a href="javascript:void(0)" onclick="listTaskPro(' + item.id + ')" class="list-group-item list-group-item-action d-flex align-items-center">' +
+                    '<span class="bullet bullet-sm mr-1" style="background: ' + item.color + '"></span>' + item.name + '</a>';
+                slPro += '<option value="' + item.id + '">' + item.name + '</option>';
             });
-            $("#list_project").append(html);
+            $("#list_project").append(showPro);
+            $("#onProject").append(slPro);
         },
         "json"
     );
 }
 
+function loadTaskList(projectId, staffId, status) {
+    $("#my-task-list").load(window.location.href + "?assignee=" + staffId + "&deadline="+deadline+"&status=" + status +"&project="+projectId+" #my-task-list");
+}
+
+
 function markCompleted(taskId) {
     $.post(
         "todo/checkOut", {id: taskId, status: 6},
         function (data, status) {
-            if (data.code==200) {
+            if (data.code == 200) {
                 toastr["success"]("Task completed", "Congratulations!! 🎉", {
                     closeButton: true,
                     tapToDismiss: false,
@@ -671,12 +698,9 @@ function markCompleted(taskId) {
                 });
                 var projectId = $('#projectId').val();
                 var assigneeId = $("#task-assigned-list").val();
-                if (projectId > 0)
-                    $("#my-task-list").load(window.location.href + "?project=" + projectId + "&assignee=" + staffId + " #my-task-list");
-                else if (assigneeId > 0)
-                    $("#my-task-list").load(window.location.href + "?assignee=" + assigneeId + " #my-task-list");
-                else
-                    $("#my-task-list").load(window.location.href + "?assignee=" + staffId + " #my-task-list");
+                proId = projectId;
+                staffId = assigneeId;
+                loadTaskList(proId, staffId, taskStatus, 'false');
             } else {
                 toastr["error"](data.message, "💾 Task Action!", {
                     closeButton: true,
@@ -707,7 +731,7 @@ function deleteTask() {
             $.post(
                 "todo/del", {id: taskId, status: 0},
                 function (data, status) {
-                    if (data.code==200) {
+                    if (data.code == 200) {
                         $('#new-task-modal').modal('hide');
                         toastr["success"]("Xóa task thành công", "💾 Task Action", {
                             closeButton: true,
@@ -716,12 +740,9 @@ function deleteTask() {
                         });
                         var projectId = $('#projectId').val();
                         var assigneeId = $("#task-assigned-list").val();
-                        if (projectId > 0)
-                            $("#my-task-list").load(window.location.href + "?project=" + projectId + " #my-task-list");
-                        else if (assigneeId > 0)
-                            $("#my-task-list").load(window.location.href + "?assignee=" + assigneeId + " #my-task-list");
-                        else
-                            $("#my-task-list").load(window.location.href + " #my-task-list");
+                        proId = projectId;
+                        staffId = assigneeId;
+                        loadTaskList(proId, staffId, taskStatus, 'false');
                     } else {
                         toastr["error"](data.message, "💾 Task Action!", {
                             closeButton: true,

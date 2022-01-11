@@ -9,40 +9,29 @@ class todo_Model extends Model
 
     function getList($nhanvien, $project, $status, $deadline,$page)
     {
-        $rows=15;
-        $offset = ($page-1)*15;
-        if ($deadline) {
+        $rows=15000;
+        $offset = ($page-1)*$rows;
+        if ($deadline=='true') {
             $today = date('Y-m-d');
             $dieukien = " WHERE status>0 AND assigneeId=$nhanvien AND ((endDate>deadline) OR (endDate='0000-00-00' AND deadline<'$today')) ";
-            $query = $this->db->query("SELECT id, title, label, assigneeId, description, deadline,status,
-                (SELECT avatar FROM staffs WHERE id=a.assigneeId) AS avatar, projectId,
-                (SELECT name FROM tasklabels WHERE id=a.label) AS labelText,
-                (SELECT color FROM tasklabels WHERE id=a.label) AS labelColor,
-                (SELECT COUNT(1) FROM commenttasks WHERE taskId=a.id) AS comment
-                FROM tasks a $dieukien ORDER BY id DESC LIMIT $offset,$rows");
         } else {
             if ($status == '')
                 $dieukien = " WHERE status IN (1,2,3,4,5) ";
             else
                 $dieukien = " WHERE status=$status ";
-            if ($project > 0) {
-                $dieukien .= " AND projectId=$project ";
-                $query = $this->db->query("SELECT id, title, label, assigneeId, description, deadline,status,
+        }
+        if ($project >= 0) {
+            $dieukien .= " AND projectId=$project ";
+        }
+        if ($nhanvien > 0) {
+            $dieukien .= " AND assigneeId=$nhanvien ";
+        }
+        $query = $this->db->query("SELECT id, title, label, assigneeId, description, deadline,status,
                     (SELECT avatar FROM staffs WHERE id=a.assigneeId) AS avatar, projectId,
                     (SELECT name FROM tasklabels WHERE id=a.label) AS labelText,
                     (SELECT color FROM tasklabels WHERE id=a.label) AS labelColor,
                     (SELECT COUNT(1) FROM commenttasks WHERE taskId=a.id) AS comment
                     FROM tasks a $dieukien ORDER BY id DESC LIMIT $offset,$rows");
-            } elseif ($nhanvien > 0) {
-                $dieukien .= " AND assigneeId=$nhanvien ";
-                $query = $this->db->query("SELECT id, title, label, assigneeId, description, deadline,status,
-                    (SELECT avatar FROM staffs WHERE id=a.assignerId) AS avatar, projectId,
-                    (SELECT name FROM tasklabels WHERE id=a.label) AS labelText,
-                    (SELECT color FROM tasklabels WHERE id=a.label) AS labelColor,
-                    (SELECT COUNT(1) FROM commenttasks WHERE taskId=a.id) AS comment
-                    FROM tasks a $dieukien ORDER BY id DESC LIMIT $offset,$rows");
-            }
-        }
         $data = $query->fetchAll(PDO::FETCH_ASSOC);
         return $data;
     }
@@ -50,7 +39,7 @@ class todo_Model extends Model
     function getProject($staffId)
     {
         $employee = '"' . $staffId . '"';
-        $dieukien = " WHERE status>0 AND (assigneeId LIKE '%$employee%' OR managerId=$staffId)";
+        $dieukien = " WHERE status>0 AND (assigneeId LIKE '%$staffId%' OR managerId=$staffId)";
         $query = $this->db->query("SELECT *,(SELECT color FROM projectlevels WHERE id=level) as color FROM projects $dieukien ORDER BY id DESC ");
       //  echo "SELECT id, name FROM projects $dieukien ORDER BY id DESC ";
         $data = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -76,7 +65,7 @@ class todo_Model extends Model
 
     function updateObj($id, $data)
     {
-        $query = $this->update("tasks", $data, " id=$id ");
+        $query = $this->update("tasks", $data, " id=$id AND status!=6");
         return $query;
     }
 
@@ -94,7 +83,7 @@ class todo_Model extends Model
     function checkOut($id, $status)
     {
         $data['status'] = $status;
-        $query = $this->update("tasks", $data, " id=$id ");
+        $query = $this->update("tasks", $data, " id=$id AND status!=6");
         return $query;
     }
     //
