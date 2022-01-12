@@ -6,11 +6,17 @@ class Data_Model extends Model
         parent::__construct();
     }
 
-    function moveToCustomer($id, $data)
+    function addCustomer($dataId, $data)
+    {
+        $this->update("data", ['status' => 11], " id=$dataId ");
+        $this->insert("customer", $data);
+        return $this->db->lastInsertId();
+    }
+
+    function addLead($data)
     {
         $ok = false;
-        $this->update("data", ['status' => 11], " id=$id ");
-        $ok = $this->insert("customer", $data);
+        $ok = $this->insert("lead", $data);
         return $ok;
     }
 
@@ -66,7 +72,9 @@ class Data_Model extends Model
         $result = [];
         $result['data'] = array();
         $result['histories'] = array();
-        $query = $this->db->query("SELECT * FROM data WHERE id = $id");
+        $query = $this->db->query("SELECT *,
+        IFNULL((SELECT MAX(dateTime) FROM datareports WHERE dataId = $id AND status > 0),'') AS lastTimeCare
+        FROM data WHERE id = $id");
         $temp = $query->fetchAll(PDO::FETCH_ASSOC);
         $result['data'] = $temp[0];
         $query = $this->db->query("SELECT *,
@@ -135,8 +143,8 @@ class Data_Model extends Model
     {
         if ($phoneNumber != '') {
             $dieukien = " WHERE status > 0 AND phoneNumber='$phoneNumber'";
-            if($id > 0) {
-                $dieukien .= " AND id != $id "; 
+            if ($id > 0) {
+                $dieukien .= " AND id != $id ";
             }
             $query = $this->db->query("SELECT COUNT(id) AS total FROM data $dieukien ");
             $row = $query->fetchAll(PDO::FETCH_ASSOC);

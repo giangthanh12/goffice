@@ -13,10 +13,10 @@ class data extends Controller
         require "layouts/footer.php";
     }
 
-    function moveToCustomer()
+    function addLead()
     {
-        $id = $_REQUEST['id'];
-        $json = $this->model->getData($id);
+        $dataId = $_REQUEST['dataId'];
+        $json = $this->model->getData($dataId);
         $data = [
             'fullName' => $json['data']['name'],
             'address' => $json['data']['address'],
@@ -30,7 +30,19 @@ class data extends Controller
             'taxCode' => $json['data']['taxCode'],
             'note' => $json['data']['note']
         ];
-        if ($this->model->moveToCustomer($id, $data)) {
+        $customerId = $this->model->addCustomer($dataId, $data);
+        if ($customerId>0) {
+            $data = [
+                'name' => $_REQUEST['dataId'],
+                'customerId' => $customerId,
+                'description' => $_REQUEST['description'],
+                'opportunity' => $_REQUEST['opportunity'],
+                'dateTime' => date('Y-m-d H:i:s'),
+                'staffInCharge' => $json['data']['staffInCharge'],
+                'lastTimeCare' => $json['data']['lastTimeCare'],
+                'status' => 1
+            ];
+            $this->model->addLead($data);
             $jsonObj['msg'] = "Cập nhật dữ liệu thành công";
             $jsonObj['success'] = true;
         } else {
