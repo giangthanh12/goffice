@@ -671,20 +671,20 @@
                 </li>
                 <li class=" nav-item">
                     <a class="d-flex align-items-center" href="#">
-                        <i data-feather="user"></i>
-                        <span class="menu-title text-truncate" data-i18n="File Manager">Quản lý users</span>
+                        <i data-feather="user-define"></i>
+                        <span class="menu-title text-truncate" data-i18n="File Manager">Quản lý tài khoản</span>
                     </a>
                     <ul class="menu-content">
                         <li <?=($url[0]=='group_roles')?'class="active"':'' ?> >
                             <a class="d-flex align-items-center" href="group_roles">
-                                <i data-feather="user"></i>
+                                <i data-feather="group-roles"></i>
                                 <span class="menu-item text-truncate" data-i18n="LoginV1">Nhóm quyền hạn</span>
                             </a>
                         </li>
                         <li <?=($url[0]=='listusers')?'class="active"':'' ?>>
                             <a class="d-flex align-items-center" href="listusers">
-                                <i data-feather="user"></i>
-                                <span class="menu-item text-truncate" data-i18n="LoginV1">Danh sách users</span>
+                                <i data-feather="list-users"></i>
+                                <span class="menu-item text-truncate" data-i18n="LoginV1">Danh sách tài khoản</span>
                             </a>
                         </li>
                     </ul>

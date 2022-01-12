@@ -130,6 +130,29 @@ class listusers extends Controller
             $this->model->setMenuRole($userId,$menuId,$check);
     }
 
+    function updateRoles(){
+        $listMenus = isset($_REQUEST['menus']) ? $_REQUEST['menus'] : [];
+        $listFuncs = isset($_REQUEST['functions']) ? $_REQUEST['functions'] : [];
+        $userId = isset($_REQUEST['userId']) ? $_REQUEST['userId'] : 0;
+        $menus = '';
+        $functions = '';
+        if(count($listMenus)>0){
+            $menus = implode($listMenus,",");
+        }
+        if(count($listFuncs)>0){
+            $functions = implode($listFuncs,",");
+        }
+        $data = ['menuIds'=>$menus,'functionIds'=>$functions];
+        if($this->model->updateUserRole($userId, $data)){
+            $jsonObj['message'] = "Cập nhật thành công";
+            $jsonObj['code'] = 200;
+        }else{
+            $jsonObj['message'] = "Cập nhật không thành công";
+            $jsonObj['code'] = 401;
+        }
+        echo json_encode($jsonObj);
+    }
+
 }
 
 ?>
