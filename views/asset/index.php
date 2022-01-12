@@ -23,11 +23,10 @@
                                     <th>Tên tài sản</th>
                                     <th>Nhóm</th>
                                     <th>SL nhập</th>
-                                    <th>SL tồn kho</th>
                                     <th>SL bảo hành</th>
                                     <th>SL hỏng</th>
                                     <th>SL mất</th>
-                                    <th>...</th>
+                                    <th class="text-center">...</th>
                                 </tr>
                             </thead>
                         </table>
@@ -65,15 +64,15 @@
                                                     </div>
                                                     <div class="col-lg-6 col-md-3">
                                                         <div class="form-group">
-                                                            <label for="tinh_trang">Đơn vị</label>
-                                                            <select name="don_vi" id="don_vi" class="select2-data-array form-control don_vi"></select>
+                                                            <label for="don_vi">Đơn vị</label>
+                                                            <select name="don_vi" id="don_vi" class="select2 form-control"></select>
                                                         </div>
                                                     </div>
 
                                                     <div class="col-lg-12 col-md-12">
                                                         <div class="form-group">
                                                             <label for="nhom_ts">Nhóm</label>
-                                                            <select name="nhom_ts" id="nhom_ts" class="select2-data-array form-control nhom_ts" onchange="check_name();"></select>
+                                                            <select name="nhom_ts" id="nhom_ts" class="select2 form-control " ></select>
                                                         </div>
                                                     </div>
 
@@ -87,24 +86,24 @@
                                                     <div class="col-lg-6 col-md-12">
                                                         <div class="form-group">
                                                             <label for="khau_hao">Khấu hao (tháng)</label>
-                                                            <input id="khau_hao" type="number" class="form-control" min = "0" placeholder = "tháng" name="khau_hao" />
+                                                            <input id="khau_hao" type="number" class="form-control" min = "0"  name="khau_hao" />
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-6 col-md-12">
                                                         <div class="form-group">
                                                             <label for="ngay_gio">Ngày nhập</label>
-                                                            <input id="ngay_gio"  name="ngay_gio" type="text" class="form-control ngay_gio "  />
+                                                            <input id="ngay_gio"  name="ngay_gio" type="text" class="form-control flatpickr-basic"  />
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-6 col-md-12">
                                                         <div class="form-group">
-                                                            <label for="khau_hao">Bảo hành (tháng)</label>
-                                                            <input id="bao_hanh" type="number" class="form-control" placeholder = "tháng" min= "0" name="bao_hanh" />
+                                                            <label for="bao_hanh">Bảo hành (tháng)</label>
+                                                            <input id="bao_hanh" type="number" class="form-control"  min= "0" name="bao_hanh" />
                                                         </div>
                                                     </div>
 
                                                     <div class="col-12 d-flex flex-sm-row flex-column mt-2">
-                                                        <button type="button" onclick="savetk()" class="btn btn-add btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Cập nhật</button>
+                                                        <button type="submit"  class="btn btn-add btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Cập nhật</button>
                                                         <button type="reset" class="btn btn-outline-secondary" data-dismiss="modal">Bỏ qua</button>
                                                     </div>
                                                 </div>
@@ -155,13 +154,13 @@
 
                             <form class="form-validate" enctype="multipart/form-data" id="thongtin_taisan">
                                 <input type="hidden" id="id_taisan" name="id_taisan" />
-                                <input type="hidden" id="sl_tonkho" name="sl_tonkho" />
+                               
                                 <input type="hidden" id="sl_old" name="sl_old" />
                                 <div class="media mb-2 col-12">
 
                                     <div class="col-lg-4 d-flex mt-1 px-0">
 
-                                        <img id="avatar" src="" alt="users avatar" class="user-avatar users-avatar-shadow rounded mr-2 my-25 cursor-pointer" height="90" width="90" />
+                                        <img id="avatar" src="" alt="Ảnh tài sản" class="user-avatar users-avatar-shadow rounded mr-2 my-25 cursor-pointer" height="90" width="90" />
 
                                         <div class="media-body col-lg-12 mt-50">
 
@@ -188,16 +187,7 @@
 
                                     </div>
 
-                                    <div class="col-lg-3 d-flex mt-1 px-0">
-
-                                        <div class="form-group">
-
-                                            <label class="d-block mb-1">Số lượng tồn kho</label>
-                                            <h4 id="show_ton_kho"></h4>
-                                            
-                                        </div>
-
-                                    </div>
+                        
                                 </div>
 
 
@@ -230,26 +220,26 @@
                                     </div>
                                     <div class="col-lg-2 col-md-3">
                                         <div class="form-group">
-                                            <label for="tinh_trang">Đơn vị</label>
-                                            <select name="don_vi_add" id="don_vi_add" class="select2-data-array form-control don_vi"></select>
+                                            <label for="don_vi_add">Đơn vị</label>
+                                            <select name="don_vi_add" id="don_vi_add" class="select2 form-control"></select>
                                         </div>
                                     </div>
 
                                     <div class="col-lg-2 col-md-12">
                                         <div class="form-group">
-                                            <label for="nhom_ts">Nhóm</label>
-                                            <select name="nhom_ts_add" id="nhom_ts_add" class="select2-data-array form-control nhom_ts"></select>
+                                            <label for="nhom_ts_add">Nhóm</label>
+                                            <select name="nhom_ts_add" id="nhom_ts_add" class="select2 form-control"></select>
                                         </div>
                                     </div>
                                     <div class="col-lg-2 col-md-2">
                                         <div class="form-group">
-                                            <label for="hoten">Số tiền 1 đơn vị</label>
+                                            <label for="so_tien_add">Số tiền 1 đơn vị</label>
                                             <input id="so_tien_add" type="text" class="form-control format_number" name="so_tien_add" />
                                         </div>
                                     </div>
                                     <div class="col-lg-2 col-md-2">
                                         <div class="form-group">
-                                            <label for="hoten">Khấu hao (tháng)</label>
+                                            <label for="khau_hao_add">Khấu hao (tháng)</label>
                                             <input id="khau_hao_add" type="text" class="form-control" min="0" name="khau_hao_add" />
                                         </div>
                                     </div>
@@ -295,7 +285,7 @@
                                     <div class="col-lg-3 col-md-6">
                                         <div class="form-group">
                                             <label for="ngaycap">Ngày nhập hàng</label>
-                                            <input id="ngay_gio_add" name="ngay_gio_add" type="text" class="form-control ngay_gio " />
+                                            <input id="ngay_gio_add" name="ngay_gio_add" type="text" class="form-control flatpickr-basic " />
                                         </div>
                                     </div>
 
@@ -310,7 +300,7 @@
 
                                     <div class="col-12 d-flex flex-sm-row flex-column mt-2">
 
-                                        <button type="button" onclick="updateinfo()" class="btn  btn-add btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Cập nhật</button>
+                                        <button type="submit"  class="btn  btn-add btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Cập nhật</button>
 
                                         <button type="reset" class="btn btn-outline-secondary" data-dismiss="modal">Bỏ qua</button>
 
@@ -378,7 +368,7 @@
                                         <div class="card-body">
                                             <form class="form-validate" enctype="multipart/form-data" id="formbaohong">
                                                 <div class="row mt-1">
-                                                    
+                                                    <input type="hidden" name="sl_mat_hientai" id="sl_mat_hientai">
                                                     <input type="hidden" name="id_baohong" id="id_baohong">
                                                     <div class="col-lg-12">
                                                         <div class="form-group">
@@ -416,4 +406,4 @@
         </div>
     </div>
 </div>
-<script src="<?= HOME ?>/js/taisan.js"></script>
+<script src="<?= HOME ?>/js/asset.js"></script>

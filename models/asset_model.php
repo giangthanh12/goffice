@@ -1,5 +1,5 @@
 <?php
-class Taisan_model extends Model{
+class asset_model extends Model{
     function __construst(){
         parent::__construst();
     }
@@ -7,7 +7,7 @@ class Taisan_model extends Model{
     function listObj(){
         $query = $this->db->query("SELECT *,
                 IFNULL((SELECT name FROM taisan_nhom WHERE id = taisan.nhom_ts AND tinh_trang > 0), 'No Name') AS name_nhomts 
-                FROM taisan WHERE tinh_trang > 0");
+                FROM taisan WHERE tinh_trang > 0 ORDER BY id DESC");
         $result['data'] = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }
@@ -40,7 +40,8 @@ class Taisan_model extends Model{
         $temp = $query->fetchAll(PDO::FETCH_ASSOC);
         $result['taisan_info'] = $temp[0];
 
-        $query2 = $this->db->query("SELECT * FROM taisan WHERE id = $id");
+        $query2 = $this->db->query("SELECT *,
+        DATE_FORMAT(ngay_gio,'%d-%m-%Y') as ngay_gio FROM taisan WHERE id = $id");
         $temp2 = $query2->fetchAll(PDO::FETCH_ASSOC);
         $result['taisan'] = $temp2[0];
         return $result;
@@ -93,7 +94,7 @@ class Taisan_model extends Model{
         return $result;
     }
 
-    function thayanh($file,$id){
+    function changeImage($file,$id){
         if ($file=='')
             return false;
         else {
@@ -115,7 +116,7 @@ class Taisan_model extends Model{
             $data1['sl_honghoc'] = $temp[0]['sl_honghoc'] + $data['so_luong_hong'];
         }else{
             $data1['sl_mat'] = $temp[0]['sl_mat'] + $data['so_luong_hong'];
-            $data1['sl_tonkho'] = $temp[0]['sl_tonkho'] - $data['so_luong_hong'];
+            // $data1['sl_tonkho'] = $temp[0]['sl_tonkho'] - $data['so_luong_hong'];
         }
         $query = $this->update("taisan",$data1,"id = $id");
         return $query;

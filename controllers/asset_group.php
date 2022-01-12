@@ -1,12 +1,12 @@
 <?php
-class Taisannhom extends Controller{
+class asset_group extends Controller{
     function __construct(){
         parent::__construct();
     }
 
     function index(){
         require "layouts/header.php";
-        $this->view->render("taisannhom/index");
+        $this->view->render("asset_group/index");
         require "layouts/footer.php";
     }
 

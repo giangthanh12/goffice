@@ -362,7 +362,6 @@ function updateInfoStaff() {
     info.zalo = $("#zalo").val();
     info.wechat = $("#wechat").val();
     info.linkein = $("#linkein").val();
-    console.log(info);
    
     $.ajax({
         type: "POST",
