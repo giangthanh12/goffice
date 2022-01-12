@@ -1,4 +1,7 @@
 var url = '';
+$arrMenu = [];
+$arrFunc = [];
+$userId = 0;
 $(function () {
 
     "use strict";
@@ -257,13 +260,15 @@ function setRoles(userId)
 {
     $("#setroles").modal('show');
     $("#title-2").html('Phân quyền');
+    $arrFunc = [];
+    $arrMenu = [];
+    $userId=userId;
     $.ajax({
         type: "POST",
         dataType: "json",
         data: { userId: userId},
         url: baseHome + "/listusers/getMenus",
         success: function (data) {
-            console.log(data);
             $('#bodySetRoles').html('');
             $('#theadSetRoles').html('');
             $html = '';
@@ -280,7 +285,9 @@ function setRoles(userId)
                 if(menu.checked==1)
                     $checkedMenu = 'checked';
                 if(menu.disable==1)
-                    $disableMenu = 'disabled'
+                    $disableMenu = 'disabled';
+                if(menu.checked==1 && menu.disable!=1)
+                    $arrMenu.push(menu.id);
                 $html+='<td>' +
                     '<div class="custom-control custom-checkbox">' +
                     '<input type="checkbox" class="custom-control-input" '+$checkedMenu+' '+$disableMenu+' id="menu_'+menu.id+'" onclick="setMenuRole('+menu.id+','+userId+',this.checked)" />' +
@@ -294,6 +301,8 @@ function setRoles(userId)
                     $disabledFunc = '';
                     if(func.disable==1)
                         $disabledFunc = 'disabled';
+                    if(func.checked==1 && func.disable!=1)
+                        $arrFunc.push(func.id);
                     $html+='<td>' +
                         '<div class="custom-control custom-checkbox">' +
                         '<input type="checkbox" class="custom-control-input" '+$checkedFunc+' '+$disabledFunc+' id="function_'+func.id+'" onclick="setFunctionRole('+func.id+','+userId+',this.checked)" />' +
@@ -304,6 +313,8 @@ function setRoles(userId)
                 $html+='</tr>';
             })
             $('#bodySetRoles').html($html);
+            console.log($arrMenu);
+            console.log($arrFunc);
         },
         error: function () {
             notify_error('Lỗi truy xuất database');
@@ -344,23 +355,59 @@ function deleteUser(id) {
 }
 
 function setFunctionRole(funcId,userId,check){
-    $.ajax({
-        url: baseHome + "/listusers/setFunctionRole",
-        type: 'post',
-        dataType: "json",
-        data: { funcId:funcId,userId:userId,check:check},
-        success: function (data) {
-        },
-    });
+    if(check){
+        $arrFunc.push(funcId);
+    }else{
+        var index = $arrFunc.indexOf(funcId);
+        if (index !== -1) {
+            $arrFunc.splice(index, 1);
+        }
+    }
+    // $.ajax({
+    //     url: baseHome + "/listusers/setFunctionRole",
+    //     type: 'post',
+    //     dataType: "json",
+    //     data: { funcId:funcId,userId:userId,check:check},
+    //     success: function (data) {
+    //     },
+    // });
 }
 
 function setMenuRole(menuId,userId,check){
+    if(check){
+        $arrMenu.push(menuId);
+    }else{
+        var index = $arrMenu.indexOf(menuId);
+        if (index !== -1) {
+            $arrMenu.splice(index, 1);
+        }
+    }
+    // $.ajax({
+    //     url: baseHome + "/listusers/setMenuRole",
+    //     type: 'post',
+    //     dataType: "json",
+    //     data: { menuId:menuId,userId:userId,check:check},
+    //     success: function (data) {
+    //     },
+    // });
+}
+
+function updateRoles(){
+    // console.log($arrMenu);
+    // console.log($arrFunc);
     $.ajax({
-        url: baseHome + "/listusers/setMenuRole",
+        url: baseHome + "/listusers/updateRoles",
         type: 'post',
         dataType: "json",
-        data: { menuId:menuId,userId:userId,check:check},
+        data: { menus:$arrMenu,userId:$userId,functions:$arrFunc},
         success: function (data) {
+            if (data.code==200) {
+                $("#setroles").modal('hide');
+                notyfi_success(data.message);
+                $(".user-list-table").DataTable().ajax.reload(null, false);
+            }
+            else
+                notify_error(data.message);
         },
     });
 }

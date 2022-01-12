@@ -106,7 +106,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-12 d-flex flex-sm-row flex-column mt-2">
-                                                <button type="submit" id="btn_edit_users" class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1" onclick="update_users(); return false;">Cập nhật</button>
+                                                <button type="button" id="btn_edit_users" class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1" onclick="updateRoles(); return false;">Cập nhật</button>
                                                 <button type="reset" class="btn btn-outline-secondary" data-dismiss="modal">Bỏ qua</button>
                                             </div>
 

@@ -1,4 +1,7 @@
 var url = '';
+$arrMenu = [];
+$arrFunc = [];
+$groupId = 0;
 $(function () {
 
     "use strict";
@@ -176,13 +179,15 @@ function setRoles(id)
 {
     $("#setroles").modal('show');
     $("#title-2").html('Phân quyền');
+    $groupId = id;
     $.ajax({
         type: "POST",
         dataType: "json",
         data: { groupId: id },
         url: baseHome + "/group_roles/getMenus",
         success: function (data) {
-            console.log(data);
+            $arrMenu = [];
+            $arrFunc = [];
             $('#bodySetRoles').html('');
             $('#theadSetRoles').html('');
             $html = '';
@@ -195,18 +200,22 @@ function setRoles(id)
                 $html += '<tr>' +
                     '<td>'+$level+menu.name+'</td>';
                 $checkedMenu = '';
-                if(menu.checked==1)
+                if(menu.checked==1) {
                     $checkedMenu = 'checked';
+                    $arrMenu.push(menu.id);
+                }
                 $html+='<td>' +
                     '<div class="custom-control custom-checkbox">' +
                     '<input type="checkbox" class="custom-control-input" '+$checkedMenu+' id="menu_'+menu.id+'" onclick="setMenuRole('+menu.id+','+id+',this.checked)" />' +
-                    '<label class="custom-control-label" for="menu_'+menu.id+'">View</label>' +
+                    '<label class="custom-control-label" for="menu_'+menu.id+'">Xem</label>' +
                     '</div>' +
                     '</td>';
                     $function.forEach(function (func){
                         $checkedFunc = '';
-                        if(func.checked==1)
+                        if(func.checked==1) {
                             $checkedFunc = 'checked';
+                            $arrFunc.push(func.id);
+                        }
                         $html+='<td>' +
                             '<div class="custom-control custom-checkbox">' +
                             '<input type="checkbox" class="custom-control-input" '+$checkedFunc+' id="function_'+func.id+'" onclick="setFunctionRole('+func.id+','+id+',this.checked)" />' +
@@ -257,23 +266,56 @@ function deleteGroupRole(id) {
 }
 
 function setFunctionRole(funcId,groupId,check){
-    $.ajax({
-        url: baseHome + "/group_roles/setFunctionRole",
-        type: 'post',
-        dataType: "json",
-        data: { funcId:funcId,groupId:groupId,check:check},
-        success: function (data) {
-        },
-    });
+    if(check){
+        $arrFunc.push(funcId);
+    }else{
+        var index = $arrFunc.indexOf(funcId);
+        if (index !== -1) {
+            $arrFunc.splice(index, 1);
+        }
+    }
+    // $.ajax({
+    //     url: baseHome + "/group_roles/setFunctionRole",
+    //     type: 'post',
+    //     dataType: "json",
+    //     data: { funcId:funcId,groupId:groupId,check:check},
+    //     success: function (data) {
+    //     },
+    // });
 }
 
 function setMenuRole(menuId,groupId,check){
+    if(check){
+        $arrMenu.push(menuId);
+    }else{
+        var index = $arrMenu.indexOf(menuId);
+        if (index !== -1) {
+            $arrMenu.splice(index, 1);
+        }
+    }
+    // $.ajax({
+    //     url: baseHome + "/group_roles/setMenuRole",
+    //     type: 'post',
+    //     dataType: "json",
+    //     data: { menuId:menuId,groupId:groupId,check:check},
+    //     success: function (data) {
+    //     },
+    // });
+}
+function updateRoles(){
     $.ajax({
-        url: baseHome + "/group_roles/setMenuRole",
+        url: baseHome + "/group_roles/updateRoles",
         type: 'post',
         dataType: "json",
-        data: { menuId:menuId,groupId:groupId,check:check},
+        data: { menus:$arrMenu,groupId:$groupId,functions:$arrFunc},
         success: function (data) {
+            if (data.code==200) {
+                $("#setroles").modal('hide');
+                notyfi_success(data.message);
+                $(".user-list-table").DataTable().ajax.reload(null, false);
+            }
+            else
+                notify_error(data.message);
         },
     });
 }
