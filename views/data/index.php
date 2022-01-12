@@ -134,7 +134,7 @@
                                             <li class="nav-item">
                                                 <a class="nav-link nav-link-activity" data-toggle="tab" href="#tab-activity">
                                                     <i data-feather='file-text'></i>
-                                                    <span class="align-middle">Nhật ký data</span>
+                                                    <span class="align-middle">Nhật ký</span>
                                                 </a>
                                             </li>
                                         </ul>
@@ -390,6 +390,41 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-primary waves-effect waves-float waves-light" onclick="savenhap()">Xác nhận</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal fade text-left" id="add-lead" tabindex="-1" aria-labelledby="myModalLabel18" aria-hidden="true" role="dialog">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title" id="modal-title4">Tạo cơ hội</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">×</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form id="frm-add-lead">
+                                            <div class="form-group">
+                                                <label for="nameLead">Tên cơ hội</label>
+                                                <input id="nameLead" class="form-control" name="nameLead" />
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="descriptionLead">Mô tả cơ hội</label>
+                                                <textarea id="descriptionLead" class="form-control" rows="3" name="descriptionLead" ></textarea>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="opportunity">Cơ hội</label>
+                                                <select id="opportunity" class="select2 form-control" name="opportunity">
+                                                    <option value="1">Ít tiềm năng</option>
+                                                    <option value="2">Tiềm năng nhất</option>
+                                                </select>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary waves-effect waves-float waves-light" onclick="saveAddLead()">Xác nhận</button>
                                     </div>
                                 </div>
                             </div>

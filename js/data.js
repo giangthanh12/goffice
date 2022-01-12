@@ -160,7 +160,7 @@ $(function () {
                         // html += '<button type="button" class="btn btn-icon btn-outline-warning waves-effect" data-toggle="tooltip" data-placement="top" data-original-title="Chuyển sang Lead" onclick="movelead_id(' + full['id'] + ')">';
                         // html += '<i class="fas fa-heart"></i>';
                         // html += '</button> &nbsp;';
-                        html += '<button type="button" class="btn btn-icon btn-outline-warning waves-effect" data-toggle="tooltip" data-placement="top" data-original-title="Chuyển sang khách hàng" onclick="moveToCustomer(' + full['id'] + ',' + full['status'] + ')">';
+                        html += '<button type="button" class="btn btn-icon btn-outline-warning waves-effect" data-toggle="tooltip" data-placement="top" data-original-title="Tạo cơ hội" onclick="addLead(' + full['id'] + ',' + full['status'] + ')">';
                         html += '<i class="fas fa-retweet"></i>';
                         html += '</button> &nbsp;';
                         html += '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" title="Chỉnh sửa" onclick="loaddata(' + full['id'] + ')">';
@@ -285,6 +285,20 @@ $(function () {
         $this.validate({
             rules: {
                 file: {
+                    required: true
+                }
+            }
+        });
+    });
+
+    $('#frm-add-lead').each(function () {
+        var $this = $(this);
+        $this.validate({
+            rules: {
+                nameLead: {
+                    required: true
+                },
+                opportunity: {
                     required: true
                 }
             }
@@ -559,40 +573,40 @@ function savechia() {
 
 // }
 
-function moveToCustomer(id, status)
-{
-    if(status!=11) {
-        Swal.fire({
-            title: 'Chuyển data thành khách hàng',
-            text: "Bạn có chắc chắn muốn thay đổi!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Tôi đồng ý',
-            customClass: {
-                confirmButton: 'btn btn-primary',
-                cancelButton: 'btn btn-outline-danger ml-1'
-            },
-            buttonsStyling: false
-        }).then(function (result) {
-            if (result.value) {
-                $.ajax({
-                    url: baseHome + "/data/moveToCustomer",
-                    type: 'post',
-                    dataType: "json",
-                    data: { id: id },
-                    success: function (data) {
-                        if (data.success) {
-                            notyfi_success(data.msg);
-                            $(".user-list-table").DataTable().ajax.reload(null, false);
-                        }
-                        else
-                            notify_error(data.msg);
-                    },
-                });
-            }
-        });
+function addLead(id, status) {
+    if (status != 11) {
+        $("#add-lead").modal('show');
+        $('#descriptionLead').val();
+        $('#opportunity').val(1).change();
+        dataId = id;
+
     } else {
         notify_error('Data đã được chuyển sang khách hàng!');
+    }
+}
+
+function saveAddLead() {
+    var isValid = $('#frm-add-lead').valid();
+    if (isValid) {
+        var info = {};
+        info.dataId = dataId;
+        info.description = $('#descriptionLead').val();
+        info.opportunity = $('#opportunity').val();
+        $.ajax({
+            url: baseHome + "/data/addLead",
+            type: 'post',
+            dataType: "json",
+            data: info,
+            success: function (data) {
+                if (data.success) {
+                    $("#add-lead").modal('hide');
+                    notyfi_success(data.msg);
+                    $(".user-list-table").DataTable().ajax.reload(null, false);
+                }
+                else
+                    notify_error(data.msg);
+            },
+        });
     }
 }
 
