@@ -12,7 +12,7 @@ $(function () {
     if (dtUserTable.length) {
         dtUserTable.DataTable({
             // ajax: assetPath + "data/user-list.json", // JSON file to add data
-            ajax: baseHome + "/taisannhom/list",
+            ajax: baseHome + "/asset_group/list",
             columns: [
                 // columns according to JSON
                 // { data: "" },
@@ -22,14 +22,7 @@ $(function () {
             ],
             columnDefs: [
                 {
-                    // For Responsive
-                    // className: "control",
-                    // orderable: false,
-                    // responsivePriority: 0,
-                    // targets: 0,
-                    // render: function (data, type, full, meta) {
-                    //     return "";
-                    // }
+              
                 },
                 {
                     // User full name and username
@@ -51,10 +44,7 @@ $(function () {
                         return $row_output;
                     },
                 },
-                
 
-
-               
                 {
                     // Actions
                     targets: -1,
@@ -65,7 +55,7 @@ $(function () {
                         html += '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" data-toggle="modal" data-target="#updateinfo" title="Chỉnh sửa" onclick="loaddata(' + full['id'] + ')">';
                         html += '<i class="fas fa-pencil-alt"></i>';
                         html += '</button> &nbsp;';
-                        html += '<button type="button" class="btn btn-icon btn-outline-danger waves-effect" title="Xóa" onclick="xoa(' + full['id'] + ')">';
+                        html += '<button type="button" class="btn btn-icon btn-outline-danger waves-effect" title="Xóa" onclick="del(' + full['id'] + ')">';
                         html += '<i class="fas fa-trash-alt"></i>';
                         html += '</button>';
                         return html;
@@ -97,40 +87,15 @@ $(function () {
                     },
                     action: function (e, dt, node, config) {
                         $("#updateinfo").modal('show');
-                        $(".modal-title").html('Thêm tài khoản ngân hàng mới');
+                        $(".modal-title").html('Thêm tài nhóm tài sản');
                         $('#name').val('');
-                       
+                        $('#ghi_chu').val('');
                         $('#tinh_trang').val('1');
-
-                        url = baseHome + "/taisannhom/add";
+                        url = baseHome + "/asset_group/add";
                     },
                 },
             ],
-            // For responsive popup
-            // responsive: {
-            //     details: {
-            //         display: $.fn.dataTable.Responsive.display.modal({
-            //             header: function (row) {
-            //                 var data = row.data();
-            //                 return "Details of " + data["name"];
-            //             },
-            //         }),
-            //         type: "column",
-            //         renderer: $.fn.dataTable.Responsive.renderer.tableAll({
-            //             tableClass: "table",
-            //             columnDefs: [
-            //                 {
-            //                     targets: 8,
-            //                     visible: false,
-            //                 },
-            //                 {
-            //                     targets: 1,
-            //                     visible: false,
-            //                 },
-            //             ],
-            //         }),
-            //     },
-            // },
+       
             language: {
                 paginate: {
                     // remove previous & next text from pagination
@@ -155,21 +120,15 @@ $(function () {
             submitBtn.attr("disabled", true);
         }
     }
-
     // Form Validation
     if (form.length) {
         form.validate({
             errorClass: "error",
             rules: {
-                "user-fullname": {
+                "name": {
                     required: true,
                 },
-                "user-name": {
-                    required: true,
-                },
-                "user-email": {
-                    required: true,
-                },
+               
             },
         });
 
@@ -177,7 +136,7 @@ $(function () {
             var isValid = form.valid();
             e.preventDefault();
             if (isValid) {
-                modal.modal("hide");
+                savetk();
             }
         });
     }
@@ -190,18 +149,21 @@ $(function () {
 });
 
 function loaddata(id) {
-    $(".modal-title").html('Cập nhật thông tin tài khoản ngân hàng');
+    //  var validator = $("#dg").validate(); // reset form
+    //  validator.resetForm();
+    
+    $(".modal-title").html('Cập nhật thông tin nhóm tài sản');
     $.ajax({
         type: "POST",
         dataType: "json",
         data: { id: id },
-        url: baseHome + "/taisannhom/loaddata",
+        url: baseHome + "/asset_group/loaddata",
         success: function (data) {
+            $(".error").html('');// loại bỏ validate
+            $(".error").removeClass("error"); // loại bỏ validate
             $('#name').val(data.name);
             $('#ghi_chu').val(data.ghi_chu);
-           
-            
-            url = baseHome + '/taisannhom/update?id=' + id;
+            url = baseHome + '/asset_group/update?id=' + id;
         },
         error: function () {
             notify_error('Lỗi truy xuất database');
@@ -234,7 +196,7 @@ function savetk() {
     });
 }
 
-function xoa(id) {
+function del(id) {
     Swal.fire({
         title: 'Xóa dữ liệu',
         text: "Bạn có chắc chắn muốn xóa!",
@@ -249,7 +211,7 @@ function xoa(id) {
     }).then(function (result) {
         if (result.value) {
             $.ajax({
-                url: baseHome + "/taisannhom/del",
+                url: baseHome + "/asset_group/del",
                 type: 'post',
                 dataType: "json",
                 data: { id: id },

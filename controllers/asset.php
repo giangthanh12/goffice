@@ -1,12 +1,12 @@
 <?php
-class Taisan extends Controller{
+class asset extends Controller{
     function __construct(){
         parent::__construct();
     }
 
     function index(){
         require "layouts/header.php";
-        $this->view->render("taisan/index");
+        $this->view->render("asset/index");
         require "layouts/footer.php";
     }
 
@@ -15,12 +15,6 @@ class Taisan extends Controller{
         $data = $this->model->listObj();
         echo json_encode($data);
     }
-
-    // function combo(){
-    //     $json = $this->model->get_data_combo();
-    //     $this->view->jsonObj = json_encode($json);
-    //     $this->view->render("khachhang/combo");
-    // }
 
     function loaddata()
     {
@@ -33,15 +27,15 @@ class Taisan extends Controller{
         $data = array(
             'name' => $_REQUEST['name'],
             'so_luong' => $_REQUEST['so_luong'],
-            'sl_tonkho' => $_REQUEST['so_luong'],
             'don_vi' => $_REQUEST['don_vi'],
             'nhom_ts' => $_REQUEST['nhom_ts'],
             'so_tien' => $_REQUEST['so_tien'],
             'khau_hao' => $_REQUEST['khau_hao'],
             'bao_hanh' => $_REQUEST['bao_hanh'],
-            'ngay_gio' => $_REQUEST['ngay_gio'],
+            'ngay_gio' => date("Y-m-d",strtotime($_REQUEST['ngay_gio'])),
             'tinh_trang' => 1
         );
+
         if($this->model->addObj($data)){
             $jsonObj['msg'] = 'Cập nhật dữ liệu thành công';
             $jsonObj['success'] = true;
@@ -61,7 +55,9 @@ class Taisan extends Controller{
             'don_vi' => $_REQUEST['don_vi_add'],
             'nhom_ts' => $_REQUEST['nhom_ts_add'],
             'so_tien' => $_REQUEST['so_tien_add'],
-            'ngay_gio' => $_REQUEST['ngay_gio_add'],
+            'ngay_gio' =>date("Y-m-d",strtotime($_REQUEST['ngay_gio_add'])),
+            'khau_hao' => $_REQUEST['khau_hao_add'],
+            'bao_hanh' => $_REQUEST['bao_hanh_add']
         );
         $data_info = array(
             'nha_cungcap' => $_REQUEST['nha_cungcap'],
@@ -105,10 +101,11 @@ class Taisan extends Controller{
         echo json_encode($json);
     }
 
-    function thayanh()
+    function changeImage()
     {
         $id = $_REQUEST['id_taisan'];
         $filename = $_FILES['hinhanh']['name'];
+    
         $hinhanh = '';
         if ($filename!='') {
             $dir = ROOT_DIR . '/uploads/taisan/';
@@ -116,7 +113,8 @@ class Taisan extends Controller{
             if ($file!='')
                 $hinhanh = URLFILE.'/uploads/taisan/'.$file;
         }
-        if ($this->model->thayanh($hinhanh,$id)) {
+      
+        if ($this->model->changeImage($hinhanh,$id)) {
             $jsonObj['filename'] = $hinhanh;
             $jsonObj['msg'] = "Cập nhật dữ liệu thành công".$file;
             $jsonObj['success'] = true;
@@ -135,7 +133,7 @@ class Taisan extends Controller{
         $data['status'] = $_REQUEST['status'];
         $data['so_luong_hong'] = $_REQUEST['so_luong_hong'];
         if($this->model->baohong($id,$data)){
-            $jsonObj['msg'] = "Xóa dữ liệu thành công";
+            $jsonObj['msg'] = "Cập nhật dữ liệu thành công";
             $jsonObj['success'] = true;
         } else {
             $jsonObj['msg'] = "Không thể xoá tài sản đang được cấp phát";

@@ -1,5 +1,5 @@
 <?php
-class Taisannhom_model extends Model{
+class asset_group_model extends Model{
     function __construst(){
         parent::__construst();
     }
