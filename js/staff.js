@@ -9,7 +9,7 @@
 ==========================================================================================*/
 $(function () {
     return_combobox_multi('#idAddress', baseHome + '/staff/getProvince', 'Nơi cấp');
- 
+    return_combobox_multi('#nationality', baseHome + '/staff/getNational', 'Quốc gia');
     "use strict";
     
     var dtUserTable = $(".user-list-table"),
@@ -304,7 +304,7 @@ function updateinfo() {
     info.idDate = $("#idDate").val();
     info.idAddress = $("#idAddress").val();
     info.taxCode = $("#taxCode").val();
-    info.nationality = $("#nationality").val();
+    info.nationalId = $("#nationality").val();
     info.vssId = $("#vssId").val();
     info.description = $("#description").val();
   

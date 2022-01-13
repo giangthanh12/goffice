@@ -35,7 +35,10 @@ class asset extends Controller{
             'ngay_gio' => date("Y-m-d",strtotime($_REQUEST['ngay_gio'])),
             'tinh_trang' => 1
         );
-
+        echo "<pre>";
+        print_r($data);
+        echo "</pre>";
+        return;
         if($this->model->addObj($data)){
             $jsonObj['msg'] = 'Cập nhật dữ liệu thành công';
             $jsonObj['success'] = true;

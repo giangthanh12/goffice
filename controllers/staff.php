@@ -38,6 +38,10 @@ class staff extends Controller
         $jsonObj = $this->model->getProvince();
         echo json_encode($jsonObj);
     }
+    function getNational() {
+        $jsonObj = $this->model->getNational();
+        echo json_encode($jsonObj);
+    }
     function updateinfo()
     {
     

@@ -30,7 +30,6 @@ $(function () {
                 { data: "" },
             ],
             columnDefs: [
-            
                 {
                     targets: 0,
                     render: function (data, type, full, meta) {

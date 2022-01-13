@@ -276,14 +276,12 @@ function loaddata(id) {
             $('#bao_hanh_add').val(tai_san.bao_hanh);
             $("#so_tien_add").val(formatCurrency(tai_san.so_tien.replace(/[,VNĐ]/g,'')));
             $('#ngay_gio_add').val(tai_san.ngay_gio);
-
             var taisan_info = result.taisan_info; 
             $('#avatar').attr('src', taisan_info.hinh_anh);
             $('#nha_cungcap').val(taisan_info.nha_cungcap);
             $('#dia_chi').val(taisan_info.dia_chi);
             $('#sdt').val(taisan_info.sdt);
             $('#ghi_chu').val(taisan_info.ghi_chu);
-            
             url = baseHome + '/asset/update?id=' + id;
         },
         error: function () {

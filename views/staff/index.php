@@ -271,7 +271,8 @@
                                                             <div class="col-lg-4 col-md-6">
                                                                 <div class="form-group">
                                                                     <label for="nationality">Quốc tịch</label>
-                                                                    <input id="nationality" type="text" class="form-control" name="nationality"  />
+                                                                    <select id="nationality" name="nationality" placeholder="Nơi cấp" class="select2 form-control"></select>
+                                                              
                                                                 </div>
                                                             </div>
 
