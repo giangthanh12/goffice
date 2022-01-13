@@ -57,7 +57,7 @@
                                                     </div>
                                                     <div class="col-md-6 form-group">
                                                         <label for="asset">Số tiền giao dịch</label>
-                                                        <input id="asset" name="asset" type="text" class="form-control" />
+                                                        <input id="asset" name="asset" type="text" class="form-control format_number" />
                                                     </div>
                                                     <div class="col-md-6 form-group">
                                                         <label for="date">Thời gian giao dịch</label>

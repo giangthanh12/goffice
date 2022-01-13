@@ -172,7 +172,7 @@ function loaddata(id) {
             $('#name').val(data.name);
             $('#customerId').val(data.customerId).change();
             $('#performerId').val(data.performerId).change();
-            $('#asset').val(data.asset);
+            $('#asset').val(formatCurrency(data.asset.replace(/[,VNĐ]/g,'')));
             $('#date').val(data.date);
             $('#type').val(data.type).change();
             $('#status').val('1').attr("disabled", true);
@@ -247,3 +247,17 @@ function del(id) {
     });
 }
 
+//format_number so_tien
+$('.format_number').on('input', function(e){        
+    $(this).val(formatCurrency(this.value.replace(/[,VNĐ]/g,'')));
+  }).on('keypress',function(e){
+    if(!$.isNumeric(String.fromCharCode(e.which))) e.preventDefault();
+  }).on('paste', function(e){    
+    var cb = e.originalEvent.clipboardData || window.clipboardData;      
+    if(!$.isNumeric(cb.getData('text'))) e.preventDefault();
+  });
+  function formatCurrency(number){
+    var n = number.split('').reverse().join("");
+    var n2 = n.replace(/\d\d\d(?!$)/g, "$&,");    
+    return  n2.split('').reverse().join('');
+}

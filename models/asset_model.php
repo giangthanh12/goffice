@@ -23,7 +23,6 @@ class asset_model extends Model{
     {
         $data['so_tien'] = str_replace( ',', '', $data['so_tien']);
         $query = $this->insert("taisan",$data);
-
         $query2 = $this->db->query("SELECT id FROM taisan ORDER BY id desc limit 1");
         $result = $query2->fetchAll(PDO::FETCH_ASSOC);
         $data_info['tai_san'] =  $result[0]['id'];

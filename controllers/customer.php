@@ -42,58 +42,29 @@ class customer extends Controller
 
     function add() {
         $fullName = isset($_REQUEST['fullName']) ? $_REQUEST['fullName'] : false;
-        $taxCode = isset($_REQUEST['taxCode']) ? $_REQUEST['taxCode'] : false;
-        $address = isset($_REQUEST['address']) ? $_REQUEST['address'] : false;
         $phoneNumber = isset($_REQUEST['phoneNumber']) ? $_REQUEST['phoneNumber'] : false;
         $email = isset($_REQUEST['email']) ? $_REQUEST['email'] : false;
         $website = isset($_REQUEST['website']) ? $_REQUEST['website'] : false;
-        $staffId = isset($_REQUEST['staffId']) ? $_REQUEST['staffId'] : false;
+        $staffId = isset($_REQUEST['staffId']) ? $_REQUEST['staffId'] : '';
         $staffInCharge = isset($_SESSION['user']['id']) ? $_SESSION['user']['id'] : false;
-        $office = isset($_REQUEST['office']) ? $_REQUEST['office'] : false;
-        $field = isset($_REQUEST['field']) ? $_REQUEST['field'] : false;
-        $fieldDetail = isset($_REQUEST['fieldDetail']) ? $_REQUEST['fieldDetail'] : '';
-        $rank = isset($_REQUEST['rank']) ? $_REQUEST['rank'] : false;
-        $bussinessName = isset($_REQUEST['bussinessName']) ? $_REQUEST['bussinessName'] : false;
-        $bussinessAddress = isset($_REQUEST['bussinessAddress']) ? $_REQUEST['bussinessAddress'] : false;
-        $bussinessPlace = isset($_REQUEST['bussinessPlace']) ? $_REQUEST['bussinessPlace'] : false;
-        $representative = isset($_REQUEST['representative']) ? $_REQUEST['representative'] : false;
-        $authorized = isset($_REQUEST['authorized']) ? $_REQUEST['authorized'] : false;
-        $note = isset($_REQUEST['note']) ? $_REQUEST['note'] : '';
-        $classify = isset($_REQUEST['classify']) ? $_REQUEST['classify'] : false;
-        $type = isset($_REQUEST['type']) ? $_REQUEST['type'] : false;
-        $nationalId = isset($_REQUEST['nationalId']) ? $_REQUEST['nationalId'] : false;
-        $provinceId = isset($_REQUEST['provinceId']) ? $_REQUEST['provinceId'] : false;
-        $status = isset($_REQUEST['status']) ? $_REQUEST['status'] : 2;
-        if(!$fullName && !$taxCode && !$address && !$phoneNumber && !$email && !$website && !$staffId && !$staffInCharge && !$office && !$field && !$rank && !$bussinessName && !$bussinessAddress && !$bussinessPlace && !$representative && !$authorized && !$classify && !$nationalId && !$provinceId && !$type ) {
+        $nationalId = isset($_REQUEST['nationalId']) ? $_REQUEST['nationalId'] : '';
+        $provinceId = isset($_REQUEST['provinceId']) ? $_REQUEST['provinceId'] : '';
+        $status = isset($_REQUEST['status']) ? $_REQUEST['status'] : 1;
+        if(!$fullName && !$phoneNumber && !$email && !$website) {
             $jsonObj['msg'] = 'Thông tin không chính xác';
             $jsonObj['success'] = false;
             echo json_encode($jsonObj);
             return;
         }
-
         $data = array(
             'fullName' => $fullName,
-            'taxCode' => $taxCode,
-            'address' => $address,
             'phoneNumber' => $phoneNumber,
             'email' => $email,
             'website' => $website,
             'staffid' => $staffId,
             'staffInCharge' => $staffInCharge,
-            'office' => $office,
-            'field' => $field,
-            'fieldDetail' => $fieldDetail,
-            'rank' => $rank,
-            'businessName' => $bussinessName,
-            'businessAddress' => $bussinessAddress,
-            'businessPlace' => $bussinessPlace,
-            'representative' => $representative,
-            'authorized' => $authorized,
-            'note' => $note,
-            'classify' => $classify,
-            'type'=> $type,
             'nationalId' => $nationalId,
-            'provinceId' => $provinceId,
+            'province' => $provinceId,
             'status'=>$status
         );
           
@@ -118,29 +89,29 @@ class customer extends Controller
     {
         $id = $_REQUEST['id'];
         $fullName = isset($_REQUEST['fullName']) ? $_REQUEST['fullName'] : false;
-        $taxCode = isset($_REQUEST['taxCode']) ? $_REQUEST['taxCode'] : false;
-        $address = isset($_REQUEST['address']) ? $_REQUEST['address'] : false;
+        $taxCode = isset($_REQUEST['taxCode']) ? $_REQUEST['taxCode'] : '';
+        $address = isset($_REQUEST['address']) ? $_REQUEST['address'] : '';
         $phoneNumber = isset($_REQUEST['phoneNumber']) ? $_REQUEST['phoneNumber'] : false;
         $email = isset($_REQUEST['email']) ? $_REQUEST['email'] : false;
         $website = isset($_REQUEST['website']) ? $_REQUEST['website'] : false;
-        $staffId = isset($_REQUEST['staffId']) ? $_REQUEST['staffId'] : false;
-        $staffInCharge = isset($_SESSION['user']['id']) ? $_SESSION['user']['id'] : false;
-        $office = isset($_REQUEST['office']) ? $_REQUEST['office'] : false;
-        $field = isset($_REQUEST['field']) ? $_REQUEST['field'] : false;
+        $staffId = isset($_REQUEST['staffId']) ? $_REQUEST['staffId'] : '';
+        $staffInCharge = isset($_SESSION['user']['id']) ? $_SESSION['user']['id'] : '';
+        $shortName = isset($_REQUEST['shortName']) ? $_REQUEST['shortName'] : '';
+        $field = isset($_REQUEST['field']) ? $_REQUEST['field'] : '';
         $fieldDetail = isset($_REQUEST['fieldDetail']) ? $_REQUEST['fieldDetail'] : '';
-        $rank = isset($_REQUEST['rank']) ? $_REQUEST['rank'] : false;
-        $bussinessName = isset($_REQUEST['bussinessName']) ? $_REQUEST['bussinessName'] : false;
-        $bussinessAddress = isset($_REQUEST['bussinessAddress']) ? $_REQUEST['bussinessAddress'] : false;
-        $bussinessPlace = isset($_REQUEST['bussinessPlace']) ? $_REQUEST['bussinessPlace'] : false;
-        $representative = isset($_REQUEST['representative']) ? $_REQUEST['representative'] : false;
-        $authorized = isset($_REQUEST['authorized']) ? $_REQUEST['authorized'] : false;
+        $rank = isset($_REQUEST['rank']) ? $_REQUEST['rank'] : '';
+        $bussinessName = isset($_REQUEST['bussinessName']) ? $_REQUEST['bussinessName'] : '';
+        $bussinessAddress = isset($_REQUEST['bussinessAddress']) ? $_REQUEST['bussinessAddress'] : '';
+        $bussinessPlace = isset($_REQUEST['bussinessPlace']) ? $_REQUEST['bussinessPlace'] : '';
+        $representative = isset($_REQUEST['representative']) ? $_REQUEST['representative'] : '';
+        $authorized = isset($_REQUEST['authorized']) ? $_REQUEST['authorized'] : '';
         $note = isset($_REQUEST['note']) ? $_REQUEST['note'] : '';
-        $classify = isset($_REQUEST['classify']) ? $_REQUEST['classify'] : false;
-        $type = isset($_REQUEST['type']) ? $_REQUEST['type'] : false;
-        $nationalId = isset($_REQUEST['nationalId']) ? $_REQUEST['nationalId'] : false;
-        $provinceId = isset($_REQUEST['provinceId']) ? $_REQUEST['provinceId'] : false;
+        $classify = isset($_REQUEST['classify']) ? $_REQUEST['classify'] : '';
+        $type = isset($_REQUEST['type']) ? $_REQUEST['type'] : '';
+        $nationalId = isset($_REQUEST['nationalId']) ? $_REQUEST['nationalId'] : '';
+        $provinceId = isset($_REQUEST['provinceId']) ? $_REQUEST['provinceId'] : '';
         $status = isset($_REQUEST['status']) ? $_REQUEST['status'] : 2;
-        if(!$fullName && !$taxCode && !$address && !$phoneNumber && !$email && !$website && !$staffId && !$staffInCharge && !$office && !$field && !$rank && !$bussinessName && !$bussinessAddress && !$bussinessPlace && !$representative && !$authorized && !$classify && !$nationalId && !$provinceId && !$type ) {
+        if(!$fullName && !$phoneNumber && !$email && !$website) {
             $jsonObj['msg'] = 'Thông tin không chính xác';
             $jsonObj['success'] = false;
             echo json_encode($jsonObj);
@@ -156,9 +127,8 @@ class customer extends Controller
             'website' => $website,
             'staffid' => $staffId,
             'staffInCharge' => $staffInCharge,
-            'office' => $office,
+            'shortName' => $shortName,
             'field' => $field,
-            'fieldDetail' => $fieldDetail,
             'rank' => $rank,
             'businessName' => $bussinessName,
             'businessAddress' => $bussinessAddress,
@@ -169,9 +139,10 @@ class customer extends Controller
             'classify' => $classify,
             'type'=> $type,
             'nationalId' => $nationalId,
-            'provinceId' => $provinceId,
+            'province' => $provinceId,
             'status'=>$status
         );
+
             if ($this->model->updateObj($id, $data)) {
                 $jsonObj['msg'] = 'Cập nhật dữ liệu thành công';
                 $jsonObj['success'] = true;
@@ -212,23 +183,22 @@ class customer extends Controller
             $staffInCharge = isset($_SESSION['user']['id']) ? $_SESSION['user']['id'] : false;
             for ($row = 3; $row <= $highestRow; $row++) {
                 $fullName = $objPHPExcel->getActiveSheet()->getCell("B$row")->getValue();
-                $taxCode = $objPHPExcel->getActiveSheet()->getCell("C$row")->getValue();
-                $address = $objPHPExcel->getActiveSheet()->getCell("D$row")->getValue();
-                $phoneNumber = $objPHPExcel->getActiveSheet()->getCell("E$row")->getValue();
-                $email = $objPHPExcel->getActiveSheet()->getCell("F$row")->getValue();
-                $website = $objPHPExcel->getActiveSheet()->getCell("G$row")->getValue();
-                $office = $objPHPExcel->getActiveSheet()->getCell("H$row")->getValue();
+                $shortName = $objPHPExcel->getActiveSheet()->getCell("C$row")->getValue();
+                $taxCode = $objPHPExcel->getActiveSheet()->getCell("D$row")->getValue();
+                $address = $objPHPExcel->getActiveSheet()->getCell("E$row")->getValue();
+                $phoneNumber = $objPHPExcel->getActiveSheet()->getCell("F$row")->getValue();
+                $email = $objPHPExcel->getActiveSheet()->getCell("G$row")->getValue();
+                $website = $objPHPExcel->getActiveSheet()->getCell("H$row")->getValue();
                 $field = $objPHPExcel->getActiveSheet()->getCell("I$row")->getValue();
-                $fieldDetail = $objPHPExcel->getActiveSheet()->getCell("J$row")->getValue();
-                $bussinessName = $objPHPExcel->getActiveSheet()->getCell("K$row")->getValue();
-                $bussinessAddress = $objPHPExcel->getActiveSheet()->getCell("L$row")->getValue();
-                $bussinessPlace = $objPHPExcel->getActiveSheet()->getCell("M$row")->getValue();
-                $representative = $objPHPExcel->getActiveSheet()->getCell("N$row")->getValue();
-                $authorized = $objPHPExcel->getActiveSheet()->getCell("O$row")->getValue();
-                $note = $objPHPExcel->getActiveSheet()->getCell("P$row")->getValue();
-                $rank = $objPHPExcel->getActiveSheet()->getCell("Q$row")->getValue();
-                $type = $objPHPExcel->getActiveSheet()->getCell("R$row")->getValue();
-                $classify = $objPHPExcel->getActiveSheet()->getCell("S$row")->getValue();
+                $bussinessName = $objPHPExcel->getActiveSheet()->getCell("J$row")->getValue();
+                $bussinessAddress = $objPHPExcel->getActiveSheet()->getCell("K$row")->getValue();
+                $bussinessPlace = $objPHPExcel->getActiveSheet()->getCell("L$row")->getValue();
+                $representative = $objPHPExcel->getActiveSheet()->getCell("M$row")->getValue();
+                $authorized = $objPHPExcel->getActiveSheet()->getCell("N$row")->getValue();
+                $note = $objPHPExcel->getActiveSheet()->getCell("O$row")->getValue();
+                $rank = $objPHPExcel->getActiveSheet()->getCell("P$row")->getValue();
+                $type = $objPHPExcel->getActiveSheet()->getCell("Q$row")->getValue();
+                $classify = $objPHPExcel->getActiveSheet()->getCell("R$row")->getValue();
               
                         $data = [
                             'fullName' => $fullName,
@@ -239,10 +209,9 @@ class customer extends Controller
                             'website' => $website,
                             'staffid' => $staffid,
                             'staffInCharge' => $staffInCharge,
-                            'office' => $office,
+                            'shortName' => $shortName,
                             'field' => $field,
                             'rank' => $rank,
-                            'fieldDetail' => $fieldDetail,
                             'businessName' => $bussinessName,
                             'businessAddress' => $bussinessAddress,
                             'businessPlace' => $bussinessPlace,
@@ -251,7 +220,7 @@ class customer extends Controller
                             'note' => $note,
                             'classify' => $classify,
                             'type'=>$type,
-                            'nationalId'=>237,
+                            'nationalId'=>1,
                             'status'=>1
                         ];
                         if ($this->model->addObj($data))

@@ -25,9 +25,6 @@ class transaction extends Controller{
         $json = $this->model->getStaff();
         echo json_encode($json);
     }
-    
-    
-
 
     function loaddata()
     {  
@@ -41,7 +38,7 @@ class transaction extends Controller{
         $name = isset($_REQUEST['name']) ? $_REQUEST['name'] : '';
         $customerId = isset($_REQUEST['customerId']) ? $_REQUEST['customerId'] : '';
         $performerId = isset($_REQUEST['performerId']) ? $_REQUEST['performerId'] : '';
-        $asset = isset($_REQUEST['asset']) ? $_REQUEST['asset'] : '';
+        $asset = isset($_REQUEST['asset']) ? str_replace( ',', '', $_REQUEST['asset']) : '';
         $type = isset($_REQUEST['type']) ? $_REQUEST['type'] : '';
         $date = date("Y-m-d H:i",strtotime(str_replace('/', '-',$_REQUEST['date'])));
         $description = isset($_REQUEST['description']) ? $_REQUEST['description'] : '';

@@ -39,7 +39,7 @@ $(function () {
      var table =   dtUserTable.DataTable({
             // ajax: assetPath + "data/user-list.json", // JSON file to add data
             ajax: baseHome + "/customer/list",
-            autoWidth: false,
+            // autoWidth: true,
             ordering: false,
             columns: [
                 { data: "fullName" },
@@ -49,7 +49,7 @@ $(function () {
                 { data: "field"},
                 { data: "classify"},
                 { data: "type"},
-                { data: "provinceId"},
+                { data: "province"},
                 { data: "address"},
                 { data: "" },
             ],
@@ -59,7 +59,7 @@ $(function () {
                 {
                     // User full name and username
                     targets: 0,
-                    responsivePriority: 4,
+                    // responsivePriority: 4,
                     render: function (data, type, full, meta) {
                         var $name = full["fullName"],
                             $uname = full["office"];
@@ -68,18 +68,20 @@ $(function () {
                         }
                         // Creates full output for row
                         var $row_output =
-                            '<div class="d-flex justify-content-left align-items-center">' +
-                            '<div class="d-flex flex-column">' +
-                            '<a href="javascript:void(0)" onclick="loaddata(' + full["id"] + ')" data-toggle="modal" data-target="#updateinfo" class="user_name text-truncate"><span class="font-weight-bold">' +
+                            '<div  class="text-wrap width-200">' +
+                           
+                            '<a href="javascript:void(0)" onclick="loaddata(' + full["id"] + ')" data-toggle="modal" data-target="#updateinfo" class="user_name text-truncate"><span class="text-wrap width-200 font-weight-bold">' +
                             $name +
                             "</span></a>" +
                             '' +
                           
                             "</small>" +
-                            "</div>" +
+                           
                             "</div>";
                         return $row_output;
                     },
+                   
+                   
                 },
                 {
                     targets: 1,
@@ -94,6 +96,7 @@ $(function () {
                         };
                         return "<span class='text-truncate align-middle'>" + roleBadgeObj['Subscriber'] + $role + "</span>";
                     },
+                   
                 },
                 {
                     targets: 2,
@@ -137,7 +140,7 @@ $(function () {
                         html += '</button></div>';
                         return html;
                     },
-             
+                    width:200
                 },
             ],
             // order: [[2, "desc"]],
@@ -176,7 +179,7 @@ $(function () {
                         $('#email').val('');
                         $('#website').val('');
                         $('#staffId').val('').change();
-                        $('#nationalId').val(237).change();
+                        $('#nationalId').val(1);
                         $('#provinceId').val('').change();
                         $('#status').val('1').attr("disabled", true);
                     },
@@ -346,9 +349,8 @@ function loaddata(id) {
             $('#email1').val(data.email);
             $('#website1').val(data.website);
             $('#staffId1').val(data.staffid).change();
-            $('#office1').val(data.office);
+            $('#shortName').val(data.shortName);
             $('#field1').val(data.field);
-            $('#fieldDetail1').val(data.fieldDetail);
             $('#rank1').val(data.rank).change();
             $('#bussinessName1').val(data.businessName);
             $('#bussinessAddress1').val(data.businessAddress);
@@ -359,7 +361,7 @@ function loaddata(id) {
             $('#classify1').val(data.classify);
             $('#type1').val(data.type).change();
             $('#nationalId1').val(data.nationalId).change();
-            $('#provinceId1').val(data.provinceId).change();
+            $('#provinceId1').val(data.province).change();
             $('#status1').val(data.status).attr("disabled", true);
             loaddichvu(id);
             loadTransaction(id);
@@ -508,6 +510,7 @@ function saveadd() {
     info.nationalId = $("#nationalId").val();
     info.provinceId = $("#provinceId").val();
     info.status = $("#status").val();
+  
     $.ajax({
         type: "POST",
         dataType: "json",
