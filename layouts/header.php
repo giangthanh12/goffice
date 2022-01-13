@@ -469,7 +469,8 @@
                         <span class="user-status"><?= $_SESSION['user']['username'] ?></span>
                     </div>
                     <span class="avatar">
-                            <img class="round" onerror="this.src='<?= HOME ?>/layouts/useravatar.png'" src="<?= URLFILE.'/'.$_SESSION['user']['avatar'] ?>" alt="avatar" height="40"
+                            <img class="round" onerror="this.src='<?= HOME ?>/layouts/useravatar.png'"
+                                 src="<?= URLFILE . '/' . $_SESSION['user']['avatar'] ?>" alt="avatar" height="40"
                                  width="40" id="hungsua2">
                             <span class="avatar-status-online"></span>
                         </span>
@@ -675,13 +676,13 @@
                         <span class="menu-title text-truncate" data-i18n="File Manager">Quản lý tài khoản</span>
                     </a>
                     <ul class="menu-content">
-                        <li <?=($url[0]=='group_roles')?'class="active"':'' ?> >
+                        <li <?= ($url[0] == 'group_roles') ? 'class="active"' : '' ?> >
                             <a class="d-flex align-items-center" href="group_roles">
                                 <i data-feather="group-roles"></i>
                                 <span class="menu-item text-truncate" data-i18n="LoginV1">Nhóm quyền hạn</span>
                             </a>
                         </li>
-                        <li <?=($url[0]=='listusers')?'class="active"':'' ?>>
+                        <li <?= ($url[0] == 'listusers') ? 'class="active"' : '' ?>>
                             <a class="d-flex align-items-center" href="listusers">
                                 <i data-feather="list-users"></i>
                                 <span class="menu-item text-truncate" data-i18n="LoginV1">Danh sách tài khoản</span>
@@ -690,7 +691,7 @@
                     </ul>
                 </li>
             <?php } ?>
-<!--            Truy cập nhanh-->
+            <!--            Truy cập nhanh-->
             <li class="navigation-header">
                 <span data-i18n="Truy cập nhanh">Truy cập nhanh</span>
                 <i data-feather="more-horizontal"></i>
@@ -708,10 +709,11 @@
                 $subMenus = $model->getMenus($parId, 3);
                 $hasSub = count($subMenus);
                 ?>
-                <li class="<?=$active ?> nav-item">
+                <li class="<?= $active ?> nav-item">
                     <a class="d-flex align-items-center" href="<?= $parMenu['link'] ?>">
                         <i class="<?= $parMenu['icon'] ?>"></i>
-                        <span class="menu-title text-truncate" data-i18n="<?= $parMenu['name'] ?>"><?= $parMenu['name'] ?></span>
+                        <span class="menu-title text-truncate"
+                              data-i18n="<?= $parMenu['name'] ?>"><?= $parMenu['name'] ?></span>
                     </a>
                     <?php
                     if ($hasSub > 0) {
@@ -723,6 +725,9 @@
                                     $activeSub = 'class="active"';
                                 else
                                     $activeSub = '';
+                                $parId2 = $subMenu['id'];
+                                $subMenus2 = $model->getMenus($parId2, 3);
+                                $hasSub2 = count($subMenus2);
                                 ?>
                                 <li <?= $activeSub ?>>
                                     <a class="d-flex align-items-center" href="<?= $subMenu['link'] ?>">
@@ -730,13 +735,35 @@
                                         <span class="menu-item text-truncate"
                                               data-i18n="<?= $subMenu['name'] ?>"><?= $subMenu['name'] ?></span>
                                     </a>
+                                    <?php
+                                    if ($hasSub2 > 0) {
+                                        ?>
+                                        <ul class="menu-content">
+                                            <?php
+                                            foreach ($subMenus2 as $subMenu2) {
+                                                if ($subMenu2['link'] == $url[0])
+                                                    $activeSub2 = 'class="active"';
+                                                else
+                                                    $activeSub2 = '';
+                                                ?>
+                                                <li <?= $activeSub2 ?>>
+                                                    <a class="d-flex align-items-center"
+                                                       href="<?= $subMenu2['link'] ?>">
+                                                        <i class="<?= $subMenu2['icon'] ?>"></i>
+                                                        <span class="menu-item text-truncate"
+                                                              data-i18n="<?= $subMenu2['name'] ?>"><?= $subMenu2['name'] ?></span>
+                                                    </a>
+                                                </li>
+                                            <?php } ?>
+                                        </ul>
+                                    <?php } ?>
                                 </li>
                             <?php } ?>
                         </ul>
                     <?php } ?>
                 </li>
             <?php } ?>
-<!--            Platform-->
+            <!--            Platform-->
             <li class="navigation-header">
                 <span data-i18n="Platform">Platform</span>
                 <i data-feather="more-horizontal"></i>
@@ -754,10 +781,11 @@
                 $subMenus = $model->getMenus($parId, 1);
                 $hasSub = count($subMenus);
                 ?>
-                <li class="<?=$active ?> nav-item">
+                <li class="<?= $active ?> nav-item">
                     <a class="d-flex align-items-center" href="<?= $parMenu['link'] ?>">
                         <i class="<?= $parMenu['icon'] ?>"></i>
-                        <span class="menu-title text-truncate" data-i18n="<?= $parMenu['name'] ?>"><?= $parMenu['name'] ?></span>
+                        <span class="menu-title text-truncate"
+                              data-i18n="<?= $parMenu['name'] ?>"><?= $parMenu['name'] ?></span>
                     </a>
                     <?php
                     if ($hasSub > 0) {
@@ -769,6 +797,9 @@
                                     $activeSub = 'class="active"';
                                 else
                                     $activeSub = '';
+                                $parId2 = $subMenu['id'];
+                                $subMenus2 = $model->getMenus($parId2, 1);
+                                $hasSub2 = count($subMenus2);
                                 ?>
                                 <li <?= $activeSub ?>>
                                     <a class="d-flex align-items-center" href="<?= $subMenu['link'] ?>">
@@ -776,6 +807,28 @@
                                         <span class="menu-item text-truncate"
                                               data-i18n="<?= $subMenu['name'] ?>"><?= $subMenu['name'] ?></span>
                                     </a>
+                                    <?php
+                                    if ($hasSub2 > 0) {
+                                        ?>
+                                        <ul class="menu-content">
+                                            <?php
+                                            foreach ($subMenus2 as $subMenu2) {
+                                                if ($subMenu2['link'] == $url[0])
+                                                    $activeSub2 = 'class="active"';
+                                                else
+                                                    $activeSub2 = '';
+                                                ?>
+                                                <li <?= $activeSub2 ?>>
+                                                    <a class="d-flex align-items-center"
+                                                       href="<?= $subMenu2['link'] ?>">
+                                                        <i class="<?= $subMenu2['icon'] ?>"></i>
+                                                        <span class="menu-item text-truncate"
+                                                              data-i18n="<?= $subMenu2['name'] ?>"><?= $subMenu2['name'] ?></span>
+                                                    </a>
+                                                </li>
+                                            <?php } ?>
+                                        </ul>
+                                    <?php } ?>
                                 </li>
                             <?php } ?>
                         </ul>

@@ -20,9 +20,12 @@ class menu extends Controller{
 
             $datatable['data']=$this->model->listObj();
             foreach ($datatable['data'] AS $key=>$row) {
-               
-                if($row['level']>0)
-                 $datatable['data'][$key]['name']='---'.$datatable['data'][$key]['name'];
+                if($row['level']>0) {
+                    $strLv = '';
+                    for($i=0;$i<$row['level'];$i++)
+                        $strLv .='---';
+                    $datatable['data'][$key]['name'] = $strLv  .'&nbsp;'. $datatable['data'][$key]['name'];
+                }
             }
         
        
@@ -32,9 +35,12 @@ class menu extends Controller{
         $type = isset($_REQUEST['type'])?$_REQUEST['type']:1;
         $datatable['data']=$this->model->get_data_combo($type);
         foreach ($datatable['data'] AS $key=>$row) {
-           
-            if($row['level']>0)
-               $datatable['data'][$key]['text']='---'.$datatable['data'][$key]['text'];
+            if($row['level']>0) {
+                $strLv = '';
+                for($i=0;$i<$row['level'];$i++)
+                    $strLv .='---';
+                $datatable['data'][$key]['text'] = $strLv .'&nbsp;'. $datatable['data'][$key]['text'];
+            }
         }
 
         echo json_encode($datatable['data']); 
