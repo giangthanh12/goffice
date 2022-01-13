@@ -1,69 +1,57 @@
-
 $(function () {
-    return_combobox_multi('#nhan_vien', baseHome + '/common/nhanvien', 'Lựa chọn nhân viên');
-    return_combobox_multi('#loai', baseHome + '/loaihd/combo', 'Lựa chọn loại hợp đồng');
-    return_combobox_multi('#phong_ban', baseHome + '/phongban/combo', 'Lựa chọn phòng ban');
-    return_combobox_multi('#chi_nhanh', baseHome + '/chinhanh/combo', 'Lựa chọn chi nhánh');
-
-    var basicPickr = $('.flatpickr-basic');
-
-    // Default
-    if (basicPickr.length) {
-        basicPickr.flatpickr({
-            dateFormat: "d/m/Y",
-        });
-    }
+    // $('#')
+    return_combobox_multi('#staffId', baseHome + '/common/nhanvien', 'Lựa chọn nhân viên');
+    return_combobox_multi('#type', baseHome + '/loaihd/combo', 'Lựa chọn loại hợp đồng');
+    return_combobox_multi('#departmentId', baseHome + '/phongban/combo', 'Lựa chọn phòng ban');
+    return_combobox_multi('#branchId', baseHome + '/chinhanh/combo', 'Lựa chọn chi nhánh');
+    return_combobox_multi('#position', baseHome + '/position/combo', 'Lựa chọn vị trí');
 
     "use strict";
 
     var dtUserTable = $(".user-list-table"),
-        modal = $("#updateinfo"),
-        form = $("#dg");
-
+        modal = $("#add-contract"),
+        form = $("#dg"), buttons = [];
+    if (funAdd == 1)
+        buttons.push(
+            {
+                text: "Thêm mới",
+                className: "add-new btn btn-primary mt-50",
+                init: function (api, node, config) {
+                    $(node).removeClass("btn-secondary");
+                },
+                action: function (e, dt, node, config) {
+                    showAdd();
+                },
+            });
     // Users List datatable
     if (dtUserTable.length) {
         dtUserTable.DataTable({
             // ajax: assetPath + "data/user-list.json", // JSON file to add data
-            ajax: baseHome + "/hopdongld/list",
-            ordering: false,
+            ajax: baseHome + "/laborcontracts/list",
+            ordering: true,
             columns: [
                 // columns according to JSON
-                { data: "id" },
-                { data: "name" },
-                { data: "loaihd" },
-                { data: "nhanvien" },
-                { data: "phongban" },
-                { data: "chinhanh" },
-                { data: "vitri" },
-                { data: "status" },
-                { data: "type" },
-        
-                { data: "" },
+                {data: "id"},
+                {data: "name"},
+                {data: "typeName"},
+                {data: "staffName"},
+                {data: "status"},
+                {data: "type"},
+                {data: ""},
             ],
             columnDefs: [
-                {
-                    targets: 0,
-                    responsivePriority: 4,
-                    visible: false,
-                },
                 {
                     targets: 1,
                     render: function (data, type, full, meta) {
                         return '<a href="javascript:void(0)" onclick="loaddata(' + full["id"] + ')" >' +
-                            '<span class="align-middle font-weight-bold">' + full["name"] + "</span></a>";
+                            '<span class="align-middle font-weight-bold" style="padding: 5px;">' + full["name"] + "</span></a>";
                     },
                     width: 200
                 },
                 {
-                    targets: 2,
-                },
-                {
                     targets: 4,
-                },
-                {
-                    targets: 7,
                     render: function (data, type, full, meta) {
-                        var $status = full["tinh_trang"];
+                        var $status = full["status"];
 
                         if ($status == 1) {
                             return "<span>Đang thực hiện</span>";
@@ -76,28 +64,36 @@ $(function () {
                     },
                 },
                 {
-                    targets: 8,
-                    visible: false,
+                    targets: 0,
+                    visible: false
+                },
+                {
+                    targets: 5,
+                    visible: false
                 },
                 {
                     // Actions
                     targets: -1,
-                    title: feather.icons["database"].toSvg({ class: "font-medium-3 text-success mr-50" }),
+                    title: feather.icons["database"].toSvg({class: "font-medium-3 text-success mr-50"}),
                     orderable: false,
                     render: function (data, type, full, meta) {
                         var html = '';
-                        html += '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" title="Chỉnh sửa" onclick="loaddata(' + full['id'] + ')">';
-                        html += '<i class="fas fa-pencil-alt"></i>';
-                        html += '</button> &nbsp;';
-                        html += '<button type="button" class="btn btn-icon btn-outline-danger waves-effect" title="Xóa" id="confirm-text" onclick="xoa(' + full['id'] + ')">';
-                        html += '<i class="fas fa-trash-alt"></i>';
-                        html += '</button>';
+                        if (funEdit == 1) {
+                            html += '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" title="Chỉnh sửa" onclick="loaddata(' + full['id'] + ')">';
+                            html += '<i class="fas fa-pencil-alt"></i>';
+                            html += '</button> &nbsp;';
+                        }
+                        if (funDel == 1) {
+                            html += '<button type="button" class="btn btn-icon btn-outline-danger waves-effect" title="Xóa" id="confirm-text" onclick="xoa(' + full['id'] + ')">';
+                            html += '<i class="fas fa-trash-alt"></i>';
+                            html += '</button>';
+                        }
                         return html;
                     },
                     width: 100
                 },
             ],
-            // order: [[2, "desc"]],
+            order: [[0, "desc"]],
             dom:
                 '<"d-flex justify-content-between align-items-center header-actions mx-1 row mt-75"' +
                 '<"col-lg-12 col-xl-6" l>' +
@@ -109,8 +105,8 @@ $(function () {
                 ">",
             language: {
                 sLengthMenu: "Show _MENU_",
-                search: "Search",
-                searchPlaceholder: "11111111112..",
+                search: "Tìm kiếm",
+                searchPlaceholder: "Từ khóa..",
                 paginate: {
                     // remove previous & next text from pagination
                     previous: "&nbsp;",
@@ -118,36 +114,7 @@ $(function () {
                 },
             },
             // Buttons with Dropdown
-            buttons: [
-                {
-                    text: "Thêm mới",
-                    className: "add-new btn btn-primary mt-50",
-                    init: function (api, node, config) {
-                        $(node).removeClass("btn-secondary");
-                    },
-                    action: function (e, dt, node, config) {
-                        $("#updateinfo").modal('show');
-                        $(".modal-title").html('Thêm hợp đồng mới');
-                        $('#nhan_vien').val('').change();
-                        $('#name').val('');
-                        $('#loai').val('').change();
-                        $('#ca').val('').change();
-                        $('#luong_co_ban').val('');
-                        $('#ty_le_luong').val('');
-                        $('#phu_cap').val('');
-                        $('#luong_bao_hiem').val('');
-                        $('#ngay_di_lam').val('');
-                        $('#ngay_ket_thuc').val('');
-                        $('#phong_ban').val('').change();
-                        $('#vi_tri').val('').attr("disabled", true);
-                        $('#loai').val('').change();
-                        $('#chi_nhanh').val('').change();
-                        $('#tinh_trang').val('1').attr("disabled", true);
-                        $('#ghi_chu').val('');
-                        url = baseHome + "/hopdongld/add";
-                    },
-                },
-            ],
+            buttons: buttons,
             // For responsive popup
             // responsive: {
             //     details: {
@@ -228,10 +195,10 @@ $(function () {
         form.validate({
             errorClass: "error",
             rules: {
-                "user-fullname": {
+                "name": {
                     required: true,
                 },
-                "user-name": {
+                "staffId": {
                     required: true,
                 },
                 "user-email": {
@@ -256,32 +223,89 @@ $(function () {
     });
 });
 
+function showAdd() {
+    if (funAdd == 1)
+        $('#btnUpdate').removeClass('d-none');
+    else
+        $('#btnUpdate').addClass('d-none');
+    $("#add-contract").modal('show');
+    $(".modal-title").html('Thêm hợp đồng mới');
+    $('#staffId').val('').trigger('change');
+    $('#name').val('');
+    $('#basicSalary').val('');
+    $('#salaryPercentage').val('');
+    $('#allowance').val('');
+    $('#insuranceSalary').val('');
+    $('#startDate').val('');
+    $('#stopDate').val('');
+    $('#departmentId').val('').trigger('change');
+    $('#position').val('').trigger('change');
+    $('#type').val('').trigger('change');
+    $('#branchId').val('').trigger('change');
+    $('#status').val('1').trigger('change');
+    $('#description').val('');
+    var basicPickr = $('.flatpickr-basic');
+    // Default
+    if (basicPickr.length) {
+        basicPickr.flatpickr({
+            dateFormat: "d/m/Y",
+            onReady: function (selectedDates, dateStr, instance) {
+                if (instance.isMobile) {
+                    $(instance.mobileInput).attr("step", null);
+                }
+            },
+        });
+    }
+    url = baseHome + "/laborcontracts/add";
+}
+
 function loaddata(id) {
-    $('#updateinfo').modal('show');
+    $('#add-contract').modal('show');
     $(".modal-title").html('Cập nhật thông tin hợp đồng');
+    if (funEdit == 1)
+        $('#btnUpdate').removeClass('d-none');
+    else
+        $('#btnUpdate').addClass('d-none');
     $.ajax({
         type: "POST",
         dataType: "json",
-        data: { id: id },
-        url: baseHome + "/hopdongld/loaddata",
+        data: {id: id},
+        url: baseHome + "/laborcontracts/loaddata",
         success: function (data) {
-            $('#name').val(data.name);
-            $('#luong_co_ban').val(data.basicSalary);
-            $('#ty_le_luong').val(data.salaryPercentage);
-            $('#phu_cap').val(data.allowance);
-            $('#luong_bao_hiem').val(data.insuranceSalary);
-            $('#ngay_di_lam').val(data.startDate);
-            $('#ngay_ket_thuc').val(data.severanceDate);
-            $('#nhan_vien').val(data.staffId).change();
-            $('#phong_ban').val(data.department).change();
-            $('#vi_tri').val(data.position).change();
-            $('#chi_nhanh').val(data.branch).change();
-            $('#loai').val(data.type).change();
-            $('#ca').val(data.shift).change();
-            $('#tinh_trang').val(data.status).change().attr("disabled", false);
-            $('#ghi_chu').val(data.description);
+            // Default
 
-            url = baseHome + '/hopdongld/update?id=' + id;
+            $('#name').val(data.name);
+            $('#basicSalary').val(data.basicSalary);
+            $('#salaryPercentage').val(data.salaryPercentage);
+            $('#allowance').val(data.allowance);
+            $('#insuranceSalary').val(data.insuranceSalary);
+            if (data.startDate != '0000-00-00' && data.startDate != '1970-01-01')
+                $('#startDate').val(data.startDateCv);
+            else
+                $('#startDate').val('');
+            if (data.stopDate != '0000-00-00' && data.stopDate != '1970-01-01')
+                $('#stopDate').val(data.stopDateCv);
+            else
+                $('#stopDate').val('');
+            $('#staffId').val(data.staffId).trigger("change");
+            $('#departmentId').val(data.departmentId).trigger("change");
+            $('#position').val(data.position).trigger("change");
+            $('#branchId').val(data.branchId).trigger("change");
+            $('#type').val(data.type).trigger("change");
+            $('#status').val(data.status).trigger("change");
+            $('#description').val(data.description);
+            var basicPickr = $('.flatpickr-basic');
+            if (basicPickr.length) {
+                basicPickr.flatpickr({
+                    dateFormat: "d/m/Y",
+                    onReady: function (selectedDates, dateStr, instance) {
+                        if (instance.isMobile) {
+                            $(instance.mobileInput).attr("step", null);
+                        }
+                    }
+                });
+            }
+            url = baseHome + '/laborcontracts/update?id=' + id;
         },
         error: function () {
             notify_error('Lỗi truy xuất database');
@@ -289,36 +313,34 @@ function loaddata(id) {
     });
 }
 
-function savekh() {
+function save() {
     var info = {};
     info.name = $("#name").val();
-    info.luong_co_ban = $("#luong_co_ban").val();
-    info.ty_le_luong = $("#ty_le_luong").val();
-    info.luong_bao_hiem = $("#luong_bao_hiem").val();
-    info.phu_cap = $("#phu_cap").val();
-    info.ngay_di_lam = $("#ngay_di_lam").val();
-    info.ngay_ket_thuc = $("#ngay_ket_thuc").val();
-    info.nhan_vien = $("#nhan_vien").val();
-    info.phong_ban = $("#phong_ban").val();
-    info.vi_tri = $("#vi_tri").val();
-    info.chi_nhanh = $("#chi_nhanh").val();
-    info.loai = $("#loai").val();
-    info.ca = $("#ca").val();
-    info.tinh_trang = $("#tinh_trang").val();
-    info.ghi_chu = $("#ghi_chu").val();
+    info.basicSalary = $("#basicSalary").val();
+    info.salaryPercentage = $("#salaryPercentage").val();
+    info.insuranceSalary = $("#insuranceSalary").val();
+    info.allowance = $("#allowance").val();
+    info.startDate = $("#startDate").val();
+    info.stopDate = $("#stopDate").val();
+    info.staffId = $("#staffId").val();
+    info.departmentId = $("#departmentId").val();
+    info.position = $("#position").val();
+    info.branchId = $("#branchId").val();
+    info.type = $("#type").val();
+    info.status = $("#status").val();
+    info.description = $("#description").val();
     $.ajax({
         type: "POST",
         dataType: "json",
         data: info,
         url: url,
         success: function (data) {
-            if (data.success) {
-                notyfi_success(data.msg);
-                $('#updateinfo').modal('hide');
+            if (data.code == 200) {
+                notyfi_success(data.message);
+                $('#add-contract').modal('hide');
                 $(".user-list-table").DataTable().ajax.reload(null, false);
-            }
-            else
-                notify_error(data.msg);
+            } else
+                notify_error(data.message);
         },
         error: function () {
             notify_error('Cập nhật không thành công');
@@ -341,25 +363,18 @@ function xoa(id) {
     }).then(function (result) {
         if (result.value) {
             $.ajax({
-                url: baseHome + "/hopdongld/del",
+                url: baseHome + "/laborcontracts/del",
                 type: 'post',
                 dataType: "json",
-                data: { id: id },
+                data: {id: id},
                 success: function (data) {
-                    if (data.success) {
-                        notyfi_success(data.msg);
+                    if (data.code == 200) {
+                        notyfi_success(data.message);
                         $(".user-list-table").DataTable().ajax.reload(null, false);
-                    }
-                    else
-                        notify_error(data.msg);
+                    } else
+                        notify_error(data.message);
                 },
             });
         }
     });
-}
-
-function changePB() {
-    var opt = $("#phong_ban").val();
-    return_combobox_multi('#vi_tri', baseHome + '/vitri/combo?phongban=' + opt, 'Lựa chọn vị trí');
-    $('#vi_tri').val('').attr("disabled", false);
 }

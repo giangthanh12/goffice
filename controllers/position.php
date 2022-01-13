@@ -1,12 +1,12 @@
 <?php
-class vitri extends Controller{
+class position extends Controller{
     function __construct(){
         parent::__construct();
     }
 
     function index(){
         require "layouts/header.php";
-        $this->view->render("vitri/index");
+        $this->view->render("position/index");
         require "layouts/footer.php";
     }
 
