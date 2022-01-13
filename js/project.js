@@ -198,8 +198,8 @@ $(function () {
             $('#level').val('').change();
             $('#status').val('').change();
             load_select2(taskAssignSelect, baseHome + "/project/getStaff",'Người quản lý dự án');
-            load_select2($('#assigneeId'), baseHome + "/project/getStaff",'');
-            $('#assigneeId').val([]).change();
+            load_select2($('#memberId'), baseHome + "/project/getStaff",'');
+            $('#memberId').val([]).change();
             userFuns.forEach(function(item,value) {
             if (item.function == 'add') {
                 $('#updateProject').attr('style','display:inline-block');
@@ -232,7 +232,7 @@ $(function () {
                 "managerId": {
                     required: true,
                 },
-                "assigneeId": {
+                "memberId": {
                     required: true,
                 },
                 "task-due-date": {
@@ -247,7 +247,7 @@ $(function () {
             if (isValid) {
                 var name = $('#name').val();
                 var managerId = $("#managerId").val();
-                var assigneeId = $('#assigneeId').val();
+                var memberId = $('#memberId').val();
                 var process = $("#process").val();
                 var date = $(".sidebar-todo-modal .task-due-date").val();
                 var description = taskDesc.find(".ql-editor p").html();
@@ -258,7 +258,7 @@ $(function () {
                 $.ajax({
                     type: "POST",
                     dataType: "json",
-                    data: { id: id, name: name, assigneeId:assigneeId, managerId: managerId, process: process, level: level, date: date, description: description, status:status },
+                    data: { id: id, name: name, memberId:memberId, managerId: managerId, process: process, level: level, date: date, description: description, status:status },
                     url: baseHome + "/project/update",
                     success: function (data) {
                         if (data.success == true) {
@@ -321,9 +321,9 @@ $(function () {
                         $('#level').val(obj.level).change();
                         $('#process').val(obj.process);
                         load_select2(taskAssignSelect, baseHome + "/project/getStaff",'Người quản lý dự án');
-                        load_select2($('#assigneeId'), baseHome + "/project/getStaff",'');
+                        load_select2($('#memberId'), baseHome + "/project/getStaff",'');
                         $(taskAssignSelect).val(obj.managerId);
-                        $('#assigneeId').val(obj.assigneeId);
+                        $('#memberId').val(obj.memberId);
                         changeColorLevel();
                         changeColorStatus();
                     }

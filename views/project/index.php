@@ -99,9 +99,9 @@
                                     
                                             
                                                 <div class="form-group">
-                                                <label for="assigneeId">Giao cho</label>
+                                                <label for="memberId">Giao cho</label>
                                                     <select class="select2 form-control" multiple="multiple"
-                                                            id="assigneeId" name="assigneeId">
+                                                            id="memberId" name="memberId">
                                                     
                                                     </select>
                                                 </div>
