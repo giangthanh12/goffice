@@ -97,7 +97,7 @@
                                             $avatar = URLFILE . '/' . $item['avatar'];
                                         else
                                             $avatar = HOME . '/layouts/useravatar.png';
-                                        echo '<option data-img="' . $avatar . '" value="' . $item['id'] . '" ' . $selected . '>' . $item['name'] . '</option>';
+                                        echo '<option data-img="' . $avatar . '" value="' . $item['id'] . '" >' . $item['name'] . '</option>';
                                     }
                                     ?>
                                 </select>
