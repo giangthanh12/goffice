@@ -1,4 +1,4 @@
-<script src="<?= HOME ?>/js/vitri.js"></script>
+<script src="<?= HOME ?>/js/position.js"></script>
 <div class="app-content content">
     <div class="content-overlay"></div>
     <div class="header-navbar-shadow"></div>
@@ -14,9 +14,9 @@
                             <thead class="thead-light">
                                 <tr>
                                     <th></th>
-                                    <th>Tên gọi</th>
-                                    <th>Phòng ban</th>
-                                    <th></th>
+                                    <th>Tên vị trí</th>
+<!--                                    <th>Phòng ban</th>-->
+<!--                                    <th></th>-->
                                     <th>...</th>
                                 </tr>
                             </thead>
@@ -42,8 +42,8 @@
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <label for="phong_ban">Phòng ban</label>
-                                                    <select id="phong_ban" class="select2 form-control" name="phong_ban">
+                                                    <label for="departmentId">Phòng ban</label>
+                                                    <select id="departmentId" class="select2 form-control" name="departmentId">
                                                     </select>
                                                 </div>
 

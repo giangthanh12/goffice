@@ -1,6 +1,6 @@
 var url = '';
 $(function () {
-    return_combobox_multi('#phong_ban', baseHome + '/phongban/combo', 'Lựa chọn phòng ban');
+    return_combobox_multi('#departmentId', baseHome + '/phongban/combo', 'Lựa chọn phòng ban');
 
     "use strict";
 
@@ -12,14 +12,14 @@ $(function () {
     if (dtUserTable.length) {
         dtUserTable.DataTable({
             // ajax: assetPath + "data/user-list.json", // JSON file to add data
-            ajax: baseHome + "/vitri/list",
+            ajax: baseHome + "/position/list",
             columns: [
                 // columns according to JSON
-                { data: "id" },
-                { data: "name" },
-                { data: "phongban" },
-                { data: "department" },
-                { data: "" },
+                {data: "id"},
+                {data: "name"},
+                // {data: "departmentName"},
+                // {data: "department"},
+                {data: ""},
             ],
             columnDefs: [
                 {
@@ -28,13 +28,9 @@ $(function () {
                     visible: false,
                 },
                 {
-                    targets: 3,
-                    visible: false,
-                },
-                {
                     // Actions
                     targets: -1,
-                    title: feather.icons["database"].toSvg({ class: "font-medium-3 text-success mr-50" }),
+                    title: feather.icons["database"].toSvg({class: "font-medium-3 text-success mr-50"}),
                     orderable: false,
                     render: function (data, type, full, meta) {
                         var html = '';
@@ -81,8 +77,8 @@ $(function () {
                         $("#updateinfo").modal('show');
                         $(".modal-title").html('Thêm vị trí mới');
                         $('#name').val('');
-                        $('#phong_ban').val('').change();
-                        url = baseHome + "/vitri/add";
+                        $('#departmentId').val('').change();
+                        url = baseHome + "/position/add";
                     },
                 },
             ],
@@ -142,13 +138,13 @@ function loaddata(id) {
     $.ajax({
         type: "POST",
         dataType: "json",
-        data: { id: id },
-        url: baseHome + "/vitri/loaddata",
+        data: {id: id},
+        url: baseHome + "/position/loaddata",
         success: function (data) {
             $('#name').val(data.name);
-            $('#phong_ban').val(data.department).change();
+            $('#departmentId').val(data.department).change();
 
-            url = baseHome + '/vitri/update?id=' + id;
+            url = baseHome + '/position/update?id=' + id;
         },
         error: function () {
             notify_error('Lỗi truy xuất database');
@@ -159,7 +155,7 @@ function loaddata(id) {
 function savevt() {
     var info = {};
     info.name = $("#name").val();
-    info.phong_ban = $("#phong_ban").val();
+    info.departmentId = $("#departmentId").val();
     $.ajax({
         type: "POST",
         dataType: "json",
@@ -170,8 +166,7 @@ function savevt() {
                 notyfi_success(data.msg);
                 $('#updateinfo').modal('hide');
                 $(".user-list-table").DataTable().ajax.reload(null, false);
-            }
-            else
+            } else
                 notify_error(data.msg);
         },
         error: function () {
@@ -195,16 +190,15 @@ function xoa(id) {
     }).then(function (result) {
         if (result.value) {
             $.ajax({
-                url: baseHome + "/vitri/del",
+                url: baseHome + "/position/del",
                 type: 'post',
                 dataType: "json",
-                data: { id: id },
+                data: {id: id},
                 success: function (data) {
                     if (data.success) {
                         notyfi_success(data.msg);
                         $(".user-list-table").DataTable().ajax.reload(null, false);
-                    }
-                    else
+                    } else
                         notify_error(data.msg);
                 },
             });

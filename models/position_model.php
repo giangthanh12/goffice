@@ -1,5 +1,5 @@
 <?php
-class vitri_Model extends Model{
+class position_Model extends Model{
     function __construct(){
         parent::__construct();
     }
@@ -16,8 +16,7 @@ class vitri_Model extends Model{
     }
 
     function listObj(){
-        $query = $this->db->query("SELECT *,
-            (SELECT name FROM department WHERE id = a.department) AS phongban
+        $query = $this->db->query("SELECT *
             FROM position a WHERE status > 0 ORDER BY id DESC ");
         $result['data'] = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;

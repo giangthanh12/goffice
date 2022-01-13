@@ -207,6 +207,7 @@ $(function () {
         deadLinePickr.flatpickr({
             dateFormat: "d/m/Y",
             defaultDate: "today",
+            minDate:"today",
             onReady: function (selectedDates, dateStr, instance) {
                 if (instance.isMobile) {
                     $(instance.mobileInput).attr("step", null);
