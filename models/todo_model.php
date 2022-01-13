@@ -39,7 +39,7 @@ class todo_Model extends Model
     function getProject($staffId)
     {
         $employee = '"' . $staffId . '"';
-        $dieukien = " WHERE status>0 AND (assigneeId LIKE '%$staffId%' OR managerId=$staffId)";
+        $dieukien = " WHERE status>0 AND (memberId LIKE '%$staffId%' OR managerId=$staffId)";
         $query = $this->db->query("SELECT *,(SELECT color FROM projectlevels WHERE id=level) as color FROM projects $dieukien ORDER BY id DESC ");
       //  echo "SELECT id, name FROM projects $dieukien ORDER BY id DESC ";
         $data = $query->fetchAll(PDO::FETCH_ASSOC);

@@ -39,10 +39,9 @@ class project extends Controller
     function update() {
         $id = $_REQUEST['id'];
         if(functions::checkFuns(self::$funcs,'add') && $id == 0) {
-            $assignerId = $_SESSION['user']['staffId'];
             $name = $_REQUEST['name'];
             $managerId = $_REQUEST['managerId'];
-            $assigneeId = str_replace(']','',str_replace('[', '', json_encode($_REQUEST['assigneeId'])));
+            $memberId = str_replace(']','',str_replace('[', '', json_encode($_REQUEST['memberId'])));
             $process = !empty($_REQUEST['process']) ? $_REQUEST['process'] : 0;
             $level = $_REQUEST['level'];
             $description = $_REQUEST['description'];
@@ -51,8 +50,7 @@ class project extends Controller
             $deadline = date("Y-m-d",strtotime(str_replace('/', '-',$_REQUEST['date'])));
             $data = array(
                 'name'=>$name,
-                'assigneeId'=>$assigneeId,
-                'assignerId'=> $assignerId,
+                'memberId'=>$memberId,
                 'managerId'=> $managerId,
                 'process'=>$process,
                 'level'=>$level,
@@ -65,10 +63,9 @@ class project extends Controller
           $result = $this->model->updateProject($id,$data); // vừa update vừa insert,
         }
         else if(functions::checkFuns(self::$funcs,'loaddata') && $id > 0) {
-            $assignerId = $_SESSION['user']['staffId'];
             $name = $_REQUEST['name'];
             $managerId = $_REQUEST['managerId'];
-            $assigneeId = implode(',',$_REQUEST['assigneeId']);
+            $memberId = implode(',',$_REQUEST['memberId']);
             $process = !empty($_REQUEST['process']) ? $_REQUEST['process'] : 0;
             $level = $_REQUEST['level'];
             $description = $_REQUEST['description'];
@@ -77,8 +74,7 @@ class project extends Controller
             $deadline = date("Y-m-d",strtotime(str_replace('/', '-',$_REQUEST['date'])));
             $data = array(
                 'name'=>$name,
-                'assigneeId'=>$assigneeId,
-                'assignerId'=> $assignerId,
+                'memberId'=>$memberId,
                 'managerId'=> $managerId,
                 'process'=>$process,
                 'level'=>$level,
@@ -107,7 +103,7 @@ class project extends Controller
     function getitem() {
         $id = $_REQUEST['id'];
         $data = $this->model->getProjectById($id);
-        $data['assigneeId'] =  explode(',',str_replace('"','',$data['assigneeId']) );
+        $data['memberId'] =  explode(',',str_replace('"','',$data['memberId']) );
         echo json_encode($data);
     }
 
