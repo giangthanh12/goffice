@@ -8,10 +8,10 @@ class laborcontracts extends Controller
     {
         parent::__construct();
         $model = new model();
-        $checkMenuRole = $model->checkMenuRole('position');
+        $checkMenuRole = $model->checkMenuRole('laborcontracts');
         if ($checkMenuRole == false)
             header('location:' . HOME);
-        $funcs = $model->getFunctions('position');
+        $funcs = $model->getFunctions('laborcontracts');
         foreach ($funcs as $item) {
             if ($item['function'] == 'add')
                 self::$funAdd = 1;

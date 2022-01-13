@@ -82,21 +82,44 @@ class group_roles extends Controller{
         $json = $this->model->getMenusByGroup($groupId);
         echo json_encode($json);
     }
+//
+//    function setFunctionRole(){
+//        $groupId = isset($_REQUEST['groupId']) ? $_REQUEST['groupId'] : 0;
+//        $funcId = isset($_REQUEST['funcId']) ? $_REQUEST['funcId'] : 0;
+//        $check = isset($_REQUEST['check']) ? $_REQUEST['check'] : 0;
+//        $this->model->setFunctionRole($groupId,$funcId,$check);
+//        echo $funcId;
+//    }
 
-    function setFunctionRole(){
-        $groupId = isset($_REQUEST['groupId']) ? $_REQUEST['groupId'] : 0;
-        $funcId = isset($_REQUEST['funcId']) ? $_REQUEST['funcId'] : 0;
-        $check = isset($_REQUEST['check']) ? $_REQUEST['check'] : 0;
-        $this->model->setFunctionRole($groupId,$funcId,$check);
-        echo $funcId;
-    }
+//    function setMenuRole(){
+//        $groupId = isset($_REQUEST['groupId']) ? $_REQUEST['groupId'] : 0;
+//        $menuId = isset($_REQUEST['menuId']) ? $_REQUEST['menuId'] : 0;
+//        $check = isset($_REQUEST['check']) ? $_REQUEST['check'] : 0;
+//        if($groupId>0 && $menuId>0)
+//        $this->model->setMenuRole($groupId,$menuId,$check);
+//    }
 
-    function setMenuRole(){
+    function updateRoles(){
+        $listMenus = isset($_REQUEST['menus']) ? $_REQUEST['menus'] : [];
+        $listFuncs = isset($_REQUEST['functions']) ? $_REQUEST['functions'] : [];
         $groupId = isset($_REQUEST['groupId']) ? $_REQUEST['groupId'] : 0;
-        $menuId = isset($_REQUEST['menuId']) ? $_REQUEST['menuId'] : 0;
-        $check = isset($_REQUEST['check']) ? $_REQUEST['check'] : 0;
-        if($groupId>0 && $menuId>0)
-        $this->model->setMenuRole($groupId,$menuId,$check);
+        $menus = '';
+        $functions = '';
+        if(count($listMenus)>0){
+            $menus = implode($listMenus,",");
+        }
+        if(count($listFuncs)>0){
+            $functions = implode($listFuncs,",");
+        }
+        $data = ['menuIds'=>$menus,'functionIds'=>$functions];
+        if($this->model->updateGroupRole($groupId, $data)){
+            $jsonObj['message'] = "Cập nhật thành công";
+            $jsonObj['code'] = 200;
+        }else{
+            $jsonObj['message'] = "Cập nhật không thành công";
+            $jsonObj['code'] = 401;
+        }
+        echo json_encode($jsonObj);
     }
 
 
