@@ -320,4 +320,4 @@
         </div>
     </div>
 </div>
-<script src="<?= HOME ?>/styles/app-assets/js/scripts/pages/lead-temp.js"></script>
+<script src="<?= HOME ?>/js/leadtemp.js"></script>
