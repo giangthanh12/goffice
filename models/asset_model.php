@@ -52,8 +52,8 @@ class asset_model extends Model{
         $query1 = $this->db->query("SELECT so_luong,sl_tonkho FROM taisan WHERE id = $id");
         $temp = $query1->fetchAll(PDO::FETCH_ASSOC);
 
-        $sl_chenh = $data['so_luong'] - $temp[0]['so_luong'];
-        $data['sl_tonkho'] = $temp[0]['sl_tonkho'] + $sl_chenh;
+        // $sl_chenh = $data['so_luong'] - $temp[0]['so_luong'];
+        // $data['sl_tonkho'] = $temp[0]['sl_tonkho'] + $sl_chenh;
         $data['so_tien'] = str_replace( ',', '', $data['so_tien']);
         $query = $this->update("taisan",$data,"id = $id");
         return $query;
@@ -105,19 +105,9 @@ class asset_model extends Model{
 
 
 
-    function baohong($id, $data)
+    function alertBroken($id, $data)
     {
-        //lay ra so luong cu
-        $query1 = $this->db->query("SELECT sl_mat,sl_honghoc,so_luong,sl_tonkho FROM taisan WHERE id = $id");
-        $temp = $query1->fetchAll(PDO::FETCH_ASSOC);
-
-        if($data['status'] == 0){
-            $data1['sl_honghoc'] = $temp[0]['sl_honghoc'] + $data['so_luong_hong'];
-        }else{
-            $data1['sl_mat'] = $temp[0]['sl_mat'] + $data['so_luong_hong'];
-            // $data1['sl_tonkho'] = $temp[0]['sl_tonkho'] - $data['so_luong_hong'];
-        }
-        $query = $this->update("taisan",$data1,"id = $id");
+        $query = $this->update("taisan",$data,"id = $id");
         return $query;
     }
     

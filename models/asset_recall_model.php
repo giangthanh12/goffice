@@ -1,5 +1,5 @@
 <?php
-class Taisanthuhoi_model extends Model{
+class asset_recall_model extends Model{
     function __construst(){
         parent::__construst();
     }
@@ -7,7 +7,9 @@ class Taisanthuhoi_model extends Model{
     function listObj(){
         $query = $this->db->query("SELECT *,
         IFNULL((SELECT name FROM taisan WHERE tai_san = taisan.id AND tinh_trang > 0), 'No Name') AS name_taisan ,
-        IFNULL((SELECT name FROM taisan_capphat WHERE cap_phat = taisan_capphat.id AND tinh_trang > 0), 'No Name') AS name_cp 
+        IFNULL((SELECT name FROM taisan_capphat WHERE cap_phat = taisan_capphat.id AND tinh_trang = 2), 'No Name') AS name_cp,
+        
+        DATE_FORMAT(ngay_gio,'%d-%m-%Y') as ngay_gio 
          FROM taisan_thuhoi WHERE tinh_trang > 0 order by ngay_gio desc");
         $result['data'] = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;
@@ -31,7 +33,8 @@ class Taisanthuhoi_model extends Model{
 
     function getdata($id){
         $result = array();
-        $query = $this->db->query("SELECT * FROM taisan_thuhoi WHERE id = $id");
+        $query = $this->db->query("SELECT *,
+        DATE_FORMAT(ngay_gio,'%d-%m-%Y') as ngay_gio FROM taisan_thuhoi WHERE id = $id");
         $temp = $query->fetchAll(PDO::FETCH_ASSOC);
         $result = $temp[0];
         return $result;

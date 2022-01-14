@@ -1,12 +1,12 @@
 <?php
-class Taisanthuhoi extends Controller{
+class asset_recall extends Controller{
     function __construct(){
         parent::__construct();
     }
 
     function index(){
         require "layouts/header.php";
-        $this->view->render("taisanthuhoi/index");
+        $this->view->render("asset_recall/index");
         require "layouts/footer.php";
     }
 
@@ -23,20 +23,16 @@ class Taisanthuhoi extends Controller{
         $json = $this->model->getdata($id);
         echo json_encode($json);
     }
-
-    
-
     function update()
     {
         $id = $_REQUEST['id'];
        $data = array(
             'tai_san' => $_REQUEST['id_ts'],
             'cap_phat' => $_REQUEST['id_cp'],
-            'so_luong' => $_REQUEST['so_luong'],
-            'ngay_gio' => $_REQUEST['ngay_gio'],
+            'so_luong' => 1,
+            'ngay_gio' => date('Y-m-d', strtotime($_REQUEST['ngay_gio'])),
             'tra_coc' => $_REQUEST['tra_coc'],
             'ghi_chu' => $_REQUEST['ghi_chu'],
-            
         );
         if($this->model->updateObj($id, $data)){
             $jsonObj['msg'] = 'Cập nhật dữ liệu thành công';
