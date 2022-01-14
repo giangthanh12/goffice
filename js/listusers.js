@@ -355,6 +355,7 @@ function deleteUser(id) {
 }
 
 function setFunctionRole(funcId,userId,check){
+
     if(check){
         $arrFunc.push(funcId);
     }else{
@@ -363,6 +364,7 @@ function setFunctionRole(funcId,userId,check){
             $arrFunc.splice(index, 1);
         }
     }
+    
     // $.ajax({
     //     url: baseHome + "/listusers/setFunctionRole",
     //     type: 'post',

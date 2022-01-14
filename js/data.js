@@ -80,6 +80,7 @@ $(function () {
                     // For Checkboxes
                     targets: 1,
                     render: function (data, type, full, meta) {
+                      
                         return (
                             '<div class="custom-control custom-checkbox"> <input class="custom-control-input dt-checkboxes" type="checkbox" value="" id="checkbox' +
                             data +
@@ -481,12 +482,15 @@ function chiadata() {
     $("#chiacho").val('').change();
     var table = $(".user-list-table").DataTable();
     var rows = table.column(1).checkboxes.selected();
+    
+ 
     var listdata = '';
     rows.each(function (item) {
         listdata += item + ',';
     })
+    console.log(listdata);
     listdata = listdata.slice(0, -1);
-
+     
     if (rows.length > 0) {
         $("#chiadata").modal('show');
         $("#modal-title4").html('Chia data');

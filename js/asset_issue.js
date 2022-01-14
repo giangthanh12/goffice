@@ -19,6 +19,25 @@ $(function () {
             defaultDate: "today",
         });
     }
+
+    var button = [];
+    let i = 0;
+    userFuns.forEach(function (item,index){
+        if(item.type==1) {
+            button[i] = {
+                text: item.name,
+                className: "add-new btn btn-" + item.color + " mt-50",
+                init: function (api, node, config) {
+                    $(node).removeClass("btn-secondary");
+                },
+                action: function (e, dt, node, config) {
+                    actionMenu(item.function);
+                }
+            };
+            i++;
+        }
+    })
+
     // Users List datatable
     if (dtUserTable.length) {
         
@@ -88,20 +107,31 @@ $(function () {
                         html += '<div class="width-200">'
 
                         if(full['tinh_trang'] != 2) {
-                            html += '<button type="button" class="btn btn-icon btn-outline-warning waves-effect" data-toggle="modal" data-target="#thuhoi" title="Thu hồi" onclick="loadthuhoi(' + full["id"] + ')">';
+                            userFuns.forEach(function (item){
+                                if(item.function=='loadRecallAsset') {
+                            html += '<button type="button" class="btn btn-icon btn-outline-warning waves-effect" data-toggle="modal" data-target="#thuhoi" title="Thu hồi" onclick="loadRecallAsset(' + full["id"] + ')">';
                             html += 'Thu hồi';
                             html += '</button> &nbsp;';
+                            }
+                        });
                         }
                         
+                        userFuns.forEach(function (item){
+                            if(item.function=='loaddata') {
+                                    html += '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" data-toggle="modal" data-target="#updateinfo" title="Chỉnh sửa" onclick="loaddata(' + full['id'] + ')">';
+                                    html += '<i class="fas fa-pencil-alt"></i>';
+                                    html += '</button> &nbsp;';
+                                }
+                                });
 
-
-
-                        html += '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" data-toggle="modal" data-target="#updateinfo" title="Chỉnh sửa" onclick="loaddata(' + full['id'] + ')">';
-                        html += '<i class="fas fa-pencil-alt"></i>';
-                        html += '</button> &nbsp;';
-                        html += '<button type="button" class="btn btn-icon btn-outline-danger waves-effect" title="Xóa" onclick="xoa(' + full['id'] + ')">';
-                        html += '<i class="fas fa-trash-alt"></i>';
-                        html += '</button></div>';
+                        
+                        userFuns.forEach(function (item){
+                            if(item.function=='del') {
+                                html += '<button type="button" class="btn btn-icon btn-outline-' + item.color + ' waves-effect"  title="'+item.name+'" onclick="' + item.function + '(' + full['id'] + ')">';
+                                html += '<i class="' + item.icon + '"></i>';
+                                html += '</button> &nbsp;';
+                            }
+                        });
                         return html;
                     },
                     
@@ -123,31 +153,7 @@ $(function () {
                 searchPlaceholder: "11111111112..",
             },
             // Buttons with Dropdown
-            buttons: [
-                {
-                    text: "Thêm mới",
-                    className: "add-new btn btn-primary mt-50",
-                    init: function (api, node, config) {
-                        $(node).removeClass("btn-secondary");
-                    },
-                    action: function (e, dt, node, config) {
-                        $("#tai_san").attr("disabled", false);
-                        return_combobox_multi('#tai_san', baseHome + '/asset_issue/getAsset', 'Tài sản');
-                        var validator = $( "#dg" ).validate(); // reset form
-                        validator.resetForm();
-                        $(".error").removeClass("error"); // loại bỏ validate
-                        $("#updateinfo").modal('show');
-                        $(".modal-title").html('Thêm mới tài sản cấp phát cho nhân viên');
-                        $('#id_ts').val('');
-                        $('#nhan_vien').val('').change();
-                        $('#tai_san').val('').change();
-                        $('#dat_coc').val('');
-                        $('#ghi_chu').val('');
-                        url = baseHome + "/asset_issue/add";
-                    },
-                },
-            ],
-
+            buttons: [button],
             language: {
                 paginate: {
                     // remove previous & next text from pagination
@@ -160,7 +166,29 @@ $(function () {
 
     }
 
-
+    function actionMenu(func){
+        if(func=='add') {
+            $("#btn_add").css("display", "inline-block");
+            add();
+        }
+            
+    }
+    function add(){
+      
+        $("#tai_san").attr("disabled", false);
+        return_combobox_multi('#tai_san', baseHome + '/asset_issue/getAsset', 'Tài sản');
+        var validator = $( "#dg" ).validate(); // reset form
+        validator.resetForm();
+        $(".error").removeClass("error"); // loại bỏ validate
+        $("#updateinfo").modal('show');
+        $(".modal-title").html('Thêm mới tài sản cấp phát cho nhân viên');
+        $('#id_ts').val('');
+        $('#nhan_vien').val('').change();
+        $('#tai_san').val('').change();
+        $('#dat_coc').val('');
+        $('#ghi_chu').val('');
+        url = baseHome + "/asset_issue/add";
+    }
 
 
 
@@ -207,6 +235,13 @@ $(function () {
 });
 
 function loaddata(id) {
+    $("#btn_add").css("display", "none");
+    userFuns.forEach(function (item){
+        if(item.function == 'loaddata') { 
+            $("#btn_add").css("display", "inline-block");
+        }
+    });
+    
     var validator = $( "#dg" ).validate(); // reset form
     validator.resetForm();
     $(".error").removeClass("error"); // loại bỏ validate
@@ -235,7 +270,7 @@ function loaddata(id) {
     });
 }
 
-function loadthuhoi(id) {
+function loadRecallAsset(id) {
     return_combobox_multi('#tai_san_th', baseHome + '/asset_issue/getAllAsset', 'Tài sản');
     return_combobox_multi('#nhan_vien_th', baseHome + '/asset_issue/getStaff', 'Nhân viên');
     $(".modal-title").html('Thu hồi tài sản');
@@ -311,7 +346,7 @@ function saveth() {
 }
 
 
-function xoa(id) {
+function del(id) {
     Swal.fire({
         title: 'Xóa dữ liệu',
         text: "Bạn có chắc chắn muốn xóa!",

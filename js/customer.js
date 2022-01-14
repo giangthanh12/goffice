@@ -11,7 +11,8 @@ $(function () {
     return_combobox_multi('#nationalId1', baseHome + '/customer/getNational', 'Chọn quốc gia');
     return_combobox_multi('#provinceId', baseHome + '/customer/getProvince', 'Chọn tỉnh thành');
     return_combobox_multi('#provinceId1', baseHome + '/customer/getProvince', 'Chọn tỉnh thành');
-    return_combobox_multi('#provinceId2', baseHome + '/customer/getProvince', 'Chọn tỉnh thành');
+    // return_combobox_multi('#provinceId2', baseHome + '/customer/getProvince', 'Chọn tỉnh thành');
+    load_select2($('#provinceId2'), baseHome + '/customer/getProvince','Chọn tỉnh thành');
     $('#provinceId2').val('').change();
     $('#classify').select2({
         placeholder: 'Phân loại khách hàng',
@@ -21,7 +22,11 @@ $(function () {
         placeholder: 'Loại hình hoạt động',
         dropdownParent: $('#type').parent(),
     });
-
+    $("#classify3").select2({
+        placeholder: 'Phân loại khách hàng',
+        dropdownParent: $("#classify3").parent(),
+    });
+    $("#classify3").val('').change();
     $('#type2').select2({
         placeholder: 'Loại hình hoạt động',
         dropdownParent: $('#type2').parent(),
@@ -49,7 +54,7 @@ $(function () {
                 { data: "field"},
                 { data: "classify"},
                 { data: "type"},
-                { data: "province"},
+                { data: "provinceId"},
                 { data: "address"},
                 { data: "" },
             ],
@@ -196,41 +201,6 @@ $(function () {
                 },
             ],
 
-            initComplete: function () {
-                // Adding role filter once table initialized
-             var api =   this.api();
-                 api.columns(5)
-                    .every(function () {
-                        var column = this;
-                     
-                        $("#classify2").select2({
-                                placeholder: 'Phân loại khách hàng',
-                                dropdownParent: $("#classify2").parent(),
-                            });
-                            $("#classify2").on("change", function () {
-                                var val = $.fn.dataTable.util.escapeRegex($(this).val());
-                                column.search(val ? "^" + val + "$" : "", true, false).draw();
-                            });
-
-                        column
-                            .data()
-                            .unique()
-                            .sort()
-                            .each(function (d, j) {
-                                var $stt_output = "";
-                                if (d == 1) {
-                                    $stt_output = "Khách hàng";
-                                } else if (d == 2) {
-                                    $stt_output = "Đối tác";
-                                }
-                                if ($stt_output != '') {
-                                    $("#classify2").append('<option value="' + d + '" class="text-capitalize">' + $stt_output + "</option>");
-                                }
-                            });
-                           
-                            $("#classify2").val('').change(); // sau khi thêm option mới thêm val('');
-                    });
-            },
         });
 
     }
@@ -238,18 +208,51 @@ $(function () {
     // lọc tỉnh
 
     $('#provinceId2').change(function() {
-        table.column($(this).data('column'))
-             .search($(this).val())
-             .draw()
+             if($(this).val() == 0) {
+                table.column($(this).data('column'))
+                .search('')
+                 .draw()
+            }
+            else {
+                table.column($(this).data('column'))
+                .search($(this).val())
+                .draw()
+            }
     })
+   // lọc phân loại
+    $('#classify3').change(function() {
+        if($(this).val() == 0) {
+            table.column($(this).data('column'))
+            .search('')
+             .draw()
+        }
+        else {
+            table.column($(this).data('column'))
+            .search($(this).val())
+            .draw()
+        }
+       
+    })
+
 
     // lọc loại hình hoạt động
-
     $('#type2').change(function() {
-        table.column($(this).data('column'))
-             .search($(this).val())
+      
+        if($(this).val() == 0) {
+            table.column($(this).data('column'))
+            .search('')
              .draw()
+        }
+        else {
+            table.column($(this).data('column'))
+            .search($(this).val())
+            .draw()
+        }
+       
     })
+    // 
+
+    
 
     // Check Validity
     function checkValidity(el) {
@@ -361,7 +364,7 @@ function loaddata(id) {
             $('#classify1').val(data.classify);
             $('#type1').val(data.type).change();
             $('#nationalId1').val(data.nationalId).change();
-            $('#provinceId1').val(data.province).change();
+            $('#provinceId1').val(data.provinceId).change();
             $('#status1').val(data.status).attr("disabled", true);
             loaddichvu(id);
             loadTransaction(id);
@@ -574,7 +577,6 @@ function saveedit() {
         }
     });
 }
-
 function del(id) {
     Swal.fire({
         title: 'Xóa dữ liệu',
@@ -636,11 +638,28 @@ function savenhap() {
     });
 }
 
-
-
-
-
-
-
-
-
+function load_select2(select2, url, place) {
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        async: false,
+        url: url,
+        success: function (data) {
+           var html ='';
+            if(place != '')
+            html = '<option value="0" >Tất cả</option>';
+            data.forEach(function (element, index) {
+                if (element.selected==true) 
+                var select = 'selected';
+                html += `<option data-img="${element.hinh_anh}" ${select} value="${element.id}">${element.text}</option> `;
+            });
+     
+            select2.html(html);
+            select2.wrap('<div class="position-relative"></div>').select2({
+                placeholder: place,
+                dropdownParent: select2.parent(),
+              
+            });
+        },
+    });
+}

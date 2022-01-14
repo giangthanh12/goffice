@@ -80,7 +80,7 @@
                                             <textarea id="ghi_chu" class="form-control" name="ghi_chu"></textarea>
                                         </div>
 
-                                        <button type="submit" id="btn_add" class="btn btn-primary mr-1 data-submit">Lưu</button>
+                                        <button type="submit" id="btn_add" style="display:none" class="btn btn-primary mr-1 data-submit">Lưu</button>
 
                                     <button type="reset" class="btn btn-outline-secondary" data-dismiss="modal">Bỏ qua</button>
                                     </div>
@@ -165,4 +165,8 @@
         </div>
     </div>
 </div>
+<script>
+    var userFuns = JSON.parse('<?=json_encode($this->funs)?>');
+    console.log(userFuns);
+</script>
 <script src="<?= HOME ?>/js/asset_issue.js"></script>

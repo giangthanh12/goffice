@@ -102,7 +102,10 @@
                                                     </div>
 
                                                     <div class="col-12 d-flex flex-sm-row flex-column mt-2">
+                                                     
+                                                     
                                                         <button type="submit"  class="btn btn-add btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Cập nhật</button>
+                                                      
                                                         <button type="reset" class="btn btn-outline-secondary" data-dismiss="modal">Bỏ qua</button>
                                                     </div>
                                                 </div>
@@ -298,9 +301,9 @@
                                     
 
                                     <div class="col-12 d-flex flex-sm-row flex-column mt-2">
-
+                                       <?php if(functions::checkFuns($this->funs,'loaddata')) { ?>
                                         <button type="submit"  class="btn  btn-add btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Cập nhật</button>
-
+                                        <?php } ?>
                                         <button type="reset" class="btn btn-outline-secondary" data-dismiss="modal">Bỏ qua</button>
 
                                     </div>
@@ -395,4 +398,8 @@
         </div>
     </div>
 </div>
+<script>
+    var userFuns = JSON.parse('<?=json_encode($this->funs)?>');
+    console.log(userFuns);
+</script>
 <script src="<?= HOME ?>/js/asset.js"></script>
