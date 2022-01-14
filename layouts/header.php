@@ -121,28 +121,14 @@
                     </div>
                     <h6 class="align-self-center cursor-pointer ml-50 mb-0">+42</h6>
                 </div> -->
-            <!-- <ul class="nav navbar-nav bookmark-icons">
-                <li class="nav-item d-none d-lg-block">
-                    <a class="nav-link" href="app-email.html" data-toggle="tooltip" data-placement="top" title="Email">
-                        <i class="ficon" data-feather="mail"></i>
-                    </a>
+            <ul class="nav navbar-nav bookmark-icons">
+                <li class="nav-item d-lg-block">
+                    <button type="button" class="btn btn-warning m-0 p-75">
+                        <i data-feather='check' ></i>
+                        <span>Checkin</span>
+                    </button>
                 </li>
-                <li class="nav-item d-none d-lg-block">
-                    <a class="nav-link" href="chatbox" data-toggle="tooltip" data-placement="top" title="Chat">
-                        <i class="ficon" data-feather="message-square"></i>
-                    </a>
-                </li>
-                <li class="nav-item d-none d-lg-block">
-                    <a class="nav-link" href="app-calendar.html" data-toggle="tooltip" data-placement="top" title="Calendar">
-                        <i class="ficon" data-feather="calendar"></i>
-                    </a>
-                </li>
-                <li class="nav-item d-none d-lg-block">
-                    <a class="nav-link" href="app-todo.html" data-toggle="tooltip" data-placement="top" title="Todo">
-                        <i class="ficon" data-feather="check-square"></i>
-                    </a>
-                </li>
-            </ul> -->
+            </ul>
             <!-- <ul class="nav navbar-nav">
                 <li class="nav-item d-none d-lg-block">
                     <a class="nav-link bookmark-star">
