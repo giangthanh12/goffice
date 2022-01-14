@@ -1,5 +1,5 @@
-<link rel="stylesheet" type="text/css" href="<?= HOME ?>/styles/lead-temp.css">
-<link rel="stylesheet" type="text/css" href="<?= HOME ?>/styles/lead-temp-list.css">
+<link rel="stylesheet" type="text/css" href="<?= HOME ?>/styles/lead_temp.css">
+<link rel="stylesheet" type="text/css" href="<?= HOME ?>/styles/lead_temp_list.css">
 <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
 
 <div class="app-content content chat-application">
