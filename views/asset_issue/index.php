@@ -25,7 +25,7 @@
                                     <th>Mã cấp phát</th>
                                     <th>Tài sản</th>
                                     <th>Nhân viên</th>
-                                    <th>Số lượng</th>
+                                    <th>Trạng thái</th>
                                     <th>...</th>
                                 </tr>
                             </thead>
@@ -39,7 +39,6 @@
 
                             <form class="add-new-user modal-content pt-0" id="dg">
                                 <input type="hidden" name="id" id="id">
-                                <input type="hidden" name="id_ts" id="id_ts">
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">×</button>
 
                                 <div class="modal-header mb-1">
@@ -50,38 +49,38 @@
                                     <div class="row">
                                     <div class="col-lg-12 col-md-12">
                                         <div class="form-group">
-                                            <label class="form-label" for="fullname">Nhân viên</label>
-                                            <select name="nhan_vien" id="nhan_vien" class="select2-data-array  form-control" onchange="checkvali()"></select>
+                                            <label class="form-label" for="nhan_vien">Nhân viên</label>
+                                            <select name="nhan_vien" id="nhan_vien" class="select2 form-control"></select>
                                         </div>
 
                                         <div class="form-group">
-                                            <label class="form-label" for="dien_thoai">Tài sản</label>
-                                            <select name="tai_san" id="tai_san" class="select2-data-array  form-control" onchange="checkvali()"></select>
+                                            <label class="form-label" for="tai_san">Tài sản</label>
+                                            <select name="tai_san" id="tai_san" class="select2 form-control" ></select>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 col-md-6">
+                                    <!-- <div class="col-lg-6 col-md-6">
                                         <div class="form-group">
                                             <label for="hoten">Số lượng</label>
                                             <input id="so_luong" type="number" class="form-control" onkeyup="checkvali()" name="so_luong" min="1" />
                                         </div>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6">
+                                    </div> -->
+                                    <div class="col-lg-12 col-md-12">
                                         <div class="form-group">
-                                            <label for="hoten">Đặt cọc</label>
+                                            <label for="dat_coc">Đặt cọc</label>
                                             <input id="dat_coc" type="text" class="form-control format_number" name="dat_coc" />
                                         </div>
                                     </div>
                                     <div class="col-lg-12 col-md-12">
                                         <div class="form-group">
-                                            <label for="hoten">Ngày cấp</label>
+                                            <label for="ngay_gio">Ngày cấp</label>
                                             <input id="ngay_gio" type="text" class="form-control ngay_gio" name="ngay_gio" />
                                         </div>
                                         <div class="form-group">
-                                            <label for="hoten">Ghi chú</label>
+                                            <label for="ghi_chu">Ghi chú</label>
                                             <textarea id="ghi_chu" class="form-control" name="ghi_chu"></textarea>
                                         </div>
 
-                                        <button type="button" id="btn_add" class="btn btn-primary mr-1 data-submit" onclick="savetk()">Lưu</button>
+                                        <button type="submit" id="btn_add" class="btn btn-primary mr-1 data-submit">Lưu</button>
 
                                     <button type="reset" class="btn btn-outline-secondary" data-dismiss="modal">Bỏ qua</button>
                                     </div>
@@ -124,13 +123,8 @@
                                             <select name="tai_san_th" id="tai_san_th" class="select2-data-array  form-control"></select>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 col-md-6">
-                                        <div class="form-group">
-                                            <label for="hoten">Số lượng</label>
-                                            <input id="so_luong_th" type="number" class="form-control" onkeyup="checkvali_th()" name="so_luong_th" min="1" />
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6">
+                                    
+                                    <div class="col-lg-12 col-md-12">
                                         <div class="form-group">
                                             <label for="hoten">Trả cọc</label>
                                             <input id="tra_coc" type="text" class="form-control format_number" name="tra_coc" />
@@ -171,4 +165,4 @@
         </div>
     </div>
 </div>
-<script src="<?= HOME ?>/js/taisancapphat.js"></script>
+<script src="<?= HOME ?>/js/asset_issue.js"></script>

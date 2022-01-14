@@ -1,12 +1,12 @@
 <?php
-class Taisancapphat extends Controller{
+class asset_issue extends Controller{
     function __construct(){
         parent::__construct();
     }
 
     function index(){
         require "layouts/header.php";
-        $this->view->render("taisancapphat/index");
+        $this->view->render("asset_issue/index");
         require "layouts/footer.php";
     }
 
@@ -30,8 +30,8 @@ class Taisancapphat extends Controller{
             'name' => 'CP-'.time(),
             'tai_san' => $_REQUEST['tai_san'],
             'nhan_vien' => $_REQUEST['nhan_vien'],
-            'so_luong' => $_REQUEST['so_luong'],
-            'ngay_gio' => $_REQUEST['ngay_gio'],
+            'so_luong' => 1,
+            'ngay_gio' =>date("Y-m-d",strtotime($_REQUEST['ngay_gio'])),
             'dat_coc' => $_REQUEST['dat_coc'],
             'ghi_chu' => $_REQUEST['ghi_chu'],
             'tinh_trang' => 1
@@ -48,15 +48,12 @@ class Taisancapphat extends Controller{
 
     function update()
     {
-        $id = $_REQUEST['id'];
+      $id = $_REQUEST['id'];
        $data = array(
-            'tai_san' => $_REQUEST['id_ts'],
             'nhan_vien' => $_REQUEST['nhan_vien'],
-            'so_luong' => $_REQUEST['so_luong'],
-            'ngay_gio' => $_REQUEST['ngay_gio'],
+            'ngay_gio' => date("Y-m-d",strtotime($_REQUEST['ngay_gio'])),
             'dat_coc' => $_REQUEST['dat_coc'],
             'ghi_chu' => $_REQUEST['ghi_chu'],
-            'tinh_trang' => 1
         );
         if($this->model->updateObj($id, $data)){
             $jsonObj['msg'] = 'Cập nhật dữ liệu thành công';
@@ -82,14 +79,19 @@ class Taisancapphat extends Controller{
         echo json_encode($jsonObj);
     }
 
-    function taisan()
+    function getAsset()
     {
-        $json = $this->model->taisan();
+        $json = $this->model->getAsset();
         echo json_encode($json);
     }
-    function nhanvien()
+    function getAllAsset()
     {
-        $json = $this->model->nhanvien();
+        $json = $this->model->getAllAsset();
+        echo json_encode($json);
+    }
+    function getStaff()
+    {
+        $json = $this->model->getStaff();
         echo json_encode($json);
     }
 
@@ -109,13 +111,13 @@ class Taisancapphat extends Controller{
 
 
 
-    function thuhoi()
+    function recoverAsset()
     {
         $data = array(
             'cap_phat' => $_REQUEST['id_cp'],
             'tai_san' => $_REQUEST['id_tsth'],
-            'so_luong' => $_REQUEST['so_luong_th'],
-            'ngay_gio' => $_REQUEST['ngay_gio_th'],
+            'so_luong' => 1,
+            'ngay_gio' =>date("Y-m-d",strtotime($_REQUEST['ngay_gio_th'])),
             'tra_coc' => $_REQUEST['tra_coc'],
             'ghi_chu' => $_REQUEST['ghi_chu_th'],
             'tinh_trang' => 1

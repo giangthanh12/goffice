@@ -1,9 +1,9 @@
 var url = '';
 
 $(function () {
+    
     return_combobox_multi('#don_vi', baseHome + '/asset/don_vi', 'Đơn vị');
     return_combobox_multi('#nhom_ts', baseHome + '/asset/nhomtaisan', 'Nhóm tài sản');
-    
     var dtUserTable = $(".user-list-table"),
         modal = $("#updateinfo"),
         nhom_ts = $("#nhom_ts"),
@@ -22,11 +22,46 @@ $(function () {
  // datepicker init
  if (datePicker.length) {
     datePicker.flatpickr({
-
         dateFormat: 'd-m-Y',
         defaultDate: "today",
     });
-} 
+}
+// $('#status').select2({
+    
+// });
+
+
+  // Define render label
+  function renderTaskTag(option) {
+    if (!option.id) {
+        return option.text;
+    }
+    var $person =
+        '<div class="media align-items-center">' +
+        '<span class="bullet bullet-sm mr-50" style="margin-top:4px; background: ' + $(option.element).data("color") + '"></span>' +
+        '<div class="media-body"><p style="margin-top:4px; color: ' + $(option.element).data("color") + '" class="mb-0">' +
+        option.text +
+        "</p></div></div>";
+
+    return $person;
+}
+
+// Task Tags
+if ($('#status').length) {
+    $('#status').wrap('<div class="position-relative"></div>');
+    $('#status').select2({
+        placeholder: "Select tag",
+        dropdownParent: $('#status').parent(),
+        templateResult: renderTaskTag,
+        templateSelection: renderTaskTag,
+        escapeMarkup: function (es) {
+            return es;
+        },
+    });
+}
+
+
+
     // Users List datatable
     if (dtUserTable.length) {
         dtUserTable.DataTable({
@@ -38,10 +73,9 @@ $(function () {
                 // { data: "" },
                 { data: "name" },
                 { data: "name_nhomts" },
-                { data: "so_luong" },
-                { data: "sl_baohanh" },
-                { data: "sl_honghoc" },
-                { data: "sl_mat" },
+                { data: "tinh_trang" },
+                // { data: "sl_honghoc" },
+                // { data: "sl_mat" },
                 { data: "" },
             ],
             columnDefs: [
@@ -69,6 +103,27 @@ $(function () {
                     },
                 },
                 {
+                    // User full name and username
+                    targets: 2,
+                    responsivePriority: 4,
+                    render: function (data, type, full, meta) {
+                        var $status = full["tinh_trang"];
+                        var $row_output = '---';
+                            if($status == 1) {
+                                $row_output = `<div class="badge badge-info">Khả dụng</div>`;
+                            }
+                            else if($status == 2) {
+                                $row_output = `<div class="badge badge-primary">Đã cấp phát</div>`;
+                            }
+                            else if($status == 3) {
+                                $row_output = `<div class="badge badge-warning">Đã hỏng</div>`;
+                            }
+                            else if ($status == 4)
+                            $row_output = `<div class="badge badge-danger">Đã mất</div>`;
+                        return $row_output;
+                    },
+                },
+                {
                     // Actions
                     targets: -1,
                     title: feather.icons["database"].toSvg({ class: "font-medium-3 text-success mr-50" }),
@@ -76,7 +131,7 @@ $(function () {
                     render: function (data, type, full, meta) {
                         var html = '';
                         html += '<button type="button"  class="btn btn-icon btn-outline-primary waves-effect" data-toggle="modal" data-target="#baohongmat" title="Báo hỏng mất" onclick="load_baohong(' + full['id'] + ')">';
-                        html += 'Báo mất</i>';
+                        html += 'Thông báo</i>';
                         html += '</button> &nbsp;';
                         html += '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" data-toggle="modal" data-target="#updateinfo" title="Chỉnh sửa" onclick="loaddata(' + full['id'] + ')">';
                         html += '<i class="fas fa-pencil-alt"></i>';
@@ -112,12 +167,14 @@ $(function () {
                         $(node).removeClass("btn-secondary");
                     },
                     action: function (e, dt, node, config) {
+                       
+                        var validator = $("#dg").validate(); // reset form
+                        validator.resetForm();
+                        $(".error").removeClass("error"); // loại bỏ validate
                         $("#addinfo").modal('show');
                         $(".modal-title").html('Thêm tài sản mới');
-                        $(".error").html('');// loại bỏ validate
-                        $(".error").removeClass("error"); // loại bỏ validate
+                        
                         $('#name').val('');
-                        $('#so_luong').val('');
                         $('#don_vi').val('').change();
                         $('#nhom_ts').val('').change();
                         $('#so_tien').val('');
@@ -182,9 +239,6 @@ $(function () {
                 "name": {
                     required: true,
                 },
-                "so_luong": {
-                    required: true,
-                },
                 "don_vi": {
                     required: true,
                 },
@@ -220,9 +274,9 @@ $(function () {
                 "name_add": {
                     required: true,
                 },
-                "so_luong_add": {
-                    required: true,
-                },
+                // "so_luong_add": {
+                //     required: true,
+                // },
                 "don_vi_add": {
                     required: true,
                 },
@@ -425,11 +479,10 @@ function load_baohong(id){
  
 }
 
-function baohong(){
+function alertBroken(){
     var myform = new FormData($("#formbaohong")[0]);
- 
     $.ajax({
-        url: baseHome + "/asset/baohong",
+        url: baseHome + "/asset/alertBroken",
         type: 'post',
         data: myform,
         dataType: 'json',
