@@ -29,7 +29,7 @@ class lead_temp_Model extends Model{
 
     function getTakeCareHistory($id) {
         $result = array();
-        $where = " WHERE status > 0 AND leadId = $id";
+        $where = " WHERE status > 0 AND leadId = $id ";
         $query = $this->db->query("SELECT *,
             (SELECT name FROM staffs WHERE staffs.id = takecare.staffId) AS staffName
             FROM takecare $where ORDER BY dateTime DESC");
@@ -49,6 +49,22 @@ class lead_temp_Model extends Model{
         } else {
             return [];
         }
+    }
+
+    function getCustomer(){
+        $result = array();
+        $where = " WHERE status = 1 ";
+        $query = $this->db->query("SELECT id, fullName
+            FROM customer $where ");
+            $result = $query->fetchAll(PDO::FETCH_ASSOC);
+            if(isset($result))
+                return $result;
+            else return [];
+    }
+
+    function insertLead($data) {
+        $query = $this->insert("lead", $data);
+        return $query;
     }
 
 //     function getdata($id){
@@ -156,4 +172,3 @@ class lead_temp_Model extends Model{
 //     }
 
 }
-?>
