@@ -73,12 +73,22 @@ $(function () {
                     orderable: false,
                     render: function (data, type, full, meta) {
                         var html = '';
-                        html += '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" data-toggle="modal" data-target="#updateinfo" title="Chỉnh sửa" onclick="loaddata(' + full['id'] + ')">';
-                        html += '<i class="fas fa-pencil-alt"></i>';
-                        html += '</button> &nbsp;';
-                        html += '<button type="button" class="btn btn-icon btn-outline-danger waves-effect" title="Xóa" onclick="xoa(' + full['id'] + ')">';
-                        html += '<i class="fas fa-trash-alt"></i>';
-                        html += '</button>';
+                       userFuns.forEach(function (item){
+                            if(item.function=='loaddata') {
+                                    html += '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" data-toggle="modal" data-target="#updateinfo" title="Chỉnh sửa" onclick="loaddata(' + full['id'] + ')">';
+                                    html += '<i class="fas fa-pencil-alt"></i>';
+                                    html += '</button> &nbsp;';
+                                }
+                                });
+
+                        
+                        userFuns.forEach(function (item){
+                            if(item.function=='del') {
+                                html += '<button type="button" class="btn btn-icon btn-outline-' + item.color + ' waves-effect"  title="'+item.name+'" onclick="' + item.function + '(' + full['id'] + ')">';
+                                html += '<i class="' + item.icon + '"></i>';
+                                html += '</button> &nbsp;';
+                            }
+                        });
                         return html;
                     },
                 },
@@ -215,6 +225,13 @@ $(function () {
 });
 
 function loaddata(id) {
+    $('#btn_add').css('display','none');
+    userFuns.forEach(function (item){
+        if(item.function=='loaddata') {
+         $('#btn_add').css('display','inline-block');
+        }
+    });
+
     $(".modal-title").html('Cập nhật thu hồi');
     $.ajax({
         type: "POST",

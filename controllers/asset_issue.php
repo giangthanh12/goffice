@@ -1,10 +1,17 @@
 <?php
 class asset_issue extends Controller{
+    static protected $funcs;
     function __construct(){
         parent::__construct();
+        $model = new model();
+        $checkMenuRole = $model->checkMenuRole('asset_issue');
+        if ($checkMenuRole == false)
+        header('location:' . HOME);
+        self::$funcs = $model->getFunctions('asset_issue'); 
     }
 
     function index(){
+        $this->view->funs  = self::$funcs;
         require "layouts/header.php";
         $this->view->render("asset_issue/index");
         require "layouts/footer.php";
@@ -16,7 +23,6 @@ class asset_issue extends Controller{
         echo json_encode($data);
     }
 
-
     function loaddata()
     {
         $id=isset($_REQUEST['id'])?$_REQUEST['id']:0;
@@ -26,6 +32,7 @@ class asset_issue extends Controller{
 
     function add()
     {
+        if(functions::checkFuns(self::$funcs,'add')) {
         $data = array(
             'name' => 'CP-'.time(),
             'tai_san' => $_REQUEST['tai_san'],
@@ -43,11 +50,18 @@ class asset_issue extends Controller{
             $jsonObj['msg'] = 'Lỗi cập nhật database';
             $jsonObj['success'] = false;
         }
-        echo json_encode($jsonObj);
+       
+    }
+    else {
+        $jsonObj['msg'] = 'Không có quyền truy cập';
+        $jsonObj['success'] = false;
+    }
+    echo json_encode($jsonObj);
     }
 
     function update()
     {
+        if(functions::checkFuns(self::$funcs,'loaddata')) {    
       $id = $_REQUEST['id'];
        $data = array(
             'nhan_vien' => $_REQUEST['nhan_vien'],
@@ -62,11 +76,18 @@ class asset_issue extends Controller{
             $jsonObj['msg'] = 'Lỗi cập nhật database';
             $jsonObj['success'] = false;
         }
-        echo json_encode($jsonObj);
+       
+    }
+    else {
+        $jsonObj['msg'] = 'Không có quyền truy cập';
+        $jsonObj['success'] = false;
+    }
+    echo json_encode($jsonObj);
     }
 
     function del()
     {
+        if(functions::checkFuns(self::$funcs,'del')) {
         $id = $_REQUEST['id'];
         $data = ['tinh_trang'=>0];
         if($this->model->delObj($id,$data)){
@@ -76,6 +97,10 @@ class asset_issue extends Controller{
             $jsonObj['msg'] = "Thu hồi hết tài sản trước khi xoá";
             $jsonObj['success'] = false;
         } 
+    } else {
+        $jsonObj['msg'] = 'Không có quyền truy cập';
+        $jsonObj['success'] = false;
+    }
         echo json_encode($jsonObj);
     }
 
@@ -113,6 +138,7 @@ class asset_issue extends Controller{
 
     function recoverAsset()
     {
+        if(functions::checkFuns(self::$funcs,'loadRecallAsset')) {
         $data = array(
             'cap_phat' => $_REQUEST['id_cp'],
             'tai_san' => $_REQUEST['id_tsth'],
@@ -129,6 +155,11 @@ class asset_issue extends Controller{
             $jsonObj['msg'] = 'Lỗi cập nhật database';
             $jsonObj['success'] = false;
         }
+    } else
+    {
+        $jsonObj['msg'] = 'Không có quyền truy cập';
+        $jsonObj['success'] = false;
+    }
         echo json_encode($jsonObj);
     }
     

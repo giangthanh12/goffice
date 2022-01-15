@@ -1,10 +1,17 @@
 <?php
 class asset extends Controller{
+    static protected $funcs;
     function __construct(){
         parent::__construct();
+        $model = new model();
+        $checkMenuRole = $model->checkMenuRole('asset');
+        if ($checkMenuRole == false)
+        header('location:' . HOME);
+        self::$funcs = $model->getFunctions('asset'); 
     }
 
     function index(){
+        $this->view->funs  = self::$funcs;
         require "layouts/header.php";
         $this->view->render("asset/index");
         require "layouts/footer.php";
@@ -24,6 +31,7 @@ class asset extends Controller{
     }
 
     function add(){
+        if(functions::checkFuns(self::$funcs,'add')) {
         $data = array(
             'name' => $_REQUEST['name'],
             'so_luong' => 1,
@@ -43,11 +51,17 @@ class asset extends Controller{
             $jsonObj['msg'] = 'Lỗi cập nhật database';
             $jsonObj['success'] = false;
         }
+    }
+    else {
+        $jsonObj['msg'] = 'Không có quyền truy cập';
+        $jsonObj['success'] = false;
+    }
         echo json_encode($jsonObj);
     }
 
     function update()
     {
+        if(functions::checkFuns(self::$funcs,'loaddata')) {    
         $id = $_REQUEST['id'];
         $data = array(
             'name' => $_REQUEST['name_add'],
@@ -74,11 +88,17 @@ class asset extends Controller{
             $jsonObj['msg'] = 'Lỗi cập nhật database';
             $jsonObj['success'] = false;
         }
+    } else
+        {
+            $jsonObj['msg'] = 'Không có quyền truy cập';
+            $jsonObj['success'] = false;
+        }
         echo json_encode($jsonObj);
     }
 
     function del()
     {
+        if(functions::checkFuns(self::$funcs,'del')) {
         $id = $_REQUEST['id'];
         $data = ['tinh_trang'=>0];
         if($this->model->delObj($id,$data)){
@@ -88,6 +108,11 @@ class asset extends Controller{
             $jsonObj['msg'] = "Không thể xoá tài sản đang được cấp phát";
             $jsonObj['success'] = false;
         } 
+    } else
+    {
+        $jsonObj['msg'] = 'Không có quyền truy cập';
+        $jsonObj['success'] = false;
+    }
         echo json_encode($jsonObj);
     }
 

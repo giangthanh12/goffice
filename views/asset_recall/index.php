@@ -108,4 +108,8 @@
         </div>
     </div>
 </div>
+<script>
+    var userFuns = JSON.parse('<?=json_encode($this->funs)?>');
+    console.log(userFuns);
+</script>
 <script src="<?= HOME ?>/js/asset_recall.js"></script>

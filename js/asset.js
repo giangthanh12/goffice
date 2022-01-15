@@ -29,7 +29,23 @@ $(function () {
 // $('#status').select2({
     
 // });
-
+var button = [];
+let i = 0;
+userFuns.forEach(function (item,index){
+    if(item.type==1) {
+        button[i] = {
+            text: item.name,
+            className: "add-new btn btn-" + item.color + " mt-50",
+            init: function (api, node, config) {
+                $(node).removeClass("btn-secondary");
+            },
+            action: function (e, dt, node, config) {
+                actionMenu(item.function);
+            }
+        };
+        i++;
+    }
+})
 
   // Define render label
   function renderTaskTag(option) {
@@ -133,12 +149,21 @@ if ($('#status').length) {
                         html += '<button type="button"  class="btn btn-icon btn-outline-primary waves-effect" data-toggle="modal" data-target="#baohongmat" title="Báo hỏng mất" onclick="load_baohong(' + full['id'] + ')">';
                         html += 'Thông báo</i>';
                         html += '</button> &nbsp;';
-                        html += '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" data-toggle="modal" data-target="#updateinfo" title="Chỉnh sửa" onclick="loaddata(' + full['id'] + ')">';
-                        html += '<i class="fas fa-pencil-alt"></i>';
-                        html += '</button> &nbsp;';
-                        html += '<button type="button" class="btn btn-icon btn-outline-danger waves-effect" title="Xóa" onclick="del(' + full['id'] + ')">';
-                        html += '<i class="fas fa-trash-alt"></i>';
-                        html += '</button>';
+                        userFuns.forEach(function (item){
+                            if(item.function=='loaddata') {
+                                    html += '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" data-toggle="modal" data-target="#updateinfo" title="Chỉnh sửa" onclick="loaddata(' + full['id'] + ')">';
+                                    html += '<i class="fas fa-pencil-alt"></i>';
+                                    html += '</button> &nbsp;';
+                                }
+                                });
+                        userFuns.forEach(function (item){
+                            if(item.function=='del') {
+                                html += '<button type="button" class="btn btn-icon btn-outline-' + item.color + ' waves-effect"  title="'+item.name+'" onclick="' + item.function + '(' + full['id'] + ')">';
+                                html += '<i class="' + item.icon + '"></i>';
+                                html += '</button> &nbsp;';
+                            }
+                        });
+                        
                         return html;
                     },
                 },
@@ -159,31 +184,7 @@ if ($('#status').length) {
                 searchPlaceholder: "11111111112..",
             },
             // Buttons with Dropdown
-            buttons: [
-                {
-                    text: "Thêm mới",
-                    className: "add-new btn btn-primary mt-50",
-                    init: function (api, node, config) {
-                        $(node).removeClass("btn-secondary");
-                    },
-                    action: function (e, dt, node, config) {
-                       
-                        var validator = $("#dg").validate(); // reset form
-                        validator.resetForm();
-                        $(".error").removeClass("error"); // loại bỏ validate
-                        $("#addinfo").modal('show');
-                        $(".modal-title").html('Thêm tài sản mới');
-                        
-                        $('#name').val('');
-                        $('#don_vi').val('').change();
-                        $('#nhom_ts').val('').change();
-                        $('#so_tien').val('');
-                        $('#khau_hao').val('');
-                        $('#bao_hanh').val('');
-                        url = baseHome + "/asset/add";
-                    },
-                },
-            ],
+            buttons: [button],
           
             language: {
                 paginate: {
@@ -219,7 +220,25 @@ if ($('#status').length) {
         });
 
     }
-
+    function actionMenu(func){
+        if(func=='add')
+            add();
+    }
+    function add(){
+        var validator = $("#dg").validate(); // reset form
+        validator.resetForm();
+        $(".error").removeClass("error"); // loại bỏ validate
+        $("#addinfo").modal('show');
+        $(".modal-title").html('Thêm tài sản mới');
+        
+        $('#name').val('');
+        $('#don_vi').val('').change();
+        $('#nhom_ts').val('').change();
+        $('#so_tien').val('');
+        $('#khau_hao').val('');
+        $('#bao_hanh').val('');
+        url = baseHome + "/asset/add";
+    }
  
 
     // Check Validity
