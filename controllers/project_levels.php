@@ -16,8 +16,6 @@ class project_levels extends Controller{
         $this->view->render("project_levels/index");
         require "layouts/footer.php";
     }
-
-
     function list()
     {
             $data=$this->model->listObj();

@@ -22,11 +22,10 @@
                                     <!-- <th></th> -->
                                     <th>Tên tài sản</th>
                                     <th>Nhóm</th>
-                                    <th>SL nhập</th>
-                                    <th>SL bảo hành</th>
-                                    <th>SL hỏng</th>
-                                    <th>SL mất</th>
-                                    <th class="text-center">...</th>
+                                    <th>Trạng thái</th>
+                                    <!-- <th>SL hỏng</th>
+                                    <th>SL mất</th> -->
+                                    <th>...</th>
                                 </tr>
                             </thead>
                         </table>
@@ -54,15 +53,15 @@
                                                             <input id="name" name="name" type="text" class="form-control" onblur="check_name();" />
                                                         </div>
                                                     </div>
-
+<!-- 
                                                    
                                                     <div class="col-lg-6 col-md-3">
                                                         <div class="form-group">
                                                             <label for="so_luong">Số lượng</label>
                                                             <input id="so_luong" type="number" min="1" class="form-control" name="so_luong" onblur="check_name();" />
                                                         </div>
-                                                    </div>
-                                                    <div class="col-lg-6 col-md-3">
+                                                    </div> -->
+                                                    <div class="col-lg-12 col-md-12">
                                                         <div class="form-group">
                                                             <label for="don_vi">Đơn vị</label>
                                                             <select name="don_vi" id="don_vi" class="select2 form-control"></select>
@@ -85,7 +84,7 @@
 
                                                     <div class="col-lg-6 col-md-12">
                                                         <div class="form-group">
-                                                            <label for="khau_hao">Khấu hao (tháng)</label>
+                                                            <label for="khau_hao">Tiêu hao</label>
                                                             <input id="khau_hao" type="number" class="form-control" min = "0"  name="khau_hao" />
                                                         </div>
                                                     </div>
@@ -103,7 +102,10 @@
                                                     </div>
 
                                                     <div class="col-12 d-flex flex-sm-row flex-column mt-2">
+                                                     
+                                                     
                                                         <button type="submit"  class="btn btn-add btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Cập nhật</button>
+                                                      
                                                         <button type="reset" class="btn btn-outline-secondary" data-dismiss="modal">Bỏ qua</button>
                                                     </div>
                                                 </div>
@@ -215,7 +217,7 @@
                                     <div class="col-lg-2 col-md-2">
                                         <div class="form-group">
                                             <label for="hoten">Số lượng</label>
-                                            <input id="so_luong_add" type="number" onblur="check_soluong();" class="form-control" min="1" name="so_luong_add" />
+                                            <input id="so_luong_add" type="number"  class="form-control" disabled name="so_luong_add" />
                                         </div>
                                     </div>
                                     <div class="col-lg-2 col-md-3">
@@ -239,7 +241,7 @@
                                     </div>
                                     <div class="col-lg-2 col-md-2">
                                         <div class="form-group">
-                                            <label for="khau_hao_add">Khấu hao (tháng)</label>
+                                            <label for="khau_hao_add">Tiêu hao</label>
                                             <input id="khau_hao_add" type="text" class="form-control" min="0" name="khau_hao_add" />
                                         </div>
                                     </div>
@@ -299,9 +301,9 @@
                                     
 
                                     <div class="col-12 d-flex flex-sm-row flex-column mt-2">
-
+                                       <?php if(functions::checkFuns($this->funs,'loaddata')) { ?>
                                         <button type="submit"  class="btn  btn-add btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Cập nhật</button>
-
+                                        <?php } ?>
                                         <button type="reset" class="btn btn-outline-secondary" data-dismiss="modal">Bỏ qua</button>
 
                                     </div>
@@ -357,15 +359,12 @@
                         <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h4 class="modal-title" id="myModalLabel16">Báo hỏng, mất tài sản</h4>
-                                    <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                    </button> -->
+                                    <h4 class="modal-title" id="myModalLabel16">Cập nhật trạng thái tài sản</h4>
                                 </div>
-                                <div class="modal-body">
+                                <div class="modal-body" style="margin:0;">
                                     <!-- <input type="hidden" id="id" name="id" /> -->
                                     <div class="card">
-                                        <div class="card-body">
+                                     
                                             <form class="form-validate" enctype="multipart/form-data" id="formbaohong">
                                                 <div class="row mt-1">
                                                     <input type="hidden" name="sl_mat_hientai" id="sl_mat_hientai">
@@ -373,26 +372,19 @@
                                                     <div class="col-lg-12">
                                                         <div class="form-group">
                                                             <label for="name">Tình trạng</label>
-                                                            <select name="status" id="status" class="form-control">
-                                                                <option value="0">Báo hỏng</option>
-                                                                <option value="1">Báo mất</option>
+                                                            <select name="status" id="status" class="form-control select2">
+                                                                <option data-color="#FF9F43" value="3">Báo hỏng</option>
+                                                                <option data-color="#EA5455" value="4">Báo mất</option>
+                                                                <option data-color="#00CFE8" value="1">Khả dụng</option>
                                                             </select>
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-6 col-md-3">
-                                                        <div class="form-group">
-                                                            <label for="so_luong_hong">Số lượng</label>
-                                                            <input id="so_luong_hong" type="number" min="1" class="form-control" name="so_luong_hong"  />
-                                                        </div>
-                                                    </div>
                                                     <div class="col-12 d-flex flex-sm-row flex-column mt-2">
-                                                        <button type="button" onclick="baohong()" class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Cập nhật</button>
+                                                        <button type="button" onclick="alertBroken()" class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Cập nhật</button>
                                                         <button type="reset" class="btn btn-outline-secondary" data-dismiss="modal">Bỏ qua</button>
                                                     </div>
                                                 </div>
                                             </form>
-
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -406,4 +398,8 @@
         </div>
     </div>
 </div>
+<script>
+    var userFuns = JSON.parse('<?=json_encode($this->funs)?>');
+    console.log(userFuns);
+</script>
 <script src="<?= HOME ?>/js/asset.js"></script>

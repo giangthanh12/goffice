@@ -64,7 +64,7 @@ class customer extends Controller
             'staffid' => $staffId,
             'staffInCharge' => $staffInCharge,
             'nationalId' => $nationalId,
-            'province' => $provinceId,
+            'provinceId' => $provinceId,
             'status'=>$status
         );
           
@@ -139,7 +139,7 @@ class customer extends Controller
             'classify' => $classify,
             'type'=> $type,
             'nationalId' => $nationalId,
-            'province' => $provinceId,
+            'provinceId' => $provinceId,
             'status'=>$status
         );
 

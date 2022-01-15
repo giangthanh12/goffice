@@ -1,9 +1,9 @@
 var url = '';
 
 $(function () {
+    
     return_combobox_multi('#don_vi', baseHome + '/asset/don_vi', 'Đơn vị');
     return_combobox_multi('#nhom_ts', baseHome + '/asset/nhomtaisan', 'Nhóm tài sản');
-    
     var dtUserTable = $(".user-list-table"),
         modal = $("#updateinfo"),
         nhom_ts = $("#nhom_ts"),
@@ -22,11 +22,62 @@ $(function () {
  // datepicker init
  if (datePicker.length) {
     datePicker.flatpickr({
-
         dateFormat: 'd-m-Y',
         defaultDate: "today",
     });
-} 
+}
+// $('#status').select2({
+    
+// });
+var button = [];
+let i = 0;
+userFuns.forEach(function (item,index){
+    if(item.type==1) {
+        button[i] = {
+            text: item.name,
+            className: "add-new btn btn-" + item.color + " mt-50",
+            init: function (api, node, config) {
+                $(node).removeClass("btn-secondary");
+            },
+            action: function (e, dt, node, config) {
+                actionMenu(item.function);
+            }
+        };
+        i++;
+    }
+})
+
+  // Define render label
+  function renderTaskTag(option) {
+    if (!option.id) {
+        return option.text;
+    }
+    var $person =
+        '<div class="media align-items-center">' +
+        '<span class="bullet bullet-sm mr-50" style="margin-top:4px; background: ' + $(option.element).data("color") + '"></span>' +
+        '<div class="media-body"><p style="margin-top:4px; color: ' + $(option.element).data("color") + '" class="mb-0">' +
+        option.text +
+        "</p></div></div>";
+
+    return $person;
+}
+
+// Task Tags
+if ($('#status').length) {
+    $('#status').wrap('<div class="position-relative"></div>');
+    $('#status').select2({
+        placeholder: "Select tag",
+        dropdownParent: $('#status').parent(),
+        templateResult: renderTaskTag,
+        templateSelection: renderTaskTag,
+        escapeMarkup: function (es) {
+            return es;
+        },
+    });
+}
+
+
+
     // Users List datatable
     if (dtUserTable.length) {
         dtUserTable.DataTable({
@@ -38,10 +89,9 @@ $(function () {
                 // { data: "" },
                 { data: "name" },
                 { data: "name_nhomts" },
-                { data: "so_luong" },
-                { data: "sl_baohanh" },
-                { data: "sl_honghoc" },
-                { data: "sl_mat" },
+                { data: "tinh_trang" },
+                // { data: "sl_honghoc" },
+                // { data: "sl_mat" },
                 { data: "" },
             ],
             columnDefs: [
@@ -69,6 +119,27 @@ $(function () {
                     },
                 },
                 {
+                    // User full name and username
+                    targets: 2,
+                    responsivePriority: 4,
+                    render: function (data, type, full, meta) {
+                        var $status = full["tinh_trang"];
+                        var $row_output = '---';
+                            if($status == 1) {
+                                $row_output = `<div class="badge badge-info">Khả dụng</div>`;
+                            }
+                            else if($status == 2) {
+                                $row_output = `<div class="badge badge-primary">Đã cấp phát</div>`;
+                            }
+                            else if($status == 3) {
+                                $row_output = `<div class="badge badge-warning">Đã hỏng</div>`;
+                            }
+                            else if ($status == 4)
+                            $row_output = `<div class="badge badge-danger">Đã mất</div>`;
+                        return $row_output;
+                    },
+                },
+                {
                     // Actions
                     targets: -1,
                     title: feather.icons["database"].toSvg({ class: "font-medium-3 text-success mr-50" }),
@@ -76,14 +147,23 @@ $(function () {
                     render: function (data, type, full, meta) {
                         var html = '';
                         html += '<button type="button"  class="btn btn-icon btn-outline-primary waves-effect" data-toggle="modal" data-target="#baohongmat" title="Báo hỏng mất" onclick="load_baohong(' + full['id'] + ')">';
-                        html += 'Báo mất</i>';
+                        html += 'Thông báo</i>';
                         html += '</button> &nbsp;';
-                        html += '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" data-toggle="modal" data-target="#updateinfo" title="Chỉnh sửa" onclick="loaddata(' + full['id'] + ')">';
-                        html += '<i class="fas fa-pencil-alt"></i>';
-                        html += '</button> &nbsp;';
-                        html += '<button type="button" class="btn btn-icon btn-outline-danger waves-effect" title="Xóa" onclick="del(' + full['id'] + ')">';
-                        html += '<i class="fas fa-trash-alt"></i>';
-                        html += '</button>';
+                        userFuns.forEach(function (item){
+                            if(item.function=='loaddata') {
+                                    html += '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" data-toggle="modal" data-target="#updateinfo" title="Chỉnh sửa" onclick="loaddata(' + full['id'] + ')">';
+                                    html += '<i class="fas fa-pencil-alt"></i>';
+                                    html += '</button> &nbsp;';
+                                }
+                                });
+                        userFuns.forEach(function (item){
+                            if(item.function=='del') {
+                                html += '<button type="button" class="btn btn-icon btn-outline-' + item.color + ' waves-effect"  title="'+item.name+'" onclick="' + item.function + '(' + full['id'] + ')">';
+                                html += '<i class="' + item.icon + '"></i>';
+                                html += '</button> &nbsp;';
+                            }
+                        });
+                        
                         return html;
                     },
                 },
@@ -104,29 +184,7 @@ $(function () {
                 searchPlaceholder: "11111111112..",
             },
             // Buttons with Dropdown
-            buttons: [
-                {
-                    text: "Thêm mới",
-                    className: "add-new btn btn-primary mt-50",
-                    init: function (api, node, config) {
-                        $(node).removeClass("btn-secondary");
-                    },
-                    action: function (e, dt, node, config) {
-                        $("#addinfo").modal('show');
-                        $(".modal-title").html('Thêm tài sản mới');
-                        $(".error").html('');// loại bỏ validate
-                        $(".error").removeClass("error"); // loại bỏ validate
-                        $('#name').val('');
-                        $('#so_luong').val('');
-                        $('#don_vi').val('').change();
-                        $('#nhom_ts').val('').change();
-                        $('#so_tien').val('');
-                        $('#khau_hao').val('');
-                        $('#bao_hanh').val('');
-                        url = baseHome + "/asset/add";
-                    },
-                },
-            ],
+            buttons: [button],
           
             language: {
                 paginate: {
@@ -162,7 +220,25 @@ $(function () {
         });
 
     }
-
+    function actionMenu(func){
+        if(func=='add')
+            add();
+    }
+    function add(){
+        var validator = $("#dg").validate(); // reset form
+        validator.resetForm();
+        $(".error").removeClass("error"); // loại bỏ validate
+        $("#addinfo").modal('show');
+        $(".modal-title").html('Thêm tài sản mới');
+        
+        $('#name').val('');
+        $('#don_vi').val('').change();
+        $('#nhom_ts').val('').change();
+        $('#so_tien').val('');
+        $('#khau_hao').val('');
+        $('#bao_hanh').val('');
+        url = baseHome + "/asset/add";
+    }
  
 
     // Check Validity
@@ -180,9 +256,6 @@ $(function () {
             errorClass: "error",
             rules: {
                 "name": {
-                    required: true,
-                },
-                "so_luong": {
                     required: true,
                 },
                 "don_vi": {
@@ -220,9 +293,9 @@ $(function () {
                 "name_add": {
                     required: true,
                 },
-                "so_luong_add": {
-                    required: true,
-                },
+                // "so_luong_add": {
+                //     required: true,
+                // },
                 "don_vi_add": {
                     required: true,
                 },
@@ -425,11 +498,10 @@ function load_baohong(id){
  
 }
 
-function baohong(){
+function alertBroken(){
     var myform = new FormData($("#formbaohong")[0]);
- 
     $.ajax({
-        url: baseHome + "/asset/baohong",
+        url: baseHome + "/asset/alertBroken",
         type: 'post',
         data: myform,
         dataType: 'json',

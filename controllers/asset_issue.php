@@ -1,12 +1,19 @@
 <?php
-class Taisancapphat extends Controller{
+class asset_issue extends Controller{
+    static protected $funcs;
     function __construct(){
         parent::__construct();
+        $model = new model();
+        $checkMenuRole = $model->checkMenuRole('asset_issue');
+        if ($checkMenuRole == false)
+        header('location:' . HOME);
+        self::$funcs = $model->getFunctions('asset_issue'); 
     }
 
     function index(){
+        $this->view->funs  = self::$funcs;
         require "layouts/header.php";
-        $this->view->render("taisancapphat/index");
+        $this->view->render("asset_issue/index");
         require "layouts/footer.php";
     }
 
@@ -15,7 +22,6 @@ class Taisancapphat extends Controller{
         $data = $this->model->listObj();
         echo json_encode($data);
     }
-
 
     function loaddata()
     {
@@ -26,12 +32,13 @@ class Taisancapphat extends Controller{
 
     function add()
     {
+        if(functions::checkFuns(self::$funcs,'add')) {
         $data = array(
             'name' => 'CP-'.time(),
             'tai_san' => $_REQUEST['tai_san'],
             'nhan_vien' => $_REQUEST['nhan_vien'],
-            'so_luong' => $_REQUEST['so_luong'],
-            'ngay_gio' => $_REQUEST['ngay_gio'],
+            'so_luong' => 1,
+            'ngay_gio' =>date("Y-m-d",strtotime($_REQUEST['ngay_gio'])),
             'dat_coc' => $_REQUEST['dat_coc'],
             'ghi_chu' => $_REQUEST['ghi_chu'],
             'tinh_trang' => 1
@@ -43,20 +50,24 @@ class Taisancapphat extends Controller{
             $jsonObj['msg'] = 'Lỗi cập nhật database';
             $jsonObj['success'] = false;
         }
-        echo json_encode($jsonObj);
+       
+    }
+    else {
+        $jsonObj['msg'] = 'Không có quyền truy cập';
+        $jsonObj['success'] = false;
+    }
+    echo json_encode($jsonObj);
     }
 
     function update()
     {
-        $id = $_REQUEST['id'];
+        if(functions::checkFuns(self::$funcs,'loaddata')) {    
+      $id = $_REQUEST['id'];
        $data = array(
-            'tai_san' => $_REQUEST['id_ts'],
             'nhan_vien' => $_REQUEST['nhan_vien'],
-            'so_luong' => $_REQUEST['so_luong'],
-            'ngay_gio' => $_REQUEST['ngay_gio'],
+            'ngay_gio' => date("Y-m-d",strtotime($_REQUEST['ngay_gio'])),
             'dat_coc' => $_REQUEST['dat_coc'],
             'ghi_chu' => $_REQUEST['ghi_chu'],
-            'tinh_trang' => 1
         );
         if($this->model->updateObj($id, $data)){
             $jsonObj['msg'] = 'Cập nhật dữ liệu thành công';
@@ -65,11 +76,18 @@ class Taisancapphat extends Controller{
             $jsonObj['msg'] = 'Lỗi cập nhật database';
             $jsonObj['success'] = false;
         }
-        echo json_encode($jsonObj);
+       
+    }
+    else {
+        $jsonObj['msg'] = 'Không có quyền truy cập';
+        $jsonObj['success'] = false;
+    }
+    echo json_encode($jsonObj);
     }
 
     function del()
     {
+        if(functions::checkFuns(self::$funcs,'del')) {
         $id = $_REQUEST['id'];
         $data = ['tinh_trang'=>0];
         if($this->model->delObj($id,$data)){
@@ -79,17 +97,26 @@ class Taisancapphat extends Controller{
             $jsonObj['msg'] = "Thu hồi hết tài sản trước khi xoá";
             $jsonObj['success'] = false;
         } 
+    } else {
+        $jsonObj['msg'] = 'Không có quyền truy cập';
+        $jsonObj['success'] = false;
+    }
         echo json_encode($jsonObj);
     }
 
-    function taisan()
+    function getAsset()
     {
-        $json = $this->model->taisan();
+        $json = $this->model->getAsset();
         echo json_encode($json);
     }
-    function nhanvien()
+    function getAllAsset()
     {
-        $json = $this->model->nhanvien();
+        $json = $this->model->getAllAsset();
+        echo json_encode($json);
+    }
+    function getStaff()
+    {
+        $json = $this->model->getStaff();
         echo json_encode($json);
     }
 
@@ -109,13 +136,14 @@ class Taisancapphat extends Controller{
 
 
 
-    function thuhoi()
+    function recoverAsset()
     {
+        if(functions::checkFuns(self::$funcs,'loadRecallAsset')) {
         $data = array(
             'cap_phat' => $_REQUEST['id_cp'],
             'tai_san' => $_REQUEST['id_tsth'],
-            'so_luong' => $_REQUEST['so_luong_th'],
-            'ngay_gio' => $_REQUEST['ngay_gio_th'],
+            'so_luong' => 1,
+            'ngay_gio' =>date("Y-m-d",strtotime($_REQUEST['ngay_gio_th'])),
             'tra_coc' => $_REQUEST['tra_coc'],
             'ghi_chu' => $_REQUEST['ghi_chu_th'],
             'tinh_trang' => 1
@@ -127,6 +155,11 @@ class Taisancapphat extends Controller{
             $jsonObj['msg'] = 'Lỗi cập nhật database';
             $jsonObj['success'] = false;
         }
+    } else
+    {
+        $jsonObj['msg'] = 'Không có quyền truy cập';
+        $jsonObj['success'] = false;
+    }
         echo json_encode($jsonObj);
     }
     

@@ -355,14 +355,16 @@ function deleteUser(id) {
 }
 
 function setFunctionRole(funcId,userId,check){
+
     if(check){
-        $arrFunc.push(funcId);
+        $arrFunc.push(funcId.toString());
     }else{
-        var index = $arrFunc.indexOf(funcId);
+        var index = $arrFunc.indexOf(funcId.toString());
         if (index !== -1) {
             $arrFunc.splice(index, 1);
         }
     }
+    
     // $.ajax({
     //     url: baseHome + "/listusers/setFunctionRole",
     //     type: 'post',
@@ -375,9 +377,9 @@ function setFunctionRole(funcId,userId,check){
 
 function setMenuRole(menuId,userId,check){
     if(check){
-        $arrMenu.push(menuId);
+        $arrMenu.push(menuId.toString());
     }else{
-        var index = $arrMenu.indexOf(menuId);
+        var index = $arrMenu.indexOf(menuId.toString());
         if (index !== -1) {
             $arrMenu.splice(index, 1);
         }

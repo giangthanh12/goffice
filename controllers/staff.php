@@ -16,7 +16,6 @@ class staff extends Controller
         $this->view->render("staff/index");
         require "layouts/footer.php";
     }
-
     function getData()
     {
         $data = $this->model->getStaff();

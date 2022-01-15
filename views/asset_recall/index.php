@@ -24,7 +24,6 @@
                                     <th>Thời gian</th>
                                     <th>Mã cấp phát</th>
                                     <th>Tài sản</th>
-                                    <th>Số lượng</th>
                                     <th>Ghi chú</th>
                                     <th>...</th>
                                 </tr>
@@ -61,13 +60,13 @@
                                             <select name="tai_san" id="tai_san" class="select2-data-array  form-control" ></select>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 col-md-6">
+                                    <!-- <div class="col-lg-6 col-md-6">
                                         <div class="form-group">
                                             <label for="hoten">Số lượng</label>
                                             <input id="so_luong" type="number" class="form-control" onkeyup="checkvali_th()" name="so_luong" min="1" />
                                         </div>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6">
+                                    </div> -->
+                                    <div class="col-lg-12 col-md-12">
                                         <div class="form-group">
                                             <label for="hoten">Trả cọc</label>
                                             <input id="tra_coc" type="text" class="form-control format_number" name="tra_coc" />
@@ -109,4 +108,8 @@
         </div>
     </div>
 </div>
-<script src="<?= HOME ?>/js/taisanthuhoi.js"></script>
+<script>
+    var userFuns = JSON.parse('<?=json_encode($this->funs)?>');
+    console.log(userFuns);
+</script>
+<script src="<?= HOME ?>/js/asset_recall.js"></script>

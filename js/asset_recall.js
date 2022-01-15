@@ -8,9 +8,7 @@ $(function () {
         datePicker = $(".ngay_gio"),
         tai_san = $("#tai_san"),
         cap_phat = $("#cap_phat"),
-
         form = $("#dg");
-       
      // datepicker init
     if (datePicker.length) {
         datePicker.flatpickr({
@@ -21,15 +19,13 @@ $(function () {
     // Users List datatable
     if (dtUserTable.length) {
         dtUserTable.DataTable({
+            ordering: false,
             // ajax: assetPath + "data/user-list.json", // JSON file to add data
-            ajax: baseHome + "/taisanthuhoi/list",
+            ajax: baseHome + "/asset_recall/list",
             columns: [
-                // columns according to JSON
-                // { data: "" },
                 { data: "ngay_gio" },
                 { data: "name_cp" },
                 { data: "name_taisan" },
-                { data: "so_luong" },
                 { data: "ghi_chu" },
                 { data: "" },
             ],
@@ -40,10 +36,8 @@ $(function () {
                 {
                     // User full name and username
                     targets: 1,
-                    responsivePriority: 4,
                     render: function (data, type, full, meta) {
                         var $name = full["name_cp"];
-                            
                         // Creates full output for row
                         var $row_output =
                             '<div class="d-flex justify-content-left align-items-center">' +
@@ -58,7 +52,16 @@ $(function () {
                     },
                 },
 
-               
+                {
+                    // User full name and username
+                    targets: 3,
+                    render: function (data, type, full, meta) {
+                        var $note = full["ghi_chu"];
+                        var $row_output = $note ? $note : `<div style="margin-left:20px;">---</div>`;
+                        return $row_output;
+                    },
+                },
+
                 
 
 
@@ -70,12 +73,22 @@ $(function () {
                     orderable: false,
                     render: function (data, type, full, meta) {
                         var html = '';
-                        html += '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" data-toggle="modal" data-target="#updateinfo" title="Chỉnh sửa" onclick="loaddata(' + full['id'] + ')">';
-                        html += '<i class="fas fa-pencil-alt"></i>';
-                        html += '</button> &nbsp;';
-                        html += '<button type="button" class="btn btn-icon btn-outline-danger waves-effect" title="Xóa" onclick="xoa(' + full['id'] + ')">';
-                        html += '<i class="fas fa-trash-alt"></i>';
-                        html += '</button>';
+                       userFuns.forEach(function (item){
+                            if(item.function=='loaddata') {
+                                    html += '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" data-toggle="modal" data-target="#updateinfo" title="Chỉnh sửa" onclick="loaddata(' + full['id'] + ')">';
+                                    html += '<i class="fas fa-pencil-alt"></i>';
+                                    html += '</button> &nbsp;';
+                                }
+                                });
+
+                        
+                        userFuns.forEach(function (item){
+                            if(item.function=='del') {
+                                html += '<button type="button" class="btn btn-icon btn-outline-' + item.color + ' waves-effect"  title="'+item.name+'" onclick="' + item.function + '(' + full['id'] + ')">';
+                                html += '<i class="' + item.icon + '"></i>';
+                                html += '</button> &nbsp;';
+                            }
+                        });
                         return html;
                     },
                 },
@@ -140,7 +153,7 @@ $(function () {
         type: "GET",
         dataType: "json",
         async: false,
-        url: baseHome + "/taisanthuhoi/taisan",
+        url: baseHome + "/asset_recall/taisan",
         success: function (data) {
             tai_san.wrap('<div class="position-relative"></div>').select2({
             dropdownAutoWidth: true,
@@ -155,7 +168,7 @@ $(function () {
         type: "GET",
         dataType: "json",
         async: false,
-        url: baseHome + "/taisanthuhoi/capphat",
+        url: baseHome + "/asset_recall/capphat",
         success: function (data) {
             cap_phat.wrap('<div class="position-relative"></div>').select2({
             dropdownAutoWidth: true,
@@ -212,28 +225,33 @@ $(function () {
 });
 
 function loaddata(id) {
+    $('#btn_add').css('display','none');
+    userFuns.forEach(function (item){
+        if(item.function=='loaddata') {
+         $('#btn_add').css('display','inline-block');
+        }
+    });
+
     $(".modal-title").html('Cập nhật thu hồi');
     $.ajax({
         type: "POST",
         dataType: "json",
         data: { id: id },
-        url: baseHome + "/taisanthuhoi/loaddata",
+        url: baseHome + "/asset_recall/loaddata",
         success: function (data) {
             $('#id_th').val(data.id);
             $('#id_ts').val(data.tai_san);
             $('#id_cp').val(data.cap_phat);
             $('#sl_th_old').val(data.so_luong);
-            
             $("#tai_san").attr("disabled", true);
             $("#cap_phat").attr("disabled", true);
             $("#tai_san").val(data.tai_san).trigger('change');
             $("#cap_phat").val(data.cap_phat).trigger('change');
-            $('#so_luong').val(data.so_luong);
+        
             $('#tra_coc').val(formatCurrency(data.tra_coc.replace(/[,VNĐ]/g,'')));
             $('#ngay_gio').val(data.ngay_gio);
             $('#ghi_chu').val(data.ghi_chu);
- 
-            url = baseHome + '/taisanthuhoi/update?id=' + id;
+            url = baseHome + '/asset_recall/update?id=' + id;
         },
         error: function () {
             notify_error('Lỗi truy xuất database');
@@ -269,20 +287,7 @@ function saveth() {
 
 
 function xoa(id) {
-    // $.ajax({
-    //     url: baseHome + "/taisanthuhoi/del",
-    //     type: 'post',
-    //     dataType: "json",
-    //     data: { id: id },
-    //     success: function (data) {
-    //         if (data.success) {
-    //             notyfi_success(data.msg);
-    //             $(".user-list-table").DataTable().ajax.reload(null, false);
-    //         }
-    //         else
-    //             notify_error(data.msg);
-    //     },
-    // });
+  
     Swal.fire({
         title: 'Xóa dữ liệu',
         text: "Bạn có chắc chắn muốn xóa!",
@@ -297,7 +302,7 @@ function xoa(id) {
     }).then(function (result) {
         if (result.value) {
             $.ajax({
-                url: baseHome + "/taisanthuhoi/del",
+                url: baseHome + "/asset_recall/del",
                 type: 'post',
                 dataType: "json",
                 data: { id: id },
@@ -333,29 +338,29 @@ $('.format_number').on('input', function(e){
 
 
 
-function checkvali_th() {
-    var so_luong_th = Number($("#so_luong").val());
-    var sl_th_old = Number($("#sl_th_old").val());
-    var id_cp = $("#id_cp").val();
-    $.ajax({
-        type: "POST",
-        dataType: "json",
-        data: { id: id_cp},
-        url: baseHome + "/taisanthuhoi/get_slcp",
-        success: function (data) {
-            var sl_cp = Number(data.so_luong);
-            var nummax_th =sl_cp + sl_th_old;
+// function checkvali_th() {
+//     var so_luong_th = Number($("#so_luong").val());
+//     var sl_th_old = Number($("#sl_th_old").val());
+//     var id_cp = $("#id_cp").val();
+//     $.ajax({
+//         type: "POST",
+//         dataType: "json",
+//         data: { id: id_cp},
+//         url: baseHome + "/asset_recall/get_slcp",
+//         success: function (data) {
+//             var sl_cp = Number(data.so_luong);
+//             var nummax_th =sl_cp + sl_th_old;
 
-            if(so_luong_th <= nummax_th && so_luong_th > 0) {
-                $("#btn_add").attr("disabled", false);
-            }else{
-                $("#btn_add").attr("disabled", true);
-            }
-        },
-        error: function () {
-            notify_error('Lỗi truy xuất database');
-        }
-    });
+//             if(so_luong_th <= nummax_th && so_luong_th > 0) {
+//                 $("#btn_add").attr("disabled", false);
+//             }else{
+//                 $("#btn_add").attr("disabled", true);
+//             }
+//         },
+//         error: function () {
+//             notify_error('Lỗi truy xuất database');
+//         }
+//     });
     
-}
+// }
 

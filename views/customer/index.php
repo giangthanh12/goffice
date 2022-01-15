@@ -9,13 +9,16 @@
                 <!-- users filter start -->
                 <div class="card">
                     <div class="d-flex justify-content-between align-items-center mx-50 row pt-2 pb-2">
-                        <div class="col-md-4 classify2">
-                            <select id="classify2" class="form-control" name="classify2">
-
+                        <div class="col-md-4 classify3">
+                            <select id="classify3" data-column="5" class="select2 form-control" name="classify3">
+                                <option value="0" selected>Tất cả</option>
+                                <option value="1">Khách hàng</option>
+                                <option value="2">Đối tác</option>
                             </select>
                         </div>
                         <div class="col-md-4 type2">
-                            <select id="type2" data-column="6" class="form-control" name="type2">
+                            <select id="type2" data-column="6" class="select2 form-control" name="type2">
+                                <option value="0" selected>Tất cả</option>
                                 <option value="1">Sản xuất</option>
                                 <option value="2">Thương mại</option>
                                 <option value="3">Dịch vụ</option>
@@ -45,7 +48,7 @@
                                     <th></th>
                                     <th></th>
                                     <th></th>
-                                    <th style="text-align:center;"></th>
+                                    <th ></th>
                                 </tr>
                             </thead>
                         </table>
