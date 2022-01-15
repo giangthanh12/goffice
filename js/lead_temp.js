@@ -29,11 +29,12 @@ $(function() {
         speechToText = $('.speech-to-text'),
         chatSearch = $('.chat-application #chat-search'),
         taskDesc = $("#task-desc"),
+        leadDesc = $("#leadDesc"),
         flatPickr = $(".task-due-date");
 
     if (flatPickr.length) {
         flatPickr.flatpickr({
-            dateFormat: "Y-m-d",
+            dateFormat: "d-m-Y",
             defaultDate: "today",
             onReady: function(selectedDates, dateStr, instance) {
                 if (instance.isMobile) {
@@ -55,6 +56,22 @@ $(function() {
             theme: "snow",
         });
     }
+
+    if (leadDesc.length) {
+        var todoDescEditor = new Quill("#leadDesc", {
+            bounds: "#leadDesc",
+            modules: {
+                formula: true,
+                syntax: true,
+                toolbar: ".desc-toolbar-2",
+            },
+            placeholder: "Write Your Description",
+            theme: "snow",
+        });
+    }
+
+    $('#opportunity').select2();
+    $('#statusAdd').select2();
 
     // add takecare history
     if (newTaskForm.length) {
@@ -345,6 +362,32 @@ $(function() {
 //   }
 // });
 
+// add lead
+function leadAdd() {
+    var info = {};
+    info.leadName = $('#leadName').val();
+    info.leadDesc = $('#leadDesc').find(".ql-editor p").html();
+    info.leadCustomer = $('#leadCustomer').val();
+    info.opportunity = $('#opportunity').val();
+
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        data: info,
+        url: baseHome + "/lead_temp/insertLead",
+        success: function(data) {
+            if (data.success) {
+                notyfi_success(data.msg);
+                $('#new-lead-modal').modal('hide');
+            } else
+                notify_error(data.msg);
+        },
+        error: function() {
+            notify_error('Cập nhật không thành công');
+        }
+    });
+}
+
 $(document).on('click', '.sidebar-toggle', function() {
     if ($(window).width() < 992) {
         onClickFn();
@@ -430,6 +473,21 @@ $('#list-lead').on('click', '.sidebar-list', function() {
 
 function showModalTakeCare() {
     $('#new-takecare-modal').modal('show');
+}
+
+function showModalLead() {
+    $('#new-lead-modal').modal('show');
+}
+
+function search() {
+    var lead = $("#lead").val();
+    var tungay = $("#tungay").val();
+    var denngay = $("#denngay").val();
+    if (lead != '' || tungay != '' || denngay != '') {
+        var list = $("#list-lead").DataTable();
+        table.ajax.url(baseHome + "/data/list?nhan_vien=" + nhanvien + "&tu_ngay=" + tungay + "&den_ngay=" + denngay).load();
+        table.draw();
+    }
 }
 
 function onClickFn() {
