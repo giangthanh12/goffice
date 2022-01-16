@@ -1,25 +1,19 @@
 var url = "";
 $(function () {
   "use strict";
-  return_combobox_multi('#branchId', baseHome + '/congtac/getBranch', 'Chọn phòng ban');
-  return_combobox_multi('#departmentId', baseHome + '/congtac/getDepartment', 'Chọn Chi nhánh');
+  return_combobox_multi('#branchId', baseHome + '/congtac/getBranch', 'Chọn Chi nhánh');
+  return_combobox_multi('#departmentId', baseHome + '/congtac/getDepartment', 'Chọn Phòng ban');
   return_combobox_multi('#positionId', baseHome + '/congtac/getPosition', 'Chọn Vị trí');
-  return_combobox_multi('#staffId', baseHome + '/congtac/getStaff', 'Chọn Nhân viên');
+  return_combobox_multi('#workplaceId', baseHome + '/congtac/getWorkplace', 'Chọn Địa điểm làm việc');
 
   
-  var dtUserTable = $(".user-list-table"),
-    modal = $("#updateinfo"),
+  var dtUserTable = $("#contract-table"),
     form = $("#dg"),
     flatPickr = $(".task-due-date"),
-    
-    staffId = $("#staffId"),
-    staffName = $("#staffName"),
+    workplaceId = $("#workplaceId"),
     positionId = $("#positionId"),
-    positionName = $("#positionName"),
     branchId = $("#branchId"),
-    branchName = $("#branchName"),
     departmentId = $("#departmentId"),
-    departmentName = $("#departmentName"),
     startDate = $("#startDate"),
     stopDate = $("#stopDate"),
     basicSalary = $("#salary"),
@@ -47,21 +41,6 @@ $(function () {
     }
 
     // Chọn nhân viên để hiển thị Công tác
-    if (staffId.length) {
-      staffId.wrap(
-        '<div class="position-relative" style="width:100%"></div>'
-      );
-      staffId.select2({
-        placeholder: "Chọn nhân viên",
-        dropdownParent: staffId.parent(),
-        templateResult: assignTask,
-        templateSelection: assignTask,
-        escapeMarkup: function (es) {
-          return es;
-        },
-      });
-      staffId.val(staffId).trigger("change");
-    }
 
     if (flatPickr.length) {
       flatPickr.flatpickr({
@@ -128,7 +107,13 @@ $(function () {
           render: function (data, type, full, meta) {
             var html = "";
             html +=
-              '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" title="Lịch sử công tác" onclick="setJob(' +
+              '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" title="Lịch sử công tác" onclick="getRecordHistory(' +
+              full["id"] +
+              ')">';
+            html += '<i class="fas fa-pencil-alt"></i>';
+            html += "</button> &nbsp;";
+            html +=
+              '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" title="Điều chuyển công tác" onclick="setJob(' +
               full["id"] +
               ')">';
             html += '<i class="fas fa-arrows-alt"></i>';
@@ -141,7 +126,7 @@ $(function () {
             html += "</button>";
             return html;
           },
-          width: 120,
+          width: 180,
         },
       ],
       dom:
@@ -150,8 +135,8 @@ $(function () {
         '<"col-lg-12 col-xl-6 pl-xl-75 pl-0"<"dt-action-buttons text-xl-right text-lg-left text-md-right text-left d-flex align-items-center justify-content-lg-end align-items-center flex-sm-nowrap flex-wrap mr-1"<"mr-1"f>B>>' +
         ">t" +
         '<"d-flex justify-content-between mx-2 row mb-1"' +
-        '<"col-sm-12 col-md-6"i>' +
-        '<"col-sm-12 col-md-6"p>' +
+        '<"2 col-md-6"i>' +
+        '<"2 col-md-6"p>' +
         ">",
       // Buttons with Dropdown
       buttons: [
@@ -188,14 +173,7 @@ $(function () {
     });
   }
 
-  // Check Validity
-  function checkValidity(el) {
-    if (el.validate().checkForm()) {
-      submitBtn.attr("disabled", false);
-    } else {
-      submitBtn.attr("disabled", true);
-    }
-  }
+  
 
   // Form Validation
   if (form.length) {
@@ -218,7 +196,7 @@ $(function () {
       var isValid = form.valid();
       e.preventDefault();
       if (isValid) {
-        modal.modal("hide");
+        modal1.modal("hide");
       }
     });
   }
@@ -387,8 +365,8 @@ function load_select(selectId, url, place) {
 }
 
 function setJob(id) {
-  $("#updateinfo").modal("show");
-  $("#title-2").html("Điều chuyển công tác");
+  $("#large1").modal("show");
+  $("#myModalLabel8").html("Điều chuyển công tác");
   
   $.ajax({
     type: "POST",
@@ -405,14 +383,14 @@ function setJob(id) {
       $("#allowance").val(data.allowance);
       $("#insurance").val(data.insuranceSalary);
       $("#percentage").val(data.salaryPercentage);
-      $("#staffId").val(data.staffId).change();
+      $("#staffId").val(data.staffId);
+      $("#workplaceId").val(data.workplaceId).change();
       $("#branchId").val(data.branchId).change();
       $("#departmentId").val(data.departmentId).change();
       $("#positionId").val(data.positionId).change();
       $("#startDate").val(data.startDate);
       $("#stopDate").val(data.stopDate);
       $("#description").val(data.description);
-      $("#shift").val(data.shift);
     },
     error: function () {
       notify_error("Lỗi truy xuất database");
@@ -427,21 +405,19 @@ function update() {
 
   info.name = $("#name").val();
   info.type = $("#type").val();
-  info.salary = $("#salary").val();
   info.allowance = $("#allowance").val();
   info.basicSalary = $("#salary").val();
   info.insuranceSalary = $("#insurance").val();
   info.salaryPercentage = $("#percentage").val();
   info.staffId = $("#staffId").val();
+  info.workplaceId = $("#workplaceId").val();
   info.branchId = $("#branchId").val();
   info.departmentId = $("#departmentId").val();
   info.positionId = $("#positionId").val();
   info.startDate = $("#startDate").val();
   info.stopDate = $("#stopDate").val();
   info.description = $("#description").val();
-  info.shift = $("#shift").val();
   // lấy dữ liệu đưa vào trong object info
-
   $.ajax({
     type: "POST",
     dataType: "json", // du lieu nhan ve json
@@ -490,6 +466,83 @@ function deleteContract(id) {
         },
       });
     }
+  });
+}
+
+function getRecordHistory(id) {
+  $("#large").modal("show");
+  $("#myModalLabel17").html("Lịch sử công tác");
+
+  $.ajax({
+    type: "POST",
+    dataType: "json",
+    data: { id: id },
+    url: baseHome + "/congtac/getRecordHistory",
+    success: function(data) {
+      $("#historyName").val(data.name);
+
+      var html = "";
+      html += '<div class="row">';
+      html += '<div style="width: 12em;font-weight: 900;">';
+      html += '<p>Tên hợp đồng</p>';
+      html += '</div>';
+      html += '<div style="width: 13em;font-weight: 900;">';
+      html +=
+        '<p>Thời gian làm việc</p>';
+      html += "</div>";
+      html += '<div style="width: 10em;font-weight: 900;">';
+      html +=
+        '<p class=" ">Vị trí công việc</p>';
+      html += "</div>";
+      html += '<div style="width: 10.5em;font-weight: 900;">';
+      html += '<p>Chi nhánh</p>';
+      html += "</div>";
+      html += '<div style="width: 10em;font-weight: 900;">';
+      html += '<p class=" ">Phòng ban</p>';
+      html += "</div>";
+      html += '<div style="width: 10.5em;font-weight: 900;">';
+      html += '<p class=" ">Nơi làm việc</p>';
+      html += "</div>";
+      html += '<div style="width: 10em;font-weight: 900;">';
+      html += '<p class=" ">Mức lương</p>';
+      html += "</div>";
+      html += '<div style="width: 10em;font-weight: 900;">';
+      html += '<p class=" ">Phụ cấp</p>';
+      html += "</div>";
+      html += "</div>";
+      data.forEach(function (value, index) {
+        html += '<div class="row">';
+        html += '<div style="width: 12em;">';
+        html += '<p >' + value.name + '</p>';
+        html += '</div>';
+        html += '<div style="width: 13em;">';
+        html += '<p >' + value.startDate + ' - ' + value.stopDate + '</p>';
+        html += '</div>';
+         html += '<div style="width: 10em;">';
+        html += '<p >' + value.positionName + '</p>';
+        html += '</div>';
+        html += '<div style="width: 10.5em;">';
+        html += '<p >' + value.branchName + '</p>';
+        html += '</div>';
+        html += '<div style="width: 10em;">';
+        html += '<p >' + value.departmentName + '</p>';
+        html += '</div>';
+        html += '<div style="width: 10.5em;">';
+        html += '<p >' + value.workplaceName + '</p>';
+        html += '</div>';
+        html += '<div style="width: 10em;">';
+        html += '<p >' + value.salary + '</p>';
+        html += '</div>';
+        html += '<div style="width: 10em;">';
+        html += '<p >' + value.allowance + '</p>';
+        html += '</div>';
+        html += '</div>';
+      });
+      $("#history").html(html);
+    },
+    error: function () {
+      notify_error("Lỗi truy xuất database");
+    },
   });
 }
 

@@ -18,6 +18,12 @@ class congtac_model extends Model
             (SELECT basicSalary FROM laborcontract WHERE staffId = a.id AND status = 1) AS salary,
             (SELECT allowance FROM laborcontract WHERE staffId = a.id AND status = 1) AS allowance,
             (SELECT 
+                (SELECT id FROM workplaces WHERE id = b.workplaceId)
+            FROM laborcontract b WHERE staffId = a.id AND status = 1) AS workplaceId,
+            (SELECT 
+                (SELECT name FROM workplaces WHERE id = b.workplaceId)
+            FROM laborcontract b WHERE staffId = a.id AND status = 1) AS workplaceName,
+             (SELECT 
                 (SELECT id FROM position WHERE id = b.position)
             FROM laborcontract b WHERE staffId = a.id AND status = 1) AS positionId,
             (SELECT 
@@ -57,15 +63,15 @@ class congtac_model extends Model
     function getContractByStaffId($id)
     {
         $result['data'] = array();
-        $where = " WHERE status = 1 AND staffid = $id ";
-        $query = $this->db->query("SELECT id, name, shift, description, type, salaryPercentage,
+        $where = " WHERE status > 0 AND staffid = $id ";
+        $query = $this->db->query("SELECT id, name, staffId, description, type, salaryPercentage,
         DATE_FORMAT(startDate, '%d-%m-%Y') AS startDate,
         DATE_FORMAT(stopDate, '%d-%m-%Y') AS stopDate,
         FORMAT(insuranceSalary, 0) as insuranceSalary, 
         FORMAT(basicSalary, 0) as basicSalary, 
         FORMAT(allowance, 0) as allowance,
-        (SELECT id FROM staffs WHERE id = a.staffId) AS staffId,
-        (SELECT name FROM staffs WHERE id = a.staffId) AS staffName,
+        (SELECT id FROM workplaces WHERE id = a.staffId) AS workplaceId,
+        (SELECT name FROM workplaces WHERE id = a.staffId) AS workplaceName,
         (SELECT id FROM position WHERE id = a.position) AS positionId,
         (SELECT name FROM position WHERE id = a.position) AS positionName,
         (SELECT id FROM branch WHERE id = a.branchId) AS branchId,
@@ -76,6 +82,28 @@ class congtac_model extends Model
         $result = $query->fetchAll(PDO::FETCH_ASSOC);
         if (isset($result[0]))
             $result = $result[0];
+        return $result;
+    }
+
+    function getRecordHistoryByStaffId($id)
+    {
+        $result['data'] = array();
+        $where = " WHERE status = 1 AND staffId = $id ";
+        $query = $this->db->query("SELECT id, name, 
+        positionId, 
+        (SELECT name FROM position WHERE id = a.positionId) AS positionName,
+        branchId, 
+        (SELECT name FROM branch WHERE id = a.branchId) AS branchName,
+        departmentId, 
+        (SELECT name FROM department WHERE id = a.departmentId) AS departmentName,
+        workplaceId, 
+        (SELECT name FROM workplaces WHERE id = a.staffId) AS workplaceName,
+        FORMAT(salary, 0) as salary, 
+        FORMAT(allowance, 0) as allowance,
+        DATE_FORMAT(startDate, '%d-%m-%Y') AS startDate,
+        DATE_FORMAT(stopDate, '%d-%m-%Y') AS stopDate
+        FROM records a $where");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }
 
@@ -103,9 +131,9 @@ class congtac_model extends Model
         return $result;
     }
 
-    function getStaff() {
+    function getWorkplace() {
         $result = array();
-        $query = $this->db->query("SELECT id, name AS `text` FROM staffs WHERE status > 0");
+        $query = $this->db->query("SELECT id, name AS `text` FROM workplaces WHERE status > 0");
         if ($query)
             $result = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;
@@ -121,6 +149,12 @@ class congtac_model extends Model
     function updateObj($data, $id)
     {
         $query = $this->update("laborcontract", $data , " id=$id ");
+        return $query;
+    }
+
+    function addHistory($data)
+    {
+        $query = $this->insert("records", $data);
         return $query;
     }
 

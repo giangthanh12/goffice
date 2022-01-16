@@ -285,7 +285,9 @@
     padding: 1rem;
 } */
 
-.takecare-history-detail {
+.takecare-history-detail,
+.record-history-detail
+ {
     font-family: -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
     font-style: normal;
     font-weight: normal;
@@ -296,7 +298,8 @@
     padding: 1rem;
 }
 
-.takecare-history {
+.takecare-history,
+.record-history {
     padding: 15px;
     font-family: -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
     font-style: normal;

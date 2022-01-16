@@ -16,8 +16,8 @@ class congtac extends Controller
 
     function getAllData()
     {
-        $data = $this->model->getAllData();
-        echo json_encode($data);
+        $jsonObj = $this->model->getAllData();
+        echo json_encode($jsonObj);
     }
 
     // function getAllStaff()
@@ -41,16 +41,23 @@ class congtac extends Controller
         echo json_encode($jsonObj);
     }
 
-    function getStaff() {
-        $jsonObj = $this->model->getStaff();
+    function getWorkplace() {
+        $jsonObj = $this->model->getWorkplace();
         echo json_encode($jsonObj);
     }
 
     function getContract()
     {
         $id = isset($_REQUEST['id']) ? $_REQUEST['id'] : 0;
-        $json = $this->model->getContractByStaffId($id);
-        echo json_encode($json);
+        $jsonObj = $this->model->getContractByStaffId($id);
+        echo json_encode($jsonObj);
+    }
+
+    function getRecordHistory()
+    {
+        $id = isset($_REQUEST['id']) ? $_REQUEST['id'] : 0;
+        $jsonObj = $this->model->getRecordHistoryByStaffId($id);
+        echo json_encode($jsonObj);
     }
 
     // function loadDataById()
@@ -125,24 +132,21 @@ class congtac extends Controller
         $name = $_REQUEST['name'];
         $type = $_REQUEST['type'];
         $staffId = $_REQUEST['staffId'];
+        $workplaceId = $_REQUEST['workplaceId'];
         $branchId = $_REQUEST['branchId'];
         $departmentId = $_REQUEST['departmentId'];
         $positionId = $_REQUEST['positionId'];
         $percentage = $_REQUEST['salaryPercentage'];
         $insurance = str_replace(',','',$_REQUEST['insuranceSalary']);
-        $salary = str_replace(',','',$_REQUEST['salary']);
+        $salary = str_replace(',','',$_REQUEST['basicSalary']);
         $allowance = str_replace(',','',$_REQUEST['allowance']);
         $startDate = date('Y-m-d',strtotime($_REQUEST['startDate']));
         $stopDate = date('Y-m-d',strtotime($_REQUEST['stopDate']));
-        $shift = $_REQUEST['shift'];
         $description = $_REQUEST['description'];
         $data1 = [
-           'status' => 2
-        ];
-        $data2 = [
             'name' => $name,
             'type' => $type,
-            'staffId' => $staffId,
+            'workplaceId' => $workplaceId,
             'branchId' => $branchId,
             'departmentId' => $departmentId,
             'position' => $positionId,
@@ -152,13 +156,33 @@ class congtac extends Controller
             'allowance' => $allowance,
             'startDate' => $startDate,
             'stopDate' => $stopDate,
-            'shift' => $shift,
             'description' => $description,
             'status' => '1'
         ];
-       
+        $data2 = [
+            'name' => $name,
+            'staffId' => $staffId,
+            'workplaceId' => $workplaceId,
+            'contractId' => $id,
+            'branchId' => $branchId,
+            'departmentId' => $departmentId,
+            'positionId' => $positionId,
+            'salary' => $salary,
+            'allowance' => $allowance,
+            'startDate' => $startDate,
+            'stopDate' => $stopDate,
+            'status' => '1'
+        ];
+
         if($id == '') { //Nếu chưa có hợp đồng
-             if ($this->model->addObj($data2)) {
+            if ($this->model->addObj($data1)) {
+                $jsonObj['msg'] = 'Cập nhật dữ liệu thành công';
+                $jsonObj['success'] = true;
+            } else {
+                $jsonObj['msg'] = 'Cập nhật dữ liệu không thành công';
+                $jsonObj['success'] = false;
+            }
+            if ($this->model->addHistory($data2)) {
                 $jsonObj['msg'] = 'Cập nhật dữ liệu thành công';
                 $jsonObj['success'] = true;
             } else {
@@ -174,7 +198,7 @@ class congtac extends Controller
                 $jsonObj['msg'] = 'Cập nhật dữ liệu không thành công';
                 $jsonObj['success'] = false;
             }
-            if ($this->model->addObj($data2)) {
+            if ($this->model->addHistory($data2)) {
                 $jsonObj['msg'] = 'Cập nhật dữ liệu thành công';
                 $jsonObj['success'] = true;
             } else {
