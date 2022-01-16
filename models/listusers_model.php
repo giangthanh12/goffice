@@ -40,6 +40,14 @@ class listusers_model extends Model
         return $temp[0]['total'];
     }
 
+    function getAccessPoints()
+    {
+        $query = $this->db->query("SELECT id,name as text
+          FROM accesspoints WHERE status > 0");
+        $temp = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $temp;
+    }
+
     function updateObj($data, $id)
     {
         $query = $this->update("users", $data, " id=$id AND username!='admin' ");

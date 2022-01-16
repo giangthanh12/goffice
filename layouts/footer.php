@@ -28,7 +28,6 @@
 <script src="<?=HOME?>/styles/app-assets/js/scripts/customizer.min.js"></script>-->
 
 <!-- Common CSS -->
-<script src="<?=HOME?>/styles/app-assets/js/scripts/thangjs.js"></script>
 <script src="<?=HOME?>/styles/app-assets/js/core/app-menu.min.js"></script>
 <script src="<?=HOME?>/styles/app-assets/js/core/app.min.js"></script>
 <script src="<?=HOME?>/styles/app-assets/vendors/js/forms/select/select2.full.min.js"></script>
