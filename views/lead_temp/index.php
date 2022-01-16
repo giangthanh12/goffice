@@ -21,34 +21,34 @@
                 <div class="row">
                     <div class="form-group col-lg-6">
                         <label for="task-due-date" class="form-label">Từ ngày</label>
-                        <input type="text" class="form-control task-due-date" id="tungay" name="tungay" placeholder="DD/MM/YYYY" />
+                        <input type="text" class="form-control task-due-date" id="fromDate" name="fromDate" placeholder="DD/MM/YYYY" />
                     </div>
                     <div class="form-group col-lg-6">
                         <label for="task-due-date" class="form-label">Đến ngày</label>
-                        <input type="text" class="form-control task-due-date" id="denngay" name="denngay" placeholder="DD/MM/YYYY" />
+                        <input type="text" class="form-control task-due-date" id="toDate" name="toDate" placeholder="DD/MM/YYYY" />
                     </div>
                 </div>
             </div>
             <div class="col-lg-9">
                 <div class="row">
                     <div class="lead-btn col-lg-2">
-                        <label for="task-due-date" class="form-label"></label>
-                        <button class="form-control btn-title-left" role="button">Tìm kiếm</button>
+                        <label for="task-due-date" class="form-label">&nbsp;</label>
+                        <button class="form-control btn-title-left" role="button" onclick="leadSearch()">Tìm kiếm</button>
                     </div>
                     <div class="col-lg-2">
-                        <label for="task-due-date" class="form-label"></label>
+                        <label for="task-due-date" class="form-label">&nbsp;</label>
                         <button class="form-control btn-title-left" role="button">Nhập từ excel</button>
                     </div>
                     <div class="col-lg-2">
-                        <label for="task-due-date" class="form-label"></label>
+                        <label for="task-due-date" class="form-label">&nbsp;</label>
                         <button class="form-control btn-title-left" role="button">Báo giá</button>
                     </div>
                     <div class="col-lg-2">
-                        <label for="task-due-date" class="form-label"></label>
+                        <label for="task-due-date" class="form-label">&nbsp;</label>
                         <button class="form-control btn-title-left" role="button">Đơn hàng</button>
                     </div>
                     <div class="col-lg-2">
-                        <label for="task-due-date" class="form-label"></label>
+                        <label for="task-due-date" class="form-label">&nbsp;</label>
                         <button class="form-control btn-title-left" role="button">Hợp đồng</button>
                     </div>
                 </div>
@@ -298,10 +298,6 @@
                                     </span>
                                 </div>
                             </div>
-                            <!-- <div class="form-group position-relative">
-                                <label for="staffId" class="form-label d-block">Người chăm sóc</label>
-                                <select class="select2 form-control" id="staffId" name="staffId"></select>
-                            </div> -->
                             <div class="form-group">
                                 <label for="todoTitleAdd" class="form-label">Link ghi âm</label>
                                 <input type="text" id="name" name="name" class="new-todo-item-title form-control" placeholder="Link ghi âm" />
@@ -381,81 +377,5 @@
             </div>
         </div>
     </div>
-
-    <!-- <div class="modal modal-slide-in sidebar-todo-modal fade" id="new-lead-modal">
-        <div class="modal-dialog sidebar-lg">
-            <div class="modal-content p-0">
-                <form id="form-modal-todo" class="todo-modal needs-validation" novalidate onsubmit="return false">
-                    <div class="modal-header align-items-center mb-1">
-                        <h5 class="modal-title">Thêm cơ hội</h5>
-                        <div class="todo-item-action d-flex align-items-center justify-content-between ml-auto">
-                            <button type="button" class="close font-large-1 font-weight-normal py-0" data-dismiss="modal" aria-label="Close">
-                                ×
-                            </button>
-                        </div>
-                    </div>
-                    <div class="modal-body flex-grow-1 pb-sm-0 pb-3">
-                        <div class="action-tags">
-                            <div class="form-group">
-                                <label for="todoTitleAdd" class="form-label">Tên cơ hội</label>
-                                <input type="text" id="todoTitleAdd" name="todoTitleAdd" class="new-todo-item-title form-control" placeholder="Tên cơ hội" />
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Mô tả cơ hội</label>
-                                <div id="task-desc1" class="border-bottom-0" data-placeholder="Mô tả cơ hội"></div>
-                                <div class="d-flex justify-content-end desc-toolbar border-top-0">
-                                    <span class="ql-formats mr-0">
-                                        <button class="ql-bold"></button>
-                                        <button class="ql-italic"></button>
-                                        <button class="ql-underline"></button>
-                                        <button class="ql-align"></button>
-                                        <button class="ql-link"></button>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="form-group position-relative">
-                                <label for="task-assigned" class="form-label d-block">Khách hàng</label>
-                                <select class="select2 form-control" id="task-assigned" name="task-assigned">
-                                    <?php
-                                    foreach ($this->customer as $item) {
-                                        echo '<option value="' . $item['id'] . '">' . $item['fullName'] . '</option>';
-                                    }
-                                    ?>
-                                </select>
-                            </div>
-                            <div class="form-group position-relative">
-                                <label for="opportunity" class="form-label d-block">Tiềm năng</label>
-                                <select class="select2 form-control" id="opportunity" name="opportunity">
-                                    <option value="1">Ít tiềm năng nhất</option>
-                                    <option value="2">Ít tiềm năng</option>
-                                    <option value="3">Tiềm năng bình thường</option>
-                                    <option value="4">Tiềm năng</option>
-                                    <option value="5">Tiềm năng nhất</option>
-                                </select>
-                            </div>
-                            <div class="form-group position-relative">
-                                <label for="statusAdd" class="form-label d-block">Trạng thái</label>
-                                <select class="select2 form-control" id="statusAdd" name="statusAdd">
-                                    <option value="1">Đang chăm sóc</option>
-                                    <option value="2">Đã gửi báo giá</option>
-                                    <option value="3">Đã chốt</option>
-                                    <option value="4">Hủy</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="task-due-date" class="form-label">Ngày trao đổi</label>
-                                <input type="text" class="form-control task-due-date" id="start-date" name="start-date" />
-                            </div>
-                        </div>
-                        <div class="form-group my-1">
-                            <button type="submit" class="btn btn-primary" onclick="leadAdd()">Cập nhật</button>
-                            <button type="button" class="btn btn-outline-secondary" id="btn_boqua" data-dismiss="modal">Bỏ qua</button>
-                            <button type="button" class="btn btn-danger update-btn d-none" data-dismiss="modal" onclick="del()">Xóa</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div> -->
 </div>
 <script src="<?= HOME ?>/js/lead_temp.js"></script>

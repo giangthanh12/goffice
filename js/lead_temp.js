@@ -397,79 +397,82 @@ $(document).on('click', '.sidebar-toggle', function() {
 // $('#list-lead').on('click', '.sidebar-list', function(e) {
 //     $(this).addClass('list-active');
 // });
+leadOnClick();
 
-$('#list-lead').on('click', '.sidebar-list', function() {
-    $('#list-lead .sidebar-list.list-active').removeClass('list-active');
-    $(this).addClass('list-active');
-    let leadId = $(this).data("id");
-    $('#id').val(leadId);
-    let customerId = $(this).data("customer");
-    $.ajax({
-        url: baseHome + "/lead_temp/getCustomerById",
-        type: 'post',
-        dataType: "json",
-        data: { id: customerId },
-        success: function(data) {
-            $('#fullName').html(data.fullName);
-            $('#taxCode').html(data.taxCode);
-            $('#address').html(data.address);
-            if (data.type == 1)
-                $('#type').html("Cá nhân");
-            else if (data.type == 2)
-                $('#type').html("Doanh nghiệp");
-            else $('#type').html("...");
-            $('#representative').html(data.representative);
-            $('#phoneNumber').html(data.phoneNumber);
-            $('#email').html(data.email);
-            $('#dateTime').html(data.dateTime);
-        },
-    });
-    let status = $(this).data("status");
-    let html = status;
-    if (status == 1) {
-        html = '<button class="btn-statement-orange">Đang chăm sóc\
-                </button>';
-    }
-    if (status == 2) {
-        html = '<button class="btn-statement-blue">Đã gửi báo giá\
-                </button>';
-    };
-    if (status == 3) {
-        html = '<button class="btn-statement-green">Đã chốt đơn\
-                </button>';
-    };
-    if (status == 4) {
-        html = '<button class="btn-statement-red">Hủy\
-                </button>';
-    };
-    $('#status').html(html);
-    $('#leadName').html($(this).data("leadname"));
-    $('#leadDes').html($(this).data("leaddes"));
+function leadOnClick() {
+    $('#list-lead').on('click', '.sidebar-list', function() {
+        $('#list-lead .sidebar-list.list-active').removeClass('list-active');
+        $(this).addClass('list-active');
+        let leadId = $(this).data("id");
+        $('#id').val(leadId);
+        let customerId = $(this).data("customer");
+        $.ajax({
+            url: baseHome + "/lead_temp/getCustomerById",
+            type: 'post',
+            dataType: "json",
+            data: { id: customerId },
+            success: function(data) {
+                $('#fullName').html(data.fullName);
+                $('#taxCode').html(data.taxCode);
+                $('#address').html(data.address);
+                if (data.type == 1)
+                    $('#type').html("Cá nhân");
+                else if (data.type == 2)
+                    $('#type').html("Doanh nghiệp");
+                else $('#type').html("...");
+                $('#representative').html(data.representative);
+                $('#phoneNumber').html(data.phoneNumber);
+                $('#email').html(data.email);
+                $('#dateTime').html(data.dateTime);
+            },
+        });
+        let status = $(this).data("status");
+        let html = status;
+        if (status == 1) {
+            html = '<button class="btn-statement-orange">Đang chăm sóc\
+                    </button>';
+        }
+        if (status == 2) {
+            html = '<button class="btn-statement-blue">Đã gửi báo giá\
+                    </button>';
+        };
+        if (status == 3) {
+            html = '<button class="btn-statement-green">Đã chốt đơn\
+                    </button>';
+        };
+        if (status == 4) {
+            html = '<button class="btn-statement-red">Hủy\
+                    </button>';
+        };
+        $('#status').html(html);
+        $('#leadName').html($(this).data("leadname"));
+        $('#leadDes').html($(this).data("leaddes"));
 
-    $.ajax({
-        url: baseHome + "/lead_temp/getTakeCareHistory",
-        type: 'post',
-        dataType: "json",
-        data: { id: leadId },
-        success: function(data) {
-            var html = '';
-            data.forEach(function(value, index) {
-                html += '<div class="row">';
-                html += '<div class="col-lg-3">';
-                html += '<p>' + value.dateTime + '</p>';
-                html += '</div>';
-                html += '<div class="col-lg-3">';
-                html += '<p>' + value.staffName + '</p>';
-                html += '</div>';
-                html += '<div class="col-lg-6">';
-                html += '<p>' + value.content + '</p>';
-                html += '</div>';
-                html += '</div>';
-            });
-            $('#history').html(html);
-        },
+        $.ajax({
+            url: baseHome + "/lead_temp/getTakeCareHistory",
+            type: 'post',
+            dataType: "json",
+            data: { id: leadId },
+            success: function(data) {
+                var html = '';
+                data.forEach(function(value, index) {
+                    html += '<div class="row">';
+                    html += '<div class="col-lg-3">';
+                    html += '<p>' + value.dateTime + '</p>';
+                    html += '</div>';
+                    html += '<div class="col-lg-3">';
+                    html += '<p>' + value.staffName + '</p>';
+                    html += '</div>';
+                    html += '<div class="col-lg-6">';
+                    html += '<p>' + value.content + '</p>';
+                    html += '</div>';
+                    html += '</div>';
+                });
+                $('#history').html(html);
+            },
+        });
     });
-});
+}
 
 function showModalTakeCare() {
     $('#new-takecare-modal').modal('show');
@@ -479,15 +482,64 @@ function showModalLead() {
     $('#new-lead-modal').modal('show');
 }
 
-function search() {
-    var lead = $("#lead").val();
-    var tungay = $("#tungay").val();
-    var denngay = $("#denngay").val();
-    if (lead != '' || tungay != '' || denngay != '') {
-        var list = $("#list-lead").DataTable();
-        table.ajax.url(baseHome + "/data/list?nhan_vien=" + nhanvien + "&tu_ngay=" + tungay + "&den_ngay=" + denngay).load();
-        table.draw();
-    }
+function leadSearch() {
+    var info = {};
+    info.fromDate = $('#fromDate').val();
+    info.toDate = $('#toDate').val();
+    $.ajax({
+        url: baseHome + "/lead_temp/leadSearch",
+        type: 'post',
+        dataType: "json",
+        data: info,
+        success: function(data) {
+            var html = '';
+            data.forEach(function(value, index) {
+                html += '<li data-id="' + value.id + '" data-customer="' + value.customerId + '" data-status="' + value.status + '" data-leadname="' + value.name + '" data-leaddes="' + value.description + '" class="sidebar-list">';
+                html += '<div class="chat-info flex-grow-1">';
+                html += '<div class="customer-name">';
+                html += '<label>' + value.name + '</label>';
+                html += '</div>';
+                html += '<div class="customer-info">';
+                html += '<label>' + value.fullName + '</label>';
+                html += '</div>';
+                html += '<div class="customer-info">';
+                html += '<label>' + value.description + '</label>';
+                html += '</div>';
+                html += '</div>';
+                html += '<div class="chat-meta text-nowrap">';
+                html += '<div class="float-right dropdown">';
+                html += '<i class="bx bx-dots-vertical-rounded bx-md icon-dots"></i>';
+                html += '<div class="dropdown-content">';
+                html += '<a href="#">Edit</a>';
+                html += '<a href="#">Delete</a>';
+                html += '</div>';
+                html += '</div>';
+                html += '<div class="btn-statement">';
+                html += '<br>';
+                if (value.status == 1) {
+                    html += '<button class="btn-statement-orange">Đang chăm sóc</button>';
+                }
+                if (value.status == 2) {
+                    html += '<button class="btn-statement-blue">Đã gửi báo giá</button>';
+                }
+                if (value.status == 3) {
+                    html += '<button class="btn-statement-green">Đã chốt đơn</button>';
+                }
+                if (value.status == 4) {
+                    html += '<button class="btn-statement-red">Hủy</button>';
+                }
+                html += ' </div>';
+                html += '</div>';
+                html += '</li>';
+            });
+            $('#list-lead').html(html);
+            leadOnClick();
+        },
+        error: function() {
+            notify_error("Định dạng dữ liệu không đúng");
+            return;
+        }
+    });
 }
 
 function onClickFn() {
