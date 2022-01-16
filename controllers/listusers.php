@@ -27,6 +27,11 @@ class listusers extends Controller
         echo json_encode($json);
     }
 
+    function accessPoints(){
+        $json = $this->model->getAccessPoints();
+        echo json_encode($json);
+    }
+
     function updateInfo()
     {
         $data = $_REQUEST['data'];
@@ -40,6 +45,7 @@ class listusers extends Controller
         }
         echo json_encode($jsonObj);
     }
+
 
     function add()
     {
@@ -92,17 +98,21 @@ class listusers extends Controller
         $staffId = $_POST['staffId'];
         $groupId = $_POST['groupId'];
         $password = $_POST['password'];
+        $accessPoint = isset($_POST['accesspoints']) ? $_POST['accesspoints'] : '';
+        if(count($accessPoint)>0)
+            $accessPoint = implode(",",$accessPoint);
         $data = [
             'staffId' => $staffId,
             'groupId' => $groupId,
+            'accesspoints'=>$accessPoint,
         ];
         if($password!='')
             $data['password'] = md5(md5($password));
         if ($this->model->updateObj($data,$id)) {
-            $jsonObj['message'] = "Cập nhật dữ liệu thành công";
+            $jsonObj['message'] = "Cập nhật dữ liệu thành công $accessPoint";
             $jsonObj['code'] = 200;
         } else {
-            $jsonObj['message'] = "Lỗi khi cập nhật database";
+            $jsonObj['message'] = "Lỗi khi cập nhật database $accessPoint";
             $jsonObj['code'] = 401;
         }
         echo json_encode($jsonObj);

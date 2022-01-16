@@ -76,7 +76,8 @@ class Model
         $response = curl_exec($ch);
         return $response;
     }
-    function getMenus($parentId,$type)
+
+    function getMenus($parentId, $type)
     {
         $classUser = $_SESSION['user']['classify'];
         $userId = $_SESSION['user']['id'];
@@ -177,6 +178,18 @@ class Model
                     return true;
             } else
                 return false;
+        } else
+            return false;
+    }
+
+    function checkChamCong()
+    {
+        $today = date("Y-m-d");
+        $staffId = $_SESSION['user']['staffId'];
+        $query = $this->db->query("SELECT COUNT(id) AS total FROM timekeeping WHERE staffId=$staffId AND date='$today'");
+        $row = $query->fetchAll(PDO::FETCH_ASSOC);
+        if ($row[0]['total'] == 0) {
+            return true;
         } else
             return false;
     }

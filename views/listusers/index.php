@@ -35,28 +35,25 @@
                                         <div class="card-body">
                                             <form class="form-validate" enctype="multipart/form-data" id="fm">
                                                 <div class="col-12">
+                                                    <label for="fname-icon">Username</label>
                                                     <div class="form-group row">
-                                                        <div class="col-sm-3 col-form-label">
-                                                            <label for="fname-icon">Username</label>
-                                                        </div>
-                                                        <div class="col-sm-9">
+                                                        <div class="col-sm-12">
                                                             <div class="input-group input-group-merge">
                                                                 <div class="input-group-prepend">
                                                                     <span class="input-group-text"><i
                                                                                 data-feather="user"></i></span>
                                                                 </div>
-                                                                <input type="text" id="username" class="form-control" required
+                                                                <input type="text" id="username" class="form-control"
+                                                                       required
                                                                        name="username" placeholder="Username"/>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-12">
+                                                    <label for="email-icon">Nhân viên</label>
                                                     <div class="form-group row">
-                                                        <div class="col-sm-3 col-form-label">
-                                                            <label for="email-icon">Nhân viên</label>
-                                                        </div>
-                                                        <div class="col-sm-9">
+                                                        <div class="col-sm-12">
                                                             <select class="select2 form-control" id="staffId"
                                                                     name="staffId" placeholder="Nhân viên">
                                                                 <option value="">--Chọn nhân viên--</option>
@@ -65,11 +62,20 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-12">
+                                                    <label for="accesspoints">Điểm truy cập</label>
                                                     <div class="form-group row">
-                                                        <div class="col-sm-3 col-form-label">
-                                                            <label for="contact-icon">Nhóm</label>
+                                                        <div class="col-sm-12">
+                                                            <select class="select2 form-control" multiple="true"
+                                                                    id="accesspoints"
+                                                                    name="accesspoints[]" placeholder="Điểm truy cập">
+                                                            </select>
                                                         </div>
-                                                        <div class="col-sm-9">
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <label for="contact-icon">Nhóm</label>
+                                                    <div class="form-group row">
+                                                        <div class="col-sm-12">
                                                             <select class="select2 form-control" id="groupId"
                                                                     name="groupId" placeholder="Nhóm">
                                                                 <option value="">--Chọn nhóm--</option>
@@ -78,11 +84,9 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-12">
+                                                    <label for="password">Password</label>
                                                     <div class="form-group row">
-                                                        <div class="col-sm-3 col-form-label">
-                                                            <label for="password">Password</label>
-                                                        </div>
-                                                        <div class="col-sm-9">
+                                                        <div class="col-sm-12">
                                                             <div class="input-group input-group-merge">
                                                                 <div class="input-group-prepend">
                                                                     <span class="input-group-text"><i
@@ -178,7 +182,9 @@
                                         </div>
                                     </div>
                                     <div class="col-12 d-flex flex-sm-row flex-column mt-2">
-                                        <button type="button"  class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1" onclick="updateRoles(); return false;">Cập nhật</button>
+                                        <button type="button" class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1"
+                                                onclick="updateRoles(); return false;">Cập nhật
+                                        </button>
                                         <button type="reset" class="btn btn-outline-secondary" data-dismiss="modal">Bỏ
                                             qua
                                         </button>

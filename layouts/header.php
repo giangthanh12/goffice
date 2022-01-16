@@ -1,3 +1,6 @@
+<?php
+$model = new model();
+?>
 <!DOCTYPE html>
 <html class="loading semi-dark-layout" lang="en" data-layout="semi-dark-layout" data-textdirection="ltr">
 
@@ -122,11 +125,15 @@
                     <h6 class="align-self-center cursor-pointer ml-50 mb-0">+42</h6>
                 </div> -->
             <ul class="nav navbar-nav bookmark-icons">
-                <li class="nav-item d-lg-block">
-                    <button type="button" class="btn btn-warning m-0 p-75">
-                        <i data-feather='check' ></i>
-                        <span>Checkin</span>
-                    </button>
+                <li class="nav-item d-lg-block" id="checkIn">
+                    <?php
+                    if ($model->checkChamCong()) {
+                        ?>
+                        <button type="button" class="btn btn-warning m-0 p-75" onclick="checkIn()">
+                            <i data-feather='check'></i>
+                            <span>Chấm công</span>
+                        </button>
+                    <?php } ?>
                 </li>
             </ul>
             <!-- <ul class="nav navbar-nav">
@@ -683,7 +690,6 @@
                 <i data-feather="more-horizontal"></i>
             </li>
             <?php
-            $model = new model();
             $menus = $model->getMenus(0, 3);
             foreach ($menus as $parMenu) {
                 $hasSub = 0;
