@@ -34,11 +34,16 @@
     padding: 0.438rem 1rem;
   } */
 
-.btn-title-left,
-.btn-title-right {
-    align-items: center;
-    padding: 6px 14px;
+.btn-title-left {
     font-family: -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 17px;
+    line-height: 20px;
+    text-align: center;
+    color: #FFFFFF;
+    /* align-items: center; */
+    /* padding: 6px 14px; */
     border-radius: 8px;
     border: none;
     color: #fff;
@@ -50,14 +55,12 @@
     /* touch-action: manipulation; */
 }
 
-.btn-title-right {
-    float: right;
+.btn-title-left:hover {
+    text-decoration: underline;
 }
 
-.btn-title-left:hover,
-.btn-title-right:hover {
+.btn-title-left:active {
     text-decoration: underline;
-    outline: 0;
 }
 
 .btn-statement-red {

@@ -69,4 +69,33 @@ class lead_temp extends Controller
         $jsonObj = json_encode($jsonObj);
         echo $jsonObj;
     }
+
+    function leadSearch() {
+        $fromDate = isset($_REQUEST['fromDate']) && $_REQUEST['fromDate'] != '' ? date("Y-m-d", strtotime(str_replace('/', '-', $_REQUEST['fromDate']))) : '';
+        $toDate = isset($_REQUEST['toDate']) && $_REQUEST['toDate'] != '' ? date("Y-m-d", strtotime(str_replace('/', '-', $_REQUEST['toDate']))) : '';
+        $result = json_encode($this->model->listObj($fromDate, $toDate));
+        echo $result;
+    }
+
+    // function list()
+    // {
+    //     // $phutrach = isset($_SESSION['user']['staffId']) ? $_SESSION['user']['staffId'] : (isset($_REQUEST['phu_trach']) ? $$_REQUEST['phu_trach'] : '');
+    //     $keyword = isset($_REQUEST['search']['value']) ? $_REQUEST['search']['value'] : (isset($_REQUEST['keyword']) ? $_REQUEST['keyword'] : '');
+    //     $offset = isset($_REQUEST['start']) ? $_REQUEST['start'] : 0;
+    //     $rows = isset($_REQUEST['length']) ? $_REQUEST['length'] : 30;
+    //     // $page = isset($_REQUEST['page']) ? $_REQUEST['page']: 1;
+    //     // $offset = ($page - 1) * $rows;
+    //     $nhanvien = isset($_REQUEST['nhanvien']) && $_REQUEST['nhanvien'] != '' && $_REQUEST['nhanvien'] != 0 ? $_REQUEST['nhanvien'] : '';
+    //     $tungay = isset($_REQUEST['tu_ngay']) && $_REQUEST['tu_ngay'] != '' ? date("Y-m-d", strtotime(str_replace('/', '-', $_REQUEST['tu_ngay']))) : '';
+    //     $denngay = isset($_REQUEST['den_ngay']) && $_REQUEST['den_ngay'] != '' ? date("Y-m-d", strtotime(str_replace('/', '-', $_REQUEST['den_ngay']))) : '';
+    //     $result = $this->model->listObj($keyword, $nhanvien, $tungay, $denngay, $offset, $rows);
+    //     $totalData = $result['total'];
+
+    //     $data['data'] = $result['data'];
+    //     $data['draw'] = intval(isset($_REQUEST['draw']) ? $_REQUEST['draw'] : 1);
+    //     $data['recordsTotal'] = $totalData;
+    //     $data['recordsFiltered'] = $totalData;
+    //     echo json_encode($data);
+    // }
+
 }
