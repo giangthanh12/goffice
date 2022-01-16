@@ -19,8 +19,8 @@
                         <table class="user-list-table table">
                             <thead class="thead-light">
                                 <tr>
-                                    <!-- <th></th> -->
-                                    <th>Tên tài sản</th>
+                                    <th>Mã sản phẩm</th>
+                                    <th >Tên tài sản</th>
                                     <th>Nhóm</th>
                                     <th>Trạng thái</th>
                                     <!-- <th>SL hỏng</th>
@@ -53,14 +53,6 @@
                                                             <input id="name" name="name" type="text" class="form-control" onblur="check_name();" />
                                                         </div>
                                                     </div>
-<!-- 
-                                                   
-                                                    <div class="col-lg-6 col-md-3">
-                                                        <div class="form-group">
-                                                            <label for="so_luong">Số lượng</label>
-                                                            <input id="so_luong" type="number" min="1" class="form-control" name="so_luong" onblur="check_name();" />
-                                                        </div>
-                                                    </div> -->
                                                     <div class="col-lg-12 col-md-12">
                                                         <div class="form-group">
                                                             <label for="don_vi">Đơn vị</label>
@@ -144,6 +136,16 @@
                         <li class="nav-item">
                             <a class="nav-link d-flex align-items-center active" id="information-tab" data-toggle="tab" href="#information" aria-controls="information" role="tab" aria-selected="false">
                                 <i data-feather="info"></i><span class="d-none d-sm-block">Thông tin tài sản</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link d-flex align-items-center " id="hisIssue-tab" data-toggle="tab" href="#hisIssue" aria-controls="hisIssue" role="tab" aria-selected="false">
+                                <i data-feather="info"></i><span class="d-none d-sm-block">Lịch sử cấp phát</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link d-flex align-items-center " id="hisIssue-tab" data-toggle="tab" href="#hisRecall" aria-controls="hisRecall" role="tab" aria-selected="false">
+                                <i data-feather="info"></i><span class="d-none d-sm-block">Lịch sử thu hồi</span>
                             </a>
                         </li>
                     </ul>
@@ -318,19 +320,49 @@
 
                         <!-- Account Tab starts -->
 
-                        <div class="tab-pane" id="account" aria-labelledby="account-tab" role="tabpanel">
-
-                            
-                                <h3>Tạo tài khoản mới</h3>
-
-                           
-
+                        <div class="tab-pane card" id="hisIssue" width="100%" aria-labelledby="hisIssue-tab" role="tabpanel">
+                            <div class="table-responsive border rounded mt-1">
+                                <h6 class="py-1 mx-1 mb-0 font-medium-2">
+                                    <i data-feather="lock" class="font-medium-3 mr-25"></i>
+                                    <span class="align-middle">Chi tiết</span>
+                                </h6>
+                                      
+                                            <table class="table asset-issue-list-table" id="asset-issue-list-table" >
+                                                <thead class="thead-light">
+                                                    <tr >
+                                                        <th >Thời gian</th>
+                                                        <th >Mã sản phẩm</th>
+                                                        <th >Tài sản</th>
+                                                        <th >Nhân viên</th>
+                                                        <th >Tiền cọc</th>
+                                                    </tr>
+                                                </thead>
+                                            </table>
+                                        
+                        </div>
                         </div>
 
-                        <div class="tab-pane" id="social" aria-labelledby="social-tab" role="tabpanel">
+                        <div class="tab-pane" id="hisRecall" aria-labelledby="hisRecall-tab" role="tabpanel">
+                            <div class="table-responsive border rounded mt-1">
+                                <h6 class="py-1 mx-1 mb-0 font-medium-2">
+                                    <i data-feather="lock" class="font-medium-3 mr-25"></i>
+                                    <span class="align-middle">Chi tiết</span>
+                                </h6>
+                                
+                                <table class="table" id="asset-recall-list-table">
+                                    <thead class="thead-light ">
+                                        <tr>
+                                            <th>Thời gian</th>
+                                            <th>Mã sản phẩm</th>
+                                            <th>Tài sản</th>
+                                            <th>Tiền cọc</th>
+                                            <th>Ghi chú</th>
+                                        </tr>
+                                    </thead>
+                                </table>
 
-                            <!-- users edit social form start -->
-                            <h3>Tạo tài khoản mới 2</h3>
+                                
+                            </div>
 
                         </div>
 
@@ -353,9 +385,8 @@
 </div>
                     <!--END DIV updateinfo MOdal-->
 
-
-                    <!---modal BÁO MẤT HỎNG-->
-                    <div class="modal modal-slide-in new-user-modal fade" id="baohongmat" tabindex="-1" role="dialog" aria-labelledby="myModalLabel16" aria-hidden="true">
+  <!---modal BÁO MẤT HỎNG-->
+  <div class="modal modal-slide-in new-user-modal fade" id="baohongmat" tabindex="-1" role="dialog" aria-labelledby="myModalLabel16" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -391,6 +422,112 @@
                         </div>
                     </div>
                     <!---END modal BÁO MẤT HỎNG-->
+                    <!---modal cấp phát tài sản-->
+                    <div class="modal modal-slide-in new-user-modal fade" id="modalIssue" tabindex="-1" >
+
+                        <div class="modal-dialog">
+
+                            <form class="add-new-user modal-content pt-0" id="IssueForm">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">×</button>
+                                <input type="hidden" name="idAsset" id="idAsset" />
+                                <div class="modal-header mb-1">
+                                    <h5 class="modal-title" id="exampleModalLabel">Cấp phát</h5>
+                                </div>
+
+                                <div class="modal-body flex-grow-1">
+                                    <div class="row">
+                                    <div class="col-lg-12 col-md-12">
+                                        <div class="form-group">
+                                            <label class="form-label" for="nhan_vien">Nhân viên</label>
+                                            <select name="nhan_vien" id="nhan_vien" class="select2 form-control"></select>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="form-label" for="asset_issue">Tài sản</label>
+                                            <select name="asset_issue" id="asset_issue" class="select2 form-control" ></select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12">
+                                        <div class="form-group">
+                                            <label for="dat_coc">Đặt cọc</label>
+                                            <input id="dat_coc" type="text" class="form-control format_number" name="dat_coc" />
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12">
+                                        <div class="form-group">
+                                            <label for="dateIssue">Ngày cấp</label>
+                                            <input id="dateIssue" type="text" class="form-control flatpickr-basic" name="dateIssue" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="descIssue">Ghi chú</label>
+                                            <textarea id="descIssue" class="form-control" name="descIssue"></textarea>
+                                        </div>
+                                    <button type="submit" id="btn_add_issue"  class="btn btn-primary mr-1 data-submit">Lưu</button>
+                                    <button type="reset" class="btn btn-outline-secondary" data-dismiss="modal">Bỏ qua</button>
+                                    </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                    <!---END modal cap phat-->
+
+
+ <!--end modal-->
+ <div class="modal modal-slide-in new-user-modal fade" id="modalRecall">
+
+<div class="modal-dialog">
+
+    <form class="add-new-user modal-content pt-0" id="dg_th">
+        <input type="hidden" name="id_cp" id="id_cp">
+        <input type="hidden" name="id_ts" id="id_ts">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">×</button>
+
+        <div class="modal-header mb-1">
+            <h5 class="modal-title" id="exampleModalLabel">Thu hồi sản phẩm</h5>
+        </div>
+
+        <div class="modal-body flex-grow-1">
+            <div class="row">
+            <div class="col-lg-12 col-md-12">
+                <div class="form-group">
+                    <label class="form-label" for="fullname">Nhân viên</label>
+                    <select name="nhan_vien_th" id="nhan_vien_th" class="select2-data-array  form-control" ></select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="dien_thoai">Tài sản</label>
+                    <select name="tai_san_th" id="tai_san_th" name ="tai_san_th" class="select2-data-array  form-control"></select>
+                </div>
+            </div>
+            
+            <div class="col-lg-12 col-md-12">
+                <div class="form-group">
+                    <label for="tra_coc_th">Trả cọc</label>
+                    <input id="tra_coc_th" type="text" class="form-control format_number" name="tra_coc_th" />
+                </div>
+            </div>
+            <div class="col-lg-12 col-md-12">
+                <div class="form-group">
+                    <label for="ngay_gio_th">Ngày trả</label>
+                    <input id="ngay_gio_th" type="text" class="form-control ngay_gio" name="ngay_gio_th" />
+                </div>
+                <div class="form-group">
+                    <label for="ghi_chu_th">Ghi chú</label>
+                    <textarea id="ghi_chu_th" class="form-control" name="ghi_chu_th"></textarea>
+                </div>
+                <button type="button" id="btn_add_th" class="btn btn-primary mr-1 data-submit" onclick="saveth()">Thu hồi</button>
+            <button type="reset" class="btn btn-outline-secondary" data-dismiss="modal">Bỏ qua</button>
+            </div>
+            </div>
+        </div>
+
+    </form>
+</div>
+
+</div>
+<!--end modal-->
 
 
                 </div>
