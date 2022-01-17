@@ -9,7 +9,7 @@
  **/
 
 'use-strict';
-var date = new Date(), nhanvien = 0;
+var date = new Date(), staffId = 0;
 var nextDay = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
 // prettier-ignore
 var nextMonth = date.getMonth() === 11 ? new Date(date.getFullYear() + 1, 0, 1) : new Date(date.getFullYear(), date.getMonth() + 1, 1);
@@ -45,13 +45,8 @@ document.addEventListener('DOMContentLoaded', function () {
         sidebar = $('.event-sidebar'),
         calendarsColor = {
             0: '',
-            1: 'info',
-            2: 'success',
-            3: 'warning',
-            8: 'dark',
-            9: 'danger',
-            10: 'primary',
-            11: 'danger'
+            1: 'success',
+            2: 'warning',
         },
         frmCong = $('#frmCong'),
         checkoutBtn = $('#checkoutBtn'),
@@ -60,11 +55,11 @@ document.addEventListener('DOMContentLoaded', function () {
         toggleSidebarBtn = $('.btn-toggle-sidebar'),
         // selectCong = $('#select-label'),
         selectCongSang = $('#selectCongSang'),
-        selectNhanVien = $('#selectNhanVien'),
+        selectStaff = $('#selectStaff'),
         selectCongChieu = $('#selectCongChieu'),
-        ngay = $('#ngay'),
-        giovao = $('#giovao'),
-        giora = $('#giora'),
+        date = $('#date'),
+        checkInTime = $('#checkInTime'),
+        checkOutTime = $('#checkOutTime'),
         ghichu = $('#ghichu'),
         // eventUrl = $('#event-url'),
         // eventGuests = $('#event-guests'),
@@ -90,12 +85,12 @@ document.addEventListener('DOMContentLoaded', function () {
         async: false,
         url: baseHome + "/common/nhanvien",
         success: function (data) {
-            selectNhanVien.select2({
+            selectStaff.select2({
                 data: data,
             });
         },
     });
-    selectNhanVien.val(baseUser).trigger("change");
+    selectStaff.val(baseUser).trigger("change");
 
     // Label  select
     if (selectCongSang.length) {
@@ -187,8 +182,8 @@ document.addEventListener('DOMContentLoaded', function () {
     //         }
     //     });
     // }
-    if (ngay.length) {
-        var ngay = ngay.flatpickr({
+    if (date.length) {
+        var date = date.flatpickr({
             enableTime: false,
             altFormat: 'Y-m-d',
             dateFormat: "Y-m-d",
@@ -202,8 +197,8 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Start date picker
-    if (giovao.length) {
-        var giovao = giovao.flatpickr({
+    if (checkInTime.length) {
+        var checkInTime = checkInTime.flatpickr({
             enableTime: true,
             noCalendar: true,
             dateFormat: "H:i:S",
@@ -219,8 +214,8 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // End date picker
-    if (giora.length) {
-        var giora = giora.flatpickr({
+    if (checkOutTime.length) {
+        var checkOutTime = checkOutTime.flatpickr({
             enableTime: true,
             noCalendar: true,
             dateFormat: "H:i:S",
@@ -243,34 +238,10 @@ document.addEventListener('DOMContentLoaded', function () {
             window.open(eventToUpdate.url, '_blank');
         }
         sidebar.modal('show');
-        //  cancelBtn.addClass('d-none');
-        // updateEventBtn.removeClass('d-none');
-        // btnDeleteEvent.removeClass('d-none');
-        ngay.setDate(eventToUpdate.start, true, 'Y-m-d');
+        date.setDate(eventToUpdate.start, true, 'Y-m-d');
         congid = eventToUpdate.extendedProps.congid;
-        // eventToUpdate.allDay === true ? allDaySwitch.prop('checked', true) : allDaySwitch.prop('checked', false);
-        // eventToUpdate.end !== null
-        //     ? end.setDate(eventToUpdate.end, true, 'Y-m-d')
-        //     : end.setDate(eventToUpdate.start, true, 'Y-m-d');
-        sidebar.find(selectCongSang).val(eventToUpdate.extendedProps.congsang).trigger('change');
-        sidebar.find(selectCongChieu).val(eventToUpdate.extendedProps.congchieu).trigger('change');
-        giovao.setDate(eventToUpdate.extendedProps.giovao, true, 'Y-m-d');
-        giora.setDate(eventToUpdate.extendedProps.giora, true, 'Y-m-d');
-        // eventToUpdate.extendedProps.guests !== undefined
-        //     ? eventGuests.val(eventToUpdate.extendedProps.guests).trigger('change')
-        //     : null;
-        // eventToUpdate.extendedProps.guests !== undefined
-        //     ? calendarEditor.val(eventToUpdate.extendedProps.description)
-        //     : null;
-        //
-        // //  Delete Event
-        // btnDeleteEvent.on('click', function () {
-        //     eventToUpdate.remove();
-        //     // removeEvent(eventToUpdate.id);
-        //     sidebar.modal('hide');
-        //     $('.event-sidebar').removeClass('show');
-        //     $('.app-calendar .body-content-overlay').removeClass('show');
-        // });
+        checkInTime.setDate(eventToUpdate.extendedProps.checkInTime, true, 'Y-m-d');
+        checkOutTime.setDate(eventToUpdate.extendedProps.checkOutTime, true, 'Y-m-d');
     }
 
     // Modify sidebar toggler
@@ -282,11 +253,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Selected Checkboxes
     function selectedCalendars() {
-        var selected = [];
-        $('.calendar-events-filter input:checked').each(function () {
-            selected.push($(this).attr('data-value'));
-        });
-        return selected;
+        // var selected = [];
+        // $('.calendar-events-filter input:checked').each(function () {
+        //     selected.push($(this).attr('data-value'));
+        // });
+        // return selected;
+        return [1,2];
     }
 
     // --------------------------------------------------------------------------------------------------
@@ -310,64 +282,46 @@ document.addEventListener('DOMContentLoaded', function () {
             }
           }
         ); */
-        nhanvien = selectNhanVien.val();
+        staffId = selectStaff.val();
         $.ajax({
             type: "POST",
             dataType: "json",
-            data: {nhanvienid: nhanvien, nam: nam, thang: thang},
-            url: baseHome + '/chamcong/bangcongnv',
+            data: {staffId: staffId, nam: nam, thang: thang},
+            url: baseHome + '/timekeeping/getTimeKeeping',
             success: function (data) {
                 events = [];
                 if (data.data) {
                     let i = 0;
                     data.data.forEach(function (item) {
-                        let title = "In";
-                        let allday = false;
-                        let arr = [];
-                        const cong = ["0", "1", "11", "12"];
-                        if (cong.includes(String(item.morning)) == false || item.checkInTime == '00:00:00') {
-                            title = item.kyhieusang;
-                            allday = true;
-                        }
-                       if (item.checkInTime != '00:00:00' || item.morning > 0) {
+                       if (item.checkInTime != '00:00:00' ) {
                             arr = {
                                 id: item.id,
-                                title: title,
+                                title: "Giờ vào",
                                 start: new Date(item.date + ' ' + item.checkInTime),
                                 end: new Date(item.date + ' ' + item.checkInTime),
-                                allDay: allday,
+                                allDay: false,
                                 extendedProps: {
                                     congid: item.id,
-                                    calendar: item.morning,
-                                    giovao: new Date(item.date + ' ' + item.checkInTime),
-                                    giora: new Date(item.date + ' ' + item.checkOutTime),
-                                    congsang: item.morning,
-                                    congchieu: item.afternoon
+                                    checkInTime: new Date(item.date + ' ' + item.checkInTime),
+                                    checkOutTime: new Date(item.date + ' ' + item.checkOutTime),
+                                    calendar:1
                                 }
                             };
                             events.push(arr);
                             i++;
                       }
-                        title = "Out";
-                        allday = false;
-                        if (cong.includes(String(item.afternoon)) == false || item.checkOutTime == '00:00:00') {
-                            title = item.kyhieuchieu;
-                            allday = true;
-                        }
                        if (item.checkOutTime != '00:00:00' || item.afternoon > 0) {
                             arr = {
                                 id: item.id,
-                                title: title,
+                                title: "Giờ ra",
                                 start: new Date(item.date + ' ' + item.checkOutTime),
                                 end: new Date(item.date + ' ' + item.checkOutTime),
-                                allDay: allday,
+                                allDay: false,
                                 extendedProps: {
                                     congid: item.id,
-                                    giovao: new Date(item.date + ' ' + item.checkInTime),
-                                    giora: new Date(item.date + ' ' + item.checkOutTime),
-                                    congsang: item.morning,
-                                    congchieu: item.afternoon,
-                                    calendar: item.afternoon
+                                    checkInTime: new Date(item.date + ' ' + item.checkInTime),
+                                    checkOutTime: new Date(item.date + ' ' + item.checkOutTime),
+                                    calendar:2
                                 }
                             };
                             events.push(arr);
@@ -380,11 +334,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 // You should make an API call, look into above commented API call for reference
                 selectedEvents = events.filter(function (event) {
                     // console.log(event.extendedProps.calendar.toLowerCase());
-                    return calendars.includes(event.extendedProps.calendar.toLowerCase());
+                    return calendars.includes(event.extendedProps.calendar);
                 });
-                // if (selectedEvents.length > 0) {
-                successCallback(selectedEvents);
-                // }
+             //   if (selectedEvents.length > 0) {
+                    successCallback(selectedEvents);
+               // }
             },
             error: function () {
                 notify_error('Lỗi truy xuất database');
@@ -498,13 +452,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 //     eventClick(info);
                 // alert(JSON.stringify(info));
                 congid = 0;
-                var ngaycong = moment(info.date).format('YYYY-MM-DD');
-             //   if(moment(ngaycong).unix()<=moment(date).unix()) {
+                var dateKeeping = moment(info.date).format('YYYY-MM-DD');
+             //   if(moment(dateKeeping).unix()<=moment(date).unix()) {
                     $.ajax({
                         type: "POST",
                         dataType: "json",
-                        data: {ngay: ngaycong, nhanvienid: selectNhanVien.val()},
-                        url: baseHome + '/chamcong/checkdate',
+                        data: {date: dateKeeping, staffId: selectStaff.val()},
+                        url: baseHome + '/timekeeping/checkdate',
                         success: function (data) {
                             if (data.code == '200') {
                                 // resetValues();
@@ -512,7 +466,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                 // checkoutBtn.removeClass('d-none');
                                 // updateEventBtn.addClass('d-none');
                                 // btnDeleteEvent.addClass('d-none');
-                                ngay.setDate(ngaycong)
+                                date.setDate(dateKeeping)
                                 // eventClick(info);
                             }
                         },
@@ -541,7 +495,7 @@ document.addEventListener('DOMContentLoaded', function () {
     modifyToggler();
     // updateEventClass();
 
-    selectNhanVien.on('select2:select', function (e) {
+    selectStaff.on('select2:select', function (e) {
         //calendar.removeAllEvents();
         calendar.refetchEvents();
     });
@@ -556,7 +510,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             },
             rules: {
-                'ngay': {required: true},
+                'date': {required: true},
             },
             messages: {
                 'start-date': {required: 'Chọn ngày chấm công'}
@@ -637,10 +591,10 @@ document.addEventListener('DOMContentLoaded', function () {
         $.ajax({
             type: "POST",
             dataType: "json",
-           // data: {nhanvienid: baseUser, ip: user.ip},
-            url: baseHome + '/chamcong/checkout',
+           // data: {staffIdid: baseUser, ip: user.ip},
+            url: baseHome + '/timekeeping/checkout',
             success: function (data) {
-                selectNhanVien.val(baseUser).trigger("change");
+                selectStaff.val(baseUser).trigger("change");
                 calendar.refetchEvents();
                 notyfi_success(data.message);
             },
@@ -655,26 +609,23 @@ document.addEventListener('DOMContentLoaded', function () {
         if (frmCong.valid()) {
             var datacong = {
                 id: congid,
-                nhanvienid: selectNhanVien.val(),
-                ngay: $('#ngay').val(),
-                giovao: $('#giovao').val(),
-                giora: $('#giora').val(),
-                congsang: selectCongSang.val(),
-                congchieu: selectCongChieu.val(),
-                ghichu: ghichu.val()
+                staffId: selectStaff.val(),
+                date: $('#date').val(),
+                checkInTime: $('#checkInTime').val(),
+                checkOutTime: $('#checkOutTime').val()
             };
             $.ajax({
                 type: "POST",
                 dataType: "json",
                 data: datacong,
-                url: baseHome + '/chamcong/chamcongtay',
+                url: baseHome + '/timekeeping/manualTimekeeping',
                 success: function (data) {
                     if (data.code == '200') {
                         calendar.refetchEvents();
                         sidebar.modal('hide');
-                        notyfi_success(data.msg);
+                        notyfi_success(data.message);
                     } else {
-                        notify_error(data.msg);
+                        notify_error(data.message);
                     }
 
                 },
@@ -688,9 +639,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Reset sidebar input values
     function resetValues() {
-        giovao.setDate();
-        giora.setDate();
-        ngay.setDate();
+        checkInTime.setDate();
+        checkOutTime.setDate();
+        date.setDate();
         selectCongSang.val('').trigger('change');
         selectCongChieu.val('').trigger('change');
         calendarEditor.val('');
@@ -702,12 +653,12 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // Hide left sidebar if the right sidebar is open
-    $('.btn-toggle-sidebar').on('click', function () {
-        btnDeleteEvent.addClass('d-none');
-        updateEventBtn.addClass('d-none');
-        checkoutBtn.removeClass('d-none');
-        $('.app-calendar-sidebar, .body-content-overlay').removeClass('show');
-    });
+    // $('.btn-toggle-sidebar').on('click', function () {
+    //     btnDeleteEvent.addClass('d-none');
+    //     updateEventBtn.addClass('d-none');
+    //     checkoutBtn.removeClass('d-none');
+    //     $('.app-calendar-sidebar, .body-content-overlay').removeClass('show');
+    // });
 
     // Select all & filter functionality
     if (selectAll.length) {
