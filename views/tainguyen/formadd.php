@@ -66,14 +66,15 @@
                                     </div>
                                     <div class="col-md-6 col-12">
                                         <div class="form-group">
-                                            <label for="email-id-column">Mật khẩu</label>
-                                            <input type="email" id="mat_khau" class="form-control" name="mat_khau" placeholder="Mật khẩu" />
+                                            <label for="password-id-column">Mật khẩu</label>
+                                            <input type="password" id="mat_khau" class="form-control" name="mat_khau" placeholder="Mật khẩu" />
+                                            <span id="toggle" class="fa fa-fw fa-eye field-icon toggle-password"></span>
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-12">
                                         <div class="form-group">
-                                            <label for="email-id-column">Ghi chú</label>
-                                            <input type="email" id="ghi_chu" class="form-control" name="ghi_chu" placeholder="Ghi chú" />
+                                            <label for="password-id-column">Ghi chú</label>
+                                            <input type="text" id="ghi_chu" class="form-control" name="ghi_chu" placeholder="Ghi chú" />
                                         </div>
                                     </div>
                                     <div class="col-12 text-center">
@@ -89,3 +90,13 @@
         </section>
     </div>
 </div>
+<style>
+    .field-icon {
+  float: right;
+  margin-right: 20px;
+  margin-left: -25px;
+  margin-top: -25px;
+  position: relative;
+  z-index: 2;
+}
+</style>

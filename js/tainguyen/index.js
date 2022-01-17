@@ -70,16 +70,20 @@ function render_table(){
                 targets: 6,
                 render: function(data, type, full, meta){
                     var html = '';
-                    html += '<button type="button" class="btn btn-icon btn-outline-success waves-effect" title="Chia sẻ" onclick="share_tainguyen('+full['id']+')">';
+                
+                    if(baseUser == full['creatorId']){
+                        html += '<button type="button" class="btn btn-icon btn-outline-success waves-effect" title="Chia sẻ" onclick="share_tainguyen('+full['id']+')">';
                     html += '<i class="fas fa-share-alt"></i>';
                     html += '</button> &nbsp;';
                     html += '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" title="Chỉnh sửa" onclick="edit_tainguyen('+full['id']+')">';
                     html += '<i class="fas fa-pencil-alt"></i>';
-                    html += '</button> &nbsp;';
+                    html += '</button> &nbsp;'; 
                     html += '<button type="button" class="btn btn-icon btn-outline-danger waves-effect" title="Xóa" onclick="del_tainguyen('+full['id']+')">';
                     html += '<i class="fas fa-trash-alt"></i>';
                     html += '</button>';
-                    return html;
+                    }
+                      return html;
+                    
                 },
                 width:150
             }
@@ -123,7 +127,8 @@ function detail(idh){
     $('#phanloai').text(Objdata.phanloai); $('#nhacungcap').text(Objdata.nhacungcap);
     $('#tendangnhap').text(Objdata.username); $('#matkhau').text(Objdata.password);
     $('#nguoitao').text(Objdata.nguoitao); $('#duongdan').text(Objdata.link);
-    $('#ghichu').text(Objdata.note); $('#btn_edit').on('click', function(e){edit_tainguyen(idh)});
+    $('#ghichu').text(Objdata.note);
+    //  $('#btn_edit').on('click', function(e){edit_tainguyen(idh)});
 }
 
 function edit_tainguyen(idh){
@@ -133,8 +138,11 @@ function edit_tainguyen(idh){
 function del_tainguyen(idh){
     del_data_refresh_div(idh, baseHome + '/tainguyen/del', "Bạn có chắc chắn muốn xóa dữ liệu !", '#list_tainguyen');
 }
-
+   
 function share_tainguyen(idh){
+    
+    // $nguoitao = $_REQUEST['nguoitao'];
+    // if($nguoitao == $_SESSION['staffId']){
     $('#modal-title').html('Chia sẻ tài nguyên');
     $('#sharetainguyen').modal('show');
     $("#id").val(idh);
@@ -150,8 +158,8 @@ function share_tainguyen(idh){
            
         }
     })
-    
-}
+    }
+// }
 
 function saveshare()
 {

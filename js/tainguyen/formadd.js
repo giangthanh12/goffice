@@ -2,6 +2,24 @@
 $(function(){
     // var auth = check_token();
     // if(auth.responseJSON.success){
+        $(document).ready(function () {
+
+            $("#toggle").click(function () {
+                $("#toggle").toggleClass("fa-eye fa-eye-slash");
+                if ($("#mat_khau").attr("type") == "password")
+                {
+                    //Change type attribute
+                    $("#mat_khau").attr("type", "text");
+                } else
+                {
+                    //Change type attribute
+                   
+                    $("#mat_khau").attr("type", "password");
+                }
+            });
+        
+        });
+
         return_combobox_multi('#phan_loai', baseHome + '/phanloai/combo', 'Lựa chọn phân loại');
         return_combobox_multi('#nha_cung_cap', baseHome + '/common/nhacungcap', 'Lựa chọn nhà cung cấp'); 
         return_combobox_multi('#chu_so_huu', baseHome + '/khachhang/combo', 'Lựa chọn chủ sở hữu'); 
@@ -13,6 +31,7 @@ $(function(){
     //         window.location.href = baseUrl + 'login';
     //     }, 2000);
     // }
+    
 });
 
 function save(){
