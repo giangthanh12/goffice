@@ -8,6 +8,7 @@
 ==========================================================================================*/
 
 'use strict';
+var url = '';
 $(function() {
     var newTaskForm = $("#form-modal-todo"),
         chatUsersListWrapper = $('.chat-application .chat-user-list-wrapper'),
@@ -30,12 +31,13 @@ $(function() {
         chatSearch = $('.chat-application #chat-search'),
         taskDesc = $("#task-desc"),
         leadDesc = $("#leadDesc"),
+        leadDescUpdate = $("#leadDescUpdate"),
         flatPickr = $(".task-due-date");
 
     if (flatPickr.length) {
         flatPickr.flatpickr({
             dateFormat: "d-m-Y",
-            defaultDate: "today",
+            // defaultDate: "today",
             onReady: function(selectedDates, dateStr, instance) {
                 if (instance.isMobile) {
                     $(instance.mobileInput).attr("step", null);
@@ -57,9 +59,9 @@ $(function() {
         });
     }
 
-    if (leadDesc.length) {
-        var todoDescEditor = new Quill("#leadDesc", {
-            bounds: "#leadDesc",
+    if (leadDescUpdate.length) {
+        var todoDescEditor = new Quill("#leadDescUpdate", {
+            bounds: "#leadDescUpdate",
             modules: {
                 formula: true,
                 syntax: true,
@@ -67,11 +69,22 @@ $(function() {
             },
             placeholder: "Write Your Description",
             theme: "snow",
+            value: "",
         });
     }
 
-    $('#opportunity').select2();
-    $('#statusAdd').select2();
+    if (leadDesc.length) {
+        var todoDescEditor = new Quill("#leadDesc", {
+            bounds: "#leadDesc",
+            modules: {
+                formula: true,
+                syntax: true,
+                toolbar: ".desc-toolbar-3",
+            },
+            placeholder: "Write Your Description",
+            theme: "snow",
+        });
+    }
 
     // add takecare history
     if (newTaskForm.length) {
@@ -89,6 +102,11 @@ $(function() {
             var isValid = newTaskForm.valid();
             if (isValid) {
                 var comment = taskDesc.find(".ql-editor p").html();
+                if (comment == '<br>') {
+                    notify_error('Vui lòng nhập nội dung chăm sóc!');
+                    return false;
+                }
+
                 var id = $("#id").val();
                 $.ajax({
                     type: "POST",
@@ -247,6 +265,8 @@ $(function() {
             }
         });
     }
+    // add lead
+
 
     // // auto scroll to bottom of Chat area
     // chatsUserList.find('li').on('click', function () {
@@ -340,6 +360,42 @@ $(function() {
     // }
 });
 
+function saveLead() {
+    $('#fmLead').validate({
+        submitHandler: function(form) {
+            var formData = new FormData(form);
+            var comment = $('#leadDesc').find(".ql-editor p").html();
+            if (comment == '<br>') {
+                notify_error('Vui lòng nhập mô tả!');
+                return false;
+            }
+            formData.append('leadDes', comment)
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: formData,
+                async: false,
+                cache: false,
+                contentType: false,
+                enctype: 'multipart/form-data',
+                processData: false,
+                dataType: "json",
+                success: function(data) {
+                    console.log(data);
+                    if (data.code == 200) {
+                        notyfi_success(data.message);
+                        leadSearch();
+                        $('#new-lead-modal').modal('hide');
+                    } else
+                        notify_error(data.message);
+                }
+            });
+            return false;
+        }
+    });
+    $('#fmLead').submit();
+}
+
 // // Window Resize
 // $(window).on('resize', function () {
 //   if ($(window).width() > 992) {
@@ -362,32 +418,6 @@ $(function() {
 //   }
 // });
 
-// add lead
-function leadAdd() {
-    var info = {};
-    info.leadName = $('#leadName').val();
-    info.leadDesc = $('#leadDesc').find(".ql-editor p").html();
-    info.leadCustomer = $('#leadCustomer').val();
-    info.opportunity = $('#opportunity').val();
-
-    $.ajax({
-        type: "POST",
-        dataType: "json",
-        data: info,
-        url: baseHome + "/lead_temp/insertLead",
-        success: function(data) {
-            if (data.success) {
-                notyfi_success(data.msg);
-                $('#new-lead-modal').modal('hide');
-            } else
-                notify_error(data.msg);
-        },
-        error: function() {
-            notify_error('Cập nhật không thành công');
-        }
-    });
-}
-
 $(document).on('click', '.sidebar-toggle', function() {
     if ($(window).width() < 992) {
         onClickFn();
@@ -397,89 +427,141 @@ $(document).on('click', '.sidebar-toggle', function() {
 // $('#list-lead').on('click', '.sidebar-list', function(e) {
 //     $(this).addClass('list-active');
 // });
-leadOnClick();
-
-function leadOnClick() {
-    $('#list-lead').on('click', '.sidebar-list', function() {
-        $('#list-lead .sidebar-list.list-active').removeClass('list-active');
-        $(this).addClass('list-active');
-        let leadId = $(this).data("id");
-        $('#id').val(leadId);
-        let customerId = $(this).data("customer");
-        $.ajax({
-            url: baseHome + "/lead_temp/getCustomerById",
-            type: 'post',
-            dataType: "json",
-            data: { id: customerId },
-            success: function(data) {
-                $('#fullName').html(data.fullName);
-                $('#taxCode').html(data.taxCode);
-                $('#address').html(data.address);
-                if (data.type == 1)
-                    $('#type').html("Cá nhân");
-                else if (data.type == 2)
-                    $('#type').html("Doanh nghiệp");
-                else $('#type').html("...");
-                $('#representative').html(data.representative);
-                $('#phoneNumber').html(data.phoneNumber);
-                $('#email').html(data.email);
-                $('#dateTime').html(data.dateTime);
-            },
-        });
-        let status = $(this).data("status");
-        let html = status;
-        if (status == 1) {
-            html = '<button class="btn-statement-orange">Đang chăm sóc\
-                    </button>';
-        }
-        if (status == 2) {
-            html = '<button class="btn-statement-blue">Đã gửi báo giá\
-                    </button>';
-        };
-        if (status == 3) {
-            html = '<button class="btn-statement-green">Đã chốt đơn\
-                    </button>';
-        };
-        if (status == 4) {
-            html = '<button class="btn-statement-red">Hủy\
-                    </button>';
-        };
-        $('#status').html(html);
-        $('#leadName').html($(this).data("leadname"));
-        $('#leadDes').html($(this).data("leaddes"));
-
-        $.ajax({
-            url: baseHome + "/lead_temp/getTakeCareHistory",
-            type: 'post',
-            dataType: "json",
-            data: { id: leadId },
-            success: function(data) {
-                var html = '';
-                data.forEach(function(value, index) {
-                    html += '<div class="row">';
-                    html += '<div class="col-lg-3">';
-                    html += '<p>' + value.dateTime + '</p>';
-                    html += '</div>';
-                    html += '<div class="col-lg-3">';
-                    html += '<p>' + value.staffName + '</p>';
-                    html += '</div>';
-                    html += '<div class="col-lg-6">';
-                    html += '<p>' + value.content + '</p>';
-                    html += '</div>';
-                    html += '</div>';
-                });
-                $('#history').html(html);
-            },
-        });
+$('#list-lead').on('click', '.sidebar-list', function() {
+    $('#list-lead .sidebar-list.list-active').removeClass('list-active');
+    $(this).addClass('list-active');
+    let leadId = $(this).data("id");
+    $('#id').val(leadId);
+    let customerId = $(this).data("customer");
+    $.ajax({
+        url: baseHome + "/lead_temp/getCustomerById",
+        type: 'post',
+        dataType: "json",
+        data: { id: customerId },
+        success: function(data) {
+            $('#fullName').html(data.fullName);
+            $('#taxCode').html(data.taxCode);
+            $('#address').html(data.address);
+            if (data.type == 1)
+                $('#type').html("Cá nhân");
+            else if (data.type == 2)
+                $('#type').html("Doanh nghiệp");
+            else $('#type').html("...");
+            $('#representative').html(data.representative);
+            $('#phoneNumber').html(data.phoneNumber);
+            $('#email').html(data.email);
+            $('#dateTime').html(data.dateTime);
+        },
     });
-}
+    let status = $(this).data("status");
+    let html = status;
+    if (status == 1) {
+        html = '<button class="btn-statement-orange">Đang chăm sóc\
+                </button>';
+    }
+    if (status == 2) {
+        html = '<button class="btn-statement-blue">Đã gửi báo giá\
+                </button>';
+    };
+    if (status == 3) {
+        html = '<button class="btn-statement-green">Đã chốt đơn\
+                </button>';
+    };
+    if (status == 4) {
+        html = '<button class="btn-statement-red">Hủy\
+                </button>';
+    };
+    $('#status').html(html);
+    $('#leadName').html($(this).data("leadname"));
+    $('#leadDes').html($(this).data("leaddes"));
+    $.ajax({
+        url: baseHome + "/lead_temp/getTakeCareHistory",
+        type: 'post',
+        dataType: "json",
+        data: { id: leadId },
+        success: function(data) {
+            var html = '';
+            data.forEach(function(value, index) {
+                html += '<div class="row">';
+                html += '<div class="col-lg-3">';
+                html += '<p>' + value.dateTime + '</p>';
+                html += '</div>';
+                html += '<div class="col-lg-3">';
+                html += '<p>' + value.staffName + '</p>';
+                html += '</div>';
+                html += '<div class="col-lg-6">';
+                html += '<p>' + value.content + '</p>';
+                html += '</div>';
+                html += '</div>';
+            });
+
+            $('#history').html(html);
+
+        },
+    });
+});
 
 function showModalTakeCare() {
     $('#new-takecare-modal').modal('show');
 }
 
 function showModalLead() {
+    url = baseHome + "/lead_temp/insertLead";
     $('#new-lead-modal').modal('show');
+}
+
+function updateLead(id) {
+    $('#updateLead').modal('show');
+    $("#modal-title2").html('Cập nhật thông tin cơ hội');
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        data: { id: id },
+        url: baseHome + "/lead_temp/updateLead",
+        success: function(data) {
+            $('#leadIdUpdate').val(data.id);
+            $('#leadNameUpdate').val(data.name);
+            $('#leadDescUpdate').val(data.description);
+            $('#leadCustomerUpdate').val(data.customerId).change();
+            $('#opportunityUpdate').val(data.opportunity).change();
+            $('#statusUpdate').val(data.status).change();
+            console.log(data);
+        },
+        error: function() {
+            notify_error('Lỗi truy xuất database');
+        }
+    });
+}
+
+function deleteLead(id) {
+    Swal.fire({
+        title: 'Xóa dữ liệu',
+        text: "Bạn có chắc chắn muốn xóa!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Tôi đồng ý',
+        customClass: {
+            confirmButton: 'btn btn-primary',
+            cancelButton: 'btn btn-outline-danger ml-1'
+        },
+        buttonsStyling: false
+    }).then(function(result) {
+        if (result.value) {
+            $.ajax({
+                url: baseHome + "/data/del",
+                type: 'post',
+                dataType: "json",
+                data: { id: id },
+                success: function(data) {
+                    if (data.success) {
+                        notyfi_success(data.msg);
+                        $(".user-list-table").DataTable().ajax.reload(null, false);
+                    } else
+                        notify_error(data.msg);
+                },
+            });
+        }
+    });
 }
 
 function leadSearch() {
@@ -510,8 +592,8 @@ function leadSearch() {
                 html += '<div class="float-right dropdown">';
                 html += '<i class="bx bx-dots-vertical-rounded bx-md icon-dots"></i>';
                 html += '<div class="dropdown-content">';
-                html += '<a href="#">Edit</a>';
-                html += '<a href="#">Delete</a>';
+                html += '<span class="updateLead">Cập nhật</span>';
+                html += '<span class="deleteLead">Xóa</span>';
                 html += '</div>';
                 html += '</div>';
                 html += '<div class="btn-statement">';
@@ -533,7 +615,29 @@ function leadSearch() {
                 html += '</li>';
             });
             $('#list-lead').html(html);
-            leadOnClick();
+            var chatUsersListWrapper = $('.chat-application .chat-user-list-wrapper');
+            if (chatUsersListWrapper.find('ul li').length) {
+                chatUsersListWrapper.find('ul li').on('click', function() {
+                    var $this = $(this),
+                        startArea = $('.start-chat-area'),
+                        activeChat = $('.active-chat');
+
+                    if (chatUsersListWrapper.find('ul li').hasClass('active')) {
+                        chatUsersListWrapper.find('ul li').removeClass('active');
+                    }
+
+                    $this.addClass('active');
+                    $this.find('.badge').remove();
+
+                    if (chatUsersListWrapper.find('ul li').hasClass('active')) {
+                        startArea.addClass('d-none');
+                        activeChat.removeClass('d-none');
+                    } else {
+                        startArea.removeClass('d-none');
+                        activeChat.addClass('d-none');
+                    }
+                });
+            }
         },
         error: function() {
             notify_error("Định dạng dữ liệu không đúng");
