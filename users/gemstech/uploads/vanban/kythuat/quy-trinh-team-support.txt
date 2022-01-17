@@ -1,0 +1,100 @@
+﻿I. Nhiệm vụ team support
+	- Hỗ trợ khách hàng
+		Phần mềm
+			1. Namduong (crm.ndlaw.com.vn)
+			2. OTC thái bình (otcthaibinh.velo.vn)
+			3. Bluesea (blstrading.velo.vn)
+			4. Rolatex (rolatex.net/hr)
+			5. Rượu hàn quốc (ruouhanquoc.vn/banhang)
+			6. GemsEdu (vpdt.gemsedu.vn)
+			7-1. Tuấn Thành Order (kekhaiquocte.net)
+			7-2. Tuấn Thành Order (xuatnhapkhau365.org)
+			8. Aylaspa (velo.vn/aylaspa)
+			9. Phuong thao spa (wbtcare.com)
+			10. Hùng nghệ (phovang.velo.vn)
+			11. Lê nguyễn (lenguyen.velo.vn)
+			12. Saolyspa (saoly.velo.vn)
+			13. Trangbeauty (trangbeautyskin.velo.vn)
+			14. Liongolf Bắc Ninh (liongolfbacnninh.com/shop)
+		
+		Mail
+			1. Inquangtrung (Dịch vụ mail)
+			2. VJMC (Dịch vụ mail)
+		Website 
+			Danh sách trên VPDT
+		Các dịch vụ khác (Hosting, Domain, SSL ...)
+			Danh sách trên VPDT
+			- Tạo host
+			- Nâng cấp host
+			- Cài đặt SSL
+			- Reset mật khẩu hosting
+			- Kiểm tra tình trạng host
+			- Trỏ tên miền
+			
+	- Xây dựng website
+		Wordpress
+		Thương hiệu web
+	- Backup dữ liệu
+		Định kỳ (Hàng tháng, lưu trữ 1 bản trên local và 1 bản trên cloud)
+		Theo yêu cầu (Hằng ngày, hàng tuần ...)
+			- Khách hàng backup hàng ngày
+				1. Namduong (crm.ndlaw.com.vn)
+				2. OTC thái bình (otcthaibinh.velo.vn)
+				3. Bluesea (blstrading.velo.vn)
+				4. Rolatex (rolatex.net/hr)
+				5. GemsEdu (vpdt.gemsedu.vn)
+				6. Tuấn Thành Order (kekhaiquocte.net)
+				7. vanphongre.vn
+II. Nguyên tắc, quy trình của team support
+	- Quy trình support:
+		1. Tiếp nhận và phản hồi qua zalo OA
+		2. Tiếp nhận thông qua ticket website (thông tin ticket gửi về mail support@gemstech.com.vn), phản hồi thông tin qua email hoặc số điện thoại khách hàng
+		3. Tiếp nhận thông tin qua tổng đài (0989848886)
+		4. Tiếp nhận và phản hồi thông qua phòng ban khác (MKT, Sale)
+	       	5. Xử lý yêu cầu
+			+ Xác nhận khách hàng là ai, dịch vụ gì
+			+ Xác nhận phạm vi công việc trước khi xử lý
+			+ Báo cáo và xác nhận hoàn thành công việc để đóng ticket
+	- Quy trình làm website
+		1. Tiếp nhận yêu cầu từ Sale (Trưởng phòng)
+		2. Phân công cho nhân viên support
+		3. Breakout tất cả công việc liên quan đến dự án lên VPDT có kèm deadline
+			3.1 Wordpress (Setup mới)
+				+ Setup
+				+ Template
+				+ Customize
+			3.2 Wordpress copy
+				+ Copy
+				+ Customize
+				+ Clear dữ liệu cũ
+			3.3 Web thuonghieuweb
+				+ Template
+				+ Database
+				+ CMS
+				+ Frontend
+			3.4 Web thuonghieuweb (Copy)
+				+ Copy
+				+ Customize
+				+ Clear dữ liệu cũ
+		4. Báo cáo kết quả cho trưởng phòng
+	- Quy trình backup
+		1. Phần mềm
+			+ Backup dữ liệu database
+			+ Backup thư mục uploads
+			+ Lưu vào local 
+			+ Lưu trên cloud
+		2. Website
+			+ Backup bằng hosting (hoặc backup riêng database và file)
+			+ Lưu vào local 
+			+ Lưu trên cloud
+			+ Xóa backup trên host
+III. Phương pháp học và tư duy
+		1. Easyui (Tham khảo trên website https://www.jeasyui.com/)
+		2. Bootstrap 4 (Tham khảo trên website https://getbootstrap.com/)
+		3. Thư viện sử dụng ajax, jquery, dữ liệu json (https://jquery.com/)
+		4. Hiển thị dữ liệu table sử dụng datatable (https://datatables.net/)
+		5. Học thông qua w3schools.com
+		6. Củng cố kiến thức mysql
+IV. 
+
+

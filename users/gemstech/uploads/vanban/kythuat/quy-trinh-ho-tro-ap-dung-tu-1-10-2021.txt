@@ -1,0 +1,32 @@
+1. Tiếp nhận yêu cầu
+	tổng đài 0989848886,
+	zaloOA:
+	Fanpages:
+		fb page: https://www.facebook.com/gemstech.com
+		fb page: https://www.facebook.com/thuonghieuweb
+		fb page: https://www.facebook.com/phanmemvelo/
+	Emails: 
+		info@gemstech.com.vn
+		support@gemstech.com.vn
+	websites: 
+		gemstech.com.vn
+		velo.vn
+		thuonghieuweb.com
+
+2. Làm rõ yêu cầu
+	Liên quan đến sale(chào giá, hợp đồng, bán hàng, tư vấn) => chuyển cho sale.
+	Liên quan đến tech
+		hỗ trợ: 
+		dev: 
+
+3. Mở ticket trong vpdt.
+	Tự động:
+	Bằng tay:
+
+4. Xử lý yêu cầu:
+	Xử lý xong: Thông báo khách hàng=>lấy xác nhận của kh => đóng ticket.
+	Xử lý không xong: Chuyển qua phòng dev nhờ hỗ trợ.
+
+5. Đóng Ticket.
+	Tự động: Tự động đóng sau 72h từ khi thông báo xử lý xong.
+	Bằng tay: Khi kh xác nhận như b4.
