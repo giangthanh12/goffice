@@ -8,7 +8,6 @@
 ==========================================================================================*/
 
 'use strict';
-var url = '';
 $(function() {
     var newTaskForm = $("#form-modal-todo"),
         chatUsersListWrapper = $('.chat-application .chat-user-list-wrapper'),
@@ -371,7 +370,7 @@ function saveLead() {
             }
             formData.append('leadDes', comment)
             $.ajax({
-                url: url,
+                url: baseHome + "/lead_temp/insertLead",
                 type: 'POST',
                 data: formData,
                 async: false,
@@ -451,27 +450,19 @@ $('#list-lead').on('click', '.sidebar-list', function() {
             $('#phoneNumber').html(data.phoneNumber);
             $('#email').html(data.email);
             $('#dateTime').html(data.dateTime);
+            if (data.status == 1)
+                $('#status').html('<button class="btn-statement-orange">Khách hàng mới</button>');
+            else if (data.status == 2)
+                $('#status').html('<button class="btn-statement-blue">Khách hàng tiềm năng</button>');
+            else if (data.status == 3)
+                $('#status').html('<button class="btn-statement-green">Khách hàng đang dùng dịch vụ</button>');
+            else if (data.status == 4)
+                $('#status').html('<button class="btn-statement-red">Khách hàng đã dùng dịch vụ</button>');
+            else
+                $('#status').html('<button class="btn-statement-yellow">Chưa rõ</button>');
         },
     });
-    let status = $(this).data("status");
-    let html = status;
-    if (status == 1) {
-        html = '<button class="btn-statement-orange">Đang chăm sóc\
-                </button>';
-    }
-    if (status == 2) {
-        html = '<button class="btn-statement-blue">Đã gửi báo giá\
-                </button>';
-    };
-    if (status == 3) {
-        html = '<button class="btn-statement-green">Đã chốt đơn\
-                </button>';
-    };
-    if (status == 4) {
-        html = '<button class="btn-statement-red">Hủy\
-                </button>';
-    };
-    $('#status').html(html);
+    // let status = $(this).data("status");
     $('#leadName').html($(this).data("leadname"));
     $('#leadDes').html($(this).data("leaddes"));
     $.ajax({
@@ -506,31 +497,109 @@ function showModalTakeCare() {
 }
 
 function showModalLead() {
-    url = baseHome + "/lead_temp/insertLead";
+    $('#leadName').val('');
+    $('#leadCustomer').val(0).change();
+    var quill_editor = $("#leadDesc .ql-editor");
+    quill_editor[0].innerHTML = '';
     $('#new-lead-modal').modal('show');
 }
 
-function updateLead(id) {
+function loadData(id) {
     $('#updateLead').modal('show');
     $("#modal-title2").html('Cập nhật thông tin cơ hội');
     $.ajax({
         type: "POST",
         dataType: "json",
         data: { id: id },
-        url: baseHome + "/lead_temp/updateLead",
+        url: baseHome + "/lead_temp/loadData",
         success: function(data) {
             $('#leadIdUpdate').val(data.id);
             $('#leadNameUpdate').val(data.name);
-            $('#leadDescUpdate').val(data.description);
+            var leadDesc = data.description;
+            var quill_editor = $("#leadDescUpdate .ql-editor");
+            quill_editor[0].innerHTML = leadDesc;
             $('#leadCustomerUpdate').val(data.customerId).change();
             $('#opportunityUpdate').val(data.opportunity).change();
             $('#statusUpdate').val(data.status).change();
-            console.log(data);
         },
         error: function() {
             notify_error('Lỗi truy xuất database');
         }
     });
+}
+
+function saveedit() {
+    var isValid = $('#fmEdit').valid();
+    if (isValid) {
+        var info = {};
+        info.leadNameUpdate = $("#leadNameUpdate").val();
+        info.ephoneNumber = $("#ephoneNumber").val();
+        info.eaddress = $("#eaddress").val();
+        info.eemail = $("#eemail").val();
+        info.esourceId = $("#esourceId").val();
+        info.econnectorName = $("#econnectorName").val();
+        info.etaxCode = $("#etaxCode").val();
+        info.etype = $("#etype").val();
+        info.enote = $("#enote").val();
+        info.estaffId = $("#estaffId").val();
+        info.estatus = $("#estatus").val();
+        if (dataId > 0) {
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                data: info,
+                url: baseHome + "/data/update?id=" + dataId,
+                success: function(data) {
+                    if (data.success) {
+                        notyfi_success(data.msg);
+                        $('#updateinfo').modal('hide');
+                        $(".user-list-table").DataTable().ajax.reload(null, false);
+                    } else
+                        notify_error(data.msg);
+                },
+                error: function() {
+                    notify_error('Cập nhật không thành công');
+                }
+            });
+        }
+    }
+}
+
+function updateLead() {
+
+    $('#fmEdit').validate({
+        submitHandler: function(form) {
+
+            var formData = new FormData(form);
+            var comment = $('#leadDescUpdate').find(".ql-editor p").html();
+            // if (comment == '<br>') {
+            //     notify_error('Vui lòng nhập mô tả!');
+            //     return false;
+            // }
+            formData.append('leadDescUpdate', comment)
+            $.ajax({
+                url: baseHome + "/lead_temp/updateLead",
+                type: 'POST',
+                data: formData,
+                async: false,
+                cache: false,
+                contentType: false,
+                enctype: 'multipart/form-data',
+                processData: false,
+                dataType: "json",
+                success: function(data) {
+                    if (data.success) {
+                        notyfi_success(data.msg);
+                        leadSearch();
+                        $('#updateLead').modal('hide');
+                    } else
+                        notify_error(data.msg);
+                }
+            });
+            return false;
+        }
+    });
+    $('#fmEdit').submit();
 }
 
 function deleteLead(id) {
@@ -548,14 +617,14 @@ function deleteLead(id) {
     }).then(function(result) {
         if (result.value) {
             $.ajax({
-                url: baseHome + "/data/del",
+                url: baseHome + "/lead_temp/deleteLead",
                 type: 'post',
                 dataType: "json",
                 data: { id: id },
                 success: function(data) {
                     if (data.success) {
                         notyfi_success(data.msg);
-                        $(".user-list-table").DataTable().ajax.reload(null, false);
+                        leadSearch();
                     } else
                         notify_error(data.msg);
                 },
@@ -576,10 +645,13 @@ function leadSearch() {
         success: function(data) {
             var html = '';
             data.forEach(function(value, index) {
-                html += '<li data-id="' + value.id + '" data-customer="' + value.customerId + '" data-status="' + value.status + '" data-leadname="' + value.name + '" data-leaddes="' + value.description + '" class="sidebar-list">';
+                html += '<li data-id="' + value.id + '" data-dateTime ="' + value.dateTime + '" data-customer="' + value.customerId + '" data-status="' + value.status + '" data-leadname="' + value.name + '" data-leaddes="' + value.description + '" class="sidebar-list">';
                 html += '<div class="chat-info flex-grow-1">';
                 html += '<div class="customer-name">';
                 html += '<label>' + value.name + '</label>';
+                html += '</div>';
+                html += '<div class="customer-info">';
+                html += '<label>' + value.dateTime + '</label>';
                 html += '</div>';
                 html += '<div class="customer-info">';
                 html += '<label>' + value.fullName + '</label>';
@@ -592,8 +664,8 @@ function leadSearch() {
                 html += '<div class="float-right dropdown">';
                 html += '<i class="bx bx-dots-vertical-rounded bx-md icon-dots"></i>';
                 html += '<div class="dropdown-content">';
-                html += '<span class="updateLead">Cập nhật</span>';
-                html += '<span class="deleteLead">Xóa</span>';
+                html += '<span class="updateLead" onclick="loadData(' + value.id + ')">Cập nhật</span>';
+                html += '<span class="deleteLead" onclick="deleteLead(' + value.id + ')">Xóa</span>';
                 html += '</div>';
                 html += '</div>';
                 html += '<div class="btn-statement">';
@@ -602,12 +674,15 @@ function leadSearch() {
                     html += '<button class="btn-statement-orange">Đang chăm sóc</button>';
                 }
                 if (value.status == 2) {
-                    html += '<button class="btn-statement-blue">Đã gửi báo giá</button>';
+                    html += '<button class="btn-statement-yellow">Đã báo giá</button>';
                 }
                 if (value.status == 3) {
-                    html += '<button class="btn-statement-green">Đã chốt đơn</button>';
+                    html += '<button class="btn-statement-blue">Đã lên đơn hàng</button>';
                 }
                 if (value.status == 4) {
+                    html += '<button class="btn-statement-green">Đã chốt</button>';
+                }
+                if (value.status == 5) {
                     html += '<button class="btn-statement-red">Hủy</button>';
                 }
                 html += ' </div>';

@@ -50,40 +50,74 @@ class lead_temp extends Controller
 
     function insertLead()
     {
-        if(isset($_REQUEST['leadName']) && $_REQUEST['leadCustomer']){
-        $title = $_REQUEST['leadName'];
-        $desc = $_REQUEST['leadDes'];
-        $customer = $_REQUEST['leadCustomer'];
-        $opportunity = $_REQUEST['opportunity'];
-        $data = array(
-            'name' => $title, 'customerId' => $customer, 'description' => $desc, 'opportunity' => $opportunity, 'dateTime' => date('Y-m-d H:i:s'),
-            'staffInCharge' => $_SESSION['user']['staffId'], 'status' => 1, 
-        );
-        $temp = $this->model->insertLead($data);
-        if ($temp == true) {
-            $jsonObj['message'] = "Cập nhật thành công";
-            $jsonObj['code'] = 200;
-        } else {
-            $jsonObj['message'] = 'Cập nhật không thành công';
-            $jsonObj['code'] = 401;
+        if (isset($_REQUEST['leadName']) && $_REQUEST['leadCustomer']) {
+            $title = $_REQUEST['leadName'];
+            $desc = $_REQUEST['leadDes'];
+            $customer = $_REQUEST['leadCustomer'];
+            $opportunity = $_REQUEST['opportunity'];
+            $data = array(
+                'name' => $title, 'customerId' => $customer, 'description' => $desc, 'opportunity' => $opportunity, 'dateTime' => date('Y-m-d H:i:s'),
+                'staffInCharge' => $_SESSION['user']['staffId'], 'status' => 1,
+            );
+            $temp = $this->model->insertLead($data);
+            if ($temp == true) {
+                $jsonObj['message'] = "Cập nhật thành công";
+                $jsonObj['code'] = 200;
+            } else {
+                $jsonObj['message'] = 'Cập nhật không thành công';
+                $jsonObj['code'] = 401;
+            }
+            $jsonObj = json_encode($jsonObj);
+            echo $jsonObj;
         }
-        $jsonObj = json_encode($jsonObj);
-        echo $jsonObj;
-    }
     }
 
-    function leadSearch() {
+    function leadSearch()
+    {
         $fromDate = isset($_REQUEST['fromDate']) && $_REQUEST['fromDate'] != '' ? date("Y-m-d", strtotime(str_replace('/', '-', $_REQUEST['fromDate']))) : '';
         $toDate = isset($_REQUEST['toDate']) && $_REQUEST['toDate'] != '' ? date("Y-m-d", strtotime(str_replace('/', '-', $_REQUEST['toDate']))) : '';
         $result = json_encode($this->model->listObj($fromDate, $toDate));
         echo $result;
     }
-    
-    function updateLead()
+
+    function loadData()
     {
         $id = isset($_REQUEST['id']) ? $_REQUEST['id'] : 0;
         $json = $this->model->getData($id);
         echo json_encode($json);
+    }
+
+    function deleteLead()
+    {
+        $id = $_REQUEST['id'];
+        if ($this->model->deleteObj($id)) {
+            $jsonObj['msg'] = "Xóa dữ liệu thành công";
+            $jsonObj['success'] = true;
+        } else {
+            $jsonObj['msg'] = "Xóa dữ liệu không thành công";
+            $jsonObj['success'] = false;
+        }
+        echo json_encode($jsonObj);
+    }
+
+    function updateLead($id)
+    {
+        $id = $_REQUEST['leadIdUpdate'];
+        $name = $_REQUEST['leadNameUpdate'];
+        $comment = $_REQUEST['leadDescUpdate'];
+        $customer = $_REQUEST['leadCustomerUpdate'];
+        $opportunity = $_REQUEST['opportunityUpdate'];
+        $status = $_REQUEST['statusUpdate'];
+        
+        $data = ['name' => $name, 'description' => $comment, 'customerId' => $customer, 'opportunity' => $opportunity, 'status' => $status];
+        if ($this->model->updateObj($data, $id)) {
+            $jsonObj['msg'] = "Cập nhật dữ liệu thành công";
+            $jsonObj['success'] = true;
+        } else {
+            $jsonObj['msg'] = "Lỗi khi cập nhật database";
+            $jsonObj['success'] = false;
+        }
+        echo json_encode($jsonObj);
     }
 
     // function list()

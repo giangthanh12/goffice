@@ -33,23 +33,23 @@
                 <div class="row">
                     <div class="lead-btn col-lg-2">
                         <label for="task-due-date" class="form-label">&nbsp;</label>
-                        <button class="form-control btn-title-left" role="button" onclick="leadSearch()">Tìm kiếm</button>
+                        <button class="form-control btn-primary" role="button" onclick="leadSearch()">Tìm kiếm</button>
                     </div>
                     <div class="col-lg-2">
                         <label for="task-due-date" class="form-label">&nbsp;</label>
-                        <button class="form-control btn-title-left" role="button">Nhập từ excel</button>
+                        <button class="form-control btn-primary" role="button">Nhập từ excel</button>
                     </div>
                     <div class="col-lg-2">
                         <label for="task-due-date" class="form-label">&nbsp;</label>
-                        <button class="form-control btn-title-left" role="button">Báo giá</button>
+                        <button class="form-control btn-primary" role="button">Báo giá</button>
                     </div>
                     <div class="col-lg-2">
                         <label for="task-due-date" class="form-label">&nbsp;</label>
-                        <button class="form-control btn-title-left" role="button">Đơn hàng</button>
+                        <button class="form-control btn-primary" role="button">Đơn hàng</button>
                     </div>
                     <div class="col-lg-2">
                         <label for="task-due-date" class="form-label">&nbsp;</label>
-                        <button class="form-control btn-title-left" role="button">Hợp đồng</button>
+                        <button class="form-control btn-primary" role="button">Hợp đồng</button>
                     </div>
                 </div>
             </div>
@@ -79,10 +79,13 @@
                             $lead = $this->lead;
                             foreach ($lead as $item) {
                             ?>
-                                <li data-id="<?= $item['id'] ?>" data-customer="<?= $item['customerId'] ?>" data-status="<?= $item['status'] ?>" data-leadname="<?= $item['name'] ?>" data-leaddes="<?= $item['description'] ?>" class="sidebar-list">
+                                <li data-id="<?= $item['id'] ?>" data-dateTime="<?= $item['dateTime'] ?>" data-customer="<?= $item['customerId'] ?>" data-status="<?= $item['status'] ?>" data-leadname="<?= $item['name'] ?>" data-leaddes="<?= $item['description'] ?>" class="sidebar-list">
                                     <div class="chat-info flex-grow-1">
                                         <div class="customer-name">
                                             <label><?php echo $item['name'] ?></label>
+                                        </div>
+                                        <div class="customer-info">
+                                            <label><?php echo $item['dateTime'] ?></label>
                                         </div>
                                         <div class="customer-info">
                                             <label><?php echo $item['fullName'] ?></label>
@@ -95,32 +98,24 @@
                                         <div class="float-right dropdown">
                                             <i class='bx bx-dots-vertical-rounded bx-md icon-dots'></i>
                                             <div class="dropdown-content">
-                                                <span class="updateLead" onclick="updateLead(<?= $item['id'] ?>)">Cập nhật</span>
+                                                <span class="updateLead" onclick="loadData(<?= $item['id'] ?>)">Cập nhật</span>
                                                 <span class="deleteLead" onclick="deleteLead(<?= $item['id'] ?>)">Xóa</span>
                                             </div>
                                         </div>
                                         <div class="btn-statement">
                                             <br>
                                             <?php
-                                            if ($item['status'] == 1) {
+                                                if ($item['status'] == 1)
+                                                    echo '<button class="btn-statement-orange">Đang chăm sóc</button>';
+                                                elseif ($item['status'] == 2)
+                                                    echo '<button class="btn-statement-yellow">Đã báo giá</button>';
+                                                elseif ($item['status'] == 3)
+                                                    echo '<button class="btn-statement-blue">Đã lên đơn hàng</button>';
+                                                elseif ($item['status'] == 4)
+                                                    echo '<button class="btn-statement-green">Đã chốt</button>';
+                                                else
+                                                    echo '<button class="btn-statement-red">Hủy</button>';
                                             ?>
-                                                <button class="btn-statement-orange">Đang chăm sóc</button>
-                                            <?php } ?>
-                                            <?php
-                                            if ($item['status'] == 2) {
-                                            ?>
-                                                <button class="btn-statement-blue">Đã gửi báo giá</button>
-                                            <?php } ?>
-                                            <?php
-                                            if ($item['status'] == 3) {
-                                            ?>
-                                                <button class="btn-statement-green">Đã chốt đơn</button>
-                                            <?php } ?>
-                                            <?php
-                                            if ($item['status'] == 4) {
-                                            ?>
-                                                <button class="btn-statement-red">Hủy</button>
-                                            <?php } ?>
                                         </div>
                                     </div>
                                 </li>
@@ -209,8 +204,6 @@
                                                 </div>
                                                 <div class="col-lg-7">
                                                     <div id="status" class="btn-right-info">
-                                                        <button class="btn-statement-green">Đã chốt đơn
-                                                        </button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -349,8 +342,8 @@
                             </div>
                             <div class="form-group position-relative">
                                 <label for="task-assigned" class="form-label d-block">Khách hàng</label>
-                                <select class="select2 form-control" id="leadCustomer" name="leadCustomer" required >
-                                    <option value="">-- Chọn khách hàng --</option>
+                                <select class="select2 form-control" id="leadCustomer" name="leadCustomer" required>
+                                    <option value="0">-- Chọn khách hàng --</option>
                                     <?php
                                     foreach ($this->customer as $item) {
                                         echo '<option value="' . $item['id'] . '">' . $item['fullName'] . '</option>';
@@ -359,13 +352,13 @@
                                 </select>
                             </div>
                             <div class="form-group position-relative">
-                                <label for="opportunity" class="form-label d-block">Tiềm năng</label>
+                                <label for="opportunity" class="form-label d-block">Đánh giá cơ hội</label>
                                 <select class="select2 form-control" id="opportunity" name="opportunity">
-                                    <option value="1">Ít tiềm năng nhất</option>
-                                    <option value="2">Ít tiềm năng</option>
-                                    <option value="3">Tiềm năng bình thường</option>
-                                    <option value="4">Tiềm năng</option>
-                                    <option value="5">Tiềm năng nhất</option>
+                                    <option value="1">Quan tâm</option>
+                                    <option value="2">Có nhu cầu</option>
+                                    <option value="3">Có ngân sách</option>
+                                    <option value="4">Có khả năng chốt</option>
+                                    <option value="5">Có thể chốt trong tháng</option>
                                 </select>
                             </div>
                         </div>
@@ -390,10 +383,10 @@
                 <div class="modal-body flex-grow-1">
                     <div class="tab-content mt-2">
                         <div class="tab-pane tab-pane-update fade show active" id="tab-update" role="tabpanel">
-                            <form class="update-item-form" id="frm-edit">
+                            <form class="update-item-form" id="fmEdit">
                                 <div class="form-group">
                                     <label for="todoTitleAdd" class="form-label">Tên cơ hội</label>
-                                    <input type="text" id="leadNameUpdate" name="leadNameUpdate" class="new-todo-item-title form-control" placeholder="Tên cơ hội" require />
+                                    <input type="text" id="leadNameUpdate" name="leadNameUpdate" class="new-todo-item-title form-control" placeholder="Tên cơ hội" required />
                                     <input type="hidden" id="leadIdUpdate" name="leadIdUpdate">
                                 </div>
                                 <div class="form-group">
@@ -411,7 +404,7 @@
                                 </div>
                                 <div class="form-group position-relative">
                                     <label for="task-assigned" class="form-label d-block">Khách hàng</label>
-                                    <select class="select2" id="leadCustomerUpdate" name="leadCustomerUpdate" require>
+                                    <select class="select2" id="leadCustomerUpdate" name="leadCustomerUpdate" required >
                                         <option value="">-- Chọn khách hàng --</option>
                                         <?php
                                         foreach ($this->customer as $item) {
@@ -421,26 +414,27 @@
                                     </select>
                                 </div>
                                 <div class="form-group position-relative">
-                                    <label for="opportunity" class="form-label d-block">Tiềm năng</label>
+                                    <label for="opportunity" class="form-label d-block">Đánh giá cơ hội</label>
                                     <select class="select2" id="opportunityUpdate" name="opportunityUpdate">
-                                        <option value="1">Ít tiềm năng nhất</option>
-                                        <option value="2">Ít tiềm năng</option>
-                                        <option value="3">Tiềm năng bình thường</option>
-                                        <option value="4">Tiềm năng</option>
-                                        <option value="5">Tiềm năng nhất</option>
+                                        <option value="1">Quan tâm</option>
+                                        <option value="2">Có nhu cầu</option>
+                                        <option value="3">Có ngân sách</option>
+                                        <option value="4">Có khả năng chốt</option>
+                                        <option value="5">Có thể chốt trong tháng</option>
                                     </select>
                                 </div>
                                 <div class="form-group position-relative">
-                                    <label for="opportunity" class="form-label d-block">Tình trạng</label>
+                                    <label for="status" class="form-label d-block">Tình trạng</label>
                                     <select class="select2 form-control" id="statusUpdate" name="statusUpdate">
                                         <option value="1">Đang chăm sóc</option>
-                                        <option value="2">Đã gửi báo giá</option>
-                                        <option value="3">Đã chốt</option>
-                                        <option value="4">Hủy</option>
+                                        <option value="2">Đã báo giá</option>
+                                        <option value="3">Đã lên đơn hàng</option>
+                                        <option value="4">Đã chốt</option>
+                                        <option value="5">Hủy</option>
                                     </select>
                                 </div>
                                 <div class="d-flex flex-wrap mb-2">
-                                    <button type="button" onclick="saveedit()" class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Cập nhật</button>
+                                    <button type="button" onclick="updateLead()" class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Cập nhật</button>
                                     <button type="reset" class="btn btn-outline-secondary mr-sm-1" data-dismiss="modal">Bỏ qua</button>
                                 </div>
                             </form>
