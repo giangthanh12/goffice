@@ -9,8 +9,8 @@ class lead_temp_Model extends Model
     function getLead()
     {
         $result = array();
-        $where = " WHERE status > 0 ";
-        $query = $this->db->query("SELECT id, customerId, name, description, status,
+        $where = " WHERE status IN (1,2,3) ";
+        $query = $this->db->query("SELECT id, customerId, name, description, status, dateTime,
         (SELECT fullName FROM customer WHERE customer.id = lead.customerId) AS fullName
         FROM lead $where ORDER BY id DESC");
         if ($query)
@@ -79,7 +79,7 @@ class lead_temp_Model extends Model
     {
         $result = array();
 
-        $where = " WHERE status > 0 ";
+        $where = " WHERE status IN (1,2,3) ";
         if ($fromDate != '') {
             $where .= " AND dateTime >= '$fromDate' ";
         }
@@ -109,6 +109,18 @@ class lead_temp_Model extends Model
         if (isset($result[0]))
             $result = $result[0];
         return $result;
+    }
+
+    function updateObj($data, $id)
+    {
+        $query = $this->update("lead", $data, "id = $id");
+        return $query;
+    }
+
+    function deleteObj($id)
+    {
+        $query = $this->update("lead", ['status' => 0], "id = $id");
+        return $query;
     }
 
     //     function getdata($id){
