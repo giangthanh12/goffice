@@ -47,9 +47,17 @@ class staff extends Controller
         $data = $_REQUEST['data'];
         $data['birthDay'] = date("Y-m-d",strtotime(str_replace('/', '-',$data['birthDay'] )));
         $data['idDate'] = date("Y-m-d",strtotime(str_replace('/', '-',$data['idDate'] )));
-        
+        $temp = $data['accesspoints'];
+        $accessPoint = '';
+        if(count($temp)>0)
+            $accessPoint = implode(",",$temp);
+        $data['accesspoints']=$accessPoint;
         $id = $_REQUEST['id'];
         if ($this->model->updateinfo($data, $id)) {
+            if($_SESSION['user']['staffId']==$id) {
+                $_SESSION['user']['staffName'] = $data['name'];
+                $_SESSION['user']['accesspoints'] = $data['accesspoints'];
+            }
             $jsonObj['msg'] = "Cập nhật dữ liệu thành công";
             $jsonObj['success'] = true;
         } else {
@@ -59,21 +67,26 @@ class staff extends Controller
         echo json_encode($jsonObj);
     }
 
+    function accessPoints(){
+        $json = $this->model->getAccessPoints();
+        echo json_encode($json);
+    }
+
     function changeImage()
     {
         $id = $_REQUEST['myid'];
         $filename = $_FILES['hinhanh']['name'];
-        $hinhanh = '';
+        $avatar = '';
         if ($filename != '') {
-            $dir = ROOT_DIR . '/uploads/nhanvien/';
+            $dir = ROOT_DIR;
             $file = functions::uploadfile('hinhanh', $dir, $id);
             if ($file != '')
-                $hinhanh = 'uploads/nhanvien/' . $file;
+                $avatar = $file;
         }
-        if ($this->model->changeImage($hinhanh, $id)) {
-            $jsonObj['filename'] = URLFILE . "/" . $hinhanh;
+        if ($this->model->changeImage($avatar, $id)) {
+            $jsonObj['filename'] = $avatar;
             if ($id == $_SESSION['user']['staffId'])
-                $_SESSION['user']['avatar'] = URLFILE . "/" . $hinhanh;
+                $_SESSION['user']['avatar'] = $avatar;
             $jsonObj['msg'] = "Cập nhật dữ liệu thành công";
             $jsonObj['success'] = true;
         } else {
@@ -85,7 +98,6 @@ class staff extends Controller
 
     function add()
     {
-
             $data = $_REQUEST['data'];
             $data['birthday'] = date("Y-m-d",strtotime(str_replace('/', '-',$data['birthday'] )));
           
@@ -97,9 +109,7 @@ class staff extends Controller
                 $jsonObj['success'] = false;
             }
         echo json_encode($jsonObj);
-
     }
-
     function del()
     {
         $id = $_REQUEST['id'];
@@ -112,7 +122,6 @@ class staff extends Controller
         }
         echo json_encode($jsonObj);
     }
-
     function thoiviec()
     {
         $id = $_REQUEST['id'];
@@ -125,13 +134,11 @@ class staff extends Controller
         }
         echo json_encode($jsonObj);
     }
-
     function province()
     {
         $data = $this->model->province();
         echo json_encode($data);
     }
-   
     /*== check nhan_vien đã có users */
     function checkUsername()
     {
@@ -146,12 +153,6 @@ class staff extends Controller
         }
         echo json_encode($jsonObj);
     }
-
-   
-
-   
-
-
     function add_nhanvien_info()
     {
         $post = $_REQUEST['data'];

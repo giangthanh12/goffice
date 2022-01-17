@@ -30,12 +30,12 @@ class accountsettings extends Controller
         $hinhanh = '';
         if ($filename != '') {
             if (file_exists(ROOT_DIR . '/uploads/nhanvien/' . $filename)) {
-                $hinhanh = 'uploads/nhanvien/' . $filename;
+                $hinhanh =  $filename;
             } else {
                 $dir = ROOT_DIR . '/uploads/nhanvien/';
                 $file = functions::uploadfile('hinhanh', $dir, $fname[0]);
                 if ($file != '')
-                    $hinhanh =  'uploads/nhanvien/' . $file;
+                    $hinhanh =   $file;
             }
         }
         if ($this->model->thayanh($hinhanh, $id)) {

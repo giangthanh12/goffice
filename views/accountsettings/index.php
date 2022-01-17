@@ -85,7 +85,7 @@
                                         <!-- header media -->
                                         <div class="media">
                                             <a href="javascript:void(0);" class="mr-25">
-                                                <img src="<?= URLFILE ?>/<?=$_SESSION['user']['avatar']?>" onerror="this.src='<?= HOME ?>/layouts/useravatar.png'" id="avatar" class="rounded mr-50" alt="profile image" height="80" width="80" style="object-fit:cover" />
+                                                <img src="<?= URLFILE ?>/uploads/nhanvien/<?=$_SESSION['user']['avatar']?>" onerror="this.src='<?= HOME ?>/layouts/useravatar.png'" id="avatar" class="rounded mr-50" alt="profile image" height="80" width="80" style="object-fit:cover" />
                                             </a>
                                             <!-- upload and reset button -->
                                             <div class="media-body mt-75 ml-1">

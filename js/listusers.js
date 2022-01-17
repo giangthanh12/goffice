@@ -32,18 +32,6 @@ $(function () {
             });
         },
     });
-
-    $.ajax({
-        type: "GET",
-        dataType: "json",
-        async: false,
-        url: baseHome + "/listusers/accessPoints",
-        success: function (data) {
-            $("#accesspoints").select2({
-                data: data
-            });
-        },
-    });
     // Users List datatable
     if (dtUserTable.length) {
         dtUserTable.DataTable({
@@ -117,7 +105,7 @@ $(function () {
                     previous: "&nbsp;",
                     next: "&nbsp;",
                 },
-                sLengthMenu: "Show _MENU_",
+                sLengthMenu: "Tìm kiếm _MENU_",
                 search: "Search",
                 searchPlaceholder: "Từ khóa ...",
             },
@@ -182,8 +170,6 @@ function getData(id) {
             $('#username').val(data.username);
             $('#staffId').val(data.staffId).change();
             $('#groupId').val(data.groupId).change();
-            var accessPoints = data.accesspoints.split(',');
-            $('#accesspoints').val(accessPoints).trigger("change");
             $('#password').val('');
             url = baseHome + '/listusers/update?id=' + id;
         },
