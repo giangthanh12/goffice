@@ -100,14 +100,15 @@ $(function () {
                 },
             ],
             language: {
+                sLengthMenu: "Hiển thị _MENU_",
+                search: "",
+                searchPlaceholder: "Tìm kiếm...",
                 paginate: {
                     // remove previous & next text from pagination
                     previous: "&nbsp;",
                     next: "&nbsp;",
                 },
-                sLengthMenu: "Tìm kiếm _MENU_",
-                search: "Search",
-                searchPlaceholder: "Từ khóa ...",
+                info:"Hiển thị _START_ đến _END_ of _TOTAL_ bản ghi",
             },
             initComplete: function () {
                 // Adding role filter once table initialized
