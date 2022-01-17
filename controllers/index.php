@@ -19,8 +19,15 @@ class index extends Controller
         $jsonObj = [];
         $checkIp = $this->model->checkIp();
         if ($checkIp==0) {
-            $jsonObj['message'] = "Sai địa chỉ IP";
-            $jsonObj['code'] = 404;
+            $jsonObj['message'] = "Sai địa chỉ IP!";
+            $jsonObj['code'] = 401;
+            $jsonObj['data'] = [];
+            echo json_encode($jsonObj);
+            return false;
+        }
+        if ($checkIp==1) {
+            $jsonObj['message'] = "Bạn chưa được cài đặt điểm truy cập";
+            $jsonObj['code'] = 402;
             $jsonObj['data'] = [];
             echo json_encode($jsonObj);
             return false;
@@ -28,7 +35,7 @@ class index extends Controller
         $checkin = $this->model->checkInWifi();
         if ($checkin==false) {
             $jsonObj['message'] = "Checkin không thành công";
-            $jsonObj['code'] = 405;
+            $jsonObj['code'] = 403;
             $jsonObj['data'] = [];
             echo json_encode($jsonObj);
             return false;

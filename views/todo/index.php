@@ -94,7 +94,7 @@
                                     <?php
                                     foreach ($this->employee as $item) {
                                         if ($item['avatar'] != '')
-                                            $avatar = URLFILE . '/' . $item['avatar'];
+                                            $avatar = URLFILE . '/uploads/nhanvien/' . $item['avatar'];
                                         else
                                             $avatar = HOME . '/layouts/useravatar.png';
                                         echo '<option data-img="' . $avatar . '" value="' . $item['id'] . '" >' . $item['name'] . '</option>';
@@ -111,7 +111,7 @@
                                 <?php
                                 foreach ($this->list as $item) {
                                     if ($item['avatar'] != '')
-                                        $avatar = URLFILE . '/' . $item['avatar'];
+                                        $avatar = URLFILE . '/uploads/nhanvien/' . $item['avatar'];
                                     else
                                         $avatar = HOME . '/layouts/useravatar.png';
                                     $checked = ($item['status'] == 4) ? 'checked="true"' : '';
@@ -197,7 +197,7 @@
                                                     <?php
                                                     foreach ($this->employee as $item) {
                                                         if ($item['avatar'] != '')
-                                                            $avatar = URLFILE . '/' . $item['avatar'];
+                                                            $avatar = URLFILE . '/uploads/nhanvien/' . $item['avatar'];
                                                         else
                                                             $avatar = HOME . '/layouts/useravatar.png';
                                                         echo '<option data-img="' . $avatar . '" value="' . $item['id'] . '">' . $item['name'] . '</option>';
@@ -280,6 +280,6 @@
         staffId = '<?=$_SESSION['user']['staffId']?>',
         today = '<?= date('d/m/Y') ?>',
         proId = -1,
-        taskStatus = '',deadline='false';
+        taskStatus = '', deadline = 'false';
 </script>
 <script src="<?= HOME ?>/js/todo.js"></script>
