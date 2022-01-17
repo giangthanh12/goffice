@@ -30,52 +30,8 @@ class asset_recall extends Controller{
         $json = $this->model->getdata($id);
         echo json_encode($json);
     }
-    function update()
-    {
-        if(functions::checkFuns(self::$funcs,'loaddata')) {
-        $id = $_REQUEST['id'];
-       $data = array(
-            'tai_san' => $_REQUEST['id_ts'],
-            'cap_phat' => $_REQUEST['id_cp'],
-            'so_luong' => 1,
-            'ngay_gio' => date('Y-m-d', strtotime($_REQUEST['ngay_gio'])),
-            'tra_coc' => $_REQUEST['tra_coc'],
-            'ghi_chu' => $_REQUEST['ghi_chu'],
-        );
-        if($this->model->updateObj($id, $data)){
-            $jsonObj['msg'] = 'Cập nhật dữ liệu thành công';
-            $jsonObj['success'] = true;
-        } else {
-            $jsonObj['msg'] = 'Lỗi cập nhật database';
-            $jsonObj['success'] = false;
-        }
-    }
-    else {
-        $jsonObj['msg'] = 'Không có quyền truy cập';
-        $jsonObj['success'] = false;
-    }
-        echo json_encode($jsonObj);
-    }
+  
 
-    function del()
-    {
-        if(functions::checkFuns(self::$funcs,'loaddata')) {    
-        $id = $_REQUEST['id'];
-        $data = ['tinh_trang'=>0];
-        if($this->model->delObj($id,$data)){
-            $jsonObj['msg'] = "Xóa dữ liệu thành công";
-            $jsonObj['success'] = true;
-        } else {
-            $jsonObj['msg'] = "Lỗi cập nhật database";
-            $jsonObj['success'] = false;
-        } 
-    } else
-    {
-        $jsonObj['msg'] = 'Không có quyền truy cập';
-        $jsonObj['success'] = false;
-    }
-        echo json_encode($jsonObj);
-    }
 
     function taisan()
     {
@@ -88,19 +44,8 @@ class asset_recall extends Controller{
         echo json_encode($json);
     }
 
-    function get_sltonkho()
-    {
-        $id = $_REQUEST['id'];
-        $json = $this->model->get_sltonkho($id);
-        echo json_encode($json);
-    }
     
-    function get_slcp()
-    {
-        $id = $_REQUEST['id'];
-        $json = $this->model->get_slcp($id);
-        echo json_encode($json);
-    }
+    
 
 
     

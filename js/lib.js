@@ -555,6 +555,25 @@ function load_form(id_form, url_data){
     }
 }
 
+function checkIn(){
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        url: baseHome+"/index/checkIn",
+        success: function (data) {
+            if (data.code==200) {
+                notyfi_success(data.message);
+                $('#checkIn').empty();
+            }
+            else
+                notify_error(data.message);
+        },
+        error: function () {
+                notify_error('Lỗi truy cập!');
+        }
+    });
+}
+
 // if(localStorage.getItem('token')){
     // notify_error(localStorage.getItem('token'));
     // // get_info_account
