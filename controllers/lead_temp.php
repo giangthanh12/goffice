@@ -50,8 +50,9 @@ class lead_temp extends Controller
 
     function insertLead()
     {
+        if(isset($_REQUEST['leadName']) && $_REQUEST['leadCustomer']){
         $title = $_REQUEST['leadName'];
-        $desc = $_REQUEST['leadDesc'];
+        $desc = $_REQUEST['leadDes'];
         $customer = $_REQUEST['leadCustomer'];
         $opportunity = $_REQUEST['opportunity'];
         $data = array(
@@ -60,14 +61,15 @@ class lead_temp extends Controller
         );
         $temp = $this->model->insertLead($data);
         if ($temp == true) {
-            $jsonObj['msg'] = "Cập nhật thành công";
-            $jsonObj['success'] = true;
+            $jsonObj['message'] = "Cập nhật thành công";
+            $jsonObj['code'] = 200;
         } else {
-            $jsonObj['msg'] = 'Cập nhật không thành công';
-            $jsonObj['success'] = false;
+            $jsonObj['message'] = 'Cập nhật không thành công';
+            $jsonObj['code'] = 401;
         }
         $jsonObj = json_encode($jsonObj);
         echo $jsonObj;
+    }
     }
 
     function leadSearch() {
@@ -75,6 +77,13 @@ class lead_temp extends Controller
         $toDate = isset($_REQUEST['toDate']) && $_REQUEST['toDate'] != '' ? date("Y-m-d", strtotime(str_replace('/', '-', $_REQUEST['toDate']))) : '';
         $result = json_encode($this->model->listObj($fromDate, $toDate));
         echo $result;
+    }
+    
+    function updateLead()
+    {
+        $id = isset($_REQUEST['id']) ? $_REQUEST['id'] : 0;
+        $json = $this->model->getData($id);
+        echo json_encode($json);
     }
 
     // function list()

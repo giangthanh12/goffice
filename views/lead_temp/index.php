@@ -95,8 +95,8 @@
                                         <div class="float-right dropdown">
                                             <i class='bx bx-dots-vertical-rounded bx-md icon-dots'></i>
                                             <div class="dropdown-content">
-                                                <a href="#">Edit</a>
-                                                <a href="#">Delete</a>
+                                                <span class="updateLead" onclick="updateLead(<?= $item['id'] ?>)">Cập nhật</span>
+                                                <span class="deleteLead" onclick="deleteLead(<?= $item['id'] ?>)">Xóa</span>
                                             </div>
                                         </div>
                                         <div class="btn-statement">
@@ -274,7 +274,7 @@
     <div class="modal modal-slide-in sidebar-todo-modal fade" id="new-takecare-modal">
         <div class="modal-dialog sidebar-lg">
             <div class="modal-content p-0">
-                <form id="form-modal-todo" class="todo-modal needs-validation" novalidate onsubmit="return false">
+                <form id="form-modal-todo" class="todo-modal needs-validation">
                     <div class="modal-header align-items-center mb-1">
                         <h5 class="modal-title">Thêm lịch sử chăm sóc</h5>
                         <div class="todo-item-action d-flex align-items-center justify-content-between ml-auto">
@@ -307,18 +307,18 @@
                         <div class="form-group my-1">
                             <button type="submit" class="btn btn-primary">Cập nhật</button>
                             <button type="button" class="btn btn-outline-secondary" id="btn_boqua" data-dismiss="modal">Bỏ qua</button>
-                            <button type="button" class="btn btn-danger update-btn d-none" data-dismiss="modal" onclick="del()">Xóa</button>
                         </div>
                     </div>
                 </form>
             </div>
         </div>
     </div>
+
     <!-- modal leadAdd -->
     <div class="modal modal-slide-in sidebar-todo-modal fade" id="new-lead-modal">
         <div class="modal-dialog sidebar-lg">
             <div class="modal-content p-0">
-                <form id="form-modal-lead" class="todo-modal needs-validation" novalidate onsubmit="return false">
+                <form class="form-validate" enctype="multipart/form-data" id="fmLead">
                     <div class="modal-header align-items-center mb-1">
                         <h5 class="modal-title">Thêm cơ hội kinh doanh</h5>
                         <div class="todo-item-action d-flex align-items-center justify-content-between ml-auto">
@@ -331,7 +331,7 @@
                         <div class="action-tags">
                             <div class="form-group">
                                 <label for="todoTitleAdd" class="form-label">Tên cơ hội</label>
-                                <input type="text" id="leadName" name="leadName" class="new-todo-item-title form-control" placeholder="Tên cơ hội" />
+                                <input type="text" id="leadName" name="leadName" class="new-todo-item-title form-control" placeholder="Tên cơ hội" required />
                                 <input type="hidden" id="id" name="id">
                             </div>
                             <div class="form-group">
@@ -349,7 +349,8 @@
                             </div>
                             <div class="form-group position-relative">
                                 <label for="task-assigned" class="form-label d-block">Khách hàng</label>
-                                <select class="select2 form-control" id="leadCustomer" name="leadCustomer">
+                                <select class="select2 form-control" id="leadCustomer" name="leadCustomer" required >
+                                    <option value="">-- Chọn khách hàng --</option>
                                     <?php
                                     foreach ($this->customer as $item) {
                                         echo '<option value="' . $item['id'] . '">' . $item['fullName'] . '</option>';
@@ -369,7 +370,7 @@
                             </div>
                         </div>
                         <div class="form-group my-1">
-                            <button type="submit" class="btn btn-primary" onclick="leadAdd()">Cập nhật</button>
+                            <button type="button" class="btn btn-primary" onClick="saveLead()">Cập nhật</button>
                             <button type="button" class="btn btn-outline-secondary" id="btn_boqua" data-dismiss="modal">Bỏ qua</button>
                         </div>
                     </div>
@@ -377,5 +378,78 @@
             </div>
         </div>
     </div>
+
+    <!-- modal leadUpdate -->
+    <div class="modal modal-slide-in update-item-sidebar fade" id="updateLead">
+        <div class="modal-dialog sidebar-lg">
+            <div class="modal-content p-0">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">×</button>
+                <div class="modal-header mb-1">
+                    <h5 class="modal-title">Cập nhật thông tin cơ hội</h5>
+                </div>
+                <div class="modal-body flex-grow-1">
+                    <div class="tab-content mt-2">
+                        <div class="tab-pane tab-pane-update fade show active" id="tab-update" role="tabpanel">
+                            <form class="update-item-form" id="frm-edit">
+                                <div class="form-group">
+                                    <label for="todoTitleAdd" class="form-label">Tên cơ hội</label>
+                                    <input type="text" id="leadNameUpdate" name="leadNameUpdate" class="new-todo-item-title form-control" placeholder="Tên cơ hội" require />
+                                    <input type="hidden" id="leadIdUpdate" name="leadIdUpdate">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Mô tả cơ hội</label>
+                                    <div id="leadDescUpdate" class="border-bottom-0"></div>
+                                    <div class="d-flex justify-content-end desc-toolbar-3 border-top-0">
+                                        <span class="ql-formats mr-0">
+                                            <button class="ql-bold"></button>
+                                            <button class="ql-italic"></button>
+                                            <button class="ql-underline"></button>
+                                            <button class="ql-align"></button>
+                                            <button class="ql-link"></button>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="form-group position-relative">
+                                    <label for="task-assigned" class="form-label d-block">Khách hàng</label>
+                                    <select class="select2" id="leadCustomerUpdate" name="leadCustomerUpdate" require>
+                                        <option value="">-- Chọn khách hàng --</option>
+                                        <?php
+                                        foreach ($this->customer as $item) {
+                                            echo '<option value="' . $item['id'] . '">' . $item['fullName'] . '</option>';
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                                <div class="form-group position-relative">
+                                    <label for="opportunity" class="form-label d-block">Tiềm năng</label>
+                                    <select class="select2" id="opportunityUpdate" name="opportunityUpdate">
+                                        <option value="1">Ít tiềm năng nhất</option>
+                                        <option value="2">Ít tiềm năng</option>
+                                        <option value="3">Tiềm năng bình thường</option>
+                                        <option value="4">Tiềm năng</option>
+                                        <option value="5">Tiềm năng nhất</option>
+                                    </select>
+                                </div>
+                                <div class="form-group position-relative">
+                                    <label for="opportunity" class="form-label d-block">Tình trạng</label>
+                                    <select class="select2 form-control" id="statusUpdate" name="statusUpdate">
+                                        <option value="1">Đang chăm sóc</option>
+                                        <option value="2">Đã gửi báo giá</option>
+                                        <option value="3">Đã chốt</option>
+                                        <option value="4">Hủy</option>
+                                    </select>
+                                </div>
+                                <div class="d-flex flex-wrap mb-2">
+                                    <button type="button" onclick="saveedit()" class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Cập nhật</button>
+                                    <button type="reset" class="btn btn-outline-secondary mr-sm-1" data-dismiss="modal">Bỏ qua</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 <script src="<?= HOME ?>/js/lead_temp.js"></script>
