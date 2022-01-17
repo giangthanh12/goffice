@@ -21,7 +21,7 @@ $(function () {
 
             let social = data.social
             if (staffInfo.avatar!='')
-                $('#avatar').attr('src', baseUrlFile+'/'+staffInfo.avatar);
+                $('#avatar').attr('src', baseUrlFile+'/uploads/nhanvien/'+staffInfo.avatar);
             else
                 $('#avatar').attr('src', baseHome + '/layouts/useravatar.png');
             $('#username').val(staffInfo.email);
@@ -81,8 +81,8 @@ function thayanh() {
         success: function (data) {
             if (data.success) {
                 notyfi_success(data.msg);
-                $('#avatar').attr('src', baseUrlFile+'/'+data.filename);
-                $('#hungsua2').attr('src', baseUrlFile+'/'+data.filename);
+                $('#avatar').attr('src', baseUrlFile+'/uploads/nhanvien/'+data.filename);
+                $('#hungsua2').attr('src', baseUrlFile+'/uploads/nhanvien/'+data.filename);
             }
             else
                 notify_error(data.msg);

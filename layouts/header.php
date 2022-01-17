@@ -463,7 +463,7 @@ $model = new model();
                     </div>
                     <span class="avatar">
                             <img class="round" onerror="this.src='<?= HOME ?>/layouts/useravatar.png'"
-                                 src="<?= URLFILE . '/' . $_SESSION['user']['avatar'] ?>" alt="avatar" height="40"
+                                 src="<?= URLFILE . '/uploads/nhanvien/' . $_SESSION['user']['avatar'] ?>" alt="avatar" height="40"
                                  width="40" id="hungsua2">
                             <span class="avatar-status-online"></span>
                         </span>
@@ -650,7 +650,7 @@ $model = new model();
             <li class=" nav-item">
                 <a class="d-flex align-items-center" href="">
                     <i data-feather="home"></i>
-                    <span class="menu-title text-truncate" data-i18n="Dashboards">Dashboard</span>
+                    <span class="menu-title text-truncate" data-i18n="Dashboards">Trang chủ/Thống kê</span>
                 </a>
             </li>
             <?php

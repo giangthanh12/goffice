@@ -62,17 +62,6 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-12">
-                                                    <label for="accesspoints">Điểm truy cập</label>
-                                                    <div class="form-group row">
-                                                        <div class="col-sm-12">
-                                                            <select class="select2 form-control" multiple="true"
-                                                                    id="accesspoints"
-                                                                    name="accesspoints[]" placeholder="Điểm truy cập">
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-12">
                                                     <label for="contact-icon">Nhóm</label>
                                                     <div class="form-group row">
                                                         <div class="col-sm-12">
