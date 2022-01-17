@@ -189,12 +189,6 @@
 
                                 </button>
 
-                                <button type="button" id="btn_edit" class="btn btn-outline-primary">
-
-                                    Chỉnh sửa
-
-                                </button>
-
                             </div>
 
                         </form>
@@ -262,4 +256,5 @@
     </div>
 
 </div>
+
 <script src="<?= HOME ?>/js/tainguyen/index.js"></script>

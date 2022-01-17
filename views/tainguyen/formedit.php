@@ -69,13 +69,14 @@
                                     <div class="col-md-6 col-12">
                                         <div class="form-group">
                                             <label for="email-id-column">Mật khẩu</label>
-                                            <input type="email" id="password" class="form-control" name="password" placeholder="Mật khẩu" />
+                                            <input type="password" id="password" class="form-control" name="password" placeholder="Mật khẩu" />
+                                            <span id="toggle" class="fa fa-fw fa-eye field-icon toggle-password"></span>
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-12">
                                         <div class="form-group">
-                                            <label for="email-id-column">Ghi chú</label>
-                                            <input type="email" id="note" class="form-control" name="note" placeholder="Ghi chú" />
+                                            <label for="note-id-column">Ghi chú</label>
+                                            <input type="text" id="note" class="form-control" name="note" placeholder="Ghi chú" />
                                         </div>
                                     </div>
                                     <div class="col-12 text-center">
@@ -91,4 +92,15 @@
         </section>
     </div>
 </div>
+<style>
+    .field-icon {
+  float: right;
+  margin-right: 20px;
+  margin-left: -25px;
+  margin-top: -25px;
+  position: relative;
+  z-index: 2;
+}
+</style>
+
 <script src="<?= HOME ?>/js/tainguyen/formedit.js"></script>
