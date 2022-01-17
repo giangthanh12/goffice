@@ -14,7 +14,7 @@
                             <div class="add-task">
                                 <button type="button" class="btn btn-primary btn-block" data-toggle="modal"
                                         data-target="#new-task-modal">
-                                    Add Task
+                                    Thêm công việc
                                 </button>
                             </div>
                             <?php
@@ -24,11 +24,11 @@
                                 <a href="javascript:void(0)" onclick="listMyTask()"
                                    class="list-group-item list-group-item-action active">
                                     <i data-feather="mail" class="font-medium-3 mr-50"></i>
-                                    <span class="align-middle"> My task</span>
+                                    <span class="align-middle"> Công việc của tôi</span>
                                 </a>
                                 <a href="javascript:void(0)" onclick="listDeadline()"
                                    class="list-group-item list-group-item-action">
-                                    <i data-feather="star" class="font-medium-3 mr-50"></i> <span class="align-middle">Trễ deadline</span>
+                                    <i data-feather="star" class="font-medium-3 mr-50"></i> <span class="align-middle">Trễ hạn</span>
                                 </a>
                                 <a href="javascript:void(0)" onclick="listStatus(6)"
                                    class="list-group-item list-group-item-action">
@@ -83,7 +83,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i data-feather="search" class="text-muted"></i></span>
                                     </div>
-                                    <input type="text" class="form-control" id="todo-search" placeholder="Search task"
+                                    <input type="text" class="form-control" id="todo-search" placeholder="Tìm kiếm công việc"
                                            aria-label="Search..." aria-describedby="todo-search"/>
                                 </div>
                             </div>
@@ -161,7 +161,7 @@
                                 <form id="form-modal-todo" class="todo-modal needs-validation" novalidate
                                       onsubmit="return false">
                                     <div class="modal-header align-items-center mb-1">
-                                        <h5 class="modal-title">Add Task</h5>
+                                        <h5 class="modal-title">Thêm công việc</h5>
                                         <div class="todo-item-action d-flex align-items-center justify-content-between ml-auto">
                                             <!-- <span class="todo-item-favorite cursor-pointer mr-75"><i data-feather="star" class="font-medium-2"></i></span> -->
                                             <button type="button" class="close font-large-1 font-weight-normal py-0"
@@ -176,7 +176,7 @@
                                                 <input type="hidden" id="taskId" name="taskId"/>
                                                 <label for="todoTitleAdd" class="form-label">Công việc</label>
                                                 <input type="text" id="todoTitleAdd" name="todoTitleAdd"
-                                                       class="new-todo-item-title form-control" placeholder="Title"/>
+                                                       class="new-todo-item-title form-control" placeholder="Tên công việc"/>
                                             </div>
                                             <div class="form-group position-relative">
                                                 <label for="task-assigned" class="form-label d-block">Thuộc dự án/nhóm
@@ -239,7 +239,7 @@
                                             if ($this->funAdd) {
                                                 ?>
                                                 <button type="submit" class="btn btn-primary d-none add-todo-item mr-1">
-                                                    Add
+                                                    Thêm
                                                 </button>
                                             <?php } ?>
                                             <?php
@@ -247,18 +247,18 @@
                                                 ?>
                                                 <button type="button"
                                                         class="btn btn-primary d-none update-btn update-todo-item mr-1">
-                                                    Update
+                                                    Cập nhật
                                                 </button>
                                             <?php }
                                             if ($this->funDel) { ?>
                                                 <button type="button" onclick="deleteTask()"
                                                         class="btn btn-outline-danger update-btn d-none">
-                                                    Delete
+                                                    Xóa
                                                 </button>
                                             <?php } ?>
                                             <button type="button" class="btn btn-outline-secondary cancel-todo-item"
                                                     data-dismiss="modal">
-                                                Cancel
+                                                Hủy
                                             </button>
                                         </div>
                                     </div>

@@ -15,9 +15,9 @@ $(function () {
     }
 
     return_combobox_multi('#estaffId', baseHome + '/common/nhanvien', 'Chọn nhân viên');
-    return_combobox_multi('#esourceId', baseHome + '/common/datasource', 'Chọn loại khách hàng');
-    return_combobox_multi('#sourceId', baseHome + '/common/datasource', 'Chọn loại khách hàng');
-    return_combobox_multi('#sourceId_import', baseHome + '/common/datasource', 'Chọn loại khách hàng');
+    return_combobox_multi('#esourceId', baseHome + '/common/datasource', '');
+    return_combobox_multi('#sourceId', baseHome + '/common/datasource', '');
+    return_combobox_multi('#sourceId_import', baseHome + '/common/datasource', '');
     return_combobox_multi('#phutrach', baseHome + '/common/nhanvien', 'Chọn nhân viên');
     return_combobox_multi('#chiacho', baseHome + '/common/nhanvien', 'Chọn nhân viên');
     return_combobox_multi('#estatus', baseHome + '/common/datastatus', 'Chọn tình trạng data');
@@ -48,7 +48,6 @@ $(function () {
             "serverSide": true,
             "ordering": false,
             "autoWidth": false,
-            "responsive": false,
             "fixedColumns": true,
             // select: {
             //     style: 'multi'
@@ -186,11 +185,6 @@ $(function () {
                 '<"col-sm-12 col-md-6"i>' +
                 '<"col-sm-12 col-md-6"p>' +
                 ">",
-            language: {
-                sLengthMenu: "Show _MENU_",
-                search: "Search",
-                searchPlaceholder: "11111111112..",
-            },
             // Buttons with Dropdown
             buttons: [
             ],
@@ -220,11 +214,15 @@ $(function () {
                 },
             },
             language: {
+                sLengthMenu: "Hiển thị _MENU_",
+                search: "",
+                searchPlaceholder: "Tìm kiếm...",
                 paginate: {
                     // remove previous & next text from pagination
                     previous: "&nbsp;",
                     next: "&nbsp;",
                 },
+                info:"Hiển thị _START_ đến _END_ of _TOTAL_ bản ghi",
             },
             initComplete: function () {
             },
@@ -252,7 +250,15 @@ $(function () {
                 phoneNumber: {
                     required: true
                 },
-            }
+            },
+            messages: {
+                "name": {
+                    required: "Bạn chưa nhập tên data!",
+                },
+                "phoneNumber": {
+                    required: "Bạn chưa nhập số điện thoại!",
+                }
+            },
         });
     });
 

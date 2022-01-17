@@ -267,6 +267,17 @@ $(function () {
                     required: true,
                 },
             },
+            messages: {
+                todoTitleAdd: {
+                    required: "Bạn chưa nhập tên công việc!",
+                },
+                "task-assigned": {
+                    required: "Bạn chưa nhập người nhận công việc!",
+                },
+                "task-due-date": {
+                    required: "Bạn chưa nhập tên thời hạn hoàn thành!",
+                },
+            },
         });
 
         newTaskForm.on("submit", function (e) {
