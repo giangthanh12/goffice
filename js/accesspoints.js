@@ -129,6 +129,14 @@ function loaddata(id) {
 
 function save() {
     $('#fm').validate({
+        messages: {
+            "name": {
+                required: "Bạn chưa nhập tên điểm truy cập!",
+            },
+            "ip": {
+                required: "Bạn chưa nhập địa chỉ ip!",
+            }
+        },
         submitHandler: function (form) {
             var formData = new FormData(form);
             $.ajax({

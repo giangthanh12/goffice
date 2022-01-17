@@ -266,6 +266,20 @@ $(function () {
                     required: true,
                 },
             },
+            messages: {
+                "name": {
+                    required: "Bạn chưa nhập họ tên!",
+                },
+                "email": {
+                    required: "Bạn chưa nhập email!",
+                },
+                "birthday": {
+                    required: "Bạn chưa nhập ngày sinh!",
+                },
+                "phoneNumber": {
+                    required: "Bạn chưa nhập số điện thoại!",
+                },
+            },
         });
 
         newUserForm.on("submit", function (e) {

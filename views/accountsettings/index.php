@@ -9,10 +9,10 @@
                         <h2 class="content-header-title float-left mb-0">Account Settings</h2>
                         <div class="breadcrumb-wrapper">
                             <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="index.html">Trang chủ</a>
+                                <li class="breadcrumb-item"><a href="<?=HOME?>">Trang chủ</a>
                                 </li>
-                                <li class="breadcrumb-item"><a href="#">Pages</a>
-                                </li>
+<!--                                <li class="breadcrumb-item"><a href="#">Pages</a>-->
+<!--                                </li>-->
                                 <li class="breadcrumb-item active"> Account Settings
                                 </li>
                             </ol>
@@ -40,35 +40,35 @@
                             <li class="nav-item">
                                 <a class="nav-link active" id="account-pill-general" data-toggle="pill" href="#account-vertical-general" aria-expanded="true">
                                     <i data-feather="user" class="font-medium-3 mr-1"></i>
-                                    <span class="font-weight-bold">General</span>
+                                    <span class="font-weight-bold">Thông tin chung</span>
                                 </a>
                             </li>
                             <!-- change password -->
                             <li class="nav-item">
                                 <a class="nav-link" id="account-pill-password" data-toggle="pill" href="#account-vertical-password" aria-expanded="false">
                                     <i data-feather="lock" class="font-medium-3 mr-1"></i>
-                                    <span class="font-weight-bold">Change Password</span>
+                                    <span class="font-weight-bold">Thay đổi mật khẩu</span>
                                 </a>
                             </li>
                             <!-- information -->
                             <li class="nav-item">
                                 <a class="nav-link" id="account-pill-info" data-toggle="pill" href="#account-vertical-info" aria-expanded="false">
                                     <i data-feather="info" class="font-medium-3 mr-1"></i>
-                                    <span class="font-weight-bold">Information</span>
+                                    <span class="font-weight-bold">Thông tin cá nhân</span>
                                 </a>
                             </li>
                             <!-- social -->
                             <li class="nav-item">
                                 <a class="nav-link" id="account-pill-social" data-toggle="pill" href="#account-vertical-social" aria-expanded="false">
                                     <i data-feather="link" class="font-medium-3 mr-1"></i>
-                                    <span class="font-weight-bold">Social</span>
+                                    <span class="font-weight-bold">Mạng xã hội</span>
                                 </a>
                             </li>
                             <!-- notification -->
-                            <li class="nav-item">
+                            <li class="nav-item d-none">
                                 <a class="nav-link" id="account-pill-notifications" data-toggle="pill" href="#account-vertical-notifications" aria-expanded="false">
                                     <i data-feather="bell" class="font-medium-3 mr-1"></i>
-                                    <span class="font-weight-bold">Notifications</span>
+                                    <span class="font-weight-bold">Thông báo</span>
                                 </a>
                             </li>
                         </ul>
@@ -89,12 +89,12 @@
                                             </a>
                                             <!-- upload and reset button -->
                                             <div class="media-body mt-75 ml-1">
-                                                <label for="hinhanh" class="btn btn-sm btn-primary mb-75 mr-75">Upload</label>
+                                                <label for="hinhanh" class="btn btn-sm btn-primary mb-75 mr-75">Tải lên</label>
                                                 <button class="btn btn-sm btn-outline-secondary mb-75" onclick="xoaanh()">Reset</button>
                                                 <form id="upload-avt">
                                                     <input type="file" id="hinhanh" name="hinhanh" hidden accept="image/*" onchange="thayanh()" />
                                                 </form>
-                                                <p>Allowed JPG, GIF or PNG. Max size of 800kB</p>
+                                                <p>Cho phép sử dụng ảnh jpg, gif hoặc png. Kích cỡ ảnh tối đa 800kB</p>
                                             </div>
                                             <!--/ upload and reset button -->
                                         </div>
@@ -128,8 +128,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-12">
-                                                    <button type="button" class="btn btn-primary mt-2 mr-1" onclick="save()">Save changes</button>
-                                                    <button type="reset" class="btn btn-outline-secondary mt-2">Cancel</button>
+                                                    <button type="button" class="btn btn-primary mt-2 mr-1" onclick="save()">Lưu thay đổi</button>
+                                                    <button type="reset" class="btn btn-outline-secondary mt-2">Đóng</button>
                                                 </div>
                                             </div>
                                         </form>
@@ -182,8 +182,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-12">
-                                                    <button type="button" class="btn btn-primary mr-1 mt-1" onclick="savepass()">Save changes</button>
-                                                    <button type="reset" class="btn btn-outline-secondary mt-1">Cancel</button>
+                                                    <button type="button" class="btn btn-primary mr-1 mt-1" onclick="savepass()">Lưu thay đổi</button>
+                                                    <button type="reset" class="btn btn-outline-secondary mt-1">Đóng</button>
                                                 </div>
                                             </div>
                                         </form>
@@ -239,8 +239,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-12">
-                                                    <button type="button" class="btn btn-primary mt-1 mr-1" onclick="save()">Save changes</button>
-                                                    <button type="reset" class="btn btn-outline-secondary mt-1">Cancel</button>
+                                                    <button type="button" class="btn btn-primary mt-1 mr-1" onclick="save()">Lưu thay đổi</button>
+                                                    <button type="reset" class="btn btn-outline-secondary mt-1">Đóng</button>
                                                 </div>
                                             </div>
                                         </form>
@@ -257,47 +257,47 @@
                                                 <div class="col-12">
                                                     <div class="d-flex align-items-center mb-2">
                                                         <i data-feather="link" class="font-medium-3"></i>
-                                                        <h4 class="mb-0 ml-75">Social Links</h4>
+                                                        <h4 class="mb-0 ml-75">Liên kết mạng xã hội</h4>
                                                     </div>
                                                 </div>
                                                 <!-- twitter link input -->
                                                 <div class="col-12 col-sm-6">
                                                     <div class="form-group">
                                                         <label for="twitter">Twitter</label>
-                                                        <input type="text" id="twitter" name="twitter" class="form-control" placeholder="Add link"/>
+                                                        <input type="text" id="twitter" name="twitter" class="form-control" />
                                                     </div>
                                                 </div>
                                                 <!-- facebook link input -->
                                                 <div class="col-12 col-sm-6">
                                                     <div class="form-group">
                                                         <label for="facebook">Facebook</label>
-                                                        <input type="text" id="facebook" name="facebook" class="form-control" placeholder="Add link" />
+                                                        <input type="text" id="facebook" name="facebook" class="form-control"  />
                                                     </div>
                                                 </div>
                                                 <!-- instagram link input -->
                                                 <div class="col-12 col-sm-6">
                                                     <div class="form-group">
                                                         <label for="instagram">Instagram</label>
-                                                        <input type="text" id="instagram" name="instagram" class="form-control" placeholder="Add link" />
+                                                        <input type="text" id="instagram" name="instagram" class="form-control" />
                                                     </div>
                                                 </div>
                                                 <!-- Quora link input -->
                                                 <div class="col-12 col-sm-6">
                                                     <div class="form-group">
                                                         <label for="zalo">Zalo</label>
-                                                        <input type="text" id="zalo" name="zalo" class="form-control" placeholder="Add link" />
+                                                        <input type="text" id="zalo" name="zalo" class="form-control" />
                                                     </div>
                                                 </div>
                                                 <div class="col-12 col-sm-6">
                                                     <div class="form-group">
                                                         <label for="wechat">Webchat</label>
-                                                        <input type="text" id="wechat" name="wechat" class="form-control" placeholder="Add link" />
+                                                        <input type="text" id="wechat" name="wechat" class="form-control"  />
                                                     </div>
                                                 </div>
                                                 <div class="col-12 col-sm-6">
                                                     <div class="form-group">
                                                         <label for="linkedin">Linkedin</label>
-                                                        <input type="text" id="linkedin" name="linkedin" class="form-control" placeholder="Add link" />
+                                                        <input type="text" id="linkedin" name="linkedin" class="form-control" />
                                                     </div>
                                                 </div>
 
@@ -306,7 +306,7 @@
                                                     <hr class="my-2" />
                                                 </div>
 
-                                                <div class="col-12 mt-1">
+                                                <div class="col-12 mt-1 d-none">
                                                     <!-- profile connection header -->
                                                     <div class="d-flex align-items-center mb-3">
                                                         <i data-feather="user" class="font-medium-3"></i>
@@ -350,8 +350,8 @@
                                                 </div>
                                                 <div class="col-12">
                                                     <!-- submit and cancel button -->
-                                                    <button type="button" class="btn btn-primary mr-1 mt-1" onclick="savesocial()">Save changes</button>
-                                                    <button type="reset" class="btn btn-outline-secondary mt-1">Cancel</button>
+                                                    <button type="button" class="btn btn-primary mr-1 mt-1" onclick="savesocial()">Lưu thay đổi</button>
+                                                    <button type="reset" class="btn btn-outline-secondary mt-1">Đóng</button>
                                                 </div>
                                             </div>
                                         </form>
@@ -405,8 +405,8 @@
                                                 </div>
                                             </div>
                                             <div class="col-12">
-                                                <button type="submit" class="btn btn-primary mt-2 mr-1">Save changes</button>
-                                                <button type="reset" class="btn btn-outline-secondary mt-2">Cancel</button>
+                                                <button type="submit" class="btn btn-primary mt-2 mr-1">Lưu thay đổi</button>
+                                                <button type="reset" class="btn btn-outline-secondary mt-2">Đóng</button>
                                             </div>
                                         </div>
                                     </div>
