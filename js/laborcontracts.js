@@ -1,11 +1,12 @@
 $(function () {
     // $('#')
-    return_combobox_multi('#staffId', baseHome + '/common/nhanvien', 'Lựa chọn nhân viên');
-    return_combobox_multi('#type', baseHome + '/loaihd/combo', 'Lựa chọn loại hợp đồng');
-    return_combobox_multi('#departmentId', baseHome + '/phongban/combo', 'Lựa chọn phòng ban');
-    return_combobox_multi('#branchId', baseHome + '/chinhanh/combo', 'Lựa chọn chi nhánh');
-    return_combobox_multi('#position', baseHome + '/position/combo', 'Lựa chọn vị trí');
-
+    return_combobox_multi('#staffId', baseHome + '/common/listStaff', 'Lựa chọn nhân viên');
+    return_combobox_multi('#type', baseHome + '/common/typeContracts', 'Lựa chọn loại hợp đồng');
+    return_combobox_multi('#departmentId', baseHome + '/common/departments', 'Lựa chọn phòng ban');
+    return_combobox_multi('#branchId', baseHome + '/common/branchs', 'Lựa chọn chi nhánh');
+    return_combobox_multi('#position', baseHome + '/common/positions', 'Lựa chọn vị trí');
+    return_combobox_multi('#shiftId', baseHome + '/common/shifts', 'Lựa chọn ca làm việc');
+    return_combobox_multi('#workPlaceId', baseHome + '/common/workPlaces', 'Địa điểm làm việc');
     "use strict";
 
     var dtUserTable = $(".user-list-table"),
@@ -233,14 +234,15 @@ function showAdd() {
     $('#staffId').val('').trigger('change');
     $('#name').val('');
     $('#basicSalary').val('');
-    $('#salaryPercentage').val('');
     $('#allowance').val('');
     $('#insuranceSalary').val('');
     $('#startDate').val('');
     $('#stopDate').val('');
+    $('#shiftId').val('').trigger('change');
     $('#departmentId').val('').trigger('change');
     $('#position').val('').trigger('change');
     $('#type').val('').trigger('change');
+    $('#workPlaceId').val('').trigger('change');
     $('#branchId').val('').trigger('change');
     $('#status').val('1').trigger('change');
     $('#description').val('');
@@ -275,10 +277,9 @@ function loaddata(id) {
             // Default
 
             $('#name').val(data.name);
-            $('#basicSalary').val(data.basicSalary);
+            $('#basicSalary').val(Comma(data.basicSalary));
             $('#salaryPercentage').val(data.salaryPercentage);
-            $('#allowance').val(data.allowance);
-            $('#insuranceSalary').val(data.insuranceSalary);
+            $('#allowance').val(Comma(data.allowance));
             if (data.startDate != '0000-00-00' && data.startDate != '1970-01-01')
                 $('#startDate').val(data.startDateCv);
             else
@@ -293,6 +294,8 @@ function loaddata(id) {
             $('#branchId').val(data.branchId).trigger("change");
             $('#type').val(data.type).trigger("change");
             $('#status').val(data.status).trigger("change");
+            $('#shiftId').val(data.shiftId).trigger("change");
+            $('#workPlaceId').val(data.workPlaceId).trigger('change');
             $('#description').val(data.description);
             var basicPickr = $('.flatpickr-basic');
             if (basicPickr.length) {
@@ -314,38 +317,67 @@ function loaddata(id) {
 }
 
 function save() {
-    var info = {};
-    info.name = $("#name").val();
-    info.basicSalary = $("#basicSalary").val();
-    info.salaryPercentage = $("#salaryPercentage").val();
-    info.insuranceSalary = $("#insuranceSalary").val();
-    info.allowance = $("#allowance").val();
-    info.startDate = $("#startDate").val();
-    info.stopDate = $("#stopDate").val();
-    info.staffId = $("#staffId").val();
-    info.departmentId = $("#departmentId").val();
-    info.position = $("#position").val();
-    info.branchId = $("#branchId").val();
-    info.type = $("#type").val();
-    info.status = $("#status").val();
-    info.description = $("#description").val();
-    $.ajax({
-        type: "POST",
-        dataType: "json",
-        data: info,
-        url: url,
-        success: function (data) {
-            if (data.code == 200) {
-                notyfi_success(data.message);
-                $('#add-contract').modal('hide');
-                $(".user-list-table").DataTable().ajax.reload(null, false);
-            } else
-                notify_error(data.message);
+    $('#fm').validate({
+        messages: {
+            "name": {
+                required: "Bạn chưa nhập tên hợp đồng!",
+            },
+            "type": {
+                required: "Bạn chưa chọn loại hợp đồng!",
+            },
+            "staffId": {
+                required: "Bạn chưa chọn nhân viên!",
+            },
+            "departmentId": {
+                required: "Bạn chưa chọn phòng ban!",
+            },
+            "position": {
+                required: "Bạn chưa chọn vị tri!",
+            },
+            "branchId": {
+                required: "Bạn chưa chọn chi nhánh!",
+            },
+            "shiftId": {
+                required: "Bạn chưa chọn ca làm việc!",
+            },
+            "workPlaceId": {
+                required: "Bạn chưa chọn ca địa điểm làm việc!",
+            },
+            "basicSalary": {
+                required: "Bạn chưa nhập lương cơ bản!",
+            },
+            "salaryPercentage": {
+                required: "Bạn chưa nhập tỷ lệ lương!",
+            },
+            "startDate": {
+                required: "Bạn chưa ngày ký hợp đồng!",
+            }
         },
-        error: function () {
-            notify_error('Cập nhật không thành công');
+        submitHandler: function (form) {
+            var formData = new FormData(form);
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: formData,
+                async: false,
+                cache: false,
+                contentType: false,
+                enctype: 'multipart/form-data',
+                processData: false,
+                dataType: "json",
+                success: function (data) {
+                    if (data.code == 200) {
+                        notyfi_success(data.message);
+                        $('#add-contract').modal('hide');
+                        $(".user-list-table").DataTable().ajax.reload(null, false);
+                    } else
+                        notify_error(data.message);
+                }
+            });
+            return false;
         }
     });
+    $('#fm').submit();
 }
 
 function xoa(id) {

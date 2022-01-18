@@ -535,9 +535,9 @@ function loadRecord(id) {
             destroy: true,
             columns: [
                 // columns according to JSON
-                {data: "nameContract"},
+                {data: "name"},
                 {data: "department"},
-                {data: "salary"},
+                {data: "basicSalary"},
                 {data: "allowance"},
                 {data: "startDate"},
                 {data: "stopDate"},
@@ -553,7 +553,7 @@ function loadRecord(id) {
                         html = new Intl.NumberFormat('vi-VN', {
                             style: 'currency',
                             currency: 'VND'
-                        }).format(full['salary']);
+                        }).format(full['basicSalary']);
                         return html;
                     },
 

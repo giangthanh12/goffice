@@ -44,9 +44,8 @@ class staff_Model extends Model{
         $query = $this->db->query("SELECT *,
          DATE_FORMAT(startDate,'%d/%m/%Y') as startDate,
          DATE_FORMAT(stopDate,'%d/%m/%Y') as stopDate,
-         (SELECT name FROM laborcontract WHERE id = a.contractId) as nameContract,
          (SELECT name FROM department WHERE id = a.departmentId) as department
-         FROM records a WHERE staffId = $id AND status = 1 ORDER BY id DESC");
+         FROM laborcontract a WHERE staffId = $id AND status > 0 ORDER BY id DESC");
         $data['data'] = $query->fetchAll(PDO::FETCH_ASSOC);
         return $data;
     }
