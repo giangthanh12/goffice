@@ -14,11 +14,12 @@
                             <thead class="thead-light">
                                 <tr>
                                     <th></th>
+                                    <th>Tên hợp đồng</th>
                                     <th>Tên nhân viên</th>
                                     <th>Vị trí</th>
                                     <th>Phòng ban</th>
                                     <th>Chi nhánh</th>
-                                    <th>...</th>
+<!--                                    <th>...</th>-->
                                 </tr>
                             </thead>
                         </table>
