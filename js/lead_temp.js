@@ -116,7 +116,6 @@ $(function() {
                         if (data.success == true) {
                             notyfi_success(data.msg);
                             $('#new-takecare-modal').modal('hide');
-                            // $("#history").load(window.location.href + "?id=" + id + " #history");
                             var html = '';
                             data.list.forEach(function(value, index) {
                                 html += '<div class="row">';
@@ -380,7 +379,6 @@ function saveLead() {
                 processData: false,
                 dataType: "json",
                 success: function(data) {
-                    console.log(data);
                     if (data.code == 200) {
                         notyfi_success(data.message);
                         leadSearch();
@@ -426,12 +424,17 @@ $(document).on('click', '.sidebar-toggle', function() {
 // $('#list-lead').on('click', '.sidebar-list', function(e) {
 //     $(this).addClass('list-active');
 // });
+
+var leftId = '';
+
 $('#list-lead').on('click', '.sidebar-list', function() {
+    let leadId = $(this).data("id");
     $('#list-lead .sidebar-list.list-active').removeClass('list-active');
     $(this).addClass('list-active');
-    let leadId = $(this).data("id");
     $('#id').val(leadId);
     let customerId = $(this).data("customer");
+    if (leftId === customerId) return false;
+    leftId = customerId;
     $.ajax({
         url: baseHome + "/lead_temp/getCustomerById",
         type: 'post',
@@ -450,6 +453,7 @@ $('#list-lead').on('click', '.sidebar-list', function() {
             $('#phoneNumber').html(data.phoneNumber);
             $('#email').html(data.email);
             $('#dateTime').html(data.dateTime);
+            $('#staffName').html(data.staffId);
             if (data.status == 1)
                 $('#status').html('<button class="btn-statement-orange">Khách hàng mới</button>');
             else if (data.status == 2)
@@ -493,6 +497,9 @@ $('#list-lead').on('click', '.sidebar-list', function() {
 });
 
 function showModalTakeCare() {
+    $('#name').val('');
+    var quill_editor = $("#task-desc .ql-editor");
+    quill_editor[0].innerHTML = '';
     $('#new-takecare-modal').modal('show');
 }
 
@@ -503,6 +510,12 @@ function showModalLead() {
     quill_editor[0].innerHTML = '';
     $('#new-lead-modal').modal('show');
 }
+
+
+
+// function leadQuote() {
+//     $('#add-quote').modal('show');
+// }
 
 function loadData(id) {
     $('#updateLead').modal('show');
@@ -528,41 +541,58 @@ function loadData(id) {
     });
 }
 
-function saveedit() {
-    var isValid = $('#fmEdit').valid();
-    if (isValid) {
-        var info = {};
-        info.leadNameUpdate = $("#leadNameUpdate").val();
-        info.ephoneNumber = $("#ephoneNumber").val();
-        info.eaddress = $("#eaddress").val();
-        info.eemail = $("#eemail").val();
-        info.esourceId = $("#esourceId").val();
-        info.econnectorName = $("#econnectorName").val();
-        info.etaxCode = $("#etaxCode").val();
-        info.etype = $("#etype").val();
-        info.enote = $("#enote").val();
-        info.estaffId = $("#estaffId").val();
-        info.estatus = $("#estatus").val();
-        if (dataId > 0) {
-            $.ajax({
-                type: "POST",
-                dataType: "json",
-                data: info,
-                url: baseHome + "/data/update?id=" + dataId,
-                success: function(data) {
-                    if (data.success) {
-                        notyfi_success(data.msg);
-                        $('#updateinfo').modal('hide');
-                        $(".user-list-table").DataTable().ajax.reload(null, false);
-                    } else
-                        notify_error(data.msg);
-                },
-                error: function() {
-                    notify_error('Cập nhật không thành công');
-                }
-            });
+function leadQuote() {
+    if (leftId === '') return false;
+    $('#add-quote').modal('show');
+    $.ajax({
+        url: baseHome + "/lead_temp/getCustomerById",
+        type: 'post',
+        dataType: "json",
+        data: { id: leftId },
+        success: function(data) {
+            let yourDate = new Date()
+            const offset = yourDate.getTimezoneOffset()
+            yourDate = new Date(yourDate.getTime() - (offset * 60 * 1000))
+            $('#staffQuote').val(data.staffName);
+            $('#customerQuote').val(data.fullName);
+            $('#dateQuote').val(yourDate.toISOString().split('T')[0]);
+        },
+        error: function() {
+            notify_error('Lỗi truy xuất database');
         }
-    }
+    });
+}
+
+
+function load_dichvu() {
+    var id = $('#dich_vu').val();
+    // var khach_hang = $('#khach_hang_bg').val();
+    // var nhan_vien = $('#nhan_vien_bg').val();
+    // if (khach_hang > 0 && nhan_vien > 0) {
+    //     $(".btn-add").attr("disabled", false);
+    // } else {
+    //     $(".btn-add").attr("disabled", true);
+    // }
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        data: { id: id },
+        url: baseHome + "/lead_temp/load_dichvu",
+        success: function(data) {
+            var stt = $('#stt').val();
+            var i = Number(stt) + 1;
+            $('#stt').val(i);
+            $('#table_sp').append('<tr id="arr' + i + '"><td>' + data.name + '</td><td><input type="text" id="don_gia' + i + '" onkeyup="load_tien(' + i + ')" name="don_gia[]" class="form-control input format_number" value="' + data.don_gia + '"></td><td><input type="hidden" name="id_sp[]" id="id_sp[' + i + ']" value="' + data.id + '"></input><input type="hidden" name="loai[]" id="loai[' + i + ']" value="0"></input><input type="text" onkeyup="load_tien(' + i + ')" name="so_luong[]" id="so_luong' + i + '" value="1" class="form-control input" ></td><td><input type="text" id="chiet_khau' + i + '" onkeyup="load_tien(' + i + ')" name="chiet_khau_tm[]" class="form-control input format_number" value="0"></td><td><select name="thue[]" id="thue' + i + '" class="thue' + i + ' form-control" onchange="load_tien(' + i + ')"><option value="0">Không</option><option value="5">5%</option><option value="10">10%</option></select></td><td><input type="text" id="tien_thue' + i + '" name="tien_thue[]" onkeyup="load_tien(' + i + ')" value="' + data.thue_vat + '" class="form-control input format_number"></td><td><input type="date" id="ngay_s" name="ngay_s[]" class="form-control" placeholder="Ngày bắt đầu" ><input type="date" id="ngay_e" name="ngay_e[]" class="form-control" style="margin-top:4px" placeholder="Ngày kết thúc"> </td><td><input type="text" id="thanh_tien' + i + '" name="thanh_tien[]" class="form-control input  format_number" readonly></td><td><a  onclick="remove_tr(' + i + ');return false"><i class="fas fa-trash-alt"></i></a></td></tr>');
+
+            $('#dich_vu').val(0);
+            $('#dich_vu').trigger("change");
+            // $('#san_pham').val(0);
+            // $('#san_pham').trigger("change");
+            $("#thue" + i).val(data.tax).trigger('change');
+        },
+        error: function() {}
+    });
+
 }
 
 function updateLead() {
