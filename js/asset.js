@@ -204,24 +204,22 @@ if ($('#status').length) {
                 '<"col-sm-12 col-md-6"i>' +
                 '<"col-sm-12 col-md-6"p>' +
                 ">",
-            language: {
-                sLengthMenu: "Show _MENU_",
-                search: "Search",
-                searchPlaceholder: "11111111112..",
-            },
+                language: {
+                    sLengthMenu: "Hiển thị _MENU_",
+                    search: "",
+                    searchPlaceholder: "Tìm kiếm...",
+                    paginate: {
+                        // remove previous & next text from pagination
+                        previous: "&nbsp;",
+                        next: "&nbsp;",
+                    },
+                    info:"Hiển thị _START_ đến _END_ of _TOTAL_ bản ghi",
+                },
             // Buttons with Dropdown
             buttons: [button],
-          
-            language: {
-                paginate: {
-                    // remove previous & next text from pagination
-                    previous: "&nbsp;",
-                    next: "&nbsp;",
-                },
-            },
+       
             initComplete: function () {
                 // Adding role filter once table initialized
-                
                 this.api()
                 .columns(2)
                 .every(function () {
@@ -298,6 +296,26 @@ if ($('#status').length) {
                     required: true,
                 },
             },
+            messages: {
+                "name": {
+                    required: "Bạn chưa nhập tên",
+                },
+                "don_vi": {
+                    required: "Bạn chưa nhập đơn vị",
+                },
+                "so_tien": {
+                    required: "Bạn chưa nhập số tiền",
+                },
+                "nhom_ts": {
+                    required: "Bạn chưa chọn tài sản",
+                },
+                "khau_hao": {
+                    required: "Bạn chưa nhập số lượng tiêu hao",
+                },
+                "bao_hanh": {
+                    required: "Bạn chưa nhập thời gian bảo hành",
+                }
+            },
         });
 
         form.on("submit", function (e) {
@@ -325,6 +343,19 @@ if ($('#status').length) {
                 "dat_coc": {
                     required: true,
                 },
+            },
+            messages: {
+                "nhan_vien": {
+                    required: "Bạn chưa chọn nhân viên",
+                },
+                "asset_issue": {
+                    required: "Bạn chưa chọn tài sản",
+                },
+               
+                "dat_coc": {
+                    required: "Bạn chưa nhập tiền đặt cọc",
+                },
+             
             },
         });
 
@@ -358,6 +389,25 @@ if ($('#status').length) {
                     required: true,
                 },
             },
+            messages: {
+                "name_add": {
+                    required: "Bạn chưa nhập tên",
+                },
+                "don_vi_add": {
+                    required: "Bạn chưa nhập đơn vị",
+                },
+               
+                "so_tien_add": {
+                    required: "Bạn chưa nhập tiền",
+                },
+                "nhom_ts_add": {
+                    required: "Bạn chưa nhập nhóm tài sản",
+                },
+                "khau_hao_add": {
+                    required: "Bạn chưa nhập số lượng tiêu hao",
+                },
+            },
+            
         });
     
         formInfoAsset.on("submit", function (e) {
@@ -413,7 +463,6 @@ function loaddata(id) {
         }
     });
 }
-
 function savetk() {
     var myform = new FormData($("#dg")[0]);
     $.ajax({

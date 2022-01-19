@@ -156,7 +156,7 @@ class customer extends Controller
     function del()
     {
         $id = $_REQUEST['id'];
-        $data = ['status' => 2];
+        $data = ['status' => 0];
         if ($this->model->delObj($id, $data)) {
             $jsonObj['msg'] = "Xóa dữ liệu thành công";
             $jsonObj['success'] = true;
@@ -240,6 +240,20 @@ class customer extends Controller
             $jsonObj['success'] = false;
         }
         echo json_encode($jsonObj);
+    }
+    function checkPhone() {
+        $idCustomer = $_REQUEST['idCustomer'];
+        $phone = $_REQUEST['phone'];
+   
+       if($this->model->checkPhone($idCustomer, $phone)) {
+        $jsonObj['msg'] = "Số điện thoại hợp lệ";
+        $jsonObj['success'] = true;
+       }
+       else {
+        $jsonObj['msg'] = "Số điện thoại đã tồn tại";
+        $jsonObj['success'] = false;
+       }
+       echo json_encode($jsonObj);
     }
 }
 ?>
