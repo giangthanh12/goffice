@@ -14,11 +14,7 @@ class chiendichtd extends Controller
 
     function list()
     {
-        $rows = isset($_REQUEST['length']) ? $_REQUEST['length'] : 30;
-        $offset = isset($_REQUEST['start']) ? $_REQUEST['start'] : 0;
-        $draw = isset($_REQUEST['draw']) ? $_REQUEST['draw'] : 1;
-        $keyword = isset($_REQUEST['search']['value']) ? $_REQUEST['search']['value'] : '';
-        $jsonObj = $this->model->listObj($draw, $keyword, $offset, $rows);
+        $jsonObj = $this->model->listObj();
         echo json_encode($jsonObj);
     }
 
@@ -31,7 +27,6 @@ class chiendichtd extends Controller
         $ngaybatdau = isset($_REQUEST['ngay_bat_dau']) ? date("Y-m-d", strtotime(str_replace('/', '-', $_REQUEST['ngay_bat_dau']))) : '';
         $ngayketthuc = isset($_REQUEST['ngay_ket_thuc']) ? date("Y-m-d", strtotime(str_replace('/', '-', $_REQUEST['ngay_ket_thuc']))) : '';
         $chiphidukien = isset($_REQUEST['chi_phi_du_kien']) ? str_replace(',', '',$_REQUEST['chi_phi_du_kien']) : '';
-
         $gioitinh = isset($_REQUEST['gioi_tinh']) ? $_REQUEST['gioi_tinh'] : '';
         $chinhanh = isset($_REQUEST['chi_nhanh']) ? $_REQUEST['chi_nhanh'] : '';
         $phongban = isset($_REQUEST['phong_ban']) ? $_REQUEST['phong_ban'] : '';

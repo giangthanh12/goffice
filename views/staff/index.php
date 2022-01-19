@@ -145,7 +145,7 @@
                                                     <a class="nav-link d-flex align-items-center" id="social-tab"
                                                        data-toggle="tab" href="#social" aria-controls="social"
                                                        role="tab" aria-selected="false">
-                                                        <i data-feather="share-2"></i><span class="d-none d-sm-block">Social</span>
+                                                        <i data-feather="share-2"></i><span class="d-none d-sm-block">Mạng xã hội</span>
                                                     </a>
                                                 </li>
 

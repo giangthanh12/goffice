@@ -32,21 +32,19 @@ class chinhanh extends Controller{
     function add()
     {
         $name = isset($_REQUEST['name']) ? $_REQUEST['name'] : '';
-        $diachi = isset($_REQUEST['dia_chi']) ? $_REQUEST['dia_chi'] : '';
-        $ip = isset($_REQUEST['ip']) ? $_REQUEST['ip'] : '';
-        $tinhtrang = 1;
+        $address = isset($_REQUEST['address']) ? $_REQUEST['address'] : '';
+        $status = 1;
         $data = array(
             'name' => $name,
-            'address' => $diachi,
-            'ip' => $ip,
-            'tinh_trang' => $tinhtrang
+            'address' => $address,
+            'status' => $status
         );
         if($this->model->addObj($data)){
-            $jsonObj['msg'] = 'Cập nhật dữ liệu thành công';
-            $jsonObj['success'] = true;
+            $jsonObj['message'] = 'Cập nhật dữ liệu thành công';
+            $jsonObj['code'] = 200;
         } else {
-            $jsonObj['msg'] = 'Cập nhật dữ liệu không thành công';
-            $jsonObj['success'] = false;
+            $jsonObj['message'] = 'Cập nhật dữ liệu không thành công';
+            $jsonObj['code'] = 401;
         }
         echo json_encode($jsonObj);
     }
@@ -55,19 +53,17 @@ class chinhanh extends Controller{
     {
         $id = $_REQUEST['id'];
         $name = isset($_REQUEST['name']) ? $_REQUEST['name'] : '';
-        $diachi = isset($_REQUEST['dia_chi']) ? $_REQUEST['dia_chi'] : '';
-        $ip = isset($_REQUEST['ip']) ? $_REQUEST['ip'] : '';
+        $address = isset($_REQUEST['address']) ? $_REQUEST['address'] : '';
         $data = array(
             'name' => $name,
-            'address' => $diachi,
-            'ip' => $ip,
+            'address' => $address
         );
         if($this->model->updateObj($id, $data)){
-            $jsonObj['msg'] = 'Cập nhật dữ liệu thành công';
-            $jsonObj['success'] = true;
+            $jsonObj['message'] = 'Cập nhật dữ liệu thành công';
+            $jsonObj['code'] = 200;
         } else {
-            $jsonObj['msg'] = 'Cập nhật dữ liệu không thành công';
-            $jsonObj['success'] = false;
+            $jsonObj['message'] = 'Cập nhật dữ liệu không thành công';
+            $jsonObj['code'] = 401;
         }
         
         echo json_encode($jsonObj);
@@ -76,7 +72,7 @@ class chinhanh extends Controller{
     function del()
     {
         $id = $_REQUEST['id'];
-        $data = ['tinh_trang'=>0];
+        $data = ['status'=>0];
         if($this->model->delObj($id,$data)){
             $jsonObj['msg'] = "Xóa dữ liệu thành công";
             $jsonObj['success'] = true;

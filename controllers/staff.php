@@ -47,7 +47,7 @@ class staff extends Controller
         $data = $_REQUEST['data'];
         $data['birthDay'] = date("Y-m-d",strtotime(str_replace('/', '-',$data['birthDay'] )));
         $data['idDate'] = date("Y-m-d",strtotime(str_replace('/', '-',$data['idDate'] )));
-        $temp = $data['accesspoints'];
+        $temp = isset($data['accesspoints'])?$data['accesspoints']:[];
         $accessPoint = '';
         if(count($temp)>0)
             $accessPoint = implode(",",$temp);

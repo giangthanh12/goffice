@@ -16,7 +16,7 @@
                                     <th></th>
                                     <th>Văn phòng</th>
                                     <th>Địa chỉ</th>
-                                    <th>IP</th>
+<!--                                    <th>IP</th>-->
                                     <th>...</th>
                                 </tr>
                             </thead>
@@ -35,23 +35,16 @@
                                     <!-- <input type="hidden" id="id" name="id" /> -->
                                     <div class="card">
                                         <div class="card-body">
-                                            <form class="form-validate" enctype="multipart/form-data" id="dg">
+                                            <form class="form-validate" enctype="multipart/form-data" id="fm">
                                                 <!-- <div class="row mt-1"> -->
                                                 <div class="form-group">
-                                                    <label for="name">Tên phòng ban</label>
-                                                    <input type="text" class="form-control" id="name" placeholder="Nhập tên phòng ban" name="name" />
+                                                    <label for="name">Tên chi nhánh</label>
+                                                    <input type="text" class="form-control" id="name" placeholder="Nhập tên chi nhánh" name="name" required/>
                                                 </div>
-
                                                 <div class="form-group">
-                                                    <label for="ip">IP</label>
-                                                    <input type="text" class="form-control" id="ip" placeholder="Nhập tên phòng ban" name="ip" />
+                                                    <label for="address">Địa chỉ</label>
+                                                    <textarea id="address" name="address" type="text" class="form-control " /></textarea>
                                                 </div>
-
-                                                <div class="form-group">
-                                                    <label for="dia_chi">Địa chỉ</label>
-                                                    <textarea id="dia_chi" name="dia_chi" type="text" class="form-control " /></textarea>
-                                                </div>
-
                                                 <div class="d-flex flex-sm-row flex-column mt-2">
                                                     <button type="button" onclick="savecn()" class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Cập nhật</button>
                                                     <button type="reset" class="btn btn-outline-secondary" data-dismiss="modal">Bỏ qua</button>

@@ -11,37 +11,14 @@ class congtac_model extends Model
     {
         $result = array();
         $where = " WHERE status > 0 ";
-        $query = $this->db->query("SELECT id, name,
-            (SELECT id FROM laborcontract WHERE staffId = a.id AND status = 1) AS contractId,
-            (SELECT startDate FROM laborcontract WHERE staffId = a.id AND status = 1) AS startDate,
-            (SELECT stopDate FROM laborcontract WHERE staffId = a.id AND status = 1) AS stopDate,
-            (SELECT basicSalary FROM laborcontract WHERE staffId = a.id AND status = 1) AS salary,
-            (SELECT allowance FROM laborcontract WHERE staffId = a.id AND status = 1) AS allowance,
-            (SELECT 
-                (SELECT id FROM workplaces WHERE id = b.workplaceId)
-            FROM laborcontract b WHERE staffId = a.id AND status = 1) AS workplaceId,
-            (SELECT 
-                (SELECT name FROM workplaces WHERE id = b.workplaceId)
-            FROM laborcontract b WHERE staffId = a.id AND status = 1) AS workplaceName,
-             (SELECT 
-                (SELECT id FROM position WHERE id = b.position)
-            FROM laborcontract b WHERE staffId = a.id AND status = 1) AS positionId,
-            (SELECT 
-                (SELECT name FROM position WHERE id = b.position)
-            FROM laborcontract b WHERE staffId = a.id AND status = 1) AS positionName,
-             (SELECT 
-                (SELECT id FROM branch WHERE id = b.branchId)
-            FROM laborcontract b WHERE staffId = a.id AND status = 1) AS branchId,
-            (SELECT 
-                (SELECT name FROM branch WHERE id = b.branchId)
-            FROM laborcontract b WHERE staffId = a.id AND status = 1) AS branchName,
-            (SELECT 
-                (SELECT id FROM department WHERE id = b.departmentId)
-            FROM laborcontract b WHERE staffId = a.id AND status = 1) AS departmentId,
-            (SELECT 
-                (SELECT name FROM department WHERE id = b.departmentId)
-            FROM laborcontract b WHERE staffId = a.id AND status = 1) AS departmentName
-        FROM staffs a $where ORDER BY id DESC");
+        $query = $this->db->query("SELECT *,
+         DATE_FORMAT(startDate,'%d/%m/%Y') as startDate,
+         DATE_FORMAT(stopDate,'%d/%m/%Y') as stopDate,
+        (SELECT name FROM staffs WHERE id = a.staffId) as staffName,
+         (SELECT name FROM department WHERE id = a.departmentId) as departmentName,
+       (SELECT name FROM position WHERE id = a.position) as positionName,
+       (SELECT name FROM department WHERE id = a.branchId) as branchName
+         FROM laborcontract a $where ORDER BY id DESC");
         if ($query)
             $result['data'] = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;

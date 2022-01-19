@@ -8,7 +8,6 @@
 ==========================================================================================*/
 
 'use strict';
-var url = '';
 $(function() {
     var newTaskForm = $("#form-modal-todo"),
         chatUsersListWrapper = $('.chat-application .chat-user-list-wrapper'),
@@ -117,7 +116,6 @@ $(function() {
                         if (data.success == true) {
                             notyfi_success(data.msg);
                             $('#new-takecare-modal').modal('hide');
-                            // $("#history").load(window.location.href + "?id=" + id + " #history");
                             var html = '';
                             data.list.forEach(function(value, index) {
                                 html += '<div class="row">';
@@ -371,7 +369,7 @@ function saveLead() {
             }
             formData.append('leadDes', comment)
             $.ajax({
-                url: url,
+                url: baseHome + "/lead_temp/insertLead",
                 type: 'POST',
                 data: formData,
                 async: false,
@@ -381,7 +379,6 @@ function saveLead() {
                 processData: false,
                 dataType: "json",
                 success: function(data) {
-                    console.log(data);
                     if (data.code == 200) {
                         notyfi_success(data.message);
                         leadSearch();
@@ -427,12 +424,17 @@ $(document).on('click', '.sidebar-toggle', function() {
 // $('#list-lead').on('click', '.sidebar-list', function(e) {
 //     $(this).addClass('list-active');
 // });
+
+var leftId = '';
+
 $('#list-lead').on('click', '.sidebar-list', function() {
+    let leadId = $(this).data("id");
     $('#list-lead .sidebar-list.list-active').removeClass('list-active');
     $(this).addClass('list-active');
-    let leadId = $(this).data("id");
     $('#id').val(leadId);
     let customerId = $(this).data("customer");
+    if (leftId === customerId) return false;
+    leftId = customerId;
     $.ajax({
         url: baseHome + "/lead_temp/getCustomerById",
         type: 'post',
@@ -451,27 +453,20 @@ $('#list-lead').on('click', '.sidebar-list', function() {
             $('#phoneNumber').html(data.phoneNumber);
             $('#email').html(data.email);
             $('#dateTime').html(data.dateTime);
+            $('#staffName').html(data.staffId);
+            if (data.status == 1)
+                $('#status').html('<button class="btn-statement-orange">Khách hàng mới</button>');
+            else if (data.status == 2)
+                $('#status').html('<button class="btn-statement-blue">Khách hàng tiềm năng</button>');
+            else if (data.status == 3)
+                $('#status').html('<button class="btn-statement-green">Khách hàng đang dùng dịch vụ</button>');
+            else if (data.status == 4)
+                $('#status').html('<button class="btn-statement-red">Khách hàng đã dùng dịch vụ</button>');
+            else
+                $('#status').html('<button class="btn-statement-yellow">Chưa rõ</button>');
         },
     });
-    let status = $(this).data("status");
-    let html = status;
-    if (status == 1) {
-        html = '<button class="btn-statement-orange">Đang chăm sóc\
-                </button>';
-    }
-    if (status == 2) {
-        html = '<button class="btn-statement-blue">Đã gửi báo giá\
-                </button>';
-    };
-    if (status == 3) {
-        html = '<button class="btn-statement-green">Đã chốt đơn\
-                </button>';
-    };
-    if (status == 4) {
-        html = '<button class="btn-statement-red">Hủy\
-                </button>';
-    };
-    $('#status').html(html);
+    // let status = $(this).data("status");
     $('#leadName').html($(this).data("leadname"));
     $('#leadDes').html($(this).data("leaddes"));
     $.ajax({
@@ -502,35 +497,139 @@ $('#list-lead').on('click', '.sidebar-list', function() {
 });
 
 function showModalTakeCare() {
+    $('#name').val('');
+    var quill_editor = $("#task-desc .ql-editor");
+    quill_editor[0].innerHTML = '';
     $('#new-takecare-modal').modal('show');
 }
 
 function showModalLead() {
-    url = baseHome + "/lead_temp/insertLead";
+    $('#leadName').val('');
+    $('#leadCustomer').val(0).change();
+    var quill_editor = $("#leadDesc .ql-editor");
+    quill_editor[0].innerHTML = '';
     $('#new-lead-modal').modal('show');
 }
 
-function updateLead(id) {
+
+
+// function leadQuote() {
+//     $('#add-quote').modal('show');
+// }
+
+function loadData(id) {
     $('#updateLead').modal('show');
     $("#modal-title2").html('Cập nhật thông tin cơ hội');
     $.ajax({
         type: "POST",
         dataType: "json",
         data: { id: id },
-        url: baseHome + "/lead_temp/updateLead",
+        url: baseHome + "/lead_temp/loadData",
         success: function(data) {
             $('#leadIdUpdate').val(data.id);
             $('#leadNameUpdate').val(data.name);
-            $('#leadDescUpdate').val(data.description);
+            var leadDesc = data.description;
+            var quill_editor = $("#leadDescUpdate .ql-editor");
+            quill_editor[0].innerHTML = leadDesc;
             $('#leadCustomerUpdate').val(data.customerId).change();
             $('#opportunityUpdate').val(data.opportunity).change();
             $('#statusUpdate').val(data.status).change();
-            console.log(data);
         },
         error: function() {
             notify_error('Lỗi truy xuất database');
         }
     });
+}
+
+function leadQuote() {
+    if (leftId === '') return false;
+    $('#add-quote').modal('show');
+    $.ajax({
+        url: baseHome + "/lead_temp/getCustomerById",
+        type: 'post',
+        dataType: "json",
+        data: { id: leftId },
+        success: function(data) {
+            let yourDate = new Date()
+            const offset = yourDate.getTimezoneOffset()
+            yourDate = new Date(yourDate.getTime() - (offset * 60 * 1000))
+            $('#staffQuote').val(data.staffName);
+            $('#customerQuote').val(data.fullName);
+            $('#dateQuote').val(yourDate.toISOString().split('T')[0]);
+        },
+        error: function() {
+            notify_error('Lỗi truy xuất database');
+        }
+    });
+}
+
+
+function load_dichvu() {
+    var id = $('#dich_vu').val();
+    // var khach_hang = $('#khach_hang_bg').val();
+    // var nhan_vien = $('#nhan_vien_bg').val();
+    // if (khach_hang > 0 && nhan_vien > 0) {
+    //     $(".btn-add").attr("disabled", false);
+    // } else {
+    //     $(".btn-add").attr("disabled", true);
+    // }
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        data: { id: id },
+        url: baseHome + "/lead_temp/load_dichvu",
+        success: function(data) {
+            var stt = $('#stt').val();
+            var i = Number(stt) + 1;
+            $('#stt').val(i);
+            $('#table_sp').append('<tr id="arr' + i + '"><td>' + data.name + '</td><td><input type="text" id="don_gia' + i + '" onkeyup="load_tien(' + i + ')" name="don_gia[]" class="form-control input format_number" value="' + data.don_gia + '"></td><td><input type="hidden" name="id_sp[]" id="id_sp[' + i + ']" value="' + data.id + '"></input><input type="hidden" name="loai[]" id="loai[' + i + ']" value="0"></input><input type="text" onkeyup="load_tien(' + i + ')" name="so_luong[]" id="so_luong' + i + '" value="1" class="form-control input" ></td><td><input type="text" id="chiet_khau' + i + '" onkeyup="load_tien(' + i + ')" name="chiet_khau_tm[]" class="form-control input format_number" value="0"></td><td><select name="thue[]" id="thue' + i + '" class="thue' + i + ' form-control" onchange="load_tien(' + i + ')"><option value="0">Không</option><option value="5">5%</option><option value="10">10%</option></select></td><td><input type="text" id="tien_thue' + i + '" name="tien_thue[]" onkeyup="load_tien(' + i + ')" value="' + data.thue_vat + '" class="form-control input format_number"></td><td><input type="date" id="ngay_s" name="ngay_s[]" class="form-control" placeholder="Ngày bắt đầu" ><input type="date" id="ngay_e" name="ngay_e[]" class="form-control" style="margin-top:4px" placeholder="Ngày kết thúc"> </td><td><input type="text" id="thanh_tien' + i + '" name="thanh_tien[]" class="form-control input  format_number" readonly></td><td><a  onclick="remove_tr(' + i + ');return false"><i class="fas fa-trash-alt"></i></a></td></tr>');
+
+            $('#dich_vu').val(0);
+            $('#dich_vu').trigger("change");
+            // $('#san_pham').val(0);
+            // $('#san_pham').trigger("change");
+            $("#thue" + i).val(data.tax).trigger('change');
+        },
+        error: function() {}
+    });
+
+}
+
+function updateLead() {
+
+    $('#fmEdit').validate({
+        submitHandler: function(form) {
+
+            var formData = new FormData(form);
+            var comment = $('#leadDescUpdate').find(".ql-editor p").html();
+            // if (comment == '<br>') {
+            //     notify_error('Vui lòng nhập mô tả!');
+            //     return false;
+            // }
+            formData.append('leadDescUpdate', comment)
+            $.ajax({
+                url: baseHome + "/lead_temp/updateLead",
+                type: 'POST',
+                data: formData,
+                async: false,
+                cache: false,
+                contentType: false,
+                enctype: 'multipart/form-data',
+                processData: false,
+                dataType: "json",
+                success: function(data) {
+                    if (data.success) {
+                        notyfi_success(data.msg);
+                        leadSearch();
+                        $('#updateLead').modal('hide');
+                    } else
+                        notify_error(data.msg);
+                }
+            });
+            return false;
+        }
+    });
+    $('#fmEdit').submit();
 }
 
 function deleteLead(id) {
@@ -548,14 +647,14 @@ function deleteLead(id) {
     }).then(function(result) {
         if (result.value) {
             $.ajax({
-                url: baseHome + "/data/del",
+                url: baseHome + "/lead_temp/deleteLead",
                 type: 'post',
                 dataType: "json",
                 data: { id: id },
                 success: function(data) {
                     if (data.success) {
                         notyfi_success(data.msg);
-                        $(".user-list-table").DataTable().ajax.reload(null, false);
+                        leadSearch();
                     } else
                         notify_error(data.msg);
                 },
@@ -576,10 +675,13 @@ function leadSearch() {
         success: function(data) {
             var html = '';
             data.forEach(function(value, index) {
-                html += '<li data-id="' + value.id + '" data-customer="' + value.customerId + '" data-status="' + value.status + '" data-leadname="' + value.name + '" data-leaddes="' + value.description + '" class="sidebar-list">';
+                html += '<li data-id="' + value.id + '" data-dateTime ="' + value.dateTime + '" data-customer="' + value.customerId + '" data-status="' + value.status + '" data-leadname="' + value.name + '" data-leaddes="' + value.description + '" class="sidebar-list">';
                 html += '<div class="chat-info flex-grow-1">';
                 html += '<div class="customer-name">';
                 html += '<label>' + value.name + '</label>';
+                html += '</div>';
+                html += '<div class="customer-info">';
+                html += '<label>' + value.dateTime + '</label>';
                 html += '</div>';
                 html += '<div class="customer-info">';
                 html += '<label>' + value.fullName + '</label>';
@@ -592,8 +694,8 @@ function leadSearch() {
                 html += '<div class="float-right dropdown">';
                 html += '<i class="bx bx-dots-vertical-rounded bx-md icon-dots"></i>';
                 html += '<div class="dropdown-content">';
-                html += '<span class="updateLead">Cập nhật</span>';
-                html += '<span class="deleteLead">Xóa</span>';
+                html += '<span class="updateLead" onclick="loadData(' + value.id + ')">Cập nhật</span>';
+                html += '<span class="deleteLead" onclick="deleteLead(' + value.id + ')">Xóa</span>';
                 html += '</div>';
                 html += '</div>';
                 html += '<div class="btn-statement">';
@@ -602,12 +704,15 @@ function leadSearch() {
                     html += '<button class="btn-statement-orange">Đang chăm sóc</button>';
                 }
                 if (value.status == 2) {
-                    html += '<button class="btn-statement-blue">Đã gửi báo giá</button>';
+                    html += '<button class="btn-statement-yellow">Đã báo giá</button>';
                 }
                 if (value.status == 3) {
-                    html += '<button class="btn-statement-green">Đã chốt đơn</button>';
+                    html += '<button class="btn-statement-blue">Đã lên đơn hàng</button>';
                 }
                 if (value.status == 4) {
+                    html += '<button class="btn-statement-green">Đã chốt</button>';
+                }
+                if (value.status == 5) {
                     html += '<button class="btn-statement-red">Hủy</button>';
                 }
                 html += ' </div>';

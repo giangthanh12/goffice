@@ -33,23 +33,23 @@
                 <div class="row">
                     <div class="lead-btn col-lg-2">
                         <label for="task-due-date" class="form-label">&nbsp;</label>
-                        <button class="form-control btn-title-left" role="button" onclick="leadSearch()">Tìm kiếm</button>
+                        <button class="form-control btn-primary" role="button" onclick="leadSearch()">Tìm kiếm</button>
                     </div>
                     <div class="col-lg-2">
                         <label for="task-due-date" class="form-label">&nbsp;</label>
-                        <button class="form-control btn-title-left" role="button">Nhập từ excel</button>
+                        <button class="form-control btn-primary" role="button">Nhập từ excel</button>
                     </div>
                     <div class="col-lg-2">
                         <label for="task-due-date" class="form-label">&nbsp;</label>
-                        <button class="form-control btn-title-left" role="button">Báo giá</button>
+                        <button class="form-control btn-primary" role="button" onclick="leadQuote()">Báo giá</button>
                     </div>
                     <div class="col-lg-2">
                         <label for="task-due-date" class="form-label">&nbsp;</label>
-                        <button class="form-control btn-title-left" role="button">Đơn hàng</button>
+                        <button class="form-control btn-primary" role="button">Đơn hàng</button>
                     </div>
                     <div class="col-lg-2">
                         <label for="task-due-date" class="form-label">&nbsp;</label>
-                        <button class="form-control btn-title-left" role="button">Hợp đồng</button>
+                        <button class="form-control btn-primary" role="button">Hợp đồng</button>
                     </div>
                 </div>
             </div>
@@ -79,10 +79,13 @@
                             $lead = $this->lead;
                             foreach ($lead as $item) {
                             ?>
-                                <li data-id="<?= $item['id'] ?>" data-customer="<?= $item['customerId'] ?>" data-status="<?= $item['status'] ?>" data-leadname="<?= $item['name'] ?>" data-leaddes="<?= $item['description'] ?>" class="sidebar-list">
+                                <li data-id="<?= $item['id'] ?>" data-dateTime="<?= $item['dateTime'] ?>" data-customer="<?= $item['customerId'] ?>" data-status="<?= $item['status'] ?>" data-leadname="<?= $item['name'] ?>" data-leaddes="<?= $item['description'] ?>" class="sidebar-list">
                                     <div class="chat-info flex-grow-1">
                                         <div class="customer-name">
                                             <label><?php echo $item['name'] ?></label>
+                                        </div>
+                                        <div class="customer-info">
+                                            <label><?php echo $item['dateTime'] ?></label>
                                         </div>
                                         <div class="customer-info">
                                             <label><?php echo $item['fullName'] ?></label>
@@ -95,32 +98,24 @@
                                         <div class="float-right dropdown">
                                             <i class='bx bx-dots-vertical-rounded bx-md icon-dots'></i>
                                             <div class="dropdown-content">
-                                                <span class="updateLead" onclick="updateLead(<?= $item['id'] ?>)">Cập nhật</span>
+                                                <span class="updateLead" onclick="loadData(<?= $item['id'] ?>)">Cập nhật</span>
                                                 <span class="deleteLead" onclick="deleteLead(<?= $item['id'] ?>)">Xóa</span>
                                             </div>
                                         </div>
                                         <div class="btn-statement">
                                             <br>
                                             <?php
-                                            if ($item['status'] == 1) {
+                                            if ($item['status'] == 1)
+                                                echo '<button class="btn-statement-orange">Đang chăm sóc</button>';
+                                            elseif ($item['status'] == 2)
+                                                echo '<button class="btn-statement-yellow">Đã báo giá</button>';
+                                            elseif ($item['status'] == 3)
+                                                echo '<button class="btn-statement-blue">Đã lên đơn hàng</button>';
+                                            elseif ($item['status'] == 4)
+                                                echo '<button class="btn-statement-green">Đã chốt</button>';
+                                            else
+                                                echo '<button class="btn-statement-red">Hủy</button>';
                                             ?>
-                                                <button class="btn-statement-orange">Đang chăm sóc</button>
-                                            <?php } ?>
-                                            <?php
-                                            if ($item['status'] == 2) {
-                                            ?>
-                                                <button class="btn-statement-blue">Đã gửi báo giá</button>
-                                            <?php } ?>
-                                            <?php
-                                            if ($item['status'] == 3) {
-                                            ?>
-                                                <button class="btn-statement-green">Đã chốt đơn</button>
-                                            <?php } ?>
-                                            <?php
-                                            if ($item['status'] == 4) {
-                                            ?>
-                                                <button class="btn-statement-red">Hủy</button>
-                                            <?php } ?>
                                         </div>
                                     </div>
                                 </li>
@@ -209,8 +204,6 @@
                                                 </div>
                                                 <div class="col-lg-7">
                                                     <div id="status" class="btn-right-info">
-                                                        <button class="btn-statement-green">Đã chốt đơn
-                                                        </button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -271,6 +264,8 @@
             </div>
         </div>
     </div>
+
+    <!-- modal add takecare history -->
     <div class="modal modal-slide-in sidebar-todo-modal fade" id="new-takecare-modal">
         <div class="modal-dialog sidebar-lg">
             <div class="modal-content p-0">
@@ -314,7 +309,7 @@
         </div>
     </div>
 
-    <!-- modal leadAdd -->
+    <!-- modal add new lead -->
     <div class="modal modal-slide-in sidebar-todo-modal fade" id="new-lead-modal">
         <div class="modal-dialog sidebar-lg">
             <div class="modal-content p-0">
@@ -349,8 +344,8 @@
                             </div>
                             <div class="form-group position-relative">
                                 <label for="task-assigned" class="form-label d-block">Khách hàng</label>
-                                <select class="select2 form-control" id="leadCustomer" name="leadCustomer" required >
-                                    <option value="">-- Chọn khách hàng --</option>
+                                <select class="select2 form-control" id="leadCustomer" name="leadCustomer" required>
+                                    <option value="0">-- Chọn khách hàng --</option>
                                     <?php
                                     foreach ($this->customer as $item) {
                                         echo '<option value="' . $item['id'] . '">' . $item['fullName'] . '</option>';
@@ -359,13 +354,13 @@
                                 </select>
                             </div>
                             <div class="form-group position-relative">
-                                <label for="opportunity" class="form-label d-block">Tiềm năng</label>
+                                <label for="opportunity" class="form-label d-block">Đánh giá cơ hội</label>
                                 <select class="select2 form-control" id="opportunity" name="opportunity">
-                                    <option value="1">Ít tiềm năng nhất</option>
-                                    <option value="2">Ít tiềm năng</option>
-                                    <option value="3">Tiềm năng bình thường</option>
-                                    <option value="4">Tiềm năng</option>
-                                    <option value="5">Tiềm năng nhất</option>
+                                    <option value="1">Quan tâm</option>
+                                    <option value="2">Có nhu cầu</option>
+                                    <option value="3">Có ngân sách</option>
+                                    <option value="4">Có khả năng chốt</option>
+                                    <option value="5">Có thể chốt trong tháng</option>
                                 </select>
                             </div>
                         </div>
@@ -379,7 +374,7 @@
         </div>
     </div>
 
-    <!-- modal leadUpdate -->
+    <!-- modal update lead -->
     <div class="modal modal-slide-in update-item-sidebar fade" id="updateLead">
         <div class="modal-dialog sidebar-lg">
             <div class="modal-content p-0">
@@ -390,10 +385,10 @@
                 <div class="modal-body flex-grow-1">
                     <div class="tab-content mt-2">
                         <div class="tab-pane tab-pane-update fade show active" id="tab-update" role="tabpanel">
-                            <form class="update-item-form" id="frm-edit">
+                            <form class="update-item-form" id="fmEdit">
                                 <div class="form-group">
                                     <label for="todoTitleAdd" class="form-label">Tên cơ hội</label>
-                                    <input type="text" id="leadNameUpdate" name="leadNameUpdate" class="new-todo-item-title form-control" placeholder="Tên cơ hội" require />
+                                    <input type="text" id="leadNameUpdate" name="leadNameUpdate" class="new-todo-item-title form-control" placeholder="Tên cơ hội" required />
                                     <input type="hidden" id="leadIdUpdate" name="leadIdUpdate">
                                 </div>
                                 <div class="form-group">
@@ -411,7 +406,7 @@
                                 </div>
                                 <div class="form-group position-relative">
                                     <label for="task-assigned" class="form-label d-block">Khách hàng</label>
-                                    <select class="select2" id="leadCustomerUpdate" name="leadCustomerUpdate" require>
+                                    <select class="select2" id="leadCustomerUpdate" name="leadCustomerUpdate" required>
                                         <option value="">-- Chọn khách hàng --</option>
                                         <?php
                                         foreach ($this->customer as $item) {
@@ -421,27 +416,196 @@
                                     </select>
                                 </div>
                                 <div class="form-group position-relative">
-                                    <label for="opportunity" class="form-label d-block">Tiềm năng</label>
+                                    <label for="opportunity" class="form-label d-block">Đánh giá cơ hội</label>
                                     <select class="select2" id="opportunityUpdate" name="opportunityUpdate">
-                                        <option value="1">Ít tiềm năng nhất</option>
-                                        <option value="2">Ít tiềm năng</option>
-                                        <option value="3">Tiềm năng bình thường</option>
-                                        <option value="4">Tiềm năng</option>
-                                        <option value="5">Tiềm năng nhất</option>
+                                        <option value="1">Quan tâm</option>
+                                        <option value="2">Có nhu cầu</option>
+                                        <option value="3">Có ngân sách</option>
+                                        <option value="4">Có khả năng chốt</option>
+                                        <option value="5">Có thể chốt trong tháng</option>
                                     </select>
                                 </div>
                                 <div class="form-group position-relative">
-                                    <label for="opportunity" class="form-label d-block">Tình trạng</label>
+                                    <label for="status" class="form-label d-block">Tình trạng</label>
                                     <select class="select2 form-control" id="statusUpdate" name="statusUpdate">
                                         <option value="1">Đang chăm sóc</option>
-                                        <option value="2">Đã gửi báo giá</option>
-                                        <option value="3">Đã chốt</option>
-                                        <option value="4">Hủy</option>
+                                        <option value="2">Đã báo giá</option>
+                                        <option value="3">Đã lên đơn hàng</option>
+                                        <option value="4">Đã chốt</option>
+                                        <option value="5">Hủy</option>
                                     </select>
                                 </div>
                                 <div class="d-flex flex-wrap mb-2">
-                                    <button type="button" onclick="saveedit()" class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Cập nhật</button>
+                                    <button type="button" onclick="updateLead()" class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Cập nhật</button>
                                     <button type="reset" class="btn btn-outline-secondary mr-sm-1" data-dismiss="modal">Bỏ qua</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- modal add lead quote -->
+    <div class="modal fade text-left" id="add-quote" tabindex="-1" role="dialog" aria-labelledby="myModalLabel16" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel16">Báo giá</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- <input type="hidden" id="id" name="id" /> -->
+                    <div class="card">
+                        <div class="card-body">
+                            <form class="form-validate" enctype="multipart/form-data" id="dg">
+                                <div class="row mt-1">
+                                    <div class="col-md-4 form-group">
+                                        <label for="name">Nhân viên phụ trách</label>
+                                        <input id="staffQuote" name="staffQuote" type="text" class="form-control" readonly />
+                                    </div>
+                                    <div class="col-md-4 form-group">
+                                        <label for="type">Khách hàng</label>
+                                        <input id="customerQuote" name="customerQuote" type="text" class="form-control" readonly />
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4 form-group">
+                                        <label for="name">Ngày báo giá</label>
+                                        <input id="dateQuote" name="dateQuote" type="text" class="form-control" readonly />
+                                    </div>
+                                    <!-- Product Details starts -->
+                                    <div class="card-body invoice-padding invoice-product-details">
+                                        <form class="source-item">
+                                            <div data-repeater-list="group-a">
+                                                <div class="repeater-wrapper" data-repeater-item>
+                                                    <div class="row">
+                                                        <div class="col-12 d-flex product-details-border position-relative pr-0">
+                                                            <div class="row w-100 pr-lg-0 pr-1 py-2">
+                                                                <div class="col-lg-5 col-12 mb-lg-0 mb-2 mt-lg-0 mt-2">
+                                                                    <p class="card-text col-title mb-md-50 mb-0">Item</p>
+                                                                    <select class="form-control item-details">
+                                                                        <option value="App Design">App Design</option>
+                                                                        <option value="App Customization" selected>App Customization</option>
+                                                                        <option value="ABC Template">ABC Template</option>
+                                                                        <option value="App Development">App Development</option>
+                                                                    </select>
+                                                                    <textarea class="form-control mt-2" rows="1">Customization & Bug Fixes</textarea>
+                                                                </div>
+                                                                <div class="col-lg-3 col-12 my-lg-0 my-2">
+                                                                    <p class="card-text col-title mb-md-2 mb-0">Cost</p>
+                                                                    <input type="number" class="form-control" value="24" placeholder="24" />
+                                                                    <div class="mt-2">
+                                                                        <span>Discount:</span>
+                                                                        <span class="discount">0%</span>
+                                                                        <span class="tax-1 ml-50" data-toggle="tooltip" data-placement="top" title="Tax 1">0%</span>
+                                                                        <span class="tax-2 ml-50" data-toggle="tooltip" data-placement="top" title="Tax 2">0%</span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-2 col-12 my-lg-0 my-2">
+                                                                    <p class="card-text col-title mb-md-2 mb-0">Qty</p>
+                                                                    <input type="number" class="form-control" value="1" placeholder="1" />
+                                                                </div>
+                                                                <div class="col-lg-2 col-12 mt-lg-0 mt-2">
+                                                                    <p class="card-text col-title mb-md-50 mb-0">Price</p>
+                                                                    <p class="card-text mb-0">$24.00</p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="d-flex flex-column align-items-center justify-content-between border-left invoice-product-actions py-50 px-25">
+                                                                <i data-feather="x" class="cursor-pointer font-medium-3" data-repeater-delete></i>
+                                                                <div class="dropdown">
+                                                                    <i class="cursor-pointer more-options-dropdown mr-0" data-feather="settings" role="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                    </i>
+                                                                    <div class="dropdown-menu dropdown-menu-right item-options-menu p-1" aria-labelledby="dropdownMenuButton">
+                                                                        <div class="form-group">
+                                                                            <label for="discount-input" class="form-label">Discount(%)</label>
+                                                                            <input type="number" class="form-control" id="discount-input" />
+                                                                        </div>
+                                                                        <div class="form-row mt-50">
+                                                                            <div class="form-group col-md-6">
+                                                                                <label for="tax-1-input" class="form-label">Tax 1</label>
+                                                                                <select name="tax-1-input" id="tax-1-input" class="form-control tax-select">
+                                                                                    <option value="0%" selected>0%</option>
+                                                                                    <option value="1%">1%</option>
+                                                                                    <option value="10%">10%</option>
+                                                                                    <option value="18%">18%</option>
+                                                                                    <option value="40%">40%</option>
+                                                                                </select>
+                                                                            </div>
+                                                                            <div class="form-group col-md-6">
+                                                                                <label for="tax-2-input" class="form-label">Tax 2</label>
+                                                                                <select name="tax-2-input" id="tax-2-input" class="form-control tax-select">
+                                                                                    <option value="0%" selected>0%</option>
+                                                                                    <option value="1%">1%</option>
+                                                                                    <option value="10%">10%</option>
+                                                                                    <option value="18%">18%</option>
+                                                                                    <option value="40%">40%</option>
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="dropdown-divider my-1"></div>
+                                                                        <div class="d-flex justify-content-between">
+                                                                            <button type="button" class="btn btn-outline-primary btn-apply-changes">Apply</button>
+                                                                            <button type="button" class="btn btn-outline-secondary">Cancel</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mt-1">
+                                                <div class="col-12 px-0">
+                                                    <button type="button" class="btn btn-primary btn-sm btn-add-new" data-repeater-create>
+                                                        <i data-feather="plus" class="mr-25"></i>
+                                                        <span class="align-middle">Add Item</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <!-- Product Details ends -->
+
+                                    <!-- Invoice Total starts -->
+                                    <div class="card-body invoice-padding">
+                                        <div class="row invoice-sales-total-wrapper">
+                                            <div class="col-md-6 order-md-1 order-2 mt-md-0 mt-3">
+                                                <div class="d-flex align-items-center mb-1">
+                                                    <label for="salesperson" class="form-label">Salesperson:</label>
+                                                    <input type="text" class="form-control ml-50" id="salesperson" placeholder="Edward Crowley" />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 d-flex justify-content-end order-md-2 order-1">
+                                                <div class="invoice-total-wrapper">
+                                                    <div class="invoice-total-item">
+                                                        <p class="invoice-total-title">Subtotal:</p>
+                                                        <p class="invoice-total-amount">$1800</p>
+                                                    </div>
+                                                    <div class="invoice-total-item">
+                                                        <p class="invoice-total-title">Discount:</p>
+                                                        <p class="invoice-total-amount">$28</p>
+                                                    </div>
+                                                    <div class="invoice-total-item">
+                                                        <p class="invoice-total-title">Tax:</p>
+                                                        <p class="invoice-total-amount">21%</p>
+                                                    </div>
+                                                    <hr class="my-50" />
+                                                    <div class="invoice-total-item">
+                                                        <p class="invoice-total-title">Total:</p>
+                                                        <p class="invoice-total-amount">$1690</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Invoice Total ends -->
+                                    <div class="col-12 d-flex flex-sm-row flex-column mt-2">
+                                        <button type="button" onclick="saveQuote()" class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1" id="btnUpdate">Cập nhật</button>
+                                        <button type="reset" class="btn btn-outline-secondary" data-dismiss="modal">Bỏ qua</button>
+                                    </div>
                                 </div>
                             </form>
                         </div>

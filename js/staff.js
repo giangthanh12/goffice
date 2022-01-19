@@ -266,6 +266,20 @@ $(function () {
                     required: true,
                 },
             },
+            messages: {
+                "name": {
+                    required: "Bạn chưa nhập họ tên!",
+                },
+                "email": {
+                    required: "Bạn chưa nhập email!",
+                },
+                "birthday": {
+                    required: "Bạn chưa nhập ngày sinh!",
+                },
+                "phoneNumber": {
+                    required: "Bạn chưa nhập số điện thoại!",
+                },
+            },
         });
 
         newUserForm.on("submit", function (e) {
@@ -521,9 +535,9 @@ function loadRecord(id) {
             destroy: true,
             columns: [
                 // columns according to JSON
-                {data: "nameContract"},
+                {data: "name"},
                 {data: "department"},
-                {data: "salary"},
+                {data: "basicSalary"},
                 {data: "allowance"},
                 {data: "startDate"},
                 {data: "stopDate"},
@@ -539,7 +553,7 @@ function loadRecord(id) {
                         html = new Intl.NumberFormat('vi-VN', {
                             style: 'currency',
                             currency: 'VND'
-                        }).format(full['salary']);
+                        }).format(full['basicSalary']);
                         return html;
                     },
 

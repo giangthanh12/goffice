@@ -15,13 +15,81 @@ class Common_Model extends Model {
     function getListStaff(){
         $result = array();
         $query = $this->db->query("SELECT id, name AS `text`
-              FROM staffs WHERE status IN (1,2,3,4) ORDER BY name ASC");
+              FROM staffs WHERE status IN (1,2,3,4,5,6) ORDER BY name ASC");
         if ($query) {
             $temp = $query->fetchAll(PDO::FETCH_ASSOC);
             $result = $temp;
         }
         return $result;
     }
+
+    function getTypeContracts(){
+        $result = array();
+        $query = $this->db->query("SELECT id, name AS `text`
+              FROM contracttype WHERE status > 0 ORDER BY id ASC");
+        if ($query) {
+            $temp = $query->fetchAll(PDO::FETCH_ASSOC);
+            $result = $temp;
+        }
+        return $result;
+    }
+
+    function getDepartments(){
+        $result = array();
+        $query = $this->db->query("SELECT id, name AS `text`
+              FROM department WHERE status > 0 ORDER BY id ASC");
+        if ($query) {
+            $temp = $query->fetchAll(PDO::FETCH_ASSOC);
+            $result = $temp;
+        }
+        return $result;
+    }
+
+    function getPositions(){
+        $result = array();
+        $query = $this->db->query("SELECT id, name AS `text`
+              FROM position WHERE status > 0 ORDER BY id ASC");
+        if ($query) {
+            $temp = $query->fetchAll(PDO::FETCH_ASSOC);
+            $result = $temp;
+        }
+        return $result;
+    }
+
+    function getBranchs(){
+        $result = array();
+        $query = $this->db->query("SELECT id, name AS `text`
+              FROM branch WHERE status > 0 ORDER BY id ASC");
+        if ($query) {
+            $temp = $query->fetchAll(PDO::FETCH_ASSOC);
+            $result = $temp;
+        }
+        return $result;
+    }
+
+    function getShifts(){
+        $result = array();
+        $query = $this->db->query("SELECT id, shift AS `text`
+              FROM shift WHERE status > 0 ORDER BY id ASC");
+        if ($query) {
+            $temp = $query->fetchAll(PDO::FETCH_ASSOC);
+            $result = $temp;
+        }
+        return $result;
+    }
+
+    function getWorkPlaces(){
+        $result = array();
+        $query = $this->db->query("SELECT id, name AS `text`
+              FROM workplaces WHERE status > 0 ORDER BY id ASC");
+        if ($query) {
+            $temp = $query->fetchAll(PDO::FETCH_ASSOC);
+            $result = $temp;
+        }
+        return $result;
+    }
+
+
     function getListGroup(){
         $result = array();
         $query = $this->db->query("SELECT id, name AS `text`

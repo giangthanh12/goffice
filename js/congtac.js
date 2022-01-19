@@ -87,46 +87,16 @@ $(function () {
         // columns according to JSON
         { data: "id" },
         { data: "name" },
+        { data: "staffName" },
         { data: "positionName" },
         { data: "departmentName" },
         { data: "branchName" },
-        { data: "" },
+      //  { data: "" },
       ],
       columnDefs: [
         {
           targets: 0,
           visible: false,
-        },
-        {
-          // Actions
-          targets: 5,
-          title: feather.icons["database"].toSvg({
-            class: "font-medium-3 text-success mr-50",
-          }),
-          orderable: false,
-          render: function (data, type, full, meta) {
-            var html = "";
-            html +=
-              '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" title="Lịch sử công tác" onclick="getRecordHistory(' +
-              full["id"] +
-              ')">';
-            html += '<i class="fas fa-pencil-alt"></i>';
-            html += "</button> &nbsp;";
-            html +=
-              '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" title="Điều chuyển công tác" onclick="setJob(' +
-              full["id"] +
-              ')">';
-            html += '<i class="fas fa-arrows-alt"></i>';
-            html += "</button> &nbsp;";
-            html +=
-              '<button type="button" class="btn btn-icon btn-outline-danger waves-effect" title="Thôi việc" onclick="deleteContract(' +
-              full["contractId"] +
-              ')">';
-            html += '<i class="fas fa-trash-alt"></i>';
-            html += "</button>";
-            return html;
-          },
-          width: 180,
         },
       ],
       dom:
@@ -140,22 +110,22 @@ $(function () {
         ">",
       // Buttons with Dropdown
       buttons: [
-        {
-          text: "Thêm mới",
-          className: "add-new btn btn-primary mt-50 hidden",
-          init: function (api, node, config) {
-            $(node).removeClass("btn-secondary");
-          },
-          action: function (e, dt, node, config) {
-            $("#updateinfo").modal("show");
-            $("#staffId").val("").change();
-            $("#groupId").val("").change();
-            $(".modal-title").html("Thêm Hợp dồng mới");
-            $("#username").val("");
-            $("#password").val("");
-            url = baseHome + "/listusers/add";
-          },
-        },
+        // {
+        //   text: "Thêm mới",
+        //   className: "add-new btn btn-primary mt-50 hidden",
+        //   init: function (api, node, config) {
+        //     $(node).removeClass("btn-secondary");
+        //   },
+        //   action: function (e, dt, node, config) {
+        //     $("#updateinfo").modal("show");
+        //     $("#staffId").val("").change();
+        //     $("#groupId").val("").change();
+        //     $(".modal-title").html("Thêm Hợp dồng mới");
+        //     $("#username").val("");
+        //     $("#password").val("");
+        //     url = baseHome + "/listusers/add";
+        //   },
+        // },
       ],
       language: {
         paginate: {

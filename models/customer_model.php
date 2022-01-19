@@ -41,7 +41,7 @@ class customer_Model extends Model{
            return $result;
         }
         function listObj() {
-            $query = $this->db->query("SELECT * FROM customer WHERE status = 1  ORDER BY id DESC ");
+            $query = $this->db->query("SELECT * FROM customer WHERE status > 0  ORDER BY id DESC ");
             $result['data'] = $query->fetchAll(PDO::FETCH_ASSOC);
             return $result;
         } 
@@ -59,6 +59,35 @@ class customer_Model extends Model{
         function delObj($id, $data) {
             $result = $this->update('customer', $data, "id = $id");
             return $result;
+        }
+        function checkPhone($idCustomer, $phone) {
+            if($idCustomer == 0) {
+                $query = $this->db->query("SELECT COUNT(id) AS total FROM customer WHERE phoneNumber=$phone AND status > 0  ");
+                $temp = $query->fetchAll(PDO::FETCH_ASSOC);
+                if ($temp[0]['total'] > 0) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+            else {
+                $query = $this->db->query("SELECT phoneNumber FROM customer WHERE status > 0 AND id = $idCustomer ");
+                $temp = $query->fetchAll(PDO::FETCH_ASSOC);
+                if($temp[0]['phoneNumber'] == $phone) {
+                  return true;
+                }
+                else {
+                    $query = $this->db->query("SELECT COUNT(id) AS total FROM customer WHERE phoneNumber=$phone AND status > 0");
+                    $temp = $query->fetchAll(PDO::FETCH_ASSOC);
+                 
+                    if ($temp[0]['total'] > 0) {
+                        return false;
+                    } else {
+                        return true;
+                    }
+                }
+              
+            }
         }
 }
 ?>

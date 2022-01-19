@@ -7,6 +7,12 @@ class Ungvien extends Controller
         parent::__construct();
     }
 
+    function combo() 
+    {
+        $jsonObj = $this->model->get_data_combo();
+        echo json_encode($jsonObj);
+    }
+
     function thanhpho() {
         $data = $this->model->thanhpho();
         echo json_encode($data);

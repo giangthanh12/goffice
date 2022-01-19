@@ -177,6 +177,37 @@ class chiendichtd extends Controller
         echo json_encode($jsonObj);
     }
 
+    function addngansach() 
+    {
+        $id = $_REQUEST['id'];
+        $ungvien = $_REQUEST['ung_vien'];
+        
+        $temp = $this->model->updateObj($id,$ungvien);
+        if ($temp > 0) {
+            $jsonObj['msg'] = "Đã thêm thành công ".$temp." ứng viên";
+            $jsonObj['success'] = true;
+        } else {
+            $jsonObj['msg'] = "Cập nhật dữ liệu không thành công";
+            $jsonObj['success'] = false;
+        }
+        echo json_encode($jsonObj);
+    }
+
+    function adduvchiendich() 
+    {
+        $id = $_REQUEST['id'];
+        $ungvien = $_REQUEST['ung_vien'];
+        $temp = $this->model->addUVCD($id,$ungvien);
+        if ($temp > 0) {
+            $jsonObj['msg'] = "Đã thêm thành công ".$temp." ứng viên";
+            $jsonObj['success'] = true;
+        } else {
+            $jsonObj['msg'] = "Cập nhật dữ liệu không thành công";
+            $jsonObj['success'] = false;
+        }
+        echo json_encode($jsonObj);
+    }
+
     // function duyet()
     // {
     //     $id = $_REQUEST['id'];

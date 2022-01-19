@@ -16,7 +16,26 @@ $(function(){
     //         window.location.href = baseUrl + 'login';
     //     }, 2000);
     // }
+    $(document).ready(function () {
+
+        $("#toggle").click(function () {
+            $("#toggle").toggleClass("fa-eye fa-eye-slash");
+            if ($("#password").attr("type") == "password")
+            {
+                //Change type attribute
+                $("#password").attr("type", "text");
+            } else
+            {
+                //Change type attribute
+               
+                $("#password").attr("type", "password");
+            }
+        });
+    
+    });
 });
+
+
 
 function save(){
     var required = $('input,textarea,select').filter('[required]:visible');
