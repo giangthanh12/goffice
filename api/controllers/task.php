@@ -6,7 +6,101 @@ class task extends Controller
         parent::__construct();
     }
 
-    function listTasks()
+    function listTaskLabels()
+    {
+        $json = $this->model->listTaskLabels();
+        if ($json == 0) {
+            $jsonObj['message'] = "Lỗi lấy dữ liệu";
+            $jsonObj['code'] = 402;
+            $jsonObj['data'] = [];
+            http_response_code(402);
+            echo json_encode($jsonObj);
+            return false;
+        } else {
+            $jsonObj['message'] = "Lấy dữ liệu thành công";
+            $jsonObj['code'] = 200;
+            $jsonObj['data'] = $json;
+            http_response_code(200);
+            echo json_encode($jsonObj);
+            return true;
+        }
+        echo json_encode($json);
+    }
+
+    function listTaskStatus()
+    {
+        $json = $this->model->listTaskStatus();
+        if ($json == 0) {
+            $jsonObj['message'] = "Lỗi lấy dữ liệu";
+            $jsonObj['code'] = 402;
+            $jsonObj['data'] = [];
+            http_response_code(402);
+            echo json_encode($jsonObj);
+            return false;
+        } else {
+            $jsonObj['message'] = "Lấy dữ liệu thành công";
+            $jsonObj['code'] = 200;
+            $jsonObj['data'] = $json;
+            http_response_code(200);
+            echo json_encode($jsonObj);
+            return true;
+        }
+        echo json_encode($json);
+    }
+
+    function reportTask()
+    {
+        $json = $this->model->reportTask();
+        if ($json == 0) {
+            $jsonObj['message'] = "Lỗi lấy dữ liệu";
+            $jsonObj['code'] = 402;
+            $jsonObj['data'] = [];
+            http_response_code(402);
+            echo json_encode($jsonObj);
+            return false;
+        } else {
+            $jsonObj['message'] = "Lấy dữ liệu thành công";
+            $jsonObj['code'] = 200;
+            $jsonObj['data'] = $json;
+            http_response_code(200);
+            echo json_encode($jsonObj);
+            return true;
+        }
+        echo json_encode($json);
+    }
+
+    // function listTasks()
+    // {
+    //     $staffId = isset($_REQUEST['staffId']) ? $_REQUEST['staffId'] : '';
+    //     if ($staffId == '') {
+    //         $jsonObj['message'] = "Chưa nhập staffId";
+    //         $jsonObj['code'] = 401;
+    //         $jsonObj['data'] = [];
+    //         http_response_code(401);
+    //         echo json_encode($jsonObj);
+    //         return false;
+    //     } else {
+    //         $json = $this->model->getData($staffId);
+    //         if ($json == 0) {
+    //             $jsonObj['message'] = "Lỗi lấy dữ liệu";
+    //             $jsonObj['code'] = 402;
+    //             $jsonObj['data'] = [];
+    //             http_response_code(402);
+    //             echo json_encode($jsonObj);
+    //             return false;
+    //         } else {
+    //             $jsonObj['message'] = "Lấy dữ liệu thành công";
+    //             $jsonObj['code'] = 200;
+    //             $jsonObj['data'] = $json;
+    //             http_response_code(200);
+    //             echo json_encode($jsonObj);
+    //             return true;
+    //         }
+    //         echo json_encode($json);
+    //     }
+    // }
+
+    function listStaffProjects()
     {
         $staffId = isset($_REQUEST['staffId']) ? $_REQUEST['staffId'] : '';
         if ($staffId == '') {
@@ -17,7 +111,68 @@ class task extends Controller
             echo json_encode($jsonObj);
             return false;
         } else {
-            $json = $this->model->getData($staffId);
+            $json = $this->model->listStaffProjects($staffId);
+            if ($json == 0) {
+                $jsonObj['message'] = "Lấy dữ liệu thành công";
+                $jsonObj['code'] = 200;
+                $jsonObj['data'] = [];
+                http_response_code(200);
+                echo json_encode($jsonObj);
+                return false;
+            } else {
+                $jsonObj['message'] = "Lấy dữ liệu thành công";
+                $jsonObj['code'] = 200;
+                $jsonObj['data'] = $json;
+                http_response_code(200);
+                echo json_encode($jsonObj);
+                return true;
+            }
+            echo json_encode($json);
+        }
+    }
+
+    function listProjectTasks()
+    {
+        $projectId = isset($_REQUEST['projectId']) ? $_REQUEST['projectId'] : '';
+        if ($projectId == '') {
+            $jsonObj['message'] = "Chưa nhập projectId";
+            $jsonObj['code'] = 401;
+            $jsonObj['data'] = [];
+            http_response_code(401);
+            echo json_encode($jsonObj);
+            return false;
+        }
+        $json = $this->model->listProjectTasks($projectId);
+        if ($json == 0) {
+            $jsonObj['message'] = "Lỗi lấy dữ liệu";
+            $jsonObj['code'] = 402;
+            $jsonObj['data'] = [];
+            http_response_code(402);
+            echo json_encode($jsonObj);
+            return false;
+        } else {
+            $jsonObj['message'] = "Lấy dữ liệu thành công";
+            $jsonObj['code'] = 200;
+            $jsonObj['data'] = $json;
+            http_response_code(200);
+            echo json_encode($jsonObj);
+            return true;
+        }
+        echo json_encode($json);
+    }
+
+    function listPersonalTasks()
+    {
+        $staffId = isset($_REQUEST['staffId']) ? $_REQUEST['staffId'] : '';
+        if ($staffId == '') {
+            $jsonObj['message'] = "Chưa nhập staffId";
+            $jsonObj['code'] = 401;
+            $jsonObj['data'] = [];
+            http_response_code(401);
+            echo json_encode($jsonObj);
+            return false;
+        } else {
+            $json = $this->model->listPersonalTasks($staffId);
             if ($json == 0) {
                 $jsonObj['message'] = "Lỗi lấy dữ liệu";
                 $jsonObj['code'] = 402;
@@ -37,7 +192,7 @@ class task extends Controller
         }
     }
 
-    function getTask()
+    function detailTask()
     {
         $taskId = isset($_REQUEST['taskId']) ? $_REQUEST['taskId'] : '';
         if ($taskId == '') {
@@ -48,7 +203,7 @@ class task extends Controller
             echo json_encode($jsonObj);
             return false;
         } else {
-            $json = $this->model->getTask($taskId);
+            $json = $this->model->detailTask($taskId);
             if ($json == 0) {
                 $jsonObj['message'] = "Lỗi lấy dữ liệu";
                 $jsonObj['code'] = 402;
@@ -68,7 +223,7 @@ class task extends Controller
         }
     }
 
-    function getCommentTasks()
+    function listTaskComments()
     {
         $taskId = isset($_REQUEST['taskId']) ? $_REQUEST['taskId'] : '';
         if ($taskId == '') {
@@ -79,7 +234,7 @@ class task extends Controller
             echo json_encode($jsonObj);
             return false;
         } else {
-            $json = $this->model->getCommentTasks($taskId);
+            $json = $this->model->listTaskComments($taskId);
             if ($json == 0) {
                 $jsonObj['message'] = "Lỗi lấy dữ liệu";
                 $jsonObj['code'] = 402;
@@ -99,7 +254,7 @@ class task extends Controller
         }
     }
 
-    function commentTask()
+    function createTaskComment()
     {
         $staffId = isset($_REQUEST['staffId']) ? $_REQUEST['staffId'] : '';
         if ($staffId == '') {
@@ -136,7 +291,7 @@ class task extends Controller
         }
         $data['dateTime'] = date('Y-m-d H-i-s');
         $data['status'] = 1;
-        $json = $this->model->commentTask($data);
+        $json = $this->model->createTaskComment($data);
         if ($json == 0) {
             $jsonObj['message'] = "Lỗi cập nhật dữ liệu";
             $jsonObj['code'] = 402;
@@ -146,13 +301,14 @@ class task extends Controller
         } else {
             $jsonObj['message'] = "Cập nhật dữ liệu thành công";
             $jsonObj['code'] = 200;
-            $jsonObj['data'] = [];
+            $data = $this->model->detailTaskComment($json);
+            $jsonObj['data'] = $data;
             http_response_code(200);
             echo json_encode($jsonObj);
         }
     }
 
-    function getTaskFiles()
+    function listTaskFiles()
     {
         $taskId = isset($_REQUEST['taskId']) ? $_REQUEST['taskId'] : '';
         if ($taskId == '') {
@@ -163,7 +319,7 @@ class task extends Controller
             echo json_encode($jsonObj);
             return false;
         } else {
-            $json = $this->model->getTaskFiles($taskId);
+            $json = $this->model->listTaskFiles($taskId);
             if ($json == 0) {
                 $jsonObj['message'] = "Lỗi lấy dữ liệu";
                 $jsonObj['code'] = 402;
@@ -183,38 +339,90 @@ class task extends Controller
         }
     }
 
-    function getTaskSubs()
-    {
-        $taskId = isset($_REQUEST['taskId']) ? $_REQUEST['taskId'] : '';
-        if ($taskId == '') {
-            $jsonObj['message'] = "Chưa nhập taskId";
-            $jsonObj['code'] = 401;
-            $jsonObj['data'] = [];
-            http_response_code(401);
-            echo json_encode($jsonObj);
-            return false;
-        } else {
-            $json = $this->model->getTaskSubs($taskId);
-            if ($json == 0) {
-                $jsonObj['message'] = "Lỗi lấy dữ liệu";
-                $jsonObj['code'] = 402;
-                $jsonObj['data'] = [];
-                http_response_code(402);
-                echo json_encode($jsonObj);
-                return false;
-            } else {
-                $jsonObj['message'] = "Lấy dữ liệu thành công";
-                $jsonObj['code'] = 200;
-                $jsonObj['data'] = $json;
-                http_response_code(200);
-                echo json_encode($jsonObj);
-                return true;
-            }
-            echo json_encode($json);
-        }
-    }
+    // function detailTaskSubs()
+    // {
+    //     $taskId = isset($_REQUEST['taskId']) ? $_REQUEST['taskId'] : '';
+    //     if ($taskId == '') {
+    //         $jsonObj['message'] = "Chưa nhập taskId";
+    //         $jsonObj['code'] = 401;
+    //         $jsonObj['data'] = [];
+    //         http_response_code(401);
+    //         echo json_encode($jsonObj);
+    //         return false;
+    //     } else {
+    //         $json = $this->model->detailTaskSubs($taskId);
+    //         if ($json == 0) {
+    //             $jsonObj['message'] = "Lỗi lấy dữ liệu";
+    //             $jsonObj['code'] = 402;
+    //             $jsonObj['data'] = [];
+    //             http_response_code(402);
+    //             echo json_encode($jsonObj);
+    //             return false;
+    //         } else {
+    //             $jsonObj['message'] = "Lấy dữ liệu thành công";
+    //             $jsonObj['code'] = 200;
+    //             $jsonObj['data'] = $json;
+    //             http_response_code(200);
+    //             echo json_encode($jsonObj);
+    //             return true;
+    //         }
+    //         echo json_encode($json);
+    //     }
+    // }
 
-    function addTaskSub()
+    // function addTaskSub()
+    // {
+    //     $staffId = isset($_REQUEST['staffId']) ? $_REQUEST['staffId'] : '';
+    //     if ($staffId == '') {
+    //         $jsonObj['message'] = "Chưa nhập staffId";
+    //         $jsonObj['code'] = 401;
+    //         $jsonObj['data'] = [];
+    //         http_response_code(401);
+    //         echo json_encode($jsonObj);
+    //         return false;
+    //     } else {
+    //         $data['staffId'] = $staffId;
+    //     }
+    //     $taskId = isset($_REQUEST['taskId']) ? $_REQUEST['taskId'] : '';
+    //     if ($taskId == '') {
+    //         $jsonObj['message'] = "Chưa nhập taskId";
+    //         $jsonObj['code'] = 401;
+    //         $jsonObj['data'] = [];
+    //         http_response_code(401);
+    //         echo json_encode($jsonObj);
+    //         return false;
+    //     } else {
+    //         $data['taskId'] = $taskId;
+    //     }
+    //     $title = isset($_REQUEST['title']) ? $_REQUEST['title'] : '';
+    //     if ($title == '') {
+    //         $jsonObj['message'] = "Chưa nhập title";
+    //         $jsonObj['code'] = 401;
+    //         $jsonObj['data'] = [];
+    //         http_response_code(401);
+    //         echo json_encode($jsonObj);
+    //         return false;
+    //     } else {
+    //         $data['title'] = $title;
+    //     }
+    //     $data['status'] = 1;
+    //     $json = $this->model->addTaskSub($data);
+    //     if ($json == 0) {
+    //         $jsonObj['message'] = "Lỗi cập nhật dữ liệu";
+    //         $jsonObj['code'] = 402;
+    //         $jsonObj['data'] = [];
+    //         http_response_code(402);
+    //         echo json_encode($jsonObj);
+    //     } else {
+    //         $jsonObj['message'] = "Cập nhật dữ liệu thành công";
+    //         $jsonObj['code'] = 200;
+    //         $jsonObj['data'] = [];
+    //         http_response_code(200);
+    //         echo json_encode($jsonObj);
+    //     }
+    // }
+
+    function filterTask()
     {
         $staffId = isset($_REQUEST['staffId']) ? $_REQUEST['staffId'] : '';
         if ($staffId == '') {
@@ -224,80 +432,30 @@ class task extends Controller
             http_response_code(401);
             echo json_encode($jsonObj);
             return false;
-        } else {
-            $data['staffId'] = $staffId;
         }
-        $taskId = isset($_REQUEST['taskId']) ? $_REQUEST['taskId'] : '';
-        if ($taskId == '') {
-            $jsonObj['message'] = "Chưa nhập taskId";
-            $jsonObj['code'] = 401;
-            $jsonObj['data'] = [];
-            http_response_code(401);
-            echo json_encode($jsonObj);
-            return false;
-        } else {
-            $data['taskId'] = $taskId;
-        }
-        $title = isset($_REQUEST['title']) ? $_REQUEST['title'] : '';
-        if ($title == '') {
-            $jsonObj['message'] = "Chưa nhập title";
-            $jsonObj['code'] = 401;
-            $jsonObj['data'] = [];
-            http_response_code(401);
-            echo json_encode($jsonObj);
-            return false;
-        } else {
-            $data['title'] = $title;
-        }
-        $data['status'] = 1;
-        $json = $this->model->addTaskSub($data);
+        $projectId = (isset($_REQUEST['projectId']) && $_REQUEST['projectId'] != '') ? $_REQUEST['projectId'] : 0;
+        $statusId = isset($_REQUEST['statusId']) ? $_REQUEST['statusId'] : '';
+        $json = $this->model->filterTask($staffId, $projectId, $statusId);
         if ($json == 0) {
-            $jsonObj['message'] = "Lỗi cập nhật dữ liệu";
+            $jsonObj['message'] = "Lỗi lấy dữ liệu";
             $jsonObj['code'] = 402;
             $jsonObj['data'] = [];
             http_response_code(402);
             echo json_encode($jsonObj);
-        } else {
-            $jsonObj['message'] = "Cập nhật dữ liệu thành công";
-            $jsonObj['code'] = 200;
-            $jsonObj['data'] = [];
-            http_response_code(200);
-            echo json_encode($jsonObj);
-        }
-    }
-
-    function filterTask()
-    {
-        $search = isset($_REQUEST['search']) ? $_REQUEST['search'] : '';
-        if ($search == '') {
-            $jsonObj['message'] = "Chưa nhập nội dung tìm kiếm";
-            $jsonObj['code'] = 401;
-            $jsonObj['data'] = [];
-            echo json_encode($jsonObj);
             return false;
         } else {
-            $json = $this->model->filterTask($search);
-            if ($json == 0) {
-                $jsonObj['message'] = "Lỗi lấy dữ liệu";
-                $jsonObj['code'] = 402;
-                $jsonObj['data'] = [];
-                http_response_code(402);
-                echo json_encode($jsonObj);
-                return false;
-            } else {
-                $jsonObj['message'] = "Tìm kiếm thành công";
-                $jsonObj['code'] = 200;
-                $jsonObj['total'] = $json['total'];
-                $jsonObj['data'] = $json['data'];
-                http_response_code(200);
-                echo json_encode($jsonObj);
-                return true;
-            }
-            echo json_encode($json);
+            $jsonObj['message'] = "Tìm kiếm thành công";
+            $jsonObj['code'] = 200;
+            $jsonObj['total'] = COUNT($json);
+            $jsonObj['data'] = $json;
+            http_response_code(200);
+            echo json_encode($jsonObj);
+            return true;
         }
+        echo json_encode($json);
     }
 
-    function addTask()
+    function createTask()
     {
         if (isset($_REQUEST['title']))
             $data['title'] = $_REQUEST['title'];
@@ -308,8 +466,7 @@ class task extends Controller
             $data['assigneeId'] = $_REQUEST['assigneeId'];
         if (isset($_REQUEST['description']))
             $data['description'] = $_REQUEST['description'];
-        if (isset($_REQUEST['label']))
-            $data['label'] = $_REQUEST['label'];
+        $data['label'] = isset($_REQUEST['label']) ? $_REQUEST['label'] : 4;
 
         if (isset($_FILES['image'])) {
             $filename = $_FILES['image']['name'];
@@ -328,8 +485,9 @@ class task extends Controller
             $data['deadline'] = date("Y-m-d", strtotime(str_replace('/', '-', $_REQUEST['deadline'])));
         if (isset($_REQUEST['process']))
             $data['process'] = $_REQUEST['process'];
-        if (isset($_REQUEST['projectId']))
-            $data['projectId'] = $_REQUEST['projectId'];
+        $data['projectId'] = isset($_REQUEST['projectId']) ? $_REQUEST['projectId'] : 0;
+        // if (isset($_REQUEST['projectId']))
+        //     $data['projectId'] = $_REQUEST['projectId'];
         if (isset($_REQUEST['groupId']))
             $data['groupId'] = $_REQUEST['groupId'];
         $startDate = isset($_REQUEST['startDate']) ? $_REQUEST['startDate'] : '';
@@ -340,8 +498,10 @@ class task extends Controller
             $data['endDate'] = date("Y-m-d", strtotime(str_replace('/', '-', $_REQUEST['endDate'])));
         if (isset($_REQUEST['status']))
             $data['status'] = $_REQUEST['status'];
+        else
+            $data['status'] = 1;
         $data['updated'] = date('Y-m-d');
-        $json = $this->model->addTask($data);
+        $json = $this->model->createTask($data);
         if ($json == 0) {
             $jsonObj['message'] = "Lỗi cập nhật dữ liệu";
             $jsonObj['code'] = 402;
@@ -351,11 +511,16 @@ class task extends Controller
         } else {
             $jsonObj['message'] = "Cập nhật dữ liệu thành công";
             $jsonObj['code'] = 200;
-            $json = $this->model->getTask($json);
-            $jsonObj['data'] = $json;
+            $data = $this->model->detailTask($json);
+            $jsonObj['data'] = $data;
             http_response_code(200);
             echo json_encode($jsonObj);
         }
+    }
+
+    function createImageTask()
+    {
+        
     }
 
     function updateTask()
@@ -395,8 +560,9 @@ class task extends Controller
             $data['deadline'] = date("Y-m-d", strtotime(str_replace('/', '-', $_REQUEST['deadline'])));
         if (isset($_REQUEST['process']))
             $data['process'] = $_REQUEST['process'];
-        if (isset($_REQUEST['projectId']))
-            $data['projectId'] = $_REQUEST['projectId'];
+        $data['projectId'] = isset($_REQUEST['projectId']) ? $_REQUEST['projectId'] : 0;
+        // if (isset($_REQUEST['projectId']))
+        //     $data['projectId'] = $_REQUEST['projectId'];
         if (isset($_REQUEST['groupId']))
             $data['groupId'] = $_REQUEST['groupId'];
         $startDate = isset($_REQUEST['startDate']) ? $_REQUEST['startDate'] : '';
@@ -418,14 +584,14 @@ class task extends Controller
         } else {
             $jsonObj['message'] = "Cập nhật dữ liệu thành công";
             $jsonObj['code'] = 200;
-            $json = $this->model->getTask($taskId);
-            $jsonObj['data'] = $json;
+            $data = $this->model->detailTask($taskId);
+            $jsonObj['data'] = $data;
             http_response_code(200);
             echo json_encode($jsonObj);
         }
     }
 
-    function addTaskFile()
+    function createTaskFile()
     {
         $taskId = isset($_REQUEST['taskId']) ? $_REQUEST['taskId'] : '';
         if ($taskId == '') {
@@ -438,29 +604,20 @@ class task extends Controller
         } else {
             $data['taskId'] = $taskId;
         }
-        $linkToFile = isset($_REQUEST['file']) ? $_REQUEST['file'] : '';
-        if ($linkToFile == '') {
-            $jsonObj['message'] = "Không có file";
-            $jsonObj['code'] = 401;
-            $jsonObj['data'] = [];
-            http_response_code(401);
-            echo json_encode($jsonObj);
-            return false;
-        } else {
-            if (isset($_FILES['file'])) {
-                $filename = $_FILES['file']['name'];
-                $fname = explode('.', $filename);
-                if ($filename != '') {
-                    $dir = ROOT_DIR . '/uploads/task/file/';
-                    $file = functions::uploadfile('file', $dir, $fname[0]);
-                    if ($file != '')
-                        $link =  'uploads/task/file/' . $file;
-                    $data['linkToFile'] = $link;
-                }
+        if (isset($_FILES['linkToFile'])) {
+            $filename = $_FILES['linkToFile']['name'];
+            $fname = explode('.', $filename);
+            if ($filename != '') {
+                $dir = ROOT_DIR . '/uploads/task/file/';
+                $file = functions::uploadfile('linkToFile', $dir, $fname[0]);
+                if ($file != '')
+                    $link =  'uploads/task/file/' . $file;
+                $data['linkToFile'] = $link;
             }
         }
+        $data['dateTime'] = date('Y-m-d H-i-s');
         $data['status'] = 1;
-        $json = $this->model->addTaskFile($data);
+        $json = $this->model->createTaskFile($data);
         if ($json == 0) {
             $jsonObj['message'] = "Lỗi cập nhật dữ liệu";
             $jsonObj['code'] = 402;
@@ -471,7 +628,7 @@ class task extends Controller
         } else {
             $jsonObj['message'] = "Cập nhật dữ liệu thành công";
             $jsonObj['code'] = 200;
-            $jsonObj['data'] = [];
+            $jsonObj['data'] = $this->model->detailTaskFile($json);
             http_response_code(200);
             echo json_encode($jsonObj);
             return true;
@@ -479,168 +636,7 @@ class task extends Controller
         echo json_encode($json);
     }
 
-    // function addTask()
-    // {
-    //     $title = isset($_REQUEST['title']) ? $_REQUEST['title'] : '';
-    //     if ($title == '') {
-    //         $jsonObj['message'] = "Chưa nhập tên công việc";
-    //         $jsonObj['code'] = 401;
-    //         echo json_encode($jsonObj);
-    //         return false;
-    //     } else {
-    //         $data['title'] = $title;
-    //     }
-    //     $assignmentDate = date('Y-m-d');
-    //     $data['assignmentDate'] = $assignmentDate;
-    //     $assignerId = isset($_REQUEST['assignerId']) ? $_REQUEST['assignerId'] : '';
-    //     if ($assignerId == '') {
-    //         $jsonObj['message'] = "Chưa chọn người giao";
-    //         $jsonObj['code'] = 401;
-    //         echo json_encode($jsonObj);
-    //         return false;
-    //     } else {
-    //         $data['assignerId'] = $assignerId;
-    //     }
-    //     $assigneeId = isset($_REQUEST['assigneeId']) ? $_REQUEST['assigneeId'] : '';
-    //     if ($assigneeId == '') {
-    //         $jsonObj['message'] = "Chưa chọn người nhận";
-    //         $jsonObj['code'] = 401;
-    //         echo json_encode($jsonObj);
-    //         return false;
-    //     } else {
-    //         $data['assigneeId'] = $assigneeId;
-    //     }
-    //     if (isset($_REQUEST['description']))
-    //         $data['description'] = $_REQUEST['description'];
-    //     if (isset($_REQUEST['label']))
-    //         $data['label'] = $_REQUEST['label'];
-    //     if (isset($_REQUEST['image']))
-    //         $data['image'] = $_REQUEST['image'];
-    //     $deadline = isset($_REQUEST['deadline']) ? date("Y-m-d", strtotime(str_replace('/', '-', $_REQUEST['deadline']))) : '';
-    //     if ($deadline == '') {
-    //         $jsonObj['message'] = "Chưa chọn deadline";
-    //         $jsonObj['code'] = 401;
-    //         echo json_encode($jsonObj);
-    //         return false;
-    //     } else {
-    //         if (strtotime($deadline) < strtotime($assignmentDate)) {
-    //             $jsonObj['message'] = "Deadline không được nhỏ hơn ngày hiện tại";
-    //             $jsonObj['code'] = 402;
-    //             $jsonObj['data'] = [];
-    //             echo json_encode($jsonObj);
-    //             return false;
-    //         } else {
-    //             $data['deadline'] = $deadline;
-    //         }
-    //     }
-    //     if (isset($_REQUEST['projectId']))
-    //         $data['projectId'] = $_REQUEST['projectId'];
-    //     if (isset($_REQUEST['groupId']))
-    //         $data['groupId'] = $_REQUEST['groupId'];
-    //     $data['updated'] = date('Y-m-d');
-    //     $data['status'] = 1;
-    //     $json = $this->model->addTask($data);
-    //     if ($json == 0) {
-    //         $jsonObj['message'] = "Lỗi cập nhật dữ liệu";
-    //         $jsonObj['code'] = 402;
-    //         $jsonObj['data'] = [];
-    //         echo json_encode($jsonObj);
-    //     } else {
-    //         $jsonObj['message'] = "Cập nhật dữ liệu thành công";
-    //         $jsonObj['code'] = 200;
-    //         $json = $this->model->getTask($json);
-    //         $jsonObj['data'] = $json;
-    //         echo json_encode($jsonObj);
-    //     }
-    // }
-
-    // function updateTask()
-    // {
-    //     $taskId = isset($_REQUEST['taskId']) ? $_REQUEST['taskId'] : '';
-    //     if ($taskId == '') {
-    //         $jsonObj['message'] = "Chưa nhập taskId";
-    //         $jsonObj['code'] = 401;
-    //         $jsonObj['data'] = [];
-    //         echo json_encode($jsonObj);
-    //         return false;
-    //     }
-    //     $title = isset($_REQUEST['title']) ? $_REQUEST['title'] : '';
-    //     if ($title == '') {
-    //         $jsonObj['message'] = "Chưa nhập tên công việc";
-    //         $jsonObj['code'] = 401;
-    //         echo json_encode($jsonObj);
-    //         return false;
-    //     } else {
-    //         $data['title'] = $title;
-    //     }
-    //     $assignerId = isset($_REQUEST['assignerId']) ? $_REQUEST['assignerId'] : '';
-    //     if ($assignerId == '') {
-    //         $jsonObj['message'] = "Chưa chọn người giao";
-    //         $jsonObj['code'] = 401;
-    //         echo json_encode($jsonObj);
-    //         return false;
-    //     } else {
-    //         $data['assignerId'] = $assignerId;
-    //     }
-    //     $assigneeId = isset($_REQUEST['assigneeId']) ? $_REQUEST['assigneeId'] : '';
-    //     if ($assigneeId == '') {
-    //         $jsonObj['message'] = "Chưa chọn người nhận";
-    //         $jsonObj['code'] = 401;
-    //         echo json_encode($jsonObj);
-    //         return false;
-    //     } else {
-    //         $data['assigneeId'] = $assigneeId;
-    //     }
-    //     if (isset($_REQUEST['description']))
-    //         $data['description'] = $_REQUEST['description'];
-    //     if (isset($_REQUEST['label']))
-    //         $data['label'] = $_REQUEST['label'];
-    //     if (isset($_REQUEST['image']))
-    //         $data['image'] = $_REQUEST['image'];
-    //     $deadline = isset($_REQUEST['deadline']) ? date("Y-m-d", strtotime(str_replace('/', '-', $_REQUEST['deadline']))) : '';
-    //     if ($deadline == '') {
-    //         $jsonObj['message'] = "Chưa chọn deadline";
-    //         $jsonObj['code'] = 401;
-    //         echo json_encode($jsonObj);
-    //         return false;
-    //     } else {
-    //         if (strtotime($deadline) < strtotime(date('Y-m-d'))) {
-    //             $jsonObj['message'] = "Deadline không được nhỏ hơn ngày hiện tại";
-    //             $jsonObj['code'] = 402;
-    //             $jsonObj['data'] = [];
-    //             echo json_encode($jsonObj);
-    //             return false;
-    //         } else {
-    //             $data['deadline'] = $deadline;
-    //         }
-    //     }
-    //     if (isset($_REQUEST['process']))
-    //         $data['process'] = $_REQUEST['process'];
-    //     if (isset($_REQUEST['projectId']))
-    //         $data['projectId'] = $_REQUEST['projectId'];
-    //     if (isset($_REQUEST['groupId']))
-    //         $data['groupId'] = $_REQUEST['groupId'];
-    //     if (isset($_REQUEST['status']))
-    //         $data['status'] = $_REQUEST['status'];
-    //     $data['updated'] = date('Y-m-d');
-    //     $json = $this->model->updateTask($taskId, $data);
-    //     if ($json == 0) {
-    //         $jsonObj['message'] = "Lỗi cập nhật dữ liệu";
-    //         $jsonObj['code'] = 402;
-    //         $jsonObj['data'] = [];
-    //         echo json_encode($jsonObj);
-    //     } else {
-    //         $jsonObj['message'] = "Cập nhật dữ liệu thành công";
-    //         $jsonObj['code'] = 200;
-    //         $json = $this->model->getTask($taskId);
-    //         $jsonObj['data'] = $json;
-    //         echo json_encode($jsonObj);
-    //     }
-    // }
-
-
-
-    function deleteTask()
+    function removeTask()
     {
         $taskId = isset($_REQUEST['taskId']) ? $_REQUEST['taskId'] : '';
         if ($taskId == '') {
@@ -670,70 +666,4 @@ class task extends Controller
             }
         }
     }
-
-
-    // function getitem(){ // lay thong tin cong viec chi tiet vào form)
-    //     $id = $_REQUEST['id'];
-    //     $json = $this->model->getitem($_REQUEST['id']);
-    //     echo json_encode($json);
-    // }
-
-    // function nhanvien(){
-    //     $id = $_REQUEST['id'];
-    //     $json = $this->model->get_nhanvien($id);
-    //     echo json_encode($json);
-    // }
-
-    // function update(){
-    //     $id = $_REQUEST['id'];
-    //     $name = $_REQUEST['name'];
-    //     $deadline = date("Y-m-d", strtotime($_REQUEST['deadline']));
-    //     $label = $_REQUEST['label'];
-    //     $nhanvien = $_REQUEST['nhanvien'];
-    //     $file = $_REQUEST['file'];
-    //     $comment = $_REQUEST['comment'];
-    //     if ($nhanvien>0)
-    //         $data = array('name'=>$name, 'deadline'=>$deadline, 'label'=>$label, 'nhan_vien'=>$nhanvien);
-    //     else
-    //         $data = array('name'=>$name, 'deadline'=>$deadline, 'label'=>$label);
-    //     if ($this->model->capnhat($id, $data, $file, $comment)) {
-    //         $jsonObj['msg'] = "Cập nhật thành công";
-    //         $jsonObj['success'] = true;
-    //     } else {
-    //         $jsonObj['msg'] = "Cập nhật không thành công".$id;
-    //         $jsonObj['success'] = false;
-    //     }
-    //     $jsonObj = json_encode($jsonObj);
-    //     echo $jsonObj;
-    // }
-
-    // function move(){
-    //     $id = $_REQUEST['id'];
-    //     $tinhtrang = $_REQUEST['board'];
-    //     // if ($board>0)
-    //     $data = array('tinh_trang'=>$tinhtrang);
-    //     if ($this->model->move($id, $data)) {
-    //         $jsonObj['msg'] = "Cập nhật thành công";
-    //         $jsonObj['success'] = true;
-    //     } else {
-    //         $jsonObj['msg'] = "Cập nhật không thành công";
-    //         $jsonObj['success'] = false;
-    //     }
-    //     $jsonObj = json_encode($jsonObj);
-    //     echo $jsonObj;
-    // }
-
-    // function del(){
-    //     $id = $_REQUEST['id'];
-    //     if ($this->model->delObj($id)) {
-    //         $jsonObj['msg'] = "Đã xóa item";
-    //         $jsonObj['success'] = true;
-    //     } else {
-    //         $jsonObj['msg'] = "Xóa không thành công";
-    //         $jsonObj['success'] = false;
-    //     }
-    //     $jsonObj = json_encode($jsonObj);
-    //     echo $jsonObj;
-
-    // }
 }

@@ -1,16 +1,17 @@
 <?php
-class task_model extends Model{
-    function __construct(){
+class task_model extends Model
+{
+    function __construct()
+    {
         parent::__construct();
     }
 
-    function getData($staffId)
+    function listTaskLabels()
     {
         $result = array();
-        $query = $this->db->query("SELECT *,
-        IF(image='',CONCAT('".URLFILE."','/uploads/nofile.png'),CONCAT('".URLFILE."/',image)) AS image
-        FROM tasks WHERE status > 0 AND assigneeId=$staffId ORDER BY id DESC ");
-        if($query) {
+        $query = $this->db->query("SELECT *
+        FROM tasklabels WHERE status > 0 ORDER BY id DESC ");
+        if ($query) {
             $result = $query->fetchAll(PDO::FETCH_ASSOC);
             return $result;
         } else {
@@ -18,13 +19,12 @@ class task_model extends Model{
         }
     }
 
-    function getTask($taskId) 
+    function listTaskStatus()
     {
         $result = array();
-        $query = $this->db->query("SELECT *,
-            IF(image='',CONCAT('".URLFILE."','/uploads/nofile.png'),CONCAT('".URLFILE."/',image)) AS image
-            FROM tasks WHERE status>0 AND id=$taskId");
-        if($query) {
+        $query = $this->db->query("SELECT *
+        FROM taskstatus WHERE status > 0 ORDER BY id DESC ");
+        if ($query) {
             $result = $query->fetchAll(PDO::FETCH_ASSOC);
             return $result;
         } else {
@@ -32,12 +32,283 @@ class task_model extends Model{
         }
     }
 
-    function getCommentTasks($taskId) 
+    function reportTask()
+    {
+        $result = array();
+        $resultMonth = array();
+        $year = date('Y');
+        for ($month = 1; $month <= 12; $month++) {
+            $resultMonth['month'] = $month;
+            if ($month < 10) {
+                $month = '0' . $month;
+            }
+            $yearMonth = "$year-$month";
+            $query = $this->db->query("SELECT count(id) AS total
+            FROM tasks WHERE status > 0 AND assignmentDate LIKE '$yearMonth%' ");
+            if ($query) {
+                $temp = $query->fetchAll(PDO::FETCH_ASSOC);
+                $resultMonth['totalCreated'] = $temp[0]['total'];
+            }
+            $query = $this->db->query("SELECT count(id) AS total
+            FROM tasks WHERE status = 4 AND assignmentDate LIKE '$yearMonth%' ");
+            if ($query) {
+                $temp = $query->fetchAll(PDO::FETCH_ASSOC);
+                $resultMonth['totalCompleted'] = $temp[0]['total'];
+            }
+            $query = $this->db->query("SELECT count(id) AS total
+            FROM tasks WHERE status = 2 AND assignmentDate LIKE '$yearMonth%' ");
+            if ($query) {
+                $temp = $query->fetchAll(PDO::FETCH_ASSOC);
+                $resultMonth['totalDoing'] = $temp[0]['total'];
+            }
+            $query = $this->db->query("SELECT count(id) AS total
+            FROM tasks WHERE status = 3 AND assignmentDate LIKE '$yearMonth%' ");
+            if ($query) {
+                $temp = $query->fetchAll(PDO::FETCH_ASSOC);
+                $resultMonth['totalDeadline'] = $temp[0]['total'];
+            }
+            array_push($result, $resultMonth);
+        }
+        return $result;
+    }
+
+    // function getData($staffId)
+    // {
+    //     $result = array();
+    //     $query = $this->db->query("SELECT *,
+    //     IF(image='',CONCAT('" . URLFILE . "','/uploads/nofile.png'),CONCAT('" . URLFILE . "/',image)) AS image,
+    //     (SELECT name FROM tasklabels WHERE id=a.label) AS labelName,
+    //     (SELECT color FROM tasklabels WHERE id=a.label) AS labelColor,
+    //     (SELECT name FROM taskstatus WHERE id=a.status) AS statusName,
+    //     (SELECT color FROM taskstatus WHERE id=a.status) AS statusColor
+    //     FROM tasks a WHERE status > 0 AND assigneeId=$staffId ORDER BY id DESC ");
+    //     if ($query) {
+    //         $result = $query->fetchAll(PDO::FETCH_ASSOC);
+    //         return $result;
+    //     } else {
+    //         return 0;
+    //     }
+    // }
+
+    function listStaffProjects($staffId)
+    {
+        $result = array();
+        $listProjects = '';
+        $query = $this->db->query("SELECT id 
+        FROM projects a WHERE status>0 AND (managerId=$staffId OR managerId LIKE '%$staffId%') AND (SELECT COUNT(id) FROM tasks WHERE status>0 AND projectId=a.id)=0 ");
+        if ($query) {
+            $temp = $query->fetchAll(PDO::FETCH_ASSOC);
+            foreach ($temp as $item) {
+                $listProjects .= $item['id'] . ',';
+            }
+        }
+        $query = $this->db->query("SELECT projectId 
+        FROM tasks a WHERE status>0 AND (assigneeId=$staffId OR assignerId=$staffId) 
+        AND (SELECT id FROM projects WHERE id=a.projectId AND status > 0)>0 
+        GROUP BY projectId ");
+        if ($query) {
+            $temp = $query->fetchAll(PDO::FETCH_ASSOC);
+            foreach ($temp as $item) {
+                $listProjects .= $item['projectId'] . ',';
+            }
+        }
+        $listProjects = rtrim($listProjects, ",");
+        if ($listProjects != '0') {
+            $query = $this->db->query("SELECT *, 
+            IF(image='',CONCAT('" . URLFILE . "','/uploads/nofile.png'),CONCAT('" . URLFILE . "/',image)) AS image 
+            FROM projects WHERE id IN ($listProjects) ORDER BY createDate DESC ");
+            if ($query) {
+                $result = $query->fetchAll(PDO::FETCH_ASSOC);
+
+                foreach ($result as $key => $item) {
+                    $managerId = $item['managerId'];
+                    $result[$key]['manager'] = array();
+                    if ($managerId > 0) {
+                        $query = $this->db->query("SELECT id,name,email,
+                        IF(avatar='',CONCAT('" . URLFILE . "','/uploads/useravatar.png'),CONCAT('" . URLFILE . "/',avatar)) AS avatar
+                        FROM staffs WHERE id= $managerId");
+                        if ($query) {
+                            $temp = $query->fetchAll(PDO::FETCH_ASSOC);
+                            $result[$key]['manager'] = $temp[0];
+                        }
+                    }
+
+                    $listMember = explode(",", $item['memberId']);
+                    $result[$key]['member'] = array();
+                    foreach ($listMember as $memberId) {
+                        $query = $this->db->query("SELECT id,name,email,
+                        IF(avatar='',CONCAT('" . URLFILE . "','/uploads/useravatar.png'),CONCAT('" . URLFILE . "/',avatar)) AS avatar
+                        FROM staffs WHERE id= $memberId ");
+                        if ($query) {
+                            $temp = $query->fetchAll(PDO::FETCH_ASSOC);
+                            array_push($result[$key]['member'], $temp[0]);
+                        }
+                    }
+                }
+                return $result;
+            }
+        } else {
+            return 0;
+        }
+    }
+
+    function listProjectTasks($projectId)
+    {
+        $result = array();
+        $query = $this->db->query("SELECT *,
+        IF(image='',CONCAT('" . URLFILE . "','/uploads/nofile.png'),CONCAT('" . URLFILE . "/',image)) AS image,
+        IFNULL((SELECT name FROM tasklabels WHERE id=a.label),'') AS labelName,
+        IFNULL((SELECT color FROM tasklabels WHERE id=a.label),'') AS labelColor,
+        IFNULL((SELECT name FROM taskstatus WHERE id=a.status),'') AS statusName,
+        IFNULL((SELECT color FROM taskstatus WHERE id=a.status),'') AS statusColor
+        FROM tasks a WHERE status > 0 AND projectId=$projectId ORDER BY id DESC ");
+        if ($query) {
+            $result = $query->fetchAll(PDO::FETCH_ASSOC);
+            foreach ($result as $key => $item) {
+                $assignerId = $item['assignerId'];
+                $result[$key]['assigner'] = array();
+                if ($assignerId > 0) {
+                    $query = $this->db->query("SELECT id,name,email,
+                    IF(avatar='',CONCAT('" . URLFILE . "','/uploads/useravatar.png'),CONCAT('" . URLFILE . "/',avatar)) AS avatar
+                    FROM staffs WHERE id= $assignerId ");
+                    if ($query) {
+                        $temp = $query->fetchAll(PDO::FETCH_ASSOC);
+                        $result[$key]['assigner'] = $temp[0];
+                    }
+                }
+                $assigneeId = $item['assigneeId'];
+                $result[$key]['assignee'] = array();
+                if ($assigneeId > 0) {
+                    $query = $this->db->query("SELECT id,name,email,
+                    IF(avatar='',CONCAT('" . URLFILE . "','/uploads/useravatar.png'),CONCAT('" . URLFILE . "/',avatar)) AS avatar
+                    FROM staffs WHERE id= $assigneeId ");
+                    if ($query) {
+                        $temp = $query->fetchAll(PDO::FETCH_ASSOC);
+                        $result[$key]['assignee'] = $temp[0];
+                    }
+                }
+            }
+            return $result;
+        } else {
+            return 0;
+        }
+    }
+
+    function listPersonalTasks($staffId)
+    {
+        $result = array();
+        $query = $this->db->query("SELECT *,
+        IF(image='',CONCAT('" . URLFILE . "','/uploads/nofile.png'),CONCAT('" . URLFILE . "/',image)) AS image,
+        IFNULL((SELECT name FROM tasklabels WHERE id=a.label),'') AS labelName,
+        IFNULL((SELECT color FROM tasklabels WHERE id=a.label),'') AS labelColor,
+        IFNULL((SELECT name FROM taskstatus WHERE id=a.status),'') AS statusName,
+        IFNULL((SELECT color FROM taskstatus WHERE id=a.status),'') AS statusColor
+        FROM tasks a WHERE status > 0 AND (assigneeId=$staffId OR assignerId=$staffId) AND projectId = 0 ORDER BY id DESC ");
+        if ($query) {
+            $result = $query->fetchAll(PDO::FETCH_ASSOC);
+            foreach ($result as $key => $item) {
+                $assignerId = $item['assignerId'];
+                $result[$key]['assigner'] = array();
+                if ($assignerId > 0) {
+                    $query = $this->db->query("SELECT id,name,email,
+                    IF(avatar='',CONCAT('" . URLFILE . "','/uploads/useravatar.png'),CONCAT('" . URLFILE . "/',avatar)) AS avatar
+                    FROM staffs WHERE id= $assignerId ");
+                    if ($query) {
+                        $temp = $query->fetchAll(PDO::FETCH_ASSOC);
+                        $result[$key]['assigner'] = $temp[0];
+                    }
+                }
+                $assigneeId = $item['assigneeId'];
+                $result[$key]['assignee'] = array();
+                if ($assigneeId > 0) {
+                    $query = $this->db->query("SELECT id,name,email,
+                    IF(avatar='',CONCAT('" . URLFILE . "','/uploads/useravatar.png'),CONCAT('" . URLFILE . "/',avatar)) AS avatar
+                    FROM staffs WHERE id= $assigneeId ");
+                    if ($query) {
+                        $temp = $query->fetchAll(PDO::FETCH_ASSOC);
+                        $result[$key]['assignee'] = $temp[0];
+                    }
+                }
+            }
+            return $result;
+        } else {
+            return 0;
+        }
+    }
+
+    function detailTask($taskId)
+    {
+        $result = array();
+        $query = $this->db->query("SELECT *,
+            IF(image='',CONCAT('" . URLFILE . "','/uploads/nofile.png'),CONCAT('" . URLFILE . "/',image)) AS image,
+            IFNULL((SELECT name FROM tasklabels WHERE id=a.label),'') AS labelName,
+            IFNULL((SELECT color FROM tasklabels WHERE id=a.label),'') AS labelColor,
+            IFNULL((SELECT name FROM taskstatus WHERE id=a.status),'') AS statusName,
+            IFNULL((SELECT color FROM taskstatus WHERE id=a.status),'') AS statusColor
+            FROM tasks a WHERE status>0 AND id=$taskId");
+        if ($query) {
+            $result = $query->fetchAll(PDO::FETCH_ASSOC);
+            $assignerId = $result[0]['assignerId'];
+            $result[0]['assigner'] = array();
+            if ($assignerId > 0) {
+                $query = $this->db->query("SELECT id,name,email,
+                IF(avatar='',CONCAT('" . URLFILE . "','/uploads/useravatar.png'),CONCAT('" . URLFILE . "/',avatar)) AS avatar
+                FROM staffs WHERE id= $assignerId ");
+                if ($query) {
+                    $temp = $query->fetchAll(PDO::FETCH_ASSOC);
+                    $result[0]['assigner'] = $temp[0];
+                }
+            }
+
+            $assigneeId = $result[0]['assigneeId'];
+            $result[0]['assignee'] = array();
+            if ($assigneeId > 0) {
+                $query = $this->db->query("SELECT id,name,email,
+            IF(avatar='',CONCAT('" . URLFILE . "','/uploads/useravatar.png'),CONCAT('" . URLFILE . "/',avatar)) AS avatar
+            FROM staffs WHERE id= $assigneeId ");
+                if ($query) {
+                    $temp = $query->fetchAll(PDO::FETCH_ASSOC);
+                    $result[0]['assignee'] = $temp[0];
+                }
+            }
+            return $result;
+        } else {
+            return 0;
+        }
+    }
+
+    function listTaskComments($taskId)
     {
         $result = array();
         $query = $this->db->query("SELECT *
             FROM commenttasks WHERE status>0 AND taskId=$taskId ORDER BY id DESC ");
-        if($query) {
+        if ($query) {
+            $result = $query->fetchAll(PDO::FETCH_ASSOC);
+            foreach ($result as $key => $item) {
+                $staffId = $item['staffId'];
+                $result[0]['staff'] = array();
+                if ($staffId > 0) {
+                    $query = $this->db->query("SELECT id,name,email,
+                    IF(avatar='',CONCAT('" . URLFILE . "','/uploads/useravatar.png'),CONCAT('" . URLFILE . "/',avatar)) AS avatar
+                    FROM staffs WHERE id= $staffId ");
+                    if ($query) {
+                        $temp = $query->fetchAll(PDO::FETCH_ASSOC);
+                        $result[$key]['staff'] = $temp[0];
+                    }
+                }
+            }
+            return $result;
+        } else {
+            return 0;
+        }
+    }
+
+    function detailTaskComment($commentId)
+    {
+        $result = array();
+        $query = $this->db->query("SELECT *
+            FROM commenttasks WHERE status>0 AND id=$commentId");
+        if ($query) {
             $result = $query->fetchAll(PDO::FETCH_ASSOC);
             return $result;
         } else {
@@ -45,7 +316,7 @@ class task_model extends Model{
         }
     }
 
-    function commentTask($data) 
+    function createTaskComment($data)
     {
         if ($this->insert("commenttasks", $data))
             return $this->db->lastInsertId();
@@ -53,13 +324,13 @@ class task_model extends Model{
             return 0;
     }
 
-    function getTaskFiles($taskId) 
+    function listTaskFiles($taskId)
     {
         $result = array();
         $query = $this->db->query("SELECT *,
-            IF(linkToFile='',CONCAT('".URLFILE."','/uploads/nofile.png'),CONCAT('".URLFILE."/',linkToFile)) AS linkToFile
+            IF(linkToFile='',CONCAT('" . URLFILE . "','/uploads/nofile.png'),CONCAT('" . URLFILE . "/',linkToFile)) AS linkToFile
             FROM taskfiles WHERE status>0 AND taskId=$taskId ORDER BY id DESC ");
-        if($query) {
+        if ($query) {
             $result = $query->fetchAll(PDO::FETCH_ASSOC);
             return $result;
         } else {
@@ -67,7 +338,7 @@ class task_model extends Model{
         }
     }
 
-    function addTaskFile($data)
+    function createTaskFile($data)
     {
         if ($this->insert("taskfiles", $data))
             return $this->db->lastInsertId();
@@ -75,12 +346,13 @@ class task_model extends Model{
             return 0;
     }
 
-    function getTaskSubs($taskId) 
+    function detailTaskFile($fileId)
     {
         $result = array();
-        $query = $this->db->query("SELECT *
-            FROM tasksubs WHERE status>0 AND taskId=$taskId ORDER BY id DESC ");
-        if($query) {
+        $query = $this->db->query("SELECT *,
+            IF(linkToFile='',CONCAT('" . URLFILE . "','/uploads/nofile.png'),CONCAT('" . URLFILE . "/',linkToFile)) AS linkToFile
+            FROM taskfiles WHERE status>0 AND id=$fileId");
+        if ($query) {
             $result = $query->fetchAll(PDO::FETCH_ASSOC);
             return $result;
         } else {
@@ -88,35 +360,75 @@ class task_model extends Model{
         }
     }
 
-    function addTaskSub($data)
-    {
-        if ($this->insert("tasksubs", $data))
-            return $this->db->lastInsertId();
-        else
-            return 0;
-    }
+    // function getTaskSubs($taskId)
+    // {
+    //     $result = array();
+    //     $query = $this->db->query("SELECT *
+    //         FROM tasksubs WHERE status>0 AND taskId=$taskId ORDER BY id DESC ");
+    //     if ($query) {
+    //         $result = $query->fetchAll(PDO::FETCH_ASSOC);
+    //         return $result;
+    //     } else {
+    //         return 0;
+    //     }
+    // }
 
-    function filterTask($search)
+    // function addTaskSub($data)
+    // {
+    //     if ($this->insert("tasksubs", $data))
+    //         return $this->db->lastInsertId();
+    //     else
+    //         return 0;
+    // }
+
+    function filterTask($staffId, $projectId, $statusId)
     {
         $result = array();
-        $query = $this->db->query("SELECT COUNT(id) AS total,
-            IF(image='',CONCAT('".URLFILE."','/uploads/nofile.png'),CONCAT('".URLFILE."/',image)) AS image
-            FROM tasks WHERE status>0 AND title LIKE '%$search%' ORDER BY id DESC ");
-        if($query) {
-            $result = $query->fetchAll(PDO::FETCH_ASSOC);  
-            $result['total'] = $result['0']['total'];
-        }
-        $query = $this->db->query("SELECT *
-            FROM tasks WHERE status>0 AND title LIKE '%$search%' ORDER BY id DESC ");
-        if($query) {
-            $result['data'] = $query->fetchAll(PDO::FETCH_ASSOC);
+        $dieukien = " WHERE (assigneeId=$staffId OR assignerId=$staffId) AND projectId=$projectId ";
+        if ($statusId != '')
+            $dieukien .= " AND status=$statusId ";
+        else
+            $dieukien .= " AND status>0 ";
+        $query = $this->db->query("SELECT *,
+            IF(image='',CONCAT('" . URLFILE . "','/uploads/nofile.png'),CONCAT('" . URLFILE . "/',image)) AS image,
+            IFNULL((SELECT name FROM tasklabels WHERE id=a.label),'') AS labelName,
+            IFNULL((SELECT color FROM tasklabels WHERE id=a.label),'') AS labelColor,
+            IFNULL((SELECT name FROM taskstatus WHERE id=a.status),'') AS statusName,
+            IFNULL((SELECT color FROM taskstatus WHERE id=a.status),'') AS statusColor
+            FROM tasks a $dieukien ORDER BY id DESC ");
+        if ($query) {
+            $result = $query->fetchAll(PDO::FETCH_ASSOC);
+            foreach ($result as $key => $item) {
+                $assignerId = $item['assignerId'];
+                $result[$key]['assigner'] = array();
+                if ($assignerId > 0) {
+                    $query = $this->db->query("SELECT id,name,email,
+                    IF(avatar='',CONCAT('" . URLFILE . "','/uploads/useravatar.png'),CONCAT('" . URLFILE . "/',avatar)) AS avatar
+                    FROM staffs WHERE id= $assignerId ");
+                    if ($query) {
+                        $temp = $query->fetchAll(PDO::FETCH_ASSOC);
+                        $result[$key]['assigner'] = $temp[0];
+                    }
+                }
+                $assigneeId = $item['assigneeId'];
+                $result[$key]['assignee'] = array();
+                if ($assigneeId > 0) {
+                    $query = $this->db->query("SELECT id,name,email,
+                    IF(avatar='',CONCAT('" . URLFILE . "','/uploads/useravatar.png'),CONCAT('" . URLFILE . "/',avatar)) AS avatar
+                    FROM staffs WHERE id= $assigneeId ");
+                    if ($query) {
+                        $temp = $query->fetchAll(PDO::FETCH_ASSOC);
+                        $result[$key]['assignee'] = $temp[0];
+                    }
+                }
+            }
             return $result;
         } else {
             return 0;
         }
     }
 
-    function addTask($data)
+    function createTask($data)
     {
         if ($this->insert("tasks", $data))
             return $this->db->lastInsertId();

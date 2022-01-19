@@ -6,14 +6,14 @@ class project extends Controller
         parent::__construct();
     }
 
-    function listProjects()
+    function listProjectStatus()
     {
-        $json = $this->model->getData();
+        $json = $this->model->listProjectStatus();
         if ($json == 0) {
             $jsonObj['message'] = "Lỗi lấy dữ liệu";
-            $jsonObj['code'] = 401;
+            $jsonObj['code'] = 402;
             $jsonObj['data'] = [];
-            http_response_code(401);
+            http_response_code(402);
             echo json_encode($jsonObj);
             return false;
         } else {
@@ -27,7 +27,49 @@ class project extends Controller
         echo json_encode($json);
     }
 
-    function getProject()
+    function listProjectLevels()
+    {
+        $json = $this->model->listProjectStatus();
+        if ($json == 0) {
+            $jsonObj['message'] = "Lỗi lấy dữ liệu";
+            $jsonObj['code'] = 402;
+            $jsonObj['data'] = [];
+            http_response_code(402);
+            echo json_encode($jsonObj);
+            return false;
+        } else {
+            $jsonObj['message'] = "Lấy dữ liệu thành công";
+            $jsonObj['code'] = 200;
+            $jsonObj['data'] = $json;
+            http_response_code(200);
+            echo json_encode($jsonObj);
+            return true;
+        }
+        echo json_encode($json);
+    }
+
+    // function listProjects()
+    // {
+    //     $json = $this->model->getData();
+    //     if ($json == 0) {
+    //         $jsonObj['message'] = "Lỗi lấy dữ liệu";
+    //         $jsonObj['code'] = 401;
+    //         $jsonObj['data'] = [];
+    //         http_response_code(401);
+    //         echo json_encode($jsonObj);
+    //         return false;
+    //     } else {
+    //         $jsonObj['message'] = "Lấy dữ liệu thành công";
+    //         $jsonObj['code'] = 200;
+    //         $jsonObj['data'] = $json;
+    //         http_response_code(200);
+    //         echo json_encode($jsonObj);
+    //         return true;
+    //     }
+    //     echo json_encode($json);
+    // }
+
+    function detailProject()
     {
         $projectId = isset($_REQUEST['projectId']) ? $_REQUEST['projectId'] : '';
         if ($projectId == '') {
@@ -38,7 +80,7 @@ class project extends Controller
             echo json_encode($jsonObj);
             return false;
         } else {
-            $json = $this->model->getProject($projectId);
+            $json = $this->model->detailProject($projectId);
             if ($json == 0) {
                 $jsonObj['message'] = "Lỗi lấy dữ liệu";
                 $jsonObj['code'] = 402;
@@ -58,7 +100,7 @@ class project extends Controller
         }
     }
 
-    function addProject()
+    function createProject()
     {
         if (isset($_FILES['image'])) {
             $filename = $_FILES['image']['name'];
@@ -93,19 +135,18 @@ class project extends Controller
             $data['createDate'] = $_REQUEST['createDate'];
         if (isset($_REQUEST['deadline']))
             $data['deadline'] = $_REQUEST['deadline'];
-        if (isset($_REQUEST['assignerId']))
-            $data['assignerId'] = $_REQUEST['assignerId'];
-        if (isset($_REQUEST['assigneeId']))
-            $data['assigneeId'] = $_REQUEST['assigneeId'];
+        if (isset($_REQUEST['managerId']))
+            $data['managerId'] = $_REQUEST['managerId'];
+        if (isset($_REQUEST['memberId']))
+            $data['memberId'] = $_REQUEST['memberId'];
         if (isset($_REQUEST['description']))
             $data['description'] = $_REQUEST['description'];
         if (isset($_REQUEST['note']))
             $data['note'] = $_REQUEST['note'];
         if (isset($_REQUEST['level']))
             $data['level'] = $_REQUEST['level'];
-        if (isset($_REQUEST['status']))
-            $data['status'] = $_REQUEST['status'];
-        $json = $this->model->addProject($data);
+        $data['status'] = 1;
+        $json = $this->model->createProject($data);
         if ($json == 0) {
             $jsonObj['message'] = "Lỗi cập nhật dữ liệu";
             $jsonObj['code'] = 402;
@@ -115,8 +156,8 @@ class project extends Controller
         } else {
             $jsonObj['message'] = "Cập nhật dữ liệu thành công";
             $jsonObj['code'] = 200;
-            $json = $this->model->getProject($json);
-            $jsonObj['data'] = $json;
+            $data = $this->model->detailProject($json);
+            $jsonObj['data'] = $data;
             http_response_code(200);
             echo json_encode($jsonObj);
         }
@@ -166,10 +207,10 @@ class project extends Controller
             $data['createDate'] = $_REQUEST['createDate'];
         if (isset($_REQUEST['deadline']))
             $data['deadline'] = $_REQUEST['deadline'];
-        if (isset($_REQUEST['assignerId']))
-            $data['assignerId'] = $_REQUEST['assignerId'];
-        if (isset($_REQUEST['assigneeId']))
-            $data['assigneeId'] = $_REQUEST['assigneeId'];
+        if (isset($_REQUEST['managerId']))
+            $data['managerId'] = $_REQUEST['managerId'];
+        if (isset($_REQUEST['memberId']))
+            $data['memberId'] = $_REQUEST['memberId'];
         if (isset($_REQUEST['description']))
             $data['description'] = $_REQUEST['description'];
         if (isset($_REQUEST['note']))
@@ -188,8 +229,8 @@ class project extends Controller
         } else {
             $jsonObj['message'] = "Cập nhật dữ liệu thành công";
             $jsonObj['code'] = 200;
-            $json = $this->model->getProject($projectId);
-            $jsonObj['data'] = $json;
+            $data = $this->model->detailProject($projectId);
+            $jsonObj['data'] = $data;
             http_response_code(200);
             echo json_encode($jsonObj);
         }
@@ -208,6 +249,7 @@ class project extends Controller
         }
         $data = ['status' => 0];
         $json = $this->model->updateProject($projectId, $data);
+        $json = $this->model->updateProjectTasks($projectId, $data);
         if ($json == 0) {
             $jsonObj['message'] = "Lỗi cập nhật dữ liệu";
             $jsonObj['code'] = 402;
