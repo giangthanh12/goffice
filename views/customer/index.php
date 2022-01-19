@@ -13,7 +13,8 @@
                             <select id="classify3" data-column="5" class="select2 form-control" name="classify3">
                                 <option value="0" selected>Tất cả</option>
                                 <option value="1">Khách hàng</option>
-                                <option value="2">Đối tác</option>
+                                <option value="2">Nhà cung cấp</option>
+                                <option value="3">Cả hai</option>
                             </select>
                         </div>
                         <div class="col-md-4 type2">
@@ -72,23 +73,12 @@
                                                             <input id="fullName" type="text" class="form-control" name="fullName" />
                                                         </div>
                                                     </div>
-                                                    <!-- <div class="col-lg-4 col-md-6">
-                                                        <div class="form-group">
-                                                            <label for="taxCode">Mã số thuế</label>
-                                                            <input id="taxCode" name="taxCode" type="text" class="form-control" />
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-4 col-md-6">
-                                                        <div class="form-group">
-                                                            <label for="address">Địa chỉ cư trú</label>
-                                                            <input id="address" type="text" class="form-control" name="address" />
-                                                        </div>
-                                                    </div> -->
+                                            
 
                                                     <div class="col-lg-6 col-md-6">
                                                         <div class="form-group">
                                                             <label for="phoneNumber">Số điện thoại</label>
-                                                            <input id="phoneNumber" type="text" class="form-control" name="phoneNumber" />
+                                                            <input id="phoneNumber" type="text" data-id="phoneNumber" class="form-control phoneNumber" name="phoneNumber" />
                                                         </div>
                                                     </div>
 
@@ -133,13 +123,15 @@
                                                         <div class="form-group">
                                                             <label for="status">Trạng thái</label>
                                                             <select id="status" class="select2 form-control" name="status">
-                                                                <option value="1" selected>Khả dụng</option>
-                                                                <option value="2">Ẩn</option>
+                                                                <option value="1" selected>Khách hàng mới</option>
+                                                                <option value="2">Đang dùng dịch vụ</option>
+                                                                <option value="3">Tạm dùng dịch vụ</option>
+                                                                <option value="4">Đã dùng dịch vụ</option>
                                                             </select>
                                                         </div>
                                                     </div>
                                                     <div class="col-12 d-flex flex-sm-row flex-column mt-2">
-                                                        <button type="submit" class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Cập nhật</button>
+                                                        <button type="submit" class="btn btn-primary btn-add-customer mb-1 mb-sm-0 mr-0 mr-sm-1">Cập nhật</button>
                                                         <button type="reset" class="btn btn-outline-secondary" data-dismiss="modal">Bỏ qua</button>
                                                     </div>
                                                 </div>
@@ -210,7 +202,7 @@
                                                             <div class="col-lg-4 col-md-6">
                                                                 <div class="form-group">
                                                                     <label for="phoneNumber1">Số điện thoại</label>
-                                                                    <input id="phoneNumber1" type="text" class="form-control" name="phoneNumber1" />
+                                                                    <input id="phoneNumber1" data-id="phoneNumber1" type="text" class="form-control phoneNumber" name="phoneNumber1" />
                                                                 </div>
                                                             </div>
 
@@ -293,7 +285,8 @@
                                                                     <label for="classify1">Phân loại khách hàng</label>
                                                                     <select id="classify1" class=" form-control" name="classify1">
                                                                         <option value="1">Khách hàng</option>
-                                                                        <option value="2">Đối tác</option>
+                                                                        <option value="2">Nhà cung cấp</option>
+                                                                        <option value="3">Cả hai</option>
                                                                     </select>
                                                                 </div>
                                                             </div>
@@ -325,13 +318,15 @@
                                                                 <div class="form-group">
                                                                     <label for="status1">Trạng thái</label>
                                                                     <select id="status1" class="select2 form-control" name="status1">
-                                                                        <option value="1">Khả dụng</option>
-                                                                        <option value="2">Ẩn</option>
+                                                                        <option value="1" selected>Khách hàng mới</option>
+                                                                        <option value="2">Đang dùng dịch vụ</option>
+                                                                        <option value="3">Tạm dùng dịch vụ</option>
+                                                                        <option value="4">Đã dùng dịch vụ</option>
                                                                     </select>
                                                                 </div>
                                                             </div>
                                                             <div class="col-12 d-flex flex-sm-row flex-column mt-2">
-                                                                <button type="submit" class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Cập nhật</button>
+                                                                <button type="submit" class="btn btn-update-customer btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Cập nhật</button>
                                                                 <button type="reset" class="btn btn-outline-secondary" data-dismiss="modal">Bỏ qua</button>
                                                             </div>
                                                         </div>
@@ -348,7 +343,6 @@
                                                         <table class="table table-striped table-borderless" id="dichvu-list-table">
                                                             <thead class="thead-light ">
                                                                 <tr>
-
                                                                     <th>Họ tên</th>
                                                                     <th>Điện thoại</th>
                                                                     <th>Email</th>
