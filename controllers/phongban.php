@@ -41,19 +41,19 @@ class phongban extends Controller{
     function add()
     {
         $name = isset($_REQUEST['name']) ? $_REQUEST['name'] : '';
-        $ghichu = isset($_REQUEST['ghi_chu']) ? $_REQUEST['ghi_chu'] : '';
-        $tinhtrang = 1;
+        $description = isset($_REQUEST['description']) ? $_REQUEST['description'] : '';
+        $status = 1;
         $data = array(
             'name' => $name,
-            'description' => $ghichu,
-            'status' => $tinhtrang
+            'description' => $description,
+            'status' => $status
         );
         if($this->model->addObj($data)){
-            $jsonObj['msg'] = 'Cập nhật dữ liệu thành công';
-            $jsonObj['success'] = true;
+            $jsonObj['message'] = 'Cập nhật dữ liệu thành công';
+            $jsonObj['code'] = 200;
         } else {
-            $jsonObj['msg'] = 'Cập nhật dữ liệu không thành công';
-            $jsonObj['success'] = false;
+            $jsonObj['message'] = 'Cập nhật dữ liệu không thành công';
+            $jsonObj['code'] = 401;
         }
         echo json_encode($jsonObj);
     }
@@ -62,17 +62,17 @@ class phongban extends Controller{
     {
         $id = $_REQUEST['id'];
         $name = isset($_REQUEST['name']) ? $_REQUEST['name'] : '';
-        $ghichu = isset($_REQUEST['ghi_chu']) ? $_REQUEST['ghi_chu'] : '';
+        $description = isset($_REQUEST['description']) ? $_REQUEST['description'] : '';
         $data = array(
             'name' => $name,
-            'description' => $ghichu
+            'description' => $description
         );
         if($this->model->updateObj($id, $data)){
-            $jsonObj['msg'] = 'Cập nhật dữ liệu thành công';
-            $jsonObj['success'] = true;
+            $jsonObj['message'] = 'Cập nhật dữ liệu thành công';
+            $jsonObj['code'] = 200;
         } else {
-            $jsonObj['msg'] = 'Cập nhật dữ liệu không thành công';
-            $jsonObj['success'] = false;
+            $jsonObj['message'] = 'Cập nhật dữ liệu không thành công';
+            $jsonObj['code'] = 401;
         }
         
         echo json_encode($jsonObj);

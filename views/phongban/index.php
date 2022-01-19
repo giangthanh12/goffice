@@ -34,16 +34,16 @@
                                     <!-- <input type="hidden" id="id" name="id" /> -->
                                     <div class="card">
                                         <div class="card-body">
-                                            <form class="form-validate" enctype="multipart/form-data" id="dg">
+                                            <form class="form-validate" enctype="multipart/form-data" id="fm">
                                                 <!-- <div class="row mt-1"> -->
                                                 <div class="form-group">
                                                     <label for="name">Tên phòng ban</label>
-                                                    <input type="text" class="form-control" id="name" placeholder="Nhập tên phòng ban" name="name" />
+                                                    <input type="text" class="form-control" id="name" placeholder="Nhập tên phòng ban" name="name" required />
                                                 </div>
 
                                                 <div class="form-group">
                                                     <label for="ghi_chu">Ghi chú</label>
-                                                    <textarea id="ghi_chu" name="ghi_chu" type="text" class="form-control " /></textarea>
+                                                    <textarea id="description" name="description" type="text" class="form-control " /></textarea>
                                                 </div>
 
                                                 <div class="d-flex flex-sm-row flex-column mt-2">
