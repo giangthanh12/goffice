@@ -158,16 +158,17 @@ $(function () {
                 '<"col-sm-12 col-md-6"i>' +
                 '<"col-sm-12 col-md-6"p>' +
                 ">",
-            language: {
-                sLengthMenu: "Show _MENU_",
-                search: "Search",
-                searchPlaceholder: "Tìm kiếm...",
-                paginate: {
-                    // remove previous & next text from pagination
-                    previous: "&nbsp;",
-                    next: "&nbsp;",
+                language: {
+                    sLengthMenu: "Hiển thị _MENU_",
+                    search: "",
+                    searchPlaceholder: "Tìm kiếm...",
+                    paginate: {
+                        // remove previous & next text from pagination
+                        previous: "&nbsp;",
+                        next: "&nbsp;",
+                    },
+                    info:"Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
                 },
-            },
             // Buttons with Dropdown
             buttons: [
                 {
@@ -186,7 +187,11 @@ $(function () {
                         $('#staffId').val('').change();
                         $('#nationalId').val(1);
                         $('#provinceId').val('').change();
-                        $('#status').val('1').attr("disabled", true);
+                        $('#status').select2({
+                            placeholder: 'Trạng thái',
+                            dropdownParent: $('#status').parent(),
+                        });
+                        $('#status').val('').change();
                     },
                 },
                 {
@@ -283,6 +288,24 @@ $(function () {
                 "status": {
                     required: true,
                 },
+                
+            },
+            messages: {
+                "fullName": {
+                    required: "Bạn chưa nhập tên",
+                },
+                "phoneNumber": {
+                    required: "Bạn chưa nhập số điện thoại",
+                },
+                "email": {
+                    required: "Bạn chưa nhập địa chỉ email",
+                },
+                "website": {
+                    required: "Bạn chưa nhập địa chỉ website của bạn",
+                },
+                "status": {
+                    required: "Bạn chưa cập nhật trạng thái",
+                },
             },
         });
 
@@ -311,6 +334,20 @@ $(function () {
                 "website1": {
                     required: true,
                 },
+            },
+            messages: {
+                "fullName1": {
+                    required: "Bạn chưa nhập tên",
+                },
+                "phoneNumber1": {
+                    required: "Bạn chưa nhập số điện thoại",
+                },
+                "email1": {
+                    required: "Bạn chưa nhập địa chỉ email!",
+                },
+                "website1": {
+                    required: "Bạn chưa nhập địa chỉ website của bạn",
+                }
             },
         });
 
@@ -365,7 +402,7 @@ function loaddata(id) {
             $('#type1').val(data.type).change();
             $('#nationalId1').val(data.nationalId).change();
             $('#provinceId1').val(data.provinceId).change();
-            $('#status1').val(data.status).attr("disabled", true);
+            $('#status1').val(data.status).change();
             loaddichvu(id);
             loadTransaction(id);
         },
@@ -663,3 +700,43 @@ function load_select2(select2, url, place) {
         },
     });
 }
+$(document).on('blur','.phoneNumber', function() {
+   var id = $(this).data('id');
+   var phone = $(this).val();
+   var idCustomer = khid;
+   if(id == 'phoneNumber') {
+    idCustomer = 0;
+   }
+    
+    if(phone != '' && phone.toString().length >= 10 ) { 
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            data: {phone:phone, idCustomer:idCustomer},
+            url: baseHome + "/customer/checkPhone",
+            success: function (data) {
+                if (data.success) {
+                    notyfi_success(data.msg);
+                    if(id == 'phoneNumber') {
+                        $('.btn-add-customer').prop('disabled', false);
+                    }
+                    else {
+                        $('.btn-update-customer').prop('disabled', false);
+                    }
+                }
+                else {
+                    if(id == 'phoneNumber') {
+                        $('.btn-add-customer').prop('disabled', true);
+                    }
+                    else {
+                        $('.btn-update-customer').prop('disabled', true);
+                    }
+                    notify_error(data.msg);
+                }
+            },
+            error: function(){
+                notify_error('Số điện thoại đã tồn tại');
+            }
+        });
+    }
+})

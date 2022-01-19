@@ -13,17 +13,15 @@ function render_table() {
         'serverMethod': 'post',
         ajax: baseApi + '/chiendichtd/list',
         columns: [
-            { data: 'nguoi_tao' },
+            { data: 'creator' },
             { data: 'ma_cd' },
-            { data: 'name' },
-            { data: 'tinh_trang' },
-            { data: 'vi_tri' },
-            { data: 'ngay_bat_dau' },
-            { data: 'ngay_ket_thuc' },
-            { data: 'so_luong' },
-            { data: 'so_luong' },
-            { data: 'so_luong' },
-            { data: 'so_luong' }
+            { data: 'title' },
+            { data: 'status' },
+            { data: 'position' },
+            { data: 'startDate' },
+            { data: 'stopDate' },
+            { data: 'quantity' },
+           
         ],
         columnDefs: [
             {
@@ -53,7 +51,7 @@ function render_table() {
             {
                 targets: 3,
                 render: function (data, type, full, meta) {
-                    var $status = full["tinh_trang"];
+                    var $status = full["status"];
                     if ($status == 1) {
                         return 'Lên kế hoạch';
                     } else if ($status == 2) {

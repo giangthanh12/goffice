@@ -18,23 +18,22 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
-                            <table class="datatables-basic table" id="list_chiendichtd">
-                                <thead>
-                                    <tr>
-                                        <th>Người tạo</th>
-                                        <th>Mã chiến dịch</th>
-                                        <th>Tên chiến dịch</th>
-                                        <th>Trạng thái</th>
-                                        <th>Vị trí</th>
-                                        <th>Ngày bắt đầu</th>
-                                        <th>Ngày kết thúc</th>
-                                        <th>Số lượng</th>
-                                        <th>Tổng CV</th>
-                                        <th>Trúng tuyển</th>
-                                        <th>Còn lại</th>
-                                    </tr>
-                                </thead>
-                            </table>
+                            <div class="card-datatable table-responsive pt-0">
+                                <table class="user-list-table table">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th>Người tạo</th>
+                                            <th>Mã chiến dịch</th>
+                                            <th>Tên chiến dịch</th>
+                                            <th>Trạng thái</th>
+                                            <th>Vị trí</th>
+                                            <th>Ngày bắt đầu</th>
+                                            <th>Ngày kết thúc</th>
+                                            <th>Số lượng</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -120,4 +119,4 @@
         </div>
     </div>
 </div>
-<script src="<?= HOME ?>/js/chiendichtd/index.js"></script>
+<script src="<?= HOME ?>/js/chiendichtd.js"></script>
