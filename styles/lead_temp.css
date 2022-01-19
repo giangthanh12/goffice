@@ -18,7 +18,7 @@
 .content-header-title {
     left: 308px;
     top: 112px;
-    font-family: Roboto;
+    font-family: -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 500;
     font-size: 34px;
@@ -161,7 +161,7 @@
 }
 
 .customer-info label {
-    font-family: Roboto;
+    font-family: -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
     font-style: normal;
     font-weight: normal;
     font-size: 12px;
