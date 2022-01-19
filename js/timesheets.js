@@ -1,34 +1,34 @@
 $(function () {
     "use strict";
 
-    return_combobox_multi('#thang', baseHome + '/common/thang', 'Chọn nhân viên');
-    return_combobox_multi('#nam', baseHome + '/common/nam', 'Chọn loại khách hàng');
-    $('#thang').val(thang).change();
-    $('#nam').val(nam).change();
+    return_combobox_multi('#month', baseHome + '/common/thang', 'Chọn nhân viên');
+    return_combobox_multi('#year', baseHome + '/common/nam', 'Chọn loại khách hàng');
+    $('#month').val(month).change();
+    $('#year').val(year).change();
 
-    var column = $('#tb-bangchamcong');
-    // var thang = $('#thang').val();
-    // var nam = $('#nam').val();
+    var column = $('#tb-timesheets');
+    // var month = $('#month').val();
+    // var year = $('#year').val();
     column.append('<th style="width:180px">Nhân viên</th>');
     column.append('<th>Ngày công</th>');
     column.append('<th>Công chuẩn</th>');
     for (var i = 1; i <= 31; i++) {
         if (i < 10) { i = '0' + i; }
-        var dt = new Date(nam + '-' + thang + '-' + i);
+        var dt = new Date(year + '-' + month + '-' + i);
         if (dt.getDay() == 0) {
-            column.append('<th style="width:40px" class="text-center">CN</th>');
+            column.append('<th style="width:40px" class="text-center">CN<br><div class="text-center">' + i +'</div></th>');
         } else if (dt.getDay() == 1) {
-            column.append('<th style="width:40px">Thứ 2<br><div class="text-center">' + i +'</div></th>');
+            column.append('<th style="width:40px">T2<br><div class="text-center">' + i +'</div></th>');
         } else if (dt.getDay() == 2) {
-            column.append('<th style="width:40px">Thứ 3<br><div class="text-center">' + i +'</div></th>');
+            column.append('<th style="width:40px">T3<br><div class="text-center">' + i +'</div></th>');
         } else if (dt.getDay() == 3) {
-            column.append('<th style="width:40px">Thứ 4<br><div class="text-center">' + i +'</div></th>');
+            column.append('<th style="width:40px">T4<br><div class="text-center">' + i +'</div></th>');
         } else if (dt.getDay() == 4) {
-            column.append('<th style="width:40px">Thứ 5<br><div class="text-center">' + i +'</div></th>');
+            column.append('<th style="width:40px">T5<br><div class="text-center">' + i +'</div></th>');
         } else if (dt.getDay() == 5) {
-            column.append('<th style="width:40px">Thứ 6<br><div class="text-center">' + i +'</div></th>');
+            column.append('<th style="width:40px">T6<br><div class="text-center">' + i +'</div></th>');
         } else {
-            column.append('<th style="width:40px">Thứ 7<br><div class="text-center">' + i +'</div></th>');
+            column.append('<th style="width:40px">T7<br><div class="text-center">' + i +'</div></th>');
         }
     }
 
@@ -37,47 +37,47 @@ $(function () {
     // Users List datatable
     if (dtUserTable.length) {
         dtUserTable.DataTable({
-            ajax: baseHome + "/bangchamcong/list?thang="+thang+"&nam="+nam,
+            ajax: baseHome + "/timesheets/list?month="+month+"&year="+year,
             autoWidth: false,
             ordering: false,
             searching: false,
             paging: false,
             columns: [
                 // columns according to JSON
-                { data: "nhanvien" },
-                { data: "ngay_cong" },
-                { data: "cong_chuan" },
-                { data: "ngay_01" },
-                { data: "ngay_02" },
-                { data: "ngay_03" },
-                { data: "ngay_04" },
-                { data: "ngay_05" },
-                { data: "ngay_06" },
-                { data: "ngay_07" },
-                { data: "ngay_08" },
-                { data: "ngay_09" },
-                { data: "ngay_10" },
-                { data: "ngay_11" },
-                { data: "ngay_12" },
-                { data: "ngay_13" },
-                { data: "ngay_14" },
-                { data: "ngay_15" },
-                { data: "ngay_16" },
-                { data: "ngay_17" },
-                { data: "ngay_18" },
-                { data: "ngay_19" },
-                { data: "ngay_20" },
-                { data: "ngay_21" },
-                { data: "ngay_22" },
-                { data: "ngay_23" },
-                { data: "ngay_24" },
-                { data: "ngay_25" },
-                { data: "ngay_26" },
-                { data: "ngay_27" },
-                { data: "ngay_28" },
-                { data: "ngay_29" },
-                { data: "ngay_30" },
-                { data: "ngay_31" },
+                { data: "staffName" },
+                { data: "workMonth" },
+                { data: "totalWorkDate" },
+                { data: "date_01" },
+                { data: "date_02" },
+                { data: "date_03" },
+                { data: "date_04" },
+                { data: "date_05" },
+                { data: "date_06" },
+                { data: "date_07" },
+                { data: "date_08" },
+                { data: "date_09" },
+                { data: "date_10" },
+                { data: "date_11" },
+                { data: "date_12" },
+                { data: "date_13" },
+                { data: "date_14" },
+                { data: "date_15" },
+                { data: "date_16" },
+                { data: "date_17" },
+                { data: "date_18" },
+                { data: "date_19" },
+                { data: "date_20" },
+                { data: "date_21" },
+                { data: "date_22" },
+                { data: "date_23" },
+                { data: "date_24" },
+                { data: "date_25" },
+                { data: "date_26" },
+                { data: "date_27" },
+                { data: "date_28" },
+                { data: "date_29" },
+                { data: "date_30" },
+                { data: "date_31" },
             ],
             columnDefs: [
                 {
@@ -184,30 +184,56 @@ $(function () {
 });
 
 function search() {
-    var thang = $("#thang").val();
-    var nam = $("#nam").val();
-    if (thang != '' || nam != '') {
+    var month = $("#month").val();
+    var year = $("#year").val();
+    var column = $('#tb-timesheets');
+    column.empty();
+    // var month = $('#month').val();
+    // var year = $('#year').val();
+    column.append('<th style="width:180px">Nhân viên</th>');
+    column.append('<th>Ngày công</th>');
+    column.append('<th>Công chuẩn</th>');
+    for (var i = 1; i <= 31; i++) {
+        if (i < 10) { i = '0' + i; }
+        var dt = new Date(year + '-' + month + '-' + i);
+        if (dt.getDay() == 0) {
+            column.append('<th style="width:40px" class="text-center">CN<br><div class="text-center">' + i +'</div></th>');
+        } else if (dt.getDay() == 1) {
+            column.append('<th style="width:40px">T2<br><div class="text-center">' + i +'</div></th>');
+        } else if (dt.getDay() == 2) {
+            column.append('<th style="width:40px">T3<br><div class="text-center">' + i +'</div></th>');
+        } else if (dt.getDay() == 3) {
+            column.append('<th style="width:40px">T4<br><div class="text-center">' + i +'</div></th>');
+        } else if (dt.getDay() == 4) {
+            column.append('<th style="width:40px">T5<br><div class="text-center">' + i +'</div></th>');
+        } else if (dt.getDay() == 5) {
+            column.append('<th style="width:40px">T6<br><div class="text-center">' + i +'</div></th>');
+        } else {
+            column.append('<th style="width:40px">T7<br><div class="text-center">' + i +'</div></th>');
+        }
+    }
+    if (month != '' || year != '') {
         var table = $(".user-list-table").DataTable();
-        table.ajax.url(baseHome + "/bangchamcong/list?thang=" + thang + "&nam=" + nam).load();
+        table.ajax.url(baseHome + "/timesheets/list?month=" + month + "&year=" + year).load();
         table.draw();
     }
 }
 
 function add() {
-    var thang = $('#thang').val();
-    var nam = $('#nam').val();
+    var month = $('#month').val();
+    var year = $('#year').val();
     $.ajax({
-        url: baseHome + "/bangchamcong/add",
+        url: baseHome + "/timesheets/add",
         type: 'post',
         dataType: "json",
-        data: { thang: thang, nam: nam },
+        data: { month: month, year: year },
         success: function (data) {
-            if (data.success) {
-                notyfi_success(data.msg);
+            if (data.code==200) {
+                notyfi_success(data.message);
                 $(".user-list-table").DataTable().ajax.reload(null, false);
             }
             else
-                notify_error(data.msg);
+                notify_error(data.message);
         },
     });
 }

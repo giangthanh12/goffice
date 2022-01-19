@@ -10,7 +10,7 @@ class position_Model extends Model{
         if($phongban != 0){
             $dieukien .= " AND department = $phongban ";
         }
-        $query = $this->db->query("SELECT id, name AS text FROM position $dieukien");
+        $query = $this->db->query("SELECT id, name AS text FROM position $dieukien ORDER BY id DESC");
         $result = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }

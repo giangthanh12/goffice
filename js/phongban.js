@@ -1,4 +1,4 @@
-
+var url = '';
 $(function () {
 
     "use strict";
@@ -48,7 +48,7 @@ $(function () {
                     width: 100
                 },
             ],
-            // order: [[2, "desc"]],
+            order: [[0, "desc"]],
             dom:
                 '<"d-flex justify-content-between align-items-center header-actions mx-1 row mt-75"' +
                 '<"col-lg-12 col-xl-6" l>' +
@@ -59,14 +59,15 @@ $(function () {
                 '<"col-sm-12 col-md-6"p>' +
                 ">",
             language: {
-                sLengthMenu: "Show _MENU_",
-                search: "Search",
-                searchPlaceholder: "Keyword..",
+                sLengthMenu: "Hiển thị _MENU_",
+                search: "",
+                searchPlaceholder: "Tìm kiếm...",
                 paginate: {
                     // remove previous & next text from pagination
                     previous: "&nbsp;",
                     next: "&nbsp;",
                 },
+                info:"Hiển thị _START_ đến _END_ of _TOTAL_ bản ghi",
             },
             // Buttons with Dropdown
             buttons: [
@@ -80,7 +81,7 @@ $(function () {
                         $("#updateinfo").modal('show');
                         $(".modal-title").html('Thêm phòng ban mới');
                         $('#name').val('');
-                        $('#ghi_chu').val('');
+                        $('#description').val('');
                         url = baseHome + "/phongban/add";
                     },
                 },
@@ -145,8 +146,7 @@ function loaddata(id) {
         url: baseHome + "/phongban/loaddata",
         success: function (data) {
             $('#name').val(data.name);
-            $('#ghi_chu').val(data.description);
-
+            $('#description').val(data.description);
             url = baseHome + '/phongban/update?id=' + id;
         },
         error: function () {
@@ -156,27 +156,37 @@ function loaddata(id) {
 }
 
 function savepb() {
-    var info = {};
-    info.name = $("#name").val();
-    info.ghi_chu = $("#ghi_chu").val();
-    $.ajax({
-        type: "POST",
-        dataType: "json",
-        data: info,
-        url: url,
-        success: function (data) {
-            if (data.success) {
-                notyfi_success(data.msg);
-                $('#updateinfo').modal('hide');
-                $(".user-list-table").DataTable().ajax.reload(null, false);
+    $('#fm').validate({
+        messages: {
+            "name": {
+                required: "Bạn chưa nhập tên phòng ban!",
             }
-            else
-                notify_error(data.msg);
         },
-        error: function () {
-            notify_error('Cập nhật không thành công');
+        submitHandler: function (form) {
+            var formData = new FormData(form);
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: formData,
+                async: false,
+                cache: false,
+                contentType: false,
+                enctype: 'multipart/form-data',
+                processData: false,
+                dataType: "json",
+                success: function (data) {
+                    if (data.code == 200) {
+                        notyfi_success(data.message);
+                        $('#updateinfo').modal('hide');
+                        $(".user-list-table").DataTable().ajax.reload(null, false);
+                    } else
+                        notify_error(data.message);
+                }
+            });
+            return false;
         }
     });
+    $('#fm').submit();
 }
 
 function xoa(id) {

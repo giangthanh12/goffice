@@ -341,7 +341,7 @@ function save() {
                 required: "Bạn chưa chọn ca làm việc!",
             },
             "workPlaceId": {
-                required: "Bạn chưa chọn ca địa điểm làm việc!",
+                required: "Bạn chưa chọn địa điểm làm việc!",
             },
             "basicSalary": {
                 required: "Bạn chưa nhập lương cơ bản!",
