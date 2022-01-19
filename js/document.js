@@ -2,22 +2,6 @@ $(function () {
     return_combobox_multi('#staffId', baseHome + '/common/nhanvien', 'Lựa chọn nhân viên');
 
     "use strict";
-
-    // var dtUserTable = $(".user-list-table"),
-    //     modal = $("#add-contract"),
-    //     form = $("#dg"), buttons = [];
-    // if (funAdd == 1)
-    //     buttons.push(
-    //         {
-    //             text: "Thêm mới",
-    //             className: "add-new btn btn-primary mt-50",
-    //             init: function (api, node, config) {
-    //                 $(node).removeClass("btn-secondary");
-    //             },
-    //             action: function (e, dt, node, config) {
-    //                 showAdd();
-    //             },
-    //         });
             var basicPickr = $('.flatpickr-basic');
             if (basicPickr.length) {
                 basicPickr.flatpickr({
@@ -61,6 +45,7 @@ $(function () {
                 {data: "name"},
                 {data: "staffName"},
                 {data: "Date"},
+                {data: "linkToFile"},
                 {data: ""},
             ],
             columnDefs: [
@@ -71,6 +56,13 @@ $(function () {
                             '<span class="align-middle font-weight-bold" style="padding: 5px;">' + full["name"] + "</span></a>";
                     },
                     width: 200
+                },
+                {
+                    targets: 3,
+                    render: function (data, type, full, meta) {
+                        return '<a href="'+ full["linkToFile"] +'">' + '<span class="align-middle font-weight-bold" style="padding: 5px;">' + full["linkToFile"] + "</span></a>";
+                            
+                    },
                 },
                
                 { 
@@ -181,7 +173,7 @@ $(function () {
 
 function showAdd() {
     $("#add-contract").modal('show');
-    $(".modal-title").html('Thêm hợp đồng mới');
+    $(".modal-title").html('Thêm tài liệu mới');
     $('#staffId').val('').trigger('change');
     $('#name').val('');
     $('#dateTime').val('');
@@ -204,7 +196,7 @@ function showAdd() {
 
 function loaddata(id) {
     $('#add-contract').modal('show');
-    $(".modal-title").html('Cập nhật thông tin hợp đồng');
+    $(".modal-title").html('Cập nhật thông tin tài liệu');
     $.ajax({
         type: "POST",
         dataType: "json",
