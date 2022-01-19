@@ -1,92 +1,92 @@
 <?php
 class System_Model extends Model
 {
-    function __construct()
-    {
-        parent::__construct();
-    }
+  function __construct()
+  {
+    parent::__construct();
+  }
 
-    function checkId($id)
-    {
-        $query = $this->db->query("SELECT COUNT(1) AS total
+  function checkId($id)
+  {
+    $query = $this->db->query("SELECT COUNT(1) AS total
         FROM staffs WHERE id=$id AND status > 0");
-        if ($query) {
-            $result = $query->fetchAll(PDO::FETCH_ASSOC);
-            $total = $result[0]['total'];
-            if ($total == 0)
-                return 0;
-            else
-                return 1;
-        }
+    if ($query) {
+      $result = $query->fetchAll(PDO::FETCH_ASSOC);
+      $total = $result[0]['total'];
+      if ($total == 0)
+        return 0;
+      else
+        return 1;
     }
+  }
 
-    function checkOldPassword($id, $password)
-    {
-        $password = md5(md5($password));
-        $query = $this->db->query("SELECT COUNT(1) AS total
+  function checkOldPassword($id, $password)
+  {
+    $password = md5(md5($password));
+    $query = $this->db->query("SELECT COUNT(1) AS total
         FROM users WHERE staffId=$id AND password LIKE '$password' AND status > 0 ");
-        if ($query) {
-            $result = $query->fetchAll(PDO::FETCH_ASSOC);
-            $total = $result[0]['total'];
-            if ($total == 0)
-                return 0;
-            else
-                return 1;
-        }
+    if ($query) {
+      $result = $query->fetchAll(PDO::FETCH_ASSOC);
+      $total = $result[0]['total'];
+      if ($total == 0)
+        return 0;
+      else
+        return 1;
     }
+  }
 
-    function changePassword($id, $password)
-    {
-        $password = md5(md5($password));
-        $query = $this->db->query("SELECT id
+  function changePassword($id, $password)
+  {
+    $password = md5(md5($password));
+    $query = $this->db->query("SELECT id
         FROM users WHERE staffId=$id AND status > 0 ");
-        if ($query) {
-            $result = $query->fetchAll(PDO::FETCH_ASSOC);
-            $id = $result[0]['id'];
-            if ($this->update("users", ['password' => $password], "id=$id"))
-                return 1;
-            else
-                return 0;
-        }
+    if ($query) {
+      $result = $query->fetchAll(PDO::FETCH_ASSOC);
+      $id = $result[0]['id'];
+      if ($this->update("users", ['password' => $password], "id=$id"))
+        return 1;
+      else
+        return 0;
     }
+  }
 
-    function checkEmail($email)
-    {
-        $query = $this->db->query("SELECT COUNT(1) AS total
+  function checkEmail($email)
+  {
+    $query = $this->db->query("SELECT COUNT(1) AS total
         FROM staffs WHERE email LIKE '$email' AND status > 0 ");
-        if ($query) {
-            $result = $query->fetchAll(PDO::FETCH_ASSOC);
-            $total = $result[0]['total'];
-            if ($total > 0)
-                return 1;
-            else
-                return 0;
-        }
+    if ($query) {
+      $result = $query->fetchAll(PDO::FETCH_ASSOC);
+      $total = $result[0]['total'];
+      if ($total > 0)
+        return 1;
+      else
+        return 0;
     }
+  }
 
-    function updateActiveCode($email, $activeCode)
-    {
-        $query = $this->db->query("SELECT (SELECT id FROM users WHERE staffId = a.id AND status > 0) AS userid
+  function updateActiveCode($email, $activeCode)
+  {
+    $query = $this->db->query("SELECT (SELECT id FROM users WHERE staffId = a.id AND status > 0) AS userid
         FROM staffs a WHERE email LIKE '$email' AND status > 0 ");
-        $result = $query->fetchAll(PDO::FETCH_ASSOC);
-        $userid = $result[0]['userid'];
-        $result = $this->update("users", ['activeCode' => $activeCode], "id=$userid");
-        if ($result)
-            return 1;
-        else
-            return 0;
-    }
+    $result = $query->fetchAll(PDO::FETCH_ASSOC);
+    $userid = $result[0]['userid'];
+    $result = $this->update("users", ['activeCode' => $activeCode], "id=$userid");
+    if ($result)
+      return 1;
+    else
+      return 0;
+  }
 
-    function sendEmail($email, $activeCode)
-    {
-        $query = $this->db->query("SELECT name
+  function sendEmail($email, $activeCode)
+  {
+    $query = $this->db->query("SELECT name
         FROM staffs WHERE email LIKE '$email' AND status > 0 ");
-        $result = $query->fetchAll(PDO::FETCH_ASSOC);
-        $name = $result[0]['name'];
-        if ($name == '') {
-            $name = 'bạn';
-        }
-        $noidung = '<!DOCTYPE">
+    $result = $query->fetchAll(PDO::FETCH_ASSOC);
+    $name = $result[0]['name'];
+    if ($name == '') {
+      $name = 'bạn';
+    }
+    $noidung = '<!DOCTYPE">
         <html>
         <head>
           <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -216,10 +216,10 @@ class System_Model extends Model
                                   <tr>
                                     <td style="overflow-wrap:break-word;word-break:break-word;padding:33px 55px;font-family:Cabin,sans-serif;" align="left">
                                       <div style="line-height: 160%; text-align: center; word-wrap: break-word;">
-                                        <p style="font-size: 14px; line-height: 160%;"><span style="font-size: 22px; line-height: 35.2px;">Xin ch&agrave;o '. $name .' </span></p>
+                                        <p style="font-size: 14px; line-height: 160%;"><span style="font-size: 22px; line-height: 35.2px;">Xin ch&agrave;o ' . $name . ' </span></p>
                                         <p style="font-size: 14px; line-height: 160%;"><span style="font-size: 18px; line-height: 28.8px;">Chúng tôi đã nhận được yêu cầu đặt lại mật khẩu tài khoản G-office của bạn <br /></span></p>
                                         <p style="font-size: 14px; line-height: 160%;"><span style="font-size: 18px; line-height: 28.8px;">Nhập mã đặt lại mật khẩu sau đây: <br/> </span></p>
-                                        <div class="box-active"><span class="active-code">'. $activeCode .'</span></div>
+                                        <div class="box-active"><span class="active-code">' . $activeCode . '</span></div>
                                       </div>
                                     </td>
                                   </tr>
@@ -298,81 +298,81 @@ class System_Model extends Model
         </body>
         </html>';
 
-        $from = ['Email' => 'info@gemstech.com.vn', 'Name' => 'G-office'];
-        $tolist = [['Email' => $email, 'Name' => 'Khách hàng']];
-        $subject = 'Mã khôi phục tài khoản G-office của bạn';
-        $textpart = 'Email from GOFFICE';
-        $result = $this->sendmail($from, $tolist, [], [], $subject, $noidung, $textpart);
-        if ($result)
-            return 1;
-        else
-            return 0;
-    }
+    $from = ['Email' => 'info@gemstech.com.vn', 'Name' => 'G-office'];
+    $tolist = [['Email' => $email, 'Name' => 'Khách hàng']];
+    $subject = 'Mã khôi phục tài khoản G-office của bạn';
+    $textpart = 'Email from GOFFICE';
+    $result = $this->sendmail($from, $tolist, [], [], $subject, $noidung, $textpart);
+    if ($result)
+      return 1;
+    else
+      return 0;
+  }
 
-    function checkActiveCode($email, $activeCode)
-    {
-        $query = $this->db->query("SELECT id,(SELECT id FROM users WHERE staffId = a.id AND status > 0) AS userid
+  function checkActiveCode($email, $activeCode)
+  {
+    $query = $this->db->query("SELECT id,(SELECT id FROM users WHERE staffId = a.id AND status > 0) AS userid
         FROM staffs a WHERE email LIKE '$email' AND status > 0 ");
-        $result = $query->fetchAll(PDO::FETCH_ASSOC);
-        $staffId = $result[0]['id'];
-        $userid = $result[0]['userid'];
-        $query = $this->db->query("SELECT COUNT(1) AS total
+    $result = $query->fetchAll(PDO::FETCH_ASSOC);
+    $staffId = $result[0]['id'];
+    $userid = $result[0]['userid'];
+    $query = $this->db->query("SELECT COUNT(1) AS total
         FROM users WHERE id = $userid AND activeCode = $activeCode AND status > 0 ");
-        if ($query) {
-            $result = $query->fetchAll(PDO::FETCH_ASSOC);
-            $total = $result[0]['total'];
-            if ($total > 0)
-                return $staffId;
-            else
-                return 0;
-        }
+    if ($query) {
+      $result = $query->fetchAll(PDO::FETCH_ASSOC);
+      $total = $result[0]['total'];
+      if ($total > 0)
+        return $activeCode;
+      else
+        return 0;
     }
+  }
 
-    // function check_in($username, $password){
-    //     $query = $this->db->query("SELECT id, email, nhan_vien, nhom,token,
-    //       (SELECT name FROM staffs WHERE id=nhan_vien) AS hoten,
-    //       (SELECT hinh_anh FROM staffs WHERE id=nhan_vien) AS hinhanh,
-    //     (SELECT ip FROM chinhanh WHERE chinhanh.id=(SELECT chi_nhanh FROM hopdongld
-    //     WHERE hopdongld.nhan_vien=users.nhan_vien LIMIT 1)) AS ip
-    //       FROM users WHERE tinh_trang=1 AND name = '$username' AND mat_khau = '$password'");
-    //     $row = $query->fetchAll(PDO::FETCH_ASSOC);
-    //     if (isset($row[0]))
-    //         return $row[0];
-    //     else
-    //         return [];
-    // }
+  // function check_in($username, $password){
+  //     $query = $this->db->query("SELECT id, email, nhan_vien, nhom,token,
+  //       (SELECT name FROM staffs WHERE id=nhan_vien) AS hoten,
+  //       (SELECT hinh_anh FROM staffs WHERE id=nhan_vien) AS hinhanh,
+  //     (SELECT ip FROM chinhanh WHERE chinhanh.id=(SELECT chi_nhanh FROM hopdongld
+  //     WHERE hopdongld.nhan_vien=users.nhan_vien LIMIT 1)) AS ip
+  //       FROM users WHERE tinh_trang=1 AND name = '$username' AND mat_khau = '$password'");
+  //     $row = $query->fetchAll(PDO::FETCH_ASSOC);
+  //     if (isset($row[0]))
+  //         return $row[0];
+  //     else
+  //         return [];
+  // }
 
-    // function check_in_token($token){
-    //     $query = $this->db->query("SELECT id, email, nhan_vien, nhom,token,
-    //       (SELECT name FROM staffs WHERE id=nhan_vien) AS hoten,
-    //       (SELECT hinh_anh FROM staffs WHERE id=nhan_vien) AS hinhanh,
-    //     (SELECT ip FROM chinhanh WHERE chinhanh.id=(SELECT chi_nhanh FROM hopdongld
-    //     WHERE hopdongld.nhan_vien=users.nhan_vien LIMIT 1)) AS ip
-    //       FROM users WHERE tinh_trang=1 AND token='$token'");
-    //     $row = $query->fetchAll(PDO::FETCH_ASSOC);
-    //     if (isset($row[0]))
-    //         return $row[0];
-    //     else
-    //         return [];
-    // }
+  // function check_in_token($token){
+  //     $query = $this->db->query("SELECT id, email, nhan_vien, nhom,token,
+  //       (SELECT name FROM staffs WHERE id=nhan_vien) AS hoten,
+  //       (SELECT hinh_anh FROM staffs WHERE id=nhan_vien) AS hinhanh,
+  //     (SELECT ip FROM chinhanh WHERE chinhanh.id=(SELECT chi_nhanh FROM hopdongld
+  //     WHERE hopdongld.nhan_vien=users.nhan_vien LIMIT 1)) AS ip
+  //       FROM users WHERE tinh_trang=1 AND token='$token'");
+  //     $row = $query->fetchAll(PDO::FETCH_ASSOC);
+  //     if (isset($row[0]))
+  //         return $row[0];
+  //     else
+  //         return [];
+  // }
 
-    // function update_token($username, $password, $token){
-    //     $query = $this->update("users", ['token'=>$token], "name = '$username' AND mat_khau = '$password' ");
-    //     return $query;
-    // }
+  // function update_token($username, $password, $token){
+  //     $query = $this->update("users", ['token'=>$token], "name = '$username' AND mat_khau = '$password' ");
+  //     return $query;
+  // }
 
-    // function update_deadline(){
-    //     $today = date('Y-m-d',strtotime('+ 2 day'));
-    //     $query = $this->update("congviec", ['tinh_trang'=>3,'label'=>'Deadline'], " tinh_trang IN (1,2) AND deadline<'$today' ");
-    //     return $query;
-    // }
+  // function update_deadline(){
+  //     $today = date('Y-m-d',strtotime('+ 2 day'));
+  //     $query = $this->update("congviec", ['tinh_trang'=>3,'label'=>'Deadline'], " tinh_trang IN (1,2) AND deadline<'$today' ");
+  //     return $query;
+  // }
 
-    // function logout($token){
-    //     $id = $_SESSION['user']['id'];
-    //     if($token!='') {
-    //         $query = $this->update("users", ['token' => ''], "id = $id ");
-    //         return $query;
-    //     }
-    //     return true;
-    // }
+  // function logout($token){
+  //     $id = $_SESSION['user']['id'];
+  //     if($token!='') {
+  //         $query = $this->update("users", ['token' => ''], "id = $id ");
+  //         return $query;
+  //     }
+  //     return true;
+  // }
 }

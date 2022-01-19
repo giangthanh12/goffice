@@ -6,7 +6,7 @@ class Thongtincongty extends Controller{
 
     function loaddata()
     {
-        $id=isset($_REQUEST['id'])?$_REQUEST['id']:0;
+        $id = isset($_REQUEST['id'])?$_REQUEST['id']:0;
         $json = $this->model->getdata($id);
         echo json_encode($json);
     }
@@ -39,7 +39,6 @@ class Thongtincongty extends Controller{
         }
         echo json_encode($jsonObj);
     }
-
 
     function thayanh()
     {
