@@ -47,10 +47,16 @@ connection.onmessage = function(message) {
            success: function (users) {
               var html = '';
               users.forEach(function(item, index) {
+                  var $avatar = baseHome+'/layouts/useravatar.png';
+                  if(item.avatar!='')
+                      $avatar = baseUrlFile+'/uploads/nhanvien/'+item.avatar;
                   html += '<div data-toggle="tooltip" data-popup="tooltip-custom" data-placement="bottom" data-original-title="'+item.name+'" class="avatar pull-up">';
-                  html += '<img src="'+item.hinh_anh+'" alt="Avatar" width="33" height="33" /></div>';
+                  html += '<img src="'+$avatar+'" onerror="this.src=\''+baseHome+'/layouts/useravatar.png'+'\'" alt="Avatar" width="33" height="33" /></div>';
               });
               document.getElementById('online_users').innerHTML=html;
+               $('[data-toggle="tooltip"]').tooltip({
+                   container: 'body'
+               });
            }
        });
     } else {
