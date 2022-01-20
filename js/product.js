@@ -152,6 +152,9 @@ $(function () {
                 "name": {
                     required: true,
                 },
+                "type": {
+                    required: true,
+                },
                 "supplier": {
                     required: true,
                 },
@@ -160,6 +163,9 @@ $(function () {
                 },
                 "vat": {
                     required: true,
+                    number:true,
+                    min:1,
+                    max:100
                 },
                 "price": {
                     required: true,
@@ -169,6 +175,9 @@ $(function () {
                 "name": {
                     required: "Bạn chưa nhập tên dịch vụ",
                 },
+                "type": {
+                    required: "Bạn chưa nhập loại sản phẩm",
+                },
                 "supplier": {
                     required: "Bạn chưa nhập tên nhà cung cấp",
                 },
@@ -177,9 +186,13 @@ $(function () {
                 },
                 "vat": {
                     required: "Bạn chưa nhập thuế",
+                    number:"Yêu cầu nhập số",
+                    min:"Giá trị tối thiểu 1",
+                    max:"Giá trị tối đa 100"
                 },
                 "price": {
                     required: "Bạn chưa nhập giá thành",
+                   
                 },
             },
         });
@@ -202,7 +215,7 @@ $(function () {
 
 function loaddata(id) {
     $('#updateinfo').modal('show');
-    $(".modal-title").html('Cập nhật thông tin hợp đồng');
+    $(".modal-title").html('Cập nhật sản phẩm');
     $.ajax({
         type: "POST",
         dataType: "json",
@@ -212,6 +225,7 @@ function loaddata(id) {
             $('#name').val(data.name);
             $('#supplier').val(data.supplier);
             $('#unit').val(data.unit);
+            $('#type').val(data.type);
             $('#price').val(formatCurrency(data.price.replace(/[,VNĐ]/g,'')));
             $('#vat').val(data.vat)
             url = baseHome + '/product/update?id=' + id;

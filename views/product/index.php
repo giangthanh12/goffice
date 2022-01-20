@@ -45,6 +45,13 @@
                                                         <input id="supplier" name="supplier" type="text" class="form-control" />
                                                     </div>
                                                     <div class="col-md-12 form-group">
+                                                        <label for="type">Loại</label>
+                                                      <select id="type" name="type" class="form-control">
+                                                          <option value="1">Sản phẩm</option>
+                                                          <option value="2">Dịch vụ</option>
+                                                      </select>
+                                                    </div>
+                                                    <div class="col-md-12 form-group">
                                                         <label for="unit">Đơn vị tính</label>
                                                         <input id="unit" name="unit" type="text" class="form-control" />
                                                     </div>

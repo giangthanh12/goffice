@@ -22,7 +22,6 @@
                         <table class="user-list-table table">
                             <thead class="thead-light">
                                 <tr>
-                                  
                                     <th>Họ tên</th>
                                     <th>Giới tính</th>
                                     <th>Email</th>
@@ -304,7 +303,7 @@
                                                             <div class="col-lg-4 col-md-6">
                                                               
                                                                 <div class="form-group">
-                                                                    <label for="idPlace">Nhân viên chăm sóc</label>
+                                                                    <label for="idPlace">Nơi cấp</label>
                                                                     <select id="idPlace" class="select2 form-control" name="idPlace"></select>
                                                                 </div>
                                                             </div>
