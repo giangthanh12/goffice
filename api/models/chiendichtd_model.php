@@ -1,8 +1,6 @@
 <?php
-class chiendichtd_Model extends Model
-{
-    function __construct()
-    {
+class chiendichtd_Model extends Model{
+    function __construct(){
         parent::__construct();
     }
 
@@ -26,14 +24,12 @@ class chiendichtd_Model extends Model
         return $result;
     }
 
-    function addObj($data)
-    {
+    function addObj($data){
         $query = $this->insert("chiendichtd", $data);
         return $query;
     }
 
-    function getDetail($id)
-    {
+    function getDetail($id){
         $result = array();
         $query = $this->db->query("SELECT *,
             FORMAT(chi_phi_du_kien,0) AS chi_phi_du_kien,
@@ -50,24 +46,23 @@ class chiendichtd_Model extends Model
         $temp = $query->fetchAll(PDO::FETCH_ASSOC);
         $result = $temp[0];
         $listnpt = $temp[0]['nguoi_phu_trach'];
-        $listnpt = explode(',', $listnpt);
+        $listnpt = explode(',',$listnpt);
         $nguoiphutrach = '';
-        foreach ($listnpt as $item) {
+        foreach($listnpt as $item){
             $query = $this->db->query("SELECT name
                 FROM nhanvien WHERE id = $item");
             $temp = $query->fetchAll(PDO::FETCH_ASSOC);
-            if ($temp) {
+            if($temp){
                 $nhanvien = $temp[0]['name'];
-                $nguoiphutrach .= $nhanvien . ', ';
+                $nguoiphutrach .= $nhanvien.', ';
             }
         }
-        $nguoiphutrach = rtrim($nguoiphutrach, ", ");
+        $nguoiphutrach = rtrim($nguoiphutrach,", ");
         $result['nguoi_phu_trach'] = $nguoiphutrach;
         return $result;
     }
 
-    function getData($id)
-    {
+    function getData($id){
         $result = array();
         $query = $this->db->query("SELECT *,
             FORMAT(min_luong,0) AS min_luong,
@@ -82,27 +77,9 @@ class chiendichtd_Model extends Model
         return $result;
     }
 
-    function updateObj($id, $data)
-    {
-        $query = $this->update("chiendichtd", $data, "id=$id");
+    function updateObj($id,$data){
+        $query = $this->update("chiendichtd", $data ,"id=$id");
         return $query;
     }
 
-    function addUVCD($id, $ungvien)
-    {
-        $dem = 0;
-        $ungvien = explode(',', $ungvien);
-        $ungvien = array_unique($ungvien);
-        for ($i = 0; $i < count($ungvien); $i++) {
-            $ungvien = $ungvien[$i];
-            $data = [
-                'chien_dich' => $id,
-                'ung_vien' => $ungvien[$i],
-                'tinh_trang' => 1
-            ];
-            $this->insert("uvchiendich", $data);
-            $dem++;
-        }
-        return $dem;
-    }
 }

@@ -152,7 +152,7 @@ function save() {
                 success: function (data) {
                     if (data.code==200) {
                         notyfi_success(data.message);
-                        $('#updateinfo').modal('hide');
+                        $('#dgAccesspoint').modal('hide');
                         $(".user-list-table").DataTable().ajax.reload(null, false);
                     } else
                         notify_error(data.message);

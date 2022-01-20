@@ -34,7 +34,7 @@ class tamung extends Controller
 
     function add()
     {
-        $ngay = isset($_REQUEST['ngay']) && $_REQUEST['ngay'] == '' ? date("Y-m-d", strtotime(str_replace('/', '-', $_REQUEST['ngay']))) : date("Y-m-d");
+        $ngay = isset($_REQUEST['ngay']) ? date("Y-m-d", strtotime(str_replace('/', '-', $_REQUEST['ngay']))) : date("Y-m-d");
         $sotien = isset($_REQUEST['so_tien']) ? str_replace(',', '',$_REQUEST['so_tien']) : 0;
         $noidung = isset($_REQUEST['noi_dung']) ? $_REQUEST['noi_dung'] : '';
         $nhanvien = isset($_REQUEST['nhan_vien']) ? $_REQUEST['nhan_vien'] : 0;
@@ -73,7 +73,7 @@ class tamung extends Controller
     function update()
     {
         $id = $_REQUEST['id'];
-        $ngay = isset($_REQUEST['ngay']) || $_REQUEST['ngay'] = '' ? date("Y-m-d", strtotime(str_replace('/', '-', $_REQUEST['ngay']))) : date("Y-m-d");
+        $ngay = isset($_REQUEST['ngay']) ? date("Y-m-d", strtotime(str_replace('/', '-', $_REQUEST['ngay']))) : date("Y-m-d");
         $sotien = isset($_REQUEST['so_tien']) ? str_replace(',', '',$_REQUEST['so_tien']) : 0;
         $noidung = isset($_REQUEST['noi_dung']) ? $_REQUEST['noi_dung'] : '';
         $nhanvien = isset($_REQUEST['nhan_vien']) ? $_REQUEST['nhan_vien'] : 0;

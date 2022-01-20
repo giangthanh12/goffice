@@ -30,7 +30,7 @@ class Vanban extends Controller{
 
     function loadfile()
     {
-        $id = isset($_REQUEST['id']) ? $_REQUEST['id'] : 0;
+        $id = isset($_REQUEST['id'])?$_REQUEST['id']:0;
         $data = $this->model->getFile($id);
         $json = $data[0];
         if (file_exists(ROOT_DIR . $data[0]['link'] )) {

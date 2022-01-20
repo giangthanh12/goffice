@@ -5,12 +5,11 @@ class Auth_Model extends Model{
     }
 
     function login($username, $password){
-        $query = $this->db->query("SELECT id, username, staffId, department,token, extNum, sipPass,
+        $query = $this->db->query("SELECT id, username, staffId,classify,groupId,token, extNum, sipPass,
+        (SELECT accesspoints FROM staffs WHERE id=staffId) AS ipBranch,
           (SELECT name FROM staffs WHERE id=staffId) AS staffName,
        (SELECT email FROM staffs WHERE id=staffId) AS email,
-          (SELECT IF(avatar='',CONCAT('".URLFILE."','/uploads/useravatar.png'),CONCAT('".URLFILE."/',avatar)) FROM staffs WHERE id=staffId) AS avatar,
-        (SELECT ip FROM branch WHERE branch.id=(SELECT branch FROM laborcontract
-        WHERE laborcontract.staffId=users.staffId LIMIT 1)) AS ipBranch
+          (SELECT IF(avatar='',CONCAT('".HOME."','/layouts/useravatar.png'),CONCAT('".URLFILE."/uploads/nhanvien/',avatar)) FROM staffs WHERE id=staffId) AS avatar
           FROM users WHERE status=1 AND usernameMd5 = '$username' AND password = '$password'");
         if($query) {
             $row = $query->fetchAll(PDO::FETCH_ASSOC);

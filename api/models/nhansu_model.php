@@ -97,8 +97,8 @@ class Nhansu_Model extends Model{
 
     function getProfile($staffid){
         $result = array();
-        $query = $this->db->query("SELECT id, name, email, gender,birthDay,address,phoneNumber,province,
-            IFNULL((SELECT name FROM province WHERE id=province),'') AS provinceName,residence,idCard,idDate,
+        $query = $this->db->query("SELECT id, name, email, gender,IF(birthDay='0000-00-00','1970-01-01',birthDay) AS birthDay,address,phoneNumber,province,
+            IFNULL((SELECT name FROM province WHERE id=province),'') AS provinceName,residence,idCard,IF(idDate='0000-00-00','1970-01-01',idDate) AS idDate,
             idAddress,taxCode,maritalStatus,nationality,description,vssId,
             IF(avatar='','uploads/useravatar.png',avatar) AS avatar
             FROM staffs WHERE id=$staffid ");

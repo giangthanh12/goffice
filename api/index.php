@@ -6,6 +6,7 @@ header('Access-Control-Allow-Headers:Access-Control-Allow-Headers, Content-type,
 session_start();
 date_default_timezone_set("Asia/Ho_Chi_Minh");
 ini_set('display_errors', 1);
+define('HOME', 'https://' . $_SERVER['HTTP_HOST'] . '/goffice');
 $url = isset($_GET['url']) ? $_GET['url'] : null;
 $url = rtrim($url, '/');
 $url = explode('/', $url);

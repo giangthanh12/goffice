@@ -12,8 +12,9 @@ function getParameterByName(name, url) { // lay tham so qua URL
 
 // Web socket create and processs
 let connection = new WebSocket('wss://velo.vn:1337/?'+baseUser);
-// connection.onopen = function() {
-// };
+connection.onopen = function() {
+    console.log("Open connection!");
+};
 
 connection.onmessage = function(message) {
     var data = JSON.parse(message.data);
@@ -106,19 +107,6 @@ $(function() {
 //         },
 //     });
 // }
-
-function Comma(Num) { //function to add commas to textboxes
-    Num += '';
-    Num = Num.replace(',', ''); Num = Num.replace(',', ''); Num = Num.replace(',', '');
-    Num = Num.replace(',', ''); Num = Num.replace(',', ''); Num = Num.replace(',', '');
-    x = Num.split('.');
-    x1 = x[0];
-    x2 = x.length > 1 ? '.' + x[1] : '';
-    var rgx = /(\d+)(\d{3})/;
-    while (rgx.test(x1))
-        x1 = x1.replace(rgx, '$1' + ',' + '$2');
-    return x1 + x2;
-}
 
 function notifyMe() { // notify khi co thong bao moi
     $.ajax({
@@ -566,25 +554,6 @@ function load_form(id_form, url_data){
         console.log(key+'-'+value);
         $(id_form + ' #' + `${key}`).val(`${value}`);
     }
-}
-
-function checkIn(){
-    $.ajax({
-        type: "POST",
-        dataType: "json",
-        url: baseHome+"/index/checkIn",
-        success: function (data) {
-            if (data.code==200) {
-                notyfi_success(data.message);
-                $('#checkIn').empty();
-            }
-            else
-                notify_error(data.message);
-        },
-        error: function () {
-                notify_error('Lỗi truy cập!');
-        }
-    });
 }
 
 // if(localStorage.getItem('token')){
