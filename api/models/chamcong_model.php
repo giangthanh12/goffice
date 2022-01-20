@@ -7,34 +7,45 @@ class chamcong_model extends Model
         parent::__construst();
     }
 
-    function checkinWifi($nhanvien)  // chấm công khi login
+    function checkIp($ipLogin, $ipPoint)
+    {
+        $check = 0;
+        if ($ipPoint != '') {
+            $query = $this->db->query("SELECT ip FROM accesspoints WHERE id IN ($ipPoint)");
+            if($query) {
+                $rows = $query->fetchAll(PDO::FETCH_ASSOC);
+                foreach ($rows as $item) {
+                    if ($item['ip'] == $ipLogin)
+                        $check = 1;
+                }
+            }
+        }
+        return $check;
+    }
+
+    function checkInWifi($staffId)  // chấm công khi login
     {
         $ok = 0;
         $today = date("Y-m-d");
-        $query = $this->db->query("SELECT * FROM timekeeping WHERE staffId=$nhanvien AND date='$today'  ");
-        $temp = $query->fetchAll(PDO::FETCH_ASSOC);
-        if (isset($temp[0]['id'])) {
-            if ($temp[0]['checkInTime'] == '00:00:00') { // giờ vào chưa cập nhật
-                $id = $temp[0]['id'];
-                $ca = $this->ca($nhanvien, $today);
-                if (count($ca) > 0) {
-                    $data = array('checkInTime' => date("H:i:s"), 'shiftCheckIn' => $ca['vao'], 'shiftCheckOut' => $ca['ra']);
-                    if ($this->update("timekeeping", $data, "id = $id"))
-                        $ok = 1;
-                }
-            } else {
+        if ($this->checkChamCong($staffId)) {
+            $data = array('staffId' => $staffId, 'date' => $today, 'checkInTime' => date("H:i:s"), 'status' => 1);
+            if ($this->insert("timekeeping", $data))
+                $ok = 1;
+            else
                 $ok = 2;
-            }
-        } else {
-            $ca = $this->ca($nhanvien, $today);
-            if (count($ca) > 0) {
-                $data = array('staffId' => $nhanvien, 'date' => $today, 'checkInTime' => date("H:i:s"),
-                    'shiftCheckIn' => $ca['vao'], 'shiftCheckOut' => $ca['ra']);
-                if ($this->insert("timekeeping", $data))
-                    $ok = 1;
-            }
         }
         return $ok;
+    }
+
+    function checkChamCong($staffId)
+    {
+        $today = date("Y-m-d");
+        $query = $this->db->query("SELECT COUNT(id) AS total FROM timekeeping WHERE staffId=$staffId AND date='$today'");
+        $row = $query->fetchAll(PDO::FETCH_ASSOC);
+        if ($row[0]['total'] == 0) {
+            return true;
+        } else
+            return false;
     }
 
     function ca($nhanvien, $date)
@@ -108,11 +119,11 @@ class chamcong_model extends Model
         return $rows;
     }
 
-    function checkout($nhanvien)
+    function checkout($staffId)
     {
         $ok = false;
         $today = date("Y-m-d");
-        $where = " staffId = $nhanvien AND date = '$today' ";
+        $where = " staffId=$staffId AND date = '$today' ";
         $data = ['checkOutTime' => date("H:i:s")];
         $ok = $this->update("timekeeping", $data, $where);
         return $ok;

@@ -42,7 +42,7 @@
             </section>
         </div>
     </div>
-    <div class="modal fade text-left" id="updateinfo" tabindex="-1" role="dialog"
+    <div class="modal fade text-left" id="updateinfo"  role="dialog"
          aria-labelledby="myModalLabel16" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal" role="document">
             <div class="modal-content">

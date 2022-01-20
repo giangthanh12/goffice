@@ -5,6 +5,19 @@ $(function () {
     return_combobox_multi('#year', baseHome + '/common/nam', 'Chọn loại khách hàng');
     $('#month').val(month).change();
     $('#year').val(year).change();
+    var flatPickr = $('.work-due-date');
+    if (flatPickr.length) {
+        flatPickr.flatpickr({
+            dateFormat: "d/m/Y",
+            defaultDate: "today",
+            allowInput:true,
+            onReady: function (selectedDates, dateStr, instance) {
+                if (instance.isMobile) {
+                    $(instance.mobileInput).attr("step", null);
+                }
+            },
+        });
+    }
 
     var column = $('#tb-timesheets');
     // var month = $('#month').val();
@@ -302,18 +315,6 @@ function update() {
     $('#modal-title').html('Chấm công cho nhân viên');
     $('#updateinfo').modal('show');
     $('#staffId').val("").trigger("change");
-    if ($('.work-due-date').length) {
-        $('.work-due-date').flatpickr({
-            dateFormat: "d/m/Y",
-            defaultDate: "today",
-            allowInput:true,
-            onReady: function (selectedDates, dateStr, instance) {
-                if (instance.isMobile) {
-                    $(instance.mobileInput).attr("step", null);
-                }
-            },
-        });
-    }
     // $('#staffName').val(data.staffName);
     // $('#revenueBonus').val(Comma(data.revenueBonus));
     // $('#tetBonus').val(Comma(data.tetBonus));
