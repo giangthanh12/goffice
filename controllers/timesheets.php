@@ -35,4 +35,32 @@ class timesheets extends Controller
         }
         echo json_encode($jsonObj);
     }
+
+    function update()
+    {
+        $startDate = isset($_REQUEST['startDate']) ? $_REQUEST['startDate'] : '';
+        $endDate = isset($_REQUEST['endDate']) ? $_REQUEST['endDate'] : '';
+        $staffId = isset($_REQUEST['staffId']) ? $_REQUEST['staffId'] : '';
+        $work = isset($_REQUEST['work']) ? $_REQUEST['work'] : 0;
+        $temp = explode("/", $startDate);
+        $start = str_replace("0", $temp[0]);
+        $temp = explode("/", $endDate);
+        $end = $temp[0];
+        $data = [];
+        for ($start; $start <= $end; $start++) {
+            if ($start < 10)
+                $i = "0" . $start;
+            else
+                $i = $start;
+            $data['date_' . $i] = $work;
+        }
+//        if ($this->model->updateWork($data)) {
+//            $jsonObj['message'] = "Tạo bảng chấm công thành công";
+//            $jsonObj['code'] = 200;
+//        } else {
+//            $jsonObj['message'] = "Bảng chấm công đã tồn tại";
+//            $jsonObj['code'] = 401;
+//        }
+        echo json_encode($data);
+    }
 }
