@@ -152,7 +152,7 @@ function save() {
                 success: function (data) {
                     if (data.code==200) {
                         notyfi_success(data.message);
-                        $('#dgAccesspoint').modal('hide');
+                        $('#updateinfo').modal('hide');
                         $(".user-list-table").DataTable().ajax.reload(null, false);
                     } else
                         notify_error(data.message);
@@ -171,6 +171,7 @@ function xoa(id) {
         icon: 'warning',
         showCancelButton: true,
         confirmButtonText: 'Tôi đồng ý',
+        cancelButtonText: 'Hủy',
         customClass: {
             confirmButton: 'btn btn-primary',
             cancelButton: 'btn btn-outline-danger ml-1'

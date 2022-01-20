@@ -10,25 +10,25 @@ $(function () {
     // var month = $('#month').val();
     // var year = $('#year').val();
     column.append('<th style="width:180px">Nhân viên</th>');
-    column.append('<th>Ngày công</th>');
-    column.append('<th>Công chuẩn</th>');
+    column.append('<th style="width:40px;text-align: center">Ngày công</th>');
+    column.append('<th style="width:40px;text-align: center">Công chuẩn</th>');
     for (var i = 1; i <= 31; i++) {
         if (i < 10) { i = '0' + i; }
         var dt = new Date(year + '-' + month + '-' + i);
         if (dt.getDay() == 0) {
-            column.append('<th style="width:40px" class="text-center">CN<br><div class="text-center">' + i +'</div></th>');
+            column.append('<th style="width:40px;text-align: center" class="text-center">CN<br><div class="text-center">' + i +'</div></th>');
         } else if (dt.getDay() == 1) {
-            column.append('<th style="width:40px">T2<br><div class="text-center">' + i +'</div></th>');
+            column.append('<th style="width:40px;text-align: center">T2<br><div class="text-center">' + i +'</div></th>');
         } else if (dt.getDay() == 2) {
-            column.append('<th style="width:40px">T3<br><div class="text-center">' + i +'</div></th>');
+            column.append('<th style="width:40px;text-align: center">T3<br><div class="text-center">' + i +'</div></th>');
         } else if (dt.getDay() == 3) {
-            column.append('<th style="width:40px">T4<br><div class="text-center">' + i +'</div></th>');
+            column.append('<th style="width:40px;text-align: center">T4<br><div class="text-center">' + i +'</div></th>');
         } else if (dt.getDay() == 4) {
-            column.append('<th style="width:40px">T5<br><div class="text-center">' + i +'</div></th>');
+            column.append('<th style="width:40px;text-align: center">T5<br><div class="text-center">' + i +'</div></th>');
         } else if (dt.getDay() == 5) {
-            column.append('<th style="width:40px">T6<br><div class="text-center">' + i +'</div></th>');
+            column.append('<th style="width:40px;text-align: center">T6<br><div class="text-center">' + i +'</div></th>');
         } else {
-            column.append('<th style="width:40px">T7<br><div class="text-center">' + i +'</div></th>');
+            column.append('<th style="width:40px;text-align: center">T7<br><div class="text-center">' + i +'</div></th>');
         }
     }
 
@@ -81,30 +81,57 @@ $(function () {
             ],
             columnDefs: [
                 {
+                    // User full name and username
                     targets: 0,
                     render: function (data, type, full, meta) {
-                        return (
-                            '<div style="width:180px" >'+
-                            data +
-                            '</div>'
-                        );
+                        var $name = full["staffName"],
+
+                            $image = baseUrlFile+'/uploads/nhanvien/'+full["avatar"];
+                        if ($image) {
+                            // For Avatar image
+                            var $output = '<img onerror=' + "this.src=''+baseHome+'/layouts/useravatar.png'" + ' src="' + $image + '" alt="Avatar" height="32" width="32">';
+                            // var $output = '<img src="' + assetPath + "images/avatars/" + $image + '" alt="Avatar" height="32" width="32">';
+                        } else {
+                            // For Avatar badge
+                            var stateNum = Math.floor(Math.random() * 6) + 1;
+                            var states = ["success", "danger", "warning", "info", "dark", "primary", "secondary"];
+                            var $state = states[stateNum],
+                                $name = full["staffName"],
+                                $initials = $name.match(/\b\w/g) || [];
+                            $initials = (($initials.shift() || "") + ($initials.pop() || "")).toUpperCase();
+                            $output = '<span class="avatar-content">' + $initials + "</span>";
+                        }
+                        var colorClass = $image === "" ? " bg-light-" + $state + " " : "";
+                        // Creates full output for row
+                        var $row_output =
+                            '<div class="d-flex justify-content-left align-items-center" style="width: 220px;">' +
+                            '<div class="avatar-wrapper">' +
+                            '<div class="avatar ' +
+                            colorClass +
+                            ' mr-1">' +
+                            $output +
+                            "</div>" +
+                            "</div>" +
+                            '<div class="d-flex flex-column">' +
+                            '<span class="font-weight-bold">' +
+                            $name +
+                            "</span>" +
+
+                            "</div>" +
+                            "</div>";
+                        return $row_output;
                     },
                 },
                 {
-                    targets: [1,2],
+                    targets: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33],
                     render: function (data, type, full, meta) {
+                        var $color = '';
+                        if(data==1){
+                            $color='color:blue;font-weight:bold;';
+                        }else if(data==0.5)
+                            $color='color:red;';
                         return (
-                            '<div class="text-center" >'+
-                            data +
-                            '</div>'
-                        );
-                    },
-                },
-                {
-                    targets: [3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33],
-                    render: function (data, type, full, meta) {
-                        return (
-                            '<div class="text-center" style="width:45px" >'+
+                            '<div class="text-center" style="width:45px;font-weight:bold; '+$color+'" >'+
                             data +
                             '</div>'
                         );
@@ -236,4 +263,30 @@ function add() {
                 notify_error(data.message);
         },
     });
+}
+
+function update() {
+    // alert(data);
+    $('#modal-title').html('Chấm công cho nhân viên');
+    $('#updateinfo').modal('show');
+    if ($('.work-due-date').length) {
+        $('.work-due-date').flatpickr({
+            dateFormat: "d/m/Y",
+            defaultDate: "today",
+            allowInput:true,
+            onReady: function (selectedDates, dateStr, instance) {
+                if (instance.isMobile) {
+                    $(instance.mobileInput).attr("step", null);
+                }
+            },
+        });
+    }
+    // $('#staffName').val(data.staffName);
+    // $('#revenueBonus').val(Comma(data.revenueBonus));
+    // $('#tetBonus').val(Comma(data.tetBonus));
+    // $('#otherBonus').val(Comma(data.otherBonus));
+    // $('#insurance').val(Comma(data.insurance));
+    // $('#advance').val(Comma(data.advance));
+    // $('#tam_ung').val(data.tam_ung);
+    url = baseHome + '/payrolls/update';
 }

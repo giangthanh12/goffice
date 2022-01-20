@@ -14,12 +14,13 @@ class timesheets_model extends Model
         $query = $this->db->query("SELECT COUNT(*) AS total FROM timesheets $dieukien ");
         $row = $query->fetchAll(PDO::FETCH_ASSOC);
         $result['total'] = $row[0]['total'];
-        $query = $this->db->query("SELECT *,
-            (date_01+date_02+date_03+date_04+date_05+date_06+date_07+date_08+
+        $this->db->query("UPDATE timesheets SET totalWorkDate =(date_01+date_02+date_03+date_04+date_05+date_06+date_07+date_08+
             date_09+date_10+date_11+date_12+date_13+date_14+date_15+date_16+
             date_17+date_18+date_19+date_20+date_21+date_22+date_23+date_24+
-            date_25+date_26+date_27+date_28+date_29+date_30+date_31) AS total,
-            (SELECT name FROM staffs WHERE id = staffId) AS staffName
+            date_25+date_26+date_27+date_28+date_29+date_30+date_31)");
+        $query = $this->db->query("SELECT *,
+            (SELECT name FROM staffs WHERE id = staffId) AS staffName,
+        (SELECT avatar FROM staffs WHERE id = staffId) AS avatar
          FROM timesheets $dieukien ");
         $result['data'] = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;
