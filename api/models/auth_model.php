@@ -29,7 +29,7 @@ class Auth_Model extends Model{
 
     function updateDeadline(){
         $today = date('Y-m-d',strtotime('+ 2 day'));
-        $query = $this->update("tasks", ['status'=>3,'label'=>'Deadline'], " status IN (1,2) AND deadline<'$today' ");
+        $query = $this->update("tasks", ['status'=>3], " status IN (1,2) AND deadline<'$today' ");
         return $query;
     }
 
