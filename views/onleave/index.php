@@ -9,12 +9,10 @@
                     <div class="todo-app-menu">
                         <div class="sidebar-menu-list">
                             <div class="add-task">
-                                <?php if($this->funAdd==1) { ?>
                                 <button type="button" class="btn btn-primary btn-block" data-toggle="modal"
                                     data-target="#new-task-modal">
                                     Tạo đơn nghỉ phép
                                 </button>
-                                <?php } ?>
                             </div>
                             <div class="list-group list-group-filters">
                                 <a href="javascript:void(0)" onclick="loadTaskList(1)"
@@ -94,7 +92,7 @@
                                                 <span class="taskId d-none" name="id" >' . $item['id'] . '</span>
                                                 <i data-feather="more-vertical" class="drag-icon"></i>
                                                 <div class="title-wrapper">
-                                                    <span class="todo-title" data-staff="">' . $item['staffName'] . '</span>
+                                                    <span class="todo-title" name="staffId" data-staff="' . $item['staffId'] . '">' . $item['staffName'] . '</span>
                                                 </div>
                                             </div>
                                             <div class="todo-item-action">
@@ -103,7 +101,7 @@
                                                 <div class="badge-wrapper mr-1">
                                                    <div class="badge" style="width: 120px; margin-right: 0.5rem; background-color: rgb(247, 244, 244); color: ' . $color . '">' . $item['status'] . '</div>
                                                 </div>
-                                                <small class="text-nowrap text-muted mr-1">' . date("d/m/Y", strtotime($item['fromDate'])) . '</small>
+                                                <small class="text-nowrap text-muted mr-1">' . date("d/m/Y", strtotime($item['date'])) . '</small>
                                             </div>            
                                         </div>
                                     </li>
@@ -184,21 +182,22 @@
                                             <div class="row" id="onLeave">
                                                 <div class="col">
                                                     <label for="onLeaveOwn">Số ngày được nghỉ</label>
-                                                    <input type="text" id="onLeaveOwn" name="onLeaveOwn" class="form-control" placeholder="Số ngày được nghỉe" disabled>
+                                                    <input type="text" id="onLeaveOwn" name="onLeaveOwn"
+                                                        class="form-control" placeholder="Số ngày được nghỉ" readonly />
                                                 </div>
                                                 <div class="col">
                                                     <label for="onLeaveUsed">Số ngày đã nghỉ</label>
-                                                    <input type="text" id="onLeaveUsed" name="onLeaveUsed" class="form-control" placeholder="Số ngày đã nghỉ" disabled>
+                                                    <input type="text" id="onLeaveUsed" name="onLeaveUsed"
+                                                        class="form-control" placeholder="Số ngày đã nghỉ" readonly />
                                                 </div>
                                             </div>
 
                                             <div class="form-group my-1">
-                                                <button type="submit" style="display:none;" id="updateProject"
+                                                <button type="submit" id="updateRequest"
                                                     class="btn btn-primary">Duyệt</button>
-                                                <?php if($this->funDel==1) { ?>
                                                 <button type="button" class="btn btn-danger update-btn d-none"
-                                                    data-dismiss="modal" id="delProject" onclick="del()">Từ chối</button>
-                                                <?php } ?>
+                                                    data-dismiss="modal" id="refuseRequest" onclick="del()">Từ
+                                                    chối</button>
                                                 <button type="button" class="btn btn-outline-secondary" id="btn_boqua"
                                                     data-dismiss="modal">Bỏ qua</button>
                                             </div>
@@ -214,9 +213,6 @@
         </div>
     </div>
 </div>
-<script>
-var funEdit = <?=$this->funEdit?>;
-var funDel = <?=$this->funDel?>;
-</script>
+
 
 <script src="<?= HOME ?>/js/onleave.js"></script>s

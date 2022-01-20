@@ -1,70 +1,62 @@
 "use strict";
 
 $(function () {
-    var
-        flatPickr = $(".task-due-date"),
-        newTaskModal = $(".sidebar-todo-modal"),
-        newTaskForm = $("#form-modal-todo"),
-        favoriteStar = $(".todo-item-favorite"),
-        modalTitle = $(".modal-title"),
-        addBtn = $(".add-todo-item"),
-        addTaskBtn = $(".add-task button"),
-        updateBtns = $(".update-btn"),
-        taskDesc = $("#task-desc"),
-        taskAssignSelect = $("#staffId"), // trong form
-        taskTag = $("#task-tag"),
-        overlay = $(".body-content-overlay"),
-        menuToggle = $(".menu-toggle"),
-        sidebarToggle = $(".sidebar-toggle"),
-        sidebarLeft = $(".sidebar-left"),
-        sidebarMenuList = $(".sidebar-menu-list"),
-        todoFilter = $("#todo-search"),
-        todoTaskListWrapper = $(".todo-task-list-wrapper"),
-        listItemFilter = $(".list-group-filters"),
-        noResults = $(".no-results"),
-        levelProject = $("#level"),
-        // checkboxId = 100,
-        isRtl = $("html").attr("data-textdirection") === "rtl";
-    // list_to_do();
-    // load_select(
-    //   $("#level"),
-    //   baseHome + "/project/getLevelProject",
-    //   "Cấp độ dự án"
-    // );
-    // load_select(
-    //   $("#status"),
-    //   baseHome + "/project/getStatusProject",
-    //   "Trạng thái dự án"
-    // );
+  var
+    flatPickr = $(".task-due-date"),
+    newTaskModal = $(".sidebar-todo-modal"),
+    newTaskForm = $("#form-modal-todo"),
+    favoriteStar = $(".todo-item-favorite"),
+    modalTitle = $(".modal-title"),
+    addBtn = $(".add-todo-item"),
+    addTaskBtn = $(".add-task button"),
+    updateBtns = $(".update-btn"),
+    taskDesc = $("#task-desc"),
+    taskAssignSelect = $("#staffId"), // trong form
+    taskTag = $("#task-tag"),
+    overlay = $(".body-content-overlay"),
+    menuToggle = $(".menu-toggle"),
+    sidebarToggle = $(".sidebar-toggle"),
+    sidebarLeft = $(".sidebar-left"),
+    sidebarMenuList = $(".sidebar-menu-list"),
+    todoFilter = $("#todo-search"),
+    todoTaskListWrapper = $(".todo-task-list-wrapper"),
+    listItemFilter = $(".list-group-filters"),
+    noResults = $(".no-results");
+    
+  // list_to_do();
+  // load_select(
+  //   $("#level"),
+  //   baseHome + "/project/getLevelProject",
+  //   "Cấp độ dự án"
+  // );
+  // load_select(
+  //   $("#status"),
+  //   baseHome + "/project/getStatusProject",
+  //   "Trạng thái dự án"
+  // );
 
-    // $("#level").change(function () {
-    //   changeColorLevel();
-    // });
-    // $("#status").change(function () {
-    //   changeColorStatus();
-    // });
-    // biến đổi màu cho select
-    // function changeColorLevel() {
-    //   var style = $("option:selected", levelProject).attr("style");
-    //   $(levelProject).attr("style", `${style}`);
-    // }
-    // function changeColorStatus() {
-    //   var style = $("option:selected", statusProject).attr("style");
-    //   $(statusProject).attr("style", `${style}`);
-    // }
+  // $("#level").change(function () {
+  //   changeColorLevel();
+  // });
+  // $("#status").change(function () {
+  //   changeColorStatus();
+  // });
+  // biến đổi màu cho select
+  // function changeColorLevel() {
+  //   var style = $("option:selected", levelProject).attr("style");
+  //   $(levelProject).attr("style", `${style}`);
+  // }
+  // function changeColorStatus() {
+  //   var style = $("option:selected", statusProject).attr("style");
+  //   $(statusProject).attr("style", `${style}`);
+  // }
 
-    // if it is not touch device
-    if (!$.app.menu.is_touch_device()) {
-        if (sidebarMenuList.length > 0) {
-            var sidebarListScrollbar = new PerfectScrollbar(sidebarMenuList[0], {
-                theme: "dark",
-            });
-        }
-        if (todoTaskListWrapper.length > 0) {
-            var taskListScrollbar = new PerfectScrollbar(todoTaskListWrapper[0], {
-                theme: "dark",
-            });
-        }
+  // if it is not touch device
+  if (!$.app.menu.is_touch_device()) {
+    if (sidebarMenuList.length > 0) {
+      var sidebarListScrollbar = new PerfectScrollbar(sidebarMenuList[0], {
+        theme: "dark",
+      });
     }
     // if it is a touch device
     else {
@@ -91,51 +83,198 @@ $(function () {
             },
         });
     }
+    var $person =
+      '<div class="media align-items-center">' +
+      '<img class="d-block rounded-circle mr-50" src="' +
+      $(option.element).data("img") +
+      '" height="26" width="26" alt="' +
+      option.text +
+      '">' +
+      '<div class="media-body"><p class="mb-0">' +
+      option.text +
+      "</p></div></div>";
 
-    // Main menu toggle should hide app menu
-    if (menuToggle.length) {
-        menuToggle.on("click", function (e) {
-            sidebarLeft.removeClass("show");
-            overlay.removeClass("show");
-        });
-    }
+    return $person;
+  }
 
-    // Todo sidebar toggle
-    if (sidebarToggle.length) {
-        sidebarToggle.on("click", function (e) {
-            e.stopPropagation();
-            sidebarLeft.toggleClass("show");
-            overlay.addClass("show");
-        });
-    }
+  // Task Tags
+  if (taskTag.length) {
+    taskTag.wrap('<div class="position-relative"></div>');
+    taskTag.select2({
+      placeholder: "Select tag",
+    });
+  }
 
-    // On Overlay Click
-    if (overlay.length) {
-        overlay.on("click", function (e) {
-            sidebarLeft.removeClass("show");
-            overlay.removeClass("show");
-            $(newTaskModal).modal("hide");
-        });
-    }
+  // Favorite star click
+  // if (favoriteStar.length) {
+  //   $(favoriteStar).on("click", function () {
+  //     $(this).toggleClass("text-warning");
+  //   });
+  // }
 
-    // Assign task
-    function assignTask(option) {
-        if (!option.id) {
-            return option.text;
+  // Flat Picker
+  if (flatPickr.length) {
+    flatPickr.flatpickr({
+      dateFormat: "d-m-Y",
+      defaultDate: "today",
+      onReady: function (selectedDates, dateStr, instance) {
+        if (instance.isMobile) {
+          $(instance.mobileInput).attr("step", null);
         }
-        var $person =
-            '<div class="media align-items-center">' +
-            '<img class="d-block rounded-circle mr-50" src="' +
-            $(option.element).data("img") +
-            '" height="26" width="26" alt="' +
-            option.text +
-            '">' +
-            '<div class="media-body"><p class="mb-0">' +
-            option.text +
-            "</p></div></div>";
+      },
+    });
+  }
 
-        return $person;
+  // Todo Description Editor
+  if (taskDesc.length) {
+    var todoDescEditor = new Quill("#task-desc", {
+      bounds: "#task-desc",
+      modules: {
+        formula: true,
+        syntax: true,
+        toolbar: ".desc-toolbar",
+      },
+      placeholder: "",
+      theme: "snow",
+    });
+  }
+
+  // On add new item button click, clear sidebar-right field fields
+  if (addTaskBtn.length) {
+    addTaskBtn.on("click", function (e) {
+      $("#updateRequest").removeClass("d-none");
+      $("#refuseRequest").addClass("d-none");
+      $("#onLeave").addClass("d-none");
+      sidebarLeft.removeClass("show");
+      overlay.removeClass("show");
+      newTaskModal.find(".new-todo-item-title").val("");
+      var quill_editor = taskDesc.find(".ql-editor p");
+      quill_editor.html("");
+      $("#id").val(); // them du an mac dinh id = 0
+      $("#task-due-date").val("DD-MM-YYYY");
+      load_select2(
+        taskAssignSelect,
+        baseHome + "/onleave/getStaff",
+        "Người làm đơn"
+      );
+      load_select2($("#staffId"), baseHome + "/onleave/getStaff", "");
+      $("#staffId").val([]).change();
+    });
+  }
+  // Add New ToDo List Item
+
+  // To add new todo form
+  if (newTaskForm.length) {
+    newTaskForm.validate({
+      ignore: ".ql-container *", // ? ignoring quill editor icon click, that was creating console error
+      rules: {
+        date: {
+          required: true,
+        },
+        "task-due-date": {
+          required: true,
+        },
+      },
+    });
+
+    newTaskForm.on("submit", function (e) {
+      e.preventDefault();
+      var isValid = newTaskForm.valid();
+      if (isValid) {
+        var id = $("#id").val();
+        var staffId = $("#staffId").val();
+        var type = $("#type").val();
+        var description = $("#task-desc").find(".ql-editor p").html();
+        var date = $(".sidebar-todo-modal .task-due-date").val();
+        var shift = $("#shift").val();
+        var status = 1;
+
+        $.ajax({
+          type: "POST",
+          dataType: "json",
+          data: {
+            id: id,
+            staffId: staffId,
+            type: type,
+            description: description,
+            shift: shift,
+            date: date,
+            status: status,
+          },
+          url: baseHome + "/onleave/update",
+          success: function (data) {
+            if (data.success == true) {
+              notyfi_success(data.msg);
+              $("#todo-task-list").load(
+                window.location.href + " #todo-task-list"
+              );
+            } else {
+              notify_error(data.msg);
+              $("#form-modal-todo").trigger("reset");
+              return false;
+            }
+          },
+        });
     }
+
+        $(newTaskModal).modal("hide");
+        overlay.removeClass("show");
+      }
+    });
+  }
+
+  todoTaskListWrapper.on("click", ".custom-checkbox", function (event) {
+    event.stopPropagation();
+  });
+
+  // To open todo list item modal on click of item
+
+  $(document).on(
+    "click",
+    ".todo-task-list-wrapper .todo-item",
+    function (e) {
+      var validator = $("#form-modal-todo").validate(); // reset form
+      validator.resetForm();
+      newTaskModal.modal("show");
+      addBtn.removeClass("d-none");
+      $("#refuseRequest").removeClass("d-none");
+      $("#onLeave").removeClass("d-none");
+      if ($(this).hasClass("completed")) {
+        modalTitle.html(
+          '<button type="button" class="btn btn-sm btn-outline-success complete-todo-item waves-effect waves-float waves-light" data-dismiss="modal">Completed</button>'
+        );
+      } else {
+        modalTitle.html("Đơn xin nghỉ phép");
+      }
+      var id = $(this).data("id");
+      $.ajax({
+        type: "GET",
+        dataType: "json",
+        data: { id: id },
+        url: baseHome + "/onleave/getitem",
+        success: function (obj) {
+          newTaskForm.find(".new-todo-item-title").val(obj.name);
+          var quill_editor = $("#task-desc .ql-editor p");
+          quill_editor.html(obj.description);
+          $("#task-due-date").val(obj.date);
+          $("#id").val(obj.id);
+          $("#type").val(obj.type).change();
+          load_select2(
+            $("#staffId"),
+            baseHome + "/onleave/getStaff",
+            "Người làm đơn"
+          );
+          load_select2($("#staffId"), baseHome + "/onleave/getStaff", "");
+          $("#staffId").val(obj.staffId).change();        
+          // console.log(obj.status);
+          if(obj.status == 0 || obj.status == 2) {
+            $("#updateRequest").addClass("d-none");
+            $("#refuseRequest").addClass("d-none");
+          } else if (obj.status == 1) {
+            $("#updateRequest").removeClass("d-none");
+            $("#refuseRequest").removeClass("d-none");
+          }
+          // Thêm phần hiện số ngày nghỉ tại đây
 
     // Task Tags
     if (taskTag.length) {
@@ -145,24 +284,17 @@ $(function () {
         });
     }
 
-    // Favorite star click
-    // if (favoriteStar.length) {
-    //   $(favoriteStar).on("click", function () {
-    //     $(this).toggleClass("text-warning");
-    //   });
-    // }
-
-    // Flat Picker
-    if (flatPickr.length) {
-        flatPickr.flatpickr({
-            dateFormat: "d-m-Y",
-            defaultDate: "today",
-            onReady: function (selectedDates, dateStr, instance) {
-                if (instance.isMobile) {
-                    $(instance.mobileInput).attr("step", null);
-                }
-            },
-        });
+      var staffId = $(".todo-title").data("staff");
+      $.ajax({
+        type: "GET",
+        dataType: "json",
+        data: { staffId: staffId },
+        url: baseHome + "/onleave/getDayOnLeave",
+        success: function (data) {
+          $("input#onLeaveOwn").val(data.onLeaveOwn);
+          $("input#onLeaveUsed").val(data.onLeaveUsed);
+        },
+      });
     }
 
     // Todo Description Editor
