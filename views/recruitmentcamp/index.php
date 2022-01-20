@@ -213,7 +213,7 @@
                         <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h4 class="modal-title" id="myModalLabel16">Cập nhật thông tin khách hàng</h4>
+                                    <h4 class="modal-title" id="myModalLabel16"></h4>
                                 </div>
                                 <div class="modal-body">
                                     <input type="hidden" id="id" name="id" />
@@ -222,7 +222,7 @@
                                             <ul class="nav nav-pills" role="tablist">
                                                 <li class="nav-item">
                                                     <a class="nav-link d-flex align-items-center active" id="information-tab" data-toggle="tab" href="#information" aria-controls="information" role="tab" aria-selected="false">
-                                                        <i data-feather="info"></i><span class="d-none d-sm-block">Thông tin khách hàng</span>
+                                                        <i data-feather="info"></i><span class="d-none d-sm-block">Thông tin chiến dịch</span>
                                                     </a>
                                                 </li>
                                                 <li class="nav-item">

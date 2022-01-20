@@ -30,6 +30,15 @@ class interview_result extends Controller{
         $jsonObj = $this->model->getPosition();
         echo json_encode($jsonObj);
     }
+    function getworkPlace() {
+        $jsonObj = $this->model->getworkPlace();
+        echo json_encode($jsonObj);
+    }
+    
+    function getShift() {
+        $jsonObj = $this->model->getShift();
+        echo json_encode($jsonObj);
+    }
     function signContract() {
  
         $applicantId = $_GET['applicantId'];
@@ -49,13 +58,14 @@ class interview_result extends Controller{
             'startDate' =>date("Y-m-d",strtotime($_REQUEST['startDate'])),
             'stopDate' => date("Y-m-d",strtotime($_REQUEST['stopDate'])),
             'basicSalary' => $_REQUEST['basicSalary'],
-            'insuranceSalary' => $_REQUEST['insuranceSalary'],
             'salaryPercentage' => $_REQUEST['salaryPercentage'],
             'allowance' => $_REQUEST['allowance'],
             'position' => $_REQUEST['position'],
             'branchId' => $_REQUEST['branchId'],
             'departmentId' => $_REQUEST['departmentId'],
             'description' => $_REQUEST['description'],
+            'workPlaceId'=> $_REQUEST['workPlaceId'],
+            'shiftId'=> $_REQUEST['shiftId'],
             'status' => 1
         );
      
