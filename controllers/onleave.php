@@ -5,11 +5,6 @@ class onleave extends Controller
     function __construct()
     {
         parent::__construct();
-        $model = new model();
-        $checkMenuRole = $model->checkMenuRole('project');
-        if ($checkMenuRole == false)
-        header('location:' . HOME);
-        self::$funcs = $model->getFunctions('project'); 
     }
 
     function index(){
@@ -45,13 +40,7 @@ class onleave extends Controller
             $type = $_REQUEST['type'];
             $description = $_REQUEST['description'];
             $shift = $_REQUEST['shift'];
-            if(isset($_REQUEST['fromDate'])) {
-                $fromDate = date("Y-m-d",strtotime(str_replace('/', '-',$_REQUEST['fromDate'])));
-            } else $fromDate = date("Y-m-d");
-
-            if(isset($_REQUEST['toDate'])) {
-                $toDate = date("Y-m-d",strtotime(str_replace('/', '-',$_REQUEST['toDate'])));
-            } else $fromDate = date("Y-m-d");
+            $date = date("Y-m-d",strtotime(str_replace('/', '-',$_REQUEST['date'])));
             $status = 1;
             // $name = $_REQUEST['name'];
             // $managerId = $_REQUEST['managerId'];
@@ -67,8 +56,7 @@ class onleave extends Controller
                 'type'=>$type,
                 'description'=> $description,
                 'shift'=>$shift,
-                'fromDate'=>$fromDate,
-                'toDate'=>$toDate,
+                'date'=>$date,
                 'status'=>$status,
             );
             
@@ -79,13 +67,7 @@ class onleave extends Controller
             $type = $_REQUEST['type'];
             $description = $_REQUEST['description'];
             $shift = $_REQUEST['shift'];
-            if(isset($_REQUEST['fromDate'])) {
-                $fromDate = date("Y-m-d",strtotime(str_replace('/', '-',$_REQUEST['fromDate'])));
-            } else $fromDate = date("Y-m-d");
-
-            if(isset($_REQUEST['toDate'])) {
-                $toDate = date("Y-m-d",strtotime(str_replace('/', '-',$_REQUEST['toDate'])));
-            } else $fromDate = date("Y-m-d");
+            $date = date("Y-m-d",strtotime(str_replace('/', '-',$_REQUEST['date'])));
             $status = 2;
             // $name = $_REQUEST['name'];
             // $managerId = $_REQUEST['managerId'];
@@ -101,8 +83,8 @@ class onleave extends Controller
                 'type'=>$type,
                 'description'=> $description,
                 'shift'=>$shift,
-                'fromDate'=>$fromDate,
-                'toDate'=>$toDate,
+                'date'=>$date,
+                
                 'status'=>$status,
             );
             
