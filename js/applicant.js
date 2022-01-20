@@ -303,6 +303,52 @@ function loaddata(id) {
 
 }
 
+
+$(document).on('blur','.phoneNumber', function() {
+   
+    var id = $(this).data('id');
+    var phone = $(this).val();
+    var idApplicant = uvid;
+  
+    if(id == 'phoneNumber') {
+     idCustomer = 0;
+    }
+     
+     if(phone != '' && phone.toString().length >= 10 ) { 
+         $.ajax({
+             type: "POST",
+             dataType: "json",
+             data: {phone:phone, idApplicant:idApplicant},
+             url: baseHome + "/applicant/checkPhone",
+             success: function (data) {
+                 if (data.success) {
+                     notyfi_success(data.msg);
+                     if(id == 'phoneNumber') {
+                         $('.btn-add-customer').prop('disabled', false);
+                     }
+                     else {
+                         $('.btn-update-customer').prop('disabled', false);
+                     }
+                 }
+                 else {
+                     if(id == 'phoneNumber') {
+                         $('.btn-add-customer').prop('disabled', true);
+                     }
+                     else {
+                         $('.btn-update-customer').prop('disabled', true);
+                     }
+                     notify_error(data.msg);
+                 }
+             },
+             error: function(){
+                 notify_error('Số điện thoại đã tồn tại');
+             }
+         });
+     }
+ })
+
+
+
 function updateinfo() {
   
     var  formData = new FormData($("#thongtin")[0]); 

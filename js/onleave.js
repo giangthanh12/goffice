@@ -58,68 +58,30 @@ $(function () {
         theme: "dark",
       });
     }
-    if (todoTaskListWrapper.length > 0) {
-      var taskListScrollbar = new PerfectScrollbar(todoTaskListWrapper[0], {
-        theme: "dark",
-      });
+    // if it is a touch device
+    else {
+        sidebarMenuList.css("overflow", "scroll");
+        todoTaskListWrapper.css("overflow", "scroll");
     }
-  }
-  // if it is a touch device
-  else {
-    sidebarMenuList.css("overflow", "scroll");
-    todoTaskListWrapper.css("overflow", "scroll");
-  }
 
-  // Add class active on click of sidebar filters list
-  if (listItemFilter.length) {
-    listItemFilter.find("a").on("click", function () {
-      if (listItemFilter.find("a").hasClass("active")) {
-        listItemFilter.find("a").removeClass("active");
-      }
-      $(this).addClass("active");
-    });
-  }
+    // Add class active on click of sidebar filters list
+    if (listItemFilter.length) {
+        listItemFilter.find("a").on("click", function () {
+            if (listItemFilter.find("a").hasClass("active")) {
+                listItemFilter.find("a").removeClass("active");
+            }
+            $(this).addClass("active");
+        });
+    }
 
-  // Init D'n'D
-  var dndContainer = document.getElementById("todo-task-list");
-  if (typeof dndContainer !== undefined && dndContainer !== null) {
-    dragula([dndContainer], {
-      moves: function (el, container, handle) {
-        return handle.classList.contains("drag-icon");
-      },
-    });
-  }
-
-  // Main menu toggle should hide app menu
-  if (menuToggle.length) {
-    menuToggle.on("click", function (e) {
-      sidebarLeft.removeClass("show");
-      overlay.removeClass("show");
-    });
-  }
-
-  // Todo sidebar toggle
-  if (sidebarToggle.length) {
-    sidebarToggle.on("click", function (e) {
-      e.stopPropagation();
-      sidebarLeft.toggleClass("show");
-      overlay.addClass("show");
-    });
-  }
-
-  // On Overlay Click
-  if (overlay.length) {
-    overlay.on("click", function (e) {
-      sidebarLeft.removeClass("show");
-      overlay.removeClass("show");
-      $(newTaskModal).modal("hide");
-    });
-  }
-
-  // Assign task
-  function assignTask(option) {
-    if (!option.id) {
-      return option.text;
+    // Init D'n'D
+    var dndContainer = document.getElementById("todo-task-list");
+    if (typeof dndContainer !== undefined && dndContainer !== null) {
+        dragula([dndContainer], {
+            moves: function (el, container, handle) {
+                return handle.classList.contains("drag-icon");
+            },
+        });
     }
     var $person =
       '<div class="media align-items-center">' +
@@ -253,6 +215,7 @@ $(function () {
             }
           },
         });
+    }
 
         $(newTaskModal).modal("hide");
         overlay.removeClass("show");
@@ -313,8 +276,13 @@ $(function () {
           }
           // Thêm phần hiện số ngày nghỉ tại đây
 
-        },
-      });
+    // Task Tags
+    if (taskTag.length) {
+        taskTag.wrap('<div class="position-relative"></div>');
+        taskTag.select2({
+            placeholder: "Select tag",
+        });
+    }
 
       var staffId = $(".todo-title").data("staff");
       $.ajax({
@@ -328,75 +296,257 @@ $(function () {
         },
       });
     }
-  );
 
-  // Tìm kiếm dự án
-  if (todoFilter.length) {
-    todoFilter.on("keyup", function () {
-      var value = $(this).val().toLowerCase();
-      if (value !== "") {
-        $(".todo-item").filter(function () {
-          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+    // Todo Description Editor
+    if (taskDesc.length) {
+        var todoDescEditor = new Quill("#task-desc", {
+            bounds: "#task-desc",
+            modules: {
+                formula: true,
+                syntax: true,
+                toolbar: ".desc-toolbar",
+            },
+            placeholder: "",
+            theme: "snow",
         });
-        var tbl_row = $(".todo-item:visible").length;
-
-        //Check if table has row or not
-        if (tbl_row == 0) {
-          if (!$(noResults).hasClass("show")) {
-            $(noResults).addClass("show");
-          }
-        } else {
-          $(noResults).removeClass("show");
-        }
-      } else {
-        // If filter box is empty
-        $(".todo-item").show();
-        if ($(noResults).hasClass("show")) {
-          $(noResults).removeClass("show");
-        }
-      }
-    });
-  }
-
-  // For chat sidebar on small screen
-  if ($(window).width() > 992) {
-    if (overlay.hasClass("show")) {
-      overlay.removeClass("show");
     }
-  }
+
+    // On add new item button click, clear sidebar-right field fields
+    if (addTaskBtn.length) {
+        addTaskBtn.on("click", function (e) {
+            addBtn.removeClass("d-none");
+            updateBtns.addClass("d-none");
+            $("#onLeave").addClass("d-none");
+            // newTaskModal.modal('show');
+            sidebarLeft.removeClass("show");
+            overlay.removeClass("show");
+            newTaskModal.find(".new-todo-item-title").val("");
+            var quill_editor = taskDesc.find(".ql-editor p");
+            quill_editor.html("");
+            $("#id").val(0); // them du an mac dinh id = 0
+            $("#task-due-date").val("DD-MM-YYYY");
+            load_select2(
+                taskAssignSelect,
+                baseHome + "/onleave/getStaff",
+                "Người làm đơn"
+            );
+            load_select2($("#staffId"), baseHome + "/onleave/getStaff", "");
+            $("#staffId").val([]).change();
+            if (funAdd == 1) {
+                $("#updateProject").attr("style", "display:inline-block");
+            }
+        });
+    }
+    // Add New ToDo List Item
+
+    // To add new todo form
+    if (newTaskForm.length) {
+        newTaskForm.validate({
+            ignore: ".ql-container *", // ? ignoring quill editor icon click, that was creating console error
+            rules: {
+                date: {
+                    required: true,
+                },
+                "task-due-date": {
+                    required: true,
+                },
+            },
+        });
+
+        newTaskForm.on("submit", function (e) {
+            e.preventDefault();
+            var isValid = newTaskForm.valid();
+            if (isValid) {
+                var id = $("#id").val();
+                var staffId = $("#staffId").val();
+                var type = $("#type").val();
+                var description = $("#task-desc").find(".ql-editor p").html();
+                var date = $(".sidebar-todo-modal .task-due-date").val();
+                var shift = $("#shift").val();
+                var status = 1;
+
+                // var name = $("#name").val();
+                // var managerId = $("#managerId").val();
+                // var memberId = $("#staffId").val();
+                // var process = $("#process").val();
+                // var date = $(".sidebar-todo-modal .task-due-date").val();
+                // var description = taskDesc.find(".ql-editor p").html();
+                // var status = $("#status").val();
+                // var level = $("#level").val();
+                // var id = $("#id").val();
+
+                $.ajax({
+                    type: "POST",
+                    dataType: "json",
+                    data: {
+                        id: id,
+                        staffId: staffId,
+                        type: type,
+                        description: description,
+                        shift: shift,
+                        date: date,
+                        status: status,
+                    },
+                    url: baseHome + "/onleave/update",
+                    success: function (data) {
+                        if (data.success == true) {
+                            notyfi_success(data.msg);
+                            $("#todo-task-list").load(
+                                window.location.href + " #todo-task-list"
+                            );
+                        } else {
+                            notify_error(data.msg);
+                            $("#form-modal-todo").trigger("reset");
+                            return false;
+                        }
+                    },
+                });
+
+                $(newTaskModal).modal("hide");
+                overlay.removeClass("show");
+            }
+        });
+    }
+
+    todoTaskListWrapper.on("click", ".custom-checkbox", function (event) {
+        event.stopPropagation();
+    });
+
+    // To open todo list item modal on click of item
+
+    $(document).on(
+        "click",
+        ".todo-task-list-wrapper .todo-item",
+        function (e) {
+            var validator = $("#form-modal-todo").validate(); // reset form
+            validator.resetForm();
+            newTaskModal.modal("show");
+            addBtn.addClass("d-none");
+            updateBtns.removeClass("d-none");
+            $("#onLeave").removeClass("d-none");
+            $("#updateProject").attr("style", "display:none");
+            if (funEdit == 1) {
+                    $("#updateProject").attr("style", "display:inline-block");
+                }
+            if ($(this).hasClass("completed")) {
+                modalTitle.html(
+                    '<button type="button" class="btn btn-sm btn-outline-success complete-todo-item waves-effect waves-float waves-light" data-dismiss="modal">Completed</button>'
+                );
+            } else {
+                modalTitle.html("Đơn xin nghỉ phép");
+            }
+            var id = $(this).data("id");
+            $.ajax({
+                type: "GET",
+                dataType: "json",
+                data: {id: id},
+                url: baseHome + "/onleave/getitem",
+                success: function (obj) {
+                    newTaskForm.find(".new-todo-item-title").val(obj.name);
+                    var quill_editor = $("#task-desc .ql-editor p");
+                    quill_editor.html(obj.description);
+                    $("#task-due-date").val(obj.date);
+                    $("#id").val(obj.id);
+                    $("#type").val(obj.type).change();
+                    load_select2(
+                        $("#staffId"),
+                        baseHome + "/onleave/getStaff",
+                        "Người làm đơn"
+                    );
+                    load_select2($("#staffId"), baseHome + "/onleave/getStaff", "");
+                    $("#staffId").val(obj.staffId).change();
+                    // console.log(obj.status);
+                    if (obj.status == 0 || obj.status == 2) {
+                        $("#updateProject").attr("style", "display:none");
+                        $("#delProject").addClass("d-none");
+                    }
+                    // Thêm phần hiện số ngày nghỉ tại đây
+
+                },
+            });
+
+            var staffId = $(".todo-title").data("staff");
+            // console.log(staffId);
+            $.ajax({
+                type: "GET",
+                dataType: "json",
+                data: {staffId: staffId},
+                url: baseHome + "/onleave/getDayOnLeave",
+                success: function (data) {
+                    $("#onLeaveOwn").val(data.onLeaveOwn);
+                    $("#onLeaveUsed").val(data.onLeaveUsed);
+                },
+            });
+        }
+    );
+
+    // Tìm kiếm dự án
+    if (todoFilter.length) {
+        todoFilter.on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            if (value !== "") {
+                $(".todo-item").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+                });
+                var tbl_row = $(".todo-item:visible").length;
+
+                //Check if table has row or not
+                if (tbl_row == 0) {
+                    if (!$(noResults).hasClass("show")) {
+                        $(noResults).addClass("show");
+                    }
+                } else {
+                    $(noResults).removeClass("show");
+                }
+            } else {
+                // If filter box is empty
+                $(".todo-item").show();
+                if ($(noResults).hasClass("show")) {
+                    $(noResults).removeClass("show");
+                }
+            }
+        });
+    }
+
+    // For chat sidebar on small screen
+    if ($(window).width() > 992) {
+        if (overlay.hasClass("show")) {
+            overlay.removeClass("show");
+        }
+    }
 });
 
 $(window).on("resize", function () {
-  // remove show classes from sidebar and overlay if size is > 992
-  if ($(window).width() > 992) {
-    if ($(".body-content-overlay").hasClass("show")) {
-      $(".sidebar-left").removeClass("show");
-      $(".body-content-overlay").removeClass("show");
-      $(".sidebar-todo-modal").modal("hide");
+    // remove show classes from sidebar and overlay if size is > 992
+    if ($(window).width() > 992) {
+        if ($(".body-content-overlay").hasClass("show")) {
+            $(".sidebar-left").removeClass("show");
+            $(".body-content-overlay").removeClass("show");
+            $(".sidebar-todo-modal").modal("hide");
+        }
     }
-  }
 });
 
 // load nhân viên
 function load_select2(select2, url, place) {
-  $.ajax({
-    type: "GET",
-    dataType: "json",
-    async: false,
-    url: url,
-    success: function (data) {
-      var html = "";
-      if (place != "")
-        html =
-          '<option value="" disabled selected hidden>' + place + "</option>";
-          data.forEach(function (element, index) {
-            if (element.selected == true) var select = "selected";
-            html += `<option data-img="${element.avatar}" ${select} value="${element.id}">${element.name}</option> `;
-          });
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        async: false,
+        url: url,
+        success: function (data) {
+            var html = "";
+            if (place != "")
+                html =
+                    '<option value="" disabled selected hidden>' + place + "</option>";
+            data.forEach(function (element, index) {
+                if (element.selected == true) var select = "selected";
+                html += `<option data-img="${element.avatar}" ${select} value="${element.id}">${element.name}</option> `;
+            });
 
-      select2.html(html);
-    },
-  });
+            select2.html(html);
+        },
+    });
 }
 
 // function listStatus(status) {
@@ -408,7 +558,7 @@ function load_select2(select2, url, place) {
 
 function loadTaskList(status) {
     $("#todo-task-list").load(
-      window.location.href +
+        window.location.href +
         "?status=" +
         status +
         " #todo-task-list"
@@ -416,45 +566,45 @@ function loadTaskList(status) {
 }
 
 function load_select(selectId, url, place) {
-  $.ajax({
-    type: "GET",
-    dataType: "json",
-    async: false,
-    url: url,
-    success: function (data) {
-      var html =
-        '<option value="" disabled selected hidden>' + place + "</option>";
-      data.forEach(function (element, index) {
-        html += `<option data-style="${element.color}"  value="${element.id}">${element.text}</option>`;
-        console.log(element.text);
-      });
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        async: false,
+        url: url,
+        success: function (data) {
+            var html =
+                '<option value="" disabled selected hidden>' + place + "</option>";
+            data.forEach(function (element, index) {
+                html += `<option data-style="${element.color}"  value="${element.id}">${element.text}</option>`;
+                console.log(element.text);
+            });
 
-      selectId.html(html);
-      //test
+            selectId.html(html);
+            //test
 
-      if (selectId.length) {
-        function renderBullets(option) {
-          if (!option.id) {
-            return option.text;
-          }
-          var style = $(option.element).data("style");
-          var $bullet = `<span style="color:${style}; font-weight:600;">${option.text}</span>`;
-          return $bullet;
-        }
+            if (selectId.length) {
+                function renderBullets(option) {
+                    if (!option.id) {
+                        return option.text;
+                    }
+                    var style = $(option.element).data("style");
+                    var $bullet = `<span style="color:${style}; font-weight:600;">${option.text}</span>`;
+                    return $bullet;
+                }
 
-        selectId.wrap('<div class="position-relative"></div>').select2({
-          placeholder: place,
-          // dropdownParent: selectCongSang.parent(),
-          templateResult: renderBullets,
-          templateSelection: renderBullets,
-          minimumResultsForSearch: -1,
-          escapeMarkup: function (es) {
-            return es;
-          },
-        });
-      }
-    },
-  });
+                selectId.wrap('<div class="position-relative"></div>').select2({
+                    placeholder: place,
+                    // dropdownParent: selectCongSang.parent(),
+                    templateResult: renderBullets,
+                    templateSelection: renderBullets,
+                    minimumResultsForSearch: -1,
+                    escapeMarkup: function (es) {
+                        return es;
+                    },
+                });
+            }
+        },
+    });
 }
 
 // lấy dự án
@@ -469,7 +619,7 @@ function load_select(selectId, url, place) {
 //         // var mailread = "";
 //         var html = "";
 //         var color = "";
-        
+
 //         data.forEach(function (element, index) {
 //           if(element.status == "1") {
 //             element.status = "Đang chờ duyệt";
@@ -627,35 +777,34 @@ function load_select(selectId, url, place) {
 // }
 
 function del() {
-  var id = $(".todo-item").data("id");
-  Swal.fire({
-    title: "Từ chối",
-    text: "Bạn có chắc chắn muốn từ chối!",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonText: "Tôi đồng ý",
-    customClass: {
-      confirmButton: "btn btn-primary",
-      cancelButton: "btn btn-outline-danger ml-1",
-    },
-    buttonsStyling: false,
-  }).then(function (result) {
-    if (result.value) {
-       $.ajax({
-         url: baseHome + "/onleave/del",
-         type: "post",
-         dataType: "json",
-         data: { id: id },
-         success: function (data) {
-           if (data.success) {
-             notyfi_success(data.msg);
-             $("#todo-task-list").load(
-               window.location.href + " #todo-task-list"
-             );
-           } 
-           else notify_error(data.msg);
-         },
-       });
-    }
-  });
+    var id = $(".todo-item").data("id");
+    Swal.fire({
+        title: "Từ chối",
+        text: "Bạn có chắc chắn muốn từ chối!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Tôi đồng ý",
+        customClass: {
+            confirmButton: "btn btn-primary",
+            cancelButton: "btn btn-outline-danger ml-1",
+        },
+        buttonsStyling: false,
+    }).then(function (result) {
+        if (result.value) {
+            $.ajax({
+                url: baseHome + "/onleave/del",
+                type: "post",
+                dataType: "json",
+                data: {id: id},
+                success: function (data) {
+                    if (data.success) {
+                        notyfi_success(data.msg);
+                        $("#todo-task-list").load(
+                            window.location.href + " #todo-task-list"
+                        );
+                    } else notify_error(data.msg);
+                },
+            });
+        }
+    });
 }
