@@ -1,9 +1,11 @@
 var url = '';
 
 $(function () {
-    return_combobox_multi('#branchId', baseHome + '/interview_result/getBranch', 'Phòng ban');
-    return_combobox_multi('#departmentId', baseHome + '/interview_result/getDepartment', 'Chi nhánh');
+    return_combobox_multi('#branchId', baseHome + '/interview_result/getBranch', 'Chi nhánh');
+    return_combobox_multi('#departmentId', baseHome + '/interview_result/getDepartment', 'Phòng ban');
     return_combobox_multi('#position', baseHome + '/interview_result/getPosition', 'Vị trí');
+    return_combobox_multi('#shiftId', baseHome + '/interview_result/getShift', 'Ca làm việc');
+    return_combobox_multi('#workPlaceId', baseHome + '/interview_result/getworkPlace', 'Địa điểm làm việc');
     var dtUserTable = $(".user-list-table"),
         modal = $("#updateinfo"),
         datePicker = $(".ngay_gio"),
@@ -20,7 +22,9 @@ $(function () {
             defaultDate: "today",
         });
     }
-
+    $('#type').select2({
+        placeholder: 'Hợp đồng'
+    });
 
     // Users List datatable
     if (dtUserTable.length) {
@@ -181,6 +185,12 @@ $(function () {
                 "position": {
                     required: true,
                 },
+                "shiftId": {
+                    required: true,
+                },
+                "workPlaceId": {
+                    required: true,
+                },
                 "branchId": {
                     required: true,
                 },
@@ -200,11 +210,9 @@ $(function () {
                     required: "Bạn chưa nhập lương cơ bản",
                 },
                 "allowance": {
-                    required: "Bạn chưa nhập lương cơ bản",
+                    required: "Bạn chưa nhập lương trợ cấp",
                 },
-                "insuranceSalary": {
-                    required: "Bạn chưa nhập lương phụ cấp",
-                },
+         
                 "salaryPercentage": {
                     required: "Bạn chưa nhập phần trăm lương",
                 },
@@ -216,6 +224,12 @@ $(function () {
                 },
                 "departmentId": {
                     required: "Bạn chưa chọn phòng ban",
+                },
+                "shiftId": {
+                    required: "Bạn chưa nhập ca làm việc",
+                },
+                "workPlaceId": {
+                    required: "Bạn chưa nhập địa chỉ làm việc",
                 }
             },
         });
@@ -252,6 +266,9 @@ function loaddata(id,applicantId) {
     $('#branchId').val('').trigger('change');
     $('#departmentId').val('').trigger('change');
     $('#position').val('').trigger('change');
+    $('#workPlaceId').val('').trigger('change');
+    $('#shiftId').val('').trigger('change');
+    $('#type').val('').trigger('change');
     url = baseHome + '/interview_result/signContract?id='+id+'&applicantId=' + applicantId;
 }
 function signContract() {

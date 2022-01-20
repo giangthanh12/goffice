@@ -1,7 +1,7 @@
 <?php
 define("DB_TYPE", "mysql");
 define("DB_HOST", "localhost:3308");
-define("DB_NAME", "goffice_test");
+define("DB_NAME", "goffice_gemstechnew");
 define("DB_USER", "root");
 define("DB_PASS", "");
 //define("URL", "http://".$_SERVER["HTTP_HOST"]."/gofficev2/api");

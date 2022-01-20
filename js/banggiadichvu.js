@@ -99,7 +99,6 @@ $(function () {
                         $('#dich_vu').trigger("change");
                         $('#so_tien').val('');
                         $('#ghi_chu').val('');
-
                         var dateObj = new Date();
                         var thang = dateObj.getMonth();
                         thang = thang > 9 ? thang : '0' + thang;
