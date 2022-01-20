@@ -1,15 +1,40 @@
 <?php
 class onleave extends Controller
 {
-    static protected $funcs;
+    static private $funDel = 0, $funAdd = 0, $funEdit = 0;
     function __construct()
     {
         parent::__construct();
+        $model = new model();
+        $checkMenuRole = $model->checkMenuRole('onleave');
+        if ($checkMenuRole == false)
+            header('location:' . HOME);
+        if ($_SESSION['user']['classify'] == 1) {
+            self::$funDel = 1;
+            self::$funAdd = 1;
+            self::$funEdit = 1;
+        }
+        $functions = $model->getFunctions("payrolls");
+        foreach ($functions as $item) {
+            switch ($item['function']) {
+                case 'del';
+                    self::$funDel = 1;
+                    break;
+                case 'add';
+                    self::$funAdd = 1;
+                    break;
+                case 'edit';
+                    self::$funEdit = 1;
+                    break;
+            }
+        }
     }
 
     function index(){
-        $this->view->funs = self::$funcs;
         require "layouts/header.php";
+        $this->view->funDel = self::$funDel;
+        $this->view->funAdd = self::$funAdd;
+        $this->view->funEdit = self::$funEdit;
         $status = isset($_REQUEST['status']) ? $_REQUEST['status'] : '';
         $this->view->list = $this->model->getList($status, 1);
         $this->view->render("onleave/index");
@@ -35,7 +60,7 @@ class onleave extends Controller
     }
     function update() {
         $id = $_REQUEST['id'];
-        if(functions::checkFuns(self::$funcs,'add') && $id == 0) {
+        if(self::$funAdd == 1 && $id == 0) {
             $staffId = $_REQUEST['staffId'];
             $type = $_REQUEST['type'];
             $description = $_REQUEST['description'];
@@ -62,7 +87,7 @@ class onleave extends Controller
             
           $result = $this->model->updateOnLeave($id,$data); // vừa update vừa insert,
         }
-        else if(functions::checkFuns(self::$funcs,'loaddata') && $id > 0) {
+        else if(self::$funEdit == 1 && $id > 0) {
             $staffId = $_REQUEST['staffId'];
             $type = $_REQUEST['type'];
             $description = $_REQUEST['description'];
@@ -118,7 +143,7 @@ class onleave extends Controller
     }
 
     function del(){
-        if(functions::checkFuns(self::$funcs,'del')) {
+        if(self::$funDel == 1) {
             $id = $_REQUEST['id'];
             if ($this->model->delObj($id)) {
                 $jsonObj['msg'] = "Đã từ chối đơn phép";

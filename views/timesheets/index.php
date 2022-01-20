@@ -59,8 +59,18 @@
                                     <div class="form-group row">
                                         <div class="col-sm-12">
                                             <select class="select2 form-control" id="staffId"
-                                                    name="staffId" placeholder="Nhân viên">
+                                                    name="staffId" placeholder="Nhân viên" required>
                                                 <option value="">--Chọn nhân viên--</option>
+                                                <option value="0">--Tất cả--</option>
+                                                <?php
+                                                foreach ($this->employee AS $item) {
+                                                    if ($item['avatar']!='')
+                                                        $avatar = URLFILE.'/uploads/nhanvien/'.$item['avatar'];
+                                                    else
+                                                        $avatar = HOME.'/layouts/useravatar.png';
+                                                    echo '<option data-img="'.$avatar.'" value="'.$item['id'].'">'.$item['name'].'</option>';
+                                                }
+                                                ?>
                                             </select>
                                         </div>
                                     </div>
@@ -75,7 +85,7 @@
                                                                 data-feather='calendar'></i></span>
                                                 </div>
                                                     <input type="text" class="form-control work-due-date" id="startDate"
-                                                       name="startDate"/>
+                                                       name="startDate" required/>
                                             </div>
                                         </div>
                                     </div>
@@ -90,7 +100,7 @@
                                                                 data-feather='calendar'></i></span>
                                                 </div>
                                                 <input type="text" class="form-control work-due-date" id="endDate"
-                                                       name="endDate"/>
+                                                       name="endDate" required/>
                                             </div>
                                         </div>
                                     </div>
@@ -105,8 +115,8 @@
                                                         <i data-feather='bookmark'></i>
                                                     </span>
                                                 </div>
-                                                <input type="text" class="form-control" id="work"
-                                                       name="work"/>
+                                                <input type="number" class="form-control" id="work"
+                                                       name="work" required/>
                                             </div>
                                         </div>
                                     </div>

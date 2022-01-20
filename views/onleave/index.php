@@ -9,7 +9,7 @@
                     <div class="todo-app-menu">
                         <div class="sidebar-menu-list">
                             <div class="add-task">
-                                <?php if(functions::checkFuns($this->funs,'add')) { ?>
+                                <?php if($this->funAdd==1) { ?>
                                 <button type="button" class="btn btn-primary btn-block" data-toggle="modal"
                                     data-target="#new-task-modal">
                                     Tạo đơn nghỉ phép
@@ -195,7 +195,7 @@
                                             <div class="form-group my-1">
                                                 <button type="submit" style="display:none;" id="updateProject"
                                                     class="btn btn-primary">Duyệt</button>
-                                                <?php if(functions::checkFuns($this->funs, 'del')) { ?>
+                                                <?php if($this->funDel==1) { ?>
                                                 <button type="button" class="btn btn-danger update-btn d-none"
                                                     data-dismiss="modal" id="delProject" onclick="del()">Từ chối</button>
                                                 <?php } ?>
@@ -215,8 +215,8 @@
     </div>
 </div>
 <script>
-var userFuns = JSON.parse('<?=json_encode($this->funs)?>');
-console.log(userFuns);
+var funEdit = <?=$this->funEdit?>;
+var funDel = <?=$this->funDel?>;
 </script>
 
 <script src="<?= HOME ?>/js/onleave.js"></script>s

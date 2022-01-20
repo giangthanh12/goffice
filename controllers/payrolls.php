@@ -8,6 +8,9 @@ class payrolls extends Controller
     {
         parent::__construct();
         $model = new model();
+        $checkMenuRole = $model->checkMenuRole('payrolls');
+        if ($checkMenuRole == false)
+            header('location:' . HOME);
         if ($_SESSION['user']['classify'] == 1) {
             self::$funCheck = 1;
             self::$funAdd = 1;
@@ -124,6 +127,25 @@ class payrolls extends Controller
             $jsonObj['code'] = 200;
         } else {
             $jsonObj['message'] = "Duyệt bảng lương không thành công";
+            $jsonObj['code'] = 401;
+        }
+        echo json_encode($jsonObj);
+    }
+
+    function uncheckPayRoll()
+    {
+        if (self::$funCheck == 0)
+            return false;
+        $id = isset($_POST['id']) ? $_REQUEST['id'] : 0;
+        if ($id <= 0) {
+            return false;
+        }
+        $data = ['status' => 1];
+        if ($this->model->updateObj($id, $data)) {
+            $jsonObj['message'] = "Đã hoàn duyệt bảng lương";
+            $jsonObj['code'] = 200;
+        } else {
+            $jsonObj['message'] = "Hoàn duyệt bảng lương không thành công";
             $jsonObj['code'] = 401;
         }
         echo json_encode($jsonObj);
