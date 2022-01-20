@@ -91,10 +91,10 @@
                                         <div class="todo-title-wrapper">                                            
                                             <div class="todo-title-area">
                                                 <span><img style="border-radius: 50%;" onerror=this.src="https://velo.vn/goffice-test/layouts/useravatar.png" src="' . $avatar . '" height="32" width="32"/></span>
-                                                <span class="taskId d-none" name="id" >' . $item['id'] . '</span>
+                                                <span class="taskId d-none" id="id" name="id" >' . $item['id'] . '</span>
                                                 <i data-feather="more-vertical" class="drag-icon"></i>
                                                 <div class="title-wrapper">
-                                                    <span class="todo-title" data-staff="' . $item['staffId'] . '">' . $item['staffName'] . '</span>
+                                                    <span class="todo-title" data-staff="">' . $item['staffName'] . '</span>
                                                 </div>
                                             </div>
                                             <div class="todo-item-action">
@@ -134,7 +134,7 @@
                                             </button>
                                         </div>
                                     </div>
-                                    
+                                    <input type="hidden" name="id" id="id">
                                     <div class="modal-body flex-grow-1 pb-sm-0 pb-3">
                                         <div class="action-tags">
                                             <div class="form-group">
