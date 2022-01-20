@@ -96,7 +96,7 @@ $(function () {
                         previous: "&nbsp;",
                         next: "&nbsp;",
                     },
-                    info:"Hiển thị _START_ đến _END_ of _TOTAL_ bản ghi",
+                    info:"Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
                 },
             // Buttons with Dropdown
             buttons: [],
@@ -129,6 +129,17 @@ $(function () {
                     required: true,
                 },
             },
+            message: {
+                "nhan_vien": {
+                    required: "Bạn chưa chọn nhân viên",
+                },
+                "tai_san": {
+                    required: "Bạn chưa chọn nhân viên",
+                },
+                "dat_coc": {
+                    required: "Bạn chưa nhập tiền đặt cọc",
+            },
+        }
         });
 
         form.on("submit", function (e) {

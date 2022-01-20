@@ -23,7 +23,7 @@
                                     <select class="select2 select-label form-control w-100" id="selectNhanVien" name="selectNhanVien">
                                     </select>
                                 </div>
-                                <!-- <div class="card-body pb-0">
+                                <div class="card-body pb-0">
                                     <h5 class="section-label mb-1">
                                         <span class="align-middle">Lọc</span>
                                     </h5>
@@ -36,7 +36,7 @@
                                         <div class="custom-control  custom-control-warning  custom-checkbox mb-1">
                                             <input type="checkbox" class="custom-control-input input-filter" id="1"
                                                    data-value="1" checked="">
-                                            <label class="custom-control-label" for="1">Đang chờ duyệt</label>
+                                            <label class="custom-control-label" for="1">Hẹn phỏng vấn</label>
                                         </div>
                                         <div class="custom-control custom-control-success custom-checkbox mb-1">
                                             <input type="checkbox" class="custom-control-input input-filter" id="2"
@@ -46,10 +46,15 @@
                                         <div class="custom-control custom-control-danger custom-checkbox mb-1">
                                             <input type="checkbox" class="custom-control-input input-filter" id="3"
                                                    data-value="3" checked="">
-                                            <label class="custom-control-label" for="3">Trượt phỏng vấn</label>
+                                            <label class="custom-control-label" for="3">Không đạt</label>
+                                        </div>
+                                        <div class="custom-control custom-control-danger custom-checkbox mb-1">
+                                            <input type="checkbox" class="custom-control-input input-filter" id="4"
+                                                   data-value="4" checked="">
+                                            <label class="custom-control-label" for="4">Từ chối</label>
                                         </div>
                                     </div>
-                                </div> -->
+                                </div>
                             </div>
                             <div class="mt-auto">
                                 <img src="<?= HOME ?>/styles/app-assets/images/pages/calendar-illustration.png"
@@ -141,23 +146,28 @@
                                         <input type="text" class="form-control flatpickr-basic" id="dateTime" name="dateTime"
                                                placeholder="DD-MM-YYYY" required="true" >
                                     </div>
+                                    <div class="form-group">
+                                        <label for="dateTime" class="form-label">Giờ phỏng vấn</label>
+                                        <input type="text" class="form-control" id="timeInterview" name="timeInterview"
+                                                required="true" >
+                                    </div>
                                     <div class="form-group position-relative">
                                         <label for="interviewerIds" class="form-label">Người phỏng vấn</label>
                                         <select name="interviewerIds[]" id="interviewerIds" required data-msg-required="Yêu cầu chọn người phỏng vấn" multiple="multiple" class="form-control select2"></select>
                                     </div>
-                                    <div class="form-group">
+                                    <!-- <div class="form-group">
                                         <label for="round" class="form-label">Vòng phỏng vấn</label>
                                         <input type="number" min="1" class="form-control" id="round" name="round"
                                                 required="true" >
-                                    </div>
+                                    </div> -->
                                     <div class="form-group">
                                         <label for="round" class="form-label">Kết quả phỏng vấn</label>
-                                        <select class="select2 select-label form-control w-100" id="result" name="result">
+                                        <select required data-msg-required="Yêu cầu chọn trạng thái" class="select2 select-label form-control w-100" id="result" name="result">
                                             <option data-label="#FF9F43" value="1">Hẹn phỏng vấn</option>
                                             <option data-label="#28C76F" value="2">Đạt</option>
                                             <option data-label="#EA5455" value="3">Không đạt</option>
                                             <option data-label="#E83E8C" value="4">Từ chối</option>
-                                            <option data-label="#00CFE8" value="5">Ký hợp đồng lao động</option>
+                                           
                                         </select>
                                     </div>
                                     <div class="form-group">

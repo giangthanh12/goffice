@@ -56,7 +56,7 @@ class applicant_Model extends Model{
     }
 
     function delObj($id){
-        $query = $this->update("applicants", ['status'=>2], " id=$id ");
+        $query = $this->update("applicants", ['status'=>0], " id=$id ");
         return $query;
     }
 

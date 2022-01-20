@@ -48,6 +48,7 @@
              1: 'warning',
              2: 'success',
              3: 'danger',
+             4: 'danger',
              8: 'dark',
              9: 'danger',
              10: 'primary',
@@ -250,31 +251,35 @@
         //  giovao.setDate(eventToUpdate.extendedProps.giovao, true, 'Y-m-d');
         //  giora.setDate(eventToUpdate.extendedProps.giora, true, 'Y-m-d');
 
-
+         // ngày
         $('.flatpickr-basic').flatpickr({
             enableTime: true,
             dateFormat: "d-m-Y H:i",
             defaultDate: eventToUpdate.extendedProps.dateTime
             });
-        $('#idInterview').val(eventToUpdate.extendedProps.id);
+        //Giờ
+        $('#timeInterview').flatpickr({
+            enableTime: true,
+            noCalendar: true,
+            dateFormat: "H:i",
+            defaultDate: eventToUpdate.extendedProps.time
+            });
+         $('#idInterview').val(eventToUpdate.extendedProps.id);
          $('#campId').val(eventToUpdate.extendedProps.campId).change();
          $('#canId').val(eventToUpdate.extendedProps.applicantId).trigger('change');
          $('#dateTime').val(eventToUpdate.extendedProps.dateTime);
+         $('#timeInterview').val(eventToUpdate.extendedProps.time)
          $('#interviewerIds').val(eventToUpdate.extendedProps.interviewerIds).trigger('change');
          $('#round').val(eventToUpdate.extendedProps.round);
          $('#result').val(eventToUpdate.extendedProps.result).trigger('change');
          $('#note').val(eventToUpdate.extendedProps.note);
-
-        
      }
- 
      // Modify sidebar toggler
      function modifyToggler() {
          $('.fc-sidebarToggle-button')
              .empty()
              .append(feather.icons['menu'].toSvg({class: 'ficon'}));
      }
- 
      // Selected Checkboxes
      function selectedCalendars() {
          var selected = [];
@@ -313,19 +318,17 @@
              data: {nhanvien:nhanvien, nam: nam, thang: thang},
              url: baseHome + '/interview/getListInterview',
              success: function (data) {
-            console.log(data);
+         
                  events = [];
                  if (data.data) {
                      let i = 0;
                      data.data.forEach(function (item) {
-                       
+                    
                          let allday = false;
                          let arr = [];
-           
-                      
                              arr = {
                                  id: item.id,
-                                 title:'',
+                                 title:item.fullName,
                                  start: new Date(item.dateTime),
                                  end: new Date(item.dateTime),
                                  allDay: allday,
@@ -334,10 +337,10 @@
                                      campId: item.campId,
                                      applicantId: item.applicantId,
                                      interviewerIds: item.interviewerIds.split(','),
-                                     round: item.round,
                                      result: item.result,
                                      note: item.note,
                                      dateTime:item.date,
+                                     time:item.time
                                  }
                              };
                              events.push(arr);
@@ -345,19 +348,19 @@
             
                      })
                  }
-                //  var calendars = selectedCalendars();
+                 var calendars = selectedCalendars();
                  // We are reading event object from app-calendar-events.js file directly by including that file above app-calendar file.
                  // You should make an API call, look into above commented API call for reference
 
 
 
-                //  selectedEvents = events.filter(function (event) {
+                 selectedEvents = events.filter(function (event) {
                   
-                //      return calendars.includes(event.extendedProps.result.toLowerCase());
-                //  });
+                     return calendars.includes(event.extendedProps.result.toLowerCase());
+                 });
                 
             
-                 successCallback(events);
+                 successCallback(selectedEvents);
               
              },
              error: function () {
@@ -446,17 +449,27 @@
                     // Background Color
                     'bg-light-' + colorName,
                     'text-white',
+                    'd-block'
                 ];
             
          },
          dateClick: function (info) {
+             // thêm dựa vào lịch
             btnDeleteEvent.addClass('d-none');
                 $('#add-new-sidebar').modal('show');
-                var date = moment(info.date).format('DD-MM-YYYY 00:00');
+                var date = moment(info.date).format('DD-MM-YYYY');
+                   //ngày
                 $('.flatpickr-basic').flatpickr({
                     enableTime: true,
-                    dateFormat: "d-m-Y H:i",
+                    dateFormat: "d-m-Y",
                     defaultDate: date
+                    });
+                    //giờ
+                $('#timeInterview').flatpickr({
+                    enableTime: true,
+                    noCalendar: true,
+                    dateFormat: "H:i",
+                    defaultDate: "12:00"
                     });
                 $('#dateTime').val(date);
                 $('#idInterview').val('');
@@ -466,10 +479,10 @@
                 $('#interviewerIds').val('');
                 $('#result').val('').change();
                 $('#note').val('');
-               
-       
+
          },
          eventClick: function (info) {
+          
             btnDeleteEvent.removeClass('d-none');
                  eventClick(info);
          },
@@ -505,33 +518,37 @@
              rules: {
                  'campId': {required: true},
                  'canId': {required: true},
-                 'round': {required: true},
-              
              },
              messages: {
                  'campId': {required: 'Yêu cầu chọn chiến dịch'},
                  'canId': {required: 'Yêu cầu chọn ứng viên'},
-                 'round': {required: 'Yêu cầu chọn vòng phỏng vấn'},
-             
              }
  
          });
      }
  
-     // Sidebar Toggle Btn add interview calendar
+     // Sidebar Toggle Btn add interview calendar chú ý
      if (toggleSidebarBtn.length) {
        
          toggleSidebarBtn.on('click', function () {
+            //ngày
             $('.flatpickr-basic').flatpickr({
                 enableTime: true,
-                dateFormat: "d-m-Y H:i",
+                dateFormat: "d-m-Y",
                 defaultDate: "today"
                 });
+            //giờ
+            $('#timeInterview').flatpickr({
+                enableTime: true,
+                noCalendar: true,
+                dateFormat: "H:i",
+                defaultDate: "12:00"
+                });
             btnDeleteEvent.addClass('d-none');
-             cancelBtn.removeClass('d-none');
+            cancelBtn.removeClass('d-none');
           $('#idInterview').val('');
           $('#campId').val('').change();
-       
+          $('#result').val('').change();     
           $('#interviewerIds').val([]).change();
          });
      }
@@ -621,10 +638,9 @@
                 id: $('#idInterview').val(),
                 campId: $('#campId').val(),
                 canId: $('#canId').val(),
-                dateTime: $('#dateTime').val(),
+                dateTime: $('#dateTime').val() +' '+ $('#timeInterview').val(),
                 interviewerIds:$('#interviewerIds').val(),
                 result: $('#result').val(),
-                round: $('#round').val(),
                 note: $('#note').val(),
              };
              $.ajax({

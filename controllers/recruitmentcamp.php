@@ -148,7 +148,7 @@ class recruitmentcamp extends Controller
     }
     function delCandidate() {
         $id = $_REQUEST['id'];
-        $data = ['status' => 2];
+        $data = ['status' => 0];
         if ($this->model->delCandidate($id, $data)) {
             $jsonObj['msg'] = "Xóa dữ liệu thành công";
             $jsonObj['success'] = true;
@@ -232,7 +232,7 @@ class recruitmentcamp extends Controller
     function del()
     {
         $id = $_REQUEST['id'];
-        $data = ['status' => 2];
+        $data = ['status' => 0];
         if ($this->model->delObj($id, $data)) {
             $jsonObj['msg'] = "Xóa dữ liệu thành công";
             $jsonObj['success'] = true;
