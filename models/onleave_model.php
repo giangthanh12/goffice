@@ -60,8 +60,7 @@ class onleave_Model extends Model{
         $result['data'] = array();
         $where = " WHERE id = $id ";
         $query = $this->db->query("SELECT id, staffId, description, type, status, 
-        DATE_FORMAT(fromDate, '%d-%m-%Y') AS fromDate,
-        DATE_FORMAT(toDate, '%d-%m-%Y') AS toDate,
+        DATE_FORMAT(date, '%d-%m-%Y') AS date,
         (SELECT name FROM staffs WHERE id = a.staffId) AS staffName,
         (SELECT status FROM staffs WHERE id = a.staffId) AS staffType
         FROM onleave a $where");
@@ -77,15 +76,15 @@ class onleave_Model extends Model{
         return $query;
     }
 
-    function getDay($id){
+    function getDay($staffId){
         $result['data'] = array();
-        $where = " WHERE staffId = $id ";
+        $where = " WHERE staffId = $staffId ";
         $query = $this->db->query("SELECT id, onLeaveOwn, year, status,
-        (SELECT count(id) FROM onleave WHERE staffId = $id AND status = 2) AS onLeaveUsed 
+        (SELECT count(id) FROM onleave WHERE staffId = $staffId AND status = 2) AS onLeaveUsed 
         FROM staffonleave $where");
         $result = $query->fetchAll(PDO::FETCH_ASSOC);
-        if (isset($result[0]))
-            $result = $result[0];
+        // if (isset($result[0]))
+        //     $result = $result[0];
         return $result;
     }
 

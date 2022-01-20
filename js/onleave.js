@@ -21,10 +21,8 @@ $(function () {
     todoFilter = $("#todo-search"),
     todoTaskListWrapper = $(".todo-task-list-wrapper"),
     listItemFilter = $(".list-group-filters"),
-    noResults = $(".no-results"),
-    levelProject = $("#level"),
-    // checkboxId = 100,
-    isRtl = $("html").attr("data-textdirection") === "rtl";
+    noResults = $(".no-results");
+    
   // list_to_do();
   // load_select(
   //   $("#level"),
@@ -182,16 +180,15 @@ $(function () {
   // On add new item button click, clear sidebar-right field fields
   if (addTaskBtn.length) {
     addTaskBtn.on("click", function (e) {
-      addBtn.removeClass("d-none");
-      updateBtns.addClass("d-none");
+      $("#updateRequest").removeClass("d-none");
+      $("#refuseRequest").addClass("d-none");
       $("#onLeave").addClass("d-none");
-      // newTaskModal.modal('show');
       sidebarLeft.removeClass("show");
       overlay.removeClass("show");
       newTaskModal.find(".new-todo-item-title").val("");
       var quill_editor = taskDesc.find(".ql-editor p");
       quill_editor.html("");
-      $("#id").val(0); // them du an mac dinh id = 0
+      $("#id").val(); // them du an mac dinh id = 0
       $("#task-due-date").val("DD-MM-YYYY");
       load_select2(
         taskAssignSelect,
@@ -200,11 +197,6 @@ $(function () {
       );
       load_select2($("#staffId"), baseHome + "/onleave/getStaff", "");
       $("#staffId").val([]).change();
-      userFuns.forEach(function (item, value) {
-        if (item.function == "add") {
-          $("#updateProject").attr("style", "display:inline-block");
-        }
-      });
     });
   }
   // Add New ToDo List Item
@@ -234,16 +226,6 @@ $(function () {
         var date = $(".sidebar-todo-modal .task-due-date").val();
         var shift = $("#shift").val();
         var status = 1;
-
-        // var name = $("#name").val();
-        // var managerId = $("#managerId").val();
-        // var memberId = $("#staffId").val();
-        // var process = $("#process").val();
-        // var date = $(".sidebar-todo-modal .task-due-date").val();
-        // var description = taskDesc.find(".ql-editor p").html();
-        // var status = $("#status").val();
-        // var level = $("#level").val();
-        // var id = $("#id").val();
 
         $.ajax({
           type: "POST",
@@ -291,15 +273,9 @@ $(function () {
       var validator = $("#form-modal-todo").validate(); // reset form
       validator.resetForm();
       newTaskModal.modal("show");
-      addBtn.addClass("d-none");
-      updateBtns.removeClass("d-none");
+      addBtn.removeClass("d-none");
+      $("#refuseRequest").removeClass("d-none");
       $("#onLeave").removeClass("d-none");
-      $("#updateProject").attr("style", "display:none");
-      userFuns.forEach(function (item, value) {
-        if (item.function == "loaddata") {
-          $("#updateProject").attr("style", "display:inline-block");
-        }
-      });
       if ($(this).hasClass("completed")) {
         modalTitle.html(
           '<button type="button" class="btn btn-sm btn-outline-success complete-todo-item waves-effect waves-float waves-light" data-dismiss="modal">Completed</button>'
@@ -329,8 +305,11 @@ $(function () {
           $("#staffId").val(obj.staffId).change();        
           // console.log(obj.status);
           if(obj.status == 0 || obj.status == 2) {
-            $("#updateProject").attr("style", "display:none");
-            $("#delProject").addClass("d-none");
+            $("#updateRequest").addClass("d-none");
+            $("#refuseRequest").addClass("d-none");
+          } else if (obj.status == 1) {
+            $("#updateRequest").removeClass("d-none");
+            $("#refuseRequest").removeClass("d-none");
           }
           // Thêm phần hiện số ngày nghỉ tại đây
 
@@ -338,15 +317,14 @@ $(function () {
       });
 
       var staffId = $(".todo-title").data("staff");
-      // console.log(staffId);
       $.ajax({
         type: "GET",
         dataType: "json",
         data: { staffId: staffId },
         url: baseHome + "/onleave/getDayOnLeave",
         success: function (data) {
-          $("#onLeaveOwn").val(data.onLeaveOwn);
-          $("#onLeaveUsed").val(data.onLeaveUsed);
+          $("input#onLeaveOwn").val(data.onLeaveOwn);
+          $("input#onLeaveUsed").val(data.onLeaveUsed);
         },
       });
     }

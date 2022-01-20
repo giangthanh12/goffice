@@ -1,14 +1,13 @@
 <?php
 class onleave extends Controller
 {
-    static protected $funcs;
+    
     function __construct()
     {
         parent::__construct();
     }
 
     function index(){
-        $this->view->funs = self::$funcs;
         require "layouts/header.php";
         $status = isset($_REQUEST['status']) ? $_REQUEST['status'] : '';
         $this->view->list = $this->model->getList($status, 1);
@@ -35,22 +34,14 @@ class onleave extends Controller
     }
     function update() {
         $id = $_REQUEST['id'];
-        if(functions::checkFuns(self::$funcs,'add') && $id == 0) {
+        if($id == "") {
             $staffId = $_REQUEST['staffId'];
             $type = $_REQUEST['type'];
             $description = $_REQUEST['description'];
             $shift = $_REQUEST['shift'];
             $date = date("Y-m-d",strtotime(str_replace('/', '-',$_REQUEST['date'])));
             $status = 1;
-            // $name = $_REQUEST['name'];
-            // $managerId = $_REQUEST['managerId'];
-            // $memberId = str_replace(']','',str_replace('[', '', json_encode($_REQUEST['memberId'])));
-            // $process = !empty($_REQUEST['process']) ? $_REQUEST['process'] : 0;
-            // $level = $_REQUEST['level'];
-            // $description = $_REQUEST['description'];
-            // $status = $_REQUEST['status'];
-            // $createDate = date("Y-m-d");
-            // $deadline = date("Y-m-d",strtotime(str_replace('/', '-',$_REQUEST['date'])));
+           
             $data = array(
                 'staffId'=>$staffId,
                 'type'=>$type,
@@ -59,50 +50,38 @@ class onleave extends Controller
                 'date'=>$date,
                 'status'=>$status,
             );
-            
           $result = $this->model->updateOnLeave($id,$data); // vừa update vừa insert,
         }
-        else if(functions::checkFuns(self::$funcs,'loaddata') && $id > 0) {
+        else if($id > 0) {
             $staffId = $_REQUEST['staffId'];
             $type = $_REQUEST['type'];
             $description = $_REQUEST['description'];
             $shift = $_REQUEST['shift'];
             $date = date("Y-m-d",strtotime(str_replace('/', '-',$_REQUEST['date'])));
             $status = 2;
-            // $name = $_REQUEST['name'];
-            // $managerId = $_REQUEST['managerId'];
-            // $memberId = implode(',',$_REQUEST['memberId']);
-            // $process = !empty($_REQUEST['process']) ? $_REQUEST['process'] : 0;
-            // $level = $_REQUEST['level'];
-            // $description = $_REQUEST['description'];
-            // $status = $_REQUEST['status'];
-            // $createDate = date("Y-m-d");
-            // $deadline = date("Y-m-d",strtotime(str_replace('/', '-',$_REQUEST['date'])));
+            
             $data = array(
                 'staffId'=>$staffId,
                 'type'=>$type,
                 'description'=> $description,
                 'shift'=>$shift,
                 'date'=>$date,
-                
                 'status'=>$status,
-            );
-            
+            );   
           $result = $this->model->updateOnleave($id,$data); // vừa update vừa insert,
         }
         else {
-           
             $result = false;
         }
       if ($result) {
         $jsonObj['msg'] = "Cập nhật thành công";
         $jsonObj['success'] = true;
-        } else {
-            $jsonObj['msg'] = "Cập nhật không thành công";
-            $jsonObj['success'] = false;
-        }
-        $jsonObj = json_encode($jsonObj);
-        echo $jsonObj;
+    } else {
+        $jsonObj['msg'] = "Cập nhật không thành công";
+        $jsonObj['success'] = false;
+    }
+    $jsonObj = json_encode($jsonObj);
+    echo $jsonObj;
     }
 
     function getitem() {
@@ -118,7 +97,7 @@ class onleave extends Controller
     }
 
     function del(){
-        if(functions::checkFuns(self::$funcs,'del')) {
+        
             $id = $_REQUEST['id'];
             if ($this->model->delObj($id)) {
                 $jsonObj['msg'] = "Đã từ chối đơn phép";
@@ -127,15 +106,9 @@ class onleave extends Controller
                 $jsonObj['msg'] = "Xảy ra lỗi khi xóa";
                 $jsonObj['success'] = false;
             }
-        }
-        else {
-            $jsonObj['msg'] = "Xảy ra lỗi khi xóa";
-            $jsonObj['success'] = false;
-        }
-        
-        $jsonObj = json_encode($jsonObj);
+             $jsonObj = json_encode($jsonObj);
         echo $jsonObj;
-    }
+        }       
     
     function filter() {
         $filter = isset($_REQUEST['filters']) ? $_REQUEST['filters'] : [];
