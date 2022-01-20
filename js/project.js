@@ -48,8 +48,6 @@ $(function () {
         var style = $('option:selected', statusProject).attr('style');
         $(statusProject).attr('style', `${style}`);
      }
-
-
     // if it is not touch device
     if (!$.app.menu.is_touch_device()) {
         if (sidebarMenuList.length > 0) {
@@ -182,6 +180,7 @@ $(function () {
     // On add new item button click, clear sidebar-right field fields
     if (addTaskBtn.length) {
         addTaskBtn.on("click", function (e) {
+            $('#updateProject').html('Thêm mới');
             addBtn.removeClass("d-none");
             updateBtns.addClass("d-none");
             modalTitle.text("Thêm dự án");
@@ -286,7 +285,7 @@ $(function () {
     // To open todo list item modal on click of item
 
             $(document).on("click", ".todo-task-list-wrapper .todo-item .todo-title", function (e) {
-
+                $('#updateProject').html('Cập nhật');
                 var validator = $( "#form-modal-todo" ).validate(); // reset form
                 validator.resetForm();
                 newTaskModal.modal("show");
@@ -586,8 +585,9 @@ function del() {
         title: 'Xóa dữ liệu',
         text: "Bạn có chắc chắn muốn xóa!",
         icon: 'warning',
-        showCancelButton: true,
+        showCancelButton: "true",
         confirmButtonText: 'Tôi đồng ý',
+        cancelButtonText: 'Hủy',
         customClass: {
             confirmButton: 'btn btn-primary',
             cancelButton: 'btn btn-outline-danger ml-1'

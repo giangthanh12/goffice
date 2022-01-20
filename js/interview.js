@@ -444,12 +444,14 @@
              },
          },
          eventClassNames: function ({event: calendarEvent}) {
+             console.log(calendarEvent);
              const colorName = calendarsColor[calendarEvent._def.extendedProps.result]; // chỉnh màu
                 return  [
                     // Background Color
                     'bg-light-' + colorName,
                     'text-white',
-                    'd-block'
+                    'd-inline-block',
+                    'w-100'
                 ];
             
          },
@@ -688,6 +690,7 @@ $('.btn-delete-event').click(function() {
                 success: function (data) {
                     if (data.success) {
                         calendar.refetchEvents();
+                        $('#add-new-sidebar').modal('hide');
                         notyfi_success(data.msg);
                     }
                     else
@@ -697,7 +700,15 @@ $('.btn-delete-event').click(function() {
         }
     });
 })
-   
+
+$('.fc-listMonth-button').click(function() {
+    var classTr = document.querySelectorAll('.fc-list-event');
+
+    classTr.forEach(function(item) {
+        console.log(item);
+      item.classList.remove('d-inline-block');
+    })
+})
  
      // Reset sidebar input values
     //  function resetValues() {

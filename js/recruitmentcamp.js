@@ -310,7 +310,7 @@ function loaddata(id) {
     khid = id;
     $("#updateinfo").modal('show');
     $('#information-tab').click();
-    $(".modal-title").html('Cập nhật thông tin khách hàng');
+    $(".modal-title").html('Cập nhật thông tin chiến dịch');
     $.ajax({
         type: "POST",
         dataType: "json",
