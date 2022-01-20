@@ -414,6 +414,7 @@
                                                                     <th>Giới tính</th>
                                                                     <th>Email</th>
                                                                     <th>Số điện thoại</th>
+                                                                    <th>Trạng thái</th>
                                                                     <th></th>
                                                                 </tr>
                                                             </thead>

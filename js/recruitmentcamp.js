@@ -445,6 +445,7 @@ function loadListCandidate(id) {
                 { data: "gender" },
                 { data: "email" },
                 { data: "phoneNumber" },
+                { data: "status" },
                 { data: ""}
         
             ],
@@ -482,17 +483,21 @@ function loadListCandidate(id) {
                 //     orderable: false,
                
                 // },
-                // {
-                //     // Actions
-                //     targets: 4,
-                //     orderable: false,
-                //     render: function (data, type, full, meta) {
-                //         var html = '';
-                //         html = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(full['dat_coc']);
-                //         return html;
-                //     },
+                {
+                    // Actions
+                    targets: 4,
+                    orderable: false,
+                    render: function (data, type, full, meta) {
+                      if(full['status'] == 1) {
+                        $row_output = `<div class="badge badge-success">Đã vào làm</div>`;
+                      }
+                      else if (full['status'] == 2){
+                        $row_output = `<div class="badge badge-warning">Chưa vào làm</div>`;
+                      }
+                      return $row_output;
+                    },
                    
-                // },
+                },
                 {
                     // Actions
                     targets: -1,
@@ -510,15 +515,16 @@ function loadListCandidate(id) {
             ],
          
             language: {
-                sLengthMenu: "Show _MENU_",
-                search: "Search",
-                searchPlaceholder: "Search..",
+                sLengthMenu: "Hiển thị _MENU_",
+                search: "",
+                searchPlaceholder: "Tìm kiếm...",
                 paginate: {
                     // remove previous & next text from pagination
                     previous: "&nbsp;",
                     next: "&nbsp;",
-                }
-            },           
+                },
+                info:"Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
+            },        
         });
     }
 }

@@ -32,7 +32,8 @@ $(function () {
             columns: [
                 { data: "fullName" },
                 { data: "gender" },
-                { data: "email" },
+                { data: "dateTime" },
+                { data: "title" },
                 { data: "phoneNumber" },
                 { data: "result" },
                 { data: ""}
@@ -74,7 +75,7 @@ $(function () {
                 },
                 {
                     // User full name and username
-                    targets: 4,
+                    targets: 5,
                     responsivePriority: 4,
                     render: function (data, type, full, meta) {
                         var $status = full["result"];
@@ -237,8 +238,8 @@ $(function () {
 
 function loaddata(id,applicantId) {
     document.getElementById("dg").reset(); 
-    if (datePicker.length) {
-        datePicker.flatpickr({
+    if ($('.ngay_gio').length) {
+        $('.ngay_gio').flatpickr({
             dateFormat: 'd-m-Y',
             defaultDate: "today",
         });

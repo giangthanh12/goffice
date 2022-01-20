@@ -10,6 +10,8 @@ class interview_result_Model extends Model{
         (SELECT fullName FROM applicants  WHERE id = a.applicantId) AS fullName,
         (SELECT gender FROM applicants  WHERE id = a.applicantId) AS gender,
         (SELECT email FROM applicants  WHERE id = a.applicantId) AS email,
+        DATE_FORMAT(dateTime,'%d-%m-%Y') as dateTime,
+        (SELECT title FROM recruitmentcamp  WHERE id = a.campId) AS title,
         (SELECT phoneNumber FROM applicants  WHERE id = a.applicantId) AS phoneNumber
          FROM interview a WHERE result in (2,3,4,5) AND status = 1 ORDER BY id DESC ");
         $result['data'] = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -63,10 +65,13 @@ class interview_result_Model extends Model{
       $id =  $this->insertGetId("staffs",$data);
       return $id;
     }
-    function signContract($data,$id) {
+    function signContract($data,$id,$applicantId) {
         $result =  $this->insert("laborcontract",$data);
         if($result) {
             $result =  $this->update("interview",['result'=>5]," id = $id");
+            $result =  $this->update("applicants",['status'=>2]," id = $applicantId");
+            // xử lý sortlist update status = 2 khi đã kí hợp đồng khi lấy được campid và canid trên interview
+            // $result =  $this->update("sortlist",['status'=>2]," canId = $applicantId AND ");
         }
         return $result;
     }

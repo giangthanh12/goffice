@@ -58,6 +58,7 @@ class customer extends Controller
         }
         $data = array(
             'fullName' => $fullName,
+            'shortName'=>$fullName,
             'phoneNumber' => $phoneNumber,
             'email' => $email,
             'website' => $website,

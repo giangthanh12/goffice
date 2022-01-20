@@ -53,12 +53,13 @@ class interview_result extends Controller{
             'salaryPercentage' => $_REQUEST['salaryPercentage'],
             'allowance' => $_REQUEST['allowance'],
             'position' => $_REQUEST['position'],
-            'branch' => $_REQUEST['branchId'],
-            'department' => $_REQUEST['departmentId'],
+            'branchId' => $_REQUEST['branchId'],
+            'departmentId' => $_REQUEST['departmentId'],
             'description' => $_REQUEST['description'],
             'status' => 1
         );
-        if($this->model->signContract($data,$id)){
+     
+        if($this->model->signContract($data,$id,$applicantId)){
             $jsonObj['msg'] = 'Cập nhật dữ liệu thành công';
             $jsonObj['success'] = true;
         } else {
