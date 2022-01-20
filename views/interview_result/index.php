@@ -20,10 +20,10 @@
                         <table class="user-list-table table">
                             <thead class="thead-light">
                                 <tr>
-                                    
                                     <th>Ứng viên</th>
                                     <th>Giới tính</th>
-                                    <th>Email</th>
+                                    <th>Ngày phỏng vấn</th>
+                                    <th>Chiến dịch</th>
                                     <th>Số điện thoại</th>
                                     <th>Kết quả</th>
                                     <th ></th>

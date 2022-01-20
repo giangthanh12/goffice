@@ -18,9 +18,10 @@
                         <table class="user-list-table table">
                             <thead class="thead-light">
                                 <tr>
-                                    <th>Tên hợp đồng</th>
+                                    <th>Tên tài liệu</th>
                                     <th>Nhân viên</th>
                                     <th>Ngày tạo</th>
+                                    <th>Link tài liệu</th>
                                     <th>...</th>
                                 </tr>
                             </thead>
@@ -42,7 +43,7 @@
                                             <form class="form-validate" enctype="multipart/form-data" id="dg">
                                                 <div class="row mt-1">
                                                     <div class="col-md-6 form-group">
-                                                        <label for="name">Tên hợp đồng</label>
+                                                        <label for="name">Tên tài liệu</label>
                                                         <input id="name" name="name" type="text" class="form-control" />
                                                     </div>
                                                     <div class="col-md-6 form-group">

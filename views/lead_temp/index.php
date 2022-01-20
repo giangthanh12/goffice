@@ -77,9 +77,10 @@
                         <ul class="chat-users-list chat-list media-list" id="list-lead">
                             <?php
                             $lead = $this->lead;
+                            $i = 1;
                             foreach ($lead as $item) {
                             ?>
-                                <li data-id="<?= $item['id'] ?>" data-dateTime="<?= $item['dateTime'] ?>" data-customer="<?= $item['customerId'] ?>" data-status="<?= $item['status'] ?>" data-leadname="<?= $item['name'] ?>" data-leaddes="<?= $item['description'] ?>" class="sidebar-list">
+                                <li id = "list<?=$i?>" data-id="<?= $item['id'] ?>" data-dateTime="<?= $item['dateTime'] ?>" data-customer="<?= $item['customerId'] ?>" data-status="<?= $item['status'] ?>" data-leadname="<?= $item['name'] ?>" data-leaddes="<?= $item['description'] ?>" class="sidebar-list">
                                     <div class="chat-info flex-grow-1">
                                         <div class="customer-name">
                                             <label><?php echo $item['name'] ?></label>
@@ -119,7 +120,7 @@
                                         </div>
                                     </div>
                                 </li>
-                            <?php } ?>
+                            <?php $i++; } ?>
                         </ul>
                     </div>
                     <!-- Sidebar Users end -->
@@ -132,15 +133,15 @@
                     <!-- Main chat area -->
                     <section class="chat-app-window">
                         <!-- To load Conversation -->
-                        <div class="start-chat-area">
+                        <!-- <div class="start-chat-area d-none">
                             <div class="mb-1 start-chat-icon">
                                 <i data-feather="message-square"></i>
                             </div>
                             <h4 class="sidebar-toggle start-chat-text">Thông tin chi tiết</h4>
-                        </div>
+                        </div> -->
                         <!--/ To load Conversation -->
                         <!-- Active Chat -->
-                        <div class="active-chat d-none">
+                        <div class="active-chat">
                             <!-- User Chat messages -->
                             <div class="user-chats">
                                 <div class="chats">

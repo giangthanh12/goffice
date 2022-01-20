@@ -44,7 +44,7 @@ $(function () {
      var table =   dtUserTable.DataTable({
             // ajax: assetPath + "data/user-list.json", // JSON file to add data
             ajax: baseHome + "/customer/list",
-            // autoWidth: true,
+            autoWidth: false,
             ordering: false,
             columns: [
                 { data: "fullName" },
@@ -145,7 +145,7 @@ $(function () {
                         html += '</button></div>';
                         return html;
                     },
-                    width:200
+                    width:"15%"
                 },
             ],
             // order: [[2, "desc"]],
@@ -325,6 +325,9 @@ $(function () {
                 "fullName1": {
                     required: true,
                 },
+                "shortName": {
+                    required: true,
+                },
                 "phoneNumber1": {
                     required: true,
                 },
@@ -336,6 +339,9 @@ $(function () {
                 },
             },
             messages: {
+                "shortName": {
+                    required: "Bạn chưa nhập tên ngắn",
+                },
                 "fullName1": {
                     required: "Bạn chưa nhập tên",
                 },

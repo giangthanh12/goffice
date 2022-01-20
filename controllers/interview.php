@@ -31,7 +31,6 @@ class interview extends Controller
         $dateTime = isset($_REQUEST['dateTime']) ? date('Y-m-d H:i',strtotime($_REQUEST['dateTime'])) : '';
         $interviewerIds = isset($_REQUEST['interviewerIds']) ? implode(',',$_REQUEST['interviewerIds']) : '';
         $result = isset($_REQUEST['result']) ? $_REQUEST['result'] : '';
-        $round = isset($_REQUEST['round']) ? $_REQUEST['round'] : '';
         $note = isset($_REQUEST['note']) ? $_REQUEST['note'] : '';
         $data = array(
             'campId' => $campId,
@@ -39,10 +38,10 @@ class interview extends Controller
             'dateTime' => $dateTime,
             'interviewerIds' => $interviewerIds,
             'result' => $result,
-            'round' => $round,
             'note' => $note,
             'status'=>1
         );
+      
             if ($this->model->updateInterview($id,$data)) {
                 $jsonObj['msg'] = 'Cập nhật dữ liệu thành công';
                 $jsonObj['success'] = true;
@@ -73,7 +72,7 @@ class interview extends Controller
     function del()
     {
         $id = $_REQUEST['id'];
-        $data = ['status' => 2];
+        $data = ['status' => 0];
         if ($this->model->delObj($id, $data)) {
             $jsonObj['msg'] = "Xóa dữ liệu thành công";
             $jsonObj['success'] = true;

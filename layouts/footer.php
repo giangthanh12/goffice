@@ -15,6 +15,10 @@
 
 <script src="<?=HOME?>/styles/app-assets/vendors/js/tables/datatable/responsive.bootstrap4.js"></script>
 <script src="<?=HOME?>/styles/app-assets/vendors/js/forms/validation/jquery.validate.min.js"></script>
+<script src="<?=HOME?>/styles/app-assets/vendors/js/pickers/pickadate/picker.js"></script>
+<script src="<?=HOME?>/styles/app-assets/vendors/js/pickers/pickadate/picker.date.js"></script>
+<script src="<?=HOME?>/styles/app-assets/vendors/js/pickers/pickadate/picker.time.js"></script>
+<script src="<?=HOME?>/styles/app-assets/vendors/js/pickers/pickadate/legacy.js"></script>
 <script src="<?=HOME?>/styles/app-assets/vendors/js/pickers/flatpickr/flatpickr.min.js"></script>
 
 <script src="<?=HOME?>/styles/app-assets/vendors/js/editors/quill/katex.min.js"></script>

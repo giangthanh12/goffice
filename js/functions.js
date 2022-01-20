@@ -52,7 +52,7 @@ $(function () {
                 {
                     targets: 4,
                     render: function (data, type, full, meta) {
-                        $typeName = '';
+                        var $typeName = '';
                         if(data==1)
                             $typeName='Header';
                         if(data==2)

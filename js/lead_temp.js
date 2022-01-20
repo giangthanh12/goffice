@@ -241,28 +241,28 @@ $(function() {
     // }
 
     // Add class active on click of Chat users list
-    if (chatUsersListWrapper.find('ul li').length) {
-        chatUsersListWrapper.find('ul li').on('click', function() {
-            var $this = $(this),
-                startArea = $('.start-chat-area'),
-                activeChat = $('.active-chat');
+    // if (chatUsersListWrapper.find('ul li').length) {
+    //     chatUsersListWrapper.find('ul li').on('click', function() {
+    //         var $this = $(this),
+    //             startArea = $('.start-chat-area'),
+    //             activeChat = $('.active-chat');
 
-            if (chatUsersListWrapper.find('ul li').hasClass('active')) {
-                chatUsersListWrapper.find('ul li').removeClass('active');
-            }
+    //         if (chatUsersListWrapper.find('ul li').hasClass('active')) {
+    //             chatUsersListWrapper.find('ul li').removeClass('active');
+    //         }
 
-            $this.addClass('active');
-            $this.find('.badge').remove();
+    //         $this.addClass('active');
+    //         $this.find('.badge').remove();
 
-            if (chatUsersListWrapper.find('ul li').hasClass('active')) {
-                startArea.addClass('d-none');
-                activeChat.removeClass('d-none');
-            } else {
-                startArea.removeClass('d-none');
-                activeChat.addClass('d-none');
-            }
-        });
-    }
+    //         if (chatUsersListWrapper.find('ul li').hasClass('active')) {
+    //             startArea.addClass('d-none');
+    //             activeChat.removeClass('d-none');
+    //         } else {
+    //             startArea.removeClass('d-none');
+    //             activeChat.addClass('d-none');
+    //         }
+    //     });
+    // }
     // add lead
 
 
@@ -426,7 +426,8 @@ $(document).on('click', '.sidebar-toggle', function() {
 // });
 
 var leftId = '';
-
+// document.getElementById("list-lead").click();
+jQuery('#list-lead').click();
 $('#list-lead').on('click', '.sidebar-list', function() {
     let leadId = $(this).data("id");
     $('#list-lead .sidebar-list.list-active').removeClass('list-active');
@@ -720,29 +721,29 @@ function leadSearch() {
                 html += '</li>';
             });
             $('#list-lead').html(html);
-            var chatUsersListWrapper = $('.chat-application .chat-user-list-wrapper');
-            if (chatUsersListWrapper.find('ul li').length) {
-                chatUsersListWrapper.find('ul li').on('click', function() {
-                    var $this = $(this),
-                        startArea = $('.start-chat-area'),
-                        activeChat = $('.active-chat');
+            // var chatUsersListWrapper = $('.chat-application .chat-user-list-wrapper');
+            // if (chatUsersListWrapper.find('ul li').length) {
+            //     chatUsersListWrapper.find('ul li').on('click', function() {
+            //         var $this = $(this),
+            //             startArea = $('.start-chat-area'),
+            //             activeChat = $('.active-chat');
 
-                    if (chatUsersListWrapper.find('ul li').hasClass('active')) {
-                        chatUsersListWrapper.find('ul li').removeClass('active');
-                    }
+            //         if (chatUsersListWrapper.find('ul li').hasClass('active')) {
+            //             chatUsersListWrapper.find('ul li').removeClass('active');
+            //         }
 
-                    $this.addClass('active');
-                    $this.find('.badge').remove();
+            //         $this.addClass('active');
+            //         $this.find('.badge').remove();
 
-                    if (chatUsersListWrapper.find('ul li').hasClass('active')) {
-                        startArea.addClass('d-none');
-                        activeChat.removeClass('d-none');
-                    } else {
-                        startArea.removeClass('d-none');
-                        activeChat.addClass('d-none');
-                    }
-                });
-            }
+            //         if (chatUsersListWrapper.find('ul li').hasClass('active')) {
+            //             startArea.addClass('d-none');
+            //             activeChat.removeClass('d-none');
+            //         } else {
+            //             startArea.removeClass('d-none');
+            //             activeChat.addClass('d-none');
+            //         }
+            //     });
+            // }
         },
         error: function() {
             notify_error("Định dạng dữ liệu không đúng");
