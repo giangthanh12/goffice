@@ -91,7 +91,7 @@
                                         <div class="todo-title-wrapper">                                            
                                             <div class="todo-title-area">
                                                 <span><img style="border-radius: 50%;" onerror=this.src="https://velo.vn/goffice-test/layouts/useravatar.png" src="' . $avatar . '" height="32" width="32"/></span>
-                                                <span class="taskId d-none" id="id" name="id" >' . $item['id'] . '</span>
+                                                <span class="taskId d-none" name="id" >' . $item['id'] . '</span>
                                                 <i data-feather="more-vertical" class="drag-icon"></i>
                                                 <div class="title-wrapper">
                                                     <span class="todo-title" data-staff="">' . $item['staffName'] . '</span>
