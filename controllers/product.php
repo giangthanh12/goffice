@@ -10,8 +10,6 @@ class product extends Controller{
         $this->view->render("product/index");
         require "layouts/footer.php";
     }
-
-
     function list()
     {
         $data=$this->model->listObj();
@@ -38,6 +36,7 @@ class product extends Controller{
         $supplier = isset($_REQUEST['supplier']) ? $_REQUEST['supplier'] : '';
         $unit = isset($_REQUEST['unit']) ? $_REQUEST['unit'] : '';
         $vat = isset($_REQUEST['vat']) ? $_REQUEST['vat'] : '';
+        $type = isset($_REQUEST['type']) ? $_REQUEST['type'] : '';
         $price = isset($_REQUEST['price']) ? str_replace(',','',$_REQUEST['price']) : '';
        
         if(empty($name) && empty($supplier) && empty($unit) && empty($vat) &&  empty($price)) {
@@ -48,13 +47,14 @@ class product extends Controller{
                 'name' => $name,
                 'supplier'=>$supplier,
                 'unit' =>$unit,
+                'type'=>$type,
                 'vat' =>$vat,
                 'price' =>$price,
                 'status' =>1,
             );
            
             if($this->model->addObj($data)){
-                $jsonObj['msg'] = 'Cập nhật dữ liệu thành công';
+                $jsonObj['msg'] = 'Thêm dữ liệu thành công';
                 $jsonObj['success'] = true;
             } else {
                 $jsonObj['msg'] = 'Lỗi cập nhật database';
@@ -71,6 +71,7 @@ class product extends Controller{
         $supplier = isset($_REQUEST['supplier']) ? $_REQUEST['supplier'] : '';
         $unit = isset($_REQUEST['unit']) ? $_REQUEST['unit'] : '';
         $vat = isset($_REQUEST['vat']) ? $_REQUEST['vat'] : '';
+        $type = isset($_REQUEST['type']) ? $_REQUEST['type'] : '';
         $price = isset($_REQUEST['price']) ? str_replace(',','',$_REQUEST['price']) : '';
        
         if(empty($name) && empty($supplier) && empty($unit) && empty($vat) &&  empty($price)) {
@@ -81,6 +82,7 @@ class product extends Controller{
                 'name' => $name,
                 'supplier'=>$supplier,
                 'unit' =>$unit,
+                'type'=>$type,
                 'vat' =>$vat,
                 'price' =>$price,
                 'status' =>1,

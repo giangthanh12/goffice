@@ -48,12 +48,12 @@ class recruitmentcamp extends Controller
         $fname = explode('.',$filename);
         $file = '';
         if ($filename != '') {
-            $dir = ROOT_DIR . '/uploads/baogia/';
+            $dir = ROOT_DIR . '/uploads/recruitment/';
             $file = functions::uploadfile('file1', $dir, $fname[0]);
             if ($file != '')
                 $file = 'uploads/baogia/' . $file;
         }
-        $creatorId = isset($_SESSION['user']['id']) ? $_SESSION['user']['id'] : false;
+        $creatorId = isset($_SESSION['user']['staffId']) ? $_SESSION['user']['staffId'] : false;
         $title = isset($_REQUEST['title']) ? $_REQUEST['title'] : '';
         $inChargeId = isset($_REQUEST['inChargeId']) ? $_REQUEST['inChargeId'] : '';
         $followerId = isset($_REQUEST['followerId']) ? implode(',',$_REQUEST['followerId']) : '';
@@ -169,12 +169,12 @@ class recruitmentcamp extends Controller
         $fname = explode('.',$filename);
         $file = '';
         if ($filename != '') {
-            $dir = ROOT_DIR . '/uploads/baogia/';
+            $dir = ROOT_DIR . '/uploads/recruitment/';
             $file = functions::uploadfile('file2', $dir, $fname[0]);
             if ($file != '')
                 $file = 'uploads/baogia/' . $file;
         }
-        $creatorId = isset($_SESSION['user']['id']) ? $_SESSION['user']['id'] : false;
+
         $title = isset($_REQUEST['title1']) ? $_REQUEST['title1'] : '';
         $inChargeId = isset($_REQUEST['inChargeId1']) ? $_REQUEST['inChargeId1'] : '';
         $followerId = isset($_REQUEST['followerId1']) ? implode(',',$_REQUEST['followerId1']) : '';
@@ -195,7 +195,6 @@ class recruitmentcamp extends Controller
         $yearOfExperience = isset($_REQUEST['yearOfExperience1']) ? $_REQUEST['yearOfExperience1'] : '';
         $description = isset($_REQUEST['description1']) ? $_REQUEST['description1'] : '';
         $data = array(
-            'creatorId' => $creatorId, 
             'title' => $title, 
             'inChargeId' => $inChargeId, 
             'followerId' => $followerId, 

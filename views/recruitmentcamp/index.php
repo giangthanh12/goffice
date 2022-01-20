@@ -148,7 +148,7 @@
                                                             </div>
                                                             <div class="col-lg-4 col-md-6">
                                                                 <div class="form-group">
-                                                                    <label for="educationLevel">Hình thức làm việc</label>
+                                                                    <label for="educationLevel">Trình độ học vấn</label>
                                                                     <select id="educationLevel" class="form-control" name="educationLevel">
                                                                         <option value="1">THCS</option>
                                                                         <option value="2">THPT</option>
@@ -170,7 +170,7 @@
                                                                 </div>
                                                             </div>
                                                      
-                                                      
+<!--                                                       
                                                             <div class="col-lg-4 col-md-6">
                                                                 <div class="form-group">
                                                                     <label for="status">Trạng thái</label>
@@ -179,7 +179,7 @@
                                                                         <option value="2">Ẩn</option>
                                                                     </select>
                                                                 </div>
-                                                            </div>
+                                                            </div> -->
                                                               <div class="col-lg-4 col-md-6">
                                                             
                                                                     <div class="form-group">
@@ -363,7 +363,7 @@
                                                                     <input id="yearOfExperience1" type="text" class="form-control" name="yearOfExperience1" />
                                                                 </div>
                                                             </div>
-                                                            <div class="col-lg-4 col-md-6">
+                                                            <!-- <div class="col-lg-4 col-md-6">
                                                                 <div class="form-group">
                                                                     <label for="status1">Trạng thái</label>
                                                                     <select id="status1" class="select2 form-control" name="status1">
@@ -371,7 +371,7 @@
                                                                         <option value="2">Ẩn</option>
                                                                     </select>
                                                                 </div>
-                                                            </div>
+                                                            </div> -->
                                                             <div class="col-lg-4 col-md-6">
                                                             
                                                                     <div class="form-group">
