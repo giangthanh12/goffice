@@ -6,7 +6,7 @@ class Auth_Model extends Model{
 
     function login($username, $password){
         $query = $this->db->query("SELECT id, username, staffId,classify,groupId,token, extNum, sipPass,
-        (SELECT accesspoints FROM staffs WHERE id=staffId) AS ipBranch,
+        (SELECT accesspoints FROM staffs WHERE id=staffId) AS idAccessPoint,
           (SELECT name FROM staffs WHERE id=staffId) AS staffName,
        (SELECT email FROM staffs WHERE id=staffId) AS email,
           (SELECT IF(avatar='',CONCAT('".HOME."','/layouts/useravatar.png'),CONCAT('".URLFILE."/uploads/nhanvien/',avatar)) FROM staffs WHERE id=staffId) AS avatar
