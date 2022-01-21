@@ -330,7 +330,7 @@ function saveupdate() {
                 success: function (data) {
                     if (data.code==200) {
                         notyfi_success(data.message);
-                        $('#dgAccesspoint').modal('hide');
+                        $('#updateinfo').modal('hide');
                         index = 0;
                         $(".user-list-table").DataTable().ajax.reload(null, false);
                     } else
@@ -368,7 +368,6 @@ function checkAll() {
                 success: function (data) {
                     if (data.code == 200) {
                         notyfi_success(data.message);
-                        $('#updateinfo').modal('hide');
                         index = 0;
                         $(".user-list-table").DataTable().ajax.reload(null, false);
                     } else
@@ -406,7 +405,6 @@ function checkPayRollById(id,staffName){
                 success: function (data) {
                     if (data.code == 200) {
                         notyfi_success(data.message);
-                        $('#updateinfo').modal('hide');
                         index = 0;
                         $(".user-list-table").DataTable().ajax.reload(null, false);
                     } else
@@ -445,7 +443,6 @@ function uncheckRollById(id,staffName){
                 success: function (data) {
                     if (data.code == 200) {
                         notyfi_success(data.message);
-                        $('#updateinfo').modal('hide');
                         index = 0
                         $(".user-list-table").DataTable().ajax.reload(null, false);
                     } else
