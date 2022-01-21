@@ -107,7 +107,6 @@ $model = new model();
                     </a>
                 </li>
             </ul>
-            <div class="avatar-group" id="online_users"></div>
             <!-- <div data-toggle="tooltip" data-popup="tooltip-custom" data-placement="bottom" data-original-title="Billy Hopkins" class="avatar pull-up">
                         <img src="<?= HOME ?>/styles/app-assets/images/portrait/small/avatar-s-9.jpg" alt="Avatar" width="33" height="33" /></div>
                     <div data-toggle="tooltip" data-popup="tooltip-custom" data-placement="bottom" data-original-title="Amy Carson" class="avatar pull-up">
@@ -136,6 +135,7 @@ $model = new model();
                     <?php } ?>
                 </li>
             </ul>
+            <div class="avatar-group" id="online_users"></div>
             <!-- <ul class="nav navbar-nav">
                 <li class="nav-item d-none d-lg-block">
                     <a class="nav-link bookmark-star">
