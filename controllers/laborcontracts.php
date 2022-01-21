@@ -34,7 +34,11 @@ class laborcontracts extends Controller
 
     function list()
     {
-        $data = $this->model->listObj();
+        if(self::$funAdd==1 || self::$funEdit==1 || self::$funDel==1)
+            $viewAll = true;
+        else
+            $viewAll=false;
+        $data = $this->model->listObj($viewAll);
         echo json_encode($data);
     }
 
@@ -52,8 +56,12 @@ class laborcontracts extends Controller
 
     function loaddata()
     {
+        if(self::$funAdd==1 || self::$funEdit==1 || self::$funDel==1)
+            $viewAll = true;
+        else
+            $viewAll=false;
         $id = isset($_REQUEST['id']) ? $_REQUEST['id'] : 0;
-        $json = $this->model->getdata($id);
+        $json = $this->model->getdata($id,$viewAll);
         echo json_encode($json);
     }
 

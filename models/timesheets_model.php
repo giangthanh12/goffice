@@ -87,7 +87,6 @@ class timesheets_model extends Model
         $day_name = substr($get_name, 0, 3); // Trim day name to 3 chars
         if (isset($temp[0])) {
             $ca['lunInterval'] = $temp[0]['lunInterval'];
-            $ca['lunStart'] = $temp[0]['lunStart'];
             if ($day_name == 'Sun') {
                 $ca['in'] = $temp[0]['sunIn'];
                 $ca['out'] = $temp[0]['sunOut'];
@@ -110,6 +109,9 @@ class timesheets_model extends Model
                 $ca['in'] = $temp[0]['satIn'];
                 $ca['out'] = $temp[0]['satOut'];
             }
+            if($temp[0]['lunStart']!='00:00:00')
+                $ca['lunStart'] = $temp[0]['lunStart'];
+            else $ca['lunStart']=$ca['out'];
             return $ca;
         } else
             return [];
@@ -151,6 +153,12 @@ class timesheets_model extends Model
                 $muonchieu = $giochieu + 1800;
                 $sang = 0;
                 $chieu = 0;
+//                echo $date;
+//                  echo "<br>";
+//                echo $shiftOut;
+//                echo "<br>";
+//                echo $giochieu;
+//                echo "<br>";
                 if (($shiftOut <= $giochieu)) // Chấm công ca sáng
                 {
                     if (($timeIn < $shiftIn) && ($timeOut > $lunStart))

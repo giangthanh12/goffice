@@ -15,7 +15,7 @@
                                 <tr>
                                     <th></th>
                                     <th>Tên gọi</th>
-                                    <th>Văn phòng</th>
+                                    <th>Chi nhánh</th>
                                     <th>Địa chỉ</th>
                                     <th>...</th>
                                 </tr>
@@ -35,7 +35,7 @@
                                     <!-- <input type="hidden" id="id" name="id" /> -->
                                     <div class="card">
                                         <div class="card-body">
-                                            <form class="form-validate" enctype="multipart/form-data" id="dg">
+                                            <form class="form-validate" enctype="multipart/form-data" id="fm">
                                                 <!-- <div class="row mt-1"> -->
                                                 <div class="form-group">
                                                     <label for="name">Tên gọi</label>
@@ -43,14 +43,16 @@
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <label for="name">Phòng ban</label>
-                                                    <!-- <input type="text" class="form-control" id="name" placeholder="Nhập tên phòng ban" name="name" /> -->
-                                                    <select id="branch" name="branch" placeholder="Văn phòng" class="select2 form-control" required></select>
+                                                    <label for="name">Chi nhánh</label>
+                                                    <!-- <input type="text" class="form-control" id="name" placeholder="Nhập tên Chi nhánh" name="name" /> -->
+                                                    <select id="branch" name="branch" placeholder="Chi nhánh" class="select2 form-control" required>
+                                                        <option value="">Chọn chi nhánh</option>
+                                                    </select>
                                                 </div>
 
                                                 <div class="form-group">
                                                     <label for="dia_chi">Địa chỉ</label>
-                                                    <textarea id="dia_chi" name="dia_chi" type="text" class="form-control " required></textarea>
+                                                    <textarea id="dia_chi" name="dia_chi" type="text" class="form-control "></textarea>
                                                 </div>
 
                                                 <div class="d-flex flex-sm-row flex-column mt-2">

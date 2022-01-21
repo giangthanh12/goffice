@@ -1,6 +1,17 @@
 
 $(function () {
-    return_combobox_multi('#branch', baseHome + '/workspaces/getBranch', 'Văn phòng');
+    var str_data = load_data(baseHome + '/workspaces/getBranch');
+    var Objdata = JSON.parse(str_data.responseText);
+    var html = '';
+    html += '<option value="">Chọn chi nhánh</option>';
+    jQuery.map(Objdata, function (n, i) {
+        html += '<option value="' + n.id + '">' + n.text + '</option>';
+    });
+    $('#branch').select2({
+        placeholder: "Chọn chi nhánh",
+        dropdownParent: $('#branch').parent(),
+    });
+    $('#branch').html(html);
     "use strict";
 
     var dtUserTable = $(".user-list-table"),
@@ -76,7 +87,7 @@ $(function () {
                         $("#updateinfo").modal('show');
                         $(".modal-title").html('Thêm nơi làm việc mới');
                         $('#name').val('');
-                        $('#branch').val('');
+                        $('#branch').val(0).trigger("Change");
                         $('#dia_chi').val('');
                         url = baseHome + "/workspaces/add";
                     },
@@ -142,8 +153,8 @@ function loaddata(id) {
         url: baseHome + "/workspaces/loaddata",
         success: function (data) {
             $('#name').val(data.name);
-            $('#branch').val(data.branch);
-            $('#dia_chi').val(data.dia_chi);
+            $('#branch').val(data.branchId).trigger("change");
+            $('#dia_chi').val(data.address);
 
             url = baseHome + '/workspaces/update?id=' + id;
         },
@@ -155,28 +166,40 @@ function loaddata(id) {
 
 
 function save() {
-    var info = {};
-    info.name = $("#name").val();
-    info.branch = $("#branch").val();
-    info.dia_chi = $("#dia_chi").val();
-    $.ajax({
-        type: "POST",
-        dataType: "json",
-        data: info,
-        url: url,
-        success: function (data) {
-            if (data.success) {
-                notyfi_success(data.msg);
-                $('#updateinfo').modal('hide');
-                $(".user-list-table").DataTable().ajax.reload(null, false);
+    $('#fm').validate({
+        messages: {
+            "name": {
+                required: "Bạn chưa nhập tên nơi làm việc!",
+            },
+            "branch": {
+                required: "Bạn chưa chọn chi nhánh!",
             }
-            else
-                notify_error(data.msg);
         },
-        error: function () {
-            notify_error('Cập nhật không thành công');
+        submitHandler: function (form) {
+            var formData = new FormData(form);
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: formData,
+                async: false,
+                cache: false,
+                contentType: false,
+                enctype: 'multipart/form-data',
+                processData: false,
+                dataType: "json",
+                success: function (data) {
+                    if (data.success) {
+                        notyfi_success(data.msg);
+                        $('#updateinfo').modal('hide');
+                        $(".user-list-table").DataTable().ajax.reload(null, false);
+                    } else
+                        notify_error(data.msg);
+                }
+            });
+            return false;
         }
     });
+    $('#fm').submit();
 }
 
 function xoa(id) {

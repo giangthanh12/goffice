@@ -1,4 +1,4 @@
-
+var url="";
 $(function () {
 
     "use strict";

@@ -7,11 +7,11 @@ class laborcontracts_model extends Model
         parent::__construct();
     }
 
-    function listObj()
+    function listObj($viewAll)
     {
         $dieukien = " WHERE status > 0 ";
         $nhanvien = $_SESSION['user']['staffId'];
-        if (in_array($nhanvien, [1, 7, 8, 11, 27]) == false)
+        if ($viewAll==false)
             $dieukien .= " AND a.staffId = " . $nhanvien;
         $query = $this->db->query("SELECT *,
             (SELECT name FROM contracttype WHERE id = a.type) as typeName,
@@ -43,13 +43,13 @@ class laborcontracts_model extends Model
         $query = $this->insert("records", $data);
     }
 
-    function getdata($id)
+    function getdata($id,$viewAll)
     {
         $result = array();
         $dieukien = "  WHERE id = $id ";
-        $nhanvien = $_SESSION['user']['staffId'];
-        if (in_array($nhanvien, [1, 7, 8, 11, 27]) == false)
-            $dieukien .= " AND staffId = " . $nhanvien;
+        $staffId = $_SESSION['user']['staffId'];
+        if ($viewAll == false)
+            $dieukien .= " AND staffId = " . $staffId;
         $query = $this->db->query("SELECT *,
                 FORMAT(basicSalary,0) AS luong_co_ban,
                 FORMAT(insuranceSalary,0) AS luong_bao_hiem,
