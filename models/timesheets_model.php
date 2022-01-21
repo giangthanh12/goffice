@@ -86,6 +86,8 @@ class timesheets_model extends Model
         $get_name = date('l', strtotime($date)); //get week day
         $day_name = substr($get_name, 0, 3); // Trim day name to 3 chars
         if (isset($temp[0])) {
+            $ca['lunInterval'] = $temp[0]['lunInterval'];
+            $ca['lunStart'] = $temp[0]['lunStart'];
             if ($day_name == 'Sun') {
                 $ca['in'] = $temp[0]['sunIn'];
                 $ca['out'] = $temp[0]['sunOut'];
@@ -133,52 +135,82 @@ class timesheets_model extends Model
             $totalWorkDate = 0;
             foreach ($temp as $item) {
                 $date = $item['date'];
-                $giovao = $item['checkInTime'];
-                $giora = $item['checkOutTime'];
                 $shift = $this->getShift($shiftId, $date);
                 if (count($shift) == 0)
                     continue;
-                $cavao = $shift['in'];
-                $cara = $shift['out'];
+                $timeIn = strtotime($item['checkInTime']);
+                $timeOut = strtotime($item['checkOutTime']);
+                $shiftIn = strtotime($shift['in']);
+                $shiftOut = strtotime($shift['out']);
+                $lunInterval = $shift['lunInterval'];
+                $lunStart = strtotime($shift['lunStart']);
+                $muonsang = $shiftIn + 1800;
+                $somsang = $lunStart - 1800;
+                $giochieu = $lunStart + ($lunInterval * 3600);
+                $somchieu = $giochieu - 1800;
+                $muonchieu = $giochieu + 1800;
                 $sang = 0;
                 $chieu = 0;
-                //echo GIORA;
-                if (($cavao == GIOVAO) && ($cara == NGHITRUA)) // Chấm công ca sáng
+                if (($shiftOut <= $giochieu)) // Chấm công ca sáng
                 {
-                    if (($giovao < GIOVAO) && ($giora > NGHITRUA))
+                    if (($timeIn < $shiftIn) && ($timeOut > $lunStart))
                         $sang = 0.5;
-                    elseif (($giovao > MUONSANG) || ($giora < SOMSANG))
+                    elseif (($timeIn > $muonsang) || ($timeOut < $somsang))
                         $sang = 0; //nghỉ không báo
                     else
                         $sang = 0.5; //đi muộn hoặc về sớm
-                } elseif (($cavao == GIOCHIEU) && ($cara == GIORA))// Chấm công ca chiều
+                } elseif (($shiftIn > $lunStart))// Chấm công ca chiều
                 {
-                    if (($giovao < GIOCHIEU) && ($giora > GIORA))
+                    if (($timeIn < $giochieu) && ($timeOut > $shiftOut))
                         $chieu = 0.5;
-                    elseif (($giovao > MUONCHIEU) || ($giora < SOMCHIEU))
+                    elseif (($timeIn > $muonchieu) || ($timeOut < $somchieu))
                         $chieu = 0; //nghỉ không báo
                     else
                         $chieu = 0.5; //đi muộn hoặc về sớm
-                } elseif (($cavao == GIOVAO) && ($cara == GIORA)) {// Chấm công $fulltime
+                } elseif (($shiftIn <= $lunStart) && ($shiftOut >= $giochieu)) {// Chấm công $fulltime
                     {
-                        if (($giovao < GIOVAO) && ($giora > NGHITRUA))
+                        if (($timeIn < $shiftIn) && ($timeOut > $lunStart))
                             $sang = 0.5;
-                        elseif (($giovao > MUONSANG) || ($giora < SOMSANG))
+                        elseif (($timeIn > $muonsang) || ($timeOut < $somsang))
                             $sang = 0; //nghỉ không báo
                         else
                             $sang = 0.5; //đi muộn hoặc về sớm
-                        if (($giovao < GIOCHIEU) && ($giora > GIORA))
+                        if (($timeIn < $giochieu) && ($timeOut > $shiftOut))
                             $chieu = 0.5;
-                        elseif (($giovao > MUONCHIEU) || ($giora < SOMCHIEU))
+                        elseif (($timeIn > $muonchieu) || ($timeOut < $somchieu))
                             $chieu = 0; //nghỉ không báo
                         else
                             $chieu = 0.5; //đi muộn hoặc về sớm
                     }
                 }
                 $arrDate = explode("-", $date);
-                $month1 = $arrDate[2];
+                $date1 = $arrDate[2];
                 $totalWorkDate += ($sang + $chieu);
-                $dataCong[$key]['date_' . $month1] = $sang + $chieu;
+                $dataCong[$key]['date_' . $date1] = $sang + $chieu;
+            }
+            //Công theo phép
+            $dieukien = " WHERE status=2 AND staffId=$staffId AND date<='$today' AND date LIKE '$thangnam%' ";
+            $query = $this->db->query("SELECT shift,date FROM onleave $dieukien  ");
+            $temp = $query->fetchAll(PDO::FETCH_ASSOC);
+            foreach ($temp as $item) {
+                $date = $item['date'];
+                $sang = 0;
+                $chieu = 0;
+                if ($item['shift'] == 1)
+                    $sang = 0.5;
+                else if ($item['shift'] == 2)
+                    $chieu = 0.5;
+                else if ($item['shift'] == 3) {
+                    $sang = 0.5;
+                    $chieu = 0.5;
+                }
+                $arrDate = explode("-", $date);
+                $date1 = $arrDate[2];
+                $totalWorkDate += ($sang + $chieu);
+                if (isset($dataCong[$key]['date_' . $date1]))
+                    $dataCong[$key]['date_' . $date1] += $sang + $chieu;
+                else
+                    $dataCong[$key]['date_' . $date1] = $sang + $chieu;
             }
             $query = $this->db->query("SELECT id FROM timesheets WHERE status=1 AND staffId=$staffId AND year='$nam' AND month='$thang'");
             $row = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -192,6 +224,7 @@ class timesheets_model extends Model
                 $dataCong[$key]['status'] = 1;
                 $ok = $this->insert("timesheets", $dataCong[$key]);
             }
+
         }
 
         return $dataCong;
@@ -207,12 +240,12 @@ class timesheets_model extends Model
         return $result;
     }
 
-    function updateWork($staffIds, $data,$month,$year)
+    function updateWork($staffIds, $data, $month, $year)
     {
         $ok = false;
         $where = " WHERE status=1 AND shiftId>0 ";
-        if($staffIds>0)
-            $where.= " AND staffId=$staffIds ";
+        if ($staffIds > 0)
+            $where .= " AND staffId=$staffIds ";
         $query = $this->db->query("SELECT shiftId,staffId FROM laborcontract $where GROUP BY staffId ORDER BY startDate DESC ");
         $rows = $query->fetchAll(PDO::FETCH_ASSOC);
         foreach ($rows as $key => $tempItem) {
