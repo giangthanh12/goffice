@@ -135,7 +135,7 @@ $model = new model();
                     <?php } ?>
                 </li>
             </ul>
-            <div class="avatar-group" id="online_users"></div>
+            <div class="avatar-group" style="padding-left:5px;" id="online_users"></div>
             <!-- <ul class="nav navbar-nav">
                 <li class="nav-item d-none d-lg-block">
                     <a class="nav-link bookmark-star">
