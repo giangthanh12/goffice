@@ -414,6 +414,7 @@ function loaddata(id) {
             $('#residence').val(data.residence);
             $('#idCard').val(data.residence);
             $('#idDate').val(data.idDate);
+            $('#status_update').val(data.status);
             if (data.idDate == "00/00/0000") {
                 $('#idDate').val('').attr('placeholder', 'DD/MM/YYYY');
             }
@@ -465,6 +466,7 @@ function updateinfo() {
     info.vssId = $("#vssId").val();
     info.description = $("#description").val();
     info.accesspoints = $("#accesspoints").val();
+    info.status = $('#status_update').val();
     $.ajax({
         type: "POST",
         dataType: "json",
@@ -607,7 +609,7 @@ function add() {
     $('#email').val('');
     $('#birthday').val('');
     $("input[type='radio'][name='gender']:checked").val();
-    $('#status').val(1).attr("disabled", true);
+    $('#status').val(1);
 }
 
 // load record

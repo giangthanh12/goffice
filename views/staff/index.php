@@ -97,10 +97,16 @@
                                     </div>
 
                                     <div class="form-group mb-2">
-                                        <label class="form-label" for="tinh_trang">Trạng thái</label>
+                                        <label class="form-label" for="status">Trạng thái</label>
                                         <select id="status" class="form-control">
-                                            <option value="1">Khả dụng</option>
-                                            <option value="2">Ẩn</option>
+                                            <option value="1">Fresher</option>
+                                            <option value="2">Thử việc</option>
+                                            <option value="3">Chính thức</option>
+                                            <option value="4">Cộng tác viên</option>
+                                            <option value="5">Thời vụ</option>
+                                            <option value="6">Tạm ngừng</option>
+                                            <option value="7">Thôi việc</option>      
+                                          
                                         </select>
                                     </div>
                                     <button type="submit" class="btn btn-primary mr-1 data-submit">Lưu</button>
@@ -282,6 +288,19 @@
                                                                             placeholder="Điểm truy cập">
                                                                     </select>
                                                                 </div>
+                                                            </div>
+                                                            <div class="col-lg-4 col-md-6">
+                                                                <label class="form-label" for="status_update">Trạng thái</label>
+                                                                <select id="status_update" name="status_update" class="form-control">
+                                                                    <option value="1">Fresher</option>
+                                                                    <option value="2">Thử việc</option>
+                                                                    <option value="3">Chính thức</option>
+                                                                    <option value="4">Cộng tác viên</option>
+                                                                    <option value="5">Thời vụ</option>
+                                                                    <option value="6">Tạm ngừng</option>
+                                                                    <option value="7">Thôi việc</option>      
+                                                                
+                                                                </select>
                                                             </div>
                                                             <div class="col-12">
                                                                 <h4 class="mb-1 mt-2">
