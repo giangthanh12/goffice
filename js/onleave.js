@@ -256,6 +256,8 @@ $(function () {
         $(newTaskModal).modal("hide");
         overlay.removeClass("show");
       }
+    });
+  }
 
   todoTaskListWrapper.on("click", ".custom-checkbox", function (event) {
     event.stopPropagation();
