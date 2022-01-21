@@ -27,6 +27,7 @@ $(function () {
     // Users List datatable
     if (dtUserTable.length) {
         dtUserTable.DataTable({
+            autoWidth: false,
             ajax: baseHome + "/applicant/list",
             columns: [
         
@@ -34,7 +35,7 @@ $(function () {
                 { data: "gender" },
                 { data: "email" },
                 { data: "phoneNumber" },
-                { data: "note" },
+                { data: "cv" },
                 { data: "" },
             ],
             columnDefs: [
@@ -100,11 +101,29 @@ $(function () {
                         }
                     },
                 },
-            
+                {
+                    targets: 3,
+                    orderable: false,
+                },
+                {
+                    orderable: false,
+                    targets: 4,
+                    render: function (data, type, full, meta) {
+                       var html = '';
+                      
+                       if(full['cv'] !== '') {
+                        var urlfile = baseHome + '/users/gemstech/' +full['cv'];
+                        html +=  `<div id="viewfile"><a target="_blank" href="${urlfile}" style="color: blue;">Tải xuống <i class="fas fa-download"></i></a> </div>`;
+                    }
+                    return html;
+                    },
+                    width:150
+                },
+                
                 {
                     // Actions
                     targets: -1,
-                    title: feather.icons["database"].toSvg({ class: "font-medium-3 text-center text-success mr-50" }),
+                    title: "Thao tác",
                     orderable: false,
                     render: function (data, type, full, meta) {
                         var html = '';
@@ -193,9 +212,12 @@ $(function () {
                 },
                 "phoneNumber": {
                     required: true,
+                    number:true,
+                    min:0
                 },
                 "email": {
                     required: true,
+                    email:true
                 },
               
             },
@@ -208,9 +230,12 @@ $(function () {
                 },
                 "phoneNumber": {
                     required: "Bạn chưa nhập số điện thoại",
+                    number:"Yêu cầu nhập số",
+                    min:"Yêu cầu nhập số bắt đầu từ 0"
                 },
                 "email": {
                     required: "Bạn chưa nhập địa chỉ email",
+                    email:"Yêu cầu nhập đúng định dạng email"
                 },
             },
         });
@@ -223,6 +248,163 @@ $(function () {
             }
         });
     }
+// validate info applicant
+if ($('#thongtin').length) {
+    $('#thongtin').validate({
+        errorClass: "error",
+        rules: {
+            "hoten": {
+                required: true,
+            },
+         
+            "phoneNumber1": {
+                required: true,
+                number:true,
+                min:0
+            },
+            "e_mail": {
+                required: true,
+                email:true
+            },
+            "idNumber": {
+                number:true,
+                min:0,
+            },
+          
+        },
+        messages: {
+            "hoten": {
+                required: "Bạn chưa nhập tên",
+            },
+         
+            "phoneNumber1": {
+                required: "Bạn chưa nhập số điện thoại",
+                number:"Yêu cầu nhập số",
+                min:"Yêu cầu nhập số bắt đầu từ 0"
+            },
+            "e_mail": {
+                required: "Bạn chưa nhập địa chỉ email",
+                email:"Yêu cầu nhập đúng định dạng email"
+            },
+            "idNumber": {
+                number:"Yêu cầu nhập số",
+                min:"Yêu cầu nhập số bắt đầu từ 0"
+            },
+          
+        },
+    });
+
+    $('#thongtin').on("submit", function (e) {
+        var isValid = $('#thongtin').valid();
+        e.preventDefault();
+        if (isValid) {
+            updateinfo();
+        }
+    });
+}
+// validate info applicant
+if ($('#fm-tab3').length) {
+    $('#fm-tab3').validate({
+        errorClass: "error",
+        rules: {
+   
+            "hvuv3": {
+                required: true,
+            },
+            "hvuv4": {
+                required: true,
+            },
+            "hvuv5": {
+                required: true,
+            },
+            "hvuv6": {
+                required: true,
+            },
+          
+        },
+        messages: {
+        
+            "hvuv3": {
+                required: "Bạn chưa nhập nơi đào tạo",
+            },
+            "hvuv4": {
+                required: "Bạn chưa nhập chuyên ngành",
+            },
+            "hvuv5": {
+                required: "Bạn chưa nhập hình thức đào tạo",
+            },
+            "hvuv6": {
+                required: "Bạn chưa nhập bằng cấp",
+            },
+          
+        },
+    });
+
+    $('#fm-tab3').on("submit", function (e) {
+        var isValid = $('#fm-tab3').valid();
+        e.preventDefault();
+        if (isValid) {
+            savehv();
+        }
+    });
+}
+// validate kinh nghiệm làm việc
+// validate info applicant
+if ($('#fm-tab4').length) {
+    $('#fm-tab4').validate({
+        errorClass: "error",
+        rules: {
+   
+            "knuv3": {
+                required: true,
+            },
+            "knuv4": {
+                required: true,
+            },
+            "knuv5": {
+                required: true,
+            },
+            "knuv6": {
+                number: true,
+                min:0,
+            },
+          
+        },
+        messages: {
+        
+            "knuv3": {
+                required: "Bạn chưa nhập tên công ty",
+            },
+            "knuv4": {
+                required: "Bạn chưa nhập tên công ty",
+            },
+            "knuv5": {
+                required: "Bạn chưa nhập tên người tham chiếu",
+            },
+            "knuv6": {
+        
+                number:"Yêu cầu nhập số",
+                min:"Yêu cầu nhập số bắt đầu từ 0"
+            },
+          
+        },
+    });
+
+    $('#fm-tab4').on("submit", function (e) {
+        var isValid = $('#fm-tab4').valid();
+        e.preventDefault();
+        if (isValid) {
+            savekn();
+        }
+    });
+}
+
+
+
+
+
+
+
 
     // To initialize tooltip with body container
     $("body").tooltip({
@@ -260,11 +442,12 @@ function loaddata(id) {
             $('#quoctich').val(data.nationality);
             $('#nguon').val(data.source).change();
             $('#ngaysinh').val(data.dob);
-          
+            
             $("#noisinh").val(data.pob).trigger('change');
-          
+            $('#salary').val(formatCurrency(data.salary.replace(/[,VNĐ]/g,'')))
+            if(data.salary == 0) $('#salary').val('');
             $("#residence").val(data.residence).trigger('change');
-            $('#salary').val(data.salary);
+           
             $('#introduce').val(data.introduce);
             $('#position1').val(data.position);
             $('#note1').html(data.note);
@@ -383,10 +566,12 @@ function thayanh() {
         data: myform,
         contentType: false,
         processData: false,
+        dataType:"json",
         success: function (data) {
             if (data.success) {
                 notyfi_success(data.msg);
                 $('#avatar').attr('src', data.filename);
+                $(".user-list-table").DataTable().ajax.reload(null, false);
             }
             else
                 notify_error(data.msg);
@@ -430,6 +615,7 @@ function del(id) {
         icon: 'warning',
         showCancelButton: true,
         confirmButtonText: 'Tôi đồng ý',
+        cancelButtonText: 'Hủy',
         customClass: {
             confirmButton: 'btn btn-primary',
             cancelButton: 'btn btn-outline-danger ml-1'
@@ -1018,4 +1204,17 @@ function delkn(id){
 function clearfmtab4() {
     urltab4 = baseHome + "/applicant/addkn?ung_vien=" + uvid;
     $('#fm-tab4')[0].reset();
+}
+$('.format_number').on('input', function(e){        
+    $(this).val(formatCurrency(this.value.replace(/[,VNĐ]/g,'')));
+  }).on('keypress',function(e){
+    if(!$.isNumeric(String.fromCharCode(e.which))) e.preventDefault();
+  }).on('paste', function(e){    
+    var cb = e.originalEvent.clipboardData || window.clipboardData;      
+    if(!$.isNumeric(cb.getData('text'))) e.preventDefault();
+  });
+  function formatCurrency(number){
+    var n = number.split('').reverse().join("");
+    var n2 = n.replace(/\d\d\d(?!$)/g, "$&,");    
+    return  n2.split('').reverse().join('');
 }

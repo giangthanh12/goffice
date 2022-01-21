@@ -73,8 +73,12 @@
                                                             <input id="fullName" type="text" class="form-control" name="fullName" />
                                                         </div>
                                                     </div>
-                                            
-
+                                                    <div class="col-lg-6 col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="shortName_add">Tên ngắn</label>
+                                                            <input id="shortName_add" type="text" class="form-control" name="shortName_add" />
+                                                        </div>
+                                                    </div>
                                                     <div class="col-lg-6 col-md-6">
                                                         <div class="form-group">
                                                             <label for="phoneNumber">Số điện thoại</label>
@@ -118,7 +122,16 @@
                                                             </select>
                                                         </div>
                                                     </div>
-
+                                                    <div class="col-lg-6 col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="classify_add">Phân loại khách hàng</label>
+                                                            <select id="classify_add" class=" form-control" name="classify_add">
+                                                                <option value="1">Khách hàng</option>
+                                                                <option value="2">Nhà cung cấp</option>
+                                                                <option value="3">Cả hai</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
                                                     <div class="col-lg-6 col-md-6">
                                                         <div class="form-group">
                                                             <label for="status">Trạng thái</label>
@@ -180,6 +193,7 @@
                                                                     <input id="fullName1" type="text" class="form-control" name="fullName1" />
                                                                 </div>
                                                             </div>
+                                                         
                                                             <div class="col-lg-4 col-md-6">
                                                                 <div class="form-group">
                                                                     <label for="shortName">Tên ngắn</label>

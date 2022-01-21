@@ -97,10 +97,16 @@
                                     </div>
 
                                     <div class="form-group mb-2">
-                                        <label class="form-label" for="tinh_trang">Trạng thái</label>
+                                        <label class="form-label" for="status">Trạng thái</label>
                                         <select id="status" class="form-control">
-                                            <option value="1">Khả dụng</option>
-                                            <option value="2">Ẩn</option>
+                                            <option value="1">Fresher</option>
+                                            <option value="2">Thử việc</option>
+                                            <option value="3">Chính thức</option>
+                                            <option value="4">Cộng tác viên</option>
+                                            <option value="5">Thời vụ</option>
+                                            <option value="6">Tạm ngừng</option>
+                                            <option value="7">Thôi việc</option>      
+                                          
                                         </select>
                                     </div>
                                     <button type="submit" class="btn btn-primary mr-1 data-submit">Lưu</button>
@@ -154,8 +160,8 @@
                                                 <div class="tab-pane active" id="information"
                                                      aria-labelledby="information-tab" role="tabpanel">
                                                     <!-- users edit Info form start -->
-                                                    <form class="form-validate" enctype="multipart/form-data"
-                                                          id="thongtin">
+                                                    <form class="form-validate" id="formInfoStaff" enctype="multipart/form-data"
+                                                         >
                                                         <div class="media mb-2 col-12">
                                                             <div class="col-lg-4 d-flex mt-1 px-0">
                                                                 <img id="avatar" src="" alt="users avatar" onerror="this.src='<?=HOME?>/layouts/useravatar.png'"
@@ -283,6 +289,19 @@
                                                                     </select>
                                                                 </div>
                                                             </div>
+                                                            <div class="col-lg-4 col-md-6">
+                                                                <label class="form-label" for="status_update">Trạng thái</label>
+                                                                <select id="status_update" name="status_update" class="form-control">
+                                                                    <option value="1">Fresher</option>
+                                                                    <option value="2">Thử việc</option>
+                                                                    <option value="3">Chính thức</option>
+                                                                    <option value="4">Cộng tác viên</option>
+                                                                    <option value="5">Thời vụ</option>
+                                                                    <option value="6">Tạm ngừng</option>
+                                                                    <option value="7">Thôi việc</option>      
+                                                                
+                                                                </select>
+                                                            </div>
                                                             <div class="col-12">
                                                                 <h4 class="mb-1 mt-2">
                                                                     <i data-feather="map-pin"
@@ -350,7 +369,7 @@
 
 
                                                             <div class="col-12 d-flex flex-sm-row flex-column mt-2">
-                                                                <button type="button" onclick="updateinfo()"
+                                                                <button type="submit"
                                                                         class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">
                                                                     Cập nhật
                                                                 </button>

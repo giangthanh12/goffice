@@ -42,6 +42,7 @@ class customer extends Controller
 
     function add() {
         $fullName = isset($_REQUEST['fullName']) ? $_REQUEST['fullName'] : false;
+        $shortName = !empty($_REQUEST['shortName']) ? $_REQUEST['shortName'] : $_REQUEST['fullName'];
         $phoneNumber = isset($_REQUEST['phoneNumber']) ? $_REQUEST['phoneNumber'] : false;
         $email = isset($_REQUEST['email']) ? $_REQUEST['email'] : false;
         $website = isset($_REQUEST['website']) ? $_REQUEST['website'] : false;
@@ -49,6 +50,7 @@ class customer extends Controller
         $staffInCharge = isset($_SESSION['user']['id']) ? $_SESSION['user']['id'] : false;
         $nationalId = isset($_REQUEST['nationalId']) ? $_REQUEST['nationalId'] : '';
         $provinceId = isset($_REQUEST['provinceId']) ? $_REQUEST['provinceId'] : '';
+        $classify = !empty($_REQUEST['classify']) ? $_REQUEST['classify'] : 1;
         $status = isset($_REQUEST['status']) ? $_REQUEST['status'] : 1;
         if(!$fullName && !$phoneNumber && !$email && !$website) {
             $jsonObj['msg'] = 'Thông tin không chính xác';
@@ -58,7 +60,7 @@ class customer extends Controller
         }
         $data = array(
             'fullName' => $fullName,
-            'shortName'=>$fullName,
+            'shortName'=>$shortName,
             'phoneNumber' => $phoneNumber,
             'email' => $email,
             'website' => $website,
@@ -66,9 +68,9 @@ class customer extends Controller
             'staffInCharge' => $staffInCharge,
             'nationalId' => $nationalId,
             'provinceId' => $provinceId,
+            'classify'=>$classify,
             'status'=>$status
         );
-          
             if ($this->model->addObj($data)) {
                 $jsonObj['msg'] = 'Cập nhật dữ liệu thành công';
                 $jsonObj['success'] = true;
@@ -90,6 +92,7 @@ class customer extends Controller
     {
         $id = $_REQUEST['id'];
         $fullName = isset($_REQUEST['fullName']) ? $_REQUEST['fullName'] : false;
+        $shortName = !empty($_REQUEST['shortName']) ? $_REQUEST['shortName'] : $_REQUEST['fullName'];
         $taxCode = isset($_REQUEST['taxCode']) ? $_REQUEST['taxCode'] : '';
         $address = isset($_REQUEST['address']) ? $_REQUEST['address'] : '';
         $phoneNumber = isset($_REQUEST['phoneNumber']) ? $_REQUEST['phoneNumber'] : false;
@@ -97,7 +100,7 @@ class customer extends Controller
         $website = isset($_REQUEST['website']) ? $_REQUEST['website'] : false;
         $staffId = isset($_REQUEST['staffId']) ? $_REQUEST['staffId'] : '';
         $staffInCharge = isset($_SESSION['user']['id']) ? $_SESSION['user']['id'] : '';
-        $shortName = isset($_REQUEST['shortName']) ? $_REQUEST['shortName'] : '';
+   
         $field = isset($_REQUEST['field']) ? $_REQUEST['field'] : '';
         $fieldDetail = isset($_REQUEST['fieldDetail']) ? $_REQUEST['fieldDetail'] : '';
         $rank = isset($_REQUEST['rank']) ? $_REQUEST['rank'] : '';

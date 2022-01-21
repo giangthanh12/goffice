@@ -79,13 +79,13 @@
                                                     <div class="col-lg-6 col-md-6">
                                                         <div class="form-group">
                                                             <label for="basicSalary">Lương cơ bản</label>
-                                                            <input id="basicSalary" type="text" class="form-control" name="basicSalary" />
+                                                            <input id="basicSalary" type="text" class="form-control format_number" name="basicSalary" />
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-6 col-md-6">
                                                         <div class="form-group">
                                                             <label for="allowance">Trợ cấp</label>
-                                                            <input id="allowance" type="text" class="form-control" name="allowance" />
+                                                            <input id="allowance" type="text" class="form-control format_number" name="allowance" />
                                                         </div>
                                                     </div>
                                                     <!-- <div class="col-lg-6 col-md-6">

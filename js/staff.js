@@ -67,28 +67,30 @@ $(function () {
                     render: function (data, type, full, meta) {
                         var $name = full["name"],
 
-                            $image = baseUrlFile+'/uploads/nhanvien/'+full["avatar"];
-                        if ($image) {
+                            // $image = baseUrlFile+'/uploads/nhanvien/'+full["avatar"];
+                            $image = full["avatar"];
+                            var $output = '<img onerror=' + "this.src='https://velo.vn/goffice-test/layouts/useravatar.png'" + ' src="' + $image + '" alt="Avatar" height="32" width="32">';
+                        // if ($image) {
                             // For Avatar image
-                            var $output = '<img onerror=' + "this.src=''+baseHome+'/layouts/useravatar.png'" + ' src="' + $image + '" alt="Avatar" height="32" width="32">';
+                          
                             // var $output = '<img src="' + assetPath + "images/avatars/" + $image + '" alt="Avatar" height="32" width="32">';
-                        } else {
+                        // } else {
                             // For Avatar badge
-                            var stateNum = Math.floor(Math.random() * 6) + 1;
-                            var states = ["success", "danger", "warning", "info", "dark", "primary", "secondary"];
-                            var $state = states[stateNum],
-                                $name = full["name"],
-                                $initials = $name.match(/\b\w/g) || [];
-                            $initials = (($initials.shift() || "") + ($initials.pop() || "")).toUpperCase();
-                            $output = '<span class="avatar-content">' + $initials + "</span>";
-                        }
-                        var colorClass = $image === "" ? " bg-light-" + $state + " " : "";
+                            // var stateNum = Math.floor(Math.random() * 6) + 1;
+                            // var states = ["success", "danger", "warning", "info", "dark", "primary", "secondary"];
+                            // var $state = states[stateNum],
+                            //     $name = full["name"],
+                            //     $initials = $name.match(/\b\w/g) || [];
+                            // $initials = (($initials.shift() || "") + ($initials.pop() || "")).toUpperCase();
+                            // $output = '<span class="avatar-content">' + $initials + "</span>";
+                        // }
+                        // var colorClass = $image === "" ? " bg-light-" + $state + " " : "";
                         // Creates full output for row
                         var $row_output =
                             '<div class="d-flex justify-content-left align-items-center">' +
                             '<div class="avatar-wrapper">' +
                             '<div class="avatar ' +
-                            colorClass +
+                            '' +
                             ' mr-1">' +
                             $output +
                             "</div>" +
@@ -209,7 +211,7 @@ $(function () {
                     previous: "&nbsp;",
                     next: "&nbsp;",
                 },
-                info:"Hiển thị _START_ đến _END_ of _TOTAL_ bản ghi",
+                info:"Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
             },
             // Buttons with Dropdown
             buttons: [{
@@ -258,12 +260,15 @@ $(function () {
                 },
                 "email": {
                     required: true,
+                    email:true,
                 },
                 "birthday": {
                     required: true,
                 },
                 "phoneNumber": {
                     required: true,
+                    number:true,
+                    min:0
                 },
             },
             messages: {
@@ -272,12 +277,15 @@ $(function () {
                 },
                 "email": {
                     required: "Bạn chưa nhập email!",
+                    email:"Yêu cầu nhập email!"
                 },
                 "birthday": {
                     required: "Bạn chưa nhập ngày sinh!",
                 },
                 "phoneNumber": {
                     required: "Bạn chưa nhập số điện thoại!",
+                    number:"Yêu cầu nhập số!",
+                    min:"Yêu cầu nhập số bắt đầu từ 0!",
                 },
             },
         });
@@ -291,6 +299,81 @@ $(function () {
             }
         });
     }
+
+
+// Form Validation
+if ($('#formInfoStaff').length) {
+    $('#formInfoStaff').validate({
+        errorClass: "error",
+        rules: {
+            "name1": {
+                required: true,
+            },
+            "email1": {
+                required: true,
+                email:true,
+            },
+            "birthday": {
+                required: true,
+            },
+            "phoneNumber1": {
+                required: true,
+                number:true,
+                min:0
+            },
+            "vssId": {
+                number:true,
+                min:0
+            },
+            "taxCode": {
+                number:true,
+                min:0
+            },
+            "idCard": {
+                number:true,
+                min:0
+            },
+        },
+        messages: {
+            "name1": {
+                required: "Bạn chưa nhập tên!",
+            },
+            "email1": {
+                required: "Bạn chưa nhập email!",
+                email:"Yêu cầu nhập email!"
+            },
+            "birthday": {
+                required: "Bạn chưa nhập ngày sinh!",
+            },
+            "phoneNumber1": {
+                required: "Bạn chưa nhập số điện thoại!",
+                number:"Yêu cầu nhập số!",
+                min:"Yêu cầu nhập số bắt đầu từ 0!",
+            },
+            "vssId": {
+                number:"Yêu cầu nhập số!",
+                min:"Yêu cầu nhập số bắt đầu từ 0!",
+            },
+            "taxCode": {
+                number:"Yêu cầu nhập số!",
+                min:"Yêu cầu nhập số bắt đầu từ 0!",
+            },
+            "idCard": {
+                number:"Yêu cầu nhập số",
+                min:"Yêu cầu nhập số bắt đầu từ 0!",
+            },
+        },
+    });
+
+    $('#formInfoStaff').on("submit", function (e) {
+        var isValid = $('#formInfoStaff').valid();
+        e.preventDefault();
+        if (isValid) {
+            updateinfo();
+        }
+    });
+}
+
 
     // To initialize tooltip with body container
     $("body").tooltip({
@@ -310,7 +393,7 @@ function loaddata(id) {
             var data = result.nhanvien;
 
             $('#nhanvien').html(data.name);
-            $('#avatar').attr('src', baseUrlFile+'/uploads/nhanvien/'+data.avatar);
+            $('#avatar').attr('src',data.avatar);
             //gender
             if (data.gender == 1)
                 $("#male1").prop("checked", true);
@@ -331,6 +414,7 @@ function loaddata(id) {
             $('#residence').val(data.residence);
             $('#idCard').val(data.residence);
             $('#idDate').val(data.idDate);
+            $('#status_update').val(data.status);
             if (data.idDate == "00/00/0000") {
                 $('#idDate').val('').attr('placeholder', 'DD/MM/YYYY');
             }
@@ -382,6 +466,7 @@ function updateinfo() {
     info.vssId = $("#vssId").val();
     info.description = $("#description").val();
     info.accesspoints = $("#accesspoints").val();
+    info.status = $('#status_update').val();
     $.ajax({
         type: "POST",
         dataType: "json",
@@ -403,7 +488,7 @@ function updateinfo() {
 
 function changeImage() {
     var id = $("#id").val();
-    var myform = new FormData($('#thongtin')[0]);
+    var myform = new FormData($('#formInfoStaff')[0]);
     myform.append('myid', id);
     $.ajax({
         url: baseHome + "/staff/changeImage",
@@ -416,6 +501,7 @@ function changeImage() {
             if (data.success) {
                 notyfi_success(data.msg);
                 $('#avatar').attr('src', data.filename);
+                $(".user-list-table").DataTable().ajax.reload(null, false);
             } else
                 notify_error(data.msg);
         },
@@ -489,6 +575,7 @@ function del(id) {
         icon: 'warning',
         showCancelButton: true,
         confirmButtonText: 'Tôi đồng ý',
+        cancelButtonText: 'Hủy',
         customClass: {
             confirmButton: 'btn btn-primary',
             cancelButton: 'btn btn-outline-danger ml-1'
@@ -522,7 +609,7 @@ function add() {
     $('#email').val('');
     $('#birthday').val('');
     $("input[type='radio'][name='gender']:checked").val();
-    $('#status').val(1).attr("disabled", true);
+    $('#status').val(1);
 }
 
 // load record
@@ -584,7 +671,7 @@ function loadRecord(id) {
                     previous: "&nbsp;",
                     next: "&nbsp;",
                 },
-                info:"Hiển thị _START_ đến _END_ of _TOTAL_ bản ghi",
+                info:"Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
             },
         });
     }

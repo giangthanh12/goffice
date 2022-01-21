@@ -181,10 +181,10 @@
                                           Cập nhật
                                        </button>
                                        <button  class="btn btn-outline-danger btn-delete-event mr-1 d-none waves-effect">
-                                           Delete
+                                          Xóa
                                        </button>
                                         <button type="button" class="btn btn-outline-secondary btn-cancel waves-effect"
-                                                data-dismiss="modal">Cancel
+                                                data-dismiss="modal">Đóng
                                         </button>
                                        
                                     </div>

@@ -81,7 +81,7 @@ $(function () {
                         previous: "&nbsp;",
                         next: "&nbsp;",
                     },
-                    info:"Hiển thị _START_ đến _END_ of _TOTAL_ bản ghi",
+                    info:"Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
                 },
             // Buttons with Dropdown
             buttons: [

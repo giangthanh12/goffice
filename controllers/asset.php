@@ -44,7 +44,7 @@ class asset extends Controller{
         if(functions::checkFuns(self::$funcs,'add')) {
         $data = array(
             'name' => $_REQUEST['name'],
-            'code' => 'CP-'.time(),
+            'code' => $_REQUEST['code'],
             'so_luong' => 1,
             'sl_tonkho' => 1,
             'don_vi' => $_REQUEST['don_vi'],
@@ -76,7 +76,7 @@ class asset extends Controller{
         $id = $_REQUEST['id'];
         $data = array(
             'name' => $_REQUEST['name_add'],
-            // 'so_luong' => $_REQUEST['so_luong_add'],
+            'code' => $_REQUEST['code_add'],
             'don_vi' => $_REQUEST['don_vi_add'],
             'nhom_ts' => $_REQUEST['nhom_ts_add'],
             'so_tien' => $_REQUEST['so_tien_add'],

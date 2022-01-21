@@ -23,6 +23,9 @@ class asset_model extends Model{
         $result['data'] = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }
+
+
+    
     function loadListHisRecall($id){
         $result['data'] = array();
         $query = $this->db->query("SELECT *,

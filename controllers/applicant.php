@@ -50,7 +50,7 @@ class applicant extends Controller
         $ngaysinh = isset($_REQUEST["ngaysinh"]) ? date('Y-m-d',strtotime($_REQUEST["ngaysinh"])) : '';
         $noisinh = isset($_REQUEST["noisinh"]) ? $_REQUEST["noisinh"] : '';
         $residence = isset($_REQUEST["residence"]) ? $_REQUEST["residence"] : '';
-        $salary = isset($_REQUEST["salary"]) ? $_REQUEST["salary"] : 0;
+        $salary = isset($_REQUEST["salary"]) ? str_replace(',','',$_REQUEST["salary"]) : '';
         $source = isset($_REQUEST["nguon"]) ? $_REQUEST["nguon"] : 0;
         $introduce = isset($_REQUEST["introduce"]) ? $_REQUEST["introduce"] : 0;
         $position = isset($_REQUEST["position1"]) ? $_REQUEST["position1"] : 0;
@@ -119,6 +119,7 @@ class applicant extends Controller
             if ($file!='')
                 $hinhanh = URLFILE.'/uploads/ungvien/'.$file;
         }
+  
         if ($this->model->thayanh($hinhanh,$id)) {
             $jsonObj['filename'] = $hinhanh;
             $jsonObj['msg'] = "Cập nhật dữ liệu thành công".$file;

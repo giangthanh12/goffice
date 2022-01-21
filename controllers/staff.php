@@ -76,13 +76,15 @@ class staff extends Controller
     {
         $id = $_REQUEST['myid'];
         $filename = $_FILES['hinhanh']['name'];
+  
         $avatar = '';
         if ($filename != '') {
-            $dir = ROOT_DIR;
+            $dir = ROOT_DIR. '/uploads/nhanvien/';
             $file = functions::uploadfile('hinhanh', $dir, $id);
             if ($file != '')
-                $avatar = $file;
+                $avatar = URLFILE.'/uploads/nhanvien/'.$file;
         }
+       
         if ($this->model->changeImage($avatar, $id)) {
             $jsonObj['filename'] = $avatar;
             if ($id == $_SESSION['user']['staffId'])

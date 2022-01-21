@@ -51,7 +51,7 @@ class recruitmentcamp extends Controller
             $dir = ROOT_DIR . '/uploads/recruitment/';
             $file = functions::uploadfile('file1', $dir, $fname[0]);
             if ($file != '')
-                $file = 'uploads/baogia/' . $file;
+                $file = 'uploads/recruitment/' . $file;
         }
         $creatorId = isset($_SESSION['user']['staffId']) ? $_SESSION['user']['staffId'] : false;
         $title = isset($_REQUEST['title']) ? $_REQUEST['title'] : '';
@@ -172,7 +172,7 @@ class recruitmentcamp extends Controller
             $dir = ROOT_DIR . '/uploads/recruitment/';
             $file = functions::uploadfile('file2', $dir, $fname[0]);
             if ($file != '')
-                $file = 'uploads/baogia/' . $file;
+                $file = 'uploads/recruitment/' . $file;
         }
 
         $title = isset($_REQUEST['title1']) ? $_REQUEST['title1'] : '';
