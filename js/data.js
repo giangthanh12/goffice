@@ -302,7 +302,7 @@ $(function () {
         var $this = $(this);
         $this.validate({
             rules: {
-                nameLead: {
+                leadName: {
                     required: true
                 },
                 opportunity: {
@@ -599,6 +599,7 @@ function saveAddLead() {
     var isValid = $('#frm-add-lead').valid();
     if (isValid) {
         var info = {};
+        info.leadName = $('#leadName').val();
         info.dataId = dataId;
         info.description = $('#descriptionLead').val();
         info.opportunity = $('#opportunity').val();
