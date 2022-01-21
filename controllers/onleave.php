@@ -45,7 +45,7 @@ class onleave extends Controller
         $json = $this->model->get_data();
         echo json_encode($json);
     }
-    
+
     function getStaff() {
         $json = $this->model->getStaff();
         echo json_encode($json);
