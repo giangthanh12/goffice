@@ -148,7 +148,7 @@
                                                             </div>
                                                             <div class="col-lg-4 col-md-6">
                                                                 <div class="form-group">
-                                                                    <label for="educationLevel">Hình thức làm việc</label>
+                                                                    <label for="educationLevel">Trình độ học vấn</label>
                                                                     <select id="educationLevel" class="form-control" name="educationLevel">
                                                                         <option value="1">THCS</option>
                                                                         <option value="2">THPT</option>
@@ -170,7 +170,7 @@
                                                                 </div>
                                                             </div>
                                                      
-                                                      
+<!--                                                       
                                                             <div class="col-lg-4 col-md-6">
                                                                 <div class="form-group">
                                                                     <label for="status">Trạng thái</label>
@@ -179,7 +179,7 @@
                                                                         <option value="2">Ẩn</option>
                                                                     </select>
                                                                 </div>
-                                                            </div>
+                                                            </div> -->
                                                               <div class="col-lg-4 col-md-6">
                                                             
                                                                     <div class="form-group">
@@ -213,7 +213,7 @@
                         <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h4 class="modal-title" id="myModalLabel16">Cập nhật thông tin khách hàng</h4>
+                                    <h4 class="modal-title" id="myModalLabel16"></h4>
                                 </div>
                                 <div class="modal-body">
                                     <input type="hidden" id="id" name="id" />
@@ -222,7 +222,7 @@
                                             <ul class="nav nav-pills" role="tablist">
                                                 <li class="nav-item">
                                                     <a class="nav-link d-flex align-items-center active" id="information-tab" data-toggle="tab" href="#information" aria-controls="information" role="tab" aria-selected="false">
-                                                        <i data-feather="info"></i><span class="d-none d-sm-block">Thông tin khách hàng</span>
+                                                        <i data-feather="info"></i><span class="d-none d-sm-block">Thông tin chiến dịch</span>
                                                     </a>
                                                 </li>
                                                 <li class="nav-item">
@@ -363,7 +363,7 @@
                                                                     <input id="yearOfExperience1" type="text" class="form-control" name="yearOfExperience1" />
                                                                 </div>
                                                             </div>
-                                                            <div class="col-lg-4 col-md-6">
+                                                            <!-- <div class="col-lg-4 col-md-6">
                                                                 <div class="form-group">
                                                                     <label for="status1">Trạng thái</label>
                                                                     <select id="status1" class="select2 form-control" name="status1">
@@ -371,7 +371,7 @@
                                                                         <option value="2">Ẩn</option>
                                                                     </select>
                                                                 </div>
-                                                            </div>
+                                                            </div> -->
                                                             <div class="col-lg-4 col-md-6">
                                                             
                                                                     <div class="form-group">

@@ -168,5 +168,35 @@ class applicant_Model extends Model{
         $query = $this->update("kinhnghiemuv", ['tinh_trang'=>0], " id=$id ");
         return $query;
     }
+
+    function checkPhone($idApplicant, $phone) {
+        if($idApplicant == 0) {
+            $query = $this->db->query("SELECT COUNT(id) AS total FROM applicants WHERE phoneNumber=$phone AND status > 0  ");
+            $temp = $query->fetchAll(PDO::FETCH_ASSOC);
+            if ($temp[0]['total'] > 0) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+        else {
+            $query = $this->db->query("SELECT phoneNumber FROM applicants WHERE status > 0 AND id = $idApplicant ");
+            $temp = $query->fetchAll(PDO::FETCH_ASSOC);
+            if($temp[0]['phoneNumber'] == $phone) {
+              return true;
+            }
+            else {
+                $query = $this->db->query("SELECT COUNT(id) AS total FROM applicants WHERE phoneNumber=$phone AND status > 0");
+                $temp = $query->fetchAll(PDO::FETCH_ASSOC);
+             
+                if ($temp[0]['total'] > 0) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+          
+        }
+    }
 }
 ?>

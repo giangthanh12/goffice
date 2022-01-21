@@ -22,7 +22,6 @@
                         <table class="user-list-table table">
                             <thead class="thead-light">
                                 <tr>
-                                  
                                     <th>Họ tên</th>
                                     <th>Giới tính</th>
                                     <th>Email</th>
@@ -80,7 +79,7 @@
 
                                                 <div class="form-group">
                                                     <label for="phoneNumber">Số điện thoại</label>
-                                                    <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" />
+                                                    <input type="text" class="form-control phoneNumber" data-id="phoneNumber" id="phoneNumber" name="phoneNumber" />
                                                 </div>
 
                                                 <div class="form-group">
@@ -98,7 +97,7 @@
                                                     <textarea id="note" name="note" class="form-control"></textarea>
                                                 </div>
                                                 <div class="d-flex flex-sm-row flex-column mt-2">
-                                                    <button type="submit"  class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Cập nhật</button>
+                                                    <button type="submit"  class="btn btn-add-customer btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Cập nhật</button>
                                                     <button type="reset" class="btn btn-outline-secondary" data-dismiss="modal">Bỏ qua</button>
                                                 </div>
                                             </form>
@@ -304,7 +303,7 @@
                                                             <div class="col-lg-4 col-md-6">
                                                               
                                                                 <div class="form-group">
-                                                                    <label for="idPlace">Nhân viên chăm sóc</label>
+                                                                    <label for="idPlace">Nơi cấp</label>
                                                                     <select id="idPlace" class="select2 form-control" name="idPlace"></select>
                                                                 </div>
                                                             </div>
@@ -324,7 +323,7 @@
                                                             <div class="col-lg-3 col-md-6">
                                                                 <div class="form-group">
                                                                     <label for="phoneNumber1">Điện thoại</label>
-                                                                    <input id="phoneNumber1" type="text" class="form-control" name="phoneNumber1" placeholder="0989848886" />
+                                                                    <input id="phoneNumber1" data-id="phoneNumber1" type="text" class="form-control phoneNumber" name="phoneNumber1" placeholder="0989848886" />
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-3 col-md-6">
@@ -344,7 +343,7 @@
                                                             </div>
                                                             </div>
                                                             <div class="col-12 d-flex flex-sm-row flex-column mt-2">
-                                                                <button type="button" onclick="updateinfo()" class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Cập nhật</button>
+                                                                <button type="button" onclick="updateinfo()" class="btn btn-update-customer btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Cập nhật</button>
                                                                 <button type="reset" class="btn btn-outline-secondary" data-dismiss="modal">Bỏ qua</button>
                                                             </div>
                                                         </div>

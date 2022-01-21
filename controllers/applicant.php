@@ -93,23 +93,20 @@ class applicant extends Controller
         echo json_encode($jsonObj);
     }
 
-    // for(){
-    //     $id =$item['id'];
-    //     if(isset($_REQUEST['ten_day_du_'.$id])){
-
-    //     } else {
-            
-    //     } 
-    //     $new = $_REQUEST['new'];
-    //     for($i = 1; $i <= $new; $i++ ){
-    //         ten_day_dau_a1
-    //         ten_day_dau_a2
-    //         ten_day_dau_a3
-    //         if(isset($_REQUEST['ten_day_du_a'.$i])){
-
-    //         }
-    //     }
-    // }
+    function checkPhone() {
+        $idApplicant = $_REQUEST['idApplicant'];
+        $phone = $_REQUEST['phone'];
+   
+       if($this->model->checkPhone($idApplicant, $phone)) {
+        $jsonObj['msg'] = "Số điện thoại hợp lệ";
+        $jsonObj['success'] = true;
+       }
+       else {
+        $jsonObj['msg'] = "Số điện thoại đã tồn tại";
+        $jsonObj['success'] = false;
+       }
+       echo json_encode($jsonObj);
+    }
 
     function thayanh()
     {

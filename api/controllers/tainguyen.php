@@ -1,9 +1,11 @@
 <?php
 class Tainguyen extends Controller
 {
+    private $_Data;
     function __construct()
     {
         parent::__construct();
+        $this->_Data = new Model();
     }
 
     function json()

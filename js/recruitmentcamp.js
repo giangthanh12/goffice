@@ -162,7 +162,7 @@ var   datePicker = $(".flatpickr-basic");
                         $('#maxAge').val('');
                         $('#professional').val('');
                         $('#yearOfExperience').val('');
-                        $('#status').val('1').attr("disabled", true);
+          
                     },
                 },
                 // {
@@ -310,7 +310,7 @@ function loaddata(id) {
     khid = id;
     $("#updateinfo").modal('show');
     $('#information-tab').click();
-    $(".modal-title").html('Cập nhật thông tin khách hàng');
+    $(".modal-title").html('Cập nhật thông tin chiến dịch');
     $.ajax({
         type: "POST",
         dataType: "json",
@@ -337,7 +337,7 @@ function loaddata(id) {
             $('#professional1').val(data.professional);
             $('#yearOfExperience1').val(data.yearsOfExperience);
             $('#description1').val(data.description);
-            $('#status1').val(data.status).attr("disabled", true);
+      
             $('#viewfile').html(`<a target="_blank" href="${file}" style="color: blue;">Tải xuống <i class="fas fa-download"></i></a>`)
             loadListCandidate(id);
         },

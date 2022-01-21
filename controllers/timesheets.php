@@ -10,6 +10,7 @@ class timesheets extends Controller
     function index()
     {
         require "layouts/header.php";
+        $this->view->employee = $this->model->getEmployee();
         $this->view->render("timesheets/index");
         require "layouts/footer.php";
     }
@@ -41,26 +42,39 @@ class timesheets extends Controller
         $startDate = isset($_REQUEST['startDate']) ? $_REQUEST['startDate'] : '';
         $endDate = isset($_REQUEST['endDate']) ? $_REQUEST['endDate'] : '';
         $staffId = isset($_REQUEST['staffId']) ? $_REQUEST['staffId'] : '';
+        if ($staffId == '') {
+            return false;
+        }
         $work = isset($_REQUEST['work']) ? $_REQUEST['work'] : 0;
         $temp = explode("/", $startDate);
-        $start = str_replace("0", $temp[0]);
+        $monthStart = $temp[1];
+        $yearStart = $temp[2];
+        $dateStart = ltrim($temp[0], "0");
         $temp = explode("/", $endDate);
-        $end = $temp[0];
+        $monthEnd = $temp[1];
+        $yearEnd = $temp[2];
+        if ($monthStart != $monthEnd || $yearStart != $yearEnd) {
+            $jsonObj['message'] = "Ngày chấm công chọn không cùng tháng cùng năm!";
+            $jsonObj['code'] = 402;
+            echo json_encode($jsonObj);
+            return false;
+        }
+        $dateEnd = ltrim($temp[0], "0");
         $data = [];
-        for ($start; $start <= $end; $start++) {
-            if ($start < 10)
-                $i = "0" . $start;
+        for ($dateStart; $dateStart <= $dateEnd; $dateStart++) {
+            if ($dateStart < 10)
+                $i = "0" . $dateStart;
             else
-                $i = $start;
+                $i = $dateStart;
             $data['date_' . $i] = $work;
         }
-//        if ($this->model->updateWork($data)) {
-//            $jsonObj['message'] = "Tạo bảng chấm công thành công";
-//            $jsonObj['code'] = 200;
-//        } else {
-//            $jsonObj['message'] = "Bảng chấm công đã tồn tại";
-//            $jsonObj['code'] = 401;
-//        }
-        echo json_encode($data);
+        if ($this->model->updateWork($staffId, $data, $monthStart, $yearStart)) {
+            $jsonObj['message'] = "Tạo bảng chấm công thành công";
+            $jsonObj['code'] = 200;
+        } else {
+            $jsonObj['message'] = "Bảng chấm công đã tồn tại";
+            $jsonObj['code'] = 401;
+        }
+        echo json_encode($jsonObj);
     }
 }

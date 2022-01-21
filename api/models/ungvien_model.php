@@ -4,14 +4,6 @@ class Ungvien_Model extends Model{
         parent::__construct();
     }
 
-    function get_data_combo()
-    {
-        $result = array();
-        $query = $this->db->query("SELECT id,ten_day_du AS text FROM ungvien WHERE tinh_trang > 0 ");
-        $result = $query->fetchAll(PDO::FETCH_ASSOC);
-        return $result;
-    }
-
     function thanhpho(){
         $result = array();
         $query = $this->db->query("SELECT id, name AS `text` FROM thanhpho WHERE tinh_trang=1");
@@ -34,7 +26,6 @@ class Ungvien_Model extends Model{
     function getdata($id){
         $result = array();
         $query = $this->db->query("SELECT *,
-            DATE_FORMAT(ngay_sinh,'%d/%m/%Y') AS ngay_sinh,
             IF(hinh_anh='','".URLFILE."/uploads/useravatar.png',hinh_anh) AS hinh_anh
             FROM ungvien WHERE id = $id");
         $temp = $query->fetchAll(PDO::FETCH_ASSOC);

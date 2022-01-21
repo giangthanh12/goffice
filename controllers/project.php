@@ -41,7 +41,12 @@ class project extends Controller
         if(functions::checkFuns(self::$funcs,'add') && $id == 0) {
             $name = $_REQUEST['name'];
             $managerId = $_REQUEST['managerId'];
-            $memberId = str_replace(']','',str_replace('[', '', json_encode($_REQUEST['memberId'])));
+            if(count($_REQUEST['memberId']) <2) {
+                $memberId = implode(',',$_REQUEST['memberId']);
+            }
+            else {
+                $memberId = str_replace(']','',str_replace('[', '', json_encode($_REQUEST['memberId'])));
+            }
             $process = !empty($_REQUEST['process']) ? $_REQUEST['process'] : 0;
             $level = $_REQUEST['level'];
             $description = $_REQUEST['description'];
@@ -65,7 +70,12 @@ class project extends Controller
         else if(functions::checkFuns(self::$funcs,'loaddata') && $id > 0) {
             $name = $_REQUEST['name'];
             $managerId = $_REQUEST['managerId'];
-            $memberId = implode(',',$_REQUEST['memberId']);
+            if(count($_REQUEST['memberId']) <2) {
+                $memberId = implode(',',$_REQUEST['memberId']);
+            }
+            else {
+                $memberId = str_replace(']','',str_replace('[', '', json_encode($_REQUEST['memberId'])));
+            }
             $process = !empty($_REQUEST['process']) ? $_REQUEST['process'] : 0;
             $level = $_REQUEST['level'];
             $description = $_REQUEST['description'];
@@ -91,10 +101,10 @@ class project extends Controller
             $result = false;
         }
       if ($result) {
-        $jsonObj['msg'] = "Cập nhật thành công";
+        $jsonObj['msg'] = "Thêm mới thành công";
         $jsonObj['success'] = true;
         } else {
-            $jsonObj['msg'] = "Cập nhật không thành công";
+            $jsonObj['msg'] = "Thêm mới không thành công";
             $jsonObj['success'] = false;
         }
         $jsonObj = json_encode($jsonObj);

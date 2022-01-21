@@ -18,9 +18,9 @@ $(function () {
             fixedColumns: true,
             searching: false,
             paging: false,
-            select: {
-                style: 'single'
-            },
+            // select: {
+            //     style: 'single'
+            // },
             fixedHeader: true,
             scrollX: true,
             columns: [
@@ -152,7 +152,7 @@ $(function () {
                     render: function (data, type, row, meta) {
                         var html = '';
                         if (row['status'] == 1) {
-                            html +='<div style="width:85px;text-align: left">';
+                            html +='<div style="width:90px;text-align: left">';
                             if(funCheck==1) {
                                 html += '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" title="Duyệt lương" onclick="checkPayRollById(' + row['id'] + ',\'' + row['staffName'] + '\')">';
                                 html += '<i class="fas fa-check"></i>';
@@ -161,6 +161,14 @@ $(function () {
                             if(funEdit==1) {
                                 html += '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" title="Chỉnh sửa" onclick="loaddata(' + i + ')">';
                                 html += '<i class="fas fa-pencil-alt"></i>';
+                                html += '</button> &nbsp;';
+                            }
+                            html+='</div>'
+                        }else if(row['status'] == 2){
+                            html +='<div style="width:90px;text-align: left">';
+                            if(funEdit==1) {
+                                html += '<button type="button" class="btn btn-icon btn-outline-danger waves-effect" title="Hoàn duyệt" onclick="uncheckRollById(' + row['id'] + ',\'' + row['staffName'] + '\')">';
+                                html += '<i class="fas fa-undo"></i>';
                                 html += '</button> &nbsp;';
                             }
                             html+='</div>'
@@ -391,6 +399,44 @@ function checkPayRollById(id,staffName){
                 dataType: "json",
                 data: {id: id},
                 url: baseHome + '/payrolls/checkPayRoll',
+                success: function (data) {
+                    if (data.code == 200) {
+                        notyfi_success(data.message);
+                        $('#updateinfo').modal('hide');
+                        $(".user-list-table").DataTable().ajax.reload(null, false);
+                    } else
+                        notify_error(data.message);
+                },
+                error: function () {
+                    notify_error('Cập nhật không thành công');
+                }
+            });
+        }
+    });
+}
+
+function uncheckRollById(id,staffName){
+    var month = $('#month').val();
+    var year = $('#year').val();
+    Swal.fire({
+        title: 'Hoàn duyệt bảng lương',
+        text: 'Bạn có chắc chắn muốn hoàn duyệt cho bảng lương tháng ' + month + '/' + year +' của '+staffName+'?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Tôi đồng ý',
+        cancelButtonText:'Bỏ qua',
+        customClass: {
+            confirmButton: 'btn btn-primary',
+            cancelButton: 'btn btn-outline-danger ml-1'
+        },
+        buttonsStyling: false
+    }).then(function (result) {
+        if (result.value) {
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                data: {id: id},
+                url: baseHome + '/payrolls/uncheckPayRoll',
                 success: function (data) {
                     if (data.code == 200) {
                         notyfi_success(data.message);

@@ -52,40 +52,53 @@ class System_Model extends Model
 
   function checkEmail($email)
   {
-    $query = $this->db->query("SELECT COUNT(1) AS total
-        FROM staffs WHERE email LIKE '$email' AND status > 0 ");
+    $query = $this->db->query("SELECT id,name,COUNT(id) total FROM staffs WHERE email='$email' AND status>0");
+    $temp = $query->fetchAll(PDO::FETCH_ASSOC);
+    if ($temp[0]['total'] > 0) {
+      $result = array();
+      $staffId = $temp[0]['id'];
+      $result['name'] = $temp[0]['name'];
+      $query = $this->db->query("SELECT id FROM users WHERE staffId=$staffId AND status>0");
+      $temp = $query->fetchAll(PDO::FETCH_ASSOC);
+      $result['userId'] = $temp[0]['id'];
+      return $result;
+    } else
+      return 0;
+  }
+
+  function addActiveCode($id, $data)
+  {
+    $result = $this->update('users', $data, " id=$id ");
+    return $result;
+  }
+
+  function checkActiveCode($activeCode)
+  {
+    $query = $this->db->query("SELECT id,COUNT(id) AS total
+        FROM users WHERE MD5(MD5(activeCode)) = '$activeCode' AND status > 0 ");
     if ($query) {
       $result = $query->fetchAll(PDO::FETCH_ASSOC);
       $total = $result[0]['total'];
       if ($total > 0)
-        return 1;
+        return $result[0]['id'];
       else
         return 0;
     }
   }
 
-  function updateActiveCode($email, $activeCode)
+  function changePass($id, $data)
   {
-    $query = $this->db->query("SELECT (SELECT id FROM users WHERE staffId = a.id AND status > 0) AS userid
-        FROM staffs a WHERE email LIKE '$email' AND status > 0 ");
-    $result = $query->fetchAll(PDO::FETCH_ASSOC);
-    $userid = $result[0]['userid'];
-    $result = $this->update("users", ['activeCode' => $activeCode], "id=$userid");
+    $result = $this->update('users', $data, " id=$id ");
     if ($result)
       return 1;
     else
       return 0;
   }
 
-  function sendEmail($email, $activeCode)
+  function sendEmail($email, $name, $url)
   {
-    $query = $this->db->query("SELECT name
-        FROM staffs WHERE email LIKE '$email' AND status > 0 ");
-    $result = $query->fetchAll(PDO::FETCH_ASSOC);
-    $name = $result[0]['name'];
-    if ($name == '') {
+    if ($name == '')
       $name = 'bạn';
-    }
     $noidung = '<!DOCTYPE">
         <html>
         <head>
@@ -129,7 +142,7 @@ class System_Model extends Model
               text-decoration: none !important;
             }
             .box-active {
-                width: 75px;
+                
                 margin: 0 auto;
                 font-size: 11px;
                 font-family: LucidaGrande,tahoma,verdana,arial,sans-serif;
@@ -139,12 +152,6 @@ class System_Model extends Model
                 border-right: 1px solid #ccc;
                 border-top: 1px solid #ccc;
                 border-bottom: 1px solid #ccc;
-            }
-            .active-code {
-                font-family: Helvetica Neue,Helvetica,Lucida Grande,tahoma,verdana,arial,sans-serif;
-                font-size: 16px;
-                line-height: 21px;
-                color: #141823;
             }
           </style>
           <link href="https://fonts.googleapis.com/css?family=Cabin:400,700" rel="stylesheet" type="text/css">
@@ -218,8 +225,8 @@ class System_Model extends Model
                                       <div style="line-height: 160%; text-align: center; word-wrap: break-word;">
                                         <p style="font-size: 14px; line-height: 160%;"><span style="font-size: 22px; line-height: 35.2px;">Xin ch&agrave;o ' . $name . ' </span></p>
                                         <p style="font-size: 14px; line-height: 160%;"><span style="font-size: 18px; line-height: 28.8px;">Chúng tôi đã nhận được yêu cầu đặt lại mật khẩu tài khoản G-office của bạn <br /></span></p>
-                                        <p style="font-size: 14px; line-height: 160%;"><span style="font-size: 18px; line-height: 28.8px;">Nhập mã đặt lại mật khẩu sau đây: <br/> </span></p>
-                                        <div class="box-active"><span class="active-code">' . $activeCode . '</span></div>
+                                        <p style="font-size: 14px; line-height: 160%;"><span style="font-size: 18px; line-height: 28.8px;">Click vào link sau đây để đặt lại mật khẩu: <br/> </span></p>
+                                        <div class="box-active"><span class="active-code"><a href="'.$url.'">' . $url . '</a></span></div>
                                       </div>
                                     </td>
                                   </tr>
@@ -300,7 +307,7 @@ class System_Model extends Model
 
     $from = ['Email' => 'info@gemstech.com.vn', 'Name' => 'G-office'];
     $tolist = [['Email' => $email, 'Name' => 'Khách hàng']];
-    $subject = 'Mã khôi phục tài khoản G-office của bạn';
+    $subject = 'Xác nhận đổi mật khẩu tài khoản phần mềm G-office';
     $textpart = 'Email from GOFFICE';
     $result = $this->sendmail($from, $tolist, [], [], $subject, $noidung, $textpart);
     if ($result)
@@ -309,70 +316,6 @@ class System_Model extends Model
       return 0;
   }
 
-  function checkActiveCode($email, $activeCode)
-  {
-    $query = $this->db->query("SELECT id,(SELECT id FROM users WHERE staffId = a.id AND status > 0) AS userid
-        FROM staffs a WHERE email LIKE '$email' AND status > 0 ");
-    $result = $query->fetchAll(PDO::FETCH_ASSOC);
-    $staffId = $result[0]['id'];
-    $userid = $result[0]['userid'];
-    $query = $this->db->query("SELECT COUNT(1) AS total
-        FROM users WHERE id = $userid AND activeCode = $activeCode AND status > 0 ");
-    if ($query) {
-      $result = $query->fetchAll(PDO::FETCH_ASSOC);
-      $total = $result[0]['total'];
-      if ($total > 0)
-        return $activeCode;
-      else
-        return 0;
-    }
-  }
-
-  // function check_in($username, $password){
-  //     $query = $this->db->query("SELECT id, email, nhan_vien, nhom,token,
-  //       (SELECT name FROM staffs WHERE id=nhan_vien) AS hoten,
-  //       (SELECT hinh_anh FROM staffs WHERE id=nhan_vien) AS hinhanh,
-  //     (SELECT ip FROM chinhanh WHERE chinhanh.id=(SELECT chi_nhanh FROM hopdongld
-  //     WHERE hopdongld.nhan_vien=users.nhan_vien LIMIT 1)) AS ip
-  //       FROM users WHERE tinh_trang=1 AND name = '$username' AND mat_khau = '$password'");
-  //     $row = $query->fetchAll(PDO::FETCH_ASSOC);
-  //     if (isset($row[0]))
-  //         return $row[0];
-  //     else
-  //         return [];
-  // }
-
-  // function check_in_token($token){
-  //     $query = $this->db->query("SELECT id, email, nhan_vien, nhom,token,
-  //       (SELECT name FROM staffs WHERE id=nhan_vien) AS hoten,
-  //       (SELECT hinh_anh FROM staffs WHERE id=nhan_vien) AS hinhanh,
-  //     (SELECT ip FROM chinhanh WHERE chinhanh.id=(SELECT chi_nhanh FROM hopdongld
-  //     WHERE hopdongld.nhan_vien=users.nhan_vien LIMIT 1)) AS ip
-  //       FROM users WHERE tinh_trang=1 AND token='$token'");
-  //     $row = $query->fetchAll(PDO::FETCH_ASSOC);
-  //     if (isset($row[0]))
-  //         return $row[0];
-  //     else
-  //         return [];
-  // }
-
-  // function update_token($username, $password, $token){
-  //     $query = $this->update("users", ['token'=>$token], "name = '$username' AND mat_khau = '$password' ");
-  //     return $query;
-  // }
-
-  // function update_deadline(){
-  //     $today = date('Y-m-d',strtotime('+ 2 day'));
-  //     $query = $this->update("congviec", ['tinh_trang'=>3,'label'=>'Deadline'], " tinh_trang IN (1,2) AND deadline<'$today' ");
-  //     return $query;
-  // }
-
-  // function logout($token){
-  //     $id = $_SESSION['user']['id'];
-  //     if($token!='') {
-  //         $query = $this->update("users", ['token' => ''], "id = $id ");
-  //         return $query;
-  //     }
-  //     return true;
-  // }
 }
+
+?>

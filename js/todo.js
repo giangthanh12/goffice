@@ -10,7 +10,7 @@
 "use strict";
 
 $(function () {
-    var // taskTitle,
+    var // taskTitle ,
         flatPickr = $(".task-due-date"),
         newTaskModal = $(".sidebar-todo-modal"),
         newTaskForm = $("#form-modal-todo"),

@@ -41,6 +41,20 @@ class interview_result_Model extends Model{
             $result = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }
+    function getworkPlace() {
+        $result = array();
+        $query = $this->db->query("SELECT id, name AS `text` FROM workplaces WHERE status > 0");
+        if ($query)
+            $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+    function getShift() {
+        $result = array();
+        $query = $this->db->query("SELECT id, shift AS `text` FROM shift WHERE status > 0");
+        if ($query)
+            $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
     function insertStaffGetId($applicantId) {
  
         $query = $this->db->query("SELECT fullName, phoneNumber, email, gender, dob 

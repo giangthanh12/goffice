@@ -5,6 +5,19 @@ $(function () {
     return_combobox_multi('#year', baseHome + '/common/nam', 'Chọn loại khách hàng');
     $('#month').val(month).change();
     $('#year').val(year).change();
+    var flatPickr = $('.work-due-date');
+    if (flatPickr.length) {
+        flatPickr.flatpickr({
+            dateFormat: "d/m/Y",
+            defaultDate: "today",
+            allowInput:true,
+            onReady: function (selectedDates, dateStr, instance) {
+                if (instance.isMobile) {
+                    $(instance.mobileInput).attr("step", null);
+                }
+            },
+        });
+    }
 
     var column = $('#tb-timesheets');
     // var month = $('#month').val();
@@ -207,6 +220,38 @@ $(function () {
         });
 
     }
+    var staffSl = $('#staffId');
+    // Assign task
+    function staffId(option) {
+        if (!option.id || option.id=='0' || option.id=='') {
+            return option.text;
+        }
+        var $person =
+            '<div class="media align-items-center">' +
+            '<img class="d-block rounded-circle mr-50" onerror="this.src=\''+baseHome+'/layouts/useravatar.png\'" src="' +
+            $(option.element).data("img") +
+            '" height="26" width="26" alt="' +
+            option.text +
+            '">' +
+            '<div class="media-body"><p class="mb-0">' +
+            option.text +
+            "</p></div></div>";
+
+        return $person;
+    }
+    // Chọn nhân viên để hiển thị công việc
+    if (staffSl.length) {
+        staffSl.wrap('<div class="position-relative" style="min-width:250px"></div>');
+        staffSl.select2({
+            placeholder: "Chọn nhân viên",
+            dropdownParent: staffSl.parent(),
+            templateResult: staffId,
+            templateSelection: staffId,
+            escapeMarkup: function (es) {
+                return es;
+            },
+        });
+    }
 
 });
 
@@ -269,18 +314,7 @@ function update() {
     // alert(data);
     $('#modal-title').html('Chấm công cho nhân viên');
     $('#updateinfo').modal('show');
-    if ($('.work-due-date').length) {
-        $('.work-due-date').flatpickr({
-            dateFormat: "d/m/Y",
-            defaultDate: "today",
-            allowInput:true,
-            onReady: function (selectedDates, dateStr, instance) {
-                if (instance.isMobile) {
-                    $(instance.mobileInput).attr("step", null);
-                }
-            },
-        });
-    }
+    $('#staffId').val("").trigger("change");
     // $('#staffName').val(data.staffName);
     // $('#revenueBonus').val(Comma(data.revenueBonus));
     // $('#tetBonus').val(Comma(data.tetBonus));
@@ -288,5 +322,48 @@ function update() {
     // $('#insurance').val(Comma(data.insurance));
     // $('#advance').val(Comma(data.advance));
     // $('#tam_ung').val(data.tam_ung);
-    url = baseHome + '/payrolls/update';
+    url = baseHome + '/timesheets/update';
+}
+
+function save() {
+    $('#fm').validate({
+        messages: {
+            "staffId": {
+                required: "Bạn chưa chọn nhân viên!",
+            },
+            "startDate": {
+                required: "Bạn chưa nhập ngày bắt đầu!",
+            },
+            "endDate": {
+                required: "Bạn chưa nhập ngày kết thúc!",
+            },
+            "work": {
+                required: "Bạn chưa nhập số ngày công!",
+            }
+        },
+        submitHandler: function (form) {
+            var formData = new FormData(form);
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: formData,
+                async: false,
+                cache: false,
+                contentType: false,
+                enctype: 'multipart/form-data',
+                processData: false,
+                dataType: "json",
+                success: function (data) {
+                    if (data.code==200) {
+                        notyfi_success(data.message);
+                        $('#updateinfo').modal('hide');
+                        $(".user-list-table").DataTable().ajax.reload(null, false);
+                    } else
+                        notify_error(data.message);
+                }
+            });
+            return false;
+        }
+    });
+    $('#fm').submit();
 }

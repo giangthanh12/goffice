@@ -48,8 +48,6 @@ $(function () {
         var style = $('option:selected', statusProject).attr('style');
         $(statusProject).attr('style', `${style}`);
      }
-
-
     // if it is not touch device
     if (!$.app.menu.is_touch_device()) {
         if (sidebarMenuList.length > 0) {
@@ -182,6 +180,7 @@ $(function () {
     // On add new item button click, clear sidebar-right field fields
     if (addTaskBtn.length) {
         addTaskBtn.on("click", function (e) {
+            $('#updateProject').html('Thêm mới');
             addBtn.removeClass("d-none");
             updateBtns.addClass("d-none");
             modalTitle.text("Thêm dự án");
@@ -239,6 +238,31 @@ $(function () {
                     required: true,
                 },
             },
+            messages: {
+                "name": {
+                    required: "Bạn chưa nhập tên dự án",
+                },
+                "process": {
+                    number:"Yêu cầu nhập số",
+                    min:"Giá trị tối thiểu 1",
+                    max:"Giá trị tối đa 100"
+                },
+                "status": {
+                    required: "Bạn chưa chọn trạng thái dự án",
+                },
+                "level": {
+                    required: "Bạn chưa chọn cấp độ",
+                },
+                "managerId": {
+                   required: "Bạn chưa chọn chọn người quản lý",
+                },
+                "memberId": {
+                    required: "Bạn chưa chọn chọn tham gia dự án",
+                },
+                "task-due-date": {
+                    required: "Bạn chưa chọn ngày hết hạn dự án",
+                },
+            },
         });
 
         newTaskForm.on("submit", function (e) {
@@ -286,7 +310,8 @@ $(function () {
     // To open todo list item modal on click of item
 
             $(document).on("click", ".todo-task-list-wrapper .todo-item .todo-title", function (e) {
-
+                
+                $('#updateProject').html('Cập nhật');
                 var validator = $( "#form-modal-todo" ).validate(); // reset form
                 validator.resetForm();
                 newTaskModal.modal("show");
@@ -344,7 +369,6 @@ $(function () {
                  
                 });
                 var tbl_row = $(".todo-item:visible").length; 
-
                 //Check if table has row or not
                 if (tbl_row == 0) {
                     if (!$(noResults).hasClass("show")) {
@@ -457,7 +481,7 @@ function list_to_do() {
         data: {status:status},
         url: baseHome + "/project/getdata",
         success: function (data) {
-            var mailread = "";
+     
             var html = "";
             data.forEach(function (element, index) {
                 var img = baseHome + '/users/gemstech/' +element.avatar;
@@ -558,10 +582,10 @@ function filterProject(status) {
         success: function (data) {
             var html = "";
             data.forEach(function (element, index) {
-                var img = element.avatar ? baseHome + '/users/gemstech/' +element.avatar : baseHome+ '/users/gemstech/uploads/useravatar.png';
+                var img = baseHome + '/users/gemstech/' +element.avatar;
                 html += '<li class="todo-item"><div class="todo-title-wrapper"><div class="todo-title-area">';
                 html += '<i data-feather="more-vertical" class="drag-icon"></i><div class="title-wrapper">';
-                html += '<img style="border-radius: 50%;" src="'+  img + '" alt="" height="32" width="32" /><span class="todo-title" id="'+element.id+'">' + element.name + '</span>&nbsp;';
+                html += '<img style="border-radius: 50%;" onerror='+"this.src='https://velo.vn/goffice-test/layouts/useravatar.png'"+' src="'+  img + '" alt="" height="32" width="32" /><span class="todo-title" id="'+element.id+'">' + element.name + '</span>&nbsp;';
                 html += '</div></div><div class="todo-item-action"><div class="badge-wrapper mr-1">';
                 html+= `<div class="progress" style="height: 16px; width: 100px; margin-top: 5px; margin-right: 70px; font-size: 8px;">
                             <div class="progress-bar" role="progressbar" aria-valuenow="${element.process}" aria-valuemin="${element.process}" aria-valuemax="100" style="width: ${element.process}%; background:${element.colorStatus};">
@@ -570,6 +594,7 @@ function filterProject(status) {
                         </div>`;
                 html += '<div class="badge" style="width: 100px; margin-right: 0.5rem; background-color: rgb(247, 244, 244); color: '+element.colorLevel+'">'+element.nameLevel+'</div>';
                 html += `<small style="width: 70px;" class="text-nowrap text-muted mr-1">${element.deadline}</small>`;
+             
                 html += '';
                 html += "</div></li>";
             });
@@ -586,8 +611,9 @@ function del() {
         title: 'Xóa dữ liệu',
         text: "Bạn có chắc chắn muốn xóa!",
         icon: 'warning',
-        showCancelButton: true,
+        showCancelButton: "true",
         confirmButtonText: 'Tôi đồng ý',
+        cancelButtonText: 'Hủy',
         customClass: {
             confirmButton: 'btn btn-primary',
             cancelButton: 'btn btn-outline-danger ml-1'

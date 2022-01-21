@@ -12,8 +12,9 @@ function getParameterByName(name, url) { // lay tham so qua URL
 
 // Web socket create and processs
 let connection = new WebSocket('wss://velo.vn:1337/?'+baseUser);
-// connection.onopen = function() {
-// };
+connection.onopen = function() {
+    console.log("Open connection!");
+};
 
 connection.onmessage = function(message) {
     var data = JSON.parse(message.data);
@@ -46,10 +47,16 @@ connection.onmessage = function(message) {
            success: function (users) {
               var html = '';
               users.forEach(function(item, index) {
+                  var $avatar = baseHome+'/layouts/useravatar.png';
+                  if(item.avatar!='')
+                      $avatar = baseUrlFile+'/uploads/nhanvien/'+item.avatar;
                   html += '<div data-toggle="tooltip" data-popup="tooltip-custom" data-placement="bottom" data-original-title="'+item.name+'" class="avatar pull-up">';
-                  html += '<img src="'+item.hinh_anh+'" alt="Avatar" width="33" height="33" /></div>';
+                  html += '<img src="'+$avatar+'" onerror="this.src=\''+baseHome+'/layouts/useravatar.png'+'\'" alt="Avatar" width="33" height="33" /></div>';
               });
               document.getElementById('online_users').innerHTML=html;
+               $('[data-toggle="tooltip"]').tooltip({
+                   container: 'body'
+               });
            }
        });
     } else {
@@ -106,19 +113,6 @@ $(function() {
 //         },
 //     });
 // }
-
-function Comma(Num) { //function to add commas to textboxes
-    Num += '';
-    Num = Num.replace(',', ''); Num = Num.replace(',', ''); Num = Num.replace(',', '');
-    Num = Num.replace(',', ''); Num = Num.replace(',', ''); Num = Num.replace(',', '');
-    x = Num.split('.');
-    x1 = x[0];
-    x2 = x.length > 1 ? '.' + x[1] : '';
-    var rgx = /(\d+)(\d{3})/;
-    while (rgx.test(x1))
-        x1 = x1.replace(rgx, '$1' + ',' + '$2');
-    return x1 + x2;
-}
 
 function notifyMe() { // notify khi co thong bao moi
     $.ajax({
@@ -582,7 +576,7 @@ function checkIn(){
                 notify_error(data.message);
         },
         error: function () {
-                notify_error('Lỗi truy cập!');
+            notify_error('Lỗi truy cập!');
         }
     });
 }

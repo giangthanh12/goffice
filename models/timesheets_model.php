@@ -26,7 +26,7 @@ class timesheets_model extends Model
         return $result;
     }
 
-    function workingday($month, $year,$shiftId)
+    function workingday($month, $year, $shiftId)
     { // tinh so ngay lam viec trong month theo nhân viên
         $query = $this->db->query("SELECT * FROM shift WHERE id=$shiftId");
         $temp = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -115,6 +115,7 @@ class timesheets_model extends Model
 
     function getCong($thang, $nam)
     {
+        $ok = false;
         $query = $this->db->query("SELECT staffId,shiftId FROM laborcontract WHERE status=1 AND shiftId>0 GROUP BY staffId ORDER BY startDate DESC ");
         $rows = $query->fetchAll(PDO::FETCH_ASSOC);
         $dataCong = [];
@@ -176,23 +177,64 @@ class timesheets_model extends Model
                 }
                 $arrDate = explode("-", $date);
                 $month1 = $arrDate[2];
-                $totalWorkDate+=($sang + $chieu);
+                $totalWorkDate += ($sang + $chieu);
                 $dataCong[$key]['date_' . $month1] = $sang + $chieu;
             }
             $query = $this->db->query("SELECT id FROM timesheets WHERE status=1 AND staffId=$staffId AND year='$nam' AND month='$thang'");
             $row = $query->fetchAll(PDO::FETCH_ASSOC);
-            $workingDays = $this->workingday($thang,$nam,$shiftId);
+            $workingDays = $this->workingday($thang, $nam, $shiftId);
             $dataCong[$key]['workMonth'] = $workingDays;
             $dataCong[$key]['totalWorkDate'] = $totalWorkDate;
-            if (count($row)>0) {
+            if (count($row) > 0) {
                 $sheetId = $row[0]['id'];
-                $this->update("timesheets", $dataCong[$key], "id=$sheetId");
+                $ok = $this->update("timesheets", $dataCong[$key], "id=$sheetId");
             } else {
                 $dataCong[$key]['status'] = 1;
-                $this->insert("timesheets", $dataCong[$key]);
+                $ok = $this->insert("timesheets", $dataCong[$key]);
             }
         }
 
         return $dataCong;
+    }
+
+    function getEmployee()
+    {
+        $result = array();
+        $query = $this->db->query("SELECT id, name, avatar
+              FROM staffs WHERE status IN (1,2,3,4,5) ORDER BY name ASC");
+        if ($query)
+            $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    function updateWork($staffIds, $data,$month,$year)
+    {
+        $ok = false;
+        $where = " WHERE status=1 AND shiftId>0 ";
+        if($staffIds>0)
+            $where.= " AND staffId=$staffIds ";
+        $query = $this->db->query("SELECT shiftId,staffId FROM laborcontract $where GROUP BY staffId ORDER BY startDate DESC ");
+        $rows = $query->fetchAll(PDO::FETCH_ASSOC);
+        foreach ($rows as $key => $tempItem) {
+            $staffId = $tempItem['staffId'];
+            $data['staffId'] = $staffId;
+            $data['year'] = $year;
+            $data['month'] = $month;
+            $query = $this->db->query("SELECT id,(date_01+date_02+date_03+date_04+date_05+date_06+date_07+date_08+
+            date_09+date_10+date_11+date_12+date_13+date_14+date_15+date_16+
+            date_17+date_18+date_19+date_20+date_21+date_22+date_23+date_24+
+            date_25+date_26+date_27+date_28+date_29+date_30+date_31) as totalWork FROM timesheets WHERE status=1 AND staffId=$staffId AND year='$year' AND month='$month'");
+            $row = $query->fetchAll(PDO::FETCH_ASSOC);
+            $workingDays = $this->workingday($month, $year, $tempItem['shiftId']);
+            $data['workMonth'] = $workingDays;
+            if (count($row) > 0) {
+                $sheetId = $row[0]['id'];
+                $ok = $this->update("timesheets", $data, "id=$sheetId");
+            } else {
+                $dataCong[$key]['status'] = 1;
+                $ok = $this->insert("timesheets", $data);
+            }
+        }
+        return $ok;
     }
 }

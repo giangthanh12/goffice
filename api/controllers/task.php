@@ -518,11 +518,6 @@ class task extends Controller
         }
     }
 
-    function createImageTask()
-    {
-        
-    }
-
     function updateTask()
     {
         $taskId = isset($_REQUEST['taskId']) ? $_REQUEST['taskId'] : '';
@@ -604,17 +599,27 @@ class task extends Controller
         } else {
             $data['taskId'] = $taskId;
         }
-        if (isset($_FILES['linkToFile'])) {
-            $filename = $_FILES['linkToFile']['name'];
-            $fname = explode('.', $filename);
-            if ($filename != '') {
-                $dir = ROOT_DIR . '/uploads/task/file/';
-                $file = functions::uploadfile('linkToFile', $dir, $fname[0]);
-                if ($file != '')
-                    $link =  'uploads/task/file/' . $file;
-                $data['linkToFile'] = $link;
+        // $linkToFile = isset($_REQUEST['linkToFile']) ? $_REQUEST['linkToFile'] : '';
+        // if ($linkToFile == '') {
+        //     $jsonObj['message'] = "Không có file";
+        //     $jsonObj['code'] = 401;
+        //     $jsonObj['data'] = [];
+        //     http_response_code(401);
+        //     echo json_encode($jsonObj);
+        //     return false;
+        // } else {
+            if (isset($_FILES['linkToFile'])) {
+                $filename = $_FILES['linkToFile']['name'];
+                $fname = explode('.', $filename);
+                if ($filename != '') {
+                    $dir = ROOT_DIR . '/uploads/task/file/';
+                    $file = functions::uploadfile('linkToFile', $dir, $fname[0]);
+                    if ($file != '')
+                        $link =  'uploads/task/file/' . $file;
+                    $data['linkToFile'] = $link;
+                }
             }
-        }
+        // }
         $data['dateTime'] = date('Y-m-d H-i-s');
         $data['status'] = 1;
         $json = $this->model->createTaskFile($data);
