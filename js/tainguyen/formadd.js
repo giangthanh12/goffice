@@ -21,7 +21,7 @@ $(function(){
         });
 
         return_combobox_multi('#phan_loai', baseHome + '/phanloai/combo', 'Lựa chọn phân loại');
-        return_combobox_multi('#nha_cung_cap', baseHome + '/common/nhacungcap', 'Lựa chọn nhà cung cấp'); 
+        return_combobox_multi('#nha_cung_cap', baseHome + '/tainguyen/combo', 'Lựa chọn nhà cung cấp'); 
         return_combobox_multi('#chu_so_huu', baseHome + '/khachhang/combo', 'Lựa chọn chủ sở hữu'); 
         $('#nguoi_tao').val(user.nhan_vien);
     // }else{

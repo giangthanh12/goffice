@@ -13,7 +13,7 @@ class chamcong extends Controller
         $jsonObj = [];
         $ipLogin = isset($_REQUEST['ipLogin']) ? $_REQUEST['ipLogin'] : '';
         $staffId = isset($_REQUEST['staffId']) ? $_REQUEST['staffId'] : 0;
-        $ipPoint = isset($_REQUEST['ipBranch']) ? $_REQUEST['ipBranch'] : '';
+        $ipPoint = isset($_REQUEST['idAccessPoint']) ? $_REQUEST['idAccessPoint'] : '';
         if ($staffId == 0) {
             $jsonObj['message'] = "Chưa có thông tin nhân viên checkin";
             $jsonObj['code'] = 401;
@@ -97,7 +97,7 @@ class chamcong extends Controller
         $jsonObj = [];
         $ipLogin = isset($_REQUEST['ipLogin']) ? $_REQUEST['ipLogin'] : '';
         $staffId = isset($_REQUEST['staffId']) ? $_REQUEST['staffId'] : 0;
-        $ipPoint = isset($_REQUEST['ipBranch']) ? $_REQUEST['ipBranch'] : '';
+        $ipPoint = isset($_REQUEST['idAccessPoint']) ? $_REQUEST['idAccessPoint'] : '';
         if ($staffId == 0) {
             $jsonObj['message'] = "Chưa có thông tin nhân viên checkin";
             $jsonObj['code'] = 401;
@@ -124,7 +124,7 @@ class chamcong extends Controller
         }
         $checkIp = $this->model->checkIp($ipLogin,$ipPoint);
         if ($checkIp == 0) {
-            $jsonObj['message'] = "Sai địa chỉ IP!";
+            $jsonObj['message'] = "Không sử dụng đúng wifi để chấm công!";
             $jsonObj['code'] = 404;
             http_response_code(404);
             $jsonObj['data'] = [];
