@@ -23,9 +23,7 @@
                                     <th>Tên tài sản</th>
                                     <th>Nhóm</th>
                                     <th>Trạng thái</th>
-                                    <!-- <th>SL hỏng</th>
-                                    <th>SL mất</th> -->
-                                    <th>...</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                         </table>
@@ -46,7 +44,20 @@
                                         <div class="card-body">
                                             <form class="form-validate" enctype="multipart/form-data" id="dg">
                                                 <div class="row mt-1">
-
+                                                    <div class="col-lg-12">
+                                                        <label for="step" class="form-control-label">Mã tài sản</label>
+                                                        <div class="form-group">
+                                                            <div class="row">
+                                                                <div class="col-sm-9">
+                                                                    <input type="text" id="code" name="code"  class="form-control">
+                                                                </div>
+                                                                <div class="col-sm-3">
+                                                                    <button type="button" class="btn btn-primary" id="createCode" onclick="createCodeAsset()">+</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <br>
                                                     <div class="col-lg-12">
                                                         <div class="form-group">
                                                             <label for="name">Tên tài sản</label>
@@ -77,7 +88,7 @@
                                                     <div class="col-lg-6 col-md-12">
                                                         <div class="form-group">
                                                             <label for="khau_hao">Tiêu hao</label>
-                                                            <input id="khau_hao" type="number" class="form-control" min="0" name="khau_hao" />
+                                                            <input id="khau_hao" type="text" class="form-control" min="0" name="khau_hao" />
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-6 col-md-12">
@@ -89,7 +100,7 @@
                                                     <div class="col-lg-6 col-md-12">
                                                         <div class="form-group">
                                                             <label for="bao_hanh">Bảo hành (tháng)</label>
-                                                            <input id="bao_hanh" type="number" class="form-control" min="0" name="bao_hanh" />
+                                                            <input id="bao_hanh" type="text" class="form-control" min="0" name="bao_hanh" />
                                                         </div>
                                                     </div>
 
@@ -218,10 +229,17 @@
                                                             </div>
                                                             <div class="col-lg-2 col-md-2">
                                                                 <div class="form-group">
-                                                                    <label for="hoten">Số lượng</label>
+                                                                    <label for="code_add">Mã tài sản</label>
+                                                                    <input id="code_add" type="text" class="form-control"  name="code_add" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-2 col-md-2">
+                                                                <div class="form-group">
+                                                                    <label for="so_luong_add">Số lượng</label>
                                                                     <input id="so_luong_add" type="number" class="form-control" disabled name="so_luong_add" />
                                                                 </div>
                                                             </div>
+                                                           
                                                             <div class="col-lg-2 col-md-3">
                                                                 <div class="form-group">
                                                                     <label for="don_vi_add">Đơn vị</label>
@@ -244,13 +262,13 @@
                                                             <div class="col-lg-2 col-md-2">
                                                                 <div class="form-group">
                                                                     <label for="khau_hao_add">Tiêu hao</label>
-                                                                    <input id="khau_hao_add" type="text" class="form-control" min="0" name="khau_hao_add" />
+                                                                    <input id="khau_hao_add" type="text" class="form-control" name="khau_hao_add" />
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-2 col-md-2">
                                                                 <div class="form-group">
-                                                                    <label for="hoten">Bảo hành (tháng)</label>
-                                                                    <input id="bao_hanh_add" type="text" class="form-control" min="0" name="bao_hanh_add" />
+                                                                    <label for="bao_hanh_add">Bảo hành (tháng)</label>
+                                                                    <input id="bao_hanh_add" type="text" class="form-control" name="bao_hanh_add" />
                                                                 </div>
                                                             </div>
 
@@ -281,7 +299,7 @@
 
                                                             <div class="col-lg-3 col-md-6">
                                                                 <div class="form-group">
-                                                                    <label for="cmnd">SĐT nhà cung cấp</label>
+                                                                    <label for="sdt">SĐT nhà cung cấp</label>
                                                                     <input id="sdt" type="text" class="form-control" name="sdt" />
                                                                 </div>
                                                             </div>
@@ -510,13 +528,13 @@
                                         <div class="col-lg-12 col-md-12">
                                             <div class="form-group">
                                                 <label for="ngay_gio_th">Ngày trả</label>
-                                                <input id="ngay_gio_th" type="text" class="form-control ngay_gio" name="ngay_gio_th" />
+                                                <input id="ngay_gio_th" type="text" class="form-control flatpickr-basic" name="ngay_gio_th" />
                                             </div>
                                             <div class="form-group">
                                                 <label for="ghi_chu_th">Ghi chú</label>
                                                 <textarea id="ghi_chu_th" class="form-control" name="ghi_chu_th"></textarea>
                                             </div>
-                                            <button type="button" id="btn_add_th" class="btn btn-primary mr-1 data-submit" onclick="saveth()">Thu hồi</button>
+                                            <button type="button" id="btn_add_th" onclick="saveth()" class="btn btn-primary mr-1 data-submit" >Thu hồi</button>
                                             <button type="reset" class="btn btn-outline-secondary" data-dismiss="modal">Bỏ qua</button>
                                         </div>
                                     </div>

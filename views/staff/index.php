@@ -154,8 +154,8 @@
                                                 <div class="tab-pane active" id="information"
                                                      aria-labelledby="information-tab" role="tabpanel">
                                                     <!-- users edit Info form start -->
-                                                    <form class="form-validate" enctype="multipart/form-data"
-                                                          id="thongtin">
+                                                    <form class="form-validate" id="formInfoStaff" enctype="multipart/form-data"
+                                                         >
                                                         <div class="media mb-2 col-12">
                                                             <div class="col-lg-4 d-flex mt-1 px-0">
                                                                 <img id="avatar" src="" alt="users avatar" onerror="this.src='<?=HOME?>/layouts/useravatar.png'"
@@ -350,7 +350,7 @@
 
 
                                                             <div class="col-12 d-flex flex-sm-row flex-column mt-2">
-                                                                <button type="button" onclick="updateinfo()"
+                                                                <button type="submit"
                                                                         class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">
                                                                     Cập nhật
                                                                 </button>

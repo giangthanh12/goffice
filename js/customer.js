@@ -132,7 +132,7 @@ $(function () {
                 {
                     // Actions
                     targets: 9,
-                    title: feather.icons["database"].toSvg({ class: "font-medium-3  text-success mr-50" }),
+                    title: "Thao tác",
                     orderable: false,
                     render: function (data, type, full, meta) {
                         var html = '';
@@ -183,6 +183,7 @@ $(function () {
                         $('#fullName').val('');
                         $('#phoneNumber').val('');
                         $('#email').val('');
+                        $('#shortName_add').val('');
                         $('#website').val('');
                         $('#staffId').val('').change();
                         $('#nationalId').val(1);
@@ -278,13 +279,16 @@ $(function () {
                 },
                 "phoneNumber": {
                     required: true,
+                    number:true,
+                    min:0
                 },
                 "email": {
                     required: true,
+                    email:true
                 },
-                "website": {
-                    required: true,
-                },
+                // "website": {
+                //     required: true,
+                // },
                 "status": {
                     required: true,
                 },
@@ -292,19 +296,22 @@ $(function () {
             },
             messages: {
                 "fullName": {
-                    required: "Bạn chưa nhập tên",
+                    required: "Bạn chưa nhập tên!",
                 },
                 "phoneNumber": {
-                    required: "Bạn chưa nhập số điện thoại",
+                    required: "Bạn chưa nhập số điện thoại!",
+                    number: "Yêu cầu nhập số điện thoại!",
+                    min: "Yều cầu nhập bắt đầu từ 0!"
                 },
                 "email": {
-                    required: "Bạn chưa nhập địa chỉ email",
+                    required: "Bạn chưa nhập địa chỉ email!",
+                    email: "Yêu cầu nhập đúng định dạng email!",
                 },
-                "website": {
-                    required: "Bạn chưa nhập địa chỉ website của bạn",
-                },
+                // "website": {
+                //     required: "Bạn chưa nhập địa chỉ website của bạn",
+                // },
                 "status": {
-                    required: "Bạn chưa cập nhật trạng thái",
+                    required: "Bạn chưa cập nhật trạng thái!",
                 },
             },
         });
@@ -325,35 +332,43 @@ $(function () {
                 "fullName1": {
                     required: true,
                 },
-                "shortName": {
-                    required: true,
+                // "shortName": {
+                //     required: true,
+                // },
+                "taxCode1": {
+                    number: true,
                 },
                 "phoneNumber1": {
                     required: true,
+                    number:true,
+                    min:0
                 },
                 "email1": {
                     required: true,
+                    email:true,
                 },
-                "website1": {
-                    required: true,
-                },
+             
             },
             messages: {
-                "shortName": {
-                    required: "Bạn chưa nhập tên ngắn",
-                },
+                // "shortName": {
+                //     required: "Bạn chưa nhập tên ngắn!",
+                // },
                 "fullName1": {
-                    required: "Bạn chưa nhập tên",
+                    required: "Bạn chưa nhập tên!",
                 },
                 "phoneNumber1": {
-                    required: "Bạn chưa nhập số điện thoại",
+                    required: "Bạn chưa nhập số điện thoại!",
+                    number:"Yêu cầu nhập số điện thoại!",
+                    min: "Yều cầu nhập bắt đầu từ 0!"
                 },
                 "email1": {
                     required: "Bạn chưa nhập địa chỉ email!",
+                    email:"Yêu cầu nhập đúng định dạng email!"
                 },
-                "website1": {
-                    required: "Bạn chưa nhập địa chỉ website của bạn",
-                }
+                "taxCode1": {
+                    number: "Yêu cầu nhập số!",
+                },
+               
             },
         });
 
@@ -555,6 +570,8 @@ function saveadd() {
     info.staffId = $("#staffId").val();
     info.nationalId = $("#nationalId").val();
     info.provinceId = $("#provinceId").val();
+    info.shortName = $("#shortName_add").val();
+    info.classify = $("#classify_add").val();
     info.status = $("#status").val();
   
     $.ajax({
@@ -582,6 +599,7 @@ function saveedit() {
     info.fullName = $("#fullName1").val();
     info.taxCode = $("#taxCode1").val();
     info.address = $("#address1").val();
+    info.shortName = $('#shortName').val();
     info.phoneNumber = $("#phoneNumber1").val();
     info.email = $("#email1").val();
     info.website = $("#website1").val();
@@ -627,6 +645,7 @@ function del(id) {
         icon: 'warning',
         showCancelButton: true,
         confirmButtonText: 'Tôi đồng ý',
+        cancelButtonText: 'Hủy',
         customClass: {
             confirmButton: 'btn btn-primary',
             cancelButton: 'btn btn-outline-danger ml-1'

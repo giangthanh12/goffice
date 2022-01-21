@@ -26,7 +26,7 @@
                                     <th>Giới tính</th>
                                     <th>Email</th>
                                     <th>Điện thoại</th>
-                                    <th>Ghi chú</th>
+                                    <th>CV</th>
                                     <th>...</th>
                                 </tr>
                             </thead>
@@ -129,11 +129,11 @@
                                                         <i data-feather="info"></i><span class="d-none d-sm-block">Thông tin chung</span>
                                                     </a>
                                                 </li>
-                                                <li class="nav-item">
+                                                <!-- <li class="nav-item">
                                                     <a class="nav-link d-flex align-items-center" id="tab-2" data-toggle="tab" href="#tab2" aria-controls="account" role="tab" aria-selected="true">
                                                         <i data-feather="user"></i><span class="d-none d-sm-block">Thông tin gia đình</span>
                                                     </a>
-                                                </li>
+                                                </li> -->
                                                 <li class="nav-item">
                                                     <a class="nav-link d-flex align-items-center" id="tab-3" data-toggle="tab" href="#tab3" aria-controls="social" role="tab" aria-selected="false">
                                                         <i data-feather="share-2"></i><span class="d-none d-sm-block">Trình độ học vấn</span>
@@ -243,7 +243,7 @@
                                                             <div class="col-lg-2 col-md-6">
                                                                 <div class="form-group">
                                                                     <label for="salary">Mức lương mong muốn</label>
-                                                                    <input id="salary" type="text" class="form-control" placeholder="Lương chính thức" name="salary" />
+                                                                    <input id="salary" type="text" class="form-control format_number"  name="salary" />
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-2 col-md-6">
@@ -343,7 +343,7 @@
                                                             </div>
                                                             </div>
                                                             <div class="col-12 d-flex flex-sm-row flex-column mt-2">
-                                                                <button type="button" onclick="updateinfo()" class="btn btn-update-customer btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Cập nhật</button>
+                                                                <button type="submit" class="btn btn-update-customer btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Cập nhật</button>
                                                                 <button type="reset" class="btn btn-outline-secondary" data-dismiss="modal">Bỏ qua</button>
                                                             </div>
                                                         </div>
@@ -435,8 +435,8 @@
                                                             </div>
 
                                                             <div class="col-12 d-flex flex-sm-row flex-column mt-2">
-                                                                <button type="button" onclick="savehv()" class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Cập nhật</button>
-                                                                <button type="button" onclick="clearfmtab3()" class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Clear</button>
+                                                                <button type="submit"  class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Cập nhật</button>
+                                                                <button type="button" onclick="clearfmtab3()" class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Làm mới</button>
                                                                 <button type="reset" class="btn btn-outline-secondary" data-dismiss="modal">Bỏ qua</button>
                                                             </div>
                                                         </div>
@@ -487,7 +487,7 @@
                                                             </div>
                                                             <div class="form-group col-md-4">
                                                                 <label for="knuv6">Điện thoại</label>
-                                                                <input type="text" id="knuv6" name="knuv6" class="form-control" placeholder="0989848886" />
+                                                                <input type="text" id="knuv6" name="knuv6" class="form-control"/>
                                                             </div>
                                                             <div class="form-group col-md-4">
                                                                 <label for="knuv7">Ghi chú</label>
@@ -499,7 +499,7 @@
                                                             </div>
 
                                                             <div class="col-12 d-flex flex-sm-row flex-column mt-2">
-                                                                <button type="button" onclick="savekn()" class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Cập nhật</button>
+                                                                <button type="submit"  class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Cập nhật</button>
                                                                 <button type="button" onclick="clearfmtab4()" class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Clear</button>
                                                                 <button type="reset" class="btn btn-outline-secondary" data-dismiss="modal">Bỏ qua</button>
                                                             </div>

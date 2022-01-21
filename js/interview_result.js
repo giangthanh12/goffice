@@ -45,25 +45,7 @@ $(function () {
             ],
             columnDefs: [
                
-                // {
-                //     // User full name and username
-                //     targets: 2,
-                //     responsivePriority: 4,
-                //     render: function (data, type, full, meta) {
-                //         var $name = full["nameAsset"];
-                //         // Creates full output for row
-                //         var $row_output =
-                //             '<div class="d-flex justify-content-left align-items-center">' +
-                //             '<div class="d-flex flex-column">' +
-                //             '<a href="javascript:void(0)" onclick="loaddata(' + full["id"] + ')" data-toggle="modal" data-target="#updateinfo" class="user_name text-truncate"><span class="font-weight-bold">' +
-                //             $name +
-                //             "</span></a>" +
-                            
-                //             "</div>" +
-                //             "</div>";
-                //         return $row_output;
-                //     },
-                // },
+           
                 {
                     targets: 1,
                     render: function (data, type, full, meta) {
@@ -103,7 +85,7 @@ $(function () {
                 {
                     // Actions
                     targets: -1,
-                    title: feather.icons["database"].toSvg({ class: "font-medium-3 text-center text-success mr-50" }),
+                    title: "Thao tác",
                     orderable: false,
                     render: function (data, type, full, meta) {
                         var html = '';
@@ -172,12 +154,15 @@ $(function () {
                 },
                 "basicSalary": {
                     required: true,
+
                 },
                 "insuranceSalary": {
                     required: true,
                 },
                 "salaryPercentage": {
                     required: true,
+                    min:1,
+                    max:100
                 },
                 "allowance": {
                     required: true,
@@ -215,6 +200,8 @@ $(function () {
          
                 "salaryPercentage": {
                     required: "Bạn chưa nhập phần trăm lương",
+                    min:"Yêu cầu nhập tối thiểu 1",
+                    max:"Yêu cầu nhập tối đa 100"
                 },
                 "position": {
                     required: "Bạn chưa chọn vị trí",
@@ -315,6 +302,19 @@ function tranferStaff(applicantId) {
 }
 
 
+$('.format_number').on('input', function(e){        
+    $(this).val(formatCurrency(this.value.replace(/[,VNĐ]/g,'')));
+  }).on('keypress',function(e){
+    if(!$.isNumeric(String.fromCharCode(e.which))) e.preventDefault();
+  }).on('paste', function(e){    
+    var cb = e.originalEvent.clipboardData || window.clipboardData;      
+    if(!$.isNumeric(cb.getData('text'))) e.preventDefault();
+  });
+  function formatCurrency(number){
+    var n = number.split('').reverse().join("");
+    var n2 = n.replace(/\d\d\d(?!$)/g, "$&,");    
+    return  n2.split('').reverse().join('');
+}
 
 
 

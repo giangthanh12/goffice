@@ -145,7 +145,7 @@ if ($('#status').length) {
                 {
                     // Actions
                     targets: -1,
-                    title: feather.icons["database"].toSvg({ class: "font-medium-3 text-success mr-50" }),
+                    title: "Thao tác",
                     orderable: false,
                     render: function (data, type, full, meta) {
                         var html = '';
@@ -213,7 +213,7 @@ if ($('#status').length) {
                         previous: "&nbsp;",
                         next: "&nbsp;",
                     },
-                    info:"Hiển thị _START_ đến _END_ of _TOTAL_ bản ghi",
+                    info:"Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
                 },
             // Buttons with Dropdown
             buttons: [button],
@@ -260,6 +260,7 @@ if ($('#status').length) {
         $('#so_tien').val('');
         $('#khau_hao').val('');
         $('#bao_hanh').val('');
+        $('#code').val('');
         url = baseHome + "/asset/add";
     }
 
@@ -277,8 +278,12 @@ if ($('#status').length) {
         form.validate({
             errorClass: "error",
             rules: {
+                "code": {
+                    required: true,
+                },
                 "name": {
                     required: true,
+                 
                 },
                 "don_vi": {
                     required: true,
@@ -290,15 +295,23 @@ if ($('#status').length) {
                     required: true,
                 },
                 "khau_hao": {
-                    required: true,
+               
+                    number:true,
+                    min:1
                 },
                 "bao_hanh": {
-                    required: true,
+               
+                    number:true,
+                    min:1
                 },
             },
             messages: {
+                "code": {
+                    required: "Bạn chưa nhập mã tài sản",
+                },
                 "name": {
                     required: "Bạn chưa nhập tên",
+              
                 },
                 "don_vi": {
                     required: "Bạn chưa nhập đơn vị",
@@ -310,10 +323,13 @@ if ($('#status').length) {
                     required: "Bạn chưa chọn tài sản",
                 },
                 "khau_hao": {
-                    required: "Bạn chưa nhập số lượng tiêu hao",
+               
+                    number:"Yêu cầu nhập số",
+                    min:"Giá trị tối thiểu là 1"
                 },
                 "bao_hanh": {
-                    required: "Bạn chưa nhập thời gian bảo hành",
+                    number:"Yêu cầu nhập số",
+                    min:"Giá trị tối thiểu là 1"
                 }
             },
         });
@@ -368,7 +384,7 @@ if ($('#status').length) {
         });
     }
 
-
+// validate thông tin tài sản
     if (formInfoAsset.length) {
         formInfoAsset.validate({
             errorClass: "error",
@@ -385,8 +401,22 @@ if ($('#status').length) {
                 "nhom_ts_add": {
                     required: true,
                 },
-                "khau_hao_add": {
+                "code_add": {
                     required: true,
+                },
+                "khau_hao_add": {
+                    number: true,
+                    min:1,
+                 
+                },
+                "sdt": {
+                    number: true,
+                    min:0,
+                },
+                "bao_hanh_add": {
+                    number: true,
+                    min:1,
+                
                 },
             },
             messages: {
@@ -406,6 +436,23 @@ if ($('#status').length) {
                 "khau_hao_add": {
                     required: "Bạn chưa nhập số lượng tiêu hao",
                 },
+                "khau_hao_add": {
+                    number: "Yêu cầu nhập số",
+                    min:"Tối thiểu là 1",
+              
+                },
+                "code_add": {
+                    required: "Bạn chưa nhập mã tài sản",
+                },
+                "bao_hanh_add": {
+                    number: "Yêu cầu nhập số",
+                    min:"Tối thiểu là 1",
+                    
+                },
+                "sdt": {
+                    number: "Yêu cầu nhập số",
+                    min:"Yêu cầu nhập số bắt đầu từ 0",
+                },
             },
             
         });
@@ -420,6 +467,8 @@ if ($('#status').length) {
     }
 
 
+
+
     // To initialize tooltip with body container
     $("body").tooltip({
         selector: '[data-toggle="tooltip"]',
@@ -428,6 +477,7 @@ if ($('#status').length) {
 });
 
 function loaddata(id) {
+    $('')
     return_combobox_multi('#don_vi_add', baseHome + '/asset/don_vi', 'Đơn vị');
     return_combobox_multi('#nhom_ts_add', baseHome + '/asset/nhomtaisan', 'Nhóm tài sản');
     $(".modal-title").html('Cập nhật thông tin tài sản');
@@ -448,6 +498,7 @@ function loaddata(id) {
             $('#bao_hanh_add').val(tai_san.bao_hanh);
             $("#so_tien_add").val(formatCurrency(tai_san.so_tien.replace(/[,VNĐ]/g,'')));
             $('#ngay_gio_add').val(tai_san.ngay_gio);
+            $('#code_add').val(tai_san.code);
             var taisan_info = result.taisan_info; 
             $('#avatar').attr('src', taisan_info.hinh_anh);
             $('#nha_cungcap').val(taisan_info.nha_cungcap);
@@ -520,6 +571,7 @@ function del(id) {
         icon: 'warning',
         showCancelButton: true,
         confirmButtonText: 'Tôi đồng ý',
+        cancelButtonText: 'Hủy',
         customClass: {
             confirmButton: 'btn btn-primary',
             cancelButton: 'btn btn-outline-danger ml-1'
@@ -677,7 +729,11 @@ function saveth() {
         }
     });
 }
-
+function createCodeAsset() {
+$('#code').val('');
+var codeAsset =  Math.floor(Math.random() * (9999999 - 1000000 + 1)) + 1000000;
+$('#code').val(codeAsset);
+}
 // load issue
 function loadTableHisIssue(id) {
     if ($(".asset-issue-list-table").length) {
@@ -839,4 +895,5 @@ function alertBroken(){
         }
     });
 }
+
 

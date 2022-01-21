@@ -96,7 +96,7 @@ var   datePicker = $(".flatpickr-basic");
                 {
                     // Actions
                     targets: -1,
-                    title: feather.icons["database"].toSvg({ class: "font-medium-3  text-success mr-50" }),
+                    title: "Thao tác",
                     orderable: false,
                     render: function (data, type, full, meta) {
                         var html = '';
@@ -218,6 +218,22 @@ var   datePicker = $(".flatpickr-basic");
                 "position": {
                     required: true,
                 },
+                "quantity": {
+                    number:true,
+                    min:1
+                },
+                "minAge": {
+                    number:true,
+                    min:1
+                },
+                "maxAge": {
+                    number:true,
+                    min:1
+                },
+                "yearOfExperience": {
+                    number:true,
+                    min:1
+                },
             },
             messages: {
                 "title": {
@@ -235,13 +251,26 @@ var   datePicker = $(".flatpickr-basic");
                 "branch": {
                     required: "Bạn chưa chọn chi nhánh",
                 },
-                "salaryPercentage": {
-                    required: "Bạn chưa nhập phần trăm lương",
-                },
+               
                 "position": {
                     required: "Bạn chưa chọn vị trí",
                 },
-               
+                "quantity": {
+                    number:"Yêu cầu nhập số",
+                    min:"Yêu cầu nhập số tối thiểu 1"
+                },
+                "minAge": {
+                    number:"Yêu cầu nhập số",
+                    min:"Yêu cầu nhập số tối thiểu 1"
+                },
+                "maxAge": {
+                    number:"Yêu cầu nhập số",
+                    min:"Yêu cầu nhập số tối thiểu 1"
+                },
+                "yearOfExperience": {
+                    number:"Yêu cầu nhập số",
+                    min:"Yêu cầu nhập số tối thiểu 1"
+                },
             },
         });
 
@@ -278,6 +307,59 @@ var   datePicker = $(".flatpickr-basic");
                 },
                 "position1": {
                     required: true,
+                },
+                "quantity1": {
+                    number:true,
+                    min:1
+                },
+                "minAge1": {
+                    number:true,
+                    min:1
+                },
+                "maxAge1": {
+                    number:true,
+                    min:1
+                },
+                "yearOfExperience1": {
+                    number:true,
+                    min:1
+                },
+            },
+            messages: {
+                "title": {
+                    required: "Bạn chưa nhập tên chương trình",
+                },
+                "inChargeId1": {
+                    required: "Bạn chưa chọn người phụ trách",
+                },
+              
+                "estimateCost1": {
+                    required: "Bạn chưa nhập chi phí ước tính",
+                },
+                "department1": {
+                    required: "Bạn chưa chọn phòng ban",
+                },
+                "branch1": {
+                    required: "Bạn chưa chọn chi nhánh",
+                },
+                "position1": {
+                    required: "Bạn chưa chọn vị trí",
+                },
+                "quantity1": {
+                    number:"Yêu cầu nhập số",
+                    min:"Yêu cầu nhập số tối thiểu 1"
+                },
+                "minAge1": {
+                    number:"Yêu cầu nhập số",
+                    min:"Yêu cầu nhập số tối thiểu 1"
+                },
+                "maxAge1": {
+                    number:"Yêu cầu nhập số",
+                    min:"Yêu cầu nhập số tối thiểu 1"
+                },
+                "yearOfExperience1": {
+                    number:"Yêu cầu nhập số",
+                    min:"Yêu cầu nhập số tối thiểu 1"
                 },
             },
         });
@@ -317,7 +399,7 @@ function loaddata(id) {
         data: { id: id },
         url: baseHome + "/recruitmentcamp/loaddata",
         success: function (data) {
-            var file = baseHome + '/users/gemstech/' +data.file;
+            
             $('#title1').val(data.title);
             $('#inChargeId1').val(data.inChargeId).change();
             $('#followerId1').val(data.followerId.split(',')).change();
@@ -337,8 +419,13 @@ function loaddata(id) {
             $('#professional1').val(data.professional);
             $('#yearOfExperience1').val(data.yearsOfExperience);
             $('#description1').val(data.description);
-      
-            $('#viewfile').html(`<a target="_blank" href="${file}" style="color: blue;">Tải xuống <i class="fas fa-download"></i></a>`)
+            $('#viewfile').html('');
+            if(data.file != '') {
+                var file = baseHome + '/users/gemstech/' +data.file;
+                $('#viewfile').html(`<a target="_blank" href="${file}" style="color: blue;">Tải xuống <i class="fas fa-download"></i></a>`)
+            }
+           
+          
             loadListCandidate(id);
         },
         error: function () {
@@ -567,6 +654,7 @@ function del(id) {
         icon: 'warning',
         showCancelButton: true,
         confirmButtonText: 'Tôi đồng ý',
+        cancelButtonText: 'Hủy',
         customClass: {
             confirmButton: 'btn btn-primary',
             cancelButton: 'btn btn-outline-danger ml-1'

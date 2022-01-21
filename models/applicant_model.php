@@ -44,7 +44,7 @@ class applicant_Model extends Model{
         if ($file=='')
             return false;
         else {
-            $data = ['hinh_anh'=>$file];
+            $data = ['image'=>$file];
             $query = $this->update("applicants", $data, " id=$id ");
             return $query;
         }

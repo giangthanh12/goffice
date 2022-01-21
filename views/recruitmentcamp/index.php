@@ -131,7 +131,7 @@
                                                             <div class="col-lg-4 col-md-6">
                                                                 <div class="form-group">
                                                                     <label for="quantity">Số lượng tuyển dụng</label>
-                                                                    <input id="quantity" type="number" min="1" class="form-control" name="quantity" />
+                                                                    <input id="quantity" type="text" class="form-control" name="quantity" />
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-4 col-md-6">
@@ -252,7 +252,7 @@
                                                             <div class="col-lg-4 col-md-6">
                                                                 <div class="form-group">
                                                                     <label for="followerId1">Thành viên khác</label>
-                                                                    <select class="form-control select2" multiple="multiple" id="followerId1" name="followerId1[]"></select>
+                                                                    <select class="form-control select2" required data-msg-required="Yêu cầu chọn thành viên" multiple="multiple" id="followerId1" name="followerId1[]"></select>
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-4 col-md-6">
@@ -325,7 +325,7 @@
                                                             <div class="col-lg-4 col-md-6">
                                                                 <div class="form-group">
                                                                     <label for="quantity1">Số lượng tuyển dụng</label>
-                                                                    <input id="quantity1" type="number" min="1" class="form-control" name="quantity1" />
+                                                                    <input id="quantity1" type="text"  class="form-control" name="quantity1" />
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-4 col-md-6">
@@ -638,7 +638,7 @@
                                                             </div>
                                                             <div class="col-lg-12 col-md-12">
                                                                 <div class="form-group">
-                                                                    <div id="viewfile"></div>
+                                                                    <!-- <div id="viewfile"></div> -->
                                                                 </div>
                                                             </div>
 
