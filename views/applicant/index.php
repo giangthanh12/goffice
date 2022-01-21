@@ -151,7 +151,7 @@
                                                     <form class="form-validate" enctype="multipart/form-data" id="thongtin">
                                                         <div class="media mb-2 col-12">
                                                             <div class="col-lg-4 d-flex mt-1 px-0">
-                                                                <img id="avatar" src="" alt="users avatar" class="user-avatar users-avatar-shadow rounded mr-2 my-25 cursor-pointer" height="90" width="90" />
+                                                                <img id="avatar" onerror="this.src='<?=HOME?>/layouts/useravatar.png'" src="" alt="users avatar" class="user-avatar users-avatar-shadow rounded mr-2 my-25 cursor-pointer" height="90" width="90" />
                                                                 <div class="media-body col-lg-12 mt-50">
                                                                     <h4 id="ungvien">No name</h4>
                                                                     <div class="d-flex mt-1 px-0">
