@@ -1,4 +1,5 @@
 var url = '';
+var index = 0;
 $(function () {
     "use strict";
 
@@ -8,7 +9,6 @@ $(function () {
     $('#year').val(year).change();
 
     var dtUserTable = $(".user-list-table");
-    var i = 0;
     // Users List datatable
     if (dtUserTable.length) {
         dtUserTable.DataTable({
@@ -159,7 +159,7 @@ $(function () {
                                 html += '</button> &nbsp;';
                             }
                             if(funEdit==1) {
-                                html += '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" title="Chỉnh sửa" onclick="loaddata(' + i + ')">';
+                                html += '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" title="Chỉnh sửa" onclick="loaddata(' + index + ')">';
                                 html += '<i class="fas fa-pencil-alt"></i>';
                                 html += '</button> &nbsp;';
                             }
@@ -173,7 +173,7 @@ $(function () {
                             }
                             html+='</div>'
                         }
-                        i++;
+                        index++;
                         return html;
                     }
                 }
@@ -272,6 +272,7 @@ function search() {
     var year = $("#year").val();
     if (month != '' || year != '') {
         var table = $(".user-list-table").DataTable();
+        index = 0;
         table.ajax.url(baseHome + "/payrolls/list?month=" + month + "&year=" + year).load();
         table.draw();
     }
@@ -288,6 +289,7 @@ function add() {
         success: function (data) {
             if (data.code == 200) {
                 notyfi_success(data.message);
+                index = 0;
                 $(".user-list-table").DataTable().ajax.reload(null, false);
             } else
                 notify_error(data.message);
@@ -329,6 +331,7 @@ function saveupdate() {
                     if (data.code==200) {
                         notyfi_success(data.message);
                         $('#dgAccesspoint').modal('hide');
+                        index = 0;
                         $(".user-list-table").DataTable().ajax.reload(null, false);
                     } else
                         notify_error(data.message);
@@ -366,6 +369,7 @@ function checkAll() {
                     if (data.code == 200) {
                         notyfi_success(data.message);
                         $('#updateinfo').modal('hide');
+                        index = 0;
                         $(".user-list-table").DataTable().ajax.reload(null, false);
                     } else
                         notify_error(data.message);
@@ -403,6 +407,7 @@ function checkPayRollById(id,staffName){
                     if (data.code == 200) {
                         notyfi_success(data.message);
                         $('#updateinfo').modal('hide');
+                        index = 0;
                         $(".user-list-table").DataTable().ajax.reload(null, false);
                     } else
                         notify_error(data.message);
@@ -441,6 +446,7 @@ function uncheckRollById(id,staffName){
                     if (data.code == 200) {
                         notyfi_success(data.message);
                         $('#updateinfo').modal('hide');
+                        index = 0
                         $(".user-list-table").DataTable().ajax.reload(null, false);
                     } else
                         notify_error(data.message);
