@@ -14,7 +14,7 @@ class Tainguyen_Model extends Model
         $row = $query->fetchAll();
         $query = $this->db->query("SELECT id, name, owner, supplier, link, username, password, note, classify, creatorId, 
                                 (SELECT customers.name FROM customers WHERE customers.id = owner) AS chusohuu, 
-                                (SELECT customers.name FROM customers WHERE customers.id = supplier AND customers.classify = 2 OR customers.classify = 3) AS nhacungcap,
+                                (SELECT customers.name FROM customers WHERE customers.id = supplier) AS nhacungcap,
                                 (SELECT classify.name FROM classify WHERE classify.id = classify) AS phanloai, 
                                 (SELECT staffs.name FROM staffs WHERE staffs.id = creatorId) AS nguoitao 
                                 FROM resource WHERE status = 1 AND name LIKE '%$keyword%' AND (creatorId = $nhanvienid OR FIND_IN_SET($nhanvienid, staffId)) ORDER BY id DESC LIMIT $offset, $rows");
@@ -22,6 +22,13 @@ class Tainguyen_Model extends Model
         $result['recordsTotal'] = $row[0]['Total'];
         $result['recordsFiltered'] = $row[0]['Total'];
         $result['data'] = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    function get_data_combo(){
+        $result = array();
+        $query = $this->db->query("SELECT id, name AS text FROM customers WHERE classify > 1 AND status > 0");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }
 

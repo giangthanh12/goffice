@@ -136,7 +136,36 @@ function edit_tainguyen(idh){
 }
 
 function del_tainguyen(idh){
-    del_data_refresh_div(idh, baseHome + '/tainguyen/del', "Bạn có chắc chắn muốn xóa dữ liệu !", '#list_tainguyen');
+    // del_data_refresh_div(idh, baseHome + '/tainguyen/del', "Bạn có chắc chắn muốn xóa dữ liệu !", '#list_tainguyen');
+    Swal.fire({
+        title: 'Xóa dữ liệu',
+        text: "Bạn có chắc chắn muốn xóa!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Tôi đồng ý',
+        cancelButtonText: 'Hủy',
+        customClass: {
+            confirmButton: 'btn btn-primary',
+            cancelButton: 'btn btn-outline-danger ml-1'
+        },
+        buttonsStyling: false
+    }).then(function (result) {
+        if (result.value) {
+            $.ajax({
+                url: baseHome + "/tainguyen/del",
+                type: 'post',
+                dataType: "json",
+                data: {id: idh},
+                success: function (data) {
+                    if (data.success) {
+                        notyfi_success(data.message);
+                        $("#list_tainguyen").DataTable().ajax.reload(null, false);
+                    } else
+                        notify_error(data.message);
+                },
+            });
+        }
+    });
 }
    
 function share_tainguyen(idh){

@@ -171,7 +171,7 @@
 
                                     <label class="form-label" for="name">Đường dẫn</label><br />
 
-                                    <span class="font-weight-bold text-primary" id="duongdan">http://congtybonmua.com:2222</span>
+                                    <textarea class="font-weight-bold text-primary" style="width: 100%; border: 0px; height: auto; " id="duongdan">http://congtybonmua.com:2222</textarea>
 
                                 </div>
 
@@ -179,7 +179,7 @@
 
                                     <label class="form-label" for="name">Ghi chú</label><br />
 
-                                    <span class="font-weight-bold text-primary" id="ghichu">User: ctbonmua_db; Pass: abcd1234</span>
+                                    <textarea class="font-weight-bold text-primary" style="width: 100%; border: 0px; height: auto; " id="ghichu">User: ctbonmua_db; Pass: abcd1234</textarea>
 
                                 </div>
 

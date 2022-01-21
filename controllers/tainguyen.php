@@ -50,6 +50,12 @@ class Tainguyen extends Controller
         echo json_encode($json);
     }
 
+    function combo()
+    {
+        $json = $this->model->get_data_combo();
+        echo json_encode($json);
+    }
+
     function add()
     {
         $name = isset($_REQUEST['name']) ? $_REQUEST['name'] : '';
