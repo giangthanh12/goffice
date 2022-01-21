@@ -407,8 +407,8 @@
                                     <div class="modal-body">
                                         <form id="frm-add-lead">
                                             <div class="form-group">
-                                                <label for="nameLead">Tên cơ hội</label>
-                                                <input id="nameLead" class="form-control" name="nameLead" />
+                                                <label for="leadName">Tên cơ hội</label>
+                                                <input id="leadName" class="form-control" name="leadName" />
                                             </div>
                                             <div class="form-group">
                                                 <label for="descriptionLead">Mô tả cơ hội</label>
