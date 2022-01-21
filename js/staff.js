@@ -65,24 +65,23 @@ $(function () {
                     targets: 0,
 
                     render: function (data, type, full, meta) {
-                        var $name = full["name"],
-
-                            // $image = baseUrlFile+'/uploads/nhanvien/'+full["avatar"];
-                            $image = full["avatar"];
-                            var $output = '<img onerror=' + "this.src='https://velo.vn/goffice-test/layouts/useravatar.png'" + ' src="' + $image + '" alt="Avatar" height="32" width="32">';
+                        var $name = full["name"], $image = baseHome + '/layouts/useravatar.png';
+                        if (full["avatar"] != '')
+                            $image = baseUrlFile + '/uploads/nhanvien/' + full["avatar"];
+                        var $output = '<img onerror=' + "this.src=\''+baseHome+'/layouts/useravatar.png'" + ' src="' + $image + '" alt="Avatar" height="32" width="32">';
                         // if ($image) {
-                            // For Avatar image
-                          
-                            // var $output = '<img src="' + assetPath + "images/avatars/" + $image + '" alt="Avatar" height="32" width="32">';
+                        // For Avatar image
+
+                        // var $output = '<img src="' + assetPath + "images/avatars/" + $image + '" alt="Avatar" height="32" width="32">';
                         // } else {
-                            // For Avatar badge
-                            // var stateNum = Math.floor(Math.random() * 6) + 1;
-                            // var states = ["success", "danger", "warning", "info", "dark", "primary", "secondary"];
-                            // var $state = states[stateNum],
-                            //     $name = full["name"],
-                            //     $initials = $name.match(/\b\w/g) || [];
-                            // $initials = (($initials.shift() || "") + ($initials.pop() || "")).toUpperCase();
-                            // $output = '<span class="avatar-content">' + $initials + "</span>";
+                        // For Avatar badge
+                        // var stateNum = Math.floor(Math.random() * 6) + 1;
+                        // var states = ["success", "danger", "warning", "info", "dark", "primary", "secondary"];
+                        // var $state = states[stateNum],
+                        //     $name = full["name"],
+                        //     $initials = $name.match(/\b\w/g) || [];
+                        // $initials = (($initials.shift() || "") + ($initials.pop() || "")).toUpperCase();
+                        // $output = '<span class="avatar-content">' + $initials + "</span>";
                         // }
                         // var colorClass = $image === "" ? " bg-light-" + $state + " " : "";
                         // Creates full output for row
@@ -110,12 +109,12 @@ $(function () {
                     targets: 2,
                     render: function (data, type, full, meta) {
                         var $phone = full["phoneNumber"];
-                        if($phone!='') {
+                        if ($phone != '') {
                             var roleBadgeObj = {
                                 Phone: feather.icons["phone"].toSvg({class: "font-medium-3 text-primary mr-50"}),
                             };
                             return "<span class='text-truncate align-middle'>" + roleBadgeObj['Phone'] + $phone + "</span>";
-                        }else
+                        } else
                             return "";
                     },
                 },
@@ -124,9 +123,9 @@ $(function () {
                     targets: 1,
                     render: function (data, type, full, meta) {
                         var $email = full["email"];
-                        if($email!='') {
+                        if ($email != '') {
                             return "<span class='text-truncate align-middle'>" + feather.icons["mail"].toSvg({class: "font-medium-3 text-primary mr-50"}) + $email + "</span>";
-                        }else
+                        } else
                             return "";
                     },
                 },
@@ -138,28 +137,28 @@ $(function () {
                         var $text = '';
                         switch ($status) {
                             case '1':
-                                $text="Thực tập sinh";
+                                $text = "Thực tập sinh";
                                 break;
                             case '2':
-                                $text="Thử việc";
+                                $text = "Thử việc";
                                 break;
                             case '3':
-                                $text="Chính thức";
+                                $text = "Chính thức";
                                 break;
                             case '4':
-                                $text="Cộng tác viên";
+                                $text = "Cộng tác viên";
                                 break;
                             case '5':
-                                $text="Thời vụ";
+                                $text = "Thời vụ";
                                 break;
                             case '6':
-                                $text="Tạm ngừng";
+                                $text = "Tạm ngừng";
                                 break;
                             case '7':
-                                $text="Thôi việc";
+                                $text = "Thôi việc";
                                 break;
                             default:
-                                $text="";
+                                $text = "";
                                 break;
                         }
                         return "<span class='text-truncate align-middle'>" + $text + "</span>";
@@ -211,7 +210,7 @@ $(function () {
                     previous: "&nbsp;",
                     next: "&nbsp;",
                 },
-                info:"Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
+                info: "Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
             },
             // Buttons with Dropdown
             buttons: [{
@@ -260,15 +259,15 @@ $(function () {
                 },
                 "email": {
                     required: true,
-                    email:true,
+                    email: true,
                 },
                 "birthday": {
                     required: true,
                 },
                 "phoneNumber": {
                     required: true,
-                    number:true,
-                    min:0
+                    number: true,
+                    min: 0
                 },
             },
             messages: {
@@ -277,15 +276,15 @@ $(function () {
                 },
                 "email": {
                     required: "Bạn chưa nhập email!",
-                    email:"Yêu cầu nhập email!"
+                    email: "Yêu cầu nhập email!"
                 },
                 "birthday": {
                     required: "Bạn chưa nhập ngày sinh!",
                 },
                 "phoneNumber": {
                     required: "Bạn chưa nhập số điện thoại!",
-                    number:"Yêu cầu nhập số!",
-                    min:"Yêu cầu nhập số bắt đầu từ 0!",
+                    number: "Yêu cầu nhập số!",
+                    min: "Yêu cầu nhập số bắt đầu từ 0!",
                 },
             },
         });
@@ -302,77 +301,77 @@ $(function () {
 
 
 // Form Validation
-if ($('#formInfoStaff').length) {
-    $('#formInfoStaff').validate({
-        errorClass: "error",
-        rules: {
-            "name1": {
-                required: true,
+    if ($('#formInfoStaff').length) {
+        $('#formInfoStaff').validate({
+            errorClass: "error",
+            rules: {
+                "name1": {
+                    required: true,
+                },
+                "email1": {
+                    required: true,
+                    email: true,
+                },
+                "birthday": {
+                    required: true,
+                },
+                "phoneNumber1": {
+                    required: true,
+                    number: true,
+                    min: 0
+                },
+                "vssId": {
+                    number: true,
+                    min: 0
+                },
+                "taxCode": {
+                    number: true,
+                    min: 0
+                },
+                "idCard": {
+                    number: true,
+                    min: 0
+                },
             },
-            "email1": {
-                required: true,
-                email:true,
+            messages: {
+                "name1": {
+                    required: "Bạn chưa nhập tên!",
+                },
+                "email1": {
+                    required: "Bạn chưa nhập email!",
+                    email: "Yêu cầu nhập email!"
+                },
+                "birthday": {
+                    required: "Bạn chưa nhập ngày sinh!",
+                },
+                "phoneNumber1": {
+                    required: "Bạn chưa nhập số điện thoại!",
+                    number: "Yêu cầu nhập số!",
+                    min: "Yêu cầu nhập số bắt đầu từ 0!",
+                },
+                "vssId": {
+                    number: "Yêu cầu nhập số!",
+                    min: "Yêu cầu nhập số bắt đầu từ 0!",
+                },
+                "taxCode": {
+                    number: "Yêu cầu nhập số!",
+                    min: "Yêu cầu nhập số bắt đầu từ 0!",
+                },
+                "idCard": {
+                    number: "Yêu cầu nhập số",
+                    min: "Yêu cầu nhập số bắt đầu từ 0!",
+                },
             },
-            "birthday": {
-                required: true,
-            },
-            "phoneNumber1": {
-                required: true,
-                number:true,
-                min:0
-            },
-            "vssId": {
-                number:true,
-                min:0
-            },
-            "taxCode": {
-                number:true,
-                min:0
-            },
-            "idCard": {
-                number:true,
-                min:0
-            },
-        },
-        messages: {
-            "name1": {
-                required: "Bạn chưa nhập tên!",
-            },
-            "email1": {
-                required: "Bạn chưa nhập email!",
-                email:"Yêu cầu nhập email!"
-            },
-            "birthday": {
-                required: "Bạn chưa nhập ngày sinh!",
-            },
-            "phoneNumber1": {
-                required: "Bạn chưa nhập số điện thoại!",
-                number:"Yêu cầu nhập số!",
-                min:"Yêu cầu nhập số bắt đầu từ 0!",
-            },
-            "vssId": {
-                number:"Yêu cầu nhập số!",
-                min:"Yêu cầu nhập số bắt đầu từ 0!",
-            },
-            "taxCode": {
-                number:"Yêu cầu nhập số!",
-                min:"Yêu cầu nhập số bắt đầu từ 0!",
-            },
-            "idCard": {
-                number:"Yêu cầu nhập số",
-                min:"Yêu cầu nhập số bắt đầu từ 0!",
-            },
-        },
-    });
+        });
 
-    $('#formInfoStaff').on("submit", function (e) {
-        var isValid = $('#formInfoStaff').valid();
-        e.preventDefault();
-        if (isValid) {
-            updateinfo();
-        }
-    });
-}
+        $('#formInfoStaff').on("submit", function (e) {
+            var isValid = $('#formInfoStaff').valid();
+            e.preventDefault();
+            if (isValid) {
+                updateinfo();
+            }
+        });
+    }
 
 
     // To initialize tooltip with body container
@@ -393,7 +392,11 @@ function loaddata(id) {
             var data = result.nhanvien;
 
             $('#nhanvien').html(data.name);
-            $('#avatar').attr('src',data.avatar);
+            if(data.avatar!='')
+                var $avatar = baseUrlFile+'/uploads/nhanvien/'+data.avatar;
+            else
+                var $avatar = baseHome+'/layouts/useravatar.png';
+            $('#avatar').attr('src', $avatar);
             //gender
             if (data.gender == 1)
                 $("#male1").prop("checked", true);
@@ -671,7 +674,7 @@ function loadRecord(id) {
                     previous: "&nbsp;",
                     next: "&nbsp;",
                 },
-                info:"Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
+                info: "Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
             },
         });
     }

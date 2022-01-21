@@ -82,7 +82,7 @@ class staff extends Controller
             $dir = ROOT_DIR. '/uploads/nhanvien/';
             $file = functions::uploadfile('hinhanh', $dir, $id);
             if ($file != '')
-                $avatar = URLFILE.'/uploads/nhanvien/'.$file;
+                $avatar = $file;
         }
        
         if ($this->model->changeImage($avatar, $id)) {
