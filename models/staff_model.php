@@ -87,7 +87,7 @@ class staff_Model extends Model{
     }
 
     function del($id){
-        $query = $this->update("staffs", ['status'=>2], " id=$id ");
+        $query = $this->update("staffs", ['status'=>0], " id=$id ");
         return $query;
     }
     function updateInfoStaff($data,$id){
