@@ -205,11 +205,19 @@ $(function () {
     newTaskForm.validate({
       ignore: ".ql-container *", // ? ignoring quill editor icon click, that was creating console error
       rules: {
-        date: {
+        staffId: {
           required: true,
         },
         "task-due-date": {
           required: true,
+        },
+      },
+      messages: {
+        staffId: {
+          required: "Bạn chưa chọn nhân viên",
+        },
+        "task-due-date": {
+          required: "Bạn chưa chọn ngày xin nghỉ",
         },
       },
     });
