@@ -1,3 +1,6 @@
+<?php
+$model = new model();
+?>
 <!DOCTYPE html>
 <html class="loading semi-dark-layout" lang="en" data-layout="semi-dark-layout" data-textdirection="ltr">
 
@@ -33,8 +36,8 @@
     <link rel="stylesheet" type="text/css"
           href="<?= HOME ?>/styles/app-assets/vendors/css/tables/datatable/select.dataTables.min.css">
     <link rel="stylesheet" type="text/css" href="<?= HOME ?>/styles/app-assets/css/plugins/forms/form-validation.css">
-    <link rel="stylesheet" type="text/css"
-          href="<?= HOME ?>/styles/app-assets/vendors/css/pickers/flatpickr/flatpickr.min.css">
+    <link rel="stylesheet" type="text/css" href="<?= HOME ?>/styles/app-assets/vendors/css/pickers/pickadate/pickadate.css">
+    <link rel="stylesheet" type="text/css" href="<?= HOME ?>/styles/app-assets/vendors/css/pickers/flatpickr/flatpickr.min.css">
     <link rel="stylesheet" type="text/css" href="<?= HOME ?>/styles/app-assets/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="<?= HOME ?>/styles/app-assets/css/bootstrap-extended.css">
     <link rel="stylesheet" type="text/css" href="<?= HOME ?>/styles/app-assets/css/colors.min.css">
@@ -121,28 +124,18 @@
                     </div>
                     <h6 class="align-self-center cursor-pointer ml-50 mb-0">+42</h6>
                 </div> -->
-            <!-- <ul class="nav navbar-nav bookmark-icons">
-                <li class="nav-item d-none d-lg-block">
-                    <a class="nav-link" href="app-email.html" data-toggle="tooltip" data-placement="top" title="Email">
-                        <i class="ficon" data-feather="mail"></i>
-                    </a>
+            <ul class="nav navbar-nav bookmark-icons">
+                <li class="nav-item d-lg-block" id="checkIn">
+                    <?php
+                    if ($model->checkChamCong()) {
+                        ?>
+                        <button type="button" class="btn btn-warning m-0 p-75" onclick="checkIn()">
+                            <i data-feather='check'></i>
+                            <span>Chấm công</span>
+                        </button>
+                    <?php } ?>
                 </li>
-                <li class="nav-item d-none d-lg-block">
-                    <a class="nav-link" href="chatbox" data-toggle="tooltip" data-placement="top" title="Chat">
-                        <i class="ficon" data-feather="message-square"></i>
-                    </a>
-                </li>
-                <li class="nav-item d-none d-lg-block">
-                    <a class="nav-link" href="app-calendar.html" data-toggle="tooltip" data-placement="top" title="Calendar">
-                        <i class="ficon" data-feather="calendar"></i>
-                    </a>
-                </li>
-                <li class="nav-item d-none d-lg-block">
-                    <a class="nav-link" href="app-todo.html" data-toggle="tooltip" data-placement="top" title="Todo">
-                        <i class="ficon" data-feather="check-square"></i>
-                    </a>
-                </li>
-            </ul> -->
+            </ul>
             <!-- <ul class="nav navbar-nav">
                 <li class="nav-item d-none d-lg-block">
                     <a class="nav-link bookmark-star">
@@ -470,7 +463,7 @@
                     </div>
                     <span class="avatar">
                             <img class="round" onerror="this.src='<?= HOME ?>/layouts/useravatar.png'"
-                                 src="<?= URLFILE . '/' . $_SESSION['user']['avatar'] ?>" alt="avatar" height="40"
+                                 src="<?= URLFILE . '/uploads/nhanvien/' . $_SESSION['user']['avatar'] ?>" alt="avatar" height="40"
                                  width="40" id="hungsua2">
                             <span class="avatar-status-online"></span>
                         </span>
@@ -657,7 +650,7 @@
             <li class=" nav-item">
                 <a class="d-flex align-items-center" href="">
                     <i data-feather="home"></i>
-                    <span class="menu-title text-truncate" data-i18n="Dashboards">Dashboard</span>
+                    <span class="menu-title text-truncate" data-i18n="Dashboards">Trang chủ/Thống kê</span>
                 </a>
             </li>
             <?php
@@ -697,7 +690,6 @@
                 <i data-feather="more-horizontal"></i>
             </li>
             <?php
-            $model = new model();
             $menus = $model->getMenus(0, 3);
             foreach ($menus as $parMenu) {
                 $hasSub = 0;

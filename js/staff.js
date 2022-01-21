@@ -10,26 +10,37 @@
 $(function () {
     return_combobox_multi('#idAddress', baseHome + '/staff/getProvince', 'Nơi cấp');
     return_combobox_multi('#nationality', baseHome + '/staff/getNational', 'Quốc gia');
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        async: false,
+        url: baseHome + "/staff/accessPoints",
+        success: function (data) {
+            $("#accesspoints").select2({
+                data: data
+            });
+        },
+    });
     "use strict";
-    
+
     var dtUserTable = $(".user-list-table"),
         newUserSidebar = $(".new-user-modal"),
         newUserForm = $(".add-new-user"),
-  
+
         // selectArray = $('.select2-data-array'),
 
         statusObj = {
-            1: { title: "Thực tập sinh", class: "badge-light-warning" },
-            2: { title: "Thử việc", class: "badge-light-success" },
-            3: { title: "Chính thức", class: "badge-light-secondary" },
+            1: {title: "Thực tập sinh", class: "badge-light-warning"},
+            2: {title: "Thử việc", class: "badge-light-success"},
+            3: {title: "Chính thức", class: "badge-light-secondary"},
         };
-        var basicPickr = $('.flatpickr-basic');
-        // Default
-        if (basicPickr.length) {
-            basicPickr.flatpickr({
-                dateFormat: "d/m/Y",
-            });
-        }
+    var basicPickr = $('.flatpickr-basic');
+    // Default
+    if (basicPickr.length) {
+        basicPickr.flatpickr({
+            dateFormat: "d/m/Y",
+        });
+    }
 
 
     // Users List datatable
@@ -37,28 +48,29 @@ $(function () {
         dtUserTable.DataTable({
             ajax: baseHome + "/staff/getData",
             ordering: false, // bỏ sắp xếp mặc định
-           
+
             columns: [
                 // columns according to JSON
-                { data: "name" },
-                { data: "email" },
-                { data: "phoneNumber" },
-                { data: "" },
+                {data: "name"},
+                {data: "email"},
+                {data: "phoneNumber"},
+                {data: "status"},
+                {data: ""},
             ],
             columnDefs: [
-             
+
 
                 {
                     // User full name and username
                     targets: 0,
-                
+
                     render: function (data, type, full, meta) {
                         var $name = full["name"],
-                         
-                            $image = full["avatar"];
+
+                            $image = baseUrlFile+'/uploads/nhanvien/'+full["avatar"];
                         if ($image) {
                             // For Avatar image
-                            var $output = '<img onerror='+"this.src='https://velo.vn/goffice-test/layouts/useravatar.png'"+' src="' + $image + '" alt="Avatar" height="32" width="32">';
+                            var $output = '<img onerror=' + "this.src=''+baseHome+'/layouts/useravatar.png'" + ' src="' + $image + '" alt="Avatar" height="32" width="32">';
                             // var $output = '<img src="' + assetPath + "images/avatars/" + $image + '" alt="Avatar" height="32" width="32">';
                         } else {
                             // For Avatar badge
@@ -82,10 +94,10 @@ $(function () {
                             "</div>" +
                             "</div>" +
                             '<div class="d-flex flex-column">' +
-                            '<a href="javascript:void(0)" onclick="loaddata('+full["id"]+');" data-toggle="modal" data-target="#updateinfo" class="user_name text-truncate"><span class="font-weight-bold">' +
+                            '<a href="javascript:void(0)" onclick="loaddata(' + full["id"] + ');" data-toggle="modal" data-target="#updateinfo" class="user_name text-truncate"><span class="font-weight-bold">' +
                             $name +
                             "</span></a>" +
-                           
+
                             "</div>" +
                             "</div>";
                         return $row_output;
@@ -95,22 +107,66 @@ $(function () {
                     // User Role
                     targets: 2,
                     render: function (data, type, full, meta) {
-                        var $role = full["phoneNumber"];
-                        var roleBadgeObj = {
-                            Subscriber: feather.icons["user"].toSvg({ class: "font-medium-3 text-primary mr-50" }),
-                            Author: feather.icons["settings"].toSvg({ class: "font-medium-3 text-warning mr-50" }),
-                            Maintainer: feather.icons["database"].toSvg({ class: "font-medium-3 text-success mr-50" }),
-                            Editor: feather.icons["edit-2"].toSvg({ class: "font-medium-3 text-info mr-50" }),
-                            Admin: feather.icons["slack"].toSvg({ class: "font-medium-3 text-danger mr-50" }),
-                        };
-                        return "<span class='text-truncate align-middle'>" + roleBadgeObj['Subscriber'] + $role + "</span>";
+                        var $phone = full["phoneNumber"];
+                        if($phone!='') {
+                            var roleBadgeObj = {
+                                Phone: feather.icons["phone"].toSvg({class: "font-medium-3 text-primary mr-50"}),
+                            };
+                            return "<span class='text-truncate align-middle'>" + roleBadgeObj['Phone'] + $phone + "</span>";
+                        }else
+                            return "";
                     },
                 },
-             
+                {
+                    // User Role
+                    targets: 1,
+                    render: function (data, type, full, meta) {
+                        var $email = full["email"];
+                        if($email!='') {
+                            return "<span class='text-truncate align-middle'>" + feather.icons["mail"].toSvg({class: "font-medium-3 text-primary mr-50"}) + $email + "</span>";
+                        }else
+                            return "";
+                    },
+                },
+                {
+                    // Staff Status
+                    targets: 3,
+                    render: function (data, type, full, meta) {
+                        var $status = full["status"];
+                        var $text = '';
+                        switch ($status) {
+                            case '1':
+                                $text="Thực tập sinh";
+                                break;
+                            case '2':
+                                $text="Thử việc";
+                                break;
+                            case '3':
+                                $text="Chính thức";
+                                break;
+                            case '4':
+                                $text="Cộng tác viên";
+                                break;
+                            case '5':
+                                $text="Thời vụ";
+                                break;
+                            case '6':
+                                $text="Tạm ngừng";
+                                break;
+                            case '7':
+                                $text="Thôi việc";
+                                break;
+                            default:
+                                $text="";
+                                break;
+                        }
+                        return "<span class='text-truncate align-middle'>" + $text + "</span>";
+                    },
+                },
                 {
                     // Actions
                     targets: -1,
-                    title: feather.icons["database"].toSvg({ class: "font-medium-3 text-success mr-50" }),
+                    title: feather.icons["database"].toSvg({class: "font-medium-3 text-success mr-50"}),
                     orderable: false,
                     render: function (data, type, full, meta) {
                         var html = '';
@@ -129,8 +185,8 @@ $(function () {
                         html += '<i class="fas fa-trash-alt"></i>';
                         html += '</button></div>';
                         return html;
-                     
-                      
+
+
                     },
                 },
             ],
@@ -145,14 +201,15 @@ $(function () {
                 '<"col-sm-12 col-md-6"p>' +
                 ">",
             language: {
-                sLengthMenu: "Show _MENU_",
-                search: "Search",
-                searchPlaceholder: "Search..",
+                sLengthMenu: "Hiển thị _MENU_",
+                search: "",
+                searchPlaceholder: "Tìm kiếm...",
                 paginate: {
                     // remove previous & next text from pagination
                     previous: "&nbsp;",
                     next: "&nbsp;",
                 },
+                info:"Hiển thị _START_ đến _END_ of _TOTAL_ bản ghi",
             },
             // Buttons with Dropdown
             buttons: [{
@@ -170,18 +227,19 @@ $(function () {
                 }
             }],
             // For responsive popup
-            
+
             initComplete: function () {
-               
+
             },
         });
     }
 
     // Check Validity
-    function actionMenu(func){
-        if(func=='add')
+    function actionMenu(func) {
+        if (func == 'add')
             add();
     }
+
     function checkValidity(el) {
         if (el.validate().checkForm()) {
             submitBtn.attr("disabled", false);
@@ -208,6 +266,20 @@ $(function () {
                     required: true,
                 },
             },
+            messages: {
+                "name": {
+                    required: "Bạn chưa nhập họ tên!",
+                },
+                "email": {
+                    required: "Bạn chưa nhập email!",
+                },
+                "birthday": {
+                    required: "Bạn chưa nhập ngày sinh!",
+                },
+                "phoneNumber": {
+                    required: "Bạn chưa nhập số điện thoại!",
+                },
+            },
         });
 
         newUserForm.on("submit", function (e) {
@@ -232,25 +304,25 @@ function loaddata(id) {
     $.ajax({
         type: "POST",
         dataType: "json",
-        data: { id: id },
+        data: {id: id},
         url: baseHome + "/staff/loaddata",
         success: function (result) {
             var data = result.nhanvien;
-      
+
             $('#nhanvien').html(data.name);
-            $('#avatar').attr('src', data.avatar);
+            $('#avatar').attr('src', baseUrlFile+'/uploads/nhanvien/'+data.avatar);
             //gender
-            if (data.gender==1)
+            if (data.gender == 1)
                 $("#male1").prop("checked", true);
-            else if(data.gender==2)
+            else if (data.gender == 2)
                 $("#female1").prop("checked", true);
             else
-            $("#other1").prop("checked", true);
+                $("#other1").prop("checked", true);
             //maritalStatus
-            if (data.maritalStatus==1)
-            $("#married").prop("checked", true);
-            else if(data.maritalStatus==2)
-            $("#alone").prop("checked", true);
+            if (data.maritalStatus == 1)
+                $("#married").prop("checked", true);
+            else if (data.maritalStatus == 2)
+                $("#alone").prop("checked", true);
             $('#name1').val(data.name);
             $('#birthday1').val(data.birthDay);
             $('#phoneNumber1').val(data.phoneNumber);
@@ -259,7 +331,7 @@ function loaddata(id) {
             $('#residence').val(data.residence);
             $('#idCard').val(data.residence);
             $('#idDate').val(data.idDate);
-            if(data.idDate == "00/00/0000") {
+            if (data.idDate == "00/00/0000") {
                 $('#idDate').val('').attr('placeholder', 'DD/MM/YYYY');
             }
             $('#taxCode').val(data.taxCode);
@@ -268,22 +340,24 @@ function loaddata(id) {
             $('#nationality').val(data.nationality);
             $("#description").val(data.description);
             $("#id").val(id);
+            var accessPoints = data.accesspoints.split(',');
+            $('#accesspoints').val(accessPoints).trigger("change");
             var staffInfo = result.staff_info;
-            if (staffInfo != 0){
+            if (staffInfo != 0) {
                 $('#twitter').val(staffInfo.twitter);
                 $('#facebook').val(staffInfo.facebook);
                 $('#instagram').val(staffInfo.instagram);
                 $('#zalo').val(staffInfo.zalo);
                 $('#wechat').val(staffInfo.wechat);
                 $('#linkein').val(staffInfo.linkein);
-            }else{
+            } else {
                 $('#socailForm').trigger("reset");
             }
 
 
             loadRecord(id);
         },
-        error: function(){
+        error: function () {
             notify_error('Lỗi truy xuất database');
         }
     });
@@ -307,28 +381,27 @@ function updateinfo() {
     info.nationalId = $("#nationality").val();
     info.vssId = $("#vssId").val();
     info.description = $("#description").val();
-  
+    info.accesspoints = $("#accesspoints").val();
     $.ajax({
         type: "POST",
         dataType: "json",
-        data: {data:info, id:id},
+        data: {data: info, id: id},
         url: baseHome + "/staff/updateinfo",
         success: function (data) {
             if (data.success) {
                 notyfi_success(data.msg);
                 $('#updateinfo').modal('hide');
-                $(".user-list-table").DataTable().ajax.reload( null, false );
-            }
-            else
+                $(".user-list-table").DataTable().ajax.reload(null, false);
+            } else
                 notify_error(data.msg);
         },
-        error: function(){
+        error: function () {
             notify_error('Cập nhật không thành công');
         }
     });
 }
 
-function changeImage(){
+function changeImage() {
     var id = $("#id").val();
     var myform = new FormData($('#thongtin')[0]);
     myform.append('myid', id);
@@ -338,19 +411,16 @@ function changeImage(){
         data: myform,
         contentType: false,
         processData: false,
-        success: function(data){
+        success: function (data) {
             data = JSON.parse(data);
             if (data.success) {
                 notyfi_success(data.msg);
                 $('#avatar').attr('src', data.filename);
-            }
-            else
+            } else
                 notify_error(data.msg);
         },
     });
 }
-
-
 
 
 function updateInfoStaff() {
@@ -362,22 +432,21 @@ function updateInfoStaff() {
     info.zalo = $("#zalo").val();
     info.wechat = $("#wechat").val();
     info.linkein = $("#linkein").val();
-   
+
     $.ajax({
         type: "POST",
         dataType: "json",
-        data: {data:info},
+        data: {data: info},
         url: baseHome + "/staff/updateInfoStaff",
-        success: function(data) {
+        success: function (data) {
             if (data.success) {
-              //  loaddata(info.nhan_vien);
+                //  loaddata(info.nhan_vien);
                 notyfi_success(data.msg);
-            }
-            else{
+            } else {
                 notify_error(data.msg);
             }
         },
-        error: function(){
+        error: function () {
             notify_error('Cập nhật user không thành công');
         }
     });
@@ -386,35 +455,34 @@ function updateInfoStaff() {
 
 function addStaff() {
     var info = {};
-    
+
     info.name = $("#name").val();
     info.phoneNumber = $("#phoneNumber").val();
     info.birthday = $("#birthday").val();
     info.email = $("#email").val();
     info.status = $("#status").val();
     info.gender = $("input[type='radio'][name='gender']:checked").val();
-   
+
     $.ajax({
         type: "POST",
         dataType: "json",
-        data: {data:info},
+        data: {data: info},
         url: baseHome + "/staff/add",
         success: function (data) {
             if (data.success) {
                 notyfi_success(data.msg);
                 $('#modals-slide-in').modal('hide');
-                $(".user-list-table").DataTable().ajax.reload( null, false );
-            }
-            else
+                $(".user-list-table").DataTable().ajax.reload(null, false);
+            } else
                 notify_error(data.msg);
         },
-        error: function(){
+        error: function () {
             notify_error('Cập nhật không thành công');
         }
     });
 }
 
-function del(id){
+function del(id) {
     Swal.fire({
         title: 'Xóa dữ liệu',
         text: "Bạn có chắc chắn muốn xóa!",
@@ -432,14 +500,13 @@ function del(id){
                 url: baseHome + "/staff/del",
                 type: 'post',
                 dataType: "json",
-                data: { id: id },
+                data: {id: id},
                 success: function (data) {
                     if (data.success) {
                         $('.modal').modal('hide');
                         notyfi_success(data.msg);
                         $(".user-list-table").DataTable().ajax.reload(null, false);
-                    }
-                    else
+                    } else
                         notify_error(data.msg);
                 },
             });
@@ -448,7 +515,7 @@ function del(id){
 }
 
 
-function add(){
+function add() {
     $('#modals-slide-in').modal('show');
     $("#name").val('');
     $('#phoneNumber').val('');
@@ -457,35 +524,39 @@ function add(){
     $("input[type='radio'][name='gender']:checked").val();
     $('#status').val(1).attr("disabled", true);
 }
+
 // load record
 function loadRecord(id) {
 
     if ($("#record-list-table").length) {
-    
+
         $("#record-list-table").DataTable({
             ajax: baseHome + "/staff/loadRecord?id=" + id,
             destroy: true,
             columns: [
                 // columns according to JSON
-                { data: "nameContract" },
-                { data: "department" },
-                { data: "salary" },
-                { data: "allowance" },
-                { data: "startDate" },
-                { data: "stopDate" },
+                {data: "name"},
+                {data: "department"},
+                {data: "basicSalary"},
+                {data: "allowance"},
+                {data: "startDate"},
+                {data: "stopDate"},
             ],
             columnDefs: [
-           
+
                 {
                     // Actions
                     targets: 2,
                     orderable: true,
                     render: function (data, type, full, meta) {
                         var html = '';
-                        html = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(full['salary']);
+                        html = new Intl.NumberFormat('vi-VN', {
+                            style: 'currency',
+                            currency: 'VND'
+                        }).format(full['basicSalary']);
                         return html;
                     },
-                 
+
                 },
 
                 {
@@ -494,23 +565,27 @@ function loadRecord(id) {
                     orderable: true,
                     render: function (data, type, full, meta) {
                         var html = '';
-                        html = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(full['allowance']);
+                        html = new Intl.NumberFormat('vi-VN', {
+                            style: 'currency',
+                            currency: 'VND'
+                        }).format(full['allowance']);
                         return html;
                     },
-                 
+
                 },
             ],
-        
+
             language: {
-                sLengthMenu: "Show _MENU_",
-                search: "Search",
-                searchPlaceholder: "Search..",
+                sLengthMenu: "Hiển thị _MENU_",
+                search: "",
+                searchPlaceholder: "Tìm kiếm...",
                 paginate: {
                     // remove previous & next text from pagination
                     previous: "&nbsp;",
                     next: "&nbsp;",
-                }
-            },           
+                },
+                info:"Hiển thị _START_ đến _END_ of _TOTAL_ bản ghi",
+            },
         });
     }
 }

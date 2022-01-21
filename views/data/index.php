@@ -23,12 +23,12 @@
 
                         <div class="col-md-3 data_nhanvien form-group">
                             <label for="tungay">Từ ngày</label>
-                            <input type="text" id="tungay" name="tungay" class="form-control flatpickr-basic" placeholder="DD/MM/YYYY" />
+                            <input type="text" id="tungay" name="tungay" class="form-control flatpickr-basic" placeholder="" />
                         </div>
 
                         <div class="col-md-3 data_nhanvien form-group">
                             <label for="denngay">Đến ngày</label>
-                            <input type="text" id="denngay" name="denngay" class="form-control flatpickr-basic" placeholder="DD/MM/YYYY" />
+                            <input type="text" id="denngay" name="denngay" class="form-control flatpickr-basic" placeholder="" />
                         </div>
                         <button type="button" class="btn btn-icon btn-outline-primary waves-effect" style="margin-top:10px" title="Tìm kiếm" onclick="search()">Tìm kiếm</button>
                     </div>

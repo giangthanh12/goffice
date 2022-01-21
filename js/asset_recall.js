@@ -24,10 +24,10 @@ $(function () {
             ajax: baseHome + "/asset_recall/list",
             columns: [
                 { data: "ngay_gio" },
-                { data: "name_cp" },
+                { data: "code" },
                 { data: "name_taisan" },
                 { data: "ghi_chu" },
-                { data: "" },
+            
             ],
             columnDefs: [
                 {
@@ -37,7 +37,7 @@ $(function () {
                     // User full name and username
                     targets: 1,
                     render: function (data, type, full, meta) {
-                        var $name = full["name_cp"];
+                        var $name = full["code"];
                         // Creates full output for row
                         var $row_output =
                             '<div class="d-flex justify-content-left align-items-center">' +
@@ -61,27 +61,6 @@ $(function () {
                         return $row_output;
                     },
                 },
-
-                
-
-
-               
-                {
-                    // Actions
-                    targets: -1,
-                    title: feather.icons["database"].toSvg({ class: "font-medium-3 text-success mr-50" }),
-                    orderable: false,
-                    render: function (data, type, full, meta) {
-                        var html = '';
-                        html += '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" data-toggle="modal" data-target="#updateinfo" title="Chỉnh sửa" onclick="loaddata(' + full['id'] + ')">';
-                        html += '<i class="fas fa-pencil-alt"></i>';
-                        html += '</button> &nbsp;';
-                        html += '<button type="button" class="btn btn-icon btn-outline-danger waves-effect" title="Xóa" onclick="xoa(' + full['id'] + ')">';
-                        html += '<i class="fas fa-trash-alt"></i>';
-                        html += '</button>';
-                        return html;
-                    },
-                },
             ],
             // order: [[2, "desc"]],
             dom:
@@ -93,23 +72,23 @@ $(function () {
                 '<"col-sm-12 col-md-6"i>' +
                 '<"col-sm-12 col-md-6"p>' +
                 ">",
-            language: {
-                sLengthMenu: "Show _MENU_",
-                search: "Search",
-                searchPlaceholder: "11111111112..",
-            },
+                language: {
+                    sLengthMenu: "Hiển thị _MENU_",
+                    search: "",
+                    searchPlaceholder: "Tìm kiếm...",
+                    paginate: {
+                        // remove previous & next text from pagination
+                        previous: "&nbsp;",
+                        next: "&nbsp;",
+                    },
+                    info:"Hiển thị _START_ đến _END_ of _TOTAL_ bản ghi",
+                },
             // Buttons with Dropdown
             buttons: [
                
             ],
 
-            language: {
-                paginate: {
-                    // remove previous & next text from pagination
-                    previous: "&nbsp;",
-                    next: "&nbsp;",
-                },
-            },
+       
             initComplete: function () {
                 // Adding role filter once table initialized
                 this.api()
@@ -181,31 +160,7 @@ $(function () {
         }
     }
 
-    // Form Validation
-    if (form.length) {
-        form.validate({
-            errorClass: "error",
-            rules: {
-                "user-fullname": {
-                    required: true,
-                },
-                "user-name": {
-                    required: true,
-                },
-                "user-email": {
-                    required: true,
-                },
-            },
-        });
-
-        form.on("submit", function (e) {
-            var isValid = form.valid();
-            e.preventDefault();
-            if (isValid) {
-                modal.modal("hide");
-            }
-        });
-    }
+   
 
     // To initialize tooltip with body container
     $("body").tooltip({
@@ -215,7 +170,14 @@ $(function () {
 });
 
 function loaddata(id) {
-    $(".modal-title").html('Cập nhật thu hồi');
+    $('#btn_add').css('display','none');
+    userFuns.forEach(function (item){
+        if(item.function=='loaddata') {
+         $('#btn_add').css('display','inline-block');
+        }
+    });
+
+    $(".modal-title").html('Thông tin tài sản thu hồi');
     $.ajax({
         type: "POST",
         dataType: "json",
@@ -229,12 +191,10 @@ function loaddata(id) {
             $("#tai_san").attr("disabled", true);
             $("#cap_phat").attr("disabled", true);
             $("#tai_san").val(data.tai_san).trigger('change');
-            $("#cap_phat").val(data.cap_phat).trigger('change');
-        
+            $("#cap_phat").val(data.tai_san).trigger('change');
             $('#tra_coc').val(formatCurrency(data.tra_coc.replace(/[,VNĐ]/g,'')));
             $('#ngay_gio').val(data.ngay_gio);
             $('#ghi_chu').val(data.ghi_chu);
-            url = baseHome + '/asset_recall/update?id=' + id;
         },
         error: function () {
             notify_error('Lỗi truy xuất database');
@@ -244,64 +204,8 @@ function loaddata(id) {
 
 
 
-function saveth() {
-    var myform = new FormData($("#dg")[0]);
-    $.ajax({
-        type: "POST",
-        dataType: "json",
-        data: myform,
-        url: url,
-        contentType: false,
-        processData: false,
-        success: function (data) {
-            if (data.success) {
-                notyfi_success(data.msg);
-                $('#updateinfo').modal('hide');
-                $(".user-list-table").DataTable().ajax.reload(null, false);
-            }
-            else
-                notify_error(data.msg);
-        },
-        error: function () {
-            notify_error('Cập nhật không thành công');
-        }
-    });
-}
 
 
-function xoa(id) {
-  
-    Swal.fire({
-        title: 'Xóa dữ liệu',
-        text: "Bạn có chắc chắn muốn xóa!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Tôi đồng ý',
-        customClass: {
-            confirmButton: 'btn btn-primary',
-            cancelButton: 'btn btn-outline-danger ml-1'
-        },
-        buttonsStyling: false
-    }).then(function (result) {
-        if (result.value) {
-            $.ajax({
-                url: baseHome + "/asset_recall/del",
-                type: 'post',
-                dataType: "json",
-                data: { id: id },
-                success: function (data) {
-                    if (data.success) {
-                        $('.modal').modal('hide');
-                        notyfi_success(data.msg);
-                        $(".user-list-table").DataTable().ajax.reload(null, false);
-                    }
-                    else
-                        notify_error(data.msg);
-                },
-            });
-        }
-    });
-}
 
 
 //format_number so_tien
@@ -319,31 +223,4 @@ $('.format_number').on('input', function(e){
     return  n2.split('').reverse().join('');
 }
 
-
-
-// function checkvali_th() {
-//     var so_luong_th = Number($("#so_luong").val());
-//     var sl_th_old = Number($("#sl_th_old").val());
-//     var id_cp = $("#id_cp").val();
-//     $.ajax({
-//         type: "POST",
-//         dataType: "json",
-//         data: { id: id_cp},
-//         url: baseHome + "/asset_recall/get_slcp",
-//         success: function (data) {
-//             var sl_cp = Number(data.so_luong);
-//             var nummax_th =sl_cp + sl_th_old;
-
-//             if(so_luong_th <= nummax_th && so_luong_th > 0) {
-//                 $("#btn_add").attr("disabled", false);
-//             }else{
-//                 $("#btn_add").attr("disabled", true);
-//             }
-//         },
-//         error: function () {
-//             notify_error('Lỗi truy xuất database');
-//         }
-//     });
-    
-// }
 

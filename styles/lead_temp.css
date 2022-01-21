@@ -1,0 +1,656 @@
+.chat-application .content-area-wrapper {
+    /* border: 1px solid #ebe9f1; */
+    /* border-radius: 0.428rem; */
+    border-top: 1px solid #ebe9f1;
+}
+
+.list-active {
+    background: white;
+}
+
+.lead-temp {
+    display: flex;
+    padding: 0.786rem 1.286rem;
+    border: 1px;
+    border-color: #000000;
+}
+
+.content-header-title {
+    left: 308px;
+    top: 112px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 34px;
+    line-height: 40px;
+    color: #656565;
+    padding-left: 1.286rem;
+    padding-bottom: 1.286rem;
+}
+
+
+/* .lead-btn{
+    align-self: end;
+    padding: 0.438rem 1rem;
+  } */
+
+.btn-statement-red {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    font-family: -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 13px;
+    line-height: 18px;
+    border-radius: 8px;
+    border: none;
+    color: #fff;
+    background: #F44336;
+    background-origin: border-box;
+    user-select: none;
+    -webkit-user-select: none;
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+    padding: 4px;
+}
+
+.btn-statement-orange {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    font-family: -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 13px;
+    line-height: 18px;
+    border-radius: 8px;
+    border: none;
+    color: #fff;
+    background: #F58634;
+    background-origin: border-box;
+    user-select: none;
+    -webkit-user-select: none;
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+    padding: 4px;
+}
+
+.btn-statement-yellow {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    font-family: -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 13px;
+    line-height: 18px;
+    border-radius: 8px;
+    border: none;
+    color: #fff;
+    background: #FFC043;
+    background-origin: border-box;
+    user-select: none;
+    -webkit-user-select: none;
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+    padding: 4px;
+}
+
+.btn-statement-blue {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    font-family: -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 13px;
+    line-height: 18px;
+    border-radius: 8px;
+    border: none;
+    color: #fff;
+    background: #006FBD;
+    background-origin: border-box;
+    user-select: none;
+    -webkit-user-select: none;
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+    padding: 4px;
+}
+
+.btn-statement-green {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    font-family: -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 13px;
+    line-height: 18px;
+    border-radius: 8px;
+    border: none;
+    color: #fff;
+    background: #5AB163;
+    background-origin: border-box;
+    user-select: none;
+    -webkit-user-select: none;
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+    padding: 4px;
+}
+
+.customer-name label {
+    font-family: -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 19px;
+    letter-spacing: 0.5px;
+    color: #000000;
+    padding-bottom: 15px;
+    padding-top: 10px;
+    max-width: 13.75em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.customer-info label {
+    font-family: -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 14px;
+    letter-spacing: 0.4px;
+    color: #006FBD;
+    padding: 5px 0;
+}
+
+.icon-sidebar-left {
+    float: right;
+    margin: 1.5rem 1rem 1.286rem 1rem
+}
+
+.icon-sidebar-left .bx {
+    cursor: pointer;
+}
+
+.icon-dots {
+    padding-bottom: 15px;
+    padding-top: 10px;
+    cursor: pointer;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    font-family: -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+    background-color: #f9f9f9;
+    /* min-width: 160px; */
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    right: 0;
+}
+
+.dropdown-content span {
+    color: black;
+    padding: 15px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content span:hover {
+    background-color: #f1f1f1;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+
+/* .dropdown:hover .icon-dots {
+    background-color: #f1f1f1;
+} */
+
+.btn-statement {
+    align-self: flex-end;
+}
+
+.content-right-detail {
+    padding: 15px;
+}
+
+.content-right-detail label {
+    font-family: -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 23px;
+    letter-spacing: 0.15px;
+    color: #000000;
+    margin: 0 1rem;
+}
+
+.content-right-icon .bx {
+    cursor: pointer;
+    float: right;
+    padding-bottom: 15px;
+    padding-top: 10px;
+}
+
+.content-right-info {
+    font-family: -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 19px;
+    letter-spacing: 0.5px;
+    color: #000000;
+    padding: 1rem;
+}
+
+.content-right-info p {
+    padding-bottom: 0.5rem;
+}
+
+.takecare-item {
+    height: inherit;
+    background: #E6E6E6;
+    border-radius: 8px;
+}
+
+
+/* .takecare-history {
+    font-family: -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 19px;
+    letter-spacing: 0.5px;
+    color: #000000;
+    padding: 1rem;
+} */
+
+.takecare-history-detail,
+.record-history-detail
+ {
+    font-family: -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 19px;
+    letter-spacing: 0.5px;
+    color: #000000;
+    padding: 1rem;
+}
+
+.takecare-history,
+.record-history {
+    padding: 15px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 23px;
+    letter-spacing: 0.15px;
+    color: #000000;
+    margin: 0 1rem;
+}
+
+.takecare-history label {
+    font-family: -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 23px;
+    letter-spacing: 0.15px;
+    color: #000000;
+    margin: 0 1rem;
+}
+
+.icon-sidebar-left .bx {
+    cursor: pointer;
+    float: right;
+    padding-bottom: 15px;
+    padding-top: 10px;
+}
+
+.chat-application .chat-profile-sidebar {
+    border-right: 1px solid #ebe9f1;
+    height: inherit;
+    width: 360px;
+    border-radius: 0.25rem;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    position: absolute;
+    background-color: #fff;
+    transform: translateX(-110%);
+    transition: all 0.3s ease, background 0s, border 0s, color 0s;
+    z-index: 6;
+}
+
+.chat-application .chat-profile-sidebar.show {
+    transform: translateX(0);
+    transition: all 0.3s ease, background 0s, border 0s, color 0s;
+}
+
+.chat-application .chat-profile-sidebar .chat-profile-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 200px;
+    text-align: center;
+}
+
+.chat-application .chat-profile-sidebar .chat-profile-header .avatar {
+    margin-bottom: 1.25rem;
+}
+
+.chat-application .chat-profile-sidebar .profile-sidebar-area {
+    height: calc(100% - 200px);
+    position: relative;
+    padding: 0 2rem 1.5rem;
+}
+
+.chat-application .close-icon {
+    position: absolute;
+    top: 0.85rem;
+    right: 1rem;
+    cursor: pointer;
+}
+
+.chat-application .sidebar-close-icon svg,
+.chat-application .sidebar-close-icon i,
+.chat-application .close-icon svg,
+.chat-application .close-icon i {
+    font-size: 1.143rem;
+    height: 1.143rem;
+    width: 1.143rem;
+}
+
+.chat-application .avatar-border img {
+    border: 2px solid #fff;
+}
+
+.chat-application .sidebar-content {
+    background-color: #E6E6E6;
+    /* border-right: 1px solid #ebe9f1; */
+    height: inherit;
+    width: 360px;
+    border-radius: 0.25rem;
+    /* border-top-right-radius: 0;
+    border-bottom-right-radius: 0; */
+    margin: 0;
+    box-shadow: none;
+}
+
+.chat-application .sidebar-content .sidebar-close-icon {
+    position: absolute;
+    right: 0.25rem;
+    top: 0.25rem;
+    font-size: 1.25rem;
+    z-index: 1;
+    cursor: pointer;
+    visibility: hidden;
+}
+
+.chat-application .sidebar-content .chat-fixed-search {
+    width: 360px;
+    border-bottom: 1px solid #ebe9f1;
+    padding: 0 1.286rem;
+    height: 65px;
+    display: flex;
+}
+
+.chat-application .sidebar-content .chat-fixed-search .sidebar-profile-toggle .avatar {
+    display: inline-table;
+}
+
+.chat-application .sidebar-content .chat-fixed-search .input-group:focus-within {
+    background-color: transparent;
+    box-shadow: none;
+}
+
+.chat-application .sidebar-content .chat-list-title {
+    color: #000000;
+    margin: 2rem 1.286rem 1rem;
+    font-family: -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 23px;
+    letter-spacing: 0.15px;
+    padding-left: 0 0 0 1rem;
+}
+
+.chat-application .sidebar-content .chat-user-list-wrapper {
+    position: relative;
+    height: 100%;
+    width: 360px;
+    border-radius: 0;
+}
+
+.chat-application .sidebar-content .chat-user-list-wrapper .avatar {
+    height: 42px;
+}
+
+.chat-application .sidebar-content .chat-user-list-wrapper .avatar [class*='avatar-status-'] {
+    right: 1px;
+    bottom: 1px;
+}
+
+.chat-application .sidebar-content .chat-user-list-wrapper .contact-list .chat-info {
+    width: calc(100% - 46px);
+    padding-right: 0;
+}
+
+.chat-application .sidebar-content .chat-user-list-wrapper .no-results {
+    padding: 0.786rem 1.286rem;
+    display: none !important;
+}
+
+.chat-application .sidebar-content .chat-user-list-wrapper .no-results.show {
+    display: block !important;
+}
+
+.chat-application .sidebar-content .chat-user-list-wrapper ul {
+    padding-left: 0;
+    margin-bottom: 0;
+}
+
+.chat-application .sidebar-content .chat-user-list-wrapper li {
+    display: flex;
+    padding: 0.786rem 1.286rem;
+}
+
+.chat-application .sidebar-content .chat-user-list-wrapper li .chat-info {
+    /* margin-top: 0.3rem; */
+    width: calc(100% - 46px - 46px);
+    /* padding: 0 0.75rem; */
+}
+
+.chat-application .sidebar-content .chat-user-list-wrapper li .chat-info .card-text,
+.chat-application .sidebar-content .chat-user-list-wrapper li .chat-info p {
+    color: #b9b9c3;
+}
+
+.chat-application .sidebar-content .chat-user-list-wrapper li .chat-time {
+    color: #b9b9c3;
+}
+
+.chat-application .sidebar-content .chat-user-list-wrapper li:hover {
+    cursor: pointer;
+    background: #FFFFFF;
+}
+
+.chat-application .sidebar-content .chat-user-list-wrapper li.active {
+    background-image: #FFFFFF;
+    background-repeat: repeat-x;
+}
+
+.chat-application .sidebar-content .chat-user-list-wrapper li.focus {
+    background-image: #FFFFFF;
+    background-repeat: repeat-x;
+}
+
+.chat-application .sidebar-content .chat-user-list-wrapper li.active h1,
+.chat-application .sidebar-content .chat-user-list-wrapper li.active h2,
+.chat-application .sidebar-content .chat-user-list-wrapper li.active h3,
+.chat-application .sidebar-content .chat-user-list-wrapper li.active h4,
+.chat-application .sidebar-content .chat-user-list-wrapper li.active h5,
+.chat-application .sidebar-content .chat-user-list-wrapper li.active h6,
+.chat-application .sidebar-content .chat-user-list-wrapper li.active .card-text,
+.chat-application .sidebar-content .chat-user-list-wrapper li.active .chat-time {
+    color: #fff;
+}
+
+.chat-application .sidebar-content .chat-user-list-wrapper li img {
+    border: 2px solid #fff;
+}
+
+.chat-application .chat-app-window {
+    height: 100%;
+}
+
+.chat-application .chat-app-window .start-chat-area,
+.chat-application .chat-app-window .user-chats {
+    background-color: #FFFFFF;
+    background-repeat: repeat;
+    background-size: 210px;
+    height: inherit;
+}
+
+.chat-application .chat-app-window .user-chats .active-chat {
+    background: #6e6b7b;
+}
+
+.chat-application .chat-app-window .start-chat-area {
+    height: inherit;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.chat-application .chat-app-window .start-chat-area .start-chat-icon,
+.chat-application .chat-app-window .start-chat-area .start-chat-text {
+    background: #fff;
+    box-shadow: 0 4px 8px 0 rgba(34, 41, 47, 0.12) !important;
+    color: #6e6b7b;
+}
+
+.chat-application .chat-app-window .start-chat-area .start-chat-text {
+    padding: 0.5rem 1rem;
+    border-radius: calc(0.357rem * 4);
+    cursor: pointer;
+}
+
+.chat-application .chat-app-window .start-chat-area .start-chat-icon {
+    border-radius: 50%;
+    padding: 2rem;
+}
+
+.chat-application .chat-app-window .start-chat-area .start-chat-icon svg,
+.chat-application .chat-app-window .start-chat-area .start-chat-icon i {
+    height: 4rem;
+    width: 4rem;
+    font-size: 4rem;
+}
+
+.chat-application .user-profile-sidebar {
+    width: 360px;
+    border-radius: 0.25rem;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    background-color: #fff;
+    position: absolute;
+    transform: translateX(110%);
+    transition: all 0.3s ease, background 0s, border 0s, color 0s;
+    z-index: 6;
+    right: 0;
+    bottom: 0;
+    top: 0;
+}
+
+.chat-application .user-profile-sidebar.show {
+    transform: translateX(0%);
+    transition: all 0.3s ease, background 0s, border 0s, color 0s;
+}
+
+.chat-application .user-profile-sidebar .user-profile-header .header-profile-sidebar {
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+    width: 100%;
+}
+
+.chat-application .user-profile-sidebar .user-profile-header .avatar {
+    margin-bottom: 1.25rem;
+}
+
+.chat-application .user-profile-sidebar .user-profile-sidebar-area {
+    position: relative;
+    height: calc(100% - 200px);
+    padding: 0 2rem 1.5rem;
+}
+
+@media (max-width: 991.98px) {
+    .content-right {
+        width: 100%;
+    }
+    .chat-application .sidebar-content {
+        transform: translateX(-110%);
+        transition: all 0.3s ease-in-out;
+        position: absolute;
+        z-index: 5;
+    }
+    .chat-application .sidebar-content.show {
+        transform: translateX(0);
+        transition: all 0.3s ease;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .chat-application .sidebar-content .sidebar-close-icon {
+        visibility: visible;
+        top: 15px;
+        right: 0;
+        padding: 0.65rem;
+        line-height: 1;
+    }
+    .chat-application .sidebar-content .chat-fixed-search {
+        padding-right: 2.5rem;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .chat-application .sidebar {
+        position: unset !important;
+    }
+    .chat-application .sidebar-content {
+        width: 100%;
+    }
+    .chat-application .sidebar-content .chat-fixed-search,
+    .chat-application .sidebar-content .chat-user-list-wrapper {
+        width: 100%;
+    }
+    .chat-application .chat-profile-sidebar {
+        width: 100%;
+    }
+    .chat-application .user-profile-sidebar {
+        width: 100%;
+    }
+}

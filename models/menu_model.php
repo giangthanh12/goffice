@@ -34,7 +34,9 @@ class menu_Model extends Model
     }
     function get_data_combo($type){
         $result = array();
-        $dieukien = " WHERE active=1 AND type=$type";
+        $dieukien = " WHERE active=1 ";
+        if($type>0)
+            $dieukien.=" AND type=$type ";
         $query = $this->db->query("SELECT COUNT(1) AS dem FROM g_menus $dieukien ");
       
         $temp = $query->fetchAll(PDO::FETCH_ASSOC);

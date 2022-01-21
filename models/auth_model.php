@@ -9,9 +9,10 @@ class Auth_Model extends Model
   function checkIn($username, $password)
   {
     $query = $this->db->query("SELECT id, username, staffId,classify,groupId,token, extNum, sipPass,
+        (SELECT accesspoints FROM staffs WHERE id=staffId) AS accesspoints,
           (SELECT name FROM staffs WHERE id=staffId) AS staffName,
        (SELECT email FROM staffs WHERE id=staffId) AS email,
-          (SELECT IF(avatar='',CONCAT('" . URLFILE . "','/uploads/useravatar.png'),CONCAT('" . URLFILE . "/',avatar)) FROM staffs WHERE id=staffId) AS avatar
+          (SELECT avatar FROM staffs WHERE id=staffId) AS avatar
         /*(SELECT ip FROM branch WHERE branch.id=(SELECT branch FROM laborcontract
         WHERE laborcontract.staffId=users.staffId LIMIT 1)) AS ipBranch */
           FROM users WHERE status=1 AND usernameMd5 = '$username' AND password = '$password'");
@@ -25,7 +26,7 @@ class Auth_Model extends Model
   function updateDeadline()
   {
     $today = date('Y-m-d', strtotime('+ 2 day'));
-    $query = $this->update("task", ['status' => 3, 'label' => 'Deadline'], " status IN (1,2) AND deadline<'$today' ");
+    $query = $this->update("tasks", ['status' => 3], " status IN (1,2) AND deadline<'$today' ");
     return $query;
   }
 

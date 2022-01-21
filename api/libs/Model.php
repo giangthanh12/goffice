@@ -43,7 +43,7 @@ class Model {
     }
  /////////////////////////////////// end cac ham phu khac /////////////////////////////////////////
 //  send mail
-    function sendmail($from, $tolist, $cclist, $bcc, $subject, $noidung,$textpart)
+    function sendmail($from, $tolist, $cclist, $bcc, $subject, $noidung, $textpart)
     {
         $mailjetApiKey = '2af6c853730029edd01747dfb4a82947';
         $mailjetApiSecret = '045cdbb126cc83131834e072d226bdb0';
@@ -51,7 +51,7 @@ class Model {
             'From' => $from,
             'To' => $tolist,
             "Cc" => $cclist,
-            "Bcc" => $bcc,
+            "Bcc" => $bcc,  
             'Subject' => $subject,
             'TextPart' => $textpart,
             'HTMLPart' => $noidung

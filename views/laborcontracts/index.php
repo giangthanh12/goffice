@@ -44,66 +44,71 @@
                                     <!-- <input type="hidden" id="id" name="id" /> -->
                                     <div class="card">
                                         <div class="card-body">
-                                            <form class="form-validate" enctype="multipart/form-data" id="dg">
+                                            <form class="form-validate" enctype="multipart/form-data" id="fm">
                                                 <div class="row mt-1">
-                                                    <div class="col-md-6 form-group">
+                                                    <div class="col-md-4 form-group">
                                                         <label for="name">Tên hợp đồng</label>
-                                                        <input id="name" name="name" type="text" class="form-control" />
+                                                        <input id="name" name="name" type="text" class="form-control" required />
                                                     </div>
-                                                    <div class="col-md-6 form-group">
+                                                    <div class="col-md-4 form-group">
                                                         <label for="type">Loại hợp đồng</label>
-                                                        <select id="type" class="form-control" name="type">
+                                                        <select id="type" class="form-control" name="type" required>
                                                         </select>
                                                     </div>
-                                                    <div class="col-md-6 col-md-6 form-group">
+                                                    <div class="col-md-4 form-group">
                                                         <label for="staffId">Nhân viên</label>
-                                                        <select id="staffId" class="select2 form-control" name="staffId">
+                                                        <select id="staffId" class="select2 form-control" name="staffId" required>
                                                         </select>
                                                     </div>
-                                                    <div class="col-md-6 form-group">
+                                                    <div class="col-md-4 form-group">
                                                         <label for="departmentId">Phòng ban</label>
-                                                        <select id="departmentId" class="form-control" name="departmentId">
+                                                        <select id="departmentId" class="form-control" name="departmentId" required>
                                                         </select>
                                                     </div>
-                                                    <div class="col-md-6 form-group">
+                                                    <div class="col-md-4 form-group">
                                                         <label for="position">Vị trí</label>
-                                                        <select id="position" class="form-control" name="position">
+                                                        <select id="position" class="form-control" name="position" required>
                                                         </select>
                                                     </div>
-                                                    <div class="col-md-6 form-group">
+                                                    <div class="col-md-4 form-group">
                                                         <label for="branchId">Chi nhánh</label>
-                                                        <select id="branchId" class="form-control" name="branchId">
+                                                        <select id="branchId" class="form-control" name="branchId" required>
                                                         </select>
                                                     </div>
-                                                    <div class="col-md-6 form-group">
+                                                    <div class="col-md-4 form-group">
+                                                        <label for="insuranceSalary">Địa điểm làm việc</label>
+                                                        <select id="workPlaceId" class="form-control" name="workPlaceId" required>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-4 form-group">
+                                                        <label for="insuranceSalary">Phân ca</label>
+                                                        <select id="shiftId" class="form-control" name="shiftId" required>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-4 form-group">
                                                         <label for="basicSalary">Lương cơ bản</label>
-                                                        <input id="basicSalary" type="text" class="form-control format_number" name="basicSalary" />
+                                                        <input id="basicSalary" type="text" class="form-control format_number" name="basicSalary" onkeyup="this.value=Comma(this.value)" required/>
                                                     </div>
-                                                    <div class="col-md-6 form-group">
+                                                    <div class="col-md-4 form-group">
                                                         <label for="salaryPercentage">Tỉ lệ lương (%)</label>
-                                                        <input id="salaryPercentage" type="text" class="form-control" name="salaryPercentage" />
+                                                        <input id="salaryPercentage" type="text" class="form-control" name="salaryPercentage" value="100" required/>
                                                     </div>
 
-                                                    <div class="col-md-6 form-group">
-                                                        <label for="insuranceSalary">Lương bảo hiểm</label>
-                                                        <input id="insuranceSalary" type="text" class="form-control format_number" name="insuranceSalary" />
-                                                    </div>
-
-                                                    <div class="col-md-6 form-group">
+                                                    <div class="col-md-4 form-group">
                                                         <label for="allowance">Phụ cấp</label>
-                                                        <input id="allowance" type="text" class="form-control format_number" name="allowance" />
+                                                        <input id="allowance" type="text" class="form-control format_number" name="allowance" onkeyup="this.value=Comma(this.value)" />
                                                     </div>
 
-                                                    <div class="col-md-6 form-group">
-                                                        <label for="startDate">Ngày ký hợp đồng</label>
-                                                        <input type="text" id="startDate" name="startDate" class="form-control flatpickr-basic" placeholder="DD/MM/YYYY" />
+                                                    <div class="col-md-4 form-group">
+                                                        <label for="startDate">Ngày bắt đầu</label>
+                                                        <input type="text" id="startDate" name="startDate" class="form-control flatpickr-basic" placeholder="" required/>
                                                     </div>
 
-                                                    <div class="col-md-6 form-group">
+                                                    <div class="col-md-4 form-group">
                                                         <label for="stopDate">Ngày kết thúc</label>
-                                                        <input type="text" id="stopDate" name="stopDate" class="form-control flatpickr-basic" placeholder="DD/MM/YYYY" />
+                                                        <input type="text" id="stopDate" name="stopDate" class="form-control flatpickr-basic" placeholder="" />
                                                     </div>
-                                                    <div class="col-md-6 col-md-6 form-group">
+                                                    <div class="col-md-4 form-group">
                                                         <label for="status">Tình trạng</label>
                                                         <select id="status" class="select2 form-control" name="status">
                                                             <option value="">Chọn tình trạng</option>
@@ -111,7 +116,7 @@
                                                             <option value="2">Đã kết thúc</option>
                                                         </select>
                                                     </div>
-                                                    <div class="col-md-6 form-group">
+                                                    <div class="col-md-4 form-group">
                                                         <label for="description">Ghi chú</label>
                                                         <input type="text" id="description" name="description" type="text" class="form-control " />
                                                     </div>

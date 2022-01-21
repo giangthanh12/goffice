@@ -28,7 +28,8 @@ class data extends Controller
             'field' => $json['data']['field'],
             'note' => $json['data']['note'],
             'taxCode' => $json['data']['taxCode'],
-            'note' => $json['data']['note']
+            'note' => $json['data']['note'],
+            'status' => 1
         ];
         $customerId = $this->model->addCustomer($dataId, $data);
         if ($customerId>0) {

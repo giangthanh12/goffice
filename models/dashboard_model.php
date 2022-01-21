@@ -33,7 +33,8 @@ class dashboard_Model extends Model{
 
     function getactive($users){
         $result = array();
-        $query = $this->db->query("SELECT id,name,hinh_anh FROM nhanvien WHERE id IN ($users) ");
+        $currentId = $_SESSION['user']['staffId'];
+        $query = $this->db->query("SELECT id,name,avatar FROM staffs WHERE id IN ($users) AND id!=$currentId");
         if ($query)
             $result = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;

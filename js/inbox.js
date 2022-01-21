@@ -339,7 +339,7 @@ $(function () {
                 syntax: true,
                 toolbar: ".compose-editor-toolbar",
             },
-            placeholder: "Message",
+           // placeholder: "Message",
             theme: "snow",
         });
     }

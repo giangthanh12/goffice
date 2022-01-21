@@ -145,7 +145,7 @@
                                         </div>
                                         <div class="form-group my-1">
                                        
-                                                <button type="submit" style="display:none;" id="updateProject" class="btn btn-primary">Cập nhật</button>
+                                                <button type="submit" style="display:none;" id="updateProject" class="btn btn-primary"></button>
                                            
                                             <button type="button" class="btn btn-outline-secondary" id="btn_boqua" data-dismiss="modal">Bỏ qua</button>
                                             <?php if(functions::checkFuns($this->funs, 'del')) { ?>

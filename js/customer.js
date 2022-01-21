@@ -11,7 +11,8 @@ $(function () {
     return_combobox_multi('#nationalId1', baseHome + '/customer/getNational', 'Chọn quốc gia');
     return_combobox_multi('#provinceId', baseHome + '/customer/getProvince', 'Chọn tỉnh thành');
     return_combobox_multi('#provinceId1', baseHome + '/customer/getProvince', 'Chọn tỉnh thành');
-    return_combobox_multi('#provinceId2', baseHome + '/customer/getProvince', 'Chọn tỉnh thành');
+    // return_combobox_multi('#provinceId2', baseHome + '/customer/getProvince', 'Chọn tỉnh thành');
+    load_select2($('#provinceId2'), baseHome + '/customer/getProvince','Chọn tỉnh thành');
     $('#provinceId2').val('').change();
     $('#classify').select2({
         placeholder: 'Phân loại khách hàng',
@@ -21,7 +22,11 @@ $(function () {
         placeholder: 'Loại hình hoạt động',
         dropdownParent: $('#type').parent(),
     });
-
+    $("#classify3").select2({
+        placeholder: 'Phân loại khách hàng',
+        dropdownParent: $("#classify3").parent(),
+    });
+    $("#classify3").val('').change();
     $('#type2').select2({
         placeholder: 'Loại hình hoạt động',
         dropdownParent: $('#type2').parent(),
@@ -39,7 +44,7 @@ $(function () {
      var table =   dtUserTable.DataTable({
             // ajax: assetPath + "data/user-list.json", // JSON file to add data
             ajax: baseHome + "/customer/list",
-            // autoWidth: true,
+            autoWidth: false,
             ordering: false,
             columns: [
                 { data: "fullName" },
@@ -49,7 +54,7 @@ $(function () {
                 { data: "field"},
                 { data: "classify"},
                 { data: "type"},
-                { data: "province"},
+                { data: "provinceId"},
                 { data: "address"},
                 { data: "" },
             ],
@@ -140,7 +145,7 @@ $(function () {
                         html += '</button></div>';
                         return html;
                     },
-                    width:200
+                    width:"15%"
                 },
             ],
             // order: [[2, "desc"]],
@@ -153,16 +158,17 @@ $(function () {
                 '<"col-sm-12 col-md-6"i>' +
                 '<"col-sm-12 col-md-6"p>' +
                 ">",
-            language: {
-                sLengthMenu: "Show _MENU_",
-                search: "Search",
-                searchPlaceholder: "Tìm kiếm...",
-                paginate: {
-                    // remove previous & next text from pagination
-                    previous: "&nbsp;",
-                    next: "&nbsp;",
+                language: {
+                    sLengthMenu: "Hiển thị _MENU_",
+                    search: "",
+                    searchPlaceholder: "Tìm kiếm...",
+                    paginate: {
+                        // remove previous & next text from pagination
+                        previous: "&nbsp;",
+                        next: "&nbsp;",
+                    },
+                    info:"Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
                 },
-            },
             // Buttons with Dropdown
             buttons: [
                 {
@@ -181,7 +187,11 @@ $(function () {
                         $('#staffId').val('').change();
                         $('#nationalId').val(1);
                         $('#provinceId').val('').change();
-                        $('#status').val('1').attr("disabled", true);
+                        $('#status').select2({
+                            placeholder: 'Trạng thái',
+                            dropdownParent: $('#status').parent(),
+                        });
+                        $('#status').val('').change();
                     },
                 },
                 {
@@ -196,41 +206,6 @@ $(function () {
                 },
             ],
 
-            initComplete: function () {
-                // Adding role filter once table initialized
-             var api =   this.api();
-                 api.columns(5)
-                    .every(function () {
-                        var column = this;
-                     
-                        $("#classify2").select2({
-                                placeholder: 'Phân loại khách hàng',
-                                dropdownParent: $("#classify2").parent(),
-                            });
-                            $("#classify2").on("change", function () {
-                                var val = $.fn.dataTable.util.escapeRegex($(this).val());
-                                column.search(val ? "^" + val + "$" : "", true, false).draw();
-                            });
-
-                        column
-                            .data()
-                            .unique()
-                            .sort()
-                            .each(function (d, j) {
-                                var $stt_output = "";
-                                if (d == 1) {
-                                    $stt_output = "Khách hàng";
-                                } else if (d == 2) {
-                                    $stt_output = "Đối tác";
-                                }
-                                if ($stt_output != '') {
-                                    $("#classify2").append('<option value="' + d + '" class="text-capitalize">' + $stt_output + "</option>");
-                                }
-                            });
-                           
-                            $("#classify2").val('').change(); // sau khi thêm option mới thêm val('');
-                    });
-            },
         });
 
     }
@@ -238,18 +213,51 @@ $(function () {
     // lọc tỉnh
 
     $('#provinceId2').change(function() {
-        table.column($(this).data('column'))
-             .search($(this).val())
-             .draw()
+             if($(this).val() == 0) {
+                table.column($(this).data('column'))
+                .search('')
+                 .draw()
+            }
+            else {
+                table.column($(this).data('column'))
+                .search($(this).val())
+                .draw()
+            }
     })
+   // lọc phân loại
+    $('#classify3').change(function() {
+        if($(this).val() == 0) {
+            table.column($(this).data('column'))
+            .search('')
+             .draw()
+        }
+        else {
+            table.column($(this).data('column'))
+            .search($(this).val())
+            .draw()
+        }
+       
+    })
+
 
     // lọc loại hình hoạt động
-
     $('#type2').change(function() {
-        table.column($(this).data('column'))
-             .search($(this).val())
+      
+        if($(this).val() == 0) {
+            table.column($(this).data('column'))
+            .search('')
              .draw()
+        }
+        else {
+            table.column($(this).data('column'))
+            .search($(this).val())
+            .draw()
+        }
+       
     })
+    // 
+
+    
 
     // Check Validity
     function checkValidity(el) {
@@ -280,6 +288,24 @@ $(function () {
                 "status": {
                     required: true,
                 },
+                
+            },
+            messages: {
+                "fullName": {
+                    required: "Bạn chưa nhập tên",
+                },
+                "phoneNumber": {
+                    required: "Bạn chưa nhập số điện thoại",
+                },
+                "email": {
+                    required: "Bạn chưa nhập địa chỉ email",
+                },
+                "website": {
+                    required: "Bạn chưa nhập địa chỉ website của bạn",
+                },
+                "status": {
+                    required: "Bạn chưa cập nhật trạng thái",
+                },
             },
         });
 
@@ -299,6 +325,9 @@ $(function () {
                 "fullName1": {
                     required: true,
                 },
+                "shortName": {
+                    required: true,
+                },
                 "phoneNumber1": {
                     required: true,
                 },
@@ -308,6 +337,23 @@ $(function () {
                 "website1": {
                     required: true,
                 },
+            },
+            messages: {
+                "shortName": {
+                    required: "Bạn chưa nhập tên ngắn",
+                },
+                "fullName1": {
+                    required: "Bạn chưa nhập tên",
+                },
+                "phoneNumber1": {
+                    required: "Bạn chưa nhập số điện thoại",
+                },
+                "email1": {
+                    required: "Bạn chưa nhập địa chỉ email!",
+                },
+                "website1": {
+                    required: "Bạn chưa nhập địa chỉ website của bạn",
+                }
             },
         });
 
@@ -361,8 +407,8 @@ function loaddata(id) {
             $('#classify1').val(data.classify);
             $('#type1').val(data.type).change();
             $('#nationalId1').val(data.nationalId).change();
-            $('#provinceId1').val(data.province).change();
-            $('#status1').val(data.status).attr("disabled", true);
+            $('#provinceId1').val(data.provinceId).change();
+            $('#status1').val(data.status).change();
             loaddichvu(id);
             loadTransaction(id);
         },
@@ -574,7 +620,6 @@ function saveedit() {
         }
     });
 }
-
 function del(id) {
     Swal.fire({
         title: 'Xóa dữ liệu',
@@ -636,11 +681,68 @@ function savenhap() {
     });
 }
 
-
-
-
-
-
-
-
-
+function load_select2(select2, url, place) {
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        async: false,
+        url: url,
+        success: function (data) {
+           var html ='';
+            if(place != '')
+            html = '<option value="0" >Tất cả</option>';
+            data.forEach(function (element, index) {
+                if (element.selected==true) 
+                var select = 'selected';
+                html += `<option data-img="${element.hinh_anh}" ${select} value="${element.id}">${element.text}</option> `;
+            });
+     
+            select2.html(html);
+            select2.wrap('<div class="position-relative"></div>').select2({
+                placeholder: place,
+                dropdownParent: select2.parent(),
+              
+            });
+        },
+    });
+}
+$(document).on('blur','.phoneNumber', function() {
+   var id = $(this).data('id');
+   var phone = $(this).val();
+   var idCustomer = khid;
+   if(id == 'phoneNumber') {
+    idCustomer = 0;
+   }
+    
+    if(phone != '' && phone.toString().length >= 10 ) { 
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            data: {phone:phone, idCustomer:idCustomer},
+            url: baseHome + "/customer/checkPhone",
+            success: function (data) {
+                if (data.success) {
+                    notyfi_success(data.msg);
+                    if(id == 'phoneNumber') {
+                        $('.btn-add-customer').prop('disabled', false);
+                    }
+                    else {
+                        $('.btn-update-customer').prop('disabled', false);
+                    }
+                }
+                else {
+                    if(id == 'phoneNumber') {
+                        $('.btn-add-customer').prop('disabled', true);
+                    }
+                    else {
+                        $('.btn-update-customer').prop('disabled', true);
+                    }
+                    notify_error(data.msg);
+                }
+            },
+            error: function(){
+                notify_error('Số điện thoại đã tồn tại');
+            }
+        });
+    }
+})

@@ -4,6 +4,68 @@ class Nhansu_Model extends Model{
         parent::__construct();
     }
 
+    function getData()
+    {
+        $result = array();
+        $query = $this->db->query("SELECT id,name,
+            IFNULL((SELECT name FROM position WHERE id=(SELECT position FROM laborcontract WHERE staffId = a.id ORDER BY id DESC LIMIT 1)),'') AS position,
+            IF(avatar='',CONCAT('" . URLFILE . "','/uploads/useravatar.png'),CONCAT('" . URLFILE . "/',avatar)) AS avatar,status
+            FROM staffs a WHERE status > 0 ORDER BY id DESC ");
+        if ($query) {
+            $result = $query->fetchAll(PDO::FETCH_ASSOC);
+            return $result;
+        } else {
+            return 0;
+        }
+    }
+
+    function detailStaff($staffId) {
+        $result = array();
+        $query = $this->db->query("SELECT id, name, email, gender,birthDay,address,phoneNumber,
+            IFNULL((SELECT name FROM position WHERE id=(SELECT position FROM laborcontract WHERE staffId=a.id ORDER BY id DESC LIMIT 1)),'') AS position,
+            IFNULL((SELECT name FROM province WHERE id=a.province),'') AS provinceName,residence,idCard,idDate,
+            IFNULL((SELECT name FROM province WHERE id=a.idAddress),'') AS idAddress,taxCode,
+            IF(maritalStatus=1,'Đã kết hôn','Chưa kết hôn') AS maritalStatus,
+            IFNULL((SELECT name FROM national WHERE id=a.nationality),'') AS nationality,description,vssId,
+            IF(avatar='',CONCAT('" . URLFILE . "','/uploads/useravatar.png'),CONCAT('" . URLFILE . "/',avatar)) AS avatar,status
+            FROM staffs a WHERE id=$staffId ");
+        if ($query) {
+            $result = $query->fetchAll(PDO::FETCH_ASSOC);
+            foreach($result as $key => $item) {
+                $gender = $item['gender'];
+                if($gender == 1) {
+                    $result[$key]['gender'] = 'Nam';
+                } else if ($gender == 2) {
+                    $result[$key]['gender'] = 'Nữ';
+                } else {
+                    $result[$key]['gender'] = 'Khác';
+                }
+            }
+            return $result;
+        }else{
+            return 0;
+        }
+    }
+
+    function filterStaff($status) {
+        $result = array();
+        $dieukien = "";
+        if ($status != '')
+            $dieukien .= " WHERE status=$status ";
+        else
+            $dieukien .= " WHERE status>0 ";
+        $query = $this->db->query("SELECT id,name,
+        IFNULL((SELECT name FROM position WHERE id=(SELECT position FROM laborcontract WHERE staffId = a.id ORDER BY id DESC LIMIT 1)),'') AS position,
+        IF(avatar='',CONCAT('" . URLFILE . "','/uploads/useravatar.png'),CONCAT('" . URLFILE . "/',avatar)) AS avatar,status
+        FROM staffs a $dieukien ORDER BY id DESC ");
+        if ($query) {
+            $result = $query->fetchAll(PDO::FETCH_ASSOC);
+            return $result;
+        } else {
+            return 0;
+        }
+    }
+
     // function getnhanvien(){
     //     $nhanvien = array();
     //     $query = $this->db->query("SELECT id, name, email, dien_thoai, 'Hanoi' AS chinhanh, 'Kinh doanh' AS phongban, tinh_trang, hinh_anh
@@ -35,8 +97,8 @@ class Nhansu_Model extends Model{
 
     function getProfile($staffid){
         $result = array();
-        $query = $this->db->query("SELECT id, name, email, gender,birthDay,address,phoneNumber,province,
-            IFNULL((SELECT name FROM province WHERE id=province),'') AS provinceName,residence,idCard,idDate,
+        $query = $this->db->query("SELECT id, name, email, gender,IF(birthDay='0000-00-00','1970-01-01',birthDay) AS birthDay,address,phoneNumber,province,
+            IFNULL((SELECT name FROM province WHERE id=province),'') AS provinceName,residence,idCard,IF(idDate='0000-00-00','1970-01-01',idDate) AS idDate,
             idAddress,taxCode,maritalStatus,nationality,description,vssId,
             IF(avatar='','uploads/useravatar.png',avatar) AS avatar
             FROM staffs WHERE id=$staffid ");

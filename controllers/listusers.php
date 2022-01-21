@@ -41,6 +41,7 @@ class listusers extends Controller
         echo json_encode($jsonObj);
     }
 
+
     function add()
     {
         $username = $_POST['username'];
@@ -94,7 +95,7 @@ class listusers extends Controller
         $password = $_POST['password'];
         $data = [
             'staffId' => $staffId,
-            'groupId' => $groupId,
+            'groupId' => $groupId
         ];
         if($password!='')
             $data['password'] = md5(md5($password));

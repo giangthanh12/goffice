@@ -7,6 +7,80 @@ class Nhansu extends Controller
         parent::__construct();
     }
 
+    function listStaffs()
+    {
+        $json = $this->model->getData();
+        if ($json == 0) {
+            $jsonObj['message'] = "Lỗi lấy dữ liệu";
+            $jsonObj['code'] = 401;
+            $jsonObj['data'] = [];
+            http_response_code(401);
+            echo json_encode($jsonObj);
+            return false;
+        } else {
+            $jsonObj['message'] = "Lấy dữ liệu thành công";
+            $jsonObj['code'] = 200;
+            $jsonObj['data'] = $json;
+            http_response_code(200);
+            echo json_encode($jsonObj);
+            return true;
+        }
+        echo json_encode($json);
+    }
+
+    function detailStaff()
+    {
+        $staffId = isset($_REQUEST['staffId']) ? $_REQUEST['staffId'] : '';
+        if ($staffId == '') {
+            $jsonObj['message'] = "Chưa nhập staffId";
+            $jsonObj['code'] = 401;
+            $jsonObj['data'] = [];
+            http_response_code(401);
+            echo json_encode($jsonObj);
+            return false;
+        } else {
+            $json = $this->model->detailStaff($staffId);
+            if ($json == 0) {
+                $jsonObj['message'] = "Lỗi lấy dữ liệu";
+                $jsonObj['code'] = 402;
+                $jsonObj['data'] = [];
+                http_response_code(402);
+                echo json_encode($jsonObj);
+                return false;
+            } else {
+                $jsonObj['message'] = "Lấy dữ liệu thành công";
+                $jsonObj['code'] = 200;
+                $jsonObj['data'] = $json;
+                http_response_code(200);
+                echo json_encode($jsonObj);
+                return true;
+            }
+            echo json_encode($json);
+        }
+    }
+
+    function filterStaff()
+    {
+        $status = isset($_REQUEST['status']) ? $_REQUEST['status'] : '';
+        $json = $this->model->filterStaff($status);
+        if ($json == 0) {
+            $jsonObj['message'] = "Lỗi lấy dữ liệu";
+            $jsonObj['code'] = 402;
+            $jsonObj['data'] = [];
+            http_response_code(402);
+            echo json_encode($jsonObj);
+            return false;
+        } else {
+            $jsonObj['message'] = "Lấy dữ liệu thành công";
+            $jsonObj['code'] = 200;
+            $jsonObj['data'] = $json;
+            http_response_code(200);
+            echo json_encode($jsonObj);
+            return true;
+        }
+        echo json_encode($json);
+    }
+
     // function updateStaff()
     // {
     //     $json = $this->model->updateStaff();
@@ -116,6 +190,56 @@ class Nhansu extends Controller
         if(isset($_REQUEST['vssId']))
             $data['vssId'] = $_REQUEST['vssId'];
 
+        // $avatar = '';
+        // $data['avatar'] = $avatar;
+        // if(isset($_FILES['avatar'])) {
+        //     $filename = $_FILES['avatar']['name'];
+        //     if ($filename != '') {
+        //         $dir = ROOT_DIR . '/uploads/nhanvien/';
+        //         $file = functions::uploadfile('avatar', $dir, $id);
+        //         if ($file != '')
+        //             $avatar =  'uploads/nhanvien/' . $file;
+        //         $data['avatar'] = $avatar;
+        //     }
+        // }
+       
+            
+        $json = $this->model->updateProfile($id, $data);
+        if ($json == 0) {
+            $jsonObj['message'] = "Lỗi cập nhật dữ liệu";
+            $jsonObj['code'] = 402;
+            http_response_code(402);
+            echo json_encode($jsonObj);
+        } else {
+            $jsonObj['message'] = "Cập nhật dữ liệu thành công";
+            $jsonObj['code'] = 200;
+            $data = $this->model->getProfile($id);
+            $jsonObj['data'] = $data;
+            http_response_code(200);
+            echo json_encode($jsonObj);
+        }
+    }
+
+    function updateAvatarProfile()
+    {
+        $id = isset($_REQUEST['staffId']) ? $_REQUEST['staffId'] : 0;
+        if ($id == 0) {
+            $jsonObj['message'] = "Chưa nhập staffId";
+            $jsonObj['code'] = 401;
+            http_response_code(401);
+            echo json_encode($jsonObj);
+            return false;
+        } else {
+            $json = $this->model->checkId($id);
+            if ($json == 0) {
+                $jsonObj['message'] = "Nhân viên không tồn tại trong hệ thống";
+                $jsonObj['code'] = 401;
+                http_response_code(401);
+                echo json_encode($jsonObj);
+                return false;
+            }
+        }
+        $data = [];
         $avatar = '';
         $data['avatar'] = $avatar;
         if(isset($_FILES['avatar'])) {

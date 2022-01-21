@@ -6,9 +6,8 @@ class staff_Model extends Model{
 
     function getStaff(){
         $nhanvien = array();
-        $query = $this->db->query("SELECT id, name, email, phoneNumber, 
-            IF(avatar='',CONCAT('".URLFILE."','/uploads/useravatar.png'),CONCAT('".URLFILE."/',avatar)) AS avatar
-            FROM staffs WHERE status = 1 ORDER BY id DESC");
+        $query = $this->db->query("SELECT id, name, email, phoneNumber, status,accesspoints,avatar
+            FROM staffs WHERE status > 0 ORDER BY id DESC");
         if ($query)
             $data['data'] = $query->fetchAll(PDO::FETCH_ASSOC);
         return $data;
@@ -16,7 +15,7 @@ class staff_Model extends Model{
 
     function getdata($id){
         $result = array();
-        $query = $this->db->query("SELECT *, IF(avatar='',CONCAT('".URLFILE."','/uploads/useravatar.png'),CONCAT('".URLFILE."/',avatar)) AS avatar, 
+        $query = $this->db->query("SELECT *,
         DATE_FORMAT(birthDay,'%d/%m/%Y') as birthDay,
         DATE_FORMAT(idDate,'%d/%m/%Y') as idDate
         FROM staffs WHERE id=$id");
@@ -45,9 +44,8 @@ class staff_Model extends Model{
         $query = $this->db->query("SELECT *,
          DATE_FORMAT(startDate,'%d/%m/%Y') as startDate,
          DATE_FORMAT(stopDate,'%d/%m/%Y') as stopDate,
-         (SELECT name FROM laborcontract WHERE id = a.contractId) as nameContract,
          (SELECT name FROM department WHERE id = a.departmentId) as department
-         FROM records a WHERE staffId = $id AND status = 1 ORDER BY id DESC");
+         FROM laborcontract a WHERE staffId = $id AND status > 0 ORDER BY id DESC");
         $data['data'] = $query->fetchAll(PDO::FETCH_ASSOC);
         return $data;
     }
@@ -103,19 +101,13 @@ class staff_Model extends Model{
         $query = $this->update("staffinfo", $data, " staffId=$id ");
         return $query;
     }
- 
 
-   
-  
-
-
-
-  
-
-
-
-
-  
-
+    function getAccessPoints()
+    {
+        $query = $this->db->query("SELECT id,name as text
+          FROM accesspoints WHERE status > 0");
+        $temp = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $temp;
+    }
 }
 ?>

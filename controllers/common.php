@@ -29,6 +29,34 @@ class common extends Controller
         echo json_encode($json);
     }
 
+    function typeContracts(){
+        $json = $this->model->getTypeContracts();
+        echo json_encode($json);
+    }
+    function departments(){
+        $json = $this->model->getDepartments();
+        echo json_encode($json);
+    }
+    function positions(){
+        $json = $this->model->getPositions();
+        echo json_encode($json);
+    }
+
+    function shifts(){
+        $json = $this->model->getShifts();
+        echo json_encode($json);
+    }
+
+    function branchs(){
+        $json = $this->model->getBranchs();
+        echo json_encode($json);
+    }
+
+    function workPlaces(){
+        $json = $this->model->getWorkPlaces();
+        echo json_encode($json);
+    }
+
     function listGroup(){
         $json = $this->model->getListGroup();
         echo json_encode($json);
