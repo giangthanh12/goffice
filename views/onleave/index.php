@@ -215,4 +215,4 @@
 </div>
 
 
-<script src="<?= HOME ?>/js/onleave.js"></script>s
+<script src="<?= HOME ?>/js/onleave.js"></script>

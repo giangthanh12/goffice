@@ -3,7 +3,6 @@ class onleave_Model extends Model{
     function __construst(){
         parent::__construst();
     }
-    
     function get_data() {
             $query = $this->db->query("SELECT *,
             (SELECT name FROM staffs WHERE id = a.staffId) AS staffName
@@ -34,7 +33,18 @@ class onleave_Model extends Model{
         $row = $query->fetchAll(PDO::FETCH_ASSOC);
         return $row;
     }
-
+    // function getLevelProject(){
+    //     $result = array();
+    //     $query = $this->db->query("SELECT id,color, concat('<span style=\"color:',color,';\">',name,'<span>') AS text FROM projectlevels WHERE status = 2");
+    //     $result = $query->fetchAll(PDO::FETCH_ASSOC);
+    //     return $result;
+    // }
+    // function getStatusProject(){
+    //     $result = array();
+    //     $query = $this->db->query("SELECT id,color, name AS text FROM projectstatus WHERE status = 2");
+    //     $result = $query->fetchAll(PDO::FETCH_ASSOC);
+    //     return $result;
+    // }
 
     function updateOnleave($id,$data) {
         if($id > 0) {
@@ -73,10 +83,9 @@ class onleave_Model extends Model{
         (SELECT count(id) FROM onleave WHERE staffId = $staffId AND status = 2) AS onLeaveUsed 
         FROM staffonleave $where");
         $result = $query->fetchAll(PDO::FETCH_ASSOC);
-        if (isset($result[0]))
-            $result = $result[0];
+        // if (isset($result[0]))
+        //     $result = $result[0];
         return $result;
     }
-
 }
 ?>

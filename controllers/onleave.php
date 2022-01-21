@@ -5,36 +5,10 @@ class onleave extends Controller
     function __construct()
     {
         parent::__construct();
-    //     $model = new model();
-    //     $checkMenuRole = $model->checkMenuRole('onleave');
-    //     if ($checkMenuRole == false)
-    //         header('location:' . HOME);
-    //     if ($_SESSION['user']['classify'] == 1) {
-    //         self::$funDel = 1;
-    //         self::$funAdd = 1;
-    //         self::$funEdit = 1;
-    //     }
-    //     $functions = $model->getFunctions("payrolls");
-    //     foreach ($functions as $item) {
-    //         switch ($item['function']) {
-    //             case 'del';
-    //                 self::$funDel = 1;
-    //                 break;
-    //             case 'add';
-    //                 self::$funAdd = 1;
-    //                 break;
-    //             case 'edit';
-    //                 self::$funEdit = 1;
-    //                 break;
-    //         }
-    //     }
     }
 
     function index(){
         require "layouts/header.php";
-        // $this->view->funDel = self::$funDel;
-        // $this->view->funAdd = self::$funAdd;
-        // $this->view->funEdit = self::$funEdit;
         $status = isset($_REQUEST['status']) ? $_REQUEST['status'] : '';
         $this->view->list = $this->model->getList($status, 1);
         $this->view->render("onleave/index");
@@ -45,7 +19,7 @@ class onleave extends Controller
         $json = $this->model->get_data();
         echo json_encode($json);
     }
-    
+
     function getStaff() {
         $json = $this->model->getStaff();
         echo json_encode($json);
@@ -128,18 +102,18 @@ class onleave extends Controller
         echo $jsonObj;
         }       
     
-    // function filter() {
-    //     $filter = isset($_REQUEST['filters']) ? $_REQUEST['filters'] : [];
-    //     $status = isset($_REQUEST['status']) ? $_REQUEST['status'] : '';
-    //     if(count($filter) > 0) {
-    //       $filter = implode(',',$filter);
-    //     }
-    //     else {
-    //         $filter = '';
-    //     }
-    //     $data =  $this->model->filterLevel($filter,$status);
-    //     echo json_encode($data);
-    // }
+    function filter() {
+        $filter = isset($_REQUEST['filters']) ? $_REQUEST['filters'] : [];
+        $status = isset($_REQUEST['status']) ? $_REQUEST['status'] : '';
+        if(count($filter) > 0) {
+          $filter = implode(',',$filter);
+        }
+        else {
+            $filter = '';
+        }
+        $data =  $this->model->filterLevel($filter,$status);
+        echo json_encode($data);
+    }
 }
 
 ?>
