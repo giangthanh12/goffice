@@ -1,22 +1,23 @@
 var isRtl = $('html').attr('data-textdirection') === 'rtl';
+
 function getParameterByName(name, url) { // lay tham so qua URL
-   if (!url)
+    if (!url)
         url = window.location.href;
-   name = name.replace(/[\[\]]/g, "\\$&");
-   var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-   results = regex.exec(url);
-   if (!results) return null;
-   if (!results[2]) return '';
-   return decodeURIComponent(results[2].replace(/\+/g, " "));
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
 
 // Web socket create and processs
-let connection = new WebSocket('wss://velo.vn:1337/?'+baseUser);
-connection.onopen = function() {
+let connection = new WebSocket('wss://velo.vn:1337/?' + baseUser);
+connection.onopen = function () {
     console.log("Open connection!");
 };
 
-connection.onmessage = function(message) {
+connection.onmessage = function (message) {
     var data = JSON.parse(message.data);
     if (data.type == 'inbox') {
         var receiver = data.receiverid.split(",");
@@ -37,40 +38,40 @@ connection.onmessage = function(message) {
         if (receiver.includes(baseUser)) {
             commentMe();
         }
-    }else if (data.type == 'user') {
-       $.ajax({
-           type: "GET",
-           dataType: "json",
-           async: false,
-           data: {users:data.users},
-           url: baseHome + "/dashboard/getactive",
-           success: function (users) {
-              var html = '';
-              users.forEach(function(item, index) {
-                  var $avatar = baseHome+'/layouts/useravatar.png';
-                  if(item.avatar!='')
-                      $avatar = baseUrlFile+'/uploads/nhanvien/'+item.avatar;
-                  html += '<div data-toggle="tooltip" data-popup="tooltip-custom" data-placement="bottom" data-original-title="'+item.name+'" class="avatar pull-up">';
-                  html += '<img src="'+$avatar+'" onerror="this.src=\''+baseHome+'/layouts/useravatar.png'+'\'" alt="Avatar" width="33" height="33" /></div>';
-              });
-              document.getElementById('online_users').innerHTML=html;
-               $('[data-toggle="tooltip"]').tooltip({
-                   container: 'body'
-               });
-           }
-       });
+    } else if (data.type == 'user') {
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            async: false,
+            data: {users: data.users},
+            url: baseHome + "/dashboard/getactive",
+            success: function (users) {
+                var html = '';
+                users.forEach(function (item, index) {
+                    var $avatar = baseHome + '/layouts/useravatar.png';
+                    if (item.avatar != '')
+                        $avatar = baseUrlFile + '/uploads/nhanvien/' + item.avatar;
+                    html += '<div data-toggle="tooltip" data-popup="tooltip-custom" data-placement="bottom" data-original-title="' + item.name + '" class="avatar pull-up">';
+                    html += '<img src="' + $avatar + '" onerror="this.src=\'' + baseHome + '/layouts/useravatar.png' + '\'" alt="Avatar" width="33" height="33" /></div>';
+                });
+                document.getElementById('online_users').innerHTML = html;
+                $('[data-toggle="tooltip"]').tooltip({
+                    container: 'body'
+                });
+            }
+        });
     } else {
         return false;
     }
 };
 
-connection.onerror = function(error) {
+connection.onerror = function (error) {
     // just in there were some problems with connection...
     console.log('Sorry, but there\'s some problem with your ' +
         'connection or the server is down.');
 };
 //----------end websocket --------------
-$(function() {
+$(function () {
     // request bat notification trinh duyet
     if (!("Notification" in window))
         alert("This browser does not support desktop notification");
@@ -122,11 +123,11 @@ function notifyMe() { // notify khi co thong bao moi
         url: baseHome + "/inbox/checkmail",
         success: function (data) {
             if (data['tieu_de'].length) {
-              var link = baseUrl + '/inbox';
-              var noticeOptions = { body: data['tieu_de'], icon: data['hinhanh'] };
-              var notification = new Notification("Bạn có thông báo mới", noticeOptions);
-              notification.onclick = function (event) {
-                  window.open(link,"_self");
+                var link = baseUrl + '/inbox';
+                var noticeOptions = {body: data['tieu_de'], icon: data['hinhanh']};
+                var notification = new Notification("Bạn có thông báo mới", noticeOptions);
+                notification.onclick = function (event) {
+                    window.open(link, "_self");
                 };
             }
         }
@@ -142,10 +143,10 @@ function commentMe() { // notify khi co comment cong viec lien quan
         success: function (data) {
             if (data['tieu_de'].length) {
                 var link = baseHome + '/todo';
-                var noticeOptions = { body: data['tieu_de'].replace( /(<([^>]+)>)/ig, ''), icon: data['hinhanh'] };
+                var noticeOptions = {body: data['tieu_de'].replace(/(<([^>]+)>)/ig, ''), icon: data['hinhanh']};
                 var notification = new Notification("Bạn có comment mới", noticeOptions);
                 notification.onclick = function (event) {
-                    window.open(link,"_self");
+                    window.open(link, "_self");
                 };
             }
             // var noticeOptions = { body: 'bạn có comment mới', icon: data['hinhanh'] };
@@ -159,23 +160,23 @@ function commentMe() { // notify khi co comment cong viec lien quan
 }
 
 function chatMe() { //notiffy khi có tin nhắn mới trong chatbox
-      $.ajax({
-          type: "GET",
-          dataType: "json",
-          async: false,
-          url: baseHome + "/chatbox/checkmessage",
-          success: function (data) {
-              if (data.code=='200') {
-                  var title = 'Bạn có tin nhắn mới';
-                  var link = baseUrl + '/chatbox';
-                  var noticeOptions = { body: data['message'], icon: data['hinhanh'] };
-                  var notification = new Notification(title, noticeOptions);
-                  notification.onclick = function (event) {
-                      window.open(link,"_self");
-                  };
-              }
-          }
-      });
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        async: false,
+        url: baseHome + "/chatbox/checkmessage",
+        success: function (data) {
+            if (data.code == '200') {
+                var title = 'Bạn có tin nhắn mới';
+                var link = baseUrl + '/chatbox';
+                var noticeOptions = {body: data['message'], icon: data['hinhanh']};
+                var notification = new Notification(title, noticeOptions);
+                notification.onclick = function (event) {
+                    window.open(link, "_self");
+                };
+            }
+        }
+    });
 }
 
 // function delmsg() {
@@ -196,7 +197,7 @@ function chatMe() { //notiffy khi có tin nhắn mới trong chatbox
 //     });
 // }
 
-function notify_error(msg_Text){
+function notify_error(msg_Text) {
     toastr['error'](msg_Text, 'Báo lỗi !', {
         closeButton: true,
         tapToDismiss: false,
@@ -204,7 +205,7 @@ function notify_error(msg_Text){
     });
 }
 
-function notyfi_success(msg_Text){
+function notyfi_success(msg_Text) {
     toastr['success'](msg_Text, 'Thông báo !', {
         closeButton: true,
         tapToDismiss: false,
@@ -212,18 +213,18 @@ function notyfi_success(msg_Text){
     });
 }
 
-function logout(){
+function logout() {
     $.ajax({
         url: baseHome + '/auth/logout',  //server script to process data
         type: 'POST',
         dataType: 'json',
-        success: function(data){
-            if(data.code == 200){
-                var data = {'type':'logout','userid':baseUser};
+        success: function (data) {
+            if (data.code == 200) {
+                var data = {'type': 'logout', 'userid': baseUser};
                 connection.send(JSON.stringify(data));
-              //  notyfi_success(data.msg);
+                //  notyfi_success(data.msg);
                 window.location.href = baseHome;
-            }else{
+            } else {
                 notify_error(data.msg);
                 return false;
             }
@@ -252,22 +253,22 @@ function logout(){
 //     }
 // }
 
-function save_form(id_form, url_post){
+function save_form(id_form, url_post) {
     var xhr = new XMLHttpRequest();
     var formData = new FormData($(id_form)[0]);
     $.ajax({
         url: url_post,  //server script to process data
         type: 'POST',
-        xhr: function() {
+        xhr: function () {
             return xhr;
         },
         data: formData,
         datType: 'json',
-        success: function(data){
-            if(data.success == true){
+        success: function (data) {
+            if (data.success == true) {
                 notyfi_success(data.msg);
                 location.reload(true);
-            }else{
+            } else {
                 notify_error(data.msg);
                 return false;
             }
@@ -278,23 +279,23 @@ function save_form(id_form, url_post){
     });
 }
 
-function save_form_reject(id_form, url_post, url_reject){
+function save_form_reject(id_form, url_post, url_reject) {
     var xhr = new XMLHttpRequest();
     var formData = new FormData($(id_form)[0]);
     $.ajax({
         url: url_post,  //server script to process data
         type: 'POST',
-        xhr: function() {
+        xhr: function () {
             return xhr;
         },
         data: formData,
         datType: 'json',
-        success: function(data){
+        success: function (data) {
             data = JSON.parse(data);
-            if(data.success == true){
+            if (data.success == true) {
                 notify_error(data.msg);
                 window.location.href = url_reject;
-            }else{
+            } else {
                 notify_error(data.msg);
                 return false;
             }
@@ -305,23 +306,23 @@ function save_form_reject(id_form, url_post, url_reject){
     });
 }
 
-function save_form_reload_function(id_form, url_post, re_function){
+function save_form_reload_function(id_form, url_post, re_function) {
     var xhr = new XMLHttpRequest();
     var formData = new FormData($(id_form)[0]);
     $.ajax({
         url: url_post,  //server script to process data
         type: 'POST',
-        xhr: function() {
+        xhr: function () {
             return xhr;
         },
         data: formData,
         datType: 'json',
-        success: function(data){
-            if(data.success == true){
+        success: function (data) {
+            if (data.success == true) {
                 // notyfi_error(data.msg);
                 //window.location.href = url_reject;
                 re_function;
-            }else{
+            } else {
                 notyfi_error(data.msg);
                 return false;
             }
@@ -332,23 +333,23 @@ function save_form_reload_function(id_form, url_post, re_function){
     });
 }
 
-function save_form_refresh_div(id_form, url_post, id_div, url_refresh, id_modal){
+function save_form_refresh_div(id_form, url_post, id_div, url_refresh, id_modal) {
     var xhr = new XMLHttpRequest();
     var formData = new FormData($(id_form)[0]);
     $.ajax({
         url: url_post,  //server script to process data
         type: 'POST',
-        xhr: function() {
+        xhr: function () {
             return xhr;
         },
         data: formData,
         datType: 'json',
-        success: function(data){
-            if(data.success == true){
+        success: function (data) {
+            if (data.success == true) {
                 notyfi_success(data.msg);
                 $(id_modal).modal('hide');
                 $(id_div).load(url_refresh);
-            }else{
+            } else {
                 notyfi_error(data.msg);
                 return false;
             }
@@ -359,22 +360,22 @@ function save_form_refresh_div(id_form, url_post, id_div, url_refresh, id_modal)
     });
 }
 
-function save_form_refresh_div_no_modal(id_form, url_post, id_div, url_refresh){
+function save_form_refresh_div_no_modal(id_form, url_post, id_div, url_refresh) {
     var xhr = new XMLHttpRequest();
     var formData = new FormData($(id_form)[0]);
     $.ajax({
         url: url_post,  //server script to process data
         type: 'POST',
-        xhr: function() {
+        xhr: function () {
             return xhr;
         },
         data: formData,
         datType: 'json',
-        success: function(data){
-            if(data.success == true){
+        success: function (data) {
+            if (data.success == true) {
                 reset_form(id_form);
                 $(id_div).load(url_refresh);
-            }else{
+            } else {
                 notyfi_error(data.msg);
                 return false;
             }
@@ -385,19 +386,19 @@ function save_form_refresh_div_no_modal(id_form, url_post, id_div, url_refresh){
     });
 }
 
-function del_data(id_index, url_data){
+function del_data(id_index, url_data) {
     var r = confirm("Bạn có chắc chán muốn xóa dữ liệu!");
     if (r == true) {
-        var data_str = "id="+id_index;
+        var data_str = "id=" + id_index;
         $.ajax({
             type: "POST",
             url: url_data,
             data: data_str, // serializes the form's elements.
             datType: 'json',
-            success: function(data){
-                if(data.success == true){
+            success: function (data) {
+                if (data.success == true) {
                     location.reload(true);
-                }else{
+                } else {
                     notyfi_error(data.msg);
                     return false;
                 }
@@ -406,22 +407,22 @@ function del_data(id_index, url_data){
     }
 }
 
-function del_data_refresh_div(id_index, url_data, thongbao, id_div){
+function del_data_refresh_div(id_index, url_data, thongbao, id_div) {
     var r = confirm(thongbao);
     if (r == true) {
-        var data_str = "id="+id_index;
+        var data_str = "id=" + id_index;
         $.ajax({
             type: "POST",
             url: url_data,
             data: data_str, // serializes the form's elements.
             datType: 'json',
-            success: function(data){
-                if(data.success == true){
+            success: function (data) {
+                if (data.success == true) {
                     notyfi_success(data.msg);
                     //$(id_div).load(url_refresh);
                     var table = $(id_div).DataTable();
                     table.ajax.reload();
-                }else{
+                } else {
                     notyfi_error(data.msg);
                     return false;
                 }
@@ -430,7 +431,7 @@ function del_data_refresh_div(id_index, url_data, thongbao, id_div){
     }
 }
 
-function update_status(data_str, url_data, id_div, url_refresh, notify){
+function update_status(data_str, url_data, id_div, url_refresh, notify) {
     var r = confirm(notify);
     if (r == true) {
         $.ajax({
@@ -438,11 +439,11 @@ function update_status(data_str, url_data, id_div, url_refresh, notify){
             url: url_data,
             data: data_str, // serializes the form's elements.
             datType: 'json',
-            success: function(data){
-                if(data.success == true){
+            success: function (data) {
+                if (data.success == true) {
                     notyfi_success(data.msg);
                     $(id_div).load(url_refresh);
-                }else{
+                } else {
                     notyfi_error(data.msg);
                     return false;
                 }
@@ -451,20 +452,20 @@ function update_status(data_str, url_data, id_div, url_refresh, notify){
     }
 }
 
-function load_data(url_data, data_str){
+function load_data(url_data, data_str) {
     return $.ajax({
         type: "POST",
         url: url_data,
         data: data_str, // serializes the form's elements.
         datType: 'json',
         async: false,
-        error: function(){
+        error: function () {
             notify_error('Lỗi load dữ liệu');
         }
     });
 }
 
-function return_data(ObjData){
+function return_data(ObjData) {
     let obj = ObjData.find(o => o);
     return obj;
 }
@@ -474,18 +475,18 @@ function validateEmail(email) {
     return re.test(email);
 }
 
-function reset_form(id_form){
+function reset_form(id_form) {
     $(id_form)[0].reset();
 }
 
-function check_image_ext(text){
-    if(text != ''){
-        if(text.match(/jpg.*/) || text.match(/jpeg.*/) || text.match(/png.*/) || text.match(/gif.*/)){
+function check_image_ext(text) {
+    if (text != '') {
+        if (text.match(/jpg.*/) || text.match(/jpeg.*/) || text.match(/png.*/) || text.match(/gif.*/)) {
             return true;
-        }else{
+        } else {
             return false;
         }
-    }else{
+    } else {
         return true;
     }
 }
@@ -496,7 +497,9 @@ function formatNumber(n) {
 
 function formatCurrency(input, blur) {
     var input_val = input.val();
-    if (input_val === "") { return; }
+    if (input_val === "") {
+        return;
+    }
     var original_len = input_val.length;
     var caret_pos = input.prop("selectionStart");
     if (input_val.indexOf(".") >= 0) {
@@ -523,26 +526,27 @@ function formatCurrency(input, blur) {
     input[0].setSelectionRange(caret_pos, caret_pos);
 }
 
-function return_combobox(id_input, url_data, place){
+function return_combobox(id_input, url_data, place) {
     $(id_input).select2({
         placeholder: place,
         method: 'post',
-        ajax:{
+        ajax: {
             url: url_data,
             processResults: function (data) {
                 return {
-                  results: data
+                    results: data
                 };
             }
         }
     });
 }
-function return_combobox_multi(id_input, url_data, place){
+
+function return_combobox_multi(id_input, url_data, place) {
     var str_data = load_data(url_data);
     var Objdata = JSON.parse(str_data.responseText);
     var html = '';
-    jQuery.map(Objdata, function(n, i){
-        html += '<option value="'+n.id+'">'+n.text+'</option>';
+    jQuery.map(Objdata, function (n, i) {
+        html += '<option value="' + n.id + '">' + n.text + '</option>';
     });
     $(id_input).select2({
         placeholder: place,
@@ -551,28 +555,27 @@ function return_combobox_multi(id_input, url_data, place){
     $(id_input).html(html);
 }
 
-function load_form(id_form, url_data){
+function load_form(id_form, url_data) {
     var str_data = load_data(url_data);
     var Objdata = JSON.parse(str_data.responseText);
     Objdata = Objdata.data;
     const String_data = Objdata.find(o => o);
-    for(const[key, value] of Object.entries(String_data)){
-        console.log(key+'-'+value);
+    for (const [key, value] of Object.entries(String_data)) {
+        console.log(key + '-' + value);
         $(id_form + ' #' + `${key}`).val(`${value}`);
     }
 }
 
-function checkIn(){
+function checkIn() {
     $.ajax({
         type: "POST",
         dataType: "json",
-        url: baseHome+"/index/checkIn",
+        url: baseHome + "/index/checkIn",
         success: function (data) {
-            if (data.code==200) {
+            if (data.code == 200) {
                 notyfi_success(data.message);
                 $('#checkIn').empty();
-            }
-            else
+            } else
                 notify_error(data.message);
         },
         error: function () {
@@ -598,47 +601,73 @@ function Comma(Num) { //function to add commas to textboxes
     return x1 + x2;
 }
 
+var clickButton = 1;
+
+function togglelogo() {
+    if (clickButton == 1) {
+        clickButton = 0
+    } else {
+        clickButton = 1
+    }
+}
+
+$(function () {
+
+    $('.main-menu').mouseover(function () {
+        if (clickButton == 0) {
+            $('#minlogo').addClass("d-none");
+            $('#maxlogo').removeClass("d-none");
+        }
+    });
+    $('.main-menu').mouseout(function () {
+        if (clickButton == 0) {
+            $('#minlogo').removeClass("d-none");
+            $('#maxlogo').addClass("d-none");
+        }
+    });
+})
+
 // if(localStorage.getItem('token')){
-    // notify_error(localStorage.getItem('token'));
-    // // get_info_account
-    // var Objdata = load_data(baseHome + '/auth/info_auth', 'token='+localStorage.getItem('token'));
-    // var Obj = return_data(Objdata.responseJSON.data);
-    // var str_data = load_data(baseHome + '/nhansu/info', 'token='+localStorage.getItem('token')+'&id='+Obj.nhan_vien);
-    // var Obj_nhanvien = return_data(str_data.responseJSON.data);
-    // $('#fullname').text(Obj_nhanvien.name);
-    // localStorage.setItem('nhanvienid', Obj_nhanvien.id);
-    // // load file srcipt tuong ung
-    // var value = window.location.pathname;
-    //  //console.log(value);
-    // var array = value.split("/"); //console.log(array);
-    // if(array.length === 5){
-    //     if(array[4].length === 0){
-    //         var html = '<script src="scripts/'+array[3]+'/index.js"></script>';
-    //         $('#script').append(html);
-    //     }else{
-    //         var arr = array[4].split('.');
-    //         var html = '<script src="scripts/'+array[3]+'/'+arr[0]+'.js"></script>';
-    //         $('#script').append(html);
-    //     }
-    // }else{
-    //     return false;
-    // }
+// notify_error(localStorage.getItem('token'));
+// // get_info_account
+// var Objdata = load_data(baseHome + '/auth/info_auth', 'token='+localStorage.getItem('token'));
+// var Obj = return_data(Objdata.responseJSON.data);
+// var str_data = load_data(baseHome + '/nhansu/info', 'token='+localStorage.getItem('token')+'&id='+Obj.nhan_vien);
+// var Obj_nhanvien = return_data(str_data.responseJSON.data);
+// $('#fullname').text(Obj_nhanvien.name);
+// localStorage.setItem('nhanvienid', Obj_nhanvien.id);
+// // load file srcipt tuong ung
+// var value = window.location.pathname;
+//  //console.log(value);
+// var array = value.split("/"); //console.log(array);
+// if(array.length === 5){
+//     if(array[4].length === 0){
+//         var html = '<script src="scripts/'+array[3]+'/index.js"></script>';
+//         $('#script').append(html);
+//     }else{
+//         var arr = array[4].split('.');
+//         var html = '<script src="scripts/'+array[3]+'/'+arr[0]+'.js"></script>';
+//         $('#script').append(html);
+//     }
+// }else{
+//     return false;
+// }
 // }else{
 //     alert()
-    //window.location.href = './login';
+//window.location.href = './login';
 // }
 // if (receiver.includes(baseUser)) {
-    // var title = 'Bạn có thông báo mới';
-    // var link = baseUrl + '/inbox';
-    // var body ='xxx';
-    // var avatar = 'http://localhost/goffice/layouts/g-office-logo.png';
-    // var noticeOptions = { body: body, icon: avatar };
-    // var notification = new Notification(title, noticeOptions);
-    // notification.onclick = function (event) {
-    //     window.open(link,"_self");
-    // };
+// var title = 'Bạn có thông báo mới';
+// var link = baseUrl + '/inbox';
+// var body ='xxx';
+// var avatar = 'http://localhost/goffice/layouts/g-office-logo.png';
+// var noticeOptions = { body: body, icon: avatar };
+// var notification = new Notification(title, noticeOptions);
+// notification.onclick = function (event) {
+//     window.open(link,"_self");
+// };
 // } else {
-    // alert('x');
+// alert('x');
 // }
 // $("#mess_avatar").attr("src",data['hinhanh']);
 // $('#mess_sender').text(data['nguoigui']);
