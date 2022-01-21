@@ -102,18 +102,18 @@ class onleave extends Controller
         echo $jsonObj;
         }       
     
-    // function filter() {
-    //     $filter = isset($_REQUEST['filters']) ? $_REQUEST['filters'] : [];
-    //     $status = isset($_REQUEST['status']) ? $_REQUEST['status'] : '';
-    //     if(count($filter) > 0) {
-    //       $filter = implode(',',$filter);
-    //     }
-    //     else {
-    //         $filter = '';
-    //     }
-    //     $data =  $this->model->filterLevel($filter,$status);
-    //     echo json_encode($data);
-    // }
+    function filter() {
+        $filter = isset($_REQUEST['filters']) ? $_REQUEST['filters'] : [];
+        $status = isset($_REQUEST['status']) ? $_REQUEST['status'] : '';
+        if(count($filter) > 0) {
+          $filter = implode(',',$filter);
+        }
+        else {
+            $filter = '';
+        }
+        $data =  $this->model->filterLevel($filter,$status);
+        echo json_encode($data);
+    }
 }
 
 ?>
