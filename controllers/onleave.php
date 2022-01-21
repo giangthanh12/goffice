@@ -19,15 +19,7 @@ class onleave extends Controller
         $json = $this->model->get_data();
         echo json_encode($json);
     }
-    // get levelproject
-    // function getLevelProject(){
-    //     $json = $this->model->getLevelProject();
-    //     echo json_encode($json);
-    // }
-    // function getStatusProject() {
-    //     $json = $this->model->getStatusProject();
-    //     echo json_encode($json);
-    // }
+    
     function getStaff() {
         $json = $this->model->getStaff();
         echo json_encode($json);
@@ -110,18 +102,18 @@ class onleave extends Controller
         echo $jsonObj;
         }       
     
-    function filter() {
-        $filter = isset($_REQUEST['filters']) ? $_REQUEST['filters'] : [];
-        $status = isset($_REQUEST['status']) ? $_REQUEST['status'] : '';
-        if(count($filter) > 0) {
-          $filter = implode(',',$filter);
-        }
-        else {
-            $filter = '';
-        }
-        $data =  $this->model->filterLevel($filter,$status);
-        echo json_encode($data);
-    }
+    // function filter() {
+    //     $filter = isset($_REQUEST['filters']) ? $_REQUEST['filters'] : [];
+    //     $status = isset($_REQUEST['status']) ? $_REQUEST['status'] : '';
+    //     if(count($filter) > 0) {
+    //       $filter = implode(',',$filter);
+    //     }
+    //     else {
+    //         $filter = '';
+    //     }
+    //     $data =  $this->model->filterLevel($filter,$status);
+    //     echo json_encode($data);
+    // }
 }
 
 ?>
