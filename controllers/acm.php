@@ -1,12 +1,12 @@
 <?php
-class Thuchitienmat extends Controller{
+class acm extends Controller{
     function __construct(){
         parent::__construct();
     }
 
     function index(){
         require "layouts/header.php";
-        $this->view->render("thuchitienmat/index");
+        $this->view->render("acm/index");
         require "layouts/footer.php";
     }
 
@@ -35,6 +35,7 @@ class Thuchitienmat extends Controller{
             'loai' => $_REQUEST['loai'],
             'hach_toan' => $_REQUEST['hach_toan'],
             'so_tien' => $_REQUEST['so_tien'],
+            'ghi_chu' => $_REQUEST['ghi_chu'],
             'tinh_trang' => 1
         );
         $time_now = date('H:i:s', time());
@@ -59,7 +60,8 @@ class Thuchitienmat extends Controller{
             'tai_khoan' => $_REQUEST['tai_khoan'],
             'loai' => $_REQUEST['loai'],
             'hach_toan' => $_REQUEST['hach_toan'],
-            'so_tien' => $_REQUEST['so_tien']
+            'so_tien' => $_REQUEST['so_tien'],
+            'ghi_chu' => $_REQUEST['ghi_chu']
         );
         $ngay_gio = substr($_REQUEST['ngay_gio'], 0, 10);
         $time_now = date('H:i:s', time());
@@ -105,6 +107,10 @@ class Thuchitienmat extends Controller{
 
     function khachhang() {
         $data = $this->model->khachhang();
+        echo json_encode($data);
+    }
+    function taikhoan() {
+        $data = $this->model->taikhoan();
         echo json_encode($data);
     }
    

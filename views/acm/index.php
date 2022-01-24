@@ -135,4 +135,4 @@
         </div>
     </div>
 </div>
-<script src="<?= HOME ?>/js/thuchinganhang.js"></script>
+<script src="<?= HOME ?>/js/acm.js"></script>

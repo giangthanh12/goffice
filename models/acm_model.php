@@ -1,5 +1,5 @@
 <?php
-class Thuchinganhang_model extends Model{
+class acm_model extends Model{
     function __construst(){
         parent::__construst();
     }

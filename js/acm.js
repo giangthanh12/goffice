@@ -29,7 +29,7 @@ $(function () {
             type: "GET",
             dataType: "json",
             async: false,
-            url: baseHome + "/thuchinganhang/khachhang",
+            url: baseHome + "/acm/khachhang",
             success: function (data) {
                 khach_hang.wrap('<div class="position-relative"></div>').select2({
                 dropdownAutoWidth: true,
@@ -44,7 +44,7 @@ $(function () {
             type: "GET",
             dataType: "json",
             async: false,
-            url: baseHome + "/thuchinganhang/taikhoan",
+            url: baseHome + "/acm/taikhoan",
             success: function (data) {
                 tai_khoan.wrap('<div class="position-relative"></div>').select2({
                 dropdownAutoWidth: true,
@@ -59,7 +59,7 @@ $(function () {
             type: "GET",
             dataType: "json",
             async: false,
-            url: baseHome + "/thuchinganhang/nhanvien",
+            url: baseHome + "/acm/nhanvien",
             success: function (data) {
                 nhan_vien.wrap('<div class="position-relative"></div>').select2({
                 dropdownAutoWidth: true,
@@ -74,7 +74,7 @@ $(function () {
     if (dtUserTable.length) {
         dtUserTable.DataTable({
             // ajax: assetPath + "data/user-list.json", // JSON file to add data
-            ajax: baseHome + "/thuchinganhang/list",
+            ajax: baseHome + "/acm/list",
             "ordering": false,
             columns: [
                 // columns according to JSON
@@ -206,7 +206,7 @@ $(function () {
                         
                         var dateToUse = dateObj.getFullYear() + "-" + thang + "-" + ngay;
                         $('#ngay_gio').val(dateToUse);
-                        url = baseHome + "/thuchinganhang/add";
+                        url = baseHome + "/acm/add";
                     },
                 },
                 {
@@ -331,7 +331,7 @@ function loaddata(id) {
         type: "POST",
         dataType: "json",
         data: { id: id },
-        url: baseHome + "/thuchinganhang/loaddata",
+        url: baseHome + "/acm/loaddata",
         success: function (data) {
             $('#ngay_gio').val(data.ngay_gio);
             $('#dien_giai').val(data.dien_giai);
@@ -343,7 +343,7 @@ function loaddata(id) {
             $('#hach_toan').val(data.hach_toan);
             $("#so_tien").val(formatCurrency(data.so_tien.replace(/[,VNĐ]/g,'')));
             $('#ghi_chu').val(data.ghi_chu);
-            url = baseHome + '/thuchinganhang/update?id=' + id;
+            url = baseHome + '/acm/update?id=' + id;
         },
         error: function () {
             notify_error('Lỗi truy xuất database');
@@ -351,7 +351,7 @@ function loaddata(id) {
     });
 }
 
-function savethuchinganhang() {
+function saveacm() {
     var info = {};
     info.ngay_gio = $("#ngay_gio").val();
     info.dien_giai = $("#dien_giai").val();
@@ -385,7 +385,7 @@ function savethuchinganhang() {
 
 function xoa(id) {
     $.ajax({
-        url: baseHome + "/thuchinganhang/del",
+        url: baseHome + "/acm/del",
         type: 'post',
         dataType: "json",
         data: { id: id },
@@ -428,7 +428,7 @@ function chot_so_du() {
         type: "POST",
         dataType: "json",
         data: {},
-        url: baseHome + "/thuchinganhang/chotsodu",
+        url: baseHome + "/acm/chotsodu",
         success: function (data) {
             if (data.success) {
                 notyfi_success(data.msg);
