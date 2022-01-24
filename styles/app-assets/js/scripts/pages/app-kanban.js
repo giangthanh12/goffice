@@ -9,8 +9,8 @@ $(function () {
     select2 = $('.select2'),
     commentEditor = $('.comment-editor'),
     addNewForm = $('.add-new-board'),
-    updateItemSidebar = $('.update-item-sidebar'),
-    addNewInput = $('.add-new-board-input');
+    updateItemSidebar = $('.update-item-sidebar');
+    //addNewInput = $('.add-new-board-input');
 
   var assetPath = 'styles/app-assets/';
   if ($('body').attr('data-framework') === 'laravel') {
