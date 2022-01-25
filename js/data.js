@@ -114,7 +114,7 @@ $(function () {
                 {
                     targets: 3,
                     render: function (data, type, full, meta) {
-                        return "<span class='text-truncate align-middle'>" + feather.icons["phone"].toSvg({ class: "font-medium-3 text-primary mr-50" }) + full["phoneNumber"] + "</span>";
+                        return '<a class="text-truncate align-middle" onclick="call(\''+full['phoneNumber']+'\')">' + feather.icons["phone"].toSvg({ class: "font-medium-3 text-primary mr-50" }) + full["phoneNumber"] + '</a>';
                     },
                 },
                 {
@@ -342,10 +342,10 @@ function showadd() {
     url = baseHome + "/data/add";
 }
 
-// function showcall() {
-//     $("#showcall").modal('show');
-//     $('#call_number').val('');
-// }
+function showcall() {
+    $("#showcall").modal('show');
+    $('#call_number').val('');
+}
 
 function loaddata(id) {
     $('#updateinfo').modal('show');

@@ -88,6 +88,38 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <div class="col-12">
+                                                    <label for="fname-icon">extNum</label>
+                                                    <div class="form-group row">
+                                                        <div class="col-sm-12">
+                                                            <div class="input-group input-group-merge">
+                                                                <div class="input-group-prepend">
+                                                                    <span class="input-group-text"><i
+                                                                                data-feather="phone"></i></span>
+                                                                </div>
+                                                                <input type="text" id="extNum" class="form-control"
+                                                                       required
+                                                                       name="extNum" placeholder="Số máy nhánh"/>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <label for="password">Sip password</label>
+                                                    <div class="form-group row">
+                                                        <div class="col-sm-12">
+                                                            <div class="input-group input-group-merge">
+                                                                <div class="input-group-prepend">
+                                                                    <span class="input-group-text"><i
+                                                                                data-feather="lock"></i></span>
+                                                                </div>
+                                                                <input type="password" id="sipPass"
+                                                                       class="form-control" name="sipPass"
+                                                                       placeholder="sip password"/>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                                 <div class="d-flex flex-sm-row flex-column mt-2">
                                                     <button type="button" onclick="save()"
                                                             class="btn btn-add btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">

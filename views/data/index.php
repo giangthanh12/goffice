@@ -40,9 +40,9 @@
                                 <!-- <h6 class="mb-0">DataTable with Buttons</h6> -->
                             </div>
                             <div class="dt-buttons ml-1 text-right">
-                                <!-- <button class="dt-button add-new btn btn-danger mt-50" onclick="showcall()" tabindex="0" aria-controls="DataTables_Table_0" type="button">
+                               <button class="dt-button add-new btn btn-danger mt-50" onclick="showcall()" tabindex="0" aria-controls="DataTables_Table_0" type="button">
                                     <span>Gọi điện</span>
-                                </button> -->
+                                </button>
                                 <button class="dt-button add-new btn btn-primary mt-50" onclick="showadd()" tabindex="0" aria-controls="DataTables_Table_0" type="button">
                                     <span>Thêm mới</span>
                                 </button>
@@ -430,7 +430,7 @@
                             </div>
                         </div>
 
-                        <!-- <div class="modal fade text-left" id="showcall" tabindex="-1" aria-labelledby="myModalLabel18" aria-hidden="true" role="dialog">
+                      <div class="modal fade text-left" id="showcall" tabindex="-1" aria-labelledby="myModalLabel18" aria-hidden="true" role="dialog">
                             <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -451,7 +451,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div> -->
+                        </div>
                     </div>
             </section>
         </div>

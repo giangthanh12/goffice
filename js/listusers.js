@@ -95,6 +95,8 @@ $(function () {
                         $(".modal-title").html('Thêm user mới');
                         $('#username').val('');
                         $('#password').val('');
+                        $('#extNum').val('');
+                        $('#sipPass').val('');
                         url = baseHome + "/listusers/add";
                     },
                 },
@@ -171,6 +173,8 @@ function getData(id) {
             $('#username').val(data.username);
             $('#staffId').val(data.staffId).change();
             $('#groupId').val(data.groupId).change();
+            $('#extNum').val(data.extNum);
+            $('#sipPass').val(data.sipPass);
             $('#password').val('');
             url = baseHome + '/listusers/update?id=' + id;
         },
