@@ -15,7 +15,7 @@
                 
 
                 <!-- list section start -->
-                <div class="card">
+                <div class="card" id="acmTable"> 
                     <div class="card-datatable table-responsive pt-0">
                         <table class="user-list-table table">
                             <thead class="thead-light">
@@ -47,7 +47,7 @@
                                         <div class="card-body">
                                             <form class="form-validate" enctype="multipart/form-data" id="dg">
                                                 <div class="row mt-1">
-                                                    
+                                                    <input type="hidden" id="id" name="id">
                                                     <div class="col-lg-3 col-md-6">
                                                         <div class="form-group">
                                                             <label for="dateTime">Thời gian</label>
@@ -104,6 +104,21 @@
                                                         <div class="form-group">
                                                             <label for="asset">Số tiền</label>
                                                             <input id="asset" type="text" class="form-control" name="asset" />
+                                                          
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-lg-6 col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="authorized">Người thông qua</label>
+                                                            <input id="authorized" type="text" class="select2 form-control" name="authorized" />
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-lg-6 col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="contract">Hợp đồng</label>
+                                                            <input id="contract" type="text" class="form-control" name="contract" />
                                                           
                                                         </div>
                                                     </div>

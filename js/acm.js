@@ -3,6 +3,8 @@ $(function () {
     modal = $("#updateinfo"),
     customer = $("#customer"),
     staff = $("#staff"),
+    addNewBtn = $(".add-new button"),
+    authorized = $("#authorized"),
     account = $("#account"),
     datePicker = $("#dateTime"),
     form = $("#dg");
@@ -26,7 +28,7 @@ $(function () {
   if (datePicker.length) {
     datePicker.flatpickr({
       enableTime: false,
-      dateFormat: "d-m-Y",
+      dateFormat: "Y-m-d",
     });
   }
 
@@ -45,6 +47,38 @@ $(function () {
       });
     },
   });
+
+  $.ajax({
+    // tải Nhân viên vào select1 staff
+    type: "GET",
+    dataType: "json",
+    async: false,
+    url: baseHome + "/acm/nhanvien",
+    success: function (data) {
+      authorized.wrap('<div class="position-relative"></div>').select2({
+        dropdownAutoWidth: true,
+        dropdownParent: authorized.parent(),
+        width: "100%",
+        data: data,
+      });
+    },
+  });
+
+  // $.ajax({
+  //   // tải Khách hàng vào select1 customer
+  //   type: "GET",
+  //   dataType: "json",
+  //   async: false,
+  //   url: baseHome + "/acm/contract",
+  //   success: function (data) {
+  //     customer.wrap('<div class="position-relative"></div>').select2({
+  //       dropdownAutoWidth: true,
+  //       dropdownParent: contract.parent(),
+  //       width: "100%",
+  //       data: data,
+  //     });
+  //   },
+  // });
 
   $.ajax({
     // tải Khách hàng vào select1 account
@@ -186,16 +220,7 @@ $(function () {
             $("#updateinfo").modal("show");
             $(".modal-title").html("Thêm thu chi mới");
             // $("#btn_add").attr("disabled", true);
-            // $("#content").val();
-            // $("#customer").val();
-            // $("#staff").val();
-            // $("#account").val();
-            // $("#classify").val();
-            // $("#type").val();
-            // $("#asset").val();
-            // $("#note").val();
-            // $("#status").val(1);
-            // $("#dateTIme").val();
+            $("#dg").trigger("reset");
             // url = baseHome + "/acm/add";
           },
         },
@@ -275,16 +300,21 @@ $(function () {
     });
   }
 
-  // Check Validity
-  function checkValidity(el) {
-    if (el.validate().checkForm()) {
-      submitBtn.attr("disabled", false);
-    } else {
-      submitBtn.attr("disabled", true);
-    }
-  }
+  // // Check Validity
+  // function checkValidity(el) {
+  //   if (el.validate().checkForm()) {
+  //     submitBtn.attr("disabled", false);
+  //   } else {
+  //     submitBtn.attr("disabled", true);
+  //   }
+  // }
 
   // // Form Validation
+  if (addNewBtn.length) {
+    addNewBtn.on("click", function (e) {
+      
+    });
+  }
   if (form.length) {
       form.validate({
         ignore: ".ql-container *", // ? ignoring quill editor icon click, that was creating console error
@@ -310,7 +340,7 @@ $(function () {
           classify: {
             required: true,
           },
-          assets: {
+          asset: {
             required: true,
           },
         },
@@ -336,7 +366,7 @@ $(function () {
           classify: {
             required: "Bạn chưa chọn hình thức hạch toán",
           },
-          assets: {
+          asset: {
             required: "Bạn chưa nhập số tiền giao dịch",
           },
         },
@@ -346,7 +376,55 @@ $(function () {
           var isValid = form.valid();
           e.preventDefault();
           if (isValid) {
+              var id = $("#id").val();
+              var dateTime = $("#dateTime").val();
+              var content = $("#content").val();
+              var customer = $("#customer").val();
+              var staff = $("#staff").val();
+              var account = $("#account").val();
+              var classify = $("#classify").val();
+              var type = $("#type").val();
+              var asset = $("#asset").val();
+              var authorized = $("#authorized").val();
+              var contract = $("#contract").val();
+              var note = $("#note").val();
+              var status = 1;
+
+              
+              $.ajax({
+                type: "POST",
+                dataType: "json",
+                data: {
+                  id: id,
+                  dateTime: dateTime,
+                  content: content,
+                  customer: customer,
+                  staff: staff,
+                  account: account,
+                  classify: classify,
+                  type: type,
+                  asset: asset,
+                  authorized: authorized,
+                  contract: contract,
+                  note: note,
+                  status: status,
+                },
+                url: baseHome + "/acm/update",
+                success: function (data) {
+                  if (data.success == true) {
+                    notyfi_success(data.msg);
+                    $(".user-list-table").DataTable().ajax.reload(null, false);
+                    $("#dg").trigger("reset");
+                  } else {
+                    notify_error(data.msg);
+                    $("#dg").trigger("reset");
+                    return false;
+                  }
+                },
+              });
+
               modal.modal("hide");
+              // overlay.removeClass("show");
           }
       });
   }
@@ -376,7 +454,8 @@ function loaddata(id) {
       $("#type").val(data.type);
       $("#asset").val(formatCurrency(data.asset.replace(/[,VNĐ]/g, "")));
       $("#note").val(data.note);
-      url = baseHome + "/acm/update?id=" + id;
+      url = baseHome + "/acm/update";
+      console.log(data);
     },
     error: function () {
       notify_error("Lỗi truy xuất database");
