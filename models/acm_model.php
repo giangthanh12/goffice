@@ -22,15 +22,15 @@ class acm_model extends Model{
     //     return $result;
     // }
 
-    function addObj($data)
-    {
+    // function addObj($data)
+    // {
         
-        $data['asset'] = str_replace( ',', '', $data['asset']);
-        $query = $this->insert("ledger",$data);
+    //     $data['asset'] = str_replace( ',', '', $data['asset']);
+    //     $query = $this->insert("ledger",$data);
 
         
-        return $query;
-    }
+    //     return $query;
+    // }
 
     function getdata($id){
         $result = array();
@@ -42,14 +42,28 @@ class acm_model extends Model{
 
     function updateObj($id, $data)
     {
-        
-        $data['asset'] = str_replace( ',', '', $data['asset']);
-        $query = $this->update("ledger",$data,"id = $id");
-       
-        return $query;
+        if($id > 0) {
+            $data['asset'] = str_replace( ',', '', $data['asset']);
+            $result = $this->update('ledger', $data, "id = $id");
+        }
+        else {
+            $data['asset'] = str_replace( ',', '', $data['asset']);
+            $result = $this->insert('ledger', $data);
+        }
+        return $result;
     }
 
-   
+    // function update($id, $data) {
+    //     if($id > 0) {
+    //         $data['asset'] = str_replace( ',', '', $data['asset']);
+    //         $result = $this->update('ledger', $data, "id = $id");
+    //     }
+    //     else {
+    //         $data['asset'] = str_replace( ',', '', $data['asset']);
+    //         $result = $this->insert('ledger', $data);
+    //     }
+    //     return $result;
+    // }
 
     function delObj($id,$data)
     {
@@ -70,6 +84,14 @@ class acm_model extends Model{
     function taikhoan(){
         $result = array();
         $query = $this->db->query("SELECT id, name AS `text` FROM accnumber WHERE status > 0 AND id > 0");
+        if ($query)
+            $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    function contract(){
+        $result = array();
+        $query = $this->db->query("SELECT id, name AS `text` FROM contracts WHERE status = 1");
         if ($query)
             $result = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;
