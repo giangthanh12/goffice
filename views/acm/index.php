@@ -68,12 +68,6 @@
                                                     </div>
                                                     <div class="col-lg-3 col-md-6">
                                                         <div class="form-group">
-                                                            <label for="staff">Nhân viên</label>
-                                                            <select name="staff" id="staff" class="select2 form-control"></select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-3 col-md-6">
-                                                        <div class="form-group">
                                                             <label for="account">Tài khoản</label>
                                                             <select name="account" id="account" class="select2 form-control"></select>
                                                         </div>
@@ -100,25 +94,25 @@
                                                         </div>
                                                     </div>
 
-                                                    <div class="col-lg-3 col-md-6">
+                                                    <div class="col-lg-6 col-md-6">
                                                         <div class="form-group">
-                                                            <label for="asset">Số tiền</label>
-                                                            <input id="asset" type="text" class="form-control" name="asset" />
+                                                            <label for="contract">Hợp đồng</label>
+                                                            <input id="contract" type="text" class="select2 form-control" name="contract" />
                                                           
                                                         </div>
                                                     </div>
 
                                                     <div class="col-lg-6 col-md-6">
                                                         <div class="form-group">
-                                                            <label for="authorized">Người thông qua</label>
+                                                            <label for="authorized">Nhân viên</label>
                                                             <input id="authorized" type="text" class="select2 form-control" name="authorized" />
                                                         </div>
                                                     </div>
 
-                                                    <div class="col-lg-6 col-md-6">
+                                                     <div class="col-lg-6 col-md-6">
                                                         <div class="form-group">
-                                                            <label for="contract">Hợp đồng</label>
-                                                            <input id="contract" type="text" class="form-control" name="contract" />
+                                                            <label for="asset">Số tiền</label>
+                                                            <input id="asset" type="text" class="form-control" name="asset" />
                                                           
                                                         </div>
                                                     </div>

@@ -1,189 +1,170 @@
 $(function () {
   var dtUserTable = $(".user-list-table"),
     modal = $("#updateinfo"),
-    customer = $("#customer"),
-    staff = $("#staff"),
     addNewBtn = $(".add-new button"),
-    authorized = $("#authorized"),
-    account = $("#account"),
-    datePicker = $("#dateTime"),
     form = $("#dg");
-
+    name = $("#name");
+    account = $("#account");
+    type = $("#type");
+    
     typeObj = {
-      0: { title: "" },
-      1: { title: "Doanh thu" },
-      2: { title: "Chi phí" },
-      3: { title: "Nội bộ" },
+      0: { title: "", class: "" },
+      111 : { title: "Tiền mặt", class: "badge-light-warning" },
+      112 : { title: "Ngân hàng", class: "badge-light-success" },
     };
 
-    classifyObj = {
-      0: { title: "", class: "" },
-      1: { title: "Thu", class: "badge-light-success" },
-      2: { title: "Chi", class: "badge-light-warning" },
-    };
+    // classifyObj = {
+    //   0: { title: "", class: "" },
+    //   1: { title: "Thu", class: "badge-light-success" },
+    //   2: { title: "Chi", class: "badge-light-warning" },
+    // };
 
 
 
   // datepicker init
-  if (datePicker.length) {
-    datePicker.flatpickr({
-      enableTime: false,
-      dateFormat: "Y-m-d",
-    });
-  }
+//   if (datePicker.length) {
+//     datePicker.flatpickr({
+//       enableTime: false,
+//       dateFormat: "Y-m-d",
+//     });
+//   }
 
-  $.ajax({
-    // tải Khách hàng vào select1 customer
-    type: "GET",
-    dataType: "json",
-    async: false,
-    url: baseHome + "/acm/khachhang",
-    success: function (data) {
-      customer.wrap('<div class="position-relative"></div>').select2({
-        dropdownAutoWidth: true,
-        dropdownParent: customer.parent(),
-        width: "100%",
-        data: data,
-      });
-    },
-  });
+//   $.ajax({
+//     // tải Khách hàng vào select1 customer
+//     type: "GET",
+//     dataType: "json",
+//     async: false,
+//     url: baseHome + "/acm/khachhang",
+//     success: function (data) {
+//       customer.wrap('<div class="position-relative"></div>').select2({
+//         dropdownAutoWidth: true,
+//         dropdownParent: customer.parent(),
+//         width: "100%",
+//         data: data,
+//       });
+//     },
+//   });
 
-  $.ajax({
-    // tải Nhân viên vào select1 staff
-    type: "GET",
-    dataType: "json",
-    async: false,
-    url: baseHome + "/acm/nhanvien",
-    success: function (data) {
-      authorized.wrap('<div class="position-relative"></div>').select2({
-        dropdownAutoWidth: true,
-        dropdownParent: authorized.parent(),
-        width: "100%",
-        data: data,
-      });
-    },
-  });
+//   $.ajax({
+//     // tải Nhân viên vào select1 staff
+//     type: "GET",
+//     dataType: "json",
+//     async: false,
+//     url: baseHome + "/acm/nhanvien",
+//     success: function (data) {
+//       authorized.wrap('<div class="position-relative"></div>').select2({
+//         dropdownAutoWidth: true,
+//         dropdownParent: authorized.parent(),
+//         width: "100%",
+//         data: data,
+//       });
+//     },
+//   });
 
-  // $.ajax({
-  //   // tải Khách hàng vào select1 customer
-  //   type: "GET",
-  //   dataType: "json",
-  //   async: false,
-  //   url: baseHome + "/acm/contract",
-  //   success: function (data) {
-  //     customer.wrap('<div class="position-relative"></div>').select2({
-  //       dropdownAutoWidth: true,
-  //       dropdownParent: contract.parent(),
-  //       width: "100%",
-  //       data: data,
-  //     });
-  //   },
-  // });
+//   // $.ajax({
+//   //   // tải Khách hàng vào select1 customer
+//   //   type: "GET",
+//   //   dataType: "json",
+//   //   async: false,
+//   //   url: baseHome + "/acm/contract",
+//   //   success: function (data) {
+//   //     customer.wrap('<div class="position-relative"></div>').select2({
+//   //       dropdownAutoWidth: true,
+//   //       dropdownParent: contract.parent(),
+//   //       width: "100%",
+//   //       data: data,
+//   //     });
+//   //   },
+//   // });
 
-  $.ajax({
-    // tải Khách hàng vào select1 account
-    type: "GET",
-    dataType: "json",
-    async: false,
-    url: baseHome + "/acm/taikhoan",
-    success: function (data) {
-      account.wrap('<div class="position-relative"></div>').select2({
-        dropdownAutoWidth: true,
-        dropdownParent: account.parent(),
-        width: "100%",
-        data: data,
-      });
-    },
-  });
+//   $.ajax({
+//     // tải Khách hàng vào select1 account
+//     type: "GET",
+//     dataType: "json",
+//     async: false,
+//     url: baseHome + "/acm/taikhoan",
+//     success: function (data) {
+//       account.wrap('<div class="position-relative"></div>').select2({
+//         dropdownAutoWidth: true,
+//         dropdownParent: account.parent(),
+//         width: "100%",
+//         data: data,
+//       });
+//     },
+//   });
 
-  $.ajax({
-    // tải Nhân viên vào select1 staff
-    type: "GET",
-    dataType: "json",
-    async: false,
-    url: baseHome + "/acm/nhanvien",
-    success: function (data) {
-      staff.wrap('<div class="position-relative"></div>').select2({
-        dropdownAutoWidth: true,
-        dropdownParent: staff.parent(),
-        width: "100%",
-        data: data,
-      });
-    },
-  });
+//   $.ajax({
+//     // tải Nhân viên vào select1 staff
+//     type: "GET",
+//     dataType: "json",
+//     async: false,
+//     url: baseHome + "/acm/nhanvien",
+//     success: function (data) {
+//       staff.wrap('<div class="position-relative"></div>').select2({
+//         dropdownAutoWidth: true,
+//         dropdownParent: staff.parent(),
+//         width: "100%",
+//         data: data,
+//       });
+//     },
+//   });
 
-  $.ajax({
-    // tải Nhân viên vào select1 staff
-    type: "GET",
-    dataType: "json",
-    async: false,
-    url: baseHome + "/acm/hopdong",
-    success: function (data) {
-      contract.wrap('<div class="position-relative"></div>').select2({
-        dropdownAutoWidth: true,
-        dropdownParent: contract.parent(),
-        width: "100%",
-        data: data,
-      });
-    },
-  });
+//   $.ajax({
+//     // tải Nhân viên vào select1 staff
+//     type: "GET",
+//     dataType: "json",
+//     async: false,
+//     url: baseHome + "/acm/hopdong",
+//     success: function (data) {
+//       contract.wrap('<div class="position-relative"></div>').select2({
+//         dropdownAutoWidth: true,
+//         dropdownParent: contract.parent(),
+//         width: "100%",
+//         data: data,
+//       });
+//     },
+//   });
 
   // Users List datatable
   if (dtUserTable.length) {
     dtUserTable.DataTable({
       // ajax: assetPath + "data/user-list.json", // JSON file to add data
-      ajax: baseHome + "/acm/list",
+      ajax: baseHome + "/accnumber/list",
       ordering: false,
       columns: [
         // columns according to JSON
         // { data: "" },
-        { data: "dateTime" },
-        { data: "accName" },
-        { data: "content" },
-        { data: "asset" },
-        { data: "classify" },
+        { data: "id" },
+        { data: "name" },
+        { data: "account" },
         { data: "type" },
         { data: "" },
       ],
       columnDefs: [
         {
           // For Responsive
-          // className: "control",
-          // orderable: false,
-          // responsivePriority: 0,
-          // targets: 0,
-          // render: function (data, type, full, meta) {
-          //     return "";
-          // }
+          className: "control",
+          orderable: false,
+          responsivePriority: 0,
+          targets: 0,
+          render: function (data, type, full, meta) {
+              return "";
+          }
         },
         {
           // User full name and username
-          targets: 4,
+          targets: 3,
           render: function (data, type, full, meta) {
-            var $type = full["type"];
-            // console.log(typeObj);
-            return (
-              '<span text-capitalized>' +
-              typeObj[$type].title +
-              '</span>'
-            );
-          },
-        },
-        {
-          // classify Status
-          targets: 5,
-          render: function (data, type, full, meta) {
-            var $classify = full["classify"];
+            var $type = full["type"].substr(0, 3);
             return (
               '<span class="badge badge-pill ' +
-              classifyObj[$classify].class +
+              typeObj[$type].class +
               '" text-capitalized>' +
-              classifyObj[$classify].title +
+              typeObj[$type].title +
               "</span>"
             );
           },
         },
-
         {
           // Actions
           targets: -1,
@@ -234,7 +215,7 @@ $(function () {
           },
           action: function (e, dt, node, config) {
             $("#updateinfo").modal("show");
-            $(".modal-title").html("Thêm thu chi mới");
+            $(".modal-title").html("Thêm Tài khoản mới");
             // $("#btn_add").attr("disabled", true);
             $("#dg").trigger("reset");
             // url = baseHome + "/acm/add";
@@ -335,55 +316,25 @@ $(function () {
       form.validate({
         ignore: ".ql-container *", // ? ignoring quill editor icon click, that was creating console error
         rules: {
-          dateTime: {
-            required: true,
-          },
-          content: {
-            required: true,
-          },
-          customer: {
-            required: true,
-          },
-          staff: {
+          name: {
             required: true,
           },
           account: {
             required: true,
           },
           type: {
-            required: true,
-          },
-          classify: {
-            required: true,
-          },
-          asset: {
             required: true,
           },
         },
         messages: {
-          dateTime: {
+          name: {
             required: "Bạn chưa chọn ngày thực hiện",
           },
-          content: {
+          account: {
             required: "Bạn chưa nhập thông tin",
           },
-          customer: {
-            required: "Bạn chưa chọn khách hàng",
-          },
-          staff: {
-            required: "Bạn chưa chọn nhân viên",
-          },
-          account: {
-            required: "Bạn chưa chọn tài khoản giao dịch",
-          },
           type: {
-            required: "Bạn chưa chọn loại giao dịch",
-          },
-          classify: {
-            required: "Bạn chưa chọn hình thức hạch toán",
-          },
-          asset: {
-            required: "Bạn chưa nhập số tiền giao dịch",
+            required: "Bạn chưa chọn khách hàng",
           },
         },
       });
@@ -393,17 +344,9 @@ $(function () {
           e.preventDefault();
           if (isValid) {
               var id = $("#id").val();
-              var dateTime = $("#dateTime").val();
-              var content = $("#content").val();
-              var customer = $("#customer").val();
-              var staff = $("#staff").val();
+              var name = $("#name").val();
               var account = $("#account").val();
-              var classify = $("#classify").val();
               var type = $("#type").val();
-              var asset = $("#asset").val();
-              var authorized = $("#authorized").val();
-              var contract = $("#contract").val();
-              var note = $("#note").val();
               var status = 1;
 
               
@@ -412,20 +355,12 @@ $(function () {
                 dataType: "json",
                 data: {
                   id: id,
-                  dateTime: dateTime,
-                  content: content,
-                  customer: customer,
-                  staff: staff,
+                  name: name,
                   account: account,
-                  classify: classify,
                   type: type,
-                  asset: asset,
-                  authorized: authorized,
-                  contract: contract,
-                  note: note,
                   status: status,
                 },
-                url: baseHome + "/acm/update",
+                url: baseHome + "/accnuber/update",
                 success: function (data) {
                   if (data.success == true) {
                     notyfi_success(data.msg);
@@ -453,24 +388,17 @@ $(function () {
 });
 
 function loaddata(id) {
-  $(".modal-title").html("Cập nhật thông tin sổ tiền mặt");
+  $(".modal-title").html("Cập nhật thông tin tài khoản");
   $.ajax({
     type: "POST",
     dataType: "json",
     data: { id: id },
-    url: baseHome + "/acm/loaddata",
+    url: baseHome + "/accnumber/loaddata",
     success: function (data) {
-      $("#dateTime").val(data.dateTime);
-      $("#content").val(data.content);
-      $("#customer").val(data.customer).trigger("change");
-      $("#account").val(data.accnumber).trigger("change");
-      $("#staff").val(data.staff).trigger("change");
-      $("#classify").attr("disabled", false);
-      $("#classify").val(data.classify);
+      $("#name").val(data.name);
+      $("#account").val(data.account);
       $("#type").val(data.type);
-      $("#asset").val(formatCurrency(data.asset.replace(/[,VNĐ]/g, "")));
-      $("#note").val(data.note);
-      url = baseHome + "/acm/update";
+      url = baseHome + "/account/update";
       console.log(data);
     },
     error: function () {
@@ -526,7 +454,7 @@ function xoa(id) {
   }).then(function (result) {
     if (result.value) {
       $.ajax({
-        url: baseHome + "/acm/del",
+        url: baseHome + "/accnumber/del",
         type: "post",
         dataType: "json",
         data: { id: id },
