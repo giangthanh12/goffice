@@ -1,4 +1,4 @@
-var defaultDate = '';
+// var defaultDate = '';
 var uvid = '';
 var dtMemberTable = $("#member-list-table");
 var dtHVTable = $("#hocvan-list-table");
@@ -8,11 +8,89 @@ $(function () {
     // Default
     if (basicPickr.length) {
         basicPickr.flatpickr({
-            defaultDate: "today",
+            // defaultDate: "today",
             dateFormat: "d-m-Y",
- 
+            allowInput:true,
+            // monthSelectorType:"dropdown",
+            // yearSelectorType:"dropdown",
         });
     }
+    var buttons = [];
+    if(funAdd == 1) {
+        buttons.push(
+            {
+                text: "Thêm mới",
+                className: "add-new btn btn-primary mt-50",
+                attr: {
+                    "data-toggle": "modal",
+                    "data-target": "#modals-slide-in",
+                },
+                init: function (api, node, config) {
+                    $(node).removeClass("btn-secondary");
+                },
+                action: function (e, dt, node, config) {
+                    $('#dg')[0].reset();
+                
+                 
+                   
+                }
+            });
+    }
+
+    
+
+    const FLATPICKR_CUSTOM_YEAR_SELECT = 'flatpickr-custom-year-select';
+    const initDatePicker = function (inputId) {
+        $("#" + inputId).flatpickr({
+            dateFormat: "d/m/Y",
+            minDate: "01.01.1900",
+            maxDate: "01.01.2100",
+            allowInput: true,
+            onChange: function () {
+                $("#" + inputId).blur();
+            },
+           //here what was added
+            onReady: function (selectedDates, dateStr, instance) {
+                const flatpickrYearElement = instance.currentYearElement;
+
+                const children = flatpickrYearElement.parentElement.children;
+                for (let i in children) {
+                    if (children.hasOwnProperty(i)) {
+                        children[i].style.display = 'none';
+                    }
+                }
+
+                const yearSelect = document.createElement('select');
+                const minYear = new Date(instance.config._minDate).getFullYear();
+                const maxYear = new Date(instance.config._maxDate).getFullYear();
+                for (let i = minYear; i < maxYear; i++) {
+                    const option = document.createElement('option');
+                    option.value = '' + i;
+                    option.text = '' + i;
+                    yearSelect.appendChild(option);
+                }
+                yearSelect.addEventListener('change', function (event) {
+                    flatpickrYearElement.value = event.target['value'];
+                    instance.currentYear = parseInt(event.target['value']);
+                    instance.redraw();
+                });
+
+                yearSelect.className = 'flatpickr-monthDropdown-months';
+                yearSelect.id = FLATPICKR_CUSTOM_YEAR_SELECT;
+                yearSelect.value = instance.currentYearElement.value;
+
+                flatpickrYearElement.parentElement.appendChild(yearSelect);
+            },
+            onMonthChange: function (selectedDates, dateStr, instance) {
+                document.getElementById(FLATPICKR_CUSTOM_YEAR_SELECT).value = '' + instance.currentYear;
+            }
+        })
+    };
+
+
+    initDatePicker("dob");
+
+
 
     "use strict";
 
@@ -127,13 +205,20 @@ $(function () {
                     orderable: false,
                     render: function (data, type, full, meta) {
                         var html = '';
-                        html += '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" title="Chỉnh sửa" onclick="loaddata(' + full['id'] + ')">';
-                        html += '<i class="fas fa-pencil-alt"></i>';
-                        html += '</button> &nbsp;';
-                        html += '<button type="button" class="btn btn-icon btn-outline-danger waves-effect" title="Xóa" onclick="del(' + full['id'] + ')">';
-                        html += '<i class="fas fa-trash-alt"></i>';
-                        html += '</button>';
+                        if(funEdit == 1) {
+                            html += '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" title="Chỉnh sửa" onclick="loaddata(' + full['id'] + ')">';
+                            html += '<i class="fas fa-pencil-alt"></i>';
+                            html += '</button> &nbsp;';
+                        }
+                        
+
+                        if(funDel == 1) {
+                            html += '<button type="button" class="btn btn-icon btn-outline-danger waves-effect" title="Xóa" id="confirm-text" onclick="del(' + full['id'] + ')">';
+                            html += '<i class="fas fa-trash-alt"></i>';
+                            html += '</button>';
+                        }
                         return html;
+                    
                     },
                     width: 150
                 },
@@ -150,25 +235,7 @@ $(function () {
                 ">",
            
             // Buttons with Dropdown
-            buttons: [
-                {
-                    text: "Thêm mới",
-                    className: "add-new btn btn-primary mt-50",
-                    attr: {
-                        "data-toggle": "modal",
-                        "data-target": "#modals-slide-in",
-                    },
-                    init: function (api, node, config) {
-                        $(node).removeClass("btn-secondary");
-                    },
-                    action: function (e, dt, node, config) {
-                        $('#dg')[0].reset();
-
-                       
-                    }
-                },
-           
-            ],
+            buttons: buttons,
             // For responsive popup
            
             language: {
@@ -188,7 +255,9 @@ $(function () {
         });
     }
 
-
+function showAdd() {
+      $('#dg')[0].reset();
+}
 
     // Check Validity
     function checkValidity(el) {
@@ -414,6 +483,11 @@ if ($('#fm-tab4').length) {
 });
 
 function loaddata(id) {
+    if(funEdit != 1) {
+        $('#updateInfoApplicant').css('display','none');
+        $('#btn_edu').css('display','none');
+        $('#btn_exp').css('display','none');
+    }
     $('#fm-tab2')[0].reset();
     return_combobox_multi('#noisinh', baseHome + '/applicant/getProvince', 'Chọn nơi sinh');
     return_combobox_multi('#residence', baseHome + '/applicant/getProvince', 'Nơi ở hiện tại');

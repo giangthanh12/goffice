@@ -611,4 +611,11 @@
         </div>
     </div>
 </div>
+<script>
+    var funAdd = <?=$this->funAdd?>,
+        funImport = <?=$this->funImport?>,
+        funEdit = <?=$this->funEdit?>,
+        funDel = <?=$this->funDel?>;
+        console.log(funAdd,funImport,funEdit,funDel);
+</script>
 <script src="<?= HOME ?>/js/customer.js"></script>

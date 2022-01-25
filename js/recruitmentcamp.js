@@ -19,6 +19,20 @@ var   datePicker = $(".flatpickr-basic");
                 defaultDate: "today",
             });
         }
+        var buttons = [];
+        if(funAdd == 1) {
+            buttons.push(
+                {
+                    text: "Thêm mới",
+                    className: "add-new btn btn-primary mt-50",
+                    init: function (api, node, config) {
+                        $(node).removeClass("btn-secondary");
+                    },
+                    action: function (e, dt, node, config) {
+                        showAdd();
+                    },
+                });
+        }
     // Users List datatable
     if (dtUserTable.length) {
      var table =   dtUserTable.DataTable({
@@ -101,15 +115,23 @@ var   datePicker = $(".flatpickr-basic");
                     render: function (data, type, full, meta) {
                         var html = '';
                         html += '<div d-flex justify-content-start style="width::150px;text-align:left">';
+                       if(funAdd == 1) {
                         html += '<button type="button"  class="btn btn-icon btn-outline-warning waves-effect" data-toggle="modal" data-target="#modalCandidate" title="Thêm ứng viên" onclick="loadCandidate(' + full['id'] + ')">';
                         html += '<i class="fas fa-plus"></i>';
                         html += '</button> &nbsp;';
+                       }
+                       
+                       if(funEdit == 1) {
                         html += '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" title="Chỉnh sửa" onclick="loaddata(' + full['id'] + ')">';
                         html += '<i class="fas fa-pencil-alt"></i>';
                         html += '</button> &nbsp;';
+                    }
+                    if(funDel == 1) {
                         html += '<button type="button" class="btn btn-icon btn-outline-danger waves-effect" title="Xóa" id="confirm-text" onclick="del(' + full['id'] + ')">';
                         html += '<i class="fas fa-trash-alt"></i>';
-                        html += '</button></div>';
+                        html += '</button>';
+                    }
+                        html+= '</div>'
                         return html;
                     },
                     width: "20%"
@@ -137,51 +159,31 @@ var   datePicker = $(".flatpickr-basic");
                     info:"Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
                 },
             // Buttons with Dropdown
-            buttons: [
-                {
-                    text: "Thêm mới",
-                    className: "add-new  btn btn-primary mt-50",
-                    init: function (api, node, config) {
-                        $(node).removeClass("btn-secondary");
-                    },
-                    action: function (e, dt, node, config) {
-                        $("#addinfo").modal('show');
-                        $(".modal-title").html('Thêm chiến dịch tuyển dụng mới');
-                        $('#title').val('');
-                        $('#inChargeId').val('').change();
-                        $('#followerId').val('').change();
-                        $('#estimateCost').val('');
-                        $('#department').val('').change();
-                        $('#branch').val('').change();
-                        $('#branch').val('').change();
-                        $('#position').val('').change();
-                        $('#minSalary').val('');
-                        $('#maxSalary').val('');
-                        $('#quantity').val('');
-                        $('#minAge').val('');
-                        $('#maxAge').val('');
-                        $('#professional').val('');
-                        $('#yearOfExperience').val('');
-          
-                    },
-                },
-                // {
-                //     text: "Nhập excel",
-                //     className: " btn  btn-primary mt-50",
-                //     init: function (api, node, config) {
-                //         $(node).removeClass("btn-secondary");
-                //     },
-                //     action: function (e, dt, node, config) {
-                //         nhapexcel();
-                //     },
-                // },
-            ],
+            buttons:buttons,
 
         });
 
     }
 
-    
+    function showAdd() {
+        $("#addinfo").modal('show');
+        $(".modal-title").html('Thêm chiến dịch tuyển dụng mới');
+        $('#title').val('');
+        $('#inChargeId').val('').change();
+        $('#followerId').val('').change();
+        $('#estimateCost').val('');
+        $('#department').val('').change();
+        $('#branch').val('').change();
+        $('#branch').val('').change();
+        $('#position').val('').change();
+        $('#minSalary').val('');
+        $('#maxSalary').val('');
+        $('#quantity').val('');
+        $('#minAge').val('');
+        $('#maxAge').val('');
+        $('#professional').val('');
+        $('#yearOfExperience').val('');
+    }
 
     // Check Validity
     function checkValidity(el) {
@@ -575,10 +577,10 @@ function loadListCandidate(id) {
                     targets: 4,
                     orderable: false,
                     render: function (data, type, full, meta) {
-                      if(full['status'] == 1) {
+                      if(full['status'] == 2) {
                         $row_output = `<div class="badge badge-success">Đã vào làm</div>`;
                       }
-                      else if (full['status'] == 2){
+                      else if (full['status'] == 1){
                         $row_output = `<div class="badge badge-warning">Chưa vào làm</div>`;
                       }
                       return $row_output;
@@ -592,9 +594,11 @@ function loadListCandidate(id) {
                     orderable: false,
                     render: function (data, type, full, meta) {
                         var html = '';
+                        if(full['status'] == 1) {
                         html += '<button type="button" class="btn btn-icon btn-outline-danger waves-effect" title="Xóa" onclick="delCandidate(' + full['id'] + ')">';
                         html += '<i class="fas fa-trash-alt"></i>';
                         html += '</button>';
+                        }
                         return html;
                     },
                     width: 150

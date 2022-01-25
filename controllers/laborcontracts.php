@@ -12,6 +12,7 @@ class laborcontracts extends Controller
         if ($checkMenuRole == false)
             header('location:' . HOME);
         $funcs = $model->getFunctions('laborcontracts');
+      
         foreach ($funcs as $item) {
             if ($item['function'] == 'add')
                 self::$funAdd = 1;
@@ -38,6 +39,7 @@ class laborcontracts extends Controller
             $viewAll = true;
         else
             $viewAll=false;
+
         $data = $this->model->listObj($viewAll);
         echo json_encode($data);
     }

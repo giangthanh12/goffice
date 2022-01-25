@@ -2,7 +2,14 @@
 class recruitment_result extends Controller{
 
     function __construct(){
+     
         parent::__construct();
+        $model = new model();
+        $checkMenuRole = $model->checkMenuRole('recruitment_result');
+        if ($checkMenuRole == false)
+            header('location:' . HOME);
+    
+       
     }
 
     function index(){

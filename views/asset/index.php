@@ -107,7 +107,7 @@
                                                     <div class="col-12 d-flex flex-sm-row flex-column mt-2">
 
 
-                                                        <button type="submit" class="btn btn-add btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Cập nhật</button>
+                                                        <button type="submit" class="btn btn-add btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Thêm mới</button>
 
                                                         <button type="reset" class="btn btn-outline-secondary" data-dismiss="modal">Bỏ qua</button>
                                                     </div>
@@ -321,9 +321,9 @@
 
 
                                                             <div class="col-12 d-flex flex-sm-row flex-column mt-2">
-                                                                <?php if (functions::checkFuns($this->funs, 'loaddata')) { ?>
-                                                                    <button type="submit" class="btn  btn-add btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Cập nhật</button>
-                                                                <?php } ?>
+                                                             
+                                                                    <button type="submit" id="btn_update_asset" class="btn  btn-add btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Cập nhật</button>
+                                                              
                                                                 <button type="reset" class="btn btn-outline-secondary" data-dismiss="modal">Bỏ qua</button>
                                                             </div>
 
@@ -349,9 +349,11 @@
                                                                 <tr>
                                                                     <th>Thời gian</th>
                                                                     <th>Mã sản phẩm</th>
+                                                                    <th>Mã cấp phát</th>
                                                                     <th>Tài sản</th>
                                                                     <th>Nhân viên</th>
                                                                     <th>Tiền cọc</th>
+                                                                    <th>Tình trạng</th>
                                                                 </tr>
                                                             </thead>
                                                         </table>
@@ -371,6 +373,7 @@
                                                                 <tr>
                                                                     <th>Thời gian</th>
                                                                     <th>Mã sản phẩm</th>
+                                                                    <th>Mã cấp phát</th> 
                                                                     <th>Tài sản</th>
                                                                     <th>Tiền cọc</th>
                                                                     <th>Ghi chú</th>
@@ -479,7 +482,7 @@
                                                 <label for="descIssue">Ghi chú</label>
                                                 <textarea id="descIssue" class="form-control" name="descIssue"></textarea>
                                             </div>
-                                            <button type="submit" id="btn_add_issue" class="btn btn-primary mr-1 data-submit">Lưu</button>
+                                            <button type="submit" id="btn_add_issue" class="btn btn-primary mr-1 data-submit">Cấp phát</button>
                                             <button type="reset" class="btn btn-outline-secondary" data-dismiss="modal">Bỏ qua</button>
                                         </div>
                                     </div>
@@ -553,7 +556,11 @@
     </div>
 </div>
 <script>
-    var userFuns = JSON.parse('<?= json_encode($this->funs) ?>');
-    console.log(userFuns);
+    var funAdd = <?=$this->funAdd?>,
+        funIssue = <?=$this->funIssue?>,
+        funRecall = <?=$this->funRecall?>,
+        funEdit = <?=$this->funEdit?>,
+        funDel = <?=$this->funDel?>;
+     console.log(funAdd,funIssue,funRecall,funEdit,funDel);
 </script>
 <script src="<?= HOME ?>/js/asset.js"></script>

@@ -159,63 +159,7 @@
          });
      }
  
-    //  if (selectCongChieu.length) {
-    //      function renderBullets(option) {
-    //          if (!option.id) {
-    //              return option.text;
-    //          }
-    //          var $bullet =
-    //              "<span class='bullet bullet-" +
-    //              $(option.element).data('label') +
-    //              " bullet-sm mr-50'> " +
-    //              '</span>' +
-    //              option.text;
- 
-    //          return $bullet;
-    //      }
- 
-    //      selectCongChieu.wrap('<div class="position-relative"></div>').select2({
-    //          placeholder: 'Select value',
-    //          dropdownParent: selectCongChieu.parent(),
-    //          templateResult: renderBullets,
-    //          templateSelection: renderBullets,
-    //          minimumResultsForSearch: -1,
-    //          escapeMarkup: function (es) {
-    //              return es;
-    //          }
-    //      });
-    //  }
- 
-    //  if (ngay.length) {
-    //      var ngay = ngay.flatpickr({
-    //          enableTime: false,
-    //          altFormat: 'Y-m-d',
-    //          dateFormat: "Y-m-d",
-    //          time_24hr: true,
-    //          onReady: function (selectedDates, dateStr, instance) {
-    //              if (instance.isMobile) {
-    //                  $(instance.mobileInput).attr('step', null);
-    //              }
-    //          }
-    //      });
-    //  }
- 
-    //  // Start date picker
-    //  if (giovao.length) {
-    //      var giovao = giovao.flatpickr({
-    //          enableTime: true,
-    //          noCalendar: true,
-    //          dateFormat: "H:i:S",
-    //          altFormat: "H:i:S",
-    //          time_24hr: true,
-    //          enableSeconds: true,
-    //          onReady: function (selectedDates, dateStr, instance) {
-    //              if (instance.isMobile) {
-    //                  $(instance.mobileInput).attr('step', null);
-    //              }
-    //          }
-    //      });
-    //  }
+
  
      // End date picker
      if (giora.length) {
@@ -253,13 +197,13 @@
 
          // ngày
         $('.flatpickr-basic').flatpickr({
-            enableTime: true,
+            // enableTime: true,
             dateFormat: "d-m-Y H:i",
             defaultDate: eventToUpdate.extendedProps.dateTime
             });
         //Giờ
         $('#timeInterview').flatpickr({
-            enableTime: true,
+            // enableTime: true,
             noCalendar: true,
             dateFormat: "H:i",
             defaultDate: eventToUpdate.extendedProps.time
@@ -444,18 +388,38 @@
              },
          },
          eventClassNames: function ({event: calendarEvent}) {
-             console.log(calendarEvent);
+          
              const colorName = calendarsColor[calendarEvent._def.extendedProps.result]; // chỉnh màu
-                return  [
-                    // Background Color
-                    'bg-light-' + colorName,
-                    'text-white',
-                    'd-inline-block',
-                    'w-100'
-                ];
+   
+                if(calendarEvent._context.viewApi.type == 'dayGridMonth') {
+                    return  [
+                        // Background Color
+                        'bg-light-' + colorName,
+                        'text-white',
+                        'd-inline-block',
+                        'w-100'
+                    ];
+                }
+                else {
+                    return  [
+                        // Background Color
+                        'bg-light-' + colorName,
+                        'text-white',
+                        'w-100'
+                    ];
+                }
+                
+         
+                
             
          },
          dateClick: function (info) {
+            $('#updateInterview').css('display','inline-block');
+            $('#updateInterview').html('Thêm');
+            if(funAdd != 1) {
+               $('#updateInterview').css('display','none');
+            }
+            
              // thêm dựa vào lịch
             btnDeleteEvent.addClass('d-none');
                 $('#add-new-sidebar').modal('show');
@@ -484,8 +448,20 @@
 
          },
          eventClick: function (info) {
-          
-            btnDeleteEvent.removeClass('d-none');
+         
+            $('#updateInterview').css('display','inline-block');
+             if(funEdit != 1) {
+                $('#updateInterview').css('display','none');
+             }
+             if(funDel != 1) {
+                btnDeleteEvent.addClass('d-none');
+             }
+             else {
+                btnDeleteEvent.removeClass('d-none');
+             }
+
+            $('#updateInterview').html('Cập nhật');
+           
                  eventClick(info);
          },
          datesSet: function () {
@@ -533,6 +509,7 @@
      if (toggleSidebarBtn.length) {
        
          toggleSidebarBtn.on('click', function () {
+             $('#updateInterview').html('Thêm');
             //ngày
             $('.flatpickr-basic').flatpickr({
                 enableTime: true,
@@ -702,29 +679,10 @@ $('.btn-delete-event').click(function() {
     });
 })
 
-$('.fc-listMonth-button').click(function() {
-    var classTr = document.querySelectorAll('.fc-list-event');
 
-    classTr.forEach(function(item) {
-        console.log(item);
-      item.classList.remove('d-inline-block');
-    })
-})
- 
-     // Reset sidebar input values
-    //  function resetValues() {
-    //      giovao.setDate();
-    //      giora.setDate();
-    //      ngay.setDate();
-    //      selectCongSang.val('').trigger('change');
-    //      selectCongChieu.val('').trigger('change');
-    //      calendarEditor.val('');
-    //  }
- 
-     // When modal hides reset input values
-    //  sidebar.on('hidden.bs.modal', function () {
-    //      resetValues();
-    //  });
+
+
+
  
      // Hide left sidebar if the right sidebar is open
      $('.btn-toggle-sidebar').on('click', function () {
@@ -748,8 +706,6 @@ $('.fc-listMonth-button').click(function() {
              calendar.refetchEvents();
          });
      }
- 
-    
          filterInput.on('change', function () {
              $('.input-filter:checked').length < calEventFilter.find('input').length
                  ? selectAll.prop('checked', false)

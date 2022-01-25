@@ -79,7 +79,6 @@
                                         <th>Chủ sở hữu</th>
 
                                         <th>Phân loại</th>
-
                                         <th>Nhà cung cấp</th>
                                         <th>Người tạo</th>
 

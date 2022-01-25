@@ -5,6 +5,10 @@ class congtac extends Controller
     function __construct()
     {
         parent::__construct();
+        $model = new model();
+        $checkMenuRole = $model->checkMenuRole('congtac');
+        if ($checkMenuRole == false)
+            header('location:' . HOME);
     }
 
     function index()

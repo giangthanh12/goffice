@@ -1,4 +1,5 @@
-<script src="<?= HOME ?>/js/phongban.js"></script>
+
+
 <div class="app-content content">
     <div class="content-overlay"></div>
     <div class="header-navbar-shadow"></div>
@@ -64,3 +65,10 @@
         </div>
     </div>
 </div>
+<script>
+     var funAdd = <?=$this->funAdd?>,
+        funEdit = <?=$this->funEdit?>,
+        funDel = <?=$this->funDel?>;
+   
+</script>
+<script src="<?= HOME ?>/js/phongban.js"></script>

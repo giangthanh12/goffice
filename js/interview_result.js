@@ -90,9 +90,12 @@ $(function () {
                     render: function (data, type, full, meta) {
                         var html = '';
                         if(full['result'] == 2 ) {
-                            html += '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" title="Chỉnh sửa" onclick="loaddata('+ full['id']+ ',' + full['applicantId'] + ')">';
-                            html += 'Ký hợp đồng';
-                            html += '</button> &nbsp;';
+                            if(funSign == 1) {
+                                html += '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" title="Chỉnh sửa" onclick="checkqty('+ full['id']+ ',' + full['applicantId'] + ')">';
+                                html += 'Ký hợp đồng';
+                                html += '</button> &nbsp;';
+                            }
+                           
                         }
                         // if(full['result'] == 5 ) {
                         //     html += '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" title="Chỉnh sửa" onclick="loaddata(' + full['applicantId'] + ')">';
@@ -238,6 +241,7 @@ $(function () {
 });
 
 function loaddata(id,applicantId) {
+
     document.getElementById("dg").reset(); 
     if ($('.ngay_gio').length) {
         $('.ngay_gio').flatpickr({
@@ -314,6 +318,27 @@ $('.format_number').on('input', function(e){
     var n = number.split('').reverse().join("");
     var n2 = n.replace(/\d\d\d(?!$)/g, "$&,");    
     return  n2.split('').reverse().join('');
+}
+//check số lượng ứng viên trong chiến dịch
+
+function checkqty(id,applicantId) {
+
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        url: baseHome + '/interview_result/checkQty',
+        data: {id:id},
+        success: function (data) {
+            if (data.success) {
+                loaddata(id,applicantId);
+            }
+        },
+        error: function () {
+            notify_error('Số lượng ứng viên đã đủ trong chiến dịch này');
+        }
+       
+    });
+ 
 }
 
 
