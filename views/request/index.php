@@ -24,29 +24,44 @@
         </div>
         <div class="content-body">
             <!-- Kanban starts -->
-            <div class="card">
+            <div class="row">
+                <div class="pt-1 pb-1 col-md-3">
+                        <select class="select2 select2-label form-control" id="defineId" name="defineId">
+                            <option value="">&nbsp;</option>
+                            <?php
+                            foreach ($this->requests as $key=>$item) {
+                                if($key==0)
+                                    $selected = "selected";
+                                else
+                                    $selected = "";
+                                ?>
+                                <option data-color="badge-light-success"
+                                        value="<?= $item['id'] ?>" <?=$selected?> ><?= $item['name'] ?></option>
+                            <?php } ?>
+                        </select>
+                </div>
                 <div class="d-flex mx-25 row pt-1 pb-1">
                     <div class="position-relative mx-75">
-                        <button type="button" class="btn btn-primary">Tạo yêu cầu</button>
+                        <button type="button" class="btn btn-primary" id="addNewButon">Tạo yêu cầu</button>
                     </div>
                 </div>
             </div>
             <section class="app-kanban-wrapper">
-<!--                <div class="row">-->
-<!--                    <div class="col-12">-->
-<!--                        <form class="add-new-board">-->
-<!--                            <label class="add-new-btn mb-2" for="add-new-board-input">-->
-<!--                                <i class="align-middle" data-feather="plus"></i>-->
-<!--                                <span class="align-middle">Add new</span>-->
-<!--                            </label>-->
-<!--                            <input type="text" class="form-control add-new-board-input mb-50" placeholder="Add Board Title" id="add-new-board-input" required />-->
-<!--                            <div class="form-group add-new-board-input">-->
-<!--                                <button class="btn btn-primary btn-sm mr-75">Add</button>-->
-<!--                                <button type="button" class="btn btn-outline-secondary btn-sm cancel-add-new">Cancel</button>-->
-<!--                            </div>-->
-<!--                        </form>-->
-<!--                    </div>-->
-<!--                </div>-->
+                <!--                <div class="row">-->
+                <!--                    <div class="col-12">-->
+                <!--                        <form class="add-new-board">-->
+                <!--                            <label class="add-new-btn mb-2" for="add-new-board-input">-->
+                <!--                                <i class="align-middle" data-feather="plus"></i>-->
+                <!--                                <span class="align-middle">Add new</span>-->
+                <!--                            </label>-->
+                <!--                            <input type="text" class="form-control add-new-board-input mb-50" placeholder="Add Board Title" id="add-new-board-input" required />-->
+                <!--                            <div class="form-group add-new-board-input">-->
+                <!--                                <button class="btn btn-primary btn-sm mr-75">Add</button>-->
+                <!--                                <button type="button" class="btn btn-outline-secondary btn-sm cancel-add-new">Cancel</button>-->
+                <!--                            </div>-->
+                <!--                        </form>-->
+                <!--                    </div>-->
+                <!--                </div>-->
                 <!-- Kanban content starts -->
                 <div class="kanban-wrapper"></div>
                 <!-- Kanban content ends -->
@@ -56,206 +71,88 @@
                         <div class="modal-content p-0">
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">×</button>
                             <div class="modal-header mb-1">
-                                <h5 class="modal-title">Update Item</h5>
+                                <h5 class="modal-title" id="modalTitle">Tạo yêu cầu</h5>
                             </div>
                             <div class="modal-body flex-grow-1">
                                 <ul class="nav nav-tabs tabs-line">
                                     <li class="nav-item">
                                         <a class="nav-link nav-link-update active" data-toggle="tab" href="#tab-update">
                                             <i data-feather="edit"></i>
-                                            <span class="align-middle">Update</span>
+                                            <span class="align-middle">Thông tin</span>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link nav-link-activity" data-toggle="tab" href="#tab-activity">
                                             <i data-feather="activity"></i>
-                                            <span class="align-middle">Activity</span>
+                                            <span class="align-middle">Thuộc tính</span>
                                         </a>
                                     </li>
                                 </ul>
                                 <div class="tab-content mt-2">
-                                    <div class="tab-pane tab-pane-update fade show active" id="tab-update" role="tabpanel">
-                                        <form class="update-item-form">
+                                    <div class="tab-pane tab-pane-update fade show active" id="tab-update"
+                                         role="tabpanel">
+                                        <form id="fmInfo">
                                             <div class="form-group">
-                                                <label class="form-label" for="title">Title</label>
-                                                <input type="text" id="title" class="form-control" placeholder="Enter Title" />
+                                                <label class="form-label" for="title">Tiêu đề</label>
+                                                <input type="text" id="title" name="title" class="form-control"
+                                                       placeholder="Enter Title" required/>
                                             </div>
                                             <div class="form-group">
-                                                <label class="form-label" for="due-date">Due Date</label>
-                                                <input type="text" id="due-date" class="form-control" placeholder="Enter Due Date" />
+                                                <label class="form-label" for="dateTime">Ngày tạo</label>
+                                                <input type="text" id="dateTime" name="dateTime" class="form-control" readonly required/>
                                             </div>
                                             <div class="form-group">
-                                                <label class="form-label" for="label">Label</label>
-                                                <select class="select2 select2-label form-control" id="label">
+                                                <label class="form-label" for="department">Phòng ban</label>
+                                                <select class="select2 select2-label form-control" id="department"
+                                                        name="department">
                                                     <option value="">&nbsp;</option>
-                                                    <option data-color="badge-light-success" value="UX">UX</option>
-                                                    <option data-color="badge-light-warning" value="Images">Images</option>
-                                                    <option data-color="badge-light-info" value="App">App</option>
-                                                    <option data-color="badge-light-danger" value="Code Review">Code Review</option>
-                                                    <option data-color="badge-light-success" value="Forms">Forms</option>
-                                                    <option data-color="badge-light-primary" value="Charts & Maps">Charts & Maps</option>
+                                                    <?php
+                                                    foreach ($this->departments as $item) {
+                                                        ?>
+                                                        <option data-color="badge-light-success"
+                                                                value="<?= $item['id'] ?>"><?= $item['text'] ?></option>
+                                                    <?php } ?>
                                                 </select>
                                             </div>
-                                            <div class="form-group">
-                                                <label class="form-label">Assigned</label>
-                                                <ul class="assigned pl-0"></ul>
+                                            <div class="form-group" id="processorLabel">
+                                                <label class="form-label">Người duyệt</label>
+                                                <ul class="pl-0" id="processor"></ul>
                                             </div>
                                             <div class="form-group">
-                                                <label class="form-label" for="attachments">Attachments</label>
-                                                <div class="custom-file">
-                                                    <input type="file" class="custom-file-input" id="attachments" />
-                                                    <label class="custom-file-label" for="attachments">Choose file</label>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="form-label">Comment</label>
-                                                <div class="comment-editor border-bottom-0"></div>
-                                                <div class="d-flex justify-content-end comment-toolbar">
-                                                        <span class="ql-formats mr-0">
-                                                            <button class="ql-bold"></button>
-                                                            <button class="ql-italic"></button>
-                                                            <button class="ql-underline"></button>
-                                                            <button class="ql-link"></button>
-                                                            <button class="ql-image"></button>
-                                                        </span>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="d-flex flex-wrap">
-                                                    <button class="btn btn-primary mr-1" data-dismiss="modal">Save</button>
-                                                    <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Delete</button>
-                                                </div>
+                                                <label class="form-label" for="staffId">Người tạo</label>
+                                                <select class="select2 select2-label form-control" id="staffId"
+                                                        name="staffId" required>
+                                                    <option value="">&nbsp;</option>
+                                                    <?php
+                                                    foreach ($this->staffs as $item) {
+                                                        ?>
+                                                        <option data-avatar="<?= $item['avatar'] ?>"
+                                                                value="<?= $item['id'] ?>"><?= $item['name'] ?></option>
+                                                    <?php } ?>
+                                                </select>
                                             </div>
                                         </form>
                                     </div>
                                     <div class="tab-pane tab-pane-activity pb-1 fade" id="tab-activity" role="tabpanel">
-                                        <div class="media mb-1">
-                                            <div class="avatar bg-light-success my-0 ml-0 mr-50">
-                                                <span class="avatar-content">HJ</span>
+                                        <form id="fmProperties">
+                                            <div class="form-group">
+                                                <label class="form-label" for="property_1">Tên thuộc tính</label>
+                                                <input type="text" id="property_1" name="property_1"
+                                                       class="form-control" placeholder="Tên thuộc tính"/>
                                             </div>
-                                            <div class="media-body">
-                                                <p class="mb-0"><span class="font-weight-bold">Jordan</span> Left the board.</p>
-                                                <small class="text-muted">Today 11:00 AM</small>
-                                            </div>
-                                        </div>
-                                        <div class="media mb-1">
-                                            <div class="avatar my-0 ml-0 mr-50">
-                                                <img src="<?=HOME?>/styles/app-assets/images/portrait/small/avatar-s-6.jpg" alt="Avatar" height="32" />
-                                            </div>
-                                            <div class="media-body">
-                                                <p class="mb-0">
-                                                    <span class="font-weight-bold">Dianna</span> mentioned
-                                                    <span class="font-weight-bold text-primary">@bruce</span> in a comment.
-                                                </p>
-                                                <small class="text-muted">Today 10:20 AM</small>
-                                            </div>
-                                        </div>
-                                        <div class="media mb-1">
-                                            <div class="avatar my-0 ml-0 mr-50">
-                                                <img src="<?=HOME?>/styles/app-assets/images/portrait/small/avatar-s-2.jpg" alt="Avatar" height="32" />
-                                            </div>
-                                            <div class="media-body">
-                                                <p class="mb-0">
-                                                    <span class="font-weight-bold">Martian</span> added moved Charts & Maps task to the done board.
-                                                </p>
-                                                <small class="text-muted">Today 10:00 AM</small>
-                                            </div>
-                                        </div>
-                                        <div class="media mb-1">
-                                            <div class="avatar my-0 ml-0 mr-50">
-                                                <img src="<?=HOME?>/styles/app-assets/images/portrait/small/avatar-s-1.jpg" alt="Avatar" height="32" />
-                                            </div>
-                                            <div class="media-body">
-                                                <p class="mb-0"><span class="font-weight-bold">Barry</span> Commented on App review task.</p>
-                                                <small class="text-muted">Today 8:32 AM</small>
-                                            </div>
-                                        </div>
-                                        <div class="media mb-1">
-                                            <div class="avatar bg-light-dark my-0 ml-0 mr-50">
-                                                <span class="avatar-content">BW</span>
-                                            </div>
-                                            <div class="media-body">
-                                                <p class="mb-0"><span class="font-weight-bold">Bruce</span> was assigned task of code review.</p>
-                                                <small class="text-muted">Today 8:30 PM</small>
-                                            </div>
-                                        </div>
-                                        <div class="media mb-1">
-                                            <div class="avatar bg-light-danger my-0 ml-0 mr-50">
-                                                <span class="avatar-content">CK</span>
-                                            </div>
-                                            <div class="media-body">
-                                                <p class="mb-0">
-                                                    <span class="font-weight-bold">Clark</span> assigned task UX Research to
-                                                    <span class="font-weight-bold text-primary">@martian</span>
-                                                </p>
-                                                <small class="text-muted">Today 8:00 AM</small>
-                                            </div>
-                                        </div>
-                                        <div class="media mb-1">
-                                            <div class="avatar my-0 ml-0 mr-50">
-                                                <img src="<?=HOME?>/styles/app-assets/images/portrait/small/avatar-s-4.jpg" alt="Avatar" height="32" />
-                                            </div>
-                                            <div class="media-body">
-                                                <p class="mb-0">
-                                                    <span class="font-weight-bold">Ray</span> Added moved
-                                                    <span class="font-weight-bold">Forms & Tables</span> task from in progress to done.
-                                                </p>
-                                                <small class="text-muted">Today 7:45 AM</small>
-                                            </div>
-                                        </div>
-                                        <div class="media mb-1">
-                                            <div class="avatar my-0 ml-0 mr-50">
-                                                <img src="<?=HOME?>/styles/app-assets/images/portrait/small/avatar-s-1.jpg" alt="Avatar" height="32" />
-                                            </div>
-                                            <div class="media-body">
-                                                <p class="mb-0">
-                                                    <span class="font-weight-bold">Barry</span> Complete all the tasks assigned to him.
-                                                </p>
-                                                <small class="text-muted">Today 7:17 AM</small>
-                                            </div>
-                                        </div>
-                                        <div class="media mb-1">
-                                            <div class="avatar bg-light-success my-0 ml-0 mr-50">
-                                                <span class="avatar-content">HJ</span>
-                                            </div>
-                                            <div class="media-body">
-                                                <p class="mb-0"><span class="font-weight-bold">Jordan</span> added task to update new images.</p>
-                                                <small class="text-muted">Today 7:00 AM</small>
-                                            </div>
-                                        </div>
-                                        <div class="media mb-1">
-                                            <div class="avatar my-0 ml-0 mr-50">
-                                                <img src="<?=HOME?>/styles/app-assets/images/portrait/small/avatar-s-6.jpg" alt="Avatar" height="32" />
-                                            </div>
-                                            <div class="media-body">
-                                                <p class="mb-0">
-                                                    <span class="font-weight-bold">Dianna</span> moved task
-                                                    <span class="font-weight-bold">FAQ UX</span> from in progress to done board.
-                                                </p>
-                                                <small class="text-muted">Today 7:00 AM</small>
-                                            </div>
-                                        </div>
-                                        <div class="media mb-1">
-                                            <div class="avatar bg-light-danger my-0 ml-0 mr-50">
-                                                <span class="avatar-content">CK</span>
-                                            </div>
-                                            <div class="media-body">
-                                                <p class="mb-0">
-                                                    <span class="font-weight-bold">Clark</span> added new board with name
-                                                    <span class="font-weight-bold">Done</span>.
-                                                </p>
-                                                <small class="text-muted">Yesterday 3:00 PM</small>
-                                            </div>
-                                        </div>
-                                        <div class="media align-items-center">
-                                            <div class="avatar bg-light-dark my-0 ml-0 mr-50">
-                                                <span class="avatar-content">BW</span>
-                                            </div>
-                                            <div class="media-body">
-                                                <p class="mb-0"><span class="font-weight-bold">Bruce</span> added new task in progress board.</p>
-                                                <small class="text-muted">Yesterday 12:00 PM</small>
-                                            </div>
-                                        </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <div class="form-group">
+                                    <div class="d-flex flex-wrap">
+                                        <button class="btn btn-primary mr-1" id="btnUpdate" onclick="save();">Cập nhật
+                                        </button>
+                                        <button type="button" class="btn btn-success mr-1 d-none" id="btnAccept">Duyệt
+                                        </button>
+                                        <button type="button" class="btn btn-outline-danger d-none" id="btnReject">Từ chối
+                                        </button>
                                     </div>
                                 </div>
                             </div>

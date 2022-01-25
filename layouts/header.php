@@ -77,6 +77,7 @@ $model = new model();
         var baseHome = '<?= HOME ?>';
         let baseUrlFile = '<?= URLFILE ?>';
         let now = '<?= date('Y-m-d H:i:s') ?>';
+        let dateNowDMY = '<?= date('d/m/Y') ?>';
         var SipUsername = '<?= $_SESSION['user']['extNum']; ?>';
         var SipPassword = '<?= $_SESSION['user']['sipPass']; ?>';
     </script>
@@ -86,13 +87,13 @@ $model = new model();
     <!-- Thư viện webrtc -->
     <?php
     if (true) {
-        // echo '
-        //   <link rel="stylesheet" type="text/css" href="' . HOME . '/webrtc/libs/phone.css" />
-        //   <script type="text/javascript" src="' . HOME . '/webrtc/libs/js/sip-0.11.6.min.js"></script>
-        //   <script type="text/javascript" src="' . HOME . '/webrtc/libs/js/fabric-2.4.6.min.js"></script>
-        //   <script type="text/javascript" src="' . HOME . '/webrtc/libs/js/moment-with-locales-2.24.0.min.js"></script>
-        //   <script type="text/javascript" src="' . HOME . '/webrtc/libs/phone.js"></script>
-        //   ';
+         echo '
+           <link rel="stylesheet" type="text/css" href="' . HOME . '/webrtc/libs/phone.css" />
+           <script type="text/javascript" src="' . HOME . '/webrtc/libs/js/sip-0.11.6.min.js"></script>
+           <script type="text/javascript" src="' . HOME . '/webrtc/libs/js/fabric-2.4.6.min.js"></script>
+           <script type="text/javascript" src="' . HOME . '/webrtc/libs/js/moment-with-locales-2.24.0.min.js"></script>
+           <script type="text/javascript" src="' . HOME . '/webrtc/libs/phone.js"></script>
+           ';
     }
     ?>
 </head>

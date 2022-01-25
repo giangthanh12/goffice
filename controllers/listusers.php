@@ -51,6 +51,8 @@ class listusers extends Controller
             $staffId = $_POST['staffId'];
             $groupId = $_POST['groupId'];
             $password = md5(md5($_POST['password']));
+            $extNum = $_POST['extNum'];
+            $sipPass = $_POST['sipPass'];
             $data = [
                 'username' => $username,
                 'usernameMd5' => $usernameMd5,
@@ -58,6 +60,8 @@ class listusers extends Controller
                 'groupId' => $groupId,
                 'password' => $password,
                 'classify'=>2,
+                'extNum'=>$extNum,
+                'sipPass'=>$sipPass,
                 'status' => 1];
             if ($this->model->addObj($data)) {
                 $jsonObj['message'] = "Cập nhật dữ liệu thành công";
@@ -93,14 +97,18 @@ class listusers extends Controller
         $staffId = $_POST['staffId'];
         $groupId = $_POST['groupId'];
         $password = $_POST['password'];
+        $extNum = $_POST['extNum'];
+        $sipPass = $_POST['sipPass'];
         $data = [
             'staffId' => $staffId,
-            'groupId' => $groupId
+            'groupId' => $groupId,
+            'extNum'=>$extNum,
+            'sipPass'=>$sipPass,
         ];
         if($password!='')
             $data['password'] = md5(md5($password));
         if ($this->model->updateObj($data,$id)) {
-            $jsonObj['message'] = "Cập nhật dữ liệu thành công";
+            $jsonObj['message'] = "Cập nhật dữ liệu thành công ";
             $jsonObj['code'] = 200;
         } else {
             $jsonObj['message'] = "Lỗi khi cập nhật database";
