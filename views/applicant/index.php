@@ -32,27 +32,20 @@
                             </thead>
                         </table>
                     </div>
-
-                
-
-
                     <!--  -->
-
                     <!-- Button trigger modal -->
-                        
-
-                        <!-- Modal -->
-                        <div class="modal fade" id="modals-slide-in" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                    <!-- Modal -->
+                    <div class="modal fade" id="modals-slide-in" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="modals-slide-in">Thêm ứng viên mới</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                            <div class="card">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="modals-slide-in">Thêm ứng viên mới</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="card">
                                         <div class="card-body">
                                             <form class="form-validate" enctype="multipart/form-data" id="dg">
                                                 <div class="form-group">
@@ -97,17 +90,17 @@
                                                     <textarea id="note" name="note" class="form-control"></textarea>
                                                 </div>
                                                 <div class="d-flex flex-sm-row flex-column mt-2">
-                                                    <button type="submit"  class="btn btn-add-customer btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Cập nhật</button>
+                                                    <button type="submit" class="btn btn-add-customer btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Cập nhật</button>
                                                     <button type="reset" class="btn btn-outline-secondary" data-dismiss="modal">Bỏ qua</button>
                                                 </div>
                                             </form>
                                         </div>
                                     </div>
-                            </div>
-                           
+                                </div>
+
                             </div>
                         </div>
-                        </div>
+                    </div>
 
                     <!--  -->
 
@@ -117,7 +110,7 @@
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h4 class="modal-title" id="myModalLabel16">Cập nhật thông tin ứng viên</h4>
-                                
+
                                 </div>
                                 <div class="modal-body">
                                     <!-- <input type="hidden" id="id" name="id" /> -->
@@ -162,22 +155,22 @@
                                                                                 <i class="mr-0" data-feather="edit"></i>
                                                                             </span>
                                                                         </label>
-                                                                       
+
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-3 d-flex mt-1 px-0">
-                                                            <div class="form-group">
-                                                                <label class="d-block mb-1">Giới tính</label>
-                                                                <div class="custom-control custom-radio custom-control-inline">
-                                                                    <input type="radio" checked id="male2" name="gender1" class="custom-control-input" value="1" />
-                                                                    <label class="custom-control-label" for="male2">Nam</label>
+                                                                <div class="form-group">
+                                                                    <label class="d-block mb-1">Giới tính</label>
+                                                                    <div class="custom-control custom-radio custom-control-inline">
+                                                                        <input type="radio" checked id="male2" name="gender1" class="custom-control-input" value="1" />
+                                                                        <label class="custom-control-label" for="male2">Nam</label>
+                                                                    </div>
+                                                                    <div class="custom-control custom-radio custom-control-inline">
+                                                                        <input type="radio" id="female2" name="gender1" class="custom-control-input" value="2" />
+                                                                        <label class="custom-control-label" for="female2">Nữ</label>
+                                                                    </div>
                                                                 </div>
-                                                                <div class="custom-control custom-radio custom-control-inline">
-                                                                    <input type="radio" id="female2" name="gender1" class="custom-control-input" value="2" />
-                                                                    <label class="custom-control-label" for="female2">Nữ</label>
-                                                                </div>
-                                                            </div>
                                                             </div>
                                                             <div class="col-lg-6 d-flex mt-1 px-0">
                                                                 <div class="form-group">
@@ -190,7 +183,7 @@
                                                                         <input type="radio" id="tthn2" name="tthonnhan" class="custom-control-input" value="2" />
                                                                         <label class="custom-control-label" for="tthn2">Chưa có gia đình</label>
                                                                     </div>
-                                                                  
+
 
                                                                 </div>
                                                             </div>
@@ -220,7 +213,7 @@
                                                                     <input id="dantoc" type="text" class="form-control" placeholder="Dân tộc" name="dantoc" />
                                                                 </div>
                                                             </div> -->
-                                                            
+
                                                             <div class="col-lg-4 col-md-6">
                                                                 <div class="form-group">
                                                                     <label for="ngaysinh">Ngày sinh</label>
@@ -239,11 +232,11 @@
                                                                     <select id="residence" name="residence" class="select2-data-array form-control"></select>
                                                                 </div>
                                                             </div>
-                                                         
+
                                                             <div class="col-lg-2 col-md-6">
                                                                 <div class="form-group">
                                                                     <label for="salary">Mức lương mong muốn</label>
-                                                                    <input id="salary" type="text" class="form-control format_number"  name="salary" />
+                                                                    <input id="salary" type="text" class="form-control format_number" name="salary" />
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-2 col-md-6">
@@ -268,7 +261,7 @@
                                                                     <input id="position1" type="text" class="form-control" name="position1" />
                                                                 </div>
                                                             </div>
-                                                            
+
                                                             <!-- <div class="col-lg-2 col-md-6">
                                                                 <div class="form-group">
                                                                     <label for="luongthuviec">Lương thử việc</label>
@@ -281,7 +274,7 @@
                                                                     <textarea id="note1" class="form-control" placeholder="Giới thiệu bản thân" name="note1"></textarea>
                                                                 </div>
                                                             </div>
-                                                            
+
                                                             <div class="col-12">
                                                                 <h4 class="mb-1 mt-2">
                                                                     <i data-feather="map-pin" class="font-medium-4 mr-25"></i>
@@ -301,7 +294,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-4 col-md-6">
-                                                              
+
                                                                 <div class="form-group">
                                                                     <label for="idPlace">Nơi cấp</label>
                                                                     <select id="idPlace" class="select2 form-control" name="idPlace"></select>
@@ -333,17 +326,17 @@
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-3 col-md-6">
-                                                            <div class="form-group">
-                                                                        <label class="form-label" for="file1">CV</label>
-                                                                        <div class="custom-file">
-                                                                            <input type="file" class="custom-file-input" id="file1" name="file1">
-                                                                            <label class="custom-file-label" for="file1">Chọn file</label>
-                                                                        </div>
-                                                                        <div id="viewfile"></div>
-                                                            </div>
+                                                                <div class="form-group">
+                                                                    <label class="form-label" for="file1">CV</label>
+                                                                    <div class="custom-file">
+                                                                        <input type="file" class="custom-file-input" id="file1" name="file1">
+                                                                        <label class="custom-file-label" for="file1">Chọn file</label>
+                                                                    </div>
+                                                                    <div id="viewfile"></div>
+                                                                </div>
                                                             </div>
                                                             <div class="col-12 d-flex flex-sm-row flex-column mt-2">
-                                                                <button type="submit" class="btn btn-update-customer btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Cập nhật</button>
+                                                                <button type="submit" id="updateInfoApplicant" class="btn btn-update-customer btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Cập nhật</button>
                                                                 <button type="reset" class="btn btn-outline-secondary" data-dismiss="modal">Bỏ qua</button>
                                                             </div>
                                                         </div>
@@ -381,7 +374,7 @@
 
                                                             <div class="col-12 d-flex flex-sm-row flex-column mt-2">
                                                                 <button type="button" onclick="savemember()" class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Cập nhật</button>
-                                                                <button type="button" onclick="clearfmtab2()" class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Clear</button>
+                                                                <button type="button" onclick="clearfmtab2()" class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Làm mới</button>
                                                                 <button type="reset" class="btn btn-outline-secondary" data-dismiss="modal">Bỏ qua</button>
                                                             </div>
                                                         </div>
@@ -435,7 +428,7 @@
                                                             </div>
 
                                                             <div class="col-12 d-flex flex-sm-row flex-column mt-2">
-                                                                <button type="submit"  class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Cập nhật</button>
+                                                                <button type="submit" id="btn_edu" class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Cập nhật</button>
                                                                 <button type="button" onclick="clearfmtab3()" class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Làm mới</button>
                                                                 <button type="reset" class="btn btn-outline-secondary" data-dismiss="modal">Bỏ qua</button>
                                                             </div>
@@ -487,7 +480,7 @@
                                                             </div>
                                                             <div class="form-group col-md-4">
                                                                 <label for="knuv6">Điện thoại</label>
-                                                                <input type="text" id="knuv6" name="knuv6" class="form-control"/>
+                                                                <input type="text" id="knuv6" name="knuv6" class="form-control" />
                                                             </div>
                                                             <div class="form-group col-md-4">
                                                                 <label for="knuv7">Ghi chú</label>
@@ -495,12 +488,12 @@
                                                             </div>
                                                             <div class="form-group col-md-8">
                                                                 <label for="knuv8">Dự án</label>
-                                                                <textarea id="knuv8" name="knuv8" rows="5" class="form-control" placeholder="Mô tả các dự án" ></textarea>
+                                                                <textarea id="knuv8" name="knuv8" rows="5" class="form-control" placeholder="Mô tả các dự án"></textarea>
                                                             </div>
 
                                                             <div class="col-12 d-flex flex-sm-row flex-column mt-2">
-                                                                <button type="submit"  class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Cập nhật</button>
-                                                                <button type="button" onclick="clearfmtab4()" class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Clear</button>
+                                                                <button type="submit" id="btn_exp" class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Cập nhật</button>
+                                                                <button type="button" onclick="clearfmtab4()" class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Làm mới</button>
                                                                 <button type="reset" class="btn btn-outline-secondary" data-dismiss="modal">Bỏ qua</button>
                                                             </div>
                                                         </div>
@@ -542,4 +535,9 @@
         </div>
     </div>
 </div>
+<script>
+    var funAdd = <?= $this->funAdd ?>,
+        funEdit = <?= $this->funEdit ?>,
+        funDel = <?= $this->funDel ?>;
+</script>
 <script src="<?= HOME ?>/js/applicant.js"></script>

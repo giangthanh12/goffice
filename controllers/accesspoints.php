@@ -2,14 +2,32 @@
 
 class accesspoints extends Controller
 {
+    static private $funAdd = 0, $funEdit = 0, $funDel = 0;
     function __construct()
     {
         parent::__construct();
+        $model = new model();
+        $checkMenuRole = $model->checkMenuRole('accesspoints');
+        if ($checkMenuRole == false)
+            header('location:' . HOME);
+        $funcs = $model->getFunctions('accesspoints');
+      
+        foreach ($funcs as $item) {
+            if ($item['function'] == 'add')
+                self::$funAdd = 1;
+            if ($item['function'] == 'edit')
+                self::$funEdit = 1;
+            if ($item['function'] == 'del')
+                self::$funDel = 1;
+        }
     }
 
     function index()
     {
         require "layouts/header.php";
+        $this->view->funAdd = self::$funAdd;
+        $this->view->funEdit = self::$funEdit;
+        $this->view->funDel = self::$funDel;
         $this->view->render("accesspoints/index");
         require "layouts/footer.php";
     }
@@ -30,6 +48,12 @@ class accesspoints extends Controller
 
     function add()
     {
+        if (self::$funAdd == 0) {
+            $jsonObj['msg'] = 'Bạn không có quyền sử dụng chức năng này';
+            $jsonObj['success'] = false;
+            echo json_encode($jsonObj);
+            return false;
+        }
         $name = isset($_POST['name']) ? $_POST['name'] : '';
         $address = isset($_POST['address']) ? $_POST['address'] : '';
         $ip = isset($_POST['ip']) ? $_POST['ip'] : '';
@@ -58,6 +82,12 @@ class accesspoints extends Controller
 
     function update()
     {
+        if (self::$funEdit == 0) {
+            $jsonObj['msg'] = 'Bạn không có quyền sử dụng chức năng này';
+            $jsonObj['success'] = false;
+            echo json_encode($jsonObj);
+            return false;
+        }
         $id = $_REQUEST['id'];
         $name = isset($_POST['name']) ? $_POST['name'] : '';
         $address = isset($_POST['address']) ? $_POST['address'] : '';
@@ -87,14 +117,20 @@ class accesspoints extends Controller
 
     function del()
     {
+        if (self::$funDel == 0) {
+            $jsonObj['msg'] = 'Bạn không có quyền sử dụng chức năng này';
+            $jsonObj['success'] = false;
+            echo json_encode($jsonObj);
+            return false;
+        }
         $id = $_REQUEST['id'];
         $data = ['status' => 0];
         if ($this->model->delObj($id, $data)) {
             $jsonObj['message'] = 'Xóa dữ liệu thành công!';
-            $jsonObj['code'] = 200;
+            $jsonObj['success'] = true;
         } else {
             $jsonObj['message'] = 'Xóa dữ liệu không thành công!';
-            $jsonObj['code'] = 401;
+            $jsonObj['success'] = false;
         }
         echo json_encode($jsonObj);
     }

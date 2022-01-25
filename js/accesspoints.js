@@ -4,11 +4,24 @@ $(function () {
 
     var dtUserTable = $(".user-list-table"),
         form = $("#fm");
-
+        var buttons = [];
+        if(funAdd == 1) {
+            buttons.push({
+                text: "Thêm mới",
+                className: "add-new btn btn-" + 'primary' + " mt-50",
+                init: function (api, node, config) {
+                    $(node).removeClass("btn-secondary");
+                },
+                action: function (e, dt, node, config) {
+                    actionMenu();
+                }
+            });
+        }
     // Users List datatable
     if (dtUserTable.length) {
         dtUserTable.DataTable({
             // ajax: assetPath + "data/user-list.json", // JSON file to add data
+            ordering: false,
             ajax: baseHome + "/accesspoints/list",
             columns: [
                 // columns according to JSON
@@ -33,12 +46,16 @@ $(function () {
                     orderable: false,
                     render: function (data, type, row, meta) {
                         var html = '';
-                        html += '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" title="Chỉnh sửa" onclick="loaddata(' + row['id'] + ')">';
-                        html += '<i class="fas fa-pencil-alt"></i>';
-                        html += '</button> &nbsp;';
-                        html += '<button type="button" class="btn btn-icon btn-outline-danger waves-effect" title="Xóa" id="confirm-text" onclick="xoa(' + row['id'] + ')">';
-                        html += '<i class="fas fa-trash-alt"></i>';
-                        html += '</button>';
+                        if(funEdit == 1) {
+                            html += '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" title="Chỉnh sửa" onclick="loaddata(' + row['id'] + ')">';
+                            html += '<i class="fas fa-pencil-alt"></i>';
+                            html += '</button> &nbsp;';
+                        }
+                        if(funDel == 1) {
+                            html += '<button type="button" class="btn btn-icon btn-outline-danger waves-effect" title="Xóa" id="confirm-text" onclick="xoa(' + row['id'] + ')">';
+                            html += '<i class="fas fa-trash-alt"></i>';
+                            html += '</button>';
+                        }
                         return html;
                     },
                     width: 100
@@ -54,34 +71,19 @@ $(function () {
                 '<"col-sm-12 col-md-6"i>' +
                 '<"col-sm-12 col-md-6"p>' +
                 ">",
-            language: {
-                sLengthMenu: "Show _MENU_",
-                search: "Tìm kiếm",
-                searchPlaceholder: "Từ khóa ...",
-                paginate: {
-                    // remove previous & next text from pagination
-                    previous: "&nbsp;",
-                    next: "&nbsp;",
+                language: {
+                    sLengthMenu: "Hiển thị _MENU_",
+                    search: "",
+                    searchPlaceholder: "Tìm kiếm...",
+                    paginate: {
+                        // remove previous & next text from pagination
+                        previous: "&nbsp;",
+                        next: "&nbsp;",
+                    },
+                    info:"Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
                 },
-            },
             // Buttons with Dropdown
-            buttons: [
-                {
-                    text: "Thêm mới",
-                    className: "add-new btn btn-primary mt-50",
-                    init: function (api, node, config) {
-                        $(node).removeClass("btn-secondary");
-                    },
-                    action: function (e, dt, node, config) {
-                        $("#dgAccesspoint").modal('show');
-                        $(".modal-title").html('Thêm điểm truy cập mới');
-                        $('#name').val('');
-                        $('#address').val('');
-                        $('#ip').val('');
-                        url = baseHome + "/accesspoints/add";
-                    },
-                },
-            ],
+            buttons: buttons,
             initComplete: function () {
                 // Adding role filter once table initialized
 
@@ -89,7 +91,14 @@ $(function () {
         });
 
     }
-
+function actionMenu() {
+    $("#dgAccesspoint").modal('show');
+    $(".modal-title").html('Thêm điểm truy cập mới');
+    $('#name').val('');
+    $('#address').val('');
+    $('#ip').val('');
+    url = baseHome + "/accesspoints/add";
+}
     // Check Validity
     function checkValidity(el) {
         if (el.validate().checkForm()) {

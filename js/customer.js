@@ -38,7 +38,34 @@ $(function () {
     var dtUserTable = $(".user-list-table"),
         modal = $("#updateinfo"),
         form = $("#dg");
-    
+
+
+
+        var buttons = [];
+        if(funAdd == 1) {
+            buttons.push({
+                text: "Thêm mới",
+                className: "add-new btn btn-" + 'primary' + " mt-50",
+                init: function (api, node, config) {
+                    $(node).removeClass("btn-secondary");
+                },
+                action: function (e, dt, node, config) {
+                    actionMenu();
+                }
+            });
+        }
+        if(funImport == 1) {
+            buttons.push({
+                text: "Nhập excel",
+                className: " btn  btn-primary mt-50",
+                init: function (api, node, config) {
+                    $(node).removeClass("btn-secondary");
+                },
+                action: function (e, dt, node, config) {
+                    nhapexcel();
+                },
+            });
+        }
     // Users List datatable
     if (dtUserTable.length) {
      var table =   dtUserTable.DataTable({
@@ -137,12 +164,17 @@ $(function () {
                     render: function (data, type, full, meta) {
                         var html = '';
                         html += '<div d-flex justify-content-start style="width::150px;text-align:left">';
-                        html += '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" title="Chỉnh sửa" onclick="loaddata(' + full['id'] + ')">';
-                        html += '<i class="fas fa-pencil-alt"></i>';
-                        html += '</button> &nbsp;';
-                        html += '<button type="button" class="btn btn-icon btn-outline-danger waves-effect" title="Xóa" id="confirm-text" onclick="del(' + full['id'] + ')">';
-                        html += '<i class="fas fa-trash-alt"></i>';
-                        html += '</button></div>';
+                        if(funEdit == 1) {
+                            html += '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" title="Chỉnh sửa" onclick="loaddata(' + full['id'] + ')">';
+                            html += '<i class="fas fa-pencil-alt"></i>';
+                            html += '</button> &nbsp;';
+                        }
+                        if(funDel == 1) {
+                            html += '<button type="button" class="btn btn-icon btn-outline-danger waves-effect" title="Xóa" id="confirm-text" onclick="del(' + full['id'] + ')">';
+                            html += '<i class="fas fa-trash-alt"></i>';
+                            html += '</button>';
+                        }
+                        html += '</div>'
                         return html;
                     },
                     width:"15%"
@@ -170,46 +202,28 @@ $(function () {
                     info:"Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
                 },
             // Buttons with Dropdown
-            buttons: [
-                {
-                    text: "Thêm mới",
-                    className: "add-new  btn btn-primary mt-50",
-                    init: function (api, node, config) {
-                        $(node).removeClass("btn-secondary");
-                    },
-                    action: function (e, dt, node, config) {
-                        $("#addinfo").modal('show');
-                        $(".modal-title").html('Thêm khách hàng mới');
-                        $('#fullName').val('');
-                        $('#phoneNumber').val('');
-                        $('#email').val('');
-                        $('#shortName_add').val('');
-                        $('#website').val('');
-                        $('#staffId').val('').change();
-                        $('#nationalId').val(1);
-                        $('#provinceId').val('').change();
-                        $('#status').select2({
-                            placeholder: 'Trạng thái',
-                            dropdownParent: $('#status').parent(),
-                        });
-                        $('#status').val('').change();
-                    },
-                },
-                {
-                    text: "Nhập excel",
-                    className: " btn  btn-primary mt-50",
-                    init: function (api, node, config) {
-                        $(node).removeClass("btn-secondary");
-                    },
-                    action: function (e, dt, node, config) {
-                        nhapexcel();
-                    },
-                },
-            ],
+            buttons: buttons,
 
         });
 
     }
+function actionMenu() {
+    $("#addinfo").modal('show');
+    $(".modal-title").html('Thêm khách hàng mới');
+    $('#fullName').val('');
+    $('#phoneNumber').val('');
+    $('#email').val('');
+    $('#shortName_add').val('');
+    $('#website').val('');
+    $('#staffId').val('').change();
+    $('#nationalId').val(1);
+    $('#provinceId').val('').change();
+    $('#status').select2({
+        placeholder: 'Trạng thái',
+        dropdownParent: $('#status').parent(),
+    });
+    $('#status').val('').change();
+}
 
     // lọc tỉnh
 
@@ -392,6 +406,9 @@ $(function () {
 });
 
 function loaddata(id) {
+    if(funEdit != 1) {
+        $('.btn-update-customer').css('display', 'none');
+    }
     khid = id;
     $("#updateinfo").modal('show');
     $('#information-tab').click();

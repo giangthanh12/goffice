@@ -123,6 +123,7 @@ function detail(idh){
     var responseData = load_data(baseHome + '/tainguyen/detail_resource?id='+idh);
     responseData = JSON.parse(responseData.responseText);
     var Objdata = responseData.data[0];
+    console.log(responseData);
     $('#tentainguyen').text(Objdata.name); $('#chusohuu').text(Objdata.chusohuu);
     $('#phanloai').text(Objdata.phanloai); $('#nhacungcap').text(Objdata.nhacungcap);
     $('#tendangnhap').text(Objdata.username); $('#matkhau').text(Objdata.password);
@@ -219,3 +220,18 @@ function saveshare()
         }
     });
 }
+
+$('#duongdan').on('click', function() {
+ /* Get the text field */
+ var copyText = document.getElementById("duongdan");
+
+ /* Select the text field */
+ copyText.select();
+ copyText.setSelectionRange(0, 99999); /* For mobile devices */
+
+ /* Copy the text inside the text field */
+ navigator.clipboard.writeText(copyText.value);
+ 
+ /* Alert the copied text */
+ notyfi_success("Bạn đã copy đường dẫn thành công!");
+})

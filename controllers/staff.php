@@ -2,19 +2,38 @@
 
 class staff extends Controller
 {
+    static private $funAdd = 0, $funEdit = 0, $funDel = 0;
     private $funcs;
 
     function __construct()
     {
         parent::__construct();
+        $model = new model();
+        $checkMenuRole = $model->checkMenuRole('staff');
+        if ($checkMenuRole == false)
+            header('location:' . HOME);
+        $funcs = $model->getFunctions('staff');
+      
+        foreach ($funcs as $item) {
+            if ($item['function'] == 'add')
+                self::$funAdd = 1;
+            if ($item['function'] == 'edit')
+                self::$funEdit = 1;
+            if ($item['function'] == 'del')
+                self::$funDel = 1;
+        }
       
     }
     function index()
     {
      
         require "layouts/header.php";
+        $this->view->funAdd = self::$funAdd;
+        $this->view->funEdit = self::$funEdit;
+        $this->view->funDel = self::$funDel;
         $this->view->render("staff/index");
         require "layouts/footer.php";
+
     }
     function getData()
     {
@@ -43,7 +62,12 @@ class staff extends Controller
     }
     function updateinfo()
     {
-    
+        if (self::$funEdit == 0) {
+            $jsonObj['msg'] = 'Bạn không có quyền sử dụng chức năng này';
+            $jsonObj['success'] = false;
+            echo json_encode($jsonObj);
+            return false;
+        }
         $data = $_REQUEST['data'];
         $data['birthDay'] = date("Y-m-d",strtotime(str_replace('/', '-',$data['birthDay'] )));
         $data['idDate'] = date("Y-m-d",strtotime(str_replace('/', '-',$data['idDate'] )));
@@ -74,6 +98,12 @@ class staff extends Controller
 
     function changeImage()
     {
+        if (self::$funEdit == 0) {
+            $jsonObj['msg'] = 'Bạn không có quyền sử dụng chức năng này';
+            $jsonObj['success'] = false;
+            echo json_encode($jsonObj);
+            return false;
+        }
         $id = $_REQUEST['myid'];
         $filename = $_FILES['hinhanh']['name'];
   
@@ -100,6 +130,12 @@ class staff extends Controller
 
     function add()
     {
+        if (self::$funAdd == 0) {
+            $jsonObj['msg'] = 'Bạn không có quyền sử dụng chức năng này';
+            $jsonObj['success'] = false;
+            echo json_encode($jsonObj);
+            return false;
+        }
             $data = $_REQUEST['data'];
             $data['birthday'] = date("Y-m-d",strtotime(str_replace('/', '-',$data['birthday'] )));
           
@@ -114,6 +150,12 @@ class staff extends Controller
     }
     function del()
     {
+        if (self::$funDel == 0) {
+            $jsonObj['msg'] = 'Bạn không có quyền sử dụng chức năng này';
+            $jsonObj['success'] = false;
+            echo json_encode($jsonObj);
+            return false;
+        }
         $id = $_REQUEST['id'];
         if ($this->model->del($id)) {
             $jsonObj['msg'] = "Cập nhật dữ liệu thành công";
@@ -157,6 +199,12 @@ class staff extends Controller
     }
     function add_nhanvien_info()
     {
+        if (self::$funEdit == 0) {
+            $jsonObj['msg'] = 'Bạn không có quyền sử dụng chức năng này';
+            $jsonObj['success'] = false;
+            echo json_encode($jsonObj);
+            return false;
+        }
         $post = $_REQUEST['data'];
         $data['staffId'] = $post['nhanvien_id'];
         $data['twitter'] = $post['twitter'];
@@ -178,6 +226,12 @@ class staff extends Controller
 
     function updateInfoStaff()
     {
+        if (self::$funEdit == 0) {
+            $jsonObj['msg'] = 'Bạn không có quyền sử dụng chức năng này';
+            $jsonObj['success'] = false;
+            echo json_encode($jsonObj);
+            return false;
+        }
         $post = $_REQUEST['data'];
         $staffId = $post['staffId'];
         $data['twitter'] = $post['twitter'];

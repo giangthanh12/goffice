@@ -31,23 +31,20 @@ $(function () {
 // $('#status').select2({
     
 // });
-var button = [];
-let i = 0;
-userFuns.forEach(function (item,index){
-    if(item.type==1) {
-        button[i] = {
-            text: item.name,
-            className: "add-new btn btn-" + item.color + " mt-50",
-            init: function (api, node, config) {
-                $(node).removeClass("btn-secondary");
-            },
-            action: function (e, dt, node, config) {
-                actionMenu(item.function);
-            }
-        };
-        i++;
-    }
-})
+var buttons = [];
+if(funAdd == 1) {
+    buttons.push({
+        text: "Thêm mới",
+        className: "add-new btn btn-" + 'primary' + " mt-50",
+        init: function (api, node, config) {
+            $(node).removeClass("btn-secondary");
+        },
+        action: function (e, dt, node, config) {
+            actionMenu();
+        }
+    });
+}
+
 
   // Define render label
   function renderTaskTag(option) {
@@ -156,39 +153,33 @@ if ($('#status').length) {
                         
 
                         if(full['tinh_trang'] == 2) { // thu hồi
-                            userFuns.forEach(function (item){
-                            if(item.function=='loadRecall') {
+                            if(funRecall==1) {
                             html += '<button type="button"  class="btn btn-icon btn-outline-info waves-effect" data-toggle="modal" data-target="#modalRecall" title="Thu hồi" onclick="loadRecall(' + full['id_capphat'] + ')">';
                             html += '<i class="fas fa-angle-left"></i>';
                             html += '</button> &nbsp;';
                                 }
-                            });
-                      
                         }
                         if (full['tinh_trang'] == 1) {
-                            userFuns.forEach(function (item){
-                                if(item.function=='loadIssue') {
+                                if(funIssue == 1) {
                                     html += '<button type="button"  class="btn btn-icon btn-outline-warning waves-effect" data-toggle="modal" data-target="#modalIssue" title="Cấp phát" onclick="loadIssue(' + full['id'] + ')">';
                                     html += '<i class="fas fa-angle-right"></i>';
                                     html += '</button> &nbsp;';
                                 }
-                            });
                         }
-                       
-                        userFuns.forEach(function (item){
-                            if(item.function=='loaddata') {
+               
+                            if(funEdit == 1) {
                                 html += '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" data-toggle="modal" data-target="#updateinfo" title="Chỉnh sửa" onclick="loaddata(' + full['id'] + ')">';
                                 html += '<i class="fas fa-pencil-alt"></i>';
                                 html += '</button> &nbsp;';
                             }
-                            });
-                        userFuns.forEach(function (item){
-                            if(item.function=='del') {
-                                html += '<button type="button" class="btn btn-icon btn-outline-' + item.color + ' waves-effect"  title="'+item.name+'" onclick="' + item.function + '(' + full['id'] + ')">';
-                                html += '<i class="' + item.icon + '"></i>';
+                       
+            
+                            if(funDel == 1) {
+                                html += '<button type="button" class="btn btn-icon btn-outline-' + 'danger' + ' waves-effect"  title="Xóa" onclick="' + 'del' + '(' + full['id'] + ')">';
+                                html += '<i class="' + 'fas fa-trash-alt' + '"></i>';
                                 html += '</button> &nbsp;';
                             }
-                        });
+                 
                         
                         return html;
                     },
@@ -216,7 +207,7 @@ if ($('#status').length) {
                     info:"Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
                 },
             // Buttons with Dropdown
-            buttons: [button],
+            buttons: buttons,
        
             initComplete: function () {
                 // Adding role filter once table initialized
@@ -244,11 +235,7 @@ if ($('#status').length) {
         });
 
     }
-    function actionMenu(func){
-        if(func=='add')
-            add();
-    }
-    function add(){
+    function actionMenu(){
         var validator = $("#dg").validate(); // reset form
         validator.resetForm();
         $(".error").removeClass("error"); // loại bỏ validate
@@ -263,7 +250,7 @@ if ($('#status').length) {
         $('#code').val('');
         url = baseHome + "/asset/add";
     }
-
+   
     // Check Validity
     function checkValidity(el) {
         if (el.validate().checkForm()) {
@@ -477,7 +464,9 @@ if ($('#status').length) {
 });
 
 function loaddata(id) {
-    $('')
+   if(funEdit != 1) {
+       $('#btn_update_asset').css('display','none');
+   }
     return_combobox_multi('#don_vi_add', baseHome + '/asset/don_vi', 'Đơn vị');
     return_combobox_multi('#nhom_ts_add', baseHome + '/asset/nhomtaisan', 'Nhóm tài sản');
     $(".modal-title").html('Cập nhật thông tin tài sản');
@@ -746,9 +735,11 @@ function loadTableHisIssue(id) {
                 // columns according to JSON
                 { data: "ngay_gio" },
                 { data: "code" },
+                { data: "name" },
                 { data: "nameAsset" },
                 { data: "nameStaff" },
                 { data: "dat_coc" },
+                { data: "tinh_trang"}
                 
             ],
             columnDefs: [
@@ -777,7 +768,7 @@ function loadTableHisIssue(id) {
                 },
                 {
                     // Actions
-                    targets: 4,
+                    targets: 5,
                     orderable: false,
                     render: function (data, type, full, meta) {
                         var html = '';
@@ -786,17 +777,36 @@ function loadTableHisIssue(id) {
                     },
                    
                 },
+                {
+                    // Actions
+                    targets: 6,
+                    orderable: false,
+                    render: function (data, type, full, meta) {
+                        var $status = full["tinh_trang"];
+                        var $row_output = '---';
+                            if($status == 1) {
+                                $row_output = `<div class="badge badge-info">Đang sử dụng</div>`;
+                            }
+                            else if($status == 2) {
+                                $row_output = `<div class="badge badge-warning">Đã thu hồi</div>`;
+                            }
+                          
+                        return $row_output;
+                    },
+                   
+                },
             ],
          
             language: {
-                sLengthMenu: "Show _MENU_",
-                search: "Search",
-                searchPlaceholder: "Search..",
+                sLengthMenu: "Hiển thị _MENU_",
+                search: "",
+                searchPlaceholder: "Tìm kiếm...",
                 paginate: {
                     // remove previous & next text from pagination
                     previous: "&nbsp;",
                     next: "&nbsp;",
-                }
+                },
+                info:"Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
             },           
         });
     }
@@ -814,6 +824,7 @@ function loadTableHisRecall(id) {
                 // columns according to JSON
                 { data: "ngay_gio" },
                 { data: "code" },
+                { data: "nameIssue" },
                 { data: "nameAsset" },
                 { data: "tra_coc" },
                 { data: "ghi_chu" }
@@ -832,13 +843,13 @@ function loadTableHisRecall(id) {
                 },
                 {
                     // Actions
-                    targets: 2,
+                    targets: 3,
                     orderable: false,
                     width:200
                 },
                 {
                     // Actions
-                    targets: 3,
+                    targets: 4,
                     orderable: false,
                     render: function (data, type, full, meta) {
                         var html = '';
@@ -849,7 +860,7 @@ function loadTableHisRecall(id) {
                 },
                 {
                     // Actions
-                    targets: 4,
+                    targets: 5,
                     orderable: false,
                    
                    
@@ -866,7 +877,7 @@ function loadTableHisRecall(id) {
                     next: "&nbsp;",
                 },
                 info:"Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
-            },          
+            },        
         });
     }
 }

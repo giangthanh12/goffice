@@ -369,7 +369,7 @@
 
 
                                                             <div class="col-12 d-flex flex-sm-row flex-column mt-2">
-                                                                <button type="submit"
+                                                                <button type="submit" id="updateStaff"
                                                                         class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">
                                                                     Cập nhật
                                                                 </button>
@@ -542,7 +542,8 @@
     </div>
 </div>
 <script>
-    var userFuns = JSON.parse('<?=json_encode($this->funs)?>');
-    console.log(userFuns);
+    var funAdd = <?=$this->funAdd?>,
+        funEdit = <?=$this->funEdit?>,
+        funDel = <?=$this->funDel?>;
 </script>
 <script src="<?= HOME ?>/js/staff.js"></script>

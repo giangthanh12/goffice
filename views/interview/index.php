@@ -15,9 +15,11 @@
                              id="app-calendar-sidebar">
                             <div class="sidebar-wrapper">
                                 <div class="card-body d-flex justify-content-center">
+                                <?php if($this->funAdd == 1) { ?>
                                 <button class="btn btn-primary btn-toggle-sidebar btn-block" data-toggle="modal" data-target="#add-new-sidebar">
                                             <span class="align-middle">Thêm lịch phỏng vấn</span>
                                 </button>
+                                <?php } ?>
                                 </div>
                                 <div class="card-body d-flex justify-content-center w-100">
                                     <select class="select2 select-label form-control w-100" id="selectNhanVien" name="selectNhanVien">
@@ -178,9 +180,10 @@
                                     <div class="form-group d-flex">
                                        <button type="submit" id = "updateInterview"
                                                class="btn btn-primary add-event-btn mr-1 waves-effect waves-float waves-light">
-                                          Cập nhật
+                                       
                                        </button>
-                                       <button  class="btn btn-outline-danger btn-delete-event mr-1 d-none waves-effect">
+                                       
+                                       <button id="btn_delete"  class="btn btn-outline-danger btn-delete-event mr-1 d-none waves-effect">
                                           Xóa
                                        </button>
                                         <button type="button" class="btn btn-outline-secondary btn-cancel waves-effect"
@@ -200,30 +203,12 @@
         </div>
     </div>
 </div>
-<style>
-    input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-.position-relative {
-  position: relative !important;
-  width: 100%;
-}
+<script>
+    var funAdd = <?=$this->funAdd?>,
+        funEdit = <?=$this->funEdit?>,
+        funDel = <?=$this->funDel?>;
 
-.select2-results__option--highlighted {
-  color: white !important;
-  background-color: green !important;
-} */
-
-.select2-results__option--highlighted {
-      background-color: #BADA55 !important;
-}
-
-input[type=number] {
-  -moz-appearance: textfield;
-}
-</style>
+</script>
 <script src="<?= HOME ?>/styles/app-assets/vendors/js/extensions/moment.min.js"></script>
 <script src="<?= HOME ?>/styles/app-assets/vendors/js/calendar/fullcalendar.min.js"></script>
 <script src="<?= HOME ?>/js/interview.js"></script>

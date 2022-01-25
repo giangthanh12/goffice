@@ -1,6 +1,7 @@
 <?php
 class project extends Controller
 {
+    static private $funAdd = 0, $funEdit = 0, $funDel = 0;
     static protected $funcs;
     function __construct()
     {
@@ -8,13 +9,24 @@ class project extends Controller
         $model = new model();
         $checkMenuRole = $model->checkMenuRole('project');
         if ($checkMenuRole == false)
-        header('location:' . HOME);
-        self::$funcs = $model->getFunctions('project'); 
+            header('location:' . HOME);
+        $funcs = $model->getFunctions('project');
+      
+        foreach ($funcs as $item) {
+            if ($item['function'] == 'add')
+                self::$funAdd = 1;
+            if ($item['function'] == 'edit')
+                self::$funEdit = 1;
+            if ($item['function'] == 'del')
+                self::$funDel = 1;
+        }
     }
 
     function index(){
-        $this->view->funs  = self::$funcs;
         require "layouts/header.php";
+        $this->view->funAdd = self::$funAdd;
+        $this->view->funEdit = self::$funEdit;
+        $this->view->funDel = self::$funDel;
         $this->view->render("project/index");
         require "layouts/footer.php";
     }
@@ -37,78 +49,89 @@ class project extends Controller
         echo json_encode($json);
     }
     function update() {
+        
         $id = $_REQUEST['id'];
-        if(functions::checkFuns(self::$funcs,'add') && $id == 0) {
-            $name = $_REQUEST['name'];
-            $managerId = $_REQUEST['managerId'];
-            if(count($_REQUEST['memberId']) <2) {
-                $memberId = implode(',',$_REQUEST['memberId']);
+
+            if(self::$funAdd == 1  && $id == 0) {
+               
+                $name = $_REQUEST['name'];
+                $managerId = $_REQUEST['managerId'];
+                if(count($_REQUEST['memberId']) <2) {
+                    $memberId = implode(',',$_REQUEST['memberId']);
+                }
+                else {
+                    $memberId = str_replace(']','',str_replace('[', '', json_encode($_REQUEST['memberId'])));
+                }
+                $process = !empty($_REQUEST['process']) ? $_REQUEST['process'] : 0;
+                $level = $_REQUEST['level'];
+                $description = $_REQUEST['description'];
+                $status = $_REQUEST['status'];
+                $createDate = date("Y-m-d");
+                $deadline = date("Y-m-d",strtotime(str_replace('/', '-',$_REQUEST['date'])));
+                $data = array(
+                    'name'=>$name,
+                    'memberId'=>$memberId,
+                    'managerId'=> $managerId,
+                    'process'=>$process,
+                    'level'=>$level,
+                    'description'=>$description,
+                    'status'=>$status,
+                    'createDate'=>$createDate,
+                    'deadline'=>$deadline,
+                );
+                
+              $result = $this->model->updateProject($id,$data); // vừa update vừa insert,
+              if ($result) {
+                $jsonObj['msg'] = "Thêm mới thành công";
+                $jsonObj['success'] = true;
+                } else {
+                $jsonObj['msg'] = "Thêm mới không thành công";
+                $jsonObj['success'] = false;
+                }
+            }
+            else if (self::$funEdit == 1 && $id > 0) {
+                $name = $_REQUEST['name'];
+                $managerId = $_REQUEST['managerId'];
+                if(count($_REQUEST['memberId']) <2) {
+                    $memberId = implode(',',$_REQUEST['memberId']);
+                }
+                else {
+                    $memberId = str_replace(']','',str_replace('[', '', json_encode($_REQUEST['memberId'])));
+                }
+                $process = !empty($_REQUEST['process']) ? $_REQUEST['process'] : 0;
+                $level = $_REQUEST['level'];
+                $description = $_REQUEST['description'];
+                $status = $_REQUEST['status'];
+                $createDate = date("Y-m-d");
+                $deadline = date("Y-m-d",strtotime(str_replace('/', '-',$_REQUEST['date'])));
+                $data = array(
+                    'name'=>$name,
+                    'memberId'=>$memberId,
+                    'managerId'=> $managerId,
+                    'process'=>$process,
+                    'level'=>$level,
+                    'description'=>$description,
+                    'status'=>$status,
+                    'createDate'=>$createDate,
+                    'deadline'=>$deadline,
+                );
+                
+              $result = $this->model->updateProject($id,$data); // vừa update vừa insert,
+              if ($result) {
+                $jsonObj['msg'] = "Cập nhật thành công";
+                $jsonObj['success'] = true;
+                } else {
+                $jsonObj['msg'] = "Thêm mới không thành công";
+                $jsonObj['success'] = false;
+                }
             }
             else {
-                $memberId = str_replace(']','',str_replace('[', '', json_encode($_REQUEST['memberId'])));
+                $jsonObj['msg'] = 'Bạn không có quyền sử dụng chức năng này';
+                $jsonObj['success'] = false;
+                echo json_encode($jsonObj);
+                return false;
             }
-            $process = !empty($_REQUEST['process']) ? $_REQUEST['process'] : 0;
-            $level = $_REQUEST['level'];
-            $description = $_REQUEST['description'];
-            $status = $_REQUEST['status'];
-            $createDate = date("Y-m-d");
-            $deadline = date("Y-m-d",strtotime(str_replace('/', '-',$_REQUEST['date'])));
-            $data = array(
-                'name'=>$name,
-                'memberId'=>$memberId,
-                'managerId'=> $managerId,
-                'process'=>$process,
-                'level'=>$level,
-                'description'=>$description,
-                'status'=>$status,
-                'createDate'=>$createDate,
-                'deadline'=>$deadline,
-            );
-            
-          $result = $this->model->updateProject($id,$data); // vừa update vừa insert,
-        }
-        else if(functions::checkFuns(self::$funcs,'loaddata') && $id > 0) {
-            $name = $_REQUEST['name'];
-            $managerId = $_REQUEST['managerId'];
-            if(count($_REQUEST['memberId']) <2) {
-                $memberId = implode(',',$_REQUEST['memberId']);
-            }
-            else {
-                $memberId = str_replace(']','',str_replace('[', '', json_encode($_REQUEST['memberId'])));
-            }
-            $process = !empty($_REQUEST['process']) ? $_REQUEST['process'] : 0;
-            $level = $_REQUEST['level'];
-            $description = $_REQUEST['description'];
-            $status = $_REQUEST['status'];
-            $createDate = date("Y-m-d");
-            $deadline = date("Y-m-d",strtotime(str_replace('/', '-',$_REQUEST['date'])));
-            $data = array(
-                'name'=>$name,
-                'memberId'=>$memberId,
-                'managerId'=> $managerId,
-                'process'=>$process,
-                'level'=>$level,
-                'description'=>$description,
-                'status'=>$status,
-                'createDate'=>$createDate,
-                'deadline'=>$deadline,
-            );
-            
-          $result = $this->model->updateProject($id,$data); // vừa update vừa insert,
-        }
-        else {
-           
-            $result = false;
-        }
-      if ($result) {
-        $jsonObj['msg'] = "Thêm mới thành công";
-        $jsonObj['success'] = true;
-        } else {
-            $jsonObj['msg'] = "Thêm mới không thành công";
-            $jsonObj['success'] = false;
-        }
-        $jsonObj = json_encode($jsonObj);
-        echo $jsonObj;
+            echo json_encode($jsonObj);
     }
     function getitem() {
         $id = $_REQUEST['id'];
@@ -118,7 +141,13 @@ class project extends Controller
     }
 
     function del(){
-        if(functions::checkFuns(self::$funcs,'del')) {
+      
+        if(self::$funDel == 0) {
+            $jsonObj['msg'] = 'Bạn không có quyền sử dụng chức năng này';
+            $jsonObj['success'] = false;
+            echo json_encode($jsonObj);
+            return false;
+        }
             $id = $_REQUEST['id'];
             if ($this->model->delObj($id)) {
                 $jsonObj['msg'] = "Đã xóa item";
@@ -127,11 +156,7 @@ class project extends Controller
                 $jsonObj['msg'] = "Xóa không thành công";
                 $jsonObj['success'] = false;
             }
-        }
-        else {
-            $jsonObj['msg'] = "Xóa không thành công";
-            $jsonObj['success'] = false;
-        }
+  
         
         $jsonObj = json_encode($jsonObj);
         echo $jsonObj;

@@ -199,11 +199,11 @@ $(function () {
             load_select2(taskAssignSelect, baseHome + "/project/getStaff",'Người quản lý dự án');
             load_select2($('#memberId'), baseHome + "/project/getStaff",'');
             $('#memberId').val([]).change();
-            userFuns.forEach(function(item,value) {
-            if (item.function == 'add') {
+    
+            if (funAdd == 1) {
                 $('#updateProject').attr('style','display:inline-block');
             }
-        })
+    
             
         });
     }
@@ -266,9 +266,11 @@ $(function () {
         });
 
         newTaskForm.on("submit", function (e) {
+       
             e.preventDefault();
             var isValid = newTaskForm.valid();
             if (isValid) {
+        
                 var name = $('#name').val();
                 var managerId = $("#managerId").val();
                 var memberId = $('#memberId').val();
@@ -310,19 +312,19 @@ $(function () {
     // To open todo list item modal on click of item
 
             $(document).on("click", ".todo-task-list-wrapper .todo-item .todo-title", function (e) {
-                
-                $('#updateProject').html('Cập nhật');
+        
+             
                 var validator = $( "#form-modal-todo" ).validate(); // reset form
                 validator.resetForm();
                 newTaskModal.modal("show");
                 addBtn.addClass("d-none");
                 updateBtns.removeClass("d-none");
                 $('#updateProject').attr('style','display:none');
-                 userFuns.forEach(function(item,value) {
-                if (item.function == 'loaddata') {
+                if (funEdit == 1) {
                         $('#updateProject').attr('style','display:inline-block');
-                    }
-                })
+                        $('#updateProject').html('Cập nhật');
+                }
+            
                 if ($(this).hasClass("completed")) {
                     modalTitle.html('<button type="button" class="btn btn-sm btn-outline-success complete-todo-item waves-effect waves-float waves-light" data-dismiss="modal">Completed</button>');
                 } else {

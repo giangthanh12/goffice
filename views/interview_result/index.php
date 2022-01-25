@@ -167,5 +167,8 @@
         </div>
     </div>
 </div>
-
+<script>
+    var funSign = <?=$this->funSign?>;
+    
+</script>
 <script src="<?= HOME ?>/js/interview_result.js"></script>

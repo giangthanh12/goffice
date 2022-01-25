@@ -1,13 +1,24 @@
 <?php
 class interview_result extends Controller{
-
+    static private $funSign = 0;
     function __construct(){
         parent::__construct();
+        $model = new model();
+        $checkMenuRole = $model->checkMenuRole('interview_result');
+        if ($checkMenuRole == false)
+            header('location:' . HOME);
+        $funcs = $model->getFunctions('interview_result');
+        foreach ($funcs as $item) {
+            if ($item['function'] == 'signContract')
+                self::$funSign = 1;
+           
+        }
     }
 
     function index(){
    
         require "layouts/header.php";
+        $this->view->funSign = self::$funSign;
         $this->view->render("interview_result/index");
         require "layouts/footer.php";
     }
@@ -40,7 +51,12 @@ class interview_result extends Controller{
         echo json_encode($jsonObj);
     }
     function signContract() {
- 
+        if (self::$funSign == 0) {
+            $jsonObj['msg'] = 'Bạn không có quyền sử dụng chức năng này';
+            $jsonObj['success'] = false;
+            echo json_encode($jsonObj);
+            return false;
+        }
         $applicantId = $_GET['applicantId'];
         $id = $_GET['id'];
         $staffId = $this->model->insertStaffGetId($applicantId);
@@ -74,6 +90,16 @@ class interview_result extends Controller{
             $jsonObj['success'] = true;
         } else {
             $jsonObj['msg'] = 'Lỗi cập nhật database';
+            $jsonObj['success'] = false;
+        }
+        echo json_encode($jsonObj);
+    }
+    function checkQty() {
+        $id = $_REQUEST['id'];
+        if($this->model->checkqty($id)) {
+            $jsonObj['success'] = true;
+        }
+        else {
             $jsonObj['success'] = false;
         }
         echo json_encode($jsonObj);

@@ -1,24 +1,33 @@
 <?php
 class phongban extends Controller{
-    private $funs;
+    static private $funAdd = 0, $funEdit = 0, $funDel = 0;
     function __construct(){
         parent::__construct();
         $model = new model();
         $checkMenuRole = $model->checkMenuRole('phongban');
-        if($checkMenuRole==false)
-            header('location:'.HOME);
+        if ($checkMenuRole == false)
+            header('location:' . HOME);
+        $funcs = $model->getFunctions('phongban');
+      
+        foreach ($funcs as $item) {
+            if ($item['function'] == 'add')
+                self::$funAdd = 1;
+            if ($item['function'] == 'edit')
+                self::$funEdit = 1;
+            if ($item['function'] == 'del')
+                self::$funDel = 1;
+        }
     }
 
     function index(){
-        $this->view->funs = $funs = $this->model->getFunctions('phongban');
         require "layouts/header.php";
+        $this->view->funAdd = self::$funAdd;
+        $this->view->funEdit = self::$funEdit;
+        $this->view->funDel = self::$funDel;
         $this->view->render("phongban/index");
         require "layouts/footer.php";
     }
-    function getFunctions(){
-        $funs = $this->model->getFunctions('phongban');
-        echo json_encode($funs);
-    }
+ 
 
     function list()
     {
@@ -40,6 +49,12 @@ class phongban extends Controller{
 
     function add()
     {
+        if (self::$funAdd == 0) {
+            $jsonObj['msg'] = 'Bạn không có quyền sử dụng chức năng này';
+            $jsonObj['success'] = false;
+            echo json_encode($jsonObj);
+            return false;
+        }
         $name = isset($_REQUEST['name']) ? $_REQUEST['name'] : '';
         $description = isset($_REQUEST['description']) ? $_REQUEST['description'] : '';
         $status = 1;
@@ -60,6 +75,12 @@ class phongban extends Controller{
 
     function update()
     {
+        if (self::$funEdit == 0) {
+            $jsonObj['msg'] = 'Bạn không có quyền sử dụng chức năng này';
+            $jsonObj['success'] = false;
+            echo json_encode($jsonObj);
+            return false;
+        }
         $id = $_REQUEST['id'];
         $name = isset($_REQUEST['name']) ? $_REQUEST['name'] : '';
         $description = isset($_REQUEST['description']) ? $_REQUEST['description'] : '';
@@ -80,6 +101,12 @@ class phongban extends Controller{
 
     function del()
     {
+        if (self::$funDel == 0) {
+            $jsonObj['msg'] = 'Bạn không có quyền sử dụng chức năng này';
+            $jsonObj['success'] = false;
+            echo json_encode($jsonObj);
+            return false;
+        }
         $id = $_REQUEST['id'];
         $data = ['status'=>0];
         if($this->model->delObj($id,$data)){

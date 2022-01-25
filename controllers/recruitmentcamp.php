@@ -2,12 +2,30 @@
 
 class recruitmentcamp extends Controller
 {
+    static private $funAdd = 0, $funEdit = 0, $funDel = 0;
     function __construct()
     {
         parent::__construct();
+        $model = new model();
+        $checkMenuRole = $model->checkMenuRole('recruitmentcamp');
+        if ($checkMenuRole == false)
+            header('location:' . HOME);
+        $funcs = $model->getFunctions('recruitmentcamp');
+      
+        foreach ($funcs as $item) {
+            if ($item['function'] == 'add')
+                self::$funAdd = 1;
+            if ($item['function'] == 'edit')
+                self::$funEdit = 1;
+            if ($item['function'] == 'del')
+                self::$funDel = 1;
+        }
     }
     function index(){
         require "layouts/header.php";
+        $this->view->funAdd = self::$funAdd;
+        $this->view->funEdit = self::$funEdit;
+        $this->view->funDel = self::$funDel;
         $this->view->render("recruitmentcamp/index");
         require "layouts/footer.php";
     }
@@ -44,6 +62,12 @@ class recruitmentcamp extends Controller
     }
     
     function add() {
+        if (self::$funAdd == 0) {
+            $jsonObj['msg'] = 'Bạn không có quyền sử dụng chức năng này';
+            $jsonObj['success'] = false;
+            echo json_encode($jsonObj);
+            return false;
+        }
         $filename = $_FILES['file1']['name'];
         $fname = explode('.',$filename);
         $file = '';
@@ -109,6 +133,12 @@ class recruitmentcamp extends Controller
         echo json_encode($jsonObj);
     }
     function addCandidate() {
+        if (self::$funAdd == 0) {
+            $jsonObj['msg'] = 'Bạn không có quyền sử dụng chức năng này';
+            $jsonObj['success'] = false;
+            echo json_encode($jsonObj);
+            return false;
+        }
         $camId = $_REQUEST['camId'];
         $canId = $_REQUEST['canId'];
         if(isset($canId) && !empty($canId)) {
@@ -147,6 +177,12 @@ class recruitmentcamp extends Controller
 
     }
     function delCandidate() {
+        if (self::$funEdit == 0) {
+            $jsonObj['msg'] = 'Bạn không có quyền sử dụng chức năng này';
+            $jsonObj['success'] = false;
+            echo json_encode($jsonObj);
+            return false;
+        }
         $id = $_REQUEST['id'];
         $data = ['status' => 0];
         if ($this->model->delCandidate($id, $data)) {
@@ -164,6 +200,12 @@ class recruitmentcamp extends Controller
         echo json_encode($json);
     }
     function update() {
+        if (self::$funEdit == 0) {
+            $jsonObj['msg'] = 'Bạn không có quyền sử dụng chức năng này';
+            $jsonObj['success'] = false;
+            echo json_encode($jsonObj);
+            return false;
+        }
         $id = isset($_REQUEST['id']) ? $_REQUEST['id'] : 0;
         $filename = $_FILES['file2']['name'];
         $fname = explode('.',$filename);
@@ -230,6 +272,12 @@ class recruitmentcamp extends Controller
     }
     function del()
     {
+        if (self::$funDel == 0) {
+            $jsonObj['msg'] = 'Bạn không có quyền sử dụng chức năng này';
+            $jsonObj['success'] = false;
+            echo json_encode($jsonObj);
+            return false;
+        }
         $id = $_REQUEST['id'];
         $data = ['status' => 0];
         if ($this->model->delObj($id, $data)) {
