@@ -35,19 +35,19 @@
                         <label for="task-due-date" class="form-label">&nbsp;</label>
                         <button class="form-control btn-primary" role="button" onclick="leadSearch()">Tìm kiếm</button>
                     </div>
-                    <div class="col-lg-2">
+                    <div class="col-lg-2 d-none">
                         <label for="task-due-date" class="form-label">&nbsp;</label>
                         <button class="form-control btn-primary" role="button">Nhập từ excel</button>
                     </div>
-                    <div class="col-lg-2">
+                    <div class="col-lg-2 d-none">
                         <label for="task-due-date" class="form-label">&nbsp;</label>
                         <button class="form-control btn-primary" role="button" onclick="leadQuote()">Báo giá</button>
                     </div>
-                    <div class="col-lg-2">
+                    <div class="col-lg-2 d-none">
                         <label for="task-due-date" class="form-label">&nbsp;</label>
                         <button class="form-control btn-primary" role="button">Đơn hàng</button>
                     </div>
-                    <div class="col-lg-2">
+                    <div class="col-lg-2 d-none">
                         <label for="task-due-date" class="form-label">&nbsp;</label>
                         <button class="form-control btn-primary" role="button">Hợp đồng</button>
                     </div>

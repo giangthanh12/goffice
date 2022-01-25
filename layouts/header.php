@@ -22,6 +22,7 @@ $model = new model();
 
     <!-- Common CSS-->
     <link rel="stylesheet" type="text/css" href="<?= HOME ?>/styles/app-assets/vendors/css/vendors.min.css">
+    <link rel="stylesheet" type="text/css" href="<?= HOME ?>/app-assets/vendors/css/jkanban/jkanban.min.css">
     <link rel="stylesheet" type="text/css" href="<?= HOME ?>/styles/app-assets/vendors/css/extensions/toastr.min.css">
     <link rel="stylesheet" type="text/css"
           href="<?= HOME ?>/styles/app-assets/css/plugins/extensions/ext-component-toastr.css">
@@ -64,7 +65,7 @@ $model = new model();
     <link rel="stylesheet" type="text/css" href="<?= HOME ?>/styles/app-assets/vendors/css/extensions/dragula.min.css">
     <!-- <link rel="stylesheet" type="text/css" href="<?= HOME ?>/styles/app-assets/vendors/css/charts/apexcharts.css"> -->
     <!-- <link rel="stylesheet" type="text/css" href="<?= HOME ?>/styles/app-assets/css/plugins/charts/chart-apex.css"> -->
-
+    <link rel="stylesheet" type="text/css" href="<?= HOME ?>/styles/app-assets/css/pages/app-kanban.css">
     <link rel="stylesheet" type="text/css" href="<?= HOME ?>/styles/assets/css/style.css">
 
     <!-- Commons JS -->
