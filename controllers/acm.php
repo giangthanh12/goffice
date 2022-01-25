@@ -1,12 +1,12 @@
 <?php
-class Thuchitienmat extends Controller{
+class acm extends Controller{
     function __construct(){
         parent::__construct();
     }
 
     function index(){
         require "layouts/header.php";
-        $this->view->render("thuchitienmat/index");
+        $this->view->render("acm/index");
         require "layouts/footer.php";
     }
 
@@ -27,22 +27,25 @@ class Thuchitienmat extends Controller{
     function add()
     {
         $data = array(
-            'ngay_gio' => $_REQUEST['ngay_gio'],
-            'dien_giai' => $_REQUEST['dien_giai'],
-            'khach_hang' => $_REQUEST['khach_hang'],
-            'nhan_vien' => $_REQUEST['nhan_vien'],
-            'tai_khoan' => $_REQUEST['tai_khoan'],
-            'loai' => $_REQUEST['loai'],
-            'hach_toan' => $_REQUEST['hach_toan'],
-            'so_tien' => $_REQUEST['so_tien'],
-            'tinh_trang' => 1
+            'dateTime' => $_REQUEST['dateTime'],
+            'content' => $_REQUEST['content'],
+            'customerId' => $_REQUEST['customer'],
+            'staffId' => $_REQUEST['staff'],
+            'accnumber' => $_REQUEST['account'],
+            'classify' => $_REQUEST['classify'],
+            'type' => $_REQUEST['type'],
+            'asset' => $_REQUEST['asset'],
+            'note' => $_REQUEST['note'],
+            'status' => 1
         );
         $time_now = date('H:i:s', time());
-        $data['ngay_gio'] = $_REQUEST['ngay_gio'] . " " . $time_now;
+        $data['dateTime'] = $_REQUEST['dateTime'] . " " . $time_now;
         if($this->model->addObj($data)){
+            var_dump($data['dateTime']);
             $jsonObj['msg'] = 'Cập nhật dữ liệu thành công';
             $jsonObj['success'] = true;
         } else {
+            var_dump($data['dateTime']);
             $jsonObj['msg'] = 'Lỗi cập nhật database';
             $jsonObj['success'] = false;
         }
@@ -53,17 +56,18 @@ class Thuchitienmat extends Controller{
     {
         $id = $_REQUEST['id'];
         $data = array(
-            'dien_giai' => $_REQUEST['dien_giai'],
-            'khach_hang' => $_REQUEST['khach_hang'],
-            'nhan_vien' => $_REQUEST['nhan_vien'],
-            'tai_khoan' => $_REQUEST['tai_khoan'],
-            'loai' => $_REQUEST['loai'],
-            'hach_toan' => $_REQUEST['hach_toan'],
-            'so_tien' => $_REQUEST['so_tien']
+            'content' => $_REQUEST['content'],
+            'customerId' => $_REQUEST['customer'],
+            'staffId' => $_REQUEST['staff'],
+            'account' => $_REQUEST['account'],
+            'classify' => $_REQUEST['classify'],
+            'type' => $_REQUEST['type'],
+            'asset' => $_REQUEST['asset'],
+            'note' => $_REQUEST['note']
         );
-        $ngay_gio = substr($_REQUEST['ngay_gio'], 0, 10);
+        $dateTime = substr($_REQUEST['dateTime'], 0, 10);
         $time_now = date('H:i:s', time());
-        $data['ngay_gio'] = $ngay_gio . " " . $time_now;
+        $data['dateTime'] = $dateTime . " " . $time_now;
         if($this->model->updateObj($id, $data)){
             $jsonObj['msg'] = 'Cập nhật dữ liệu thành công';
             $jsonObj['success'] = true;
@@ -74,24 +78,22 @@ class Thuchitienmat extends Controller{
         echo json_encode($jsonObj);
     }
 
-    function chotsodu()
-    {
-        if($this->model->updateChotsodu()){
-            $jsonObj['msg'] = 'Cập nhật dữ liệu thành công';
-            $jsonObj['success'] = true;
-        } else {
-            $jsonObj['msg'] = 'Lỗi cập nhật database';
-            $jsonObj['success'] = false;
-        }
-        echo json_encode($jsonObj);
-    }
+    // function chotsodu()
+    // {
+    //     if($this->model->updateChotsodu()){
+    //         $jsonObj['msg'] = 'Cập nhật dữ liệu thành công';
+    //         $jsonObj['success'] = true;
+    //     } else {
+    //         $jsonObj['msg'] = 'Lỗi cập nhật database';
+    //         $jsonObj['success'] = false;
+    //     }
+    //     echo json_encode($jsonObj);
+    // }
 
     function del()
     {
         $id = $_REQUEST['id'];
-        $data = ['tinh_trang'=>0];
-  
-
+        $data = ['status'=>0];
         if($this->model->delObj($id,$data)){
             $jsonObj['msg'] = "Xóa dữ liệu thành công";
             $jsonObj['success'] = true;
@@ -107,28 +109,14 @@ class Thuchitienmat extends Controller{
         $data = $this->model->khachhang();
         echo json_encode($data);
     }
+    function taikhoan() {
+        $data = $this->model->taikhoan();
+        echo json_encode($data);
+    }
    
     function nhanvien() {
         $data = $this->model->nhanvien();
         echo json_encode($data);
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
 ?>

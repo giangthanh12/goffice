@@ -22,10 +22,10 @@
                                 <tr>
                                     <!-- <th></th> -->
                                     <th>Ngày giờ</th>
-                                    <th>Tài khoản</th>
+                                    <th>Chủ tài khoản</th>
                                     <th>Diễn giải</th>
                                     <th>Số tiền</th>
-                                    <th>Số dư</th>
+                                    <th>Hình thức</th>
                                     <th>Loại</th>
                                     <th>...</th>
                                 </tr>
@@ -50,40 +50,41 @@
                                                     
                                                     <div class="col-lg-3 col-md-6">
                                                         <div class="form-group">
-                                                            <label for="name">Thời gian</label>
-                                                            <input type="text" id="ngay_gio" class="form-control flatpickr-input" placeholder="Chọn thời gian">
+                                                            <label for="dateTime">Thời gian</label>
+                                                            <input type="text" id="dateTime" class="form-control " placeholder="Chọn thời gian">
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-3 col-md-6">
                                                         <div class="form-group">
-                                                            <label for="dien_giai">Diễn giải</label>
-                                                            <input id="dien_giai" type="text" class="form-control" name="dien_giai" />
+                                                            <label for="content">Diễn giải</label>
+                                                            <input id="content" type="text" class="form-control" name="content" />
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-3 col-md-6">
                                                         <div class="form-group">
-                                                            <label for="khach_hang">Khách hàng</label>
-                                                            <select name="khach_hang" id="khach_hang" class="select2-data-array form-control"></select>
+                                                            <label for="customer">Khách hàng</label>
+                                                            <select name="customer" id="customer" class="select2 form-control"></select>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-3 col-md-6">
                                                         <div class="form-group">
-                                                            <label for="nhan_vien">Nhân viên</label>
-                                                            <select name="nhan_vien" id="nhan_vien" class="select2-data-array form-control"></select>
+                                                            <label for="staff">Nhân viên</label>
+                                                            <select name="staff" id="staff" class="select2 form-control"></select>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-3 col-md-6">
                                                         <div class="form-group">
-                                                            <label for="tai_khoan">Tài khoản</label>
-                                                            <select name="tai_khoan" id="tai_khoan" onchange="check_loai();" class="select2-data-array form-control"></select>
+                                                            <label for="account">Tài khoản</label>
+                                                            <select name="account" id="account" class="select2 form-control"></select>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-3 col-md-6">
                                                         <div class="form-group">
-                                                            <label for="loai">Loại<span class="red">*</span></label>
-                                                            <select name="loai" id="loai" onchange="check_loai();" class="form-control select2 select-label">
-                                                                <option value="0">Thu</option>
-                                                                <option value="1">Chi</option>
+                                                            <label for="classify">Loại<span class="red">*</span></label>
+                                                            <select name="classify" id="classify" class="form-control">
+                                                                <option value="1">Thu</option>
+                                                                <option value="2">Chi</option>
+                                                                
                                                             </select>
                                                         </div>
                                                     </div>
@@ -91,34 +92,30 @@
                                                     <div class="col-lg-3 col-md-6">
                                                         <div class="form-group">
                                                             <label for="hach_toan">Hạch toán</label>
-                                                            <select name="hach_toan" id="hach_toan" class="form-control">
-                                                                
-                                                                <option value="0">Doanh thu</option>
-                                                                <option value="1">Chi phí</option>
-                                                                <option value="2">Nội bộ</option>
+                                                            <select name="type" id="type" class="form-control">
+                                                                <option value="1">Doanh thu</option>
+                                                                <option value="2">Chi phí</option>
+                                                                <option value="3">Nội bộ</option>
                                                             </select>
                                                         </div>
                                                     </div>
 
                                                     <div class="col-lg-3 col-md-6">
                                                         <div class="form-group">
-                                                            <label for="so_tien">Số tiền</label>
-                                                            <input id="so_tien" type="text" class="form-control" name="so_tien" />
+                                                            <label for="asset">Số tiền</label>
+                                                            <input id="asset" type="text" class="form-control" name="asset" />
                                                           
                                                         </div>
                                                     </div>
 
                                                     <div class="col-lg-12 col-md-12">
                                                         <div class="form-group">
-                                                            <label for="ghi_chu">Ghi chú</label>
-                                                            <textarea id="ghi_chu" name="ghi_chu" class="form-control"></textarea>
+                                                            <label for="note">Ghi chú</label>
+                                                            <textarea id="note" name="note" class="form-control"></textarea>
                                                         </div>
                                                     </div>
-                                                    
-
-                            
                                                     <div class="col-12 d-flex flex-sm-row flex-column mt-2">
-                                                        <button type="button" id="btn_add" onclick="savethuchinganhang()" class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Cập nhật</button>
+                                                        <button type="submit" id="btn_add" class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Cập nhật</button>
                                                         <button type="reset" class="btn btn-outline-secondary" data-dismiss="modal">Bỏ qua</button>
                                                     </div>
                                                 </div>
@@ -135,4 +132,4 @@
         </div>
     </div>
 </div>
-<script src="<?= HOME ?>/js/thuchinganhang.js"></script>
+<script src="<?= HOME ?>/js/acm.js"></script>
