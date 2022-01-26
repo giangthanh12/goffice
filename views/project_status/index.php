@@ -15,7 +15,7 @@
                         <table class="user-list-table table">
                             <thead class="thead-light">
                                 <tr>
-                                    <th>Status Project</th>
+                                    <th>Trạng thái dự án</th>
                                     <th>Mã màu</th>
                                     <th>Trạng thái</th>
                                     <th>Thao tác</th>

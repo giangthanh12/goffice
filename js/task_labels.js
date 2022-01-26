@@ -105,16 +105,17 @@ $(function () {
                 '<"col-sm-12 col-md-6"i>' +
                 '<"col-sm-12 col-md-6"p>' +
                 ">",
-            language: {
-                sLengthMenu: "Show _MENU_",
-                search: "Tìm kiếm",
-                searchPlaceholder: "Tìm kiếm tại đây",
-                paginate: {
-                   
-                    previous: "&nbsp;",
-                    next: "&nbsp;",
+                language: {
+                    sLengthMenu: "Hiển thị _MENU_",
+                    search: "",
+                    searchPlaceholder: "Tìm kiếm...",
+                    paginate: {
+                        // remove previous & next text from pagination
+                        previous: "&nbsp;",
+                        next: "&nbsp;",
+                    },
+                    info:"Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
                 },
-            },
             // Buttons with Dropdown// tạo một button thêm mới
             buttons: [button],
         });
@@ -126,7 +127,7 @@ $(function () {
     }
     function add(){
         $("#updateinfo").modal('show');
-        $(".modal-title").html('Thêm label cho task');
+        $(".modal-title").html('Thêm nhãn cho công việc');
         $('#name').val('');
         $('#color').val('');
         $('#status').val('2').attr("disabled", true);
@@ -177,7 +178,7 @@ $(function () {
 function loaddata(id) {
   
     $('#updateinfo').modal('show');
-    $(".modal-title").html('Cập nhật label cho task');
+    $(".modal-title").html('Cập nhật nhãn cho công việc');
     $.ajax({
         type: "POST",
         dataType: "json",
@@ -228,6 +229,7 @@ function del(id) {
         icon: 'warning',
         showCancelButton: true,
         confirmButtonText: 'Tôi đồng ý',
+        cancelButtonText: 'Hủy',
         customClass: {
             confirmButton: 'btn btn-primary',
             cancelButton: 'btn btn-outline-danger ml-1'

@@ -149,7 +149,7 @@ $(function () {
     if (onProject.length) {
         onProject.wrap('<div class="position-relative"></div>');
         onProject.select2({
-            placeholder: "Không thuộc dự án nào",
+            placeholder: "",
         });
     }
 
@@ -157,7 +157,7 @@ $(function () {
     if (taskAssignSelect.length) {
         taskAssignSelect.wrap('<div class="position-relative"></div>');
         taskAssignSelect.select2({
-            placeholder: "Unassigned",
+            placeholder: "",
             dropdownParent: taskAssignSelect.parent(),
             templateResult: assignTask,
             templateSelection: assignTask,
@@ -459,6 +459,12 @@ $(function () {
         var desc = $(this).find(".taskDescription").html();
         var quill_editor = $("#task-desc .ql-editor");
         quill_editor[0].innerHTML = desc;
+        var status = $(this).find(".statusProject").html();
+        if(status == 6) {
+            $('.update-todo-item').addClass('d-none');
+            modalTitle.html('');
+        }
+        
     });
 
     // Updating Data Values to Fields
