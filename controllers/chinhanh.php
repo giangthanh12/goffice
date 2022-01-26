@@ -1,12 +1,31 @@
 <?php
 class chinhanh extends Controller{
-    private $_Data;
+    // private $_Data;
+    static private $funAdd = 0, $funEdit = 0, $funDel = 0;
     function __construct(){
         parent::__construct();
-        $this->_Data = new Model();
+        // $this->_Data = new Model();
+        $model = new model();
+        $checkMenuRole = $model->checkMenuRole('chinhanh');
+        if ($checkMenuRole == false)
+            header('location:' . HOME);
+        $funcs = $model->getFunctions('chinhanh');
+      
+        foreach ($funcs as $item) {
+            if ($item['function'] == 'add')
+                self::$funAdd = 1;
+            if ($item['function'] == 'edit')
+                self::$funEdit = 1;
+            if ($item['function'] == 'del')
+                self::$funDel = 1;
+        }
+
     }
     function index(){
         require "layouts/header.php";
+        $this->view->funAdd = self::$funAdd;
+        $this->view->funEdit = self::$funEdit;
+        $this->view->funDel = self::$funDel;
         $this->view->render("chinhanh/index");
         require "layouts/footer.php";
     }
@@ -31,6 +50,12 @@ class chinhanh extends Controller{
 
     function add()
     {
+        if (self::$funAdd == 0) {
+            $jsonObj['msg'] = 'Bạn không có quyền sử dụng chức năng này';
+            $jsonObj['success'] = false;
+            echo json_encode($jsonObj);
+            return false;
+        }
         $name = isset($_REQUEST['name']) ? $_REQUEST['name'] : '';
         $address = isset($_REQUEST['address']) ? $_REQUEST['address'] : '';
         $status = 1;
@@ -51,6 +76,12 @@ class chinhanh extends Controller{
 
     function update()
     {
+        if (self::$funEdit == 0) {
+            $jsonObj['msg'] = 'Bạn không có quyền sử dụng chức năng này';
+            $jsonObj['success'] = false;
+            echo json_encode($jsonObj);
+            return false;
+        }
         $id = $_REQUEST['id'];
         $name = isset($_REQUEST['name']) ? $_REQUEST['name'] : '';
         $address = isset($_REQUEST['address']) ? $_REQUEST['address'] : '';
@@ -71,6 +102,12 @@ class chinhanh extends Controller{
 
     function del()
     {
+        if (self::$funDel == 0) {
+            $jsonObj['msg'] = 'Bạn không có quyền sử dụng chức năng này';
+            $jsonObj['success'] = false;
+            echo json_encode($jsonObj);
+            return false;
+        }
         $id = $_REQUEST['id'];
         $data = ['status'=>0];
         if($this->model->delObj($id,$data)){

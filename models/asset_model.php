@@ -31,7 +31,8 @@ class asset_model extends Model{
         $query = $this->db->query("SELECT *,
                 IFNULL((SELECT name FROM taisan WHERE id = taisan_thuhoi.tai_san AND tinh_trang > 0), 'No Name') AS nameAsset,
                 (SELECT code FROM taisan WHERE id = taisan_thuhoi.tai_san AND tinh_trang > 0) AS code,
-                DATE_FORMAT(ngay_gio,'%d-%m-%Y') as ngay_gio
+                DATE_FORMAT(ngay_gio,'%d-%m-%Y') as ngay_gio,
+                (SELECT name FROM taisan_capphat WHERE id = taisan_thuhoi.cap_phat AND tinh_trang > 0) AS nameIssue
                 FROM taisan_thuhoi WHERE tinh_trang > 0 AND tai_san = $id ORDER BY id DESC");
         $result['data'] = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;
@@ -91,7 +92,7 @@ class asset_model extends Model{
     function delObj($id,$data)
     {
         //check co trong cap phat ko
-        $query_cp = $this->db->query("SELECT id FROM taisan_capphat WHERE tai_san = $id AND tinh_trang > 0");
+        $query_cp = $this->db->query("SELECT id FROM taisan_capphat WHERE tai_san = $id AND tinh_trang = 1");
         $temp_cp = $query_cp->fetchAll(PDO::FETCH_ASSOC);
         if(count($temp_cp) > 0){
             return false;

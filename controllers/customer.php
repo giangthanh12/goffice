@@ -1,12 +1,33 @@
 <?php
 class customer extends Controller
 {
+    static private $funAdd = 0, $funEdit = 0, $funDel = 0, $funImport = 0;
     function __construct()
     {
         parent::__construct();
+        $model = new model();
+        $checkMenuRole = $model->checkMenuRole('customer');
+        if ($checkMenuRole == false)
+            header('location:' . HOME);
+        $funcs = $model->getFunctions('customer');
+      
+        foreach ($funcs as $item) {
+            if ($item['function'] == 'add')
+                self::$funAdd = 1;
+            if ($item['function'] == 'import')
+                self::$funImport = 1;
+            if ($item['function'] == 'edit')
+                self::$funEdit = 1;
+            if ($item['function'] == 'del')
+                self::$funDel = 1;
+        }
     }
     function index(){
         require "layouts/header.php";
+        $this->view->funAdd = self::$funAdd;
+        $this->view->funImport = self::$funImport;
+        $this->view->funEdit = self::$funEdit;
+        $this->view->funDel = self::$funDel;
         $this->view->render("customer/index");
         require "layouts/footer.php";
     }
@@ -14,6 +35,10 @@ class customer extends Controller
     function getStaff()
     {
         $jsonObj = $this->model->getStaff();
+        echo json_encode($jsonObj);
+    }
+    function combo() {
+        $jsonObj = $this->model->get_data_combo();
         echo json_encode($jsonObj);
     }
     function getNational() {
@@ -41,6 +66,12 @@ class customer extends Controller
     }
 
     function add() {
+        if(self::$funAdd == 0) {
+            $jsonObj['msg'] = 'Bạn không có quyền sử dụng chức năng này';
+            $jsonObj['success'] = false;
+            echo json_encode($jsonObj);
+            return false;
+        }
         $fullName = isset($_REQUEST['fullName']) ? $_REQUEST['fullName'] : false;
         $shortName = !empty($_REQUEST['shortName']) ? $_REQUEST['shortName'] : $_REQUEST['fullName'];
         $phoneNumber = isset($_REQUEST['phoneNumber']) ? $_REQUEST['phoneNumber'] : false;
@@ -90,6 +121,12 @@ class customer extends Controller
 
     function update()
     {
+        if(self::$funEdit == 0) {
+            $jsonObj['msg'] = 'Bạn không có quyền sử dụng chức năng này';
+            $jsonObj['success'] = false;
+            echo json_encode($jsonObj);
+            return false;
+        }
         $id = $_REQUEST['id'];
         $fullName = isset($_REQUEST['fullName']) ? $_REQUEST['fullName'] : false;
         $shortName = !empty($_REQUEST['shortName']) ? $_REQUEST['shortName'] : $_REQUEST['fullName'];
@@ -102,7 +139,7 @@ class customer extends Controller
         $staffInCharge = isset($_SESSION['user']['id']) ? $_SESSION['user']['id'] : '';
    
         $field = isset($_REQUEST['field']) ? $_REQUEST['field'] : '';
-        $fieldDetail = isset($_REQUEST['fieldDetail']) ? $_REQUEST['fieldDetail'] : '';
+     
         $rank = isset($_REQUEST['rank']) ? $_REQUEST['rank'] : '';
         $bussinessName = isset($_REQUEST['bussinessName']) ? $_REQUEST['bussinessName'] : '';
         $bussinessAddress = isset($_REQUEST['bussinessAddress']) ? $_REQUEST['bussinessAddress'] : '';
@@ -159,6 +196,12 @@ class customer extends Controller
     }
     function del()
     {
+        if(self::$funDel == 0) {
+            $jsonObj['msg'] = 'Bạn không có quyền sử dụng chức năng này';
+            $jsonObj['success'] = false;
+            echo json_encode($jsonObj);
+            return false;
+        }
         $id = $_REQUEST['id'];
         $data = ['status' => 0];
         if ($this->model->delObj($id, $data)) {
@@ -172,6 +215,12 @@ class customer extends Controller
     }
 
     function importExcel() {
+        if(self::$funImport == 0) {
+            $jsonObj['msg'] = 'Bạn không có quyền sử dụng chức năng này';
+            $jsonObj['success'] = false;
+            echo json_encode($jsonObj);
+            return false;
+        }
         require_once 'libs/phpexcel/PHPExcel/IOFactory.php';
         try {
             $inputFileType = PHPExcel_IOFactory::identify($_FILES['file']['tmp_name']);

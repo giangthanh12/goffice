@@ -1,7 +1,7 @@
 var url = '';
 
 $(function () {
-    return_combobox_multi('#nhan_vien', baseHome + '/asset_issue/getStaff', 'Nhân viên');
+
     
     var dtUserTable = $(".user-list-table"),
         modal = $("#updateinfo"),
@@ -40,44 +40,7 @@ $(function () {
             ],
             columnDefs: [
                
-                // {
-                //     // User full name and username
-                //     targets: 2,
-                //     responsivePriority: 4,
-                //     render: function (data, type, full, meta) {
-                //         var $name = full["nameAsset"];
-                            
-                //         // Creates full output for row
-                //         var $row_output =
-                //             '<div class="d-flex justify-content-left align-items-center">' +
-                //             '<div class="d-flex flex-column">' +
-                //             '<a href="javascript:void(0)" onclick="loaddata(' + full["id"] + ')" data-toggle="modal" data-target="#updateinfo" class="user_name text-truncate"><span class="font-weight-bold">' +
-                //             $name +
-                //             "</span></a>" +
-                            
-                //             "</div>" +
-                //             "</div>";
-                //         return $row_output;
-                //     },
-                // },
-
-                // {
-                //     // User full name and username
-                //     targets: 4,
-                //     responsivePriority: 4,
-                //     render: function (data, type, full, meta) {
-                //         var $status = full["tinh_trang"];
-                //         var $row_output = '---';
-                //             if($status == 1) {
-                //                 $row_output = `<div class="badge badge-info">Đang sử dụng</div>`;
-                //             }
-                //             else if($status == 2) {
-                //                 $row_output = `<div class="badge badge-warning">Đã thu hồi</div>`;
-                //             }
-                          
-                //         return $row_output;
-                //     },
-                // },
+                
             ],
             // order: [[2, "desc"]],
             dom:

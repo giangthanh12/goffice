@@ -676,5 +676,11 @@
         </div>
     </div>
 </div>
-
+<script>
+    var funAdd = <?=$this->funAdd?>,
+        funEdit = <?=$this->funEdit?>,
+        funDel = <?=$this->funDel?>;
+        console.log(funAdd, funEdit, funDel);
+     
+</script>
 <script src="<?= HOME ?>/js/recruitmentcamp.js"></script>

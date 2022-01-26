@@ -20,7 +20,7 @@
                         <table class="user-list-table table">
                             <thead class="thead-light">
                                 <tr>
-                                    <th>Tên chiến dịch/th>
+                                    <th>Tên chiến dịch</th>
                                     <th>Phòng ban</th>
                                     <th>Vị trí</th>
                                     <th>Kế hoạch tuyển dụng</th>

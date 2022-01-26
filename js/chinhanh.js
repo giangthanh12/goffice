@@ -6,7 +6,19 @@ $(function () {
     var dtUserTable = $(".user-list-table"),
         modal = $("#updateinfo"),
         form = $("#dg");
-
+        var buttons = [];
+        if(funAdd == 1) {
+            buttons.push({
+                text: "Thêm mới",
+                className: "add-new btn btn-" + 'primary' + " mt-50",
+                init: function (api, node, config) {
+                    $(node).removeClass("btn-secondary");
+                },
+                action: function (e, dt, node, config) {
+                    actionMenu();
+                }
+            });
+        }
     // Users List datatable
     if (dtUserTable.length) {
         dtUserTable.DataTable({
@@ -32,12 +44,16 @@ $(function () {
                     orderable: false,
                     render: function (data, type, full, meta) {
                         var html = '';
-                        html += '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" title="Chỉnh sửa" onclick="loaddata(' + full['id'] + ')">';
-                        html += '<i class="fas fa-pencil-alt"></i>';
-                        html += '</button> &nbsp;';
-                        html += '<button type="button" class="btn btn-icon btn-outline-danger waves-effect" title="Xóa" id="confirm-text" onclick="xoa(' + full['id'] + ')">';
-                        html += '<i class="fas fa-trash-alt"></i>';
-                        html += '</button>';
+                        if(funEdit == 1) {
+                            html += '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" title="Chỉnh sửa" onclick="loaddata(' + full['id'] + ')">';
+                            html += '<i class="fas fa-pencil-alt"></i>';
+                            html += '</button> &nbsp;';
+                        }
+                        if(funDel == 1) {
+                            html += '<button type="button" class="btn btn-icon btn-outline-danger waves-effect" title="Xóa" id="confirm-text" onclick="xoa(' + full['id'] + ')">';
+                            html += '<i class="fas fa-trash-alt"></i>';
+                            html += '</button>';
+                        }
                         return html;
                     },
                     width: 100
@@ -62,26 +78,10 @@ $(function () {
                     previous: "&nbsp;",
                     next: "&nbsp;",
                 },
-                info:"Hiển thị _START_ đến _END_ of _TOTAL_ bản ghi",
+                info:"Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
             },
             // Buttons with Dropdown
-            buttons: [
-                {
-                    text: "Thêm mới",
-                    className: "add-new btn btn-primary mt-50",
-                    init: function (api, node, config) {
-                        $(node).removeClass("btn-secondary");
-                    },
-                    action: function (e, dt, node, config) {
-                        $("#updateinfo").modal('show');
-                        $(".modal-title").html('Thêm chi nhánh mới');
-                        $('#name').val('');
-                        $('#ip').val('');
-                        $('#address').val('');
-                        url = baseHome + "/chinhanh/add";
-                    },
-                },
-            ],
+            buttons:buttons,
             initComplete: function () {
                 // Adding role filter once table initialized
 
@@ -89,7 +89,14 @@ $(function () {
         });
 
     }
-
+    function actionMenu() {
+        $("#updateinfo").modal('show');
+        $(".modal-title").html('Thêm chi nhánh mới');
+        $('#name').val('');
+        $('#ip').val('');
+        $('#address').val('');
+        url = baseHome + "/chinhanh/add";
+    }
     // Check Validity
     function checkValidity(el) {
         if (el.validate().checkForm()) {
@@ -193,6 +200,7 @@ function xoa(id) {
         icon: 'warning',
         showCancelButton: true,
         confirmButtonText: 'Tôi đồng ý',
+        cancelButtonText: 'Hủy',
         customClass: {
             confirmButton: 'btn btn-primary',
             cancelButton: 'btn btn-outline-danger ml-1'

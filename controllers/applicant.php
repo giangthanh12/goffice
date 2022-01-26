@@ -2,13 +2,31 @@
 
 class applicant extends Controller
 {
+    static private $funAdd = 0, $funEdit = 0, $funDel = 0;
     function __construct()
     {
         parent::__construct();
+        $model = new model();
+        $checkMenuRole = $model->checkMenuRole('applicant');
+        if ($checkMenuRole == false)
+            header('location:' . HOME);
+        $funcs = $model->getFunctions('applicant');
+      
+        foreach ($funcs as $item) {
+            if ($item['function'] == 'add')
+                self::$funAdd = 1;
+            if ($item['function'] == 'edit')
+                self::$funEdit = 1;
+            if ($item['function'] == 'del')
+                self::$funDel = 1;
+        }
     }
 
     function index(){
         require "layouts/header.php";
+        $this->view->funAdd = self::$funAdd;
+        $this->view->funEdit = self::$funEdit;
+        $this->view->funDel = self::$funDel;
         $this->view->render("applicant/index");
         require "layouts/footer.php";
     }
@@ -32,6 +50,12 @@ class applicant extends Controller
     }
     function update()
     {
+        if (self::$funEdit == 0) {
+            $jsonObj['msg'] = 'Bạn không có quyền sử dụng chức năng này';
+            $jsonObj['success'] = false;
+            echo json_encode($jsonObj);
+            return false;
+        }
         $id = $_REQUEST['id'];
         $filename = $_FILES['file1']['name'];
         $fname = explode('.',$filename);
@@ -110,6 +134,12 @@ class applicant extends Controller
 
     function thayanh()
     {
+        if (self::$funEdit == 0) {
+            $jsonObj['msg'] = 'Bạn không có quyền sử dụng chức năng này';
+            $jsonObj['success'] = false;
+            echo json_encode($jsonObj);
+            return false;
+        }
         $id = $_REQUEST['myid'];
         $filename = $_FILES['hinhanh']['name'];
         $hinhanh = '';
@@ -133,6 +163,12 @@ class applicant extends Controller
 
     function add()
     {
+        if (self::$funAdd == 0) {
+            $jsonObj['msg'] = 'Bạn không có quyền sử dụng chức năng này';
+            $jsonObj['success'] = false;
+            echo json_encode($jsonObj);
+            return false;
+        }
         $fullName = isset($_REQUEST['fullName']) ? $_REQUEST['fullName'] : '';
         $gender = isset($_REQUEST['gender']) ? $_REQUEST['gender'] : '';
         $dob = isset($_REQUEST['dob']) ? date('Y-m-d',strtotime($_REQUEST['dob'])) : '';
@@ -162,6 +198,12 @@ class applicant extends Controller
 
     function del()
     {
+        if (self::$funDel == 0) {
+            $jsonObj['msg'] = 'Bạn không có quyền sử dụng chức năng này';
+            $jsonObj['success'] = false;
+            echo json_encode($jsonObj);
+            return false;
+        }
         $id = $_REQUEST['id'];
         if ($this->model->delObj($id)) {
             $jsonObj['msg'] = "Cập nhật dữ liệu thành công";
@@ -190,6 +232,12 @@ class applicant extends Controller
 
     function addmember()
     {
+        if (self::$funEdit == 0) {
+            $jsonObj['msg'] = 'Bạn không có quyền sử dụng chức năng này';
+            $jsonObj['success'] = false;
+            echo json_encode($jsonObj);
+            return false;
+        }
         $ungvien = $_REQUEST['ung_vien'];
         $tendaydu = isset($_REQUEST['ten_day_du']) ? $_REQUEST['ten_day_du'] : '';
         $ngaysinh = isset($_REQUEST['ngay_sinh']) ? date("Y-m-d", strtotime(str_replace('/', '-', $_REQUEST['ngay_sinh']))) : '';
@@ -220,6 +268,12 @@ class applicant extends Controller
 
     function updatemember()
     {
+        if (self::$funEdit == 0) {
+            $jsonObj['msg'] = 'Bạn không có quyền sử dụng chức năng này';
+            $jsonObj['success'] = false;
+            echo json_encode($jsonObj);
+            return false;
+        }
         $id = $_REQUEST['id'];
         $tendaydu = isset($_REQUEST['ten_day_du']) ? $_REQUEST['ten_day_du'] : '';
         $ngaysinh = isset($_REQUEST['ngay_sinh']) ? date("Y-m-d", strtotime(str_replace('/', '-', $_REQUEST['ngay_sinh']))) : '';
@@ -247,6 +301,12 @@ class applicant extends Controller
 
     function delmember()
     {
+        if (self::$funEdit == 0) {
+            $jsonObj['msg'] = 'Bạn không có quyền sử dụng chức năng này';
+            $jsonObj['success'] = false;
+            echo json_encode($jsonObj);
+            return false;
+        }
         $id = $_REQUEST['id'];
         if ($this->model->delMember($id)) {
             $jsonObj['msg'] = "Cập nhật dữ liệu thành công";
@@ -275,6 +335,12 @@ class applicant extends Controller
 
     function addhv()
     {
+        if (self::$funEdit == 0) {
+            $jsonObj['msg'] = 'Bạn không có quyền sử dụng chức năng này';
+            $jsonObj['success'] = false;
+            echo json_encode($jsonObj);
+            return false;
+        }
         $ungvien = $_REQUEST['ung_vien'];
         $ngaybatdau = isset($_REQUEST['ngay_bat_dau']) ? date("Y-m-d", strtotime(str_replace('/', '-', $_REQUEST['ngay_bat_dau']))) : '';
         $ngayketthuc = isset($_REQUEST['ngay_ket_thuc']) ? date("Y-m-d", strtotime(str_replace('/', '-', $_REQUEST['ngay_ket_thuc']))) : '';
@@ -305,6 +371,12 @@ class applicant extends Controller
 
     function updatehv()
     {
+        if (self::$funEdit == 0) {
+            $jsonObj['msg'] = 'Bạn không có quyền sử dụng chức năng này';
+            $jsonObj['success'] = false;
+            echo json_encode($jsonObj);
+            return false;
+        }
         $id = $_REQUEST['id'];
         $ngaybatdau = isset($_REQUEST['ngay_bat_dau']) ? date("Y-m-d", strtotime(str_replace('/', '-', $_REQUEST['ngay_bat_dau']))) : '';
         $ngayketthuc = isset($_REQUEST['ngay_ket_thuc']) ? date("Y-m-d", strtotime(str_replace('/', '-', $_REQUEST['ngay_ket_thuc']))) : '';
@@ -332,6 +404,12 @@ class applicant extends Controller
 
     function delhv()
     {
+        if (self::$funEdit == 0) {
+            $jsonObj['msg'] = 'Bạn không có quyền sử dụng chức năng này';
+            $jsonObj['success'] = false;
+            echo json_encode($jsonObj);
+            return false;
+        }
         $id = $_REQUEST['id'];
         if ($this->model->delHV($id)) {
             $jsonObj['msg'] = "Cập nhật dữ liệu thành công";
@@ -360,6 +438,12 @@ class applicant extends Controller
 
     function addkn()
     {
+        if (self::$funEdit == 0) {
+            $jsonObj['msg'] = 'Bạn không có quyền sử dụng chức năng này';
+            $jsonObj['success'] = false;
+            echo json_encode($jsonObj);
+            return false;
+        }
         $ungvien = $_REQUEST['ung_vien'];
         $ngaybatdau = isset($_REQUEST['ngay_bat_dau']) ? date("Y-m-d", strtotime(str_replace('/', '-', $_REQUEST['ngay_bat_dau']))) : '';
         $ngayketthuc = isset($_REQUEST['ngay_ket_thuc']) ? date("Y-m-d", strtotime(str_replace('/', '-', $_REQUEST['ngay_ket_thuc']))) : '';
@@ -394,6 +478,12 @@ class applicant extends Controller
 
     function updatekn()
     {
+        if (self::$funEdit == 0) {
+            $jsonObj['msg'] = 'Bạn không có quyền sử dụng chức năng này';
+            $jsonObj['success'] = false;
+            echo json_encode($jsonObj);
+            return false;
+        }
         $id = $_REQUEST['id'];
         $ngaybatdau = isset($_REQUEST['ngay_bat_dau']) ? date("Y-m-d", strtotime(str_replace('/', '-', $_REQUEST['ngay_bat_dau']))) : '';
         $ngayketthuc = isset($_REQUEST['ngay_ket_thuc']) ? date("Y-m-d", strtotime(str_replace('/', '-', $_REQUEST['ngay_ket_thuc']))) : '';
@@ -425,6 +515,12 @@ class applicant extends Controller
 
     function delkn()
     {
+        if (self::$funEdit == 0) {
+            $jsonObj['msg'] = 'Bạn không có quyền sử dụng chức năng này';
+            $jsonObj['success'] = false;
+            echo json_encode($jsonObj);
+            return false;
+        }
         $id = $_REQUEST['id'];
         if ($this->model->delKN($id)) {
             $jsonObj['msg'] = "Cập nhật dữ liệu thành công";

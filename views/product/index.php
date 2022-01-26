@@ -24,11 +24,11 @@
                             </thead>
                         </table>
                     </div>
-                    <div class="modal fade text-left" id="updateinfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel16" aria-hidden="true">
+                    <div class="modal fade text-left" id="updateinfo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered modal" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h4 class="modal-title" id="myModalLabel16">Thêm sản phẩm mới</h4>
+                                    <h4 class="modal-title" id="exampleModalLongTitle"></h4>
                                 </div>
                                 <div class="modal-body">
                                     <!-- <input type="hidden" id="id" name="id" /> -->
@@ -64,7 +64,7 @@
                                                         <input type="text" id="price" name="price" class="format_number form-control"  />
                                                     </div>
                                                     <div class="col-12 d-flex flex-sm-row flex-column mt-2">
-                                                        <button type="submit"  class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Cập nhật</button>
+                                                        <button type="submit" id="btn_product" class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1"></button>
                                                         <button type="reset" class="btn btn-outline-secondary" data-dismiss="modal">Bỏ qua</button>
                                                     </div>
                                                 </div>
@@ -81,4 +81,10 @@
         </div>
     </div>
 </div>
+<script>
+    var funAdd = <?=$this->funAdd?>,
+        funEdit = <?=$this->funEdit?>,
+        funDel = <?=$this->funDel?>;
+     
+</script>
 <script src="<?= HOME ?>/js/product.js"></script>

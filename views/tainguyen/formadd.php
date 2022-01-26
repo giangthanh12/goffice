@@ -1,4 +1,4 @@
-<script src="<?= HOME ?>/js/tainguyen/formadd.js"></script>
+
 <div class="app-content content">
     <div class="content-overlay"></div>
     <div class="header-navbar-shadow"></div>
@@ -100,3 +100,4 @@
   z-index: 2;
 }
 </style>
+<script src="<?= HOME ?>/js/tainguyen/formadd.js"></script>

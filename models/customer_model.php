@@ -25,6 +25,12 @@ class customer_Model extends Model{
                 $result = $query->fetchAll(PDO::FETCH_ASSOC);
             return $result;
         }
+        function get_data_combo(){
+            $result = array();
+            $query = $this->db->query("SELECT id, name AS text FROM customers WHERE status > 0 ");
+            $result = $query->fetchAll(PDO::FETCH_ASSOC);
+            return $result;
+        }
         function loadContact($id) {
             $query = $this->db->query("SELECT * FROM contact WHERE status = 1 AND customerId = $id  ORDER BY id DESC ");
             $result['data'] = $query->fetchAll(PDO::FETCH_ASSOC);

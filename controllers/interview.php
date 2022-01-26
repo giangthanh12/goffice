@@ -1,12 +1,30 @@
 <?php
 class interview extends Controller
 {
+    static private $funAdd = 0, $funEdit = 0, $funDel = 0;
     function __construct()
     {
         parent::__construct();
+        $model = new model();
+        $checkMenuRole = $model->checkMenuRole('interview');
+        if ($checkMenuRole == false)
+            header('location:' . HOME);
+        $funcs = $model->getFunctions('interview');
+      
+        foreach ($funcs as $item) {
+            if ($item['function'] == 'add')
+                self::$funAdd = 1;
+            if ($item['function'] == 'edit')
+                self::$funEdit = 1;
+            if ($item['function'] == 'del')
+                self::$funDel = 1;
+        }
     }
     function index(){
         require "layouts/header.php";
+        $this->view->funAdd = self::$funAdd;
+        $this->view->funEdit = self::$funEdit;
+        $this->view->funDel = self::$funDel;
         $this->view->render("interview/index");
         require "layouts/footer.php";
     }
@@ -41,7 +59,8 @@ class interview extends Controller
             'note' => $note,
             'status'=>1
         );
-      
+        if (self::$funAdd == 1 && empty($id)) {
+           
             if ($this->model->updateInterview($id,$data)) {
                 $jsonObj['msg'] = 'Cập nhật dữ liệu thành công';
                 $jsonObj['success'] = true;
@@ -49,7 +68,20 @@ class interview extends Controller
                 $jsonObj['msg'] = 'Cập nhật dữ liệu không thành công';
                 $jsonObj['success'] = false;
             }
-        
+        }
+        else if(self::$funEdit == 1 && !empty($id) && $id > 0) {
+            if ($this->model->updateInterview($id,$data)) {
+                $jsonObj['msg'] = 'Cập nhật dữ liệu thành công';
+                $jsonObj['success'] = true;
+            } else {
+                $jsonObj['msg'] = 'Cập nhật dữ liệu không thành công';
+                $jsonObj['success'] = false;
+            }
+        }
+        else {
+            $jsonObj['msg'] = 'Bạn không có quyền sử dụng chức năng này';
+            $jsonObj['success'] = false;
+        }
         echo json_encode($jsonObj);
 
 
@@ -71,6 +103,12 @@ class interview extends Controller
 
     function del()
     {
+        if (self::$funDel == 0) {
+            $jsonObj['msg'] = 'Bạn không có quyền sử dụng chức năng này';
+            $jsonObj['success'] = false;
+            echo json_encode($jsonObj);
+            return false;
+        }
         $id = $_REQUEST['id'];
         $data = ['status' => 0];
         if ($this->model->delObj($id, $data)) {

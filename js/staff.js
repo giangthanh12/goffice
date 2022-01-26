@@ -42,7 +42,20 @@ $(function () {
         });
     }
 
-
+    var buttons = [];
+    if(funAdd == 1) {
+        buttons.push(
+            {
+                text: "Thêm mới",
+                className: "add-new btn btn-primary mt-50",
+                init: function (api, node, config) {
+                    $(node).removeClass("btn-secondary");
+                },
+                action: function (e, dt, node, config) {
+                    showAdd();
+                },
+            });
+    }
     // Users List datatable
     if (dtUserTable.length) {
         dtUserTable.DataTable({
@@ -179,12 +192,18 @@ $(function () {
                         //     }
                         // })
                         html += '<div d-flex justify-content-start style="width::150px;text-align:left">';
-                        html += '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" title="Chỉnh sửa" onclick="loaddata(' + full['id'] + ')">';
-                        html += '<i class="fas fa-pencil-alt"></i>';
-                        html += '</button> &nbsp;';
-                        html += '<button type="button" class="btn btn-icon btn-outline-danger waves-effect" title="Xóa" id="confirm-text" onclick="del(' + full['id'] + ')">';
-                        html += '<i class="fas fa-trash-alt"></i>';
-                        html += '</button></div>';
+                        if(funEdit == 1) {
+                            html += '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" title="Chỉnh sửa" onclick="loaddata(' + full['id'] + ')">';
+                            html += '<i class="fas fa-pencil-alt"></i>';
+                            html += '</button> &nbsp;';
+                        }
+                        if (funDel == 1) {
+                            html += '<button type="button" class="btn btn-icon btn-outline-danger waves-effect" title="Xóa" id="confirm-text" onclick="del(' + full['id'] + ')">';
+                            html += '<i class="fas fa-trash-alt"></i>';
+                            html += '</button>';
+                        }
+                        html+= '</div>';
+                       
                         return html;
 
 
@@ -213,20 +232,7 @@ $(function () {
                 info: "Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
             },
             // Buttons with Dropdown
-            buttons: [{
-                text: "Thêm mới",
-                className: "add-new btn btn-primary mt-50",
-                // attr: {
-                //     "data-toggle": "modal",
-                //     "data-target": "#modals-slide-in",
-                // },
-                init: function (api, node, config) {
-                    $(node).removeClass("btn-secondary");
-                },
-                action: function (e, dt, node, config) {
-                    actionMenu('add');
-                }
-            }],
+            buttons: buttons,
             // For responsive popup
 
             initComplete: function () {
@@ -234,12 +240,17 @@ $(function () {
             },
         });
     }
-
+function showAdd() {
+    $('#modals-slide-in').modal('show');
+    $("#name").val('');
+    $('#phoneNumber').val('');
+    $('#email').val('');
+    $('#birthday').val('');
+    $("input[type='radio'][name='gender']:checked").val();
+    $('#status').val(1);
+}
     // Check Validity
-    function actionMenu(func) {
-        if (func == 'add')
-            add();
-    }
+  
 
     function checkValidity(el) {
         if (el.validate().checkForm()) {
@@ -382,6 +393,10 @@ $(function () {
 });
 
 function loaddata(id) {
+    if(funEdit != 1) {
+        $('#updateStaff').css('display', 'none');
+        $('#update_nhanvien_info').css('display','none');
+    }
     $('#updateinfo').modal('show');
     $.ajax({
         type: "POST",
@@ -605,15 +620,7 @@ function del(id) {
 }
 
 
-function add() {
-    $('#modals-slide-in').modal('show');
-    $("#name").val('');
-    $('#phoneNumber').val('');
-    $('#email').val('');
-    $('#birthday').val('');
-    $("input[type='radio'][name='gender']:checked").val();
-    $('#status').val(1);
-}
+
 
 // load record
 function loadRecord(id) {

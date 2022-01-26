@@ -302,6 +302,8 @@ function loaddata(id) {
                 basicPickr.flatpickr({
                     dateFormat: "d/m/Y",
                     onReady: function (selectedDates, dateStr, instance) {
+                      
+                        console.log(instance);
                         if (instance.isMobile) {
                             $(instance.mobileInput).attr("step", null);
                         }
@@ -387,6 +389,7 @@ function xoa(id) {
         icon: 'warning',
         showCancelButton: true,
         confirmButtonText: 'Tôi đồng ý',
+        cancelButtonText: 'Hủy',
         customClass: {
             confirmButton: 'btn btn-primary',
             cancelButton: 'btn btn-outline-danger ml-1'

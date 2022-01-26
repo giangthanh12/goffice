@@ -32,6 +32,20 @@ $(function () {
         modal = $("#updateinfo"),
         form = $("#dg");
         quill_editor = $("#task-desc .ql-editor p");
+        var buttons = [];
+        if(funAdd == 1) {
+            buttons.push(
+                {
+                    text: "Thêm mới",
+                    className: "add-new btn btn-primary mt-50",
+                    init: function (api, node, config) {
+                        $(node).removeClass("btn-secondary");
+                    },
+                    action: function (e, dt, node, config) {
+                        showAdd();
+                    },
+                });
+        }
     // Users List datatable
     if (dtUserTable.length) {
         dtUserTable.DataTable({
@@ -47,6 +61,20 @@ $(function () {
                 { data: "" },
             ],
             columnDefs: [
+                { 
+                    targets:0,
+                    render: function(data,type,full,meta) {
+                        var $row_output =
+                       
+                        '<div class="d-flex flex-column">' +
+                        '<a href="javascript:void(0)" onclick="loaddata('+full["id"]+');" data-toggle="modal" data-target="#updateinfo" class="user_name text-truncate"><span class="font-weight-bold">' +
+                        full['name'] +
+                        "</span></a>" +
+                       
+                        "</div>";
+                        return $row_output;
+                    }
+                },
                 {
                     // Actions
                     targets: 2,
@@ -75,12 +103,18 @@ $(function () {
                     orderable: false,
                     render: function (data, type, full, meta) {
                         var html = '';
-                        html += '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" title="Chỉnh sửa" onclick="loaddata(' + full['id'] + ')">';
-                        html += '<i class="fas fa-pencil-alt"></i>';
-                        html += '</button> &nbsp;';
-                        html += '<button type="button" class="btn btn-icon btn-outline-danger waves-effect" title="Xóa" id="confirm-text" onclick="del(' + full['id'] + ')">';
-                        html += '<i class="fas fa-trash-alt"></i>';
-                        html += '</button>';
+                        if(funEdit == 1) {
+                            html += '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" title="Chỉnh sửa" onclick="loaddata(' + full['id'] + ')">';
+                            html += '<i class="fas fa-pencil-alt"></i>';
+                            html += '</button> &nbsp;';
+                        }
+                        
+
+                        if(funDel == 1) {
+                            html += '<button type="button" class="btn btn-icon btn-outline-danger waves-effect" title="Xóa" id="confirm-text" onclick="del(' + full['id'] + ')">';
+                            html += '<i class="fas fa-trash-alt"></i>';
+                            html += '</button>';
+                        }
                         return html;
                     },
                     width: 100
@@ -108,26 +142,7 @@ $(function () {
                     info:"Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
                 },
             // Buttons with Dropdown
-            buttons: [
-                {
-                    text: "Thêm mới",
-                    className: "add-new btn btn-primary mt-50",
-                    attr: {
-                        "data-toggle": "modal",
-                        "data-target": "#modals-slide-in",
-                    },
-                    init: function (api, node, config) {
-                        $(node).removeClass("btn-secondary");
-                    },
-                    action: function (e, dt, node, config) {
-                        $('#dg')[0].reset();
-                        
-                        $("#updateinfo").modal('show');
-                        $('.modal-title').html('')
-                        url = baseHome + "/product/add";
-                    }
-                },
-            ],
+            buttons: buttons,
             
             initComplete: function () {
                
@@ -135,6 +150,16 @@ $(function () {
             },
         });
 
+    }
+
+
+    function showAdd() {
+        $('#dg')[0].reset();
+        $('#btn_product').css('display','inline-block');                
+        $("#updateinfo").modal('show');
+        $('#btn_product').html('Thêm');
+        $('.modal-title').html('Thêm sản phẩm mới');
+        url = baseHome + "/product/add";
     }
 
     // Check Validity
@@ -216,6 +241,13 @@ $(function () {
 });
 
 function loaddata(id) {
+    if(funEdit != 1) {
+        $('#btn_product').css('display','none');
+    }
+    else {
+        $('#btn_product').css('display','inline-block');
+        $('#btn_product').html("Cập nhật");
+    }
     $('#updateinfo').modal('show');
     $(".modal-title").html('Cập nhật sản phẩm');
     $.ajax({
@@ -269,6 +301,7 @@ function del(id) {
         icon: 'warning',
         showCancelButton: true,
         confirmButtonText: 'Tôi đồng ý',
+        cancelButtonText: 'Hủy',
         customClass: {
             confirmButton: 'btn btn-primary',
             cancelButton: 'btn btn-outline-danger ml-1'
