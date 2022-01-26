@@ -23,12 +23,12 @@
 
                         <div class="col-md-3 data_nhanvien form-group">
                             <label for="tungay">Từ ngày</label>
-                            <input type="text" id="tungay" name="tungay" class="form-control flatpickr-basic" placeholder="DD/MM/YYYY" />
+                            <input type="text" id="tungay" name="tungay" class="form-control flatpickr-basic" placeholder="" />
                         </div>
 
                         <div class="col-md-3 data_nhanvien form-group">
                             <label for="denngay">Đến ngày</label>
-                            <input type="text" id="denngay" name="denngay" class="form-control flatpickr-basic" placeholder="DD/MM/YYYY" />
+                            <input type="text" id="denngay" name="denngay" class="form-control flatpickr-basic" placeholder="" />
                         </div>
                         <button type="button" class="btn btn-icon btn-outline-primary waves-effect" style="margin-top:10px" title="Tìm kiếm" onclick="search()">Tìm kiếm</button>
                     </div>
@@ -40,9 +40,9 @@
                                 <!-- <h6 class="mb-0">DataTable with Buttons</h6> -->
                             </div>
                             <div class="dt-buttons ml-1 text-right">
-                                <!-- <button class="dt-button add-new btn btn-danger mt-50" onclick="showcall()" tabindex="0" aria-controls="DataTables_Table_0" type="button">
+                               <button class="dt-button add-new btn btn-danger mt-50" onclick="showcall()" tabindex="0" aria-controls="DataTables_Table_0" type="button">
                                     <span>Gọi điện</span>
-                                </button> -->
+                                </button>
                                 <button class="dt-button add-new btn btn-primary mt-50" onclick="showadd()" tabindex="0" aria-controls="DataTables_Table_0" type="button">
                                     <span>Thêm mới</span>
                                 </button>
@@ -407,8 +407,8 @@
                                     <div class="modal-body">
                                         <form id="frm-add-lead">
                                             <div class="form-group">
-                                                <label for="nameLead">Tên cơ hội</label>
-                                                <input id="nameLead" class="form-control" name="nameLead" />
+                                                <label for="leadName">Tên cơ hội</label>
+                                                <input id="leadName" class="form-control" name="leadName" />
                                             </div>
                                             <div class="form-group">
                                                 <label for="descriptionLead">Mô tả cơ hội</label>
@@ -430,7 +430,7 @@
                             </div>
                         </div>
 
-                        <!-- <div class="modal fade text-left" id="showcall" tabindex="-1" aria-labelledby="myModalLabel18" aria-hidden="true" role="dialog">
+                      <div class="modal fade text-left" id="showcall" tabindex="-1" aria-labelledby="myModalLabel18" aria-hidden="true" role="dialog">
                             <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -451,7 +451,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div> -->
+                        </div>
                     </div>
             </section>
         </div>

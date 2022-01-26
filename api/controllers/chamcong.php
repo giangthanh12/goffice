@@ -11,50 +11,56 @@ class chamcong extends Controller
     function checkinWifi()
     {
         $jsonObj = [];
-        $iplogin = isset($_REQUEST['ipLogin']) ? $_REQUEST['ipLogin'] : '';
-        $nhanvien = isset($_REQUEST['staffId']) ? $_REQUEST['staffId'] : 0;
-        $ipvanphong = isset($_REQUEST['ipBranch']) ? $_REQUEST['ipBranch'] : '';
-        if ($nhanvien == 0) {
+        $ipLogin = isset($_REQUEST['ipLogin']) ? $_REQUEST['ipLogin'] : '';
+        $staffId = isset($_REQUEST['staffId']) ? $_REQUEST['staffId'] : 0;
+        $ipPoint = isset($_REQUEST['idAccessPoint']) ? $_REQUEST['idAccessPoint'] : '';
+        if ($staffId == 0) {
             $jsonObj['message'] = "Chưa có thông tin nhân viên checkin";
             $jsonObj['code'] = 401;
+            http_response_code(401);
             $jsonObj['data'] = [];
             echo json_encode($jsonObj);
             return false;
         }
-        if ($ipvanphong=='') {
-            $jsonObj['message'] = "Chưa có nhập địa chỉ ip chi nhánh";
+        if ($ipLogin == '') {
+            $jsonObj['message'] = "Chưa có nhập địa chỉ ip nhân viên";
+            $jsonObj['code'] = 403;
+            http_response_code(403);
+            $jsonObj['data'] = [];
+            echo json_encode($jsonObj);
+            return false;
+        }
+        $jsonObj = [];
+        if ($ipPoint == '') {
+            $jsonObj['message'] = "Bạn chưa được cài đặt điểm truy cập";
             $jsonObj['code'] = 402;
+            http_response_code(402);
             $jsonObj['data'] = [];
             echo json_encode($jsonObj);
             return false;
         }
-         if ($iplogin=='') {
-             $jsonObj['message'] = "Chưa có nhập địa chỉ ip nhân viên";
-             $jsonObj['code'] = 403;
-             $jsonObj['data'] = [];
-             echo json_encode($jsonObj);
-             return false;
-         }
-
-        if ($iplogin != $ipvanphong) {
-            $jsonObj['message'] = "Sai địa chỉ IP";
+        $checkIp = $this->model->checkIp($ipLogin,$ipPoint);
+        if ($checkIp == 0) {
+            $jsonObj['message'] = "Sai địa chỉ IP!";
             $jsonObj['code'] = 404;
+            http_response_code(404);
             $jsonObj['data'] = [];
             echo json_encode($jsonObj);
             return false;
         }
-        $checkin = $this->model->checkinWifi($nhanvien);
-        if ($checkin==0) {
-            $jsonObj['message'] = "Checkin không thành công";
-            $jsonObj['code'] = 405;
-            $jsonObj['data'] = [];
-            echo json_encode($jsonObj);
-            return false;
-
-        }
-        if ($checkin==2) {
+        $checkin = $this->model->checkInWifi($staffId);
+        if ($checkin == 0) {
             $jsonObj['message'] = "Bạn đã checkin trước đó";
             $jsonObj['code'] = 201;
+            http_response_code(201);
+            $jsonObj['data'] = [];
+            echo json_encode($jsonObj);
+            return false;
+        }
+        if ($checkin == 2) {
+            $jsonObj['message'] = "Checkin không thành công";
+            $jsonObj['code'] = 405;
+            http_response_code(405);
             $jsonObj['data'] = [];
             echo json_encode($jsonObj);
             return false;
@@ -62,6 +68,7 @@ class chamcong extends Controller
         }
         $jsonObj['message'] = "Checkin thành công";
         $jsonObj['code'] = 200;
+        http_response_code(200);
         $jsonObj['data'] = [];
         echo json_encode($jsonObj);
     }
@@ -88,10 +95,10 @@ class chamcong extends Controller
     function checkout()
     {
         $jsonObj = [];
-        $iplogin = isset($_REQUEST['ipLogin']) ? $_REQUEST['ipLogin'] : '';
-        $nhanvien = isset($_REQUEST['staffId']) ? $_REQUEST['staffId'] : 0;
-        $ipvanphong = isset($_REQUEST['ipBranch']) ? $_REQUEST['ipBranch'] : '';
-        if ($nhanvien == 0) {
+        $ipLogin = isset($_REQUEST['ipLogin']) ? $_REQUEST['ipLogin'] : '';
+        $staffId = isset($_REQUEST['staffId']) ? $_REQUEST['staffId'] : 0;
+        $ipPoint = isset($_REQUEST['idAccessPoint']) ? $_REQUEST['idAccessPoint'] : '';
+        if ($staffId == 0) {
             $jsonObj['message'] = "Chưa có thông tin nhân viên checkin";
             $jsonObj['code'] = 401;
             $jsonObj['data'] = [];
@@ -99,15 +106,7 @@ class chamcong extends Controller
             echo json_encode($jsonObj);
             return false;
         }
-        if ($ipvanphong=='') {
-            $jsonObj['message'] = "Chưa có nhập địa chỉ ip chi nhánh";
-            $jsonObj['code'] = 402;
-            $jsonObj['data'] = [];
-            http_response_code(402);
-            echo json_encode($jsonObj);
-            return false;
-        }
-        if ($iplogin=='') {
+        if ($ipLogin == '') {
             $jsonObj['message'] = "Chưa có nhập địa chỉ ip nhân viên";
             $jsonObj['code'] = 403;
             http_response_code(403);
@@ -115,17 +114,25 @@ class chamcong extends Controller
             echo json_encode($jsonObj);
             return false;
         }
-
-        if ($iplogin != $ipvanphong) {
-            $jsonObj['message'] = "Sai địa chỉ IP";
+        if ($ipPoint == '') {
+            $jsonObj['message'] = "Bạn chưa được cài đặt điểm truy cập";
+            $jsonObj['code'] = 402;
+            http_response_code(402);
+            $jsonObj['data'] = [];
+            echo json_encode($jsonObj);
+            return false;
+        }
+        $checkIp = $this->model->checkIp($ipLogin,$ipPoint);
+        if ($checkIp == 0) {
+            $jsonObj['message'] = "Không sử dụng đúng wifi để chấm công!";
             $jsonObj['code'] = 404;
             http_response_code(404);
             $jsonObj['data'] = [];
             echo json_encode($jsonObj);
             return false;
         }
-        $checkout = $this->model->checkout($nhanvien);
-        if ($checkout==false) {
+        $checkout = $this->model->checkout($staffId);
+        if ($checkout == false) {
             $jsonObj['message'] = "Checkout không thành công";
             $jsonObj['code'] = 405;
             http_response_code(405);
@@ -139,6 +146,7 @@ class chamcong extends Controller
         http_response_code(200);
         $jsonObj['data'] = [];
         echo json_encode($jsonObj);
+
     }
 
     function suagio()

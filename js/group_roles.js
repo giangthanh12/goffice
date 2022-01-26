@@ -73,14 +73,15 @@ $(function () {
                 },
             ],
             language: {
+                sLengthMenu: "Hiển thị _MENU_",
+                search: "",
+                searchPlaceholder: "Tìm kiếm...",
                 paginate: {
                     // remove previous & next text from pagination
                     previous: "&nbsp;",
                     next: "&nbsp;",
                 },
-                sLengthMenu: "Show _MENU_",
-                search: "Search",
-                searchPlaceholder: "11111111112..",
+                info:"Hiển thị _START_ đến _END_ of _TOTAL_ bản ghi",
             },
             initComplete: function () {
                 // Adding role filter once table initialized
@@ -267,9 +268,9 @@ function deleteGroupRole(id) {
 
 function setFunctionRole(funcId,groupId,check){
     if(check){
-        $arrFunc.push(funcId);
+        $arrFunc.push(funcId.toString());
     }else{
-        var index = $arrFunc.indexOf(funcId);
+        var index = $arrFunc.indexOf(funcId.toString());
         if (index !== -1) {
             $arrFunc.splice(index, 1);
         }
@@ -286,9 +287,9 @@ function setFunctionRole(funcId,groupId,check){
 
 function setMenuRole(menuId,groupId,check){
     if(check){
-        $arrMenu.push(menuId);
+        $arrMenu.push(menuId.toString());
     }else{
-        var index = $arrMenu.indexOf(menuId);
+        var index = $arrMenu.indexOf(menuId.toString());
         if (index !== -1) {
             $arrMenu.splice(index, 1);
         }

@@ -1,7 +1,7 @@
 <?php
 define("DB_TYPE", "mysql");
-define("DB_HOST", "localhost:3308");
-define("DB_NAME", "goffice_gemstech");
+define("DB_HOST", "localhost");
+define("DB_NAME", "goffice_test");
 define("DB_USER", "root");
 define("DB_PASS", "");
 //define("URL", "http://".$_SERVER["HTTP_HOST"]."/gofficev2/api");
@@ -16,7 +16,7 @@ define("GIOCHIEU", "13:30:00",true);
 define("MUONCHIEU", date("H:i:s",strtotime(GIOCHIEU)+3600),true);
 define("GIORA", "18:00:00",true);
 define("SOMCHIEU", date("H:i:s",strtotime(GIORA)-3600),true);
-define("URL", "http://" . $_SERVER["HTTP_HOST"] . "/WEB-G-OFFICE/gemstech");
-define("ROOT_DIR", $_SERVER["DOCUMENT_ROOT"] . "/WEB-G-OFFICE/users/gemstech" );
-define("URLFILE", "http://" . $_SERVER["HTTP_HOST"] . "/WEB-G-OFFICE/users/gemstech");
+define("URL", "http://" . $_SERVER["HTTP_HOST"] . "/goffice/gemstech");
+define("ROOT_DIR", $_SERVER["DOCUMENT_ROOT"] . "/goffice/users/gemstech" );
+define("URLFILE", "http://" . $_SERVER["HTTP_HOST"] . "/goffice/users/gemstech");
 ?>

@@ -95,19 +95,22 @@ $(function () {
                         $(".modal-title").html('Thêm user mới');
                         $('#username').val('');
                         $('#password').val('');
+                        $('#extNum').val('');
+                        $('#sipPass').val('');
                         url = baseHome + "/listusers/add";
                     },
                 },
             ],
             language: {
+                sLengthMenu: "Hiển thị _MENU_",
+                search: "",
+                searchPlaceholder: "Tìm kiếm...",
                 paginate: {
                     // remove previous & next text from pagination
                     previous: "&nbsp;",
                     next: "&nbsp;",
                 },
-                sLengthMenu: "Show _MENU_",
-                search: "Search",
-                searchPlaceholder: "Từ khóa ...",
+                info:"Hiển thị _START_ đến _END_ of _TOTAL_ bản ghi",
             },
             initComplete: function () {
                 // Adding role filter once table initialized
@@ -170,6 +173,8 @@ function getData(id) {
             $('#username').val(data.username);
             $('#staffId').val(data.staffId).change();
             $('#groupId').val(data.groupId).change();
+            $('#extNum').val(data.extNum);
+            $('#sipPass').val(data.sipPass);
             $('#password').val('');
             url = baseHome + '/listusers/update?id=' + id;
         },
@@ -179,29 +184,6 @@ function getData(id) {
     });
 }
 function save() {
-    // var info = {};
-    // info.username = $("#username").val();
-    // info.staffId = $("#staffId").val();
-    // info.groupId = $("#groupId").val();
-    // info.password = $("#password").val();
-    // $.ajax({
-    //     type: "POST",
-    //     dataType: "json",
-    //     data: info,
-    //     url: url,
-    //     success: function (data) {
-    //         if (data.code==200) {
-    //             notyfi_success(data.message);
-    //             $('#updateinfo').modal('hide');
-    //             $(".user-list-table").DataTable().ajax.reload(null, false);
-    //         }
-    //         else
-    //             notify_error(data.message);
-    //     },
-    //     error: function () {
-    //         notify_error('Cập nhật không thành công');
-    //     }
-    // });
     $('#fm').validate({
         submitHandler: function (form) {
             var formData = new FormData(form);
@@ -355,14 +337,16 @@ function deleteUser(id) {
 }
 
 function setFunctionRole(funcId,userId,check){
+
     if(check){
-        $arrFunc.push(funcId);
+        $arrFunc.push(funcId.toString());
     }else{
-        var index = $arrFunc.indexOf(funcId);
+        var index = $arrFunc.indexOf(funcId.toString());
         if (index !== -1) {
             $arrFunc.splice(index, 1);
         }
     }
+    
     // $.ajax({
     //     url: baseHome + "/listusers/setFunctionRole",
     //     type: 'post',
@@ -375,9 +359,9 @@ function setFunctionRole(funcId,userId,check){
 
 function setMenuRole(menuId,userId,check){
     if(check){
-        $arrMenu.push(menuId);
+        $arrMenu.push(menuId.toString());
     }else{
-        var index = $arrMenu.indexOf(menuId);
+        var index = $arrMenu.indexOf(menuId.toString());
         if (index !== -1) {
             $arrMenu.splice(index, 1);
         }

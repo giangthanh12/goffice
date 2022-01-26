@@ -12,6 +12,7 @@ class laborcontracts extends Controller
         if ($checkMenuRole == false)
             header('location:' . HOME);
         $funcs = $model->getFunctions('laborcontracts');
+      
         foreach ($funcs as $item) {
             if ($item['function'] == 'add')
                 self::$funAdd = 1;
@@ -34,7 +35,12 @@ class laborcontracts extends Controller
 
     function list()
     {
-        $data = $this->model->listObj();
+        if(self::$funAdd==1 || self::$funEdit==1 || self::$funDel==1)
+            $viewAll = true;
+        else
+            $viewAll=false;
+
+        $data = $this->model->listObj($viewAll);
         echo json_encode($data);
     }
 
@@ -52,11 +58,12 @@ class laborcontracts extends Controller
 
     function loaddata()
     {
-        $nhanvien = $_SESSION['user']['staffId'];
-        if (!in_array($nhanvien, [1, 7, 8, 11, 27]))
-            return false;
+        if(self::$funAdd==1 || self::$funEdit==1 || self::$funDel==1)
+            $viewAll = true;
+        else
+            $viewAll=false;
         $id = isset($_REQUEST['id']) ? $_REQUEST['id'] : 0;
-        $json = $this->model->getdata($id);
+        $json = $this->model->getdata($id,$viewAll);
         echo json_encode($json);
     }
 
@@ -74,7 +81,7 @@ class laborcontracts extends Controller
         }
         $basicSalary = isset($_REQUEST['basicSalary']) ? str_replace(',', '', $_REQUEST['basicSalary']) : 0;
         $salaryPercentage = isset($_REQUEST['salaryPercentage']) ? $_REQUEST['salaryPercentage'] : 0;
-        $insuranceSalary = isset($_REQUEST['insuranceSalary']) ? str_replace(',', '', $_REQUEST['insuranceSalary']) : 0;
+        $shiftId = isset($_REQUEST['shiftId']) ? $_REQUEST['shiftId'] : 0;
         $allowance = isset($_REQUEST['allowance']) ? str_replace(',', '', $_REQUEST['allowance']) : 0;
         $startDate = isset($_REQUEST['startDate']) && $_REQUEST['startDate'] != '' ? functions::convertDate($_REQUEST['startDate']) : '';
         if ($startDate == '') {
@@ -88,6 +95,7 @@ class laborcontracts extends Controller
         $departmentId = isset($_REQUEST['departmentId']) ? $_REQUEST['departmentId'] : 0;
         $position = isset($_REQUEST['position']) ? $_REQUEST['position'] : 0;
         $branchId = isset($_REQUEST['branchId']) ? $_REQUEST['branchId'] : 0;
+        $workPlaceId = isset($_REQUEST['workPlaceId']) ? $_REQUEST['workPlaceId'] : 0;
         $type = isset($_REQUEST['type']) ? $_REQUEST['type'] : 0;
         $status = isset($_REQUEST['status']) ? $_REQUEST['status'] : 1;
         $description = isset($_REQUEST['description']) ? $_REQUEST['description'] : '';
@@ -95,7 +103,7 @@ class laborcontracts extends Controller
             'name' => $name,
             'basicSalary' => $basicSalary,
             'salaryPercentage' => $salaryPercentage,
-            'insuranceSalary' => $insuranceSalary,
+            'shiftId' => $shiftId,
             'allowance' => $allowance,
             'startDate' => $startDate,
             'stopDate' => $stopDate,
@@ -103,32 +111,20 @@ class laborcontracts extends Controller
             'departmentId' => $departmentId,
             'position' => $position,
             'branchId' => $branchId,
+            'workPlaceId'=>$workPlaceId,
             'type' => $type,
             'status' => $status,
             'description' => $description
         );
         $contractId = $this->model->addObj($data);
         if ($contractId > 0) {
-            $dataRecord = array(
-                'name' => 'Ký hợp đồng lao động',
-                'staffId' => $staffId,
-                'contractId' => $contractId,
-                'positionId' => $position,
-                'startDate' => $startDate,
-                'stopDate' => $stopDate,
-                'salary' => $basicSalary,
-                'allowance' => $allowance,
-                'branchId' => $branchId,
-                'departmentId' => $departmentId,
-                'status' => 1
-            );
-            $this->model->addRecord($dataRecord);
             $jsonObj['message'] = 'Cập nhật dữ liệu thành công';
             $jsonObj['code'] = 200;
         } else {
             $jsonObj['message'] = 'Cập nhật dữ liệu không thành công';
             $jsonObj['code'] = 401;
         }
+        echo json_encode($jsonObj);
     }
 
     function update()
@@ -150,7 +146,7 @@ class laborcontracts extends Controller
         }
         $basicSalary = isset($_REQUEST['basicSalary']) ? str_replace(',', '', $_REQUEST['basicSalary']) : 0;
         $salaryPercentage = isset($_REQUEST['salaryPercentage']) ? $_REQUEST['salaryPercentage'] : 0;
-        $insuranceSalary = isset($_REQUEST['insuranceSalary']) ? str_replace(',', '', $_REQUEST['insuranceSalary']) : 0;
+        $shiftId = isset($_REQUEST['shiftId']) ? $_REQUEST['shiftId'] : 0;
         $allowance = isset($_REQUEST['allowance']) ? str_replace(',', '', $_REQUEST['allowance']) : 0;
         $startDate = isset($_REQUEST['startDate']) && $_REQUEST['startDate'] != '' ? functions::convertDate($_REQUEST['startDate']) : '';
         if ($startDate == '') {
@@ -167,11 +163,12 @@ class laborcontracts extends Controller
         $type = isset($_REQUEST['type']) ? $_REQUEST['type'] : 0;
         $status = isset($_REQUEST['status']) ? $_REQUEST['status'] : 1;
         $description = isset($_REQUEST['description']) ? $_REQUEST['description'] : '';
+        $workPlaceId = isset($_REQUEST['workPlaceId']) ? $_REQUEST['workPlaceId'] : 0;
         $data = array(
             'name' => $name,
             'basicSalary' => $basicSalary,
             'salaryPercentage' => $salaryPercentage,
-            'insuranceSalary' => $insuranceSalary,
+            'shiftId' => $shiftId,
             'allowance' => $allowance,
             'startDate' => $startDate,
             'stopDate' => $stopDate,
@@ -179,16 +176,17 @@ class laborcontracts extends Controller
             'departmentId' => $departmentId,
             'position' => $position,
             'branchId' => $branchId,
+            'workPlaceId'=>$workPlaceId,
             'type' => $type,
             'status' => $status,
             'description' => $description
         );
         if ($this->model->updateObj($id, $data)) {
-            $jsonObj['msg'] = 'Cập nhật dữ liệu thành công' . $startDate;
-            $jsonObj['success'] = true;
+            $jsonObj['message'] = 'Cập nhật dữ liệu thành công';
+            $jsonObj['code'] = 200;
         } else {
-            $jsonObj['msg'] = 'Cập nhật dữ liệu không thành công';
-            $jsonObj['success'] = false;
+            $jsonObj['message'] = 'Cập nhật dữ liệu không thành công';
+            $jsonObj['code'] = 401;
         }
 
         echo json_encode($jsonObj);
@@ -199,11 +197,11 @@ class laborcontracts extends Controller
         $id = $_REQUEST['id'];
         $data = ['status' => 0];
         if ($this->model->delObj($id, $data)) {
-            $jsonObj['msg'] = "Xóa dữ liệu thành công";
-            $jsonObj['success'] = true;
+            $jsonObj['message'] = "Xóa dữ liệu thành công";
+            $jsonObj['code'] = 200;
         } else {
-            $jsonObj['msg'] = "Xóa dữ liệu không thành công";
-            $jsonObj['success'] = false;
+            $jsonObj['message'] = "Xóa dữ liệu không thành công";
+            $jsonObj['code'] = false;
         }
         echo json_encode($jsonObj);
     }

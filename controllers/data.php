@@ -28,18 +28,17 @@ class data extends Controller
             'field' => $json['data']['field'],
             'note' => $json['data']['note'],
             'taxCode' => $json['data']['taxCode'],
-            'note' => $json['data']['note']
+            'status' => 1
         ];
         $customerId = $this->model->addCustomer($dataId, $data);
         if ($customerId>0) {
             $data = [
-                'name' => $_REQUEST['dataId'],
+                'name' => $_REQUEST['leadName'],
                 'customerId' => $customerId,
                 'description' => $_REQUEST['description'],
                 'opportunity' => $_REQUEST['opportunity'],
                 'dateTime' => date('Y-m-d H:i:s'),
                 'staffInCharge' => $json['data']['staffInCharge'],
-                'lastTimeCare' => $json['data']['lastTimeCare'],
                 'status' => 1
             ];
             $this->model->addLead($data);

@@ -4,6 +4,8 @@ $(function () {
     
     return_combobox_multi('#don_vi', baseHome + '/asset/don_vi', 'Đơn vị');
     return_combobox_multi('#nhom_ts', baseHome + '/asset/nhomtaisan', 'Nhóm tài sản');
+    return_combobox_multi('#nhan_vien', baseHome + '/asset/getStaff', 'Nhân viên');
+
     var dtUserTable = $(".user-list-table"),
         modal = $("#updateinfo"),
         nhom_ts = $("#nhom_ts"),
@@ -29,6 +31,19 @@ $(function () {
 // $('#status').select2({
     
 // });
+var buttons = [];
+if(funAdd == 1) {
+    buttons.push({
+        text: "Thêm mới",
+        className: "add-new btn btn-" + 'primary' + " mt-50",
+        init: function (api, node, config) {
+            $(node).removeClass("btn-secondary");
+        },
+        action: function (e, dt, node, config) {
+            actionMenu();
+        }
+    });
+}
 
 
   // Define render label
@@ -70,7 +85,7 @@ if ($('#status').length) {
             ajax: baseHome + "/asset/list",
             columns: [
                 // columns according to JSON
-                // { data: "" },
+                { data: "code" },
                 { data: "name" },
                 { data: "name_nhomts" },
                 { data: "tinh_trang" },
@@ -84,7 +99,7 @@ if ($('#status').length) {
                 },
                 {
                     // User full name and username
-                    targets: 0,
+                    targets: 1,
                     responsivePriority: 4,
                     render: function (data, type, full, meta) {
                         var $name = full["name"];
@@ -101,10 +116,11 @@ if ($('#status').length) {
                             "</div>";
                         return $row_output;
                     },
+                    
                 },
                 {
                     // User full name and username
-                    targets: 2,
+                    targets: 3,
                     responsivePriority: 4,
                     render: function (data, type, full, meta) {
                         var $status = full["tinh_trang"];
@@ -126,19 +142,45 @@ if ($('#status').length) {
                 {
                     // Actions
                     targets: -1,
-                    title: feather.icons["database"].toSvg({ class: "font-medium-3 text-success mr-50" }),
+                    title: "Thao tác",
                     orderable: false,
                     render: function (data, type, full, meta) {
                         var html = '';
-                        html += '<button type="button"  class="btn btn-icon btn-outline-primary waves-effect" data-toggle="modal" data-target="#baohongmat" title="Báo hỏng mất" onclick="load_baohong(' + full['id'] + ')">';
-                        html += 'Thông báo</i>';
+                        
+                        html += '<button type="button"  class="btn btn-icon btn-outline-success waves-effect" data-toggle="modal" data-target="#baohongmat" title="Báo hỏng mất" onclick="load_baohong(' + full['id'] + ')">';
+                        html += '<i class="far fa-bell"></i>';
                         html += '</button> &nbsp;';
-                        html += '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" data-toggle="modal" data-target="#updateinfo" title="Chỉnh sửa" onclick="loaddata(' + full['id'] + ')">';
-                        html += '<i class="fas fa-pencil-alt"></i>';
-                        html += '</button> &nbsp;';
-                        html += '<button type="button" class="btn btn-icon btn-outline-danger waves-effect" title="Xóa" onclick="del(' + full['id'] + ')">';
-                        html += '<i class="fas fa-trash-alt"></i>';
-                        html += '</button>';
+                        
+
+                        if(full['tinh_trang'] == 2) { // thu hồi
+                            if(funRecall==1) {
+                            html += '<button type="button"  class="btn btn-icon btn-outline-info waves-effect" data-toggle="modal" data-target="#modalRecall" title="Thu hồi" onclick="loadRecall(' + full['id_capphat'] + ')">';
+                            html += '<i class="fas fa-angle-left"></i>';
+                            html += '</button> &nbsp;';
+                                }
+                        }
+                        if (full['tinh_trang'] == 1) {
+                                if(funIssue == 1) {
+                                    html += '<button type="button"  class="btn btn-icon btn-outline-warning waves-effect" data-toggle="modal" data-target="#modalIssue" title="Cấp phát" onclick="loadIssue(' + full['id'] + ')">';
+                                    html += '<i class="fas fa-angle-right"></i>';
+                                    html += '</button> &nbsp;';
+                                }
+                        }
+               
+                            if(funEdit == 1) {
+                                html += '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" data-toggle="modal" data-target="#updateinfo" title="Chỉnh sửa" onclick="loaddata(' + full['id'] + ')">';
+                                html += '<i class="fas fa-pencil-alt"></i>';
+                                html += '</button> &nbsp;';
+                            }
+                       
+            
+                            if(funDel == 1) {
+                                html += '<button type="button" class="btn btn-icon btn-outline-' + 'danger' + ' waves-effect"  title="Xóa" onclick="' + 'del' + '(' + full['id'] + ')">';
+                                html += '<i class="' + 'fas fa-trash-alt' + '"></i>';
+                                html += '</button> &nbsp;';
+                            }
+                 
+                        
                         return html;
                     },
                 },
@@ -153,50 +195,24 @@ if ($('#status').length) {
                 '<"col-sm-12 col-md-6"i>' +
                 '<"col-sm-12 col-md-6"p>' +
                 ">",
-            language: {
-                sLengthMenu: "Show _MENU_",
-                search: "Search",
-                searchPlaceholder: "11111111112..",
-            },
+                language: {
+                    sLengthMenu: "Hiển thị _MENU_",
+                    search: "",
+                    searchPlaceholder: "Tìm kiếm...",
+                    paginate: {
+                        // remove previous & next text from pagination
+                        previous: "&nbsp;",
+                        next: "&nbsp;",
+                    },
+                    info:"Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
+                },
             // Buttons with Dropdown
-            buttons: [
-                {
-                    text: "Thêm mới",
-                    className: "add-new btn btn-primary mt-50",
-                    init: function (api, node, config) {
-                        $(node).removeClass("btn-secondary");
-                    },
-                    action: function (e, dt, node, config) {
-                       
-                        var validator = $("#dg").validate(); // reset form
-                        validator.resetForm();
-                        $(".error").removeClass("error"); // loại bỏ validate
-                        $("#addinfo").modal('show');
-                        $(".modal-title").html('Thêm tài sản mới');
-                        
-                        $('#name').val('');
-                        $('#don_vi').val('').change();
-                        $('#nhom_ts').val('').change();
-                        $('#so_tien').val('');
-                        $('#khau_hao').val('');
-                        $('#bao_hanh').val('');
-                        url = baseHome + "/asset/add";
-                    },
-                },
-            ],
-          
-            language: {
-                paginate: {
-                    // remove previous & next text from pagination
-                    previous: "&nbsp;",
-                    next: "&nbsp;",
-                },
-            },
+            buttons: buttons,
+       
             initComplete: function () {
                 // Adding role filter once table initialized
-                
                 this.api()
-                .columns(1)
+                .columns(2)
                 .every(function () {
                     var column = this;
                     var select = $('<select id="UserPlan" class="form-control text-capitalize mb-md-0 mb-2"><option value="">Nhóm tài sản</option></select>')
@@ -219,9 +235,22 @@ if ($('#status').length) {
         });
 
     }
-
- 
-
+    function actionMenu(){
+        var validator = $("#dg").validate(); // reset form
+        validator.resetForm();
+        $(".error").removeClass("error"); // loại bỏ validate
+        $("#addinfo").modal('show');
+        $(".modal-title").html('Thêm tài sản mới');
+        $('#name').val('');
+        $('#don_vi').val('').change();
+        $('#nhom_ts').val('').change();
+        $('#so_tien').val('');
+        $('#khau_hao').val('');
+        $('#bao_hanh').val('');
+        $('#code').val('');
+        url = baseHome + "/asset/add";
+    }
+   
     // Check Validity
     function checkValidity(el) {
         if (el.validate().checkForm()) {
@@ -236,8 +265,12 @@ if ($('#status').length) {
         form.validate({
             errorClass: "error",
             rules: {
+                "code": {
+                    required: true,
+                },
                 "name": {
                     required: true,
+                 
                 },
                 "don_vi": {
                     required: true,
@@ -249,11 +282,42 @@ if ($('#status').length) {
                     required: true,
                 },
                 "khau_hao": {
-                    required: true,
+               
+                    number:true,
+                    min:1
                 },
                 "bao_hanh": {
-                    required: true,
+               
+                    number:true,
+                    min:1
                 },
+            },
+            messages: {
+                "code": {
+                    required: "Bạn chưa nhập mã tài sản",
+                },
+                "name": {
+                    required: "Bạn chưa nhập tên",
+              
+                },
+                "don_vi": {
+                    required: "Bạn chưa nhập đơn vị",
+                },
+                "so_tien": {
+                    required: "Bạn chưa nhập số tiền",
+                },
+                "nhom_ts": {
+                    required: "Bạn chưa chọn tài sản",
+                },
+                "khau_hao": {
+               
+                    number:"Yêu cầu nhập số",
+                    min:"Giá trị tối thiểu là 1"
+                },
+                "bao_hanh": {
+                    number:"Yêu cầu nhập số",
+                    min:"Giá trị tối thiểu là 1"
+                }
             },
         });
 
@@ -267,6 +331,47 @@ if ($('#status').length) {
     }
 
 
+
+    // Form Validation
+    if ($('#IssueForm').length) {
+        $('#IssueForm').validate({
+            errorClass: "error",
+            rules: {
+                "nhan_vien": {
+                    required: true,
+                },
+                "asset_issue": {
+                    required: true,
+                },
+                "dat_coc": {
+                    required: true,
+                },
+            },
+            messages: {
+                "nhan_vien": {
+                    required: "Bạn chưa chọn nhân viên",
+                },
+                "asset_issue": {
+                    required: "Bạn chưa chọn tài sản",
+                },
+               
+                "dat_coc": {
+                    required: "Bạn chưa nhập tiền đặt cọc",
+                },
+             
+            },
+        });
+
+        $('#IssueForm').on("submit", function (e) {
+            var isValid = $('#IssueForm').valid();
+            e.preventDefault();
+            if (isValid) {
+                saveIssue();
+            }
+        });
+    }
+
+// validate thông tin tài sản
     if (formInfoAsset.length) {
         formInfoAsset.validate({
             errorClass: "error",
@@ -274,9 +379,6 @@ if ($('#status').length) {
                 "name_add": {
                     required: true,
                 },
-                // "so_luong_add": {
-                //     required: true,
-                // },
                 "don_vi_add": {
                     required: true,
                 },
@@ -286,10 +388,60 @@ if ($('#status').length) {
                 "nhom_ts_add": {
                     required: true,
                 },
-                "khau_hao_add": {
+                "code_add": {
                     required: true,
                 },
+                "khau_hao_add": {
+                    number: true,
+                    min:1,
+                 
+                },
+                "sdt": {
+                    number: true,
+                    min:0,
+                },
+                "bao_hanh_add": {
+                    number: true,
+                    min:1,
+                
+                },
             },
+            messages: {
+                "name_add": {
+                    required: "Bạn chưa nhập tên",
+                },
+                "don_vi_add": {
+                    required: "Bạn chưa nhập đơn vị",
+                },
+               
+                "so_tien_add": {
+                    required: "Bạn chưa nhập tiền",
+                },
+                "nhom_ts_add": {
+                    required: "Bạn chưa nhập nhóm tài sản",
+                },
+                "khau_hao_add": {
+                    required: "Bạn chưa nhập số lượng tiêu hao",
+                },
+                "khau_hao_add": {
+                    number: "Yêu cầu nhập số",
+                    min:"Tối thiểu là 1",
+              
+                },
+                "code_add": {
+                    required: "Bạn chưa nhập mã tài sản",
+                },
+                "bao_hanh_add": {
+                    number: "Yêu cầu nhập số",
+                    min:"Tối thiểu là 1",
+                    
+                },
+                "sdt": {
+                    number: "Yêu cầu nhập số",
+                    min:"Yêu cầu nhập số bắt đầu từ 0",
+                },
+            },
+            
         });
     
         formInfoAsset.on("submit", function (e) {
@@ -302,6 +454,8 @@ if ($('#status').length) {
     }
 
 
+
+
     // To initialize tooltip with body container
     $("body").tooltip({
         selector: '[data-toggle="tooltip"]',
@@ -310,6 +464,9 @@ if ($('#status').length) {
 });
 
 function loaddata(id) {
+   if(funEdit != 1) {
+       $('#btn_update_asset').css('display','none');
+   }
     return_combobox_multi('#don_vi_add', baseHome + '/asset/don_vi', 'Đơn vị');
     return_combobox_multi('#nhom_ts_add', baseHome + '/asset/nhomtaisan', 'Nhóm tài sản');
     $(".modal-title").html('Cập nhật thông tin tài sản');
@@ -330,6 +487,7 @@ function loaddata(id) {
             $('#bao_hanh_add').val(tai_san.bao_hanh);
             $("#so_tien_add").val(formatCurrency(tai_san.so_tien.replace(/[,VNĐ]/g,'')));
             $('#ngay_gio_add').val(tai_san.ngay_gio);
+            $('#code_add').val(tai_san.code);
             var taisan_info = result.taisan_info; 
             $('#avatar').attr('src', taisan_info.hinh_anh);
             $('#nha_cungcap').val(taisan_info.nha_cungcap);
@@ -337,13 +495,14 @@ function loaddata(id) {
             $('#sdt').val(taisan_info.sdt);
             $('#ghi_chu').val(taisan_info.ghi_chu);
             url = baseHome + '/asset/update?id=' + id;
+            loadTableHisIssue(id);
+            loadTableHisRecall(id);
         },
         error: function () {
             notify_error('Lỗi truy xuất database');
         }
     });
 }
-
 function savetk() {
     var myform = new FormData($("#dg")[0]);
     $.ajax({
@@ -367,12 +526,6 @@ function savetk() {
         }
     });
 }
-
-
-
-
-
-
 
 function updateinfo() {
 
@@ -407,6 +560,7 @@ function del(id) {
         icon: 'warning',
         showCancelButton: true,
         confirmButtonText: 'Tôi đồng ý',
+        cancelButtonText: 'Hủy',
         customClass: {
             confirmButton: 'btn btn-primary',
             cancelButton: 'btn btn-outline-danger ml-1'
@@ -476,8 +630,258 @@ $('.format_number').on('input', function(e){
 
 function load_baohong(id){
     $('#id_baohong').val(id);
- 
 }
+function loadIssue($id) {
+  $('#idAsset').val($id);
+    return_combobox_multi('#asset_issue', baseHome + '/asset/getAsset', 'Tài sản');
+    var validator = $("#IssueForm").validate(); // reset form
+        validator.resetForm();
+        $(".error").removeClass("error"); // loại bỏ validate
+        $('#nhan_vien').val('').change();
+        $('#asset_issue').val($id).change();
+        $('#asset_issue').attr('disabled',true);
+        $('#dat_coc').val('');
+        $('#descIssue').val('');
+}
+function saveIssue() {
+    var myform = new FormData($("#IssueForm")[0]);
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        data: myform,
+        url: baseHome + "/asset/saveIssue",
+        contentType: false,
+        processData: false,
+        success: function (data) {
+            if (data.success) {
+                notyfi_success(data.msg);
+                $('#modalIssue').modal('hide');
+                $(".user-list-table").DataTable().ajax.reload(null, false);
+            }
+            else
+                notify_error(data.msg);
+        },
+        error: function () {
+            notify_error('Cập nhật không thành công');
+        }
+    });
+}
+
+function loadRecall(id) {
+    return_combobox_multi('#tai_san_th', baseHome + '/asset/getAsset', 'Tài sản');
+    return_combobox_multi('#nhan_vien_th', baseHome + '/asset/getStaff', 'Nhân viên');
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        data: { id: id },
+        url: baseHome + "/asset/getAssetIssue",
+        success: function (data) {
+            $('#id_cp').val(data.id);
+            $('#id_ts').val(data.tai_san);
+            $("#tai_san_th").attr("disabled", true);
+            $("#tai_san_th").val(data.tai_san).change();
+            $("#nhan_vien_th").attr("disabled", true);
+            $("#nhan_vien_th").val(data.nhan_vien).change();
+            $('#tra_coc_th').val(formatCurrency(data.dat_coc.replace(/[,VNĐ]/g,'')));
+            datePicker.flatpickr({
+                dateFormat: 'd-m-Y',
+                defaultDate: "today",
+            });
+            $('#ghi_chu_th').val('');
+      
+        },
+        error: function () {
+            notify_error('Lỗi truy xuất database');
+        }
+    });
+}
+function saveth() {
+    var myform = new FormData($("#dg_th")[0]);
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        data: myform,
+        url: baseHome + "/asset/saveRecall",
+        contentType: false,
+        processData: false,
+        success: function (data) {
+            if (data.success) {
+                notyfi_success(data.msg);
+                $('#modalRecall').modal('hide');
+                $(".user-list-table").DataTable().ajax.reload(null, false);
+            }
+            else
+                notify_error(data.msg);
+        },
+        error: function () {
+            notify_error('Cập nhật không thành công');
+        }
+    });
+}
+function createCodeAsset() {
+$('#code').val('');
+var codeAsset =  Math.floor(Math.random() * (9999999 - 1000000 + 1)) + 1000000;
+$('#code').val(codeAsset);
+}
+// load issue
+function loadTableHisIssue(id) {
+    if ($(".asset-issue-list-table").length) {
+        $(".asset-issue-list-table").DataTable({
+            ajax: baseHome + "/asset/loadListHisIssue?id="+id,
+            ordering: false,
+            destroy: true,
+            "autoWidth": false,
+            columns: [
+                // columns according to JSON
+                { data: "ngay_gio" },
+                { data: "code" },
+                { data: "name" },
+                { data: "nameAsset" },
+                { data: "nameStaff" },
+                { data: "dat_coc" },
+                { data: "tinh_trang"}
+                
+            ],
+            columnDefs: [
+                {
+                    // Actions
+                    targets: 0,
+                    orderable: false,
+              
+                },
+                {
+                    // Actions
+                    targets: 1,
+                    orderable: false,
+                },
+                {
+                    // Actions
+                    targets: 2,
+                    orderable: false,
+                    width:200
+                },
+                {
+                    // Actions
+                    targets: 3,
+                    orderable: false,
+               
+                },
+                {
+                    // Actions
+                    targets: 5,
+                    orderable: false,
+                    render: function (data, type, full, meta) {
+                        var html = '';
+                        html = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(full['dat_coc']);
+                        return html;
+                    },
+                   
+                },
+                {
+                    // Actions
+                    targets: 6,
+                    orderable: false,
+                    render: function (data, type, full, meta) {
+                        var $status = full["tinh_trang"];
+                        var $row_output = '---';
+                            if($status == 1) {
+                                $row_output = `<div class="badge badge-info">Đang sử dụng</div>`;
+                            }
+                            else if($status == 2) {
+                                $row_output = `<div class="badge badge-warning">Đã thu hồi</div>`;
+                            }
+                          
+                        return $row_output;
+                    },
+                   
+                },
+            ],
+         
+            language: {
+                sLengthMenu: "Hiển thị _MENU_",
+                search: "",
+                searchPlaceholder: "Tìm kiếm...",
+                paginate: {
+                    // remove previous & next text from pagination
+                    previous: "&nbsp;",
+                    next: "&nbsp;",
+                },
+                info:"Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
+            },           
+        });
+    }
+}
+
+// load record
+function loadTableHisRecall(id) {
+    if ($("#asset-recall-list-table").length) {
+        $("#asset-recall-list-table").DataTable({
+            ajax: baseHome + "/asset/loadListHisRecall?id="+id,
+            ordering: false,
+            destroy: true,
+            "autoWidth": false,
+            columns: [
+                // columns according to JSON
+                { data: "ngay_gio" },
+                { data: "code" },
+                { data: "nameIssue" },
+                { data: "nameAsset" },
+                { data: "tra_coc" },
+                { data: "ghi_chu" }
+            ],
+            columnDefs: [
+                {
+                    // Actions
+                    targets: 0,
+                    orderable: false,
+              
+                },
+                {
+                    // Actions
+                    targets: 1,
+                    orderable: false,
+                },
+                {
+                    // Actions
+                    targets: 3,
+                    orderable: false,
+                    width:200
+                },
+                {
+                    // Actions
+                    targets: 4,
+                    orderable: false,
+                    render: function (data, type, full, meta) {
+                        var html = '';
+                        html = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(full['tra_coc']);
+                        return html;
+                    },
+               
+                },
+                {
+                    // Actions
+                    targets: 5,
+                    orderable: false,
+                   
+                   
+                },
+            ],
+         
+            language: {
+                sLengthMenu: "Hiển thị _MENU_",
+                search: "",
+                searchPlaceholder: "Tìm kiếm...",
+                paginate: {
+                    // remove previous & next text from pagination
+                    previous: "&nbsp;",
+                    next: "&nbsp;",
+                },
+                info:"Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
+            },        
+        });
+    }
+}
+
 
 function alertBroken(){
     var myform = new FormData($("#formbaohong")[0]);
@@ -502,4 +906,5 @@ function alertBroken(){
         }
     });
 }
+
 

@@ -7,7 +7,19 @@ $(function () {
     var dtUserTable = $(".user-list-table"),
         modal = $("#updateinfo"),
         form = $("#dg");
-
+        var buttons = [];
+        if(funAdd == 1) {
+            buttons.push({
+                text: "Thêm mới",
+                className: "add-new btn btn-" + 'primary' + " mt-50",
+                init: function (api, node, config) {
+                    $(node).removeClass("btn-secondary");
+                },
+                action: function (e, dt, node, config) {
+                    actionMenu();
+                }
+            });
+        }
     // Users List datatable
     if (dtUserTable.length) {
         dtUserTable.DataTable({
@@ -18,7 +30,7 @@ $(function () {
                 {data: "id"},
                 {data: "name"},
                 // {data: "departmentName"},
-                // {data: "department"},
+                {data: "description"},
                 {data: ""},
             ],
             columnDefs: [
@@ -34,18 +46,22 @@ $(function () {
                     orderable: false,
                     render: function (data, type, full, meta) {
                         var html = '';
-                        html += '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" title="Chỉnh sửa" onclick="loaddata(' + full['id'] + ')">';
-                        html += '<i class="fas fa-pencil-alt"></i>';
-                        html += '</button> &nbsp;';
-                        html += '<button type="button" class="btn btn-icon btn-outline-danger waves-effect" title="Xóa" id="confirm-text" onclick="xoa(' + full['id'] + ')">';
-                        html += '<i class="fas fa-trash-alt"></i>';
-                        html += '</button>';
+                        if(funEdit == 1) {
+                            html += '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" title="Chỉnh sửa" onclick="loaddata(' + full['id'] + ')">';
+                            html += '<i class="fas fa-pencil-alt"></i>';
+                            html += '</button> &nbsp;';
+                        }
+                        if(funDel == 1) {
+                            html += '<button type="button" class="btn btn-icon btn-outline-danger waves-effect" title="Xóa" id="confirm-text" onclick="xoa(' + full['id'] + ')">';
+                            html += '<i class="fas fa-trash-alt"></i>';
+                            html += '</button>';
+                        }
                         return html;
                     },
                     width: 100
                 },
             ],
-            // order: [[2, "desc"]],
+            order: [[0, "desc"]],
             dom:
                 '<"d-flex justify-content-between align-items-center header-actions mx-1 row mt-75"' +
                 '<"col-lg-12 col-xl-6" l>' +
@@ -56,32 +72,18 @@ $(function () {
                 '<"col-sm-12 col-md-6"p>' +
                 ">",
             language: {
-                sLengthMenu: "Show _MENU_",
-                search: "Search",
-                searchPlaceholder: "Keyword ...",
+                sLengthMenu: "Hiển thị _MENU_",
+                search: "",
+                searchPlaceholder: "Tìm kiếm...",
                 paginate: {
                     // remove previous & next text from pagination
                     previous: "&nbsp;",
                     next: "&nbsp;",
                 },
+                info:"Hiển thị _START_ đến _END_ of _TOTAL_ bản ghi",
             },
             // Buttons with Dropdown
-            buttons: [
-                {
-                    text: "Thêm mới",
-                    className: "add-new btn btn-primary mt-50",
-                    init: function (api, node, config) {
-                        $(node).removeClass("btn-secondary");
-                    },
-                    action: function (e, dt, node, config) {
-                        $("#updateinfo").modal('show');
-                        $(".modal-title").html('Thêm vị trí mới');
-                        $('#name').val('');
-                        $('#departmentId').val('').change();
-                        url = baseHome + "/position/add";
-                    },
-                },
-            ],
+            buttons: buttons,
             initComplete: function () {
                 // Adding role filter once table initialized
 
@@ -89,7 +91,13 @@ $(function () {
         });
 
     }
-
+function actionMenu() {
+    $("#updateinfo").modal('show');
+    $(".modal-title").html('Thêm vị trí mới');
+    $('#name').val('');
+    $('#description').val('');
+    url = baseHome + "/position/add";
+}
     // Check Validity
     function checkValidity(el) {
         if (el.validate().checkForm()) {
@@ -142,7 +150,7 @@ function loaddata(id) {
         url: baseHome + "/position/loaddata",
         success: function (data) {
             $('#name').val(data.name);
-            $('#departmentId').val(data.department).change();
+            $('#description').val(data.description);
 
             url = baseHome + '/position/update?id=' + id;
         },
@@ -153,26 +161,37 @@ function loaddata(id) {
 }
 
 function savevt() {
-    var info = {};
-    info.name = $("#name").val();
-    info.departmentId = $("#departmentId").val();
-    $.ajax({
-        type: "POST",
-        dataType: "json",
-        data: info,
-        url: url,
-        success: function (data) {
-            if (data.success) {
-                notyfi_success(data.msg);
-                $('#updateinfo').modal('hide');
-                $(".user-list-table").DataTable().ajax.reload(null, false);
-            } else
-                notify_error(data.msg);
+    $('#fm').validate({
+        messages: {
+            "name": {
+                required: "Bạn chưa nhập tên vị trí!",
+            }
         },
-        error: function () {
-            notify_error('Cập nhật không thành công');
+        submitHandler: function (form) {
+            var formData = new FormData(form);
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: formData,
+                async: false,
+                cache: false,
+                contentType: false,
+                enctype: 'multipart/form-data',
+                processData: false,
+                dataType: "json",
+                success: function (data) {
+                    if (data.code == 200) {
+                        notyfi_success(data.message);
+                        $('#updateinfo').modal('hide');
+                        $(".user-list-table").DataTable().ajax.reload(null, false);
+                    } else
+                        notify_error(data.message);
+                }
+            });
+            return false;
         }
     });
+    $('#fm').submit();
 }
 
 function xoa(id) {

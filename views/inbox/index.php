@@ -18,12 +18,12 @@
                                 <input type="hidden" id="selectedType" value="inbox">
                                 <a href="javascript:void(0)" onclick="listInbox()" class="list-group-item list-group-item-action active">
                                     <i data-feather="mail" class="font-medium-3 mr-50"></i>
-                                    <span class="align-middle">Inbox (<?=$this->count['inbox']?>)</span>
+                                    <span class="align-middle">Hộp thư (<?=$this->count['inbox']?>)</span>
                                     <span class="badge badge-light-primary badge-pill float-right">3</span>
                                 </a>
                                 <a href="javascript:void(0)" onclick="listSent()"class="list-group-item list-group-item-action">
                                     <i data-feather="send" class="font-medium-3 mr-50"></i>
-                                    <span class="align-middle">Sent (<?=$this->count['sent']?>)</span>
+                                    <span class="align-middle">Đã gửi (<?=$this->count['sent']?>)</span>
                                 </a>
                                 <!-- <a href="javascript:void(0)" class="list-group-item list-group-item-action">
                                     <i data-feather="edit-2" class="font-medium-3 mr-50"></i>
@@ -41,7 +41,7 @@
                                 </a> -->
                                 <a href="javascript:void(0)" onclick="listTrash()" class="list-group-item list-group-item-action">
                                     <i data-feather="trash" class="font-medium-3 mr-50"></i>
-                                    <span class="align-middle">Trash (<?=$this->count['trash']?>)</span>
+                                    <span class="align-middle">Thùng rác (<?=$this->count['trash']?>)</span>
                                 </a>
                             </div>
                             <!-- <hr /> -->
@@ -431,7 +431,7 @@
                         <div class="modal-dialog modal-lg modal-dialog-scrollable">
                             <div class="modal-content p-0">
                                 <div class="modal-header">
-                                    <h5 class="modal-title">Compose Message</h5>
+                                    <h5 class="modal-title">Soạn tin nhắn</h5>
                                     <div class="modal-actions">
                                         <!-- <a href="javascript:void(0);" class="text-body mr-75"><i data-feather="minus"></i></a>
                                         <a href="javascript:void(0);" class="text-body mr-75"><i data-feather="maximize-2"></i></a> -->
@@ -441,7 +441,7 @@
                                 <div class="modal-body flex-grow-1 p-0">
                                     <form class="compose-form" id="form-send" enctype="multipart/form-data">
                                         <div class="compose-mail-form-field select2-primary">
-                                            <label for="email-to" class="form-label">To: </label>
+                                            <label for="email-to" class="form-label">Đến: </label>
                                             <div class="flex-grow-1">
                                                 <select class="select2 form-control w-100" id="email-to" name="email-to[]" multiple>
                                                     <option value="0">All</option>
@@ -486,11 +486,11 @@
                                             <a class="text-body toggle-bcc" href="javascript:void(0);"><i data-feather="x"></i></a>
                                         </div>
                                         <div class="compose-mail-form-field">
-                                            <label for="emailSubject">Subject: </label>
-                                            <input type="text" id="emailSubject" class="form-control" placeholder="Subject" name="emailSubject" />
+                                            <label for="emailSubject">Chủ đề: </label>
+                                            <input type="text" id="emailSubject" class="form-control"  name="emailSubject" />
                                         </div>
                                         <div id="message-editor">
-                                            <div class="editor" id="msgBody" data-placeholder="Type message..."></div>
+                                            <div class="editor" id="msgBody" data-placeholder=""></div>
                                             <div class="compose-editor-toolbar">
                                                 <!-- <span class="ql-formats mr-0">
                                                     <select class="ql-font">
@@ -513,7 +513,7 @@
                                         <div class="compose-footer-wrapper">
                                             <div class="btn-wrapper d-flex align-items-center">
                                                 <div class="btn-group dropup mr-1">
-                                                    <button type="submit" class="btn btn-primary" onclick="sendMsg()">Send</button>
+                                                    <button type="submit" class="btn btn-primary" onclick="sendMsg()">Gửi</button>
                                                     <!-- <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-reference="parent">
                                                         <span class="sr-only">Toggle Dropdown</span>
                                                     </button>

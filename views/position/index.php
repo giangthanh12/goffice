@@ -1,4 +1,4 @@
-<script src="<?= HOME ?>/js/position.js"></script>
+
 <div class="app-content content">
     <div class="content-overlay"></div>
     <div class="header-navbar-shadow"></div>
@@ -15,7 +15,7 @@
                                 <tr>
                                     <th></th>
                                     <th>Tên vị trí</th>
-<!--                                    <th>Phòng ban</th>-->
+                                    <th>Ghi chú</th>
 <!--                                    <th></th>-->
                                     <th>...</th>
                                 </tr>
@@ -35,22 +35,22 @@
                                     <!-- <input type="hidden" id="id" name="id" /> -->
                                     <div class="card">
                                         <div class="card-body">
-                                            <form class="form-validate" enctype="multipart/form-data" id="dg">
+                                            <form class="form-validate" enctype="multipart/form-data" id="fm">
                                                 <div class="form-group">
                                                     <label for="name">Tên gọi</label>
-                                                    <input type="text" class="form-control" id="name" placeholder="Nhập tên phòng ban" name="name" />
+                                                    <input type="text" class="form-control" id="name" placeholder="Nhập tên vị trí" name="name" required/>
                                                 </div>
+
+<!--                                                <div class="form-group">-->
+<!--                                                    <label for="departmentId">Phòng ban</label>-->
+<!--                                                    <select id="departmentId" class="select2 form-control" name="departmentId">-->
+<!--                                                    </select>-->
+<!--                                                </div>-->
 
                                                 <div class="form-group">
-                                                    <label for="departmentId">Phòng ban</label>
-                                                    <select id="departmentId" class="select2 form-control" name="departmentId">
-                                                    </select>
-                                                </div>
-
-                                                <!-- <div class="form-group">
                                                     <label for="ghi_chu">Ghi chú</label>
-                                                    <textarea id="ghi_chu" name="ghi_chu" type="text" class="form-control " /></textarea>
-                                                </div> -->
+                                                    <textarea id="description" name="description" type="text" class="form-control " /></textarea>
+                                                </div>
 
                                                 <div class="d-flex flex-sm-row flex-column mt-2">
                                                     <button type="button" onclick="savevt()" class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Cập nhật</button>
@@ -69,3 +69,9 @@
         </div>
     </div>
 </div>
+<script>
+     var funAdd = <?=$this->funAdd?>,
+        funEdit = <?=$this->funEdit?>,
+        funDel = <?=$this->funDel?>;
+</script>
+<script src="<?= HOME ?>/js/position.js"></script>

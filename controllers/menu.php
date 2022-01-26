@@ -32,7 +32,7 @@ class menu extends Controller{
        echo json_encode($datatable); // này là một mảng
     }
     function combo(){
-        $type = isset($_REQUEST['type'])?$_REQUEST['type']:1;
+        $type = isset($_REQUEST['type'])?$_REQUEST['type']:0;
         $datatable['data']=$this->model->get_data_combo($type);
         foreach ($datatable['data'] AS $key=>$row) {
             if($row['level']>0) {

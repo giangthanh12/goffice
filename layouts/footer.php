@@ -15,6 +15,10 @@
 
 <script src="<?=HOME?>/styles/app-assets/vendors/js/tables/datatable/responsive.bootstrap4.js"></script>
 <script src="<?=HOME?>/styles/app-assets/vendors/js/forms/validation/jquery.validate.min.js"></script>
+<script src="<?=HOME?>/styles/app-assets/vendors/js/pickers/pickadate/picker.js"></script>
+<script src="<?=HOME?>/styles/app-assets/vendors/js/pickers/pickadate/picker.date.js"></script>
+<script src="<?=HOME?>/styles/app-assets/vendors/js/pickers/pickadate/picker.time.js"></script>
+<script src="<?=HOME?>/styles/app-assets/vendors/js/pickers/pickadate/legacy.js"></script>
 <script src="<?=HOME?>/styles/app-assets/vendors/js/pickers/flatpickr/flatpickr.min.js"></script>
 
 <script src="<?=HOME?>/styles/app-assets/vendors/js/editors/quill/katex.min.js"></script>
@@ -28,13 +32,13 @@
 <script src="<?=HOME?>/styles/app-assets/js/scripts/customizer.min.js"></script>-->
 
 <!-- Common CSS -->
-<script src="<?=HOME?>/styles/app-assets/js/scripts/thangjs.js"></script>
 <script src="<?=HOME?>/styles/app-assets/js/core/app-menu.min.js"></script>
 <script src="<?=HOME?>/styles/app-assets/js/core/app.min.js"></script>
 <script src="<?=HOME?>/styles/app-assets/vendors/js/forms/select/select2.full.min.js"></script>
 <script src="<?=HOME?>/styles/app-assets/js/scripts/forms/form-select2.js"></script>
 <script src="<?=HOME?>/styles/app-assets/vendors/js/extensions/toastr.min.js"></script>
 <script src="<?=HOME?>/styles/app-assets/vendors/js/extensions/sweetalert2.all.min.js"></script>
+<script src="<?=HOME?>/styles/app-assets/vendors/js/jkanban/jkanban.min.js"></script>
 
 <script>
     $(window).on('load', function() {

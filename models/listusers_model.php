@@ -111,11 +111,10 @@ class listusers_model extends Model
             foreach ($temp as $key1 => $function) {
                 $temp[$key1]['checked'] = 0;
                 $temp[$key1]['disable'] = 0;
-                if (in_array($function['id'], $listGroupFunctions)){
+                if (in_array($function['id'], $listGroupFunctions)) {
                     $temp[$key1]['disable'] = 1;
                     $temp[$key1]['checked'] = 1;
-                }
-                elseif (in_array($function['id'], $listFunctions))
+                } elseif (in_array($function['id'], $listFunctions))
                     $temp[$key1]['checked'] = 1;
             }
             $result[$key]['functions'] = $temp;
@@ -141,7 +140,16 @@ class listusers_model extends Model
 
     function updateUserRole($id, $data)
     {
-        $query = $this->update("userroles", $data, " userId=$id ");
+        $query = $this->db->query("SELECT id
+          FROM userroles WHERE userId=$id AND status=1");
+        $temp = $query->fetchAll(PDO::FETCH_ASSOC);
+        if (isset($temp[0])) {
+            $query = $this->update("userroles", $data, " userId=$id ");
+        } else {
+            $data['status'] = 1;
+            $data['userId'] = $id;
+            $query = $this->insert("userroles", $data);
+        }
         return $query;
     }
 
@@ -167,7 +175,7 @@ class listusers_model extends Model
             $listFunc = implode(",", $listFunc);
             $this->update('userroles', ['functionIds' => $listFunc], "userId=$userId");
         } else
-            $this->insert('userroles', ['functionIds' => $funcId,'status'=>1,'userId'=>$userId]);
+            $this->insert('userroles', ['functionIds' => $funcId, 'status' => 1, 'userId' => $userId]);
         return $result;
     }
 
@@ -193,7 +201,7 @@ class listusers_model extends Model
             $listMenu = implode(",", $listMenu);
             $this->update('userroles', ['menuIds' => $listMenu], "userId=$userId");
         } else
-            $this->insert('userroles', ['menuIds' => $menuId,'status'=>1,'userId'=>$userId]);
+            $this->insert('userroles', ['menuIds' => $menuId, 'status' => 1, 'userId' => $userId]);
         return $result;
     }
 

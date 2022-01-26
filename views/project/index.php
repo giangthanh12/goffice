@@ -9,7 +9,7 @@
                     <div class="todo-app-menu">
                         <div class="sidebar-menu-list">
                             <div class="add-task">
-                                <?php if(functions::checkFuns($this->funs,'add')) { ?>
+                                <?php if($this->funAdd == 1) { ?>
                                 <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#new-task-modal">
                                     Thêm dự án
                                 </button>
@@ -145,10 +145,10 @@
                                         </div>
                                         <div class="form-group my-1">
                                        
-                                                <button type="submit" style="display:none;" id="updateProject" class="btn btn-primary">Cập nhật</button>
+                                                <button type="submit" style="display:none;" id="updateProject" class="btn btn-primary"></button>
                                            
                                             <button type="button" class="btn btn-outline-secondary" id="btn_boqua" data-dismiss="modal">Bỏ qua</button>
-                                            <?php if(functions::checkFuns($this->funs, 'del')) { ?>
+                                            <?php if($this->funDel == 1) { ?>
                                                 <button type="button" class="btn btn-danger update-btn d-none" data-dismiss="modal" onclick="del()">Xóa</button>
                                             <?php } ?>
                                           
@@ -166,8 +166,10 @@
     </div>
 </div>
 <script>
-    var userFuns = JSON.parse('<?=json_encode($this->funs)?>');
-    console.log(userFuns);
+     var funAdd = <?=$this->funAdd?>,
+        funEdit = <?=$this->funEdit?>,
+        funDel = <?=$this->funDel?>;
+   
 </script>
 
 <script src="<?= HOME ?>/js/project.js"></script>

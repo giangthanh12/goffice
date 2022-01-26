@@ -1,3 +1,6 @@
+<?php
+$model = new model();
+?>
 <!DOCTYPE html>
 <html class="loading semi-dark-layout" lang="en" data-layout="semi-dark-layout" data-textdirection="ltr">
 
@@ -19,6 +22,7 @@
 
     <!-- Common CSS-->
     <link rel="stylesheet" type="text/css" href="<?= HOME ?>/styles/app-assets/vendors/css/vendors.min.css">
+    <link rel="stylesheet" type="text/css" href="<?= HOME ?>/app-assets/vendors/css/jkanban/jkanban.min.css">
     <link rel="stylesheet" type="text/css" href="<?= HOME ?>/styles/app-assets/vendors/css/extensions/toastr.min.css">
     <link rel="stylesheet" type="text/css"
           href="<?= HOME ?>/styles/app-assets/css/plugins/extensions/ext-component-toastr.css">
@@ -33,6 +37,8 @@
     <link rel="stylesheet" type="text/css"
           href="<?= HOME ?>/styles/app-assets/vendors/css/tables/datatable/select.dataTables.min.css">
     <link rel="stylesheet" type="text/css" href="<?= HOME ?>/styles/app-assets/css/plugins/forms/form-validation.css">
+    <link rel="stylesheet" type="text/css"
+          href="<?= HOME ?>/styles/app-assets/vendors/css/pickers/pickadate/pickadate.css">
     <link rel="stylesheet" type="text/css"
           href="<?= HOME ?>/styles/app-assets/vendors/css/pickers/flatpickr/flatpickr.min.css">
     <link rel="stylesheet" type="text/css" href="<?= HOME ?>/styles/app-assets/css/bootstrap.min.css">
@@ -59,7 +65,7 @@
     <link rel="stylesheet" type="text/css" href="<?= HOME ?>/styles/app-assets/vendors/css/extensions/dragula.min.css">
     <!-- <link rel="stylesheet" type="text/css" href="<?= HOME ?>/styles/app-assets/vendors/css/charts/apexcharts.css"> -->
     <!-- <link rel="stylesheet" type="text/css" href="<?= HOME ?>/styles/app-assets/css/plugins/charts/chart-apex.css"> -->
-
+    <link rel="stylesheet" type="text/css" href="<?= HOME ?>/styles/app-assets/css/pages/app-kanban.css">
     <link rel="stylesheet" type="text/css" href="<?= HOME ?>/styles/assets/css/style.css">
 
     <!-- Commons JS -->
@@ -71,6 +77,7 @@
         var baseHome = '<?= HOME ?>';
         let baseUrlFile = '<?= URLFILE ?>';
         let now = '<?= date('Y-m-d H:i:s') ?>';
+        let dateNowDMY = '<?= date('d/m/Y') ?>';
         var SipUsername = '<?= $_SESSION['user']['extNum']; ?>';
         var SipPassword = '<?= $_SESSION['user']['sipPass']; ?>';
     </script>
@@ -80,13 +87,13 @@
     <!-- Thư viện webrtc -->
     <?php
     if (true) {
-        // echo '
-        //   <link rel="stylesheet" type="text/css" href="' . HOME . '/webrtc/libs/phone.css" />
-        //   <script type="text/javascript" src="' . HOME . '/webrtc/libs/js/sip-0.11.6.min.js"></script>
-        //   <script type="text/javascript" src="' . HOME . '/webrtc/libs/js/fabric-2.4.6.min.js"></script>
-        //   <script type="text/javascript" src="' . HOME . '/webrtc/libs/js/moment-with-locales-2.24.0.min.js"></script>
-        //   <script type="text/javascript" src="' . HOME . '/webrtc/libs/phone.js"></script>
-        //   ';
+         echo '
+           <link rel="stylesheet" type="text/css" href="' . HOME . '/webrtc/libs/phone.css" />
+           <script type="text/javascript" src="' . HOME . '/webrtc/libs/js/sip-0.11.6.min.js"></script>
+           <script type="text/javascript" src="' . HOME . '/webrtc/libs/js/fabric-2.4.6.min.js"></script>
+           <script type="text/javascript" src="' . HOME . '/webrtc/libs/js/moment-with-locales-2.24.0.min.js"></script>
+           <script type="text/javascript" src="' . HOME . '/webrtc/libs/phone.js"></script>
+           ';
     }
     ?>
 </head>
@@ -104,7 +111,6 @@
                     </a>
                 </li>
             </ul>
-            <div class="avatar-group" id="online_users"></div>
             <!-- <div data-toggle="tooltip" data-popup="tooltip-custom" data-placement="bottom" data-original-title="Billy Hopkins" class="avatar pull-up">
                         <img src="<?= HOME ?>/styles/app-assets/images/portrait/small/avatar-s-9.jpg" alt="Avatar" width="33" height="33" /></div>
                     <div data-toggle="tooltip" data-popup="tooltip-custom" data-placement="bottom" data-original-title="Amy Carson" class="avatar pull-up">
@@ -121,28 +127,19 @@
                     </div>
                     <h6 class="align-self-center cursor-pointer ml-50 mb-0">+42</h6>
                 </div> -->
-            <!-- <ul class="nav navbar-nav bookmark-icons">
-                <li class="nav-item d-none d-lg-block">
-                    <a class="nav-link" href="app-email.html" data-toggle="tooltip" data-placement="top" title="Email">
-                        <i class="ficon" data-feather="mail"></i>
-                    </a>
+            <ul class="nav navbar-nav bookmark-icons">
+                <li class="nav-item d-lg-block" id="checkIn">
+                    <?php
+                    if ($model->checkChamCong()) {
+                        ?>
+                        <button type="button" class="btn btn-warning m-0 p-75" onclick="checkIn()">
+                            <i data-feather='check'></i>
+                            <span>Chấm công</span>
+                        </button>
+                    <?php } ?>
                 </li>
-                <li class="nav-item d-none d-lg-block">
-                    <a class="nav-link" href="chatbox" data-toggle="tooltip" data-placement="top" title="Chat">
-                        <i class="ficon" data-feather="message-square"></i>
-                    </a>
-                </li>
-                <li class="nav-item d-none d-lg-block">
-                    <a class="nav-link" href="app-calendar.html" data-toggle="tooltip" data-placement="top" title="Calendar">
-                        <i class="ficon" data-feather="calendar"></i>
-                    </a>
-                </li>
-                <li class="nav-item d-none d-lg-block">
-                    <a class="nav-link" href="app-todo.html" data-toggle="tooltip" data-placement="top" title="Todo">
-                        <i class="ficon" data-feather="check-square"></i>
-                    </a>
-                </li>
-            </ul> -->
+            </ul>
+            <div class="avatar-group" style="padding-left:5px;" id="online_users"></div>
             <!-- <ul class="nav navbar-nav">
                 <li class="nav-item d-none d-lg-block">
                     <a class="nav-link bookmark-star">
@@ -195,31 +192,31 @@
                     <ul class="search-list search-list-main"></ul>
                 </div>
             </li> -->
-            <li class="nav-item d-none d-lg-block">
-                <a class="nav-link" href="inbox" data-toggle="tooltip" data-placement="top" title="Email">
-                    <i class="ficon" data-feather="mail"></i>
-                    <span class="badge badge-pill badge-info badge-up message-item-count">6</span>
-                </a>
-            </li>
-            <li class="nav-item d-none d-lg-block">
-                <a class="nav-link" href="chatbox" data-toggle="tooltip" data-placement="top" title="Chat">
-                    <i class="ficon" data-feather="message-square"></i>
-                    <span class="badge badge-pill badge-danger badge-up cart-item-count">6</span>
-                </a>
-
-            </li>
-            <li class="nav-item d-none d-lg-block">
-                <a class="nav-link" href="calendar" data-toggle="tooltip" data-placement="top" title="Calendar">
-                    <i class="ficon" data-feather="calendar"></i>
-                    <span class="badge badge-pill badge-info badge-up cart-item-count">6</span>
-                </a>
-            </li>
-            <li class="nav-item d-none d-lg-block">
-                <a class="nav-link" href="todo" data-toggle="tooltip" data-placement="top" title="Todo">
-                    <i class="ficon" data-feather="check-square"></i>
-                    <span class="badge badge-pill badge-info badge-up cart-item-count">6</span>
-                </a>
-            </li>
+<!--            <li class="nav-item d-none d-lg-block">-->
+<!--                <a class="nav-link" href="inbox" data-toggle="tooltip" data-placement="top" title="Email">-->
+<!--                    <i class="ficon" data-feather="mail"></i>-->
+<!--                    <span class="badge badge-pill badge-info badge-up message-item-count">6</span>-->
+<!--                </a>-->
+<!--            </li>-->
+<!--            <li class="nav-item d-none d-lg-block">-->
+<!--                <a class="nav-link" href="chatbox" data-toggle="tooltip" data-placement="top" title="Chat">-->
+<!--                    <i class="ficon" data-feather="message-square"></i>-->
+<!--                    <span class="badge badge-pill badge-danger badge-up cart-item-count">6</span>-->
+<!--                </a>-->
+<!---->
+<!--            </li>-->
+<!--            <li class="nav-item d-none d-lg-block">-->
+<!--                <a class="nav-link" href="calendar" data-toggle="tooltip" data-placement="top" title="Calendar">-->
+<!--                    <i class="ficon" data-feather="calendar"></i>-->
+<!--                    <span class="badge badge-pill badge-info badge-up cart-item-count">6</span>-->
+<!--                </a>-->
+<!--            </li>-->
+<!--            <li class="nav-item d-none d-lg-block">-->
+<!--                <a class="nav-link" href="todo" data-toggle="tooltip" data-placement="top" title="Todo">-->
+<!--                    <i class="ficon" data-feather="check-square"></i>-->
+<!--                    <span class="badge badge-pill badge-info badge-up cart-item-count">6</span>-->
+<!--                </a>-->
+<!--            </li>-->
             <!-- <li class="nav-item dropdown dropdown-cart mr-25">
                 <a class="nav-link" href="javascript:void(0);" data-toggle="dropdown">
                     <i class="ficon" data-feather="shopping-cart"></i>
@@ -333,133 +330,133 @@
                     </li>
                 </ul>
             </li> -->
-            <li class="nav-item dropdown dropdown-notification mr-25">
-                <a class="nav-link" href="javascript:void(0);" data-toggle="dropdown">
-                    <i class="ficon" data-feather="bell"></i>
-                    <span class="badge badge-pill badge-danger badge-up">5</span>
-                </a>
-                <ul class="dropdown-menu dropdown-menu-media dropdown-menu-right">
-                    <li class="dropdown-menu-header">
-                        <div class="dropdown-header d-flex">
-                            <h4 class="notification-title mb-0 mr-auto">Notifications</h4>
-                            <div class="badge badge-pill badge-light-primary">6 New</div>
-                        </div>
-                    </li>
-                    <li class="scrollable-container media-list">
-                        <a class="d-flex" href="javascript:void(0)">
-                            <div class="media d-flex align-items-start">
-                                <div class="media-left">
-                                    <div class="avatar">
-                                        <img src="styles/app-assets/images/portrait/small/avatar-s-15.jpg" alt="avatar"
-                                             width="32" height="32">
-                                    </div>
-                                </div>
-                                <div class="media-body">
-                                    <p class="media-heading">
-                                        <span class="font-weight-bolder">Congratulation Sam 🎉</span>winner!
-                                    </p>
-                                    <small class="notification-text"> Won the monthly best seller badge.</small>
-                                </div>
-                            </div>
-                        </a>
-                        <a class="d-flex" href="javascript:void(0)">
-                            <a class="d-flex" href="javascript:void(0)">
-                                <div class="media d-flex align-items-start">
-                                    <div class="media-left">
-                                        <div class="avatar">
-                                            <img src="styles/app-assets/images/portrait/small/avatar-s-3.jpg"
-                                                 alt="avatar" width="32" height="32">
-                                        </div>
-                                    </div>
-                                    <div class="media-body">
-                                        <p class="media-heading">
-                                            <span class="font-weight-bolder">New message</span>&nbsp;received
-                                        </p>
-                                        <small class="notification-text"> You have 10 unread messages</small>
-                                    </div>
-                                </div>
-                            </a>
-                            <a class="d-flex" href="javascript:void(0)">
-                                <div class="media d-flex align-items-start">
-                                    <div class="media-left">
-                                        <div class="avatar bg-light-danger">
-                                            <div class="avatar-content">MD</div>
-                                        </div>
-                                    </div>
-                                    <div class="media-body">
-                                        <p class="media-heading">
-                                            <span class="font-weight-bolder">Revised Order 👋</span>&nbsp;checkout
-                                        </p>
-                                        <small class="notification-text"> MD Inc. order updated</small>
-                                    </div>
-                                </div>
-                            </a>
-                            <div class="media d-flex align-items-center">
-                                <h6 class="font-weight-bolder mr-auto mb-0">System Notifications</h6>
-                                <div class="custom-control custom-control-primary custom-switch">
-                                    <input class="custom-control-input" id="systemNotification" type="checkbox"
-                                           checked="">
-                                    <label class="custom-control-label" for="systemNotification"></label>
-                                </div>
-                            </div>
-                            <a class="d-flex" href="javascript:void(0)">
-                                <div class="media d-flex align-items-start">
-                                    <div class="media-left">
-                                        <div class="avatar bg-light-danger">
-                                            <div class="avatar-content">
-                                                <i class="avatar-icon" data-feather="x"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="media-body">
-                                        <p class="media-heading">
-                                            <span class="font-weight-bolder">Server down</span>&nbsp;registered
-                                        </p>
-                                        <small class="notification-text"> USA Server is down due to hight CPU
-                                            usage</small>
-                                    </div>
-                                </div>
-                            </a>
-                            <a class="d-flex" href="javascript:void(0)">
-                                <div class="media d-flex align-items-start">
-                                    <div class="media-left">
-                                        <div class="avatar bg-light-success">
-                                            <div class="avatar-content">
-                                                <i class="avatar-icon" data-feather="check"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="media-body">
-                                        <p class="media-heading">
-                                            <span class="font-weight-bolder">Sales report</span>&nbsp;generated
-                                        </p>
-                                        <small class="notification-text"> Last month sales report generated</small>
-                                    </div>
-                                </div>
-                            </a>
-                            <a class="d-flex" href="javascript:void(0)">
-                                <div class="media d-flex align-items-start">
-                                    <div class="media-left">
-                                        <div class="avatar bg-light-warning">
-                                            <div class="avatar-content">
-                                                <i class="avatar-icon" data-feather="alert-triangle"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="media-body">
-                                        <p class="media-heading">
-                                            <span class="font-weight-bolder">High memory</span>&nbsp;usage
-                                        </p>
-                                        <small class="notification-text"> BLR Server using high memory</small>
-                                    </div>
-                                </div>
-                            </a>
-                    </li>
-                    <li class="dropdown-menu-footer">
-                        <a class="btn btn-primary btn-block" href="javascript:void(0)">Read all notifications</a>
-                    </li>
-                </ul>
-            </li>
+<!--            <li class="nav-item dropdown dropdown-notification mr-25">-->
+<!--                <a class="nav-link" href="javascript:void(0);" data-toggle="dropdown">-->
+<!--                    <i class="ficon" data-feather="bell"></i>-->
+<!--                    <span class="badge badge-pill badge-danger badge-up">5</span>-->
+<!--                </a>-->
+<!--                <ul class="dropdown-menu dropdown-menu-media dropdown-menu-right">-->
+<!--                    <li class="dropdown-menu-header">-->
+<!--                        <div class="dropdown-header d-flex">-->
+<!--                            <h4 class="notification-title mb-0 mr-auto">Notifications</h4>-->
+<!--                            <div class="badge badge-pill badge-light-primary">6 New</div>-->
+<!--                        </div>-->
+<!--                    </li>-->
+<!--                    <li class="scrollable-container media-list">-->
+<!--                        <a class="d-flex" href="javascript:void(0)">-->
+<!--                            <div class="media d-flex align-items-start">-->
+<!--                                <div class="media-left">-->
+<!--                                    <div class="avatar">-->
+<!--                                        <img src="styles/app-assets/images/portrait/small/avatar-s-15.jpg" alt="avatar"-->
+<!--                                             width="32" height="32">-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                <div class="media-body">-->
+<!--                                    <p class="media-heading">-->
+<!--                                        <span class="font-weight-bolder">Congratulation Sam 🎉</span>winner!-->
+<!--                                    </p>-->
+<!--                                    <small class="notification-text"> Won the monthly best seller badge.</small>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </a>-->
+<!--                        <a class="d-flex" href="javascript:void(0)">-->
+<!--                            <a class="d-flex" href="javascript:void(0)">-->
+<!--                                <div class="media d-flex align-items-start">-->
+<!--                                    <div class="media-left">-->
+<!--                                        <div class="avatar">-->
+<!--                                            <img src="styles/app-assets/images/portrait/small/avatar-s-3.jpg"-->
+<!--                                                 alt="avatar" width="32" height="32">-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="media-body">-->
+<!--                                        <p class="media-heading">-->
+<!--                                            <span class="font-weight-bolder">New message</span>&nbsp;received-->
+<!--                                        </p>-->
+<!--                                        <small class="notification-text"> You have 10 unread messages</small>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </a>-->
+<!--                            <a class="d-flex" href="javascript:void(0)">-->
+<!--                                <div class="media d-flex align-items-start">-->
+<!--                                    <div class="media-left">-->
+<!--                                        <div class="avatar bg-light-danger">-->
+<!--                                            <div class="avatar-content">MD</div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="media-body">-->
+<!--                                        <p class="media-heading">-->
+<!--                                            <span class="font-weight-bolder">Revised Order 👋</span>&nbsp;checkout-->
+<!--                                        </p>-->
+<!--                                        <small class="notification-text"> MD Inc. order updated</small>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </a>-->
+<!--                            <div class="media d-flex align-items-center">-->
+<!--                                <h6 class="font-weight-bolder mr-auto mb-0">System Notifications</h6>-->
+<!--                                <div class="custom-control custom-control-primary custom-switch">-->
+<!--                                    <input class="custom-control-input" id="systemNotification" type="checkbox"-->
+<!--                                           checked="">-->
+<!--                                    <label class="custom-control-label" for="systemNotification"></label>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <a class="d-flex" href="javascript:void(0)">-->
+<!--                                <div class="media d-flex align-items-start">-->
+<!--                                    <div class="media-left">-->
+<!--                                        <div class="avatar bg-light-danger">-->
+<!--                                            <div class="avatar-content">-->
+<!--                                                <i class="avatar-icon" data-feather="x"></i>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="media-body">-->
+<!--                                        <p class="media-heading">-->
+<!--                                            <span class="font-weight-bolder">Server down</span>&nbsp;registered-->
+<!--                                        </p>-->
+<!--                                        <small class="notification-text"> USA Server is down due to hight CPU-->
+<!--                                            usage</small>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </a>-->
+<!--                            <a class="d-flex" href="javascript:void(0)">-->
+<!--                                <div class="media d-flex align-items-start">-->
+<!--                                    <div class="media-left">-->
+<!--                                        <div class="avatar bg-light-success">-->
+<!--                                            <div class="avatar-content">-->
+<!--                                                <i class="avatar-icon" data-feather="check"></i>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="media-body">-->
+<!--                                        <p class="media-heading">-->
+<!--                                            <span class="font-weight-bolder">Sales report</span>&nbsp;generated-->
+<!--                                        </p>-->
+<!--                                        <small class="notification-text"> Last month sales report generated</small>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </a>-->
+<!--                            <a class="d-flex" href="javascript:void(0)">-->
+<!--                                <div class="media d-flex align-items-start">-->
+<!--                                    <div class="media-left">-->
+<!--                                        <div class="avatar bg-light-warning">-->
+<!--                                            <div class="avatar-content">-->
+<!--                                                <i class="avatar-icon" data-feather="alert-triangle"></i>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="media-body">-->
+<!--                                        <p class="media-heading">-->
+<!--                                            <span class="font-weight-bolder">High memory</span>&nbsp;usage-->
+<!--                                        </p>-->
+<!--                                        <small class="notification-text"> BLR Server using high memory</small>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </a>-->
+<!--                    </li>-->
+<!--                    <li class="dropdown-menu-footer">-->
+<!--                        <a class="btn btn-primary btn-block" href="javascript:void(0)">Read all notifications</a>-->
+<!--                    </li>-->
+<!--                </ul>-->
+<!--            </li>-->
             <li class="nav-item dropdown dropdown-user">
                 <a class="nav-link dropdown-toggle dropdown-user-link" id="dropdown-user" href="javascript:void(0);"
                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -470,7 +467,8 @@
                     </div>
                     <span class="avatar">
                             <img class="round" onerror="this.src='<?= HOME ?>/layouts/useravatar.png'"
-                                 src="<?= URLFILE . '/' . $_SESSION['user']['avatar'] ?>" alt="avatar" height="40"
+                                 src="<?= URLFILE . '/uploads/nhanvien/' . $_SESSION['user']['avatar'] ?>" alt="avatar"
+                                 height="40"
                                  width="40" id="hungsua2">
                             <span class="avatar-status-online"></span>
                         </span>
@@ -635,11 +633,13 @@
         <ul class="nav navbar-nav flex-row">
             <li class="nav-item mr-auto">
                 <a class="navbar-brand" href="<?= HOME ?>">
-                    <div class="brand-logo" id="minlogo">
-                        <!-- <img src="layouts/favicon.png" height="24" /> -->
+                    <div class="brand-logo d-none" id="minlogo">
+                        <img src="layouts/favicon.png" height="36"/>
                     </div>
                     <!-- <h2 class="brand-text">G-OFFICEx</h2> -->
-                    <img src="<?= HOME ?>/layouts/g-office-logo.png" height="30" alt="logo">
+                    <div id="maxlogo">
+                        <img src="<?= HOME ?>/layouts/g-office-logo.png" height="30" alt="logo">
+                    </div>
                 </a>
             </li>
             <li class="nav-item nav-toggle">
@@ -657,7 +657,7 @@
             <li class=" nav-item">
                 <a class="d-flex align-items-center" href="">
                     <i data-feather="home"></i>
-                    <span class="menu-title text-truncate" data-i18n="Dashboards">Dashboard</span>
+                    <span class="menu-title text-truncate" data-i18n="Dashboards">Trang chủ</span>
                 </a>
             </li>
             <?php
@@ -697,7 +697,6 @@
                 <i data-feather="more-horizontal"></i>
             </li>
             <?php
-            $model = new model();
             $menus = $model->getMenus(0, 3);
             foreach ($menus as $parMenu) {
                 $hasSub = 0;

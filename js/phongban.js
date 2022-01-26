@@ -1,4 +1,4 @@
-
+var url = '';
 $(function () {
 
     "use strict";
@@ -6,11 +6,24 @@ $(function () {
     var dtUserTable = $(".user-list-table"),
         modal = $("#updateinfo"),
         form = $("#dg");
-
+        var buttons = [];
+        if(funAdd == 1) {
+            buttons.push({
+                text: "Thêm mới",
+                className: "add-new btn btn-" + 'primary' + " mt-50",
+                init: function (api, node, config) {
+                    $(node).removeClass("btn-secondary");
+                },
+                action: function (e, dt, node, config) {
+                    actionMenu();
+                }
+            });
+        }
     // Users List datatable
     if (dtUserTable.length) {
         dtUserTable.DataTable({
             ajax: baseHome + "/phongban/list",
+      
             columns: [
                 { data: "id" },
                 { data: "name" },
@@ -37,18 +50,22 @@ $(function () {
                     orderable: false,
                     render: function (data, type, full, meta) {
                         var html = '';
-                        html += '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" title="Chỉnh sửa" onclick="loaddata(' + full['id'] + ')">';
-                        html += '<i class="fas fa-pencil-alt"></i>';
-                        html += '</button> &nbsp;';
-                        html += '<button type="button" class="btn btn-icon btn-outline-danger waves-effect" title="Xóa" id="confirm-text" onclick="xoa(' + full['id'] + ')">';
-                        html += '<i class="fas fa-trash-alt"></i>';
-                        html += '</button>';
+                        if(funEdit == 1) {
+                            html += '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" title="Chỉnh sửa" onclick="loaddata(' + full['id'] + ')">';
+                            html += '<i class="fas fa-pencil-alt"></i>';
+                            html += '</button> &nbsp;';
+                        }
+                        if(funDel == 1) {
+                            html += '<button type="button" class="btn btn-icon btn-outline-danger waves-effect" title="Xóa" id="confirm-text" onclick="xoa(' + full['id'] + ')">';
+                            html += '<i class="fas fa-trash-alt"></i>';
+                            html += '</button>';
+                        }
                         return html;
                     },
                     width: 100
                 },
             ],
-            // order: [[2, "desc"]],
+            order: [[0, "desc"]],
             dom:
                 '<"d-flex justify-content-between align-items-center header-actions mx-1 row mt-75"' +
                 '<"col-lg-12 col-xl-6" l>' +
@@ -59,32 +76,18 @@ $(function () {
                 '<"col-sm-12 col-md-6"p>' +
                 ">",
             language: {
-                sLengthMenu: "Show _MENU_",
-                search: "Search",
-                searchPlaceholder: "Keyword..",
+                sLengthMenu: "Hiển thị _MENU_",
+                search: "",
+                searchPlaceholder: "Tìm kiếm...",
                 paginate: {
                     // remove previous & next text from pagination
                     previous: "&nbsp;",
                     next: "&nbsp;",
                 },
+                info:"Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
             },
             // Buttons with Dropdown
-            buttons: [
-                {
-                    text: "Thêm mới",
-                    className: "add-new btn btn-primary mt-50",
-                    init: function (api, node, config) {
-                        $(node).removeClass("btn-secondary");
-                    },
-                    action: function (e, dt, node, config) {
-                        $("#updateinfo").modal('show');
-                        $(".modal-title").html('Thêm phòng ban mới');
-                        $('#name').val('');
-                        $('#ghi_chu').val('');
-                        url = baseHome + "/phongban/add";
-                    },
-                },
-            ],
+            buttons:buttons,
             initComplete: function () {
                 // Adding role filter once table initialized
 
@@ -92,7 +95,13 @@ $(function () {
         });
 
     }
-
+function actionMenu() {
+    $("#updateinfo").modal('show');
+    $(".modal-title").html('Thêm phòng ban mới');
+    $('#name').val('');
+    $('#description').val('');
+    url = baseHome + "/phongban/add";
+}
     // Check Validity
     function checkValidity(el) {
         if (el.validate().checkForm()) {
@@ -145,8 +154,7 @@ function loaddata(id) {
         url: baseHome + "/phongban/loaddata",
         success: function (data) {
             $('#name').val(data.name);
-            $('#ghi_chu').val(data.description);
-
+            $('#description').val(data.description);
             url = baseHome + '/phongban/update?id=' + id;
         },
         error: function () {
@@ -156,27 +164,37 @@ function loaddata(id) {
 }
 
 function savepb() {
-    var info = {};
-    info.name = $("#name").val();
-    info.ghi_chu = $("#ghi_chu").val();
-    $.ajax({
-        type: "POST",
-        dataType: "json",
-        data: info,
-        url: url,
-        success: function (data) {
-            if (data.success) {
-                notyfi_success(data.msg);
-                $('#updateinfo').modal('hide');
-                $(".user-list-table").DataTable().ajax.reload(null, false);
+    $('#fm').validate({
+        messages: {
+            "name": {
+                required: "Bạn chưa nhập tên phòng ban!",
             }
-            else
-                notify_error(data.msg);
         },
-        error: function () {
-            notify_error('Cập nhật không thành công');
+        submitHandler: function (form) {
+            var formData = new FormData(form);
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: formData,
+                async: false,
+                cache: false,
+                contentType: false,
+                enctype: 'multipart/form-data',
+                processData: false,
+                dataType: "json",
+                success: function (data) {
+                    if (data.code == 200) {
+                        notyfi_success(data.message);
+                        $('#updateinfo').modal('hide');
+                        $(".user-list-table").DataTable().ajax.reload(null, false);
+                    } else
+                        notify_error(data.message);
+                }
+            });
+            return false;
         }
     });
+    $('#fm').submit();
 }
 
 function xoa(id) {
@@ -186,6 +204,7 @@ function xoa(id) {
         icon: 'warning',
         showCancelButton: true,
         confirmButtonText: 'Tôi đồng ý',
+        cancelButtonText: 'Hủy',
         customClass: {
             confirmButton: 'btn btn-primary',
             cancelButton: 'btn btn-outline-danger ml-1'

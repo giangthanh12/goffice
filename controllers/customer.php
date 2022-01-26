@@ -1,12 +1,33 @@
 <?php
 class customer extends Controller
 {
+    static private $funAdd = 0, $funEdit = 0, $funDel = 0, $funImport = 0;
     function __construct()
     {
         parent::__construct();
+        $model = new model();
+        $checkMenuRole = $model->checkMenuRole('customer');
+        if ($checkMenuRole == false)
+            header('location:' . HOME);
+        $funcs = $model->getFunctions('customer');
+      
+        foreach ($funcs as $item) {
+            if ($item['function'] == 'add')
+                self::$funAdd = 1;
+            if ($item['function'] == 'import')
+                self::$funImport = 1;
+            if ($item['function'] == 'edit')
+                self::$funEdit = 1;
+            if ($item['function'] == 'del')
+                self::$funDel = 1;
+        }
     }
     function index(){
         require "layouts/header.php";
+        $this->view->funAdd = self::$funAdd;
+        $this->view->funImport = self::$funImport;
+        $this->view->funEdit = self::$funEdit;
+        $this->view->funDel = self::$funDel;
         $this->view->render("customer/index");
         require "layouts/footer.php";
     }
@@ -14,6 +35,10 @@ class customer extends Controller
     function getStaff()
     {
         $jsonObj = $this->model->getStaff();
+        echo json_encode($jsonObj);
+    }
+    function combo() {
+        $jsonObj = $this->model->get_data_combo();
         echo json_encode($jsonObj);
     }
     function getNational() {
@@ -41,7 +66,14 @@ class customer extends Controller
     }
 
     function add() {
+        if(self::$funAdd == 0) {
+            $jsonObj['msg'] = 'Bạn không có quyền sử dụng chức năng này';
+            $jsonObj['success'] = false;
+            echo json_encode($jsonObj);
+            return false;
+        }
         $fullName = isset($_REQUEST['fullName']) ? $_REQUEST['fullName'] : false;
+        $shortName = !empty($_REQUEST['shortName']) ? $_REQUEST['shortName'] : $_REQUEST['fullName'];
         $phoneNumber = isset($_REQUEST['phoneNumber']) ? $_REQUEST['phoneNumber'] : false;
         $email = isset($_REQUEST['email']) ? $_REQUEST['email'] : false;
         $website = isset($_REQUEST['website']) ? $_REQUEST['website'] : false;
@@ -49,6 +81,7 @@ class customer extends Controller
         $staffInCharge = isset($_SESSION['user']['id']) ? $_SESSION['user']['id'] : false;
         $nationalId = isset($_REQUEST['nationalId']) ? $_REQUEST['nationalId'] : '';
         $provinceId = isset($_REQUEST['provinceId']) ? $_REQUEST['provinceId'] : '';
+        $classify = !empty($_REQUEST['classify']) ? $_REQUEST['classify'] : 1;
         $status = isset($_REQUEST['status']) ? $_REQUEST['status'] : 1;
         if(!$fullName && !$phoneNumber && !$email && !$website) {
             $jsonObj['msg'] = 'Thông tin không chính xác';
@@ -58,16 +91,17 @@ class customer extends Controller
         }
         $data = array(
             'fullName' => $fullName,
+            'shortName'=>$shortName,
             'phoneNumber' => $phoneNumber,
             'email' => $email,
             'website' => $website,
             'staffid' => $staffId,
             'staffInCharge' => $staffInCharge,
             'nationalId' => $nationalId,
-            'province' => $provinceId,
+            'provinceId' => $provinceId,
+            'classify'=>$classify,
             'status'=>$status
         );
-          
             if ($this->model->addObj($data)) {
                 $jsonObj['msg'] = 'Cập nhật dữ liệu thành công';
                 $jsonObj['success'] = true;
@@ -87,8 +121,15 @@ class customer extends Controller
 
     function update()
     {
+        if(self::$funEdit == 0) {
+            $jsonObj['msg'] = 'Bạn không có quyền sử dụng chức năng này';
+            $jsonObj['success'] = false;
+            echo json_encode($jsonObj);
+            return false;
+        }
         $id = $_REQUEST['id'];
         $fullName = isset($_REQUEST['fullName']) ? $_REQUEST['fullName'] : false;
+        $shortName = !empty($_REQUEST['shortName']) ? $_REQUEST['shortName'] : $_REQUEST['fullName'];
         $taxCode = isset($_REQUEST['taxCode']) ? $_REQUEST['taxCode'] : '';
         $address = isset($_REQUEST['address']) ? $_REQUEST['address'] : '';
         $phoneNumber = isset($_REQUEST['phoneNumber']) ? $_REQUEST['phoneNumber'] : false;
@@ -96,9 +137,9 @@ class customer extends Controller
         $website = isset($_REQUEST['website']) ? $_REQUEST['website'] : false;
         $staffId = isset($_REQUEST['staffId']) ? $_REQUEST['staffId'] : '';
         $staffInCharge = isset($_SESSION['user']['id']) ? $_SESSION['user']['id'] : '';
-        $shortName = isset($_REQUEST['shortName']) ? $_REQUEST['shortName'] : '';
+   
         $field = isset($_REQUEST['field']) ? $_REQUEST['field'] : '';
-        $fieldDetail = isset($_REQUEST['fieldDetail']) ? $_REQUEST['fieldDetail'] : '';
+     
         $rank = isset($_REQUEST['rank']) ? $_REQUEST['rank'] : '';
         $bussinessName = isset($_REQUEST['bussinessName']) ? $_REQUEST['bussinessName'] : '';
         $bussinessAddress = isset($_REQUEST['bussinessAddress']) ? $_REQUEST['bussinessAddress'] : '';
@@ -139,7 +180,7 @@ class customer extends Controller
             'classify' => $classify,
             'type'=> $type,
             'nationalId' => $nationalId,
-            'province' => $provinceId,
+            'provinceId' => $provinceId,
             'status'=>$status
         );
 
@@ -155,8 +196,14 @@ class customer extends Controller
     }
     function del()
     {
+        if(self::$funDel == 0) {
+            $jsonObj['msg'] = 'Bạn không có quyền sử dụng chức năng này';
+            $jsonObj['success'] = false;
+            echo json_encode($jsonObj);
+            return false;
+        }
         $id = $_REQUEST['id'];
-        $data = ['status' => 2];
+        $data = ['status' => 0];
         if ($this->model->delObj($id, $data)) {
             $jsonObj['msg'] = "Xóa dữ liệu thành công";
             $jsonObj['success'] = true;
@@ -168,6 +215,12 @@ class customer extends Controller
     }
 
     function importExcel() {
+        if(self::$funImport == 0) {
+            $jsonObj['msg'] = 'Bạn không có quyền sử dụng chức năng này';
+            $jsonObj['success'] = false;
+            echo json_encode($jsonObj);
+            return false;
+        }
         require_once 'libs/phpexcel/PHPExcel/IOFactory.php';
         try {
             $inputFileType = PHPExcel_IOFactory::identify($_FILES['file']['tmp_name']);
@@ -240,6 +293,20 @@ class customer extends Controller
             $jsonObj['success'] = false;
         }
         echo json_encode($jsonObj);
+    }
+    function checkPhone() {
+        $idCustomer = $_REQUEST['idCustomer'];
+        $phone = $_REQUEST['phone'];
+   
+       if($this->model->checkPhone($idCustomer, $phone)) {
+        $jsonObj['msg'] = "Số điện thoại hợp lệ";
+        $jsonObj['success'] = true;
+       }
+       else {
+        $jsonObj['msg'] = "Số điện thoại đã tồn tại";
+        $jsonObj['success'] = false;
+       }
+       echo json_encode($jsonObj);
     }
 }
 ?>
