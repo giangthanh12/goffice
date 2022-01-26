@@ -27,7 +27,7 @@ class Tainguyen_Model extends Model
 
     function get_data_combo(){
         $result = array();
-        $query = $this->db->query("SELECT id, name AS text FROM customer WHERE classify > 1 AND status > 0");
+        $query = $this->db->query("SELECT id, fullName AS text FROM customer WHERE classify > 1 AND status > 0");
         $result = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }
