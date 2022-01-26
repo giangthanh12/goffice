@@ -57,15 +57,15 @@
                                         </div> -->
                                         <div class="d-flex align-items-center mb-1">
                                             <span class="title">Số báo giá:</span>
-                                            <input type="text" class="form-control invoice-edit-input" placeholder="auto" readonly />
+                                            <input type="text" id="quoteNum" class="form-control invoice-edit-input" placeholder="auto" readonly value="0"/>
                                         </div>
                                         <div class="d-flex align-items-center mb-1">
                                             <span class="title">Ngày:</span>
-                                            <input type="text" class="form-control invoice-edit-input date-picker"  />
+                                            <input type="text" id="date" class="form-control invoice-edit-input date-picker"  />
                                         </div>
                                         <div class="d-flex align-items-center">
                                             <span class="title">Ngày hết hạn:</span>
-                                            <input type="text" class="form-control invoice-edit-input due-date-picker" />
+                                            <input type="text" id="validDate" class="form-control invoice-edit-input due-date-picker" />
                                         </div>
                                     </div>
                                 </div>
@@ -134,12 +134,12 @@
                                                                 }
                                                                 ?>
                                                             </select>
-                                                            <textarea class="form-control mt-2" rows="1"></textarea>
+                                                            <textarea class="form-control mt-2" rows="1" name="noteProduct"></textarea>
                                                         </div>
                                                         <div class="col-lg-3 col-12 my-lg-0 my-2">
                                                             <p class="card-text col-title mb-md-2 mb-0">Đơn giá</p>
-                                                            <input type="text" name="price"class="price form-control col-lg-8" style="display:inline-block" placeholder="đơn giá" />
-                                                            &nbsp;<span class="unit"></span>
+                                                            <input type="text" name="price" class="price form-control col-lg-8" style="display:inline-block" placeholder="đơn giá" />
+                                                            &nbsp;<span class="unit"></span><input type="hidden" name="unit" class="unitprice" />
                                                             <div class="mt-2">
                                                                 <span>Giảm giá:</span>
                                                                 <input type="text" name="discount" class="discount form-control" value="0" placeholder="giảm giá trực tiếp" />
@@ -150,7 +150,7 @@
                                                         </div>
                                                         <div class="col-lg-2 col-12 my-lg-0 my-2">
                                                             <p class="card-text col-title mb-md-2 mb-0 ">Số lượng</p>
-                                                            <input type="number" name="qty" class="qty form-control quantity" value="1" />
+                                                            <input type="text" name="qty" class="qty form-control quantity" value="1" />
                                                             <div class="mt-2">
                                                                 <span>Chiết khấu (%):</span>
                                                                 <input type="text" name="chietkhau" class="chietkhau form-control" value="0" placeholder="Chiết khấu %" />
@@ -239,14 +239,14 @@
                                                 <p class="invoice-total-title">Tổng tiền hàng:</p>
                                                 <p class="invoice-total-amount" id="invoiceTotal">0</p>
                                             </div>
-                                            <div class="invoice-total-item">
+                                            <!-- <div class="invoice-total-item">
                                                 <p class="invoice-total-title">Tổng giảm giá:</p>
                                                 <p class="invoice-total-amount" id="discountTotal">0</p>
                                             </div>
                                             <div class="invoice-total-item">
                                                 <p class="invoice-total-title">Tổng giá đã giảm:</p>
                                                 <p class="invoice-total-amount" id="finalTotal">0</p>
-                                            </div>
+                                            </div> -->
                                             <div class="invoice-total-item">
                                                 <p class="invoice-total-title">Thuế GTGT:</p>
                                                 <p class="invoice-total-amount" id="taxTotal">0</p>
@@ -269,7 +269,7 @@
                                 <div class="row">
                                     <div class="col-12">
                                         <div class="form-group mb-2">
-                                            <label for="note" class="form-label font-weight-bold">Ghi chú báo giấ:</label>
+                                            <label for="note" class="form-label font-weight-bold">Ghi chú báo giá:</label>
                                             <textarea class="form-control" rows="2" id="note"></textarea>
                                         </div>
                                     </div>
@@ -284,9 +284,10 @@
                     <div class="col-xl-3 col-md-4 col-12">
                         <div class="card">
                             <div class="card-body">
-                                <button class="btn btn-primary btn-block mb-75" disabled>Gửi báo giá</button>
-                                <a href="./app-invoice-preview.html" class="btn btn-outline-primary btn-block mb-75">In báo giá</a>
+                                <button class="btn btn-primary btn-block mb-75" id="btnSend">Gửi báo giá</button>
+                                <a href="baogia/printout" class="btn btn-outline-primary btn-block mb-75" target="_blank">In báo giá</a>
                                 <button type="button" id="btnSave" class="btn btn-outline-primary btn-block">Ghi nháp</button>
+                                <button class="btn btn-primary btn-block mb-75" >Lập báo giá mới</button>
                                 <a href="baogia" class="btn btn-outline-primary btn-block mb-75">Danh sách báo giá</a>
                                 <a href="lead_temp" class="btn btn-outline-primary btn-block mb-75">Cơ hội kinh doanh</a>
                             </div>
