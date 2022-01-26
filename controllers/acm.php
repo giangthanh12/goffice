@@ -29,7 +29,7 @@ class acm extends Controller{
         $data = array(
             'content' => $_REQUEST['content'],
             'customerId' => $_REQUEST['customer'],
-            'staffId' => $_REQUEST['staff'],
+            'staffId' =>   $_SESSION['user']['staffId'],
             'accnumber' => $_REQUEST['account'],
             'classify' => $_REQUEST['classify'],
             'type' => $_REQUEST['type'],
@@ -93,7 +93,7 @@ class acm extends Controller{
             $data = array(
                 'content' => $_REQUEST['content'],
                 'customerId' => $_REQUEST['customer'],
-                'staffId' => $_REQUEST['staff'],
+                'staffId' => $_SESSION['user']['staffId'],
                 'accnumber' => $_REQUEST['account'],
                 'classify' => $_REQUEST['classify'],
                 'type' => $_REQUEST['type'],
@@ -113,7 +113,7 @@ class acm extends Controller{
             $data = array(
                 'content' => $_REQUEST['content'],
                 'customerId' => $_REQUEST['customer'],
-                'staffId' => $_REQUEST['staff'],
+                'staffId' => $_SESSION['user']['staffId'],
                 'accnumber' => $_REQUEST['account'],
                 'classify' => $_REQUEST['classify'],
                 'type' => $_REQUEST['type'],
@@ -184,9 +184,11 @@ class acm extends Controller{
         echo json_encode($data);
     }
 
-    function contract() {
+    function hopdong() {
         $data = $this->model->contract();
         echo json_encode($data);
     }
+
+    
 }
 ?>
