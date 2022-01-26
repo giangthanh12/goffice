@@ -143,13 +143,13 @@ $(function () {
       columnDefs: [
         {
           // For Responsive
-          className: "control",
-          orderable: false,
-          responsivePriority: 0,
-          targets: 0,
-          render: function (data, type, full, meta) {
-              return "";
-          }
+          // className: "control",
+          // orderable: false,
+          // responsivePriority: 0,
+          // targets: 0,
+          // render: function (data, type, full, meta) {
+          //     return "";
+          // }
         },
         {
           // User full name and username
@@ -328,13 +328,13 @@ $(function () {
         },
         messages: {
           name: {
-            required: "Bạn chưa chọn ngày thực hiện",
+            required: "Bạn chưa nhập tên tài khoản",
           },
           account: {
-            required: "Bạn chưa nhập thông tin",
+            required: "Bạn chưa nhập sô tài khoản",
           },
           type: {
-            required: "Bạn chưa chọn khách hàng",
+            required: "Bạn chưa chọn loại tài khoản",
           },
         },
       });
@@ -360,7 +360,7 @@ $(function () {
                   type: type,
                   status: status,
                 },
-                url: baseHome + "/accnuber/update",
+                url: baseHome + "/accnumber/update",
                 success: function (data) {
                   if (data.success == true) {
                     notyfi_success(data.msg);
@@ -398,7 +398,7 @@ function loaddata(id) {
       $("#name").val(data.name);
       $("#account").val(data.account);
       $("#type").val(data.type);
-      url = baseHome + "/account/update";
+      // url = baseHome + "/accnumber/update";
       console.log(data);
     },
     error: function () {
