@@ -124,6 +124,7 @@
                                                 </div>
                                                 <span class="taskDescription d-none">'.$item['description'].'</span>
                                                 <span class="taskProject d-none">'.$item['projectId'].'</span>
+                                                <span class="statusProject d-none">'.$item['status'].'</span>
                                             </div>
                                         </div>
                                     </li>
@@ -132,7 +133,7 @@
                                 ?>
                             </ul>
                             <div class="no-results">
-                                <h5>No Items Found</h5>
+                                <h5>Không có kết quả tìm kiếm</h5>
                             </div>
                         </div>
                     </div>
@@ -156,7 +157,7 @@
                                             <div class="form-group">
                                                 <input type="hidden" id="taskId" name="taskId" />
                                                 <label for="todoTitleAdd" class="form-label">Công việc</label>
-                                                <input type="text" id="todoTitleAdd" name="todoTitleAdd" class="new-todo-item-title form-control" placeholder="Title" />
+                                                <input type="text" id="todoTitleAdd" name="todoTitleAdd" class="new-todo-item-title form-control"  />
                                             </div>
                                             <div class="form-group position-relative">
                                                 <label for="task-assigned" class="form-label d-block">Thuộc dự án/nhóm công việc</label>
