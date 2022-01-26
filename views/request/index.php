@@ -118,6 +118,10 @@
                                                 <label class="form-label">Người duyệt</label>
                                                 <ul class="pl-0" id="processor"></ul>
                                             </div>
+                                            <div class="form-group d-none" id="refuserLabel">
+                                                <label class="form-label">Người từ chối</label>
+                                                <ul class="pl-0" id="refuser"></ul>
+                                            </div>
                                             <div class="form-group">
                                                 <label class="form-label" for="staffId">Người tạo</label>
                                                 <select class="select2 select2-label form-control" id="staffId"
@@ -147,11 +151,11 @@
                             <div class="modal-footer">
                                 <div class="form-group">
                                     <div class="d-flex flex-wrap">
-                                        <button class="btn btn-primary mr-1" id="btnUpdate" onclick="save();">Cập nhật
+                                        <button class="btn btn-primary mr-1" id="btnUpdate">Cập nhật
                                         </button>
-                                        <button type="button" class="btn btn-success mr-1 d-none" id="btnAccept">Duyệt
+                                        <button type="button" class="btn btn-success mr-1 d-none" id="btnApprove" onclick="">Duyệt
                                         </button>
-                                        <button type="button" class="btn btn-outline-danger d-none" id="btnReject">Từ chối
+                                        <button type="button" class="btn btn-outline-danger d-none" id="btnRefuse">Từ chối
                                         </button>
                                     </div>
                                 </div>

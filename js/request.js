@@ -9,7 +9,9 @@ var url, boards,
     updateItemSidebar = $('.update-item-sidebar'),
     addNewButton = $('#addNewButon'),
     staffId = $('#staffId'),
-    defineId = $('#defineId');
+    slDefineId = $('#defineId'),
+    requestId = 0,
+    stepId = 0;
 $(function () {
     'use strict';
 
@@ -80,7 +82,7 @@ $(function () {
         });
     }
 
-    if (defineId.length) {
+    if (slDefineId.length) {
         function renderLabels(option) {
             if (!option.id) {
                 return option.text;
@@ -90,7 +92,7 @@ $(function () {
             return $badge;
         }
 
-        defineId.each(function () {
+        slDefineId.each(function () {
             var $this = $(this);
             $this.wrap("<div class='position-relative'></div>").select2({
                 placeholder: 'Chọn yêu cầu',
@@ -103,7 +105,7 @@ $(function () {
             });
         });
     }
-    defineId.on('change', function () {
+    slDefineId.on('change', function () {
         initKanban();
     });
 
@@ -210,8 +212,11 @@ $(function () {
     }
     addNewButton.on("click", function () {
         sidebar.modal('show');
-        $('#btnReject').addClass('d-none');
-        $('#btnAccept').addClass('d-none');
+        $('#btnRefuse').addClass('d-none');
+        $('#btnApprove').addClass('d-none');
+        $('#btnUpdate').removeClass('d-none');
+        $('#refuserLabel').addClass('d-none');
+        $('#processorLabel').addClass("d-none");
         $('#modalTitle').html("Tạo yêu cầu");
         $('#title').val('');
         $('#staffId').val(baseUser).trigger("change");
@@ -235,7 +240,6 @@ $(function () {
                 $('#fmProperties').html(html);
             }
         });
-        $('#processorLabel').addClass("d-none");
         url = baseHome + '/request/addRequest?defineId=' + $defineId;
     })
 });
@@ -249,7 +253,9 @@ function initKanban() {
         dataType: 'json',
         async: false,
         url: baseHome + '/request/getAllRequests?defineId=' + $defineId,
+        // url: baseHome + '/styles/app-assets/data/kanban.json',
         success: function (data) {
+            console.log(data);
             boards = data;
         }
     });
@@ -257,9 +263,9 @@ function initKanban() {
         element: '.kanban-wrapper',
         gutter: '15px',
         widthBoard: '250px',
-        dragItems: false,
+        dragItems: true,
         boards: boards,
-        dragBoards: false,
+        dragBoards: true,
         addItemButton: false,
         itemAddOptions: {
             enabled: false, // add a button to board for easy item creation
@@ -269,8 +275,29 @@ function initKanban() {
         },
         click: function (el) {
             var el = $(el);
-            var $requestId = el.attr('data-eid');
-            $('#processorLabel').removeClass('d-none');
+            requestId = el.attr('data-eid');
+            stepId = el.attr('data-stepId');
+            if (stepId == 'success') {
+                $('#btnRefuse').addClass('d-none');
+                $('#btnUpdate').addClass('d-none');
+                $('#btnApprove').addClass('d-none');
+                $('#processorLabel').removeClass('d-none');
+                $('#refuserLabel').addClass('d-none');
+            }
+            else if(stepId == 'refuse'){
+                $('#btnRefuse').addClass('d-none');
+                $('#btnUpdate').addClass('d-none');
+                $('#btnApprove').addClass('d-none');
+                $('#processorLabel').removeClass('d-none');
+                $('#refuserLabel').removeClass('d-none');
+            }else{
+                $('#btnRefuse').removeClass('d-none');
+                $('#btnUpdate').removeClass('d-none');
+                $('#btnApprove').removeClass('d-none');
+                $('#processorLabel').addClass('d-none');
+                $('#refuserLabel').addClass('d-none');
+            }
+
             if (el.find('.kanban-item-avatar').length) {
                 el.find('.kanban-item-avatar').on('click', function (e) {
                     e.stopPropagation();
@@ -278,8 +305,6 @@ function initKanban() {
             }
             if (!$('.dropdown').hasClass('show') && openSidebar) {
                 sidebar.modal('show');
-                $('#btnReject').removeClass('d-none');
-                $('#btnAccept').removeClass('d-none');
             }
             sidebar.find('.update-item-form').on('submit', function (e) {
                 e.preventDefault();
@@ -293,7 +318,7 @@ function initKanban() {
                 type: 'GET',
                 dataType: 'json',
                 async: false,
-                url: baseHome + '/request/getStaffs?staffIds=' + el.attr('data-processors'),
+                url: baseHome + '/request/getProcessors?staffIds=' + el.attr('data-processors'),
                 success: function (dataStaff) {
                     dataStaff.forEach(function (item) {
                         $('#processor').append(
@@ -303,12 +328,29 @@ function initKanban() {
 
                 }
             });
+
+            $('#refuser').empty();
+            $.ajax({
+                type: 'GET',
+                dataType: 'json',
+                async: false,
+                url: baseHome + '/request/getProcessors?staffIds=' + el.attr('data-refusers'),
+                success: function (dataStaff) {
+                    dataStaff.forEach(function (item) {
+                        $('#refuser').append(
+                            renderAvatar(item.avatar, false, '50', item.name, 32)
+                        );
+                    })
+
+                }
+            });
+
             var $defineId = $('#defineId').val();
             $.ajax({
                 type: 'POST',
                 dataType: 'json',
                 async: false,
-                url: baseHome + '/request/getProperties?defineId=' + $defineId+'&requestId='+$requestId,
+                url: baseHome + '/request/getProperties?defineId=' + $defineId + '&requestId=' + requestId,
                 success: function (data) {
                     var html = '';
                     data.forEach(function (item) {
@@ -322,7 +364,7 @@ function initKanban() {
                 }
             });
             $('#modalTitle').html("Chỉnh sửa yêu cầu");
-            url = baseHome+'/request/editRequest?id='+$requestId;
+            url = baseHome + '/request/editRequest?id=' + requestId;
 
         },
         buttonClick: function (el, boardId) {
@@ -354,6 +396,7 @@ function initKanban() {
             });
         },
         dragEl: function (el, source) {
+            console.log(source);
             $(el).find('.item-dropdown, .item-dropdown .dropdown-menu.show').removeClass('show');
         }
     });
@@ -522,7 +565,7 @@ function renderFooter(dateTime, assigned, members) {
     );
 }
 
-function save() {
+$('#btnUpdate').on('click', function () {
     $('#fmInfo').validate({
         messages: {
             "title": {
@@ -549,14 +592,15 @@ function save() {
                 processData: false,
                 dataType: "json",
                 success: function (result) {
+                    requestId = result.data.requestId;
                     if (result.code == 200) {
                         $('#fmProperties').validate({
-                            submitHandler: function (form) {
-                                var formData = new FormData(form);
+                            submitHandler: function (formPro) {
+                                var formDataPro = new FormData(formPro);
                                 $.ajax({
-                                    url: baseHome+'/request/saveProperties?defineId='+$defineId+'&requestId='+result.data.requestId,
+                                    url: baseHome + '/request/saveProperties?defineId=' + $defineId + '&requestId=' + requestId,
                                     type: 'POST',
-                                    data: formData,
+                                    data: formDataPro,
                                     async: false,
                                     cache: false,
                                     contentType: false,
@@ -567,12 +611,11 @@ function save() {
                                         if (data.code == 200) {
                                             initKanban();
                                             $('.modal').modal('hide');
-                                            notyfi_success(data.message);
+                                            notyfi_success(result.message);
                                         } else
-                                            notify_error(data.message);
+                                            notify_error(result.message);
                                     }
                                 });
-                                return false;
                             }
                         });
                         $('#fmProperties').submit();
@@ -584,5 +627,69 @@ function save() {
         }
     });
     $('#fmInfo').submit();
-}
+})
+
+$('#btnApprove').on('click', function () {
+    Swal.fire({
+        title: 'Duyệt đơn',
+        text: "Bạn có chắc chắn muốn duyệt yêu cầu này!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Tôi đồng ý',
+        customClass: {
+            confirmButton: 'btn btn-primary',
+            cancelButton: 'btn btn-outline-danger ml-1'
+        },
+        buttonsStyling: false
+    }).then(function (result) {
+        if (result.value) {
+            var $defineId = slDefineId.val();
+            $.ajax({
+                url: baseHome + "/request/approve",
+                type: 'post',
+                dataType: "json",
+                data: {requestId: requestId, stepId: stepId, defineId: $defineId},
+                success: function (data) {
+                    if (data.code = 200) {
+                        $('.modal').modal('hide');
+                        notyfi_success(data.message);
+                        initKanban();
+                    } else
+                        notify_error(data.message);
+                },
+            });
+        }
+    });
+})
+$('#btnRefuse').on('click', function () {
+    Swal.fire({
+        title: 'Từ chối đơn',
+        text: "Bạn có chắc chắn muốn từ chối yêu cầu này!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Tôi đồng ý',
+        customClass: {
+            confirmButton: 'btn btn-primary',
+            cancelButton: 'btn btn-outline-danger ml-1'
+        },
+        buttonsStyling: false
+    }).then(function (result) {
+        if (result.value) {
+            $.ajax({
+                url: baseHome + "/request/refuse",
+                type: 'post',
+                dataType: "json",
+                data: {requestId: requestId, stepId: stepId},
+                success: function (data) {
+                    if (data.code = 200) {
+                        $('.modal').modal('hide');
+                        notyfi_success(data.message);
+                        initKanban();
+                    } else
+                        notify_error(data.message);
+                },
+            });
+        }
+    });
+})
 
