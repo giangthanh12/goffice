@@ -26,7 +26,7 @@ class onleave extends Controller
     }
     function update() {
         $id = $_REQUEST['id'];
-        if($id == "") {
+        if($id == "0") {
             $staffId = $_REQUEST['staffId'];
             $type = $_REQUEST['type'];
             $description = $_REQUEST['description'];

@@ -178,6 +178,7 @@ $(function () {
 
   // On add new item button click, clear sidebar-right field fields
   if (addTaskBtn.length) {
+
     addTaskBtn.on("click", function (e) {
       $("#updateRequest").removeClass("d-none");
       $("#refuseRequest").addClass("d-none");
@@ -187,7 +188,8 @@ $(function () {
       newTaskModal.find(".new-todo-item-title").val("");
       var quill_editor = taskDesc.find(".ql-editor p");
       quill_editor.html("");
-      $("#id").val(); // them du an mac dinh id = 0
+      $("#id").val(0); // them du an mac dinh id = 0
+      console.log($("#id").val());
       $("#task-due-date").val("DD-MM-YYYY");
       load_select2(
         taskAssignSelect,
@@ -232,7 +234,7 @@ $(function () {
         var description = $("#task-desc").find(".ql-editor p").html();
         var date = $(".sidebar-todo-modal .task-due-date").val();
         var shift = $("#shift").val();
-        var status = 1;
+        
 
         $.ajax({
           type: "POST",
@@ -244,7 +246,7 @@ $(function () {
             description: description,
             shift: shift,
             date: date,
-            status: status,
+            
           },
           url: baseHome + "/onleave/update",
           success: function (data) {
