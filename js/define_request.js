@@ -10,26 +10,23 @@ $(function () {
     "use strict";
     var dtUserTable = $(".user-list-table"),
         modal = $("#add-contract"),
-        form = $("#dg");
-    modalstep = $('#step')
+        form = $("#dg"),
+    modalstep = $('#step');
     // Users List datatable
-    var button = [];
-    let i = 0;
-    userFuns.forEach(function (item, index) {
-        if (item.type == 1) {
-            button[i] = {
-                text: item.name,
-                className: "add-new btn btn-primary mt-50",
-                init: function (api, node, config) {
-                    $(node).removeClass("btn-secondary");
-                },
-                action: function (e, dt, node, config) {
-                    actionMenu(item.function);
-                }
-            };
-            i++;
-        }
-    })
+    var buttons = [];
+
+    if(funAdd == 1) {
+        buttons.push({
+            text: "Thêm mới",
+            className: "add-new btn btn-" + 'primary' + " mt-50",
+            init: function (api, node, config) {
+                $(node).removeClass("btn-secondary");
+            },
+            action: function (e, dt, node, config) {
+                showAdd();
+            }
+        });
+    }
 
     // Users List datatable
     if (dtUserTable.length) {
@@ -58,13 +55,18 @@ $(function () {
                     orderable: false,
                     render: function (data, type, full, meta) {
                         var html = '';
-                        html += '<div d-flex justify-content-start style="width::150px;text-align:left">';
-                        html += '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" title="Chỉnh sửa" onclick="loaddata(' + full['id'] + ')">';
-                        html += '<i class="fas fa-pencil-alt"></i>';
-                        html += '</button> &nbsp;';
-                        html += '<button type="button" class="btn btn-icon btn-outline-danger waves-effect" title="Xóa" id="confirm-text" onclick="xoa(' + full['id'] + ')">';
-                        html += '<i class="fas fa-trash-alt"></i>';
-                        html += '</button></div>';
+                        if(funEdit == 1){
+                            html += '<div d-flex justify-content-start style="width::150px;text-align:left">';
+                            html += '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" title="Chỉnh sửa" onclick="loaddata(' + full['id'] + ')">';
+                            html += '<i class="fas fa-pencil-alt"></i>';
+                            html += '</button> &nbsp;';
+                        }
+                        if(funDel == 1){
+                            html += '<button type="button" class="btn btn-icon btn-outline-danger waves-effect" title="Xóa" id="confirm-text" onclick="xoa(' + full['id'] + ')">';
+                            html += '<i class="fas fa-trash-alt"></i>';
+                            html += '</button></div>';
+                        }
+                       
                         return html;
                     },
                     width: 100
@@ -89,27 +91,28 @@ $(function () {
                     next: "&nbsp;",
                 },
             },
-            buttons: [{
-                text: "Thêm mới",
-                className: "add-new btn btn-primary mt-50",
+            buttons: buttons,
+            // [{
+            //     text: "Thêm mới",
+            //     className: "add-new btn btn-primary mt-50",
 
-                init: function (api, node, config) {
-                    $(node).removeClass("btn-secondary");
-                },
+            //     init: function (api, node, config) {
+            //         $(node).removeClass("btn-secondary");
+            //     },
 
-                action: function (e, dt, node, config) {
-                    actionMenu('add');
-                }
-            }],
+            //     action: function (e, dt, node, config) {
+            //         actionMenu('add');
+            //     }
+            // }],
             initComplete: function () {
             },
         });
     }
-    function actionMenu(func) {
-        if (func == 'add')
-            showAdd();
+    // function actionMenu(func) {
+    //     if (func == 'add')
+    //         showAdd();
 
-    }
+    // }
     // Check Validity
     function checkValidity(el) {
         if (el.validate().checkForm()) {

@@ -140,7 +140,8 @@
     </div>
 </div>
 <script>
-    var userFuns = JSON.parse('<?= json_encode($this->funs) ?>');
+     var funAdd = <?=$this->funAdd?>,
+        funEdit = <?=$this->funEdit?>,
+        funDel = <?=$this->funDel?>;
 </script>
-
 <script src="<?= HOME ?>/js/define_request.js"></script>
