@@ -14,12 +14,12 @@ class customer_model extends Model
         shortName,fullName,address,phoneNumber,email,website,field,businessName,businessAddress,businessPlace,taxCode,authorized,representative,
         (SELECT name FROM province WHERE id=a.provinceId) AS province,
         (SELECT name FROM national WHERE id=a.nationalId) AS nationality,
-        IFNULL((SELECT SUM(total) FROM contracts WHERE customerId=a.id AND status>0),0) AS totalSales,rank,field,classify,note,
+        IFNULL((SELECT SUM(taxMoney) FROM contracts WHERE customerId=a.id AND status>0),0) AS totalSales,rank,field,classify,note,
         (SELECT name FROM staffs WHERE id=a.staffId) AS staffName,
         (SELECT name FROM staffs WHERE id=a.staffInCharge) AS staffInCharge,
         (SELECT name FROM province WHERE id=a.provinceId) AS province,
         (SELECT name FROM national WHERE id=a.nationalId) AS nationality,status
-            FROM customer a WHERE status > 0 ORDER BY id DESC ");
+            FROM customers a WHERE status > 0 ORDER BY id DESC ");
         if ($query) {
             $result = $query->fetchAll(PDO::FETCH_ASSOC);
             return $result;
@@ -36,12 +36,12 @@ class customer_model extends Model
             shortName,fullName,address,phoneNumber,email,website,field,businessName,businessAddress,businessPlace,taxCode,authorized,representative,
             (SELECT name FROM province WHERE id=a.provinceId) AS province,
             (SELECT name FROM national WHERE id=a.nationalId) AS nationality,
-            IFNULL((SELECT SUM(total) FROM contracts WHERE customerId=a.id AND status>0),0) AS totalSales,rank,field,classify,note,
+            IFNULL((SELECT SUM(taxMoney) FROM contracts WHERE customerId=a.id AND status>0),0) AS totalSales,rank,field,classify,note,
             (SELECT name FROM staffs WHERE id=a.staffId) AS staffName,
             (SELECT name FROM staffs WHERE id=a.staffInCharge) AS staffInCharge,
             (SELECT name FROM province WHERE id=a.provinceId) AS province,
             (SELECT name FROM national WHERE id=a.nationalId) AS nationality,status
-            FROM customer a WHERE status > 0 AND id=$customerId ");
+            FROM customers a WHERE status > 0 AND id=$customerId ");
         if ($query) {
             $result = $query->fetchAll(PDO::FETCH_ASSOC);
             return $result;

@@ -6,13 +6,12 @@ class Baogia_model extends Model{
 
     function listObj(){
         $query = $this->db->query("SELECT * ,FORMAT(tien_sau_ck,0) AS tien_sau_ck,
-        IFNULL((SELECT ten_day_du FROM khachhang WHERE khach_hang = khachhang.id AND tinh_trang > 0), '-') AS khach_hang , 
-        IFNULL((SELECT name FROM nhanvien WHERE nhan_vien = nhanvien.id AND tinh_trang > 0), '-') AS nhan_vien  
+        IFNULL((SELECT ten_day_du FROM khachhang WHERE khach_hang = khachhang.id AND tinh_trang > 0), '-') AS khach_hang ,
+        IFNULL((SELECT name FROM nhanvien WHERE nhan_vien = nhanvien.id AND tinh_trang > 0), '-') AS nhan_vien
          FROM baogia  WHERE tinh_trang>0 order by ngay DESC");
         $result['data'] = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }
-
 
     function addObj($data)
     {
@@ -26,12 +25,11 @@ class Baogia_model extends Model{
         $data_bg['dinh_kem'] = $data['dinh_kem'];
         $data_bg['tinh_trang'] = $data['tinh_trang'];
         $query = $this->insert("baogia",$data_bg);
-
         if($query){
             $query = $this->db->query("SELECT id FROM baogia order by id desc limit 1");
             $temp = $query->fetchAll(PDO::FETCH_ASSOC);
             $id = $temp[0]['id'];
-         
+
             for($i=0;$i < count($data['id_child']);$i++){
                 $child['bao_gia'] = $id;
                 $child['dich_vu'] = $data['id_child'][$i];
@@ -48,35 +46,26 @@ class Baogia_model extends Model{
                 $this->insert("baogiasub",$child);
             }
         }
-
-
         return $query;
     }
-
-   
 
     function getdata($id){
         $result = array();
         $query_bg = $this->db->query("SELECT * ,FORMAT(tien_sau_ck,0) AS tien_sau_ck,
         FORMAT(chiet_khau,0) AS chiet_khau,
         FORMAT(tien_truoc_ck,0) AS tien_truoc_ck
-        
          FROM baogia WHERE id = $id");
         $temp_bg = $query_bg->fetchAll(PDO::FETCH_ASSOC);
         $result['baogia'] = $temp_bg[0];
-
         $query_bgs = $this->db->query("SELECT * ,IF(loai=0,(SELECT name FROM dichvu WHERE id = baogiasub.dich_vu),(SELECT name FROM sanpham WHERE id = baogiasub.dich_vu)) AS name
-        
          FROM baogiasub WHERE bao_gia = $id");
         $temp_bgs = $query_bgs->fetchAll(PDO::FETCH_ASSOC);
         $result['baogiasub'] = $temp_bgs;
         return $result;
     }
 
-
     function updateObj($id, $data)
     {
-        
         $data_bg['ngay'] = $data['ngay'];
         $data_bg['khach_hang'] = $data['khach_hang'];
         $data_bg['nhan_vien'] = $data['nhan_vien'];
@@ -89,9 +78,8 @@ class Baogia_model extends Model{
             $data_bg['dinh_kem'] = $data['dinh_kem'];
         }
         $query = $this->update("baogia",$data_bg,"id = $id");
-
         if($query){
-            //xoa het baogia sub 
+            //xoa het baogia sub
             $query = $this->delete("baogiasub","bao_gia = $id");
             for($i=0;$i < count($data['id_child']);$i++){
                 $child['bao_gia'] = $id;
@@ -133,7 +121,6 @@ class Baogia_model extends Model{
         $query = $this->update("baogia",$data,"id = $id");
         return $query;
     }
-  
 
     function nhanvien(){
         $result = array();
@@ -142,33 +129,40 @@ class Baogia_model extends Model{
         $result = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }
-    function khachhang(){
+
+    function getCustomer($keyword){
         $result = array();
-        $query = $this->db->query("SELECT id, ten_day_du AS `text` FROM khachhang  WHERE tinh_trang >0 ");
+        $query = $this->db->query("SELECT id, shortName AS `text` FROM customer  WHERE status>0 AND shortName LIKE '%$keyword%' ORDER BY id DESC ");
+        if ($query)
+            $result['results'] = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    function getProduct(){
+        $result = array();
+        $query = $this->db->query("SELECT id, name FROM products WHERE status>0 ");
         if ($query)
         $result = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }
-    function loaddata_lead($id){
+
+    function getProductDetail($id){
         $result = array();
-        $query = $this->db->query("SELECT id, ho_ten AS `text` FROM data WHERE id=$id ");
-        if ($query)
-        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        $query = $this->db->query("SELECT * FROM products WHERE id=$id");
+        $temp = $query->fetchAll(PDO::FETCH_ASSOC);
+        if (isset($temp[0]))
+            $result = $temp[0];
         return $result;
     }
-    function loaddata_kh($id){
-        $result = array();
-        $query = $this->db->query("SELECT id, ten_day_du AS `text` FROM khachhang WHERE id=$id");
-        if ($query)
-        $result = $query->fetchAll(PDO::FETCH_ASSOC);
-        return $result;
-    }
-    function dichvu(){
-        $result = array();
-        $query = $this->db->query("SELECT id, name AS `text` FROM dichvu WHERE tinh_trang > 0");
-        if ($query)
-        $result = $query->fetchAll(PDO::FETCH_ASSOC);
-        return $result;
+
+    function newCustomer($data,$contact,$phone,$email){
+        $query = $this->insert("customer",$data);
+        if ($query) {
+            $id = $this->db->lastInsertId();
+            $contact = ['name'=>$contact, 'customerId'=>$id, 'phoneNumber'=>$phone, 'email'=>$email,'status'=>1];
+            $query = $this->insert("contact",$contact);
+        }
+        return $query;
     }
     function sanpham(){
         $result = array();
@@ -184,20 +178,20 @@ class Baogia_model extends Model{
         $result = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }
-    
+
 
     function getdata_dichvu($id){
         $result = array();
-        $query = $this->db->query("SELECT *,FORMAT(don_gia,0) AS don_gia, FORMAT(thue_vat,0) AS thue_vat 
+        $query = $this->db->query("SELECT *,FORMAT(don_gia,0) AS don_gia, FORMAT(thue_vat,0) AS thue_vat
         FROM dichvu WHERE id = $id");
         $temp = $query->fetchAll(PDO::FETCH_ASSOC);
         $result = $temp[0];
         return $result;
     }
-    
+
     function getdata_sanpham($id){
         $result = array();
-        $query = $this->db->query("SELECT *,FORMAT(don_gia,0) AS don_gia, FORMAT(thue_vat,0) AS thue_vat 
+        $query = $this->db->query("SELECT *,FORMAT(don_gia,0) AS don_gia, FORMAT(thue_vat,0) AS thue_vat
         FROM sanpham WHERE id = $id");
         $temp = $query->fetchAll(PDO::FETCH_ASSOC);
         $result = $temp[0];
@@ -205,11 +199,11 @@ class Baogia_model extends Model{
     }
 
     function lichsuchamsoc($id){
-        
-        $query = $this->db->query("SELECT * , 
+
+        $query = $this->db->query("SELECT * ,
         IFNULL((SELECT name FROM nhanvien WHERE nhan_vien = nhanvien.id AND tinh_trang > 0), 'Nhân viên') AS nhan_vien,
         IFNULL((SELECT hinh_anh FROM nhanvien WHERE nhan_vien = nhanvien.id AND tinh_trang > 0), 'https://velo.vn/goffice/users/gemstech/uploads/useravatar.png') AS hinh_anh,
-        IFNULL((SELECT name FROM tinhtrang_chamsocbaogia WHERE status = tinhtrang_chamsocbaogia.id), '-') AS status   
+        IFNULL((SELECT name FROM tinhtrang_chamsocbaogia WHERE status = tinhtrang_chamsocbaogia.id), '-') AS status
         FROM baogia_chamsoc WHERE bao_gia = $id ORDER BY ngay_gio DESC");
         $result = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;
@@ -251,8 +245,8 @@ class Baogia_model extends Model{
             return $result;
         }
     }
-    
-    
-    
+
+
+
 }
 ?>

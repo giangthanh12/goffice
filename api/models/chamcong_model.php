@@ -2,9 +2,9 @@
 
 class chamcong_model extends Model
 {
-    function __construst()
+    function __construct()
     {
-        parent::__construst();
+        parent::__construct();
     }
 
     function checkIp($ipLogin, $ipPoint)
@@ -12,7 +12,7 @@ class chamcong_model extends Model
         $check = 0;
         if ($ipPoint != '') {
             $query = $this->db->query("SELECT ip FROM accesspoints WHERE id IN ($ipPoint)");
-            if($query) {
+            if ($query) {
                 $rows = $query->fetchAll(PDO::FETCH_ASSOC);
                 foreach ($rows as $item) {
                     if ($item['ip'] == $ipLogin)
@@ -28,9 +28,11 @@ class chamcong_model extends Model
         $ok = 0;
         $today = date("Y-m-d");
         if ($this->checkChamCong($staffId)) {
-            $data = array('staffId' => $staffId, 'date' => $today, 'checkInTime' => date("H:i:s"), 'status' => 1);
+            $checkInTime = date("H:i:s");
+
+            $data = array('staffId' => $staffId, 'date' => $today, 'checkInTime' => $checkInTime, 'status' => 1);
             if ($this->insert("timekeeping", $data))
-                $ok = 1;
+                $ok = date('Y-m-d') . ' ' . $checkInTime;
             else
                 $ok = 2;
         }
@@ -112,8 +114,8 @@ class chamcong_model extends Model
                     $checkout = 3;
                 $rows[$key]['checkin'] = $checkin;
                 $rows[$key]['checkout'] = $checkout;
-//                $data = array('status' => 1, 'sang' => $sang, 'chieu' => $chieu);
-//                $ok = $this->update("timekeeping", $data, " id=$id ");
+                //                $data = array('status' => 1, 'sang' => $sang, 'chieu' => $chieu);
+                //                $ok = $this->update("timekeeping", $data, " id=$id ");
             }
         }
         return $rows;
@@ -123,9 +125,12 @@ class chamcong_model extends Model
     {
         $ok = false;
         $today = date("Y-m-d");
+        $checkOutTime = date('H:i:s');
         $where = " staffId=$staffId AND date = '$today' ";
-        $data = ['checkOutTime' => date("H:i:s")];
-        $ok = $this->update("timekeeping", $data, $where);
+        $data = ['checkOutTime' => $checkOutTime];
+        if ($this->update("timekeeping", $data, $where)) {
+            $ok = $today . ' ' . $checkOutTime;
+        }
         return $ok;
     }
 
@@ -157,42 +162,40 @@ class chamcong_model extends Model
     function chamcongtay($id, $data)
     {
         $query = false;
-//        if ($apdung==1) {
-//            $nhanvien = $data['nhan_vien'];
-//            $ca = $this->ca($nhanvien,$ngay);
-//            $data['ca_vao'] = $ca['vao'];
-//            $data['ca_ra'] = $ca['ra'];
-//            $query    = $this->db->query("SELECT id FROM timekeeping WHERE nhan_vien=$nhanvien AND ngay='$ngay' ");
-//            $temp     = $query->fetchAll(PDO::FETCH_ASSOC);
-//            if (isset($temp[0]['id'])) {
-//                $id = $temp[0]['id'];
+        //        if ($apdung==1) {
+        //            $nhanvien = $data['nhan_vien'];
+        //            $ca = $this->ca($nhanvien,$ngay);
+        //            $data['ca_vao'] = $ca['vao'];
+        //            $data['ca_ra'] = $ca['ra'];
+        //            $query    = $this->db->query("SELECT id FROM timekeeping WHERE nhan_vien=$nhanvien AND ngay='$ngay' ");
+        //            $temp     = $query->fetchAll(PDO::FETCH_ASSOC);
+        //            if (isset($temp[0]['id'])) {
+        //                $id = $temp[0]['id'];
         $query = $this->update("timekeeping", $data, "id = $id");
-//            } else {
-//                $query = $this->insert("timekeeping", $data);
-//            }
-//        }
-//        if ($apdung==2) {
-//            $dieukien = " WHERE status IN (1,2,3) AND van_phong>0 AND ca>0 ";
-//            $query = $this->db->query("SELECT id FROM nhanvien $dieukien ");
-//            $temp = $query->fetchAll(PDO::FETCH_ASSOC);
-//            foreach ($temp AS $item) {
-//                $nhanvien = $item['id'];
-//                $data['nhan_vien'] = $nhanvien;
-//                $ca = $this->ca($nhanvien,$ngay);
-//                $data['ca_vao'] = $ca['vao'];
-//                $data['ca_ra'] = $ca['ra'];
-//                $query    = $this->db->query("SELECT id FROM timekeeping WHERE nhan_vien=$nhanvien AND ngay='$ngay' ");
-//                $temp     = $query->fetchAll(PDO::FETCH_ASSOC);
-//                if (isset($temp[0]['id'])) {
-//                    $id = $temp[0]['id'];
-//                    $query    = $this->update("timekeeping", $data, "id = $id");
-//                } else {
-//                    $query = $this->insert("timekeeping", $data);
-//                }
-//            }
-//        }
+        //            } else {
+        //                $query = $this->insert("timekeeping", $data);
+        //            }
+        //        }
+        //        if ($apdung==2) {
+        //            $dieukien = " WHERE status IN (1,2,3) AND van_phong>0 AND ca>0 ";
+        //            $query = $this->db->query("SELECT id FROM nhanvien $dieukien ");
+        //            $temp = $query->fetchAll(PDO::FETCH_ASSOC);
+        //            foreach ($temp AS $item) {
+        //                $nhanvien = $item['id'];
+        //                $data['nhan_vien'] = $nhanvien;
+        //                $ca = $this->ca($nhanvien,$ngay);
+        //                $data['ca_vao'] = $ca['vao'];
+        //                $data['ca_ra'] = $ca['ra'];
+        //                $query    = $this->db->query("SELECT id FROM timekeeping WHERE nhan_vien=$nhanvien AND ngay='$ngay' ");
+        //                $temp     = $query->fetchAll(PDO::FETCH_ASSOC);
+        //                if (isset($temp[0]['id'])) {
+        //                    $id = $temp[0]['id'];
+        //                    $query    = $this->update("timekeeping", $data, "id = $id");
+        //                } else {
+        //                    $query = $this->insert("timekeeping", $data);
+        //                }
+        //            }
+        //        }
         return $query;
     }
 }
-
-?>

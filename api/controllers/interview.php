@@ -14,7 +14,7 @@ class interview extends Controller
             $jsonObj['message'] = "Lỗi lấy dữ liệu";
             $jsonObj['code'] = 401;
             $jsonObj['data'] = [];
-            http_response_code(401);
+            http_response_code(200);
             echo json_encode($jsonObj);
             return false;
         } else {
@@ -35,7 +35,7 @@ class interview extends Controller
             $jsonObj['message'] = "Chưa nhập interviewId";
             $jsonObj['code'] = 401;
             $jsonObj['data'] = [];
-            http_response_code(401);
+            http_response_code(200);
             echo json_encode($jsonObj);
             return false;
         } else {
@@ -44,7 +44,7 @@ class interview extends Controller
                 $jsonObj['message'] = "Lỗi lấy dữ liệu";
                 $jsonObj['code'] = 402;
                 $jsonObj['data'] = [];
-                http_response_code(402);
+                http_response_code(200);
                 echo json_encode($jsonObj);
                 return false;
             } else {

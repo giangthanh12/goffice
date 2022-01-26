@@ -6,29 +6,30 @@ class baogia extends Controller{
 
     function index(){
         require "layouts/header.php";
-        $deadline = isset($_REQUEST['deadline'])?$_REQUEST['deadline']:false;
-        $status = isset($_REQUEST['status'])?$_REQUEST['status']:'';
-        $project = isset($_REQUEST['project'])?$_REQUEST['project']:0;
-        $nhanvien = isset($_REQUEST['assignee'])?$_REQUEST['assignee']:$_SESSION['user']['staffId'];
-        $this->view->list=$this->model->getList($nhanvien, $project, $status,$deadline);
-        $this->view->project=$this->model->getProject();
-        $this->view->tag=$this->model->getLabel();
-        $this->view->employee=$this->model->getEmployee();
+        // $deadline = isset($_REQUEST['deadline'])?$_REQUEST['deadline']:false;
+        // $status = isset($_REQUEST['status'])?$_REQUEST['status']:'';
+        // $project = isset($_REQUEST['project'])?$_REQUEST['project']:0;
+        // $nhanvien = isset($_REQUEST['assignee'])?$_REQUEST['assignee']:$_SESSION['user']['staffId'];
+        // $this->view->list=$this->model->getList($nhanvien, $project, $status,$deadline);
+        // $this->view->project=$this->model->getProject();
+        // $this->view->tag=$this->model->getLabel();
+        // $this->view->employee=$this->model->getEmployee();
         $this->view->render("baogia/index");
         require "layouts/footer.php";
     }
 
     function add(){
         require "layouts/header.php";
+        $this->view->product=$this->model->getProduct();
         $this->view->render("baogia/add");
         require "layouts/footer.php";
     }
 
-    function checkOut(){
+    function getProductDetail(){
         $id = $_REQUEST['id'];
-        $status = $_REQUEST['status'];
-        if ($this->model->checkOut($id, $status)) {
-            $jsonObj['msg'] = "Cập nhật thành công";
+        $product = $this->model->getProductDetail($id);
+        if (count($product)>0) {
+            $jsonObj['row'] = $product;
             $jsonObj['success'] = true;
         } else {
             $jsonObj['msg'] = "Cập nhật không thành công".$id;
@@ -38,26 +39,46 @@ class baogia extends Controller{
         echo $jsonObj;
     }
 
+    function save(){
+        $data = $_REQUEST['data'];
+        // $product = $this->model->getProductDetail($id);
+        // if (count($product)>0) {
+        //     $jsonObj['row'] = $product;
+        //     $jsonObj['success'] = true;
+        // } else {
+            $jsonObj['msg'] = "Cập nhật không thành công".json_encode($data);
+            $jsonObj['success'] = false;
+        // }
+        $jsonObj = json_encode($jsonObj);
+        echo $jsonObj;
+    }
 
-    // function getData(){
-    //     $nhanvien = (isset($_REQUEST['nhanvien']) && $_REQUEST['nhanvien']>0)?$_REQUEST['nhanvien']:$_SESSION['user']['staffId'];
-    //     $json = $this->model->get_data($nhanvien);
-    //     echo json_encode($json);
-    // }
-    //
-    // function getitem(){ // lay thong tin cong viec chi tiet vào form)
-    //     $id = $_REQUEST['id'];
-    //     $json = $this->model->getitem($_REQUEST['id']);
-    //     echo json_encode($json);
-    // }
-    //
-    // function nhanvien(){
-    //     $id = (isset($_REQUEST['id']) && $_REQUEST['id']>0)?$_REQUEST['id']:$_SESSION['user']['staffId'];
-    //     $json = $this->model->get_nhanvien($id);
-    //     echo json_encode($json);
-    // }
-    //
-    //
+    function newCustomer(){
+        $customer = $_REQUEST['cusName'];
+        $address = $_REQUEST['cusAdd'];
+        $city = $_REQUEST['city'];
+        $contact = $_REQUEST['cusContact'];
+        $phone = $_REQUEST['cusPhone'];
+        $email = $_REQUEST['cusEmail'];
+        $data = ['fullName'=>$customer, 'shortName'=>$customer, 'address'=>$address, 'date'=>date('Y-m-d'), 'provinceId'=>$city, 'status'=>1];
+        $ok = $this->model->newCustomer($data,$contact,$phone,$email);
+        if ($ok) {
+            $jsonObj['msg'] = "Đã thêm khách hàng";
+            $jsonObj['success'] = true;
+        } else {
+            $jsonObj['msg'] = "Lỗi cập nhật database";
+            $jsonObj['success'] = false;
+        }
+        $jsonObj = json_encode($jsonObj);
+        echo $jsonObj;
+    }
+
+    function khachhang(){
+        $keyword = isset($_REQUEST['search'])?$_REQUEST['search']:'';
+        $json = $this->model->getCustomer($keyword);
+        echo json_encode($json);
+    }
+
     // function comment(){
     //     $id = $_REQUEST['id'];
     //     $data = $this->model->comment($id);

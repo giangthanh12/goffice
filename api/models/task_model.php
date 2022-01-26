@@ -76,7 +76,7 @@ class task_model extends Model
     // {
     //     $result = array();
     //     $query = $this->db->query("SELECT *,
-    //     IF(image='',CONCAT('" . URLFILE . "','/uploads/nofile.png'),CONCAT('" . URLFILE . "/',image)) AS image,
+    //     IF(image='',CONCAT('" . HOME . "','/layouts/nofile.png'),CONCAT('" . URLFILE . "/uploads/task/',image)) AS image,
     //     (SELECT name FROM tasklabels WHERE id=a.label) AS labelName,
     //     (SELECT color FROM tasklabels WHERE id=a.label) AS labelColor,
     //     (SELECT name FROM taskstatus WHERE id=a.status) AS statusName,
@@ -95,7 +95,7 @@ class task_model extends Model
         $result = array();
         $listProjects = '';
         $query = $this->db->query("SELECT id 
-        FROM projects a WHERE status>0 AND (managerId=$staffId OR managerId LIKE '%$staffId%') AND (SELECT COUNT(id) FROM tasks WHERE status>0 AND projectId=a.id)=0 ");
+        FROM projects a WHERE status>0 AND (managerId=$staffId OR memberId LIKE '%$staffId%') AND (SELECT COUNT(id) FROM tasks WHERE status>0 AND projectId=a.id)=0 ");
         if ($query) {
             $temp = $query->fetchAll(PDO::FETCH_ASSOC);
             foreach ($temp as $item) {
@@ -115,7 +115,7 @@ class task_model extends Model
         $listProjects = rtrim($listProjects, ",");
         if ($listProjects != '0') {
             $query = $this->db->query("SELECT *, 
-            IF(image='',CONCAT('" . URLFILE . "','/uploads/nofile.png'),CONCAT('" . URLFILE . "/',image)) AS image 
+            IF(image='',CONCAT('" . HOME . "','/layouts/nofile.png'),CONCAT('" . URLFILE . "/uploads/task/',image)) AS image 
             FROM projects WHERE id IN ($listProjects) ORDER BY createDate DESC ");
             if ($query) {
                 $result = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -125,7 +125,7 @@ class task_model extends Model
                     $result[$key]['manager'] = array();
                     if ($managerId > 0) {
                         $query = $this->db->query("SELECT id,name,email,
-                        IF(avatar='',CONCAT('" . URLFILE . "','/uploads/useravatar.png'),CONCAT('" . URLFILE . "/',avatar)) AS avatar
+                        IF(avatar='',CONCAT('" . HOME . "','/layouts/useravatar.png'),CONCAT('" . URLFILE . "/uploads/nhanvien/',avatar)) AS avatar
                         FROM staffs WHERE id= $managerId");
                         if ($query) {
                             $temp = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -137,7 +137,7 @@ class task_model extends Model
                     $result[$key]['member'] = array();
                     foreach ($listMember as $memberId) {
                         $query = $this->db->query("SELECT id,name,email,
-                        IF(avatar='',CONCAT('" . URLFILE . "','/uploads/useravatar.png'),CONCAT('" . URLFILE . "/',avatar)) AS avatar
+                        IF(avatar='',CONCAT('" . HOME . "','/layouts/useravatar.png'),CONCAT('" . URLFILE . "/uploads/nhanvien/',avatar)) AS avatar
                         FROM staffs WHERE id= $memberId ");
                         if ($query) {
                             $temp = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -156,7 +156,7 @@ class task_model extends Model
     {
         $result = array();
         $query = $this->db->query("SELECT *,
-        IF(image='',CONCAT('" . URLFILE . "','/uploads/nofile.png'),CONCAT('" . URLFILE . "/',image)) AS image,
+        IF(image='',CONCAT('" . HOME . "','/layouts/nofile.png'),CONCAT('" . URLFILE . "/uploads/task/',image)) AS image,
         IFNULL((SELECT name FROM tasklabels WHERE id=a.label),'') AS labelName,
         IFNULL((SELECT color FROM tasklabels WHERE id=a.label),'') AS labelColor,
         IFNULL((SELECT name FROM taskstatus WHERE id=a.status),'') AS statusName,
@@ -169,7 +169,7 @@ class task_model extends Model
                 $result[$key]['assigner'] = array();
                 if ($assignerId > 0) {
                     $query = $this->db->query("SELECT id,name,email,
-                    IF(avatar='',CONCAT('" . URLFILE . "','/uploads/useravatar.png'),CONCAT('" . URLFILE . "/',avatar)) AS avatar
+                    IF(avatar='',CONCAT('" . HOME . "','/layouts/useravatar.png'),CONCAT('" . URLFILE . "/uploads/nhanvien/',avatar)) AS avatar
                     FROM staffs WHERE id= $assignerId ");
                     if ($query) {
                         $temp = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -180,7 +180,7 @@ class task_model extends Model
                 $result[$key]['assignee'] = array();
                 if ($assigneeId > 0) {
                     $query = $this->db->query("SELECT id,name,email,
-                    IF(avatar='',CONCAT('" . URLFILE . "','/uploads/useravatar.png'),CONCAT('" . URLFILE . "/',avatar)) AS avatar
+                    IF(avatar='',CONCAT('" . HOME . "','/layouts/useravatar.png'),CONCAT('" . URLFILE . "/uploads/nhanvien/',avatar)) AS avatar
                     FROM staffs WHERE id= $assigneeId ");
                     if ($query) {
                         $temp = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -198,7 +198,7 @@ class task_model extends Model
     {
         $result = array();
         $query = $this->db->query("SELECT *,
-        IF(image='',CONCAT('" . URLFILE . "','/uploads/nofile.png'),CONCAT('" . URLFILE . "/',image)) AS image,
+        IF(image='',CONCAT('" . HOME . "','/layouts/nofile.png'),CONCAT('" . URLFILE . "/uploads/task/',image)) AS image,
         IFNULL((SELECT name FROM tasklabels WHERE id=a.label),'') AS labelName,
         IFNULL((SELECT color FROM tasklabels WHERE id=a.label),'') AS labelColor,
         IFNULL((SELECT name FROM taskstatus WHERE id=a.status),'') AS statusName,
@@ -211,7 +211,7 @@ class task_model extends Model
                 $result[$key]['assigner'] = array();
                 if ($assignerId > 0) {
                     $query = $this->db->query("SELECT id,name,email,
-                    IF(avatar='',CONCAT('" . URLFILE . "','/uploads/useravatar.png'),CONCAT('" . URLFILE . "/',avatar)) AS avatar
+                    IF(avatar='',CONCAT('" . HOME . "','/layouts/useravatar.png'),CONCAT('" . URLFILE . "/uploads/nhanvien/',avatar)) AS avatar
                     FROM staffs WHERE id= $assignerId ");
                     if ($query) {
                         $temp = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -222,7 +222,7 @@ class task_model extends Model
                 $result[$key]['assignee'] = array();
                 if ($assigneeId > 0) {
                     $query = $this->db->query("SELECT id,name,email,
-                    IF(avatar='',CONCAT('" . URLFILE . "','/uploads/useravatar.png'),CONCAT('" . URLFILE . "/',avatar)) AS avatar
+                    IF(avatar='',CONCAT('" . HOME . "','/layouts/useravatar.png'),CONCAT('" . URLFILE . "/uploads/nhanvien/',avatar)) AS avatar
                     FROM staffs WHERE id= $assigneeId ");
                     if ($query) {
                         $temp = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -240,41 +240,45 @@ class task_model extends Model
     {
         $result = array();
         $query = $this->db->query("SELECT *,
-            IF(image='',CONCAT('" . URLFILE . "','/uploads/nofile.png'),CONCAT('" . URLFILE . "/',image)) AS image,
+            IF(image='',CONCAT('" . HOME . "','/layouts/nofile.png'),CONCAT('" . URLFILE . "/uploads/task/',image)) AS image,
             IFNULL((SELECT name FROM tasklabels WHERE id=a.label),'') AS labelName,
             IFNULL((SELECT color FROM tasklabels WHERE id=a.label),'') AS labelColor,
             IFNULL((SELECT name FROM taskstatus WHERE id=a.status),'') AS statusName,
             IFNULL((SELECT color FROM taskstatus WHERE id=a.status),'') AS statusColor
             FROM tasks a WHERE status>0 AND id=$taskId");
+           
         if ($query) {
             $result = $query->fetchAll(PDO::FETCH_ASSOC);
-            $assignerId = $result[0]['assignerId'];
-            $result[0]['assigner'] = array();
-            if ($assignerId > 0) {
-                $query = $this->db->query("SELECT id,name,email,
-                IF(avatar='',CONCAT('" . URLFILE . "','/uploads/useravatar.png'),CONCAT('" . URLFILE . "/',avatar)) AS avatar
-                FROM staffs WHERE id= $assignerId ");
-                if ($query) {
-                    $temp = $query->fetchAll(PDO::FETCH_ASSOC);
-                    $result[0]['assigner'] = $temp[0];
+            if(COUNT($result)>0) {
+                $assignerId = $result[0]['assignerId'];
+                $result[0]['assigner'] = array();
+                if ($assignerId > 0) {
+                    $query = $this->db->query("SELECT id,name,email,
+                    IF(avatar='',CONCAT('" . HOME . "','/layouts/useravatar.png'),CONCAT('" . URLFILE . "/uploads/nhanvien/',avatar)) AS avatar
+                    FROM staffs WHERE id= $assignerId ");
+                    if ($query) {
+                        $temp = $query->fetchAll(PDO::FETCH_ASSOC);
+                        $result[0]['assigner'] = $temp[0];
+                    }
                 }
-            }
-
-            $assigneeId = $result[0]['assigneeId'];
-            $result[0]['assignee'] = array();
-            if ($assigneeId > 0) {
-                $query = $this->db->query("SELECT id,name,email,
-            IF(avatar='',CONCAT('" . URLFILE . "','/uploads/useravatar.png'),CONCAT('" . URLFILE . "/',avatar)) AS avatar
-            FROM staffs WHERE id= $assigneeId ");
-                if ($query) {
-                    $temp = $query->fetchAll(PDO::FETCH_ASSOC);
-                    $result[0]['assignee'] = $temp[0];
-                }
+    
+                $assigneeId = $result[0]['assigneeId'];
+                $result[0]['assignee'] = array();
+                if ($assigneeId > 0) {
+                    $query = $this->db->query("SELECT id,name,email,
+                IF(avatar='',CONCAT('" . HOME . "','/layouts/useravatar.png'),CONCAT('" . URLFILE . "/uploads/nhanvien/',avatar)) AS avatar
+                FROM staffs WHERE id= $assigneeId ");
+                    if ($query) {
+                        $temp = $query->fetchAll(PDO::FETCH_ASSOC);
+                        $result[0]['assignee'] = $temp[0];
+                    }
+                } 
             }
             return $result;
         } else {
             return 0;
         }
+        
     }
 
     function listTaskComments($taskId)
@@ -286,10 +290,10 @@ class task_model extends Model
             $result = $query->fetchAll(PDO::FETCH_ASSOC);
             foreach ($result as $key => $item) {
                 $staffId = $item['staffId'];
-                $result[0]['staff'] = array();
+                $result[$key]['staff'] = array();
                 if ($staffId > 0) {
                     $query = $this->db->query("SELECT id,name,email,
-                    IF(avatar='',CONCAT('" . URLFILE . "','/uploads/useravatar.png'),CONCAT('" . URLFILE . "/',avatar)) AS avatar
+                    IF(avatar='',CONCAT('" . HOME . "','/layouts/useravatar.png'),CONCAT('" . URLFILE . "/uploads/nhanvien/',avatar)) AS avatar
                     FROM staffs WHERE id= $staffId ");
                     if ($query) {
                         $temp = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -328,7 +332,7 @@ class task_model extends Model
     {
         $result = array();
         $query = $this->db->query("SELECT *,
-            IF(linkToFile='',CONCAT('" . URLFILE . "','/uploads/nofile.png'),CONCAT('" . URLFILE . "/',linkToFile)) AS linkToFile
+            IF(linkToFile='',CONCAT('" . HOME . "','/uploads/nofile.png'),CONCAT('" . URLFILE . "/uploads/task/file/',linkToFile)) AS linkToFile
             FROM taskfiles WHERE status>0 AND taskId=$taskId ORDER BY id DESC ");
         if ($query) {
             $result = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -350,7 +354,7 @@ class task_model extends Model
     {
         $result = array();
         $query = $this->db->query("SELECT *,
-            IF(linkToFile='',CONCAT('" . URLFILE . "','/uploads/nofile.png'),CONCAT('" . URLFILE . "/',linkToFile)) AS linkToFile
+            IF(linkToFile='',CONCAT('" . HOME . "','/uploads/nofile.png'),CONCAT('" . URLFILE . "/uploads/task/file/',linkToFile)) AS linkToFile
             FROM taskfiles WHERE status>0 AND id=$fileId");
         if ($query) {
             $result = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -390,7 +394,7 @@ class task_model extends Model
         else
             $dieukien .= " AND status>0 ";
         $query = $this->db->query("SELECT *,
-            IF(image='',CONCAT('" . URLFILE . "','/uploads/nofile.png'),CONCAT('" . URLFILE . "/',image)) AS image,
+            IF(image='',CONCAT('" . HOME . "','/layouts/nofile.png'),CONCAT('" . URLFILE . "/uploads/task/',image)) AS image,
             IFNULL((SELECT name FROM tasklabels WHERE id=a.label),'') AS labelName,
             IFNULL((SELECT color FROM tasklabels WHERE id=a.label),'') AS labelColor,
             IFNULL((SELECT name FROM taskstatus WHERE id=a.status),'') AS statusName,
@@ -403,7 +407,7 @@ class task_model extends Model
                 $result[$key]['assigner'] = array();
                 if ($assignerId > 0) {
                     $query = $this->db->query("SELECT id,name,email,
-                    IF(avatar='',CONCAT('" . URLFILE . "','/uploads/useravatar.png'),CONCAT('" . URLFILE . "/',avatar)) AS avatar
+                    IF(avatar='',CONCAT('" . HOME . "','/layouts/useravatar.png'),CONCAT('" . URLFILE . "/uploads/nhanvien/',avatar)) AS avatar
                     FROM staffs WHERE id= $assignerId ");
                     if ($query) {
                         $temp = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -414,7 +418,7 @@ class task_model extends Model
                 $result[$key]['assignee'] = array();
                 if ($assigneeId > 0) {
                     $query = $this->db->query("SELECT id,name,email,
-                    IF(avatar='',CONCAT('" . URLFILE . "','/uploads/useravatar.png'),CONCAT('" . URLFILE . "/',avatar)) AS avatar
+                    IF(avatar='',CONCAT('" . HOME . "','/layouts/useravatar.png'),CONCAT('" . URLFILE . "/uploads/nhanvien/',avatar)) AS avatar
                     FROM staffs WHERE id= $assigneeId ");
                     if ($query) {
                         $temp = $query->fetchAll(PDO::FETCH_ASSOC);

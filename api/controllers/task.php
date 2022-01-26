@@ -13,7 +13,7 @@ class task extends Controller
             $jsonObj['message'] = "Lỗi lấy dữ liệu";
             $jsonObj['code'] = 402;
             $jsonObj['data'] = [];
-            http_response_code(402);
+            http_response_code(200);
             echo json_encode($jsonObj);
             return false;
         } else {
@@ -34,7 +34,7 @@ class task extends Controller
             $jsonObj['message'] = "Lỗi lấy dữ liệu";
             $jsonObj['code'] = 402;
             $jsonObj['data'] = [];
-            http_response_code(402);
+            http_response_code(200);
             echo json_encode($jsonObj);
             return false;
         } else {
@@ -55,7 +55,7 @@ class task extends Controller
             $jsonObj['message'] = "Lỗi lấy dữ liệu";
             $jsonObj['code'] = 402;
             $jsonObj['data'] = [];
-            http_response_code(402);
+            http_response_code(200);
             echo json_encode($jsonObj);
             return false;
         } else {
@@ -107,7 +107,7 @@ class task extends Controller
             $jsonObj['message'] = "Chưa nhập staffId";
             $jsonObj['code'] = 401;
             $jsonObj['data'] = [];
-            http_response_code(401);
+            http_response_code(200);
             echo json_encode($jsonObj);
             return false;
         } else {
@@ -138,7 +138,7 @@ class task extends Controller
             $jsonObj['message'] = "Chưa nhập projectId";
             $jsonObj['code'] = 401;
             $jsonObj['data'] = [];
-            http_response_code(401);
+            http_response_code(200);
             echo json_encode($jsonObj);
             return false;
         }
@@ -147,7 +147,7 @@ class task extends Controller
             $jsonObj['message'] = "Lỗi lấy dữ liệu";
             $jsonObj['code'] = 402;
             $jsonObj['data'] = [];
-            http_response_code(402);
+            http_response_code(200);
             echo json_encode($jsonObj);
             return false;
         } else {
@@ -168,7 +168,7 @@ class task extends Controller
             $jsonObj['message'] = "Chưa nhập staffId";
             $jsonObj['code'] = 401;
             $jsonObj['data'] = [];
-            http_response_code(401);
+            http_response_code(200);
             echo json_encode($jsonObj);
             return false;
         } else {
@@ -177,7 +177,7 @@ class task extends Controller
                 $jsonObj['message'] = "Lỗi lấy dữ liệu";
                 $jsonObj['code'] = 402;
                 $jsonObj['data'] = [];
-                http_response_code(402);
+                http_response_code(200);
                 echo json_encode($jsonObj);
                 return false;
             } else {
@@ -199,7 +199,7 @@ class task extends Controller
             $jsonObj['message'] = "Chưa nhập taskId";
             $jsonObj['code'] = 401;
             $jsonObj['data'] = [];
-            http_response_code(401);
+            http_response_code(200);
             echo json_encode($jsonObj);
             return false;
         } else {
@@ -208,7 +208,7 @@ class task extends Controller
                 $jsonObj['message'] = "Lỗi lấy dữ liệu";
                 $jsonObj['code'] = 402;
                 $jsonObj['data'] = [];
-                http_response_code(402);
+                http_response_code(200);
                 echo json_encode($jsonObj);
                 return false;
             } else {
@@ -230,7 +230,7 @@ class task extends Controller
             $jsonObj['message'] = "Chưa nhập taskId";
             $jsonObj['code'] = 401;
             $jsonObj['data'] = [];
-            http_response_code(401);
+            http_response_code(200);
             echo json_encode($jsonObj);
             return false;
         } else {
@@ -239,7 +239,7 @@ class task extends Controller
                 $jsonObj['message'] = "Lỗi lấy dữ liệu";
                 $jsonObj['code'] = 402;
                 $jsonObj['data'] = [];
-                http_response_code(402);
+                http_response_code(200);
                 echo json_encode($jsonObj);
                 return false;
             } else {
@@ -261,7 +261,7 @@ class task extends Controller
             $jsonObj['message'] = "Chưa nhập staffId";
             $jsonObj['code'] = 401;
             $jsonObj['data'] = [];
-            http_response_code(401);
+            http_response_code(200);
             echo json_encode($jsonObj);
             return false;
         } else {
@@ -272,7 +272,7 @@ class task extends Controller
             $jsonObj['message'] = "Chưa nhập taskId";
             $jsonObj['code'] = 401;
             $jsonObj['data'] = [];
-            http_response_code(401);
+            http_response_code(200);
             echo json_encode($jsonObj);
             return false;
         } else {
@@ -283,7 +283,7 @@ class task extends Controller
             $jsonObj['message'] = "Chưa nhập nội dung";
             $jsonObj['code'] = 401;
             $jsonObj['data'] = [];
-            http_response_code(401);
+            http_response_code(200);
             echo json_encode($jsonObj);
             return false;
         } else {
@@ -296,7 +296,7 @@ class task extends Controller
             $jsonObj['message'] = "Lỗi cập nhật dữ liệu";
             $jsonObj['code'] = 402;
             $jsonObj['data'] = [];
-            http_response_code(402);
+            http_response_code(200);
             echo json_encode($jsonObj);
         } else {
             $jsonObj['message'] = "Cập nhật dữ liệu thành công";
@@ -315,7 +315,7 @@ class task extends Controller
             $jsonObj['message'] = "Chưa nhập taskId";
             $jsonObj['code'] = 401;
             $jsonObj['data'] = [];
-            http_response_code(401);
+            http_response_code(200);
             echo json_encode($jsonObj);
             return false;
         } else {
@@ -324,7 +324,7 @@ class task extends Controller
                 $jsonObj['message'] = "Lỗi lấy dữ liệu";
                 $jsonObj['code'] = 402;
                 $jsonObj['data'] = [];
-                http_response_code(402);
+                http_response_code(200);
                 echo json_encode($jsonObj);
                 return false;
             } else {
@@ -429,7 +429,7 @@ class task extends Controller
             $jsonObj['message'] = "Chưa nhập staffId";
             $jsonObj['code'] = 401;
             $jsonObj['data'] = [];
-            http_response_code(401);
+            http_response_code(200);
             echo json_encode($jsonObj);
             return false;
         }
@@ -440,7 +440,7 @@ class task extends Controller
             $jsonObj['message'] = "Lỗi lấy dữ liệu";
             $jsonObj['code'] = 402;
             $jsonObj['data'] = [];
-            http_response_code(402);
+            http_response_code(200);
             echo json_encode($jsonObj);
             return false;
         } else {
@@ -475,7 +475,7 @@ class task extends Controller
                 $dir = ROOT_DIR . '/uploads/task/';
                 $file = functions::uploadfile('image', $dir, $fname[0]);
                 if ($file != '')
-                    $image =  'uploads/task/' . $file;
+                    $image =  $file;
                 $data['image'] = $image;
             }
         }
@@ -496,9 +496,9 @@ class task extends Controller
         $endDate = isset($_REQUEST['endDate']) ? $_REQUEST['endDate'] : '';
         if ($endDate != '')
             $data['endDate'] = date("Y-m-d", strtotime(str_replace('/', '-', $_REQUEST['endDate'])));
-        if (isset($_REQUEST['status']))
-            $data['status'] = $_REQUEST['status'];
-        else
+        // if (isset($_REQUEST['status']))
+        //     $data['status'] = $_REQUEST['status'];
+        // else
             $data['status'] = 1;
         $data['updated'] = date('Y-m-d');
         $json = $this->model->createTask($data);
@@ -506,7 +506,7 @@ class task extends Controller
             $jsonObj['message'] = "Lỗi cập nhật dữ liệu";
             $jsonObj['code'] = 402;
             $jsonObj['data'] = [];
-            http_response_code(402);
+            http_response_code(200);
             echo json_encode($jsonObj);
         } else {
             $jsonObj['message'] = "Cập nhật dữ liệu thành công";
@@ -525,7 +525,7 @@ class task extends Controller
             $jsonObj['message'] = "Chưa nhập taskId";
             $jsonObj['code'] = 401;
             $jsonObj['data'] = [];
-            http_response_code(401);
+            http_response_code(200);
             echo json_encode($jsonObj);
             return false;
         }
@@ -546,7 +546,7 @@ class task extends Controller
                 $dir = ROOT_DIR . '/uploads/task/';
                 $file = functions::uploadfile('image', $dir, $fname[0]);
                 if ($file != '')
-                    $image =  'uploads/task/' . $file;
+                    $image = $file;
                 $data['image'] = $image;
             }
         }
@@ -574,7 +574,7 @@ class task extends Controller
             $jsonObj['message'] = "Lỗi cập nhật dữ liệu";
             $jsonObj['code'] = 402;
             $jsonObj['data'] = [];
-            http_response_code(402);
+            http_response_code(200);
             echo json_encode($jsonObj);
         } else {
             $jsonObj['message'] = "Cập nhật dữ liệu thành công";
@@ -593,33 +593,23 @@ class task extends Controller
             $jsonObj['message'] = "Chưa nhập taskId";
             $jsonObj['code'] = 401;
             $jsonObj['data'] = [];
-            http_response_code(401);
+            http_response_code(200);
             echo json_encode($jsonObj);
             return false;
         } else {
             $data['taskId'] = $taskId;
         }
-        // $linkToFile = isset($_REQUEST['linkToFile']) ? $_REQUEST['linkToFile'] : '';
-        // if ($linkToFile == '') {
-        //     $jsonObj['message'] = "Không có file";
-        //     $jsonObj['code'] = 401;
-        //     $jsonObj['data'] = [];
-        //     http_response_code(401);
-        //     echo json_encode($jsonObj);
-        //     return false;
-        // } else {
-            if (isset($_FILES['linkToFile'])) {
-                $filename = $_FILES['linkToFile']['name'];
-                $fname = explode('.', $filename);
-                if ($filename != '') {
-                    $dir = ROOT_DIR . '/uploads/task/file/';
-                    $file = functions::uploadfile('linkToFile', $dir, $fname[0]);
-                    if ($file != '')
-                        $link =  'uploads/task/file/' . $file;
-                    $data['linkToFile'] = $link;
-                }
+        if (isset($_FILES['linkToFile'])) {
+            $filename = $_FILES['linkToFile']['name'];
+            $fname = explode('.', $filename);
+            if ($filename != '') {
+                $dir = ROOT_DIR . '/uploads/task/file/';
+                $file = functions::uploadfile('linkToFile', $dir, $fname[0]);
+                if ($file != '')
+                    $link = $file;
+                $data['linkToFile'] = $link;
             }
-        // }
+        }
         $data['dateTime'] = date('Y-m-d H-i-s');
         $data['status'] = 1;
         $json = $this->model->createTaskFile($data);
@@ -627,7 +617,7 @@ class task extends Controller
             $jsonObj['message'] = "Lỗi cập nhật dữ liệu";
             $jsonObj['code'] = 402;
             $jsonObj['data'] = [];
-            http_response_code(402);
+            http_response_code(200);
             echo json_encode($jsonObj);
             return false;
         } else {
@@ -648,6 +638,7 @@ class task extends Controller
             $jsonObj['message'] = "Chưa nhập taskId";
             $jsonObj['code'] = 401;
             $jsonObj['data'] = [];
+            http_response_code(200);
             echo json_encode($jsonObj);
             return false;
         } else {
@@ -660,7 +651,7 @@ class task extends Controller
                 $jsonObj['message'] = "Lỗi cập nhật dữ liệu";
                 $jsonObj['code'] = 402;
                 $jsonObj['data'] = [];
-                http_response_code(402);
+                http_response_code(200);
                 echo json_encode($jsonObj);
             } else {
                 $jsonObj['message'] = "Cập nhật dữ liệu thành công";

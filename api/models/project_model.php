@@ -88,6 +88,7 @@ class project_model extends Model
                     $listMember = explode(",", $item['memberId']);
                     $result[$key]['member'] = array();
                     foreach ($listMember as $memberId) {
+                        
                         $query = $this->db->query("SELECT id,name,email,
                         IF(avatar='',CONCAT('" . URLFILE . "','/uploads/useravatar.png'),CONCAT('" . URLFILE . "/',avatar)) AS avatar
                         FROM staffs WHERE id= $memberId ");

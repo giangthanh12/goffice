@@ -13,7 +13,7 @@ class project extends Controller
             $jsonObj['message'] = "Lỗi lấy dữ liệu";
             $jsonObj['code'] = 402;
             $jsonObj['data'] = [];
-            http_response_code(402);
+            http_response_code(200);
             echo json_encode($jsonObj);
             return false;
         } else {
@@ -29,12 +29,12 @@ class project extends Controller
 
     function listProjectLevels()
     {
-        $json = $this->model->listProjectStatus();
+        $json = $this->model->listProjectLevels();
         if ($json == 0) {
             $jsonObj['message'] = "Lỗi lấy dữ liệu";
             $jsonObj['code'] = 402;
             $jsonObj['data'] = [];
-            http_response_code(402);
+            http_response_code(200);
             echo json_encode($jsonObj);
             return false;
         } else {
@@ -76,7 +76,7 @@ class project extends Controller
             $jsonObj['message'] = "Chưa nhập projectId";
             $jsonObj['code'] = 401;
             $jsonObj['data'] = [];
-            http_response_code(401);
+            http_response_code(200);
             echo json_encode($jsonObj);
             return false;
         } else {
@@ -85,7 +85,7 @@ class project extends Controller
                 $jsonObj['message'] = "Lỗi lấy dữ liệu";
                 $jsonObj['code'] = 402;
                 $jsonObj['data'] = [];
-                http_response_code(402);
+                http_response_code(200);
                 echo json_encode($jsonObj);
                 return false;
             } else {
@@ -117,7 +117,7 @@ class project extends Controller
         if ($name == '') {
             $jsonObj['message'] = "Chưa nhập tên dự án";
             $jsonObj['code'] = 401;
-            http_response_code(401);
+            http_response_code(200);
             echo json_encode($jsonObj);
             return false;
         } else {
@@ -125,7 +125,7 @@ class project extends Controller
             if ($json == 0) {
                 $jsonObj['message'] = "Tên dự án đã tồn tại";
                 $jsonObj['code'] = 401;
-                http_response_code(401);
+                http_response_code(200);
                 echo json_encode($jsonObj);
                 return false;
             }
@@ -151,7 +151,7 @@ class project extends Controller
             $jsonObj['message'] = "Lỗi cập nhật dữ liệu";
             $jsonObj['code'] = 402;
             $jsonObj['data'] = [];
-            http_response_code(402);
+            http_response_code(200);
             echo json_encode($jsonObj);
         } else {
             $jsonObj['message'] = "Cập nhật dữ liệu thành công";
@@ -170,7 +170,7 @@ class project extends Controller
             $jsonObj['message'] = "Chưa nhập projectId";
             $jsonObj['code'] = 401;
             $jsonObj['data'] = [];
-            http_response_code(401);
+            http_response_code(200);
             echo json_encode($jsonObj);
             return false;
         }
@@ -189,7 +189,7 @@ class project extends Controller
         if ($name == '') {
             $jsonObj['message'] = "Chưa nhập tên dự án";
             $jsonObj['code'] = 401;
-            http_response_code(401);
+            http_response_code(200);
             echo json_encode($jsonObj);
             return false;
         } else {
@@ -197,7 +197,7 @@ class project extends Controller
             if ($json == 0) {
                 $jsonObj['message'] = "Tên dự án đã tồn tại";
                 $jsonObj['code'] = 401;
-                http_response_code(401);
+                http_response_code(200);
                 echo json_encode($jsonObj);
                 return false;
             }
@@ -224,7 +224,7 @@ class project extends Controller
             $jsonObj['message'] = "Lỗi cập nhật dữ liệu";
             $jsonObj['code'] = 402;
             $jsonObj['data'] = [];
-            http_response_code(402);
+            http_response_code(200);
             echo json_encode($jsonObj);
         } else {
             $jsonObj['message'] = "Cập nhật dữ liệu thành công";
@@ -243,7 +243,7 @@ class project extends Controller
             $jsonObj['message'] = "Chưa nhập projectId";
             $jsonObj['code'] = 401;
             $jsonObj['data'] = [];
-            http_response_code(401);
+            http_response_code(200);
             echo json_encode($jsonObj);
             return false;
         }
@@ -254,7 +254,7 @@ class project extends Controller
             $jsonObj['message'] = "Lỗi cập nhật dữ liệu";
             $jsonObj['code'] = 402;
             $jsonObj['data'] = [];
-            http_response_code(402);
+            http_response_code(200);
             echo json_encode($jsonObj);
         } else {
             $jsonObj['message'] = "Câp nhật dữ liệu thành công";

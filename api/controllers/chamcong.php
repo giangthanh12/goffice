@@ -69,7 +69,7 @@ class chamcong extends Controller
         $jsonObj['message'] = "Checkin thành công";
         $jsonObj['code'] = 200;
         http_response_code(200);
-        $jsonObj['data'] = [];
+        $jsonObj['data']['checkInTime'] = $checkin;
         echo json_encode($jsonObj);
     }
 
@@ -144,7 +144,7 @@ class chamcong extends Controller
         $jsonObj['message'] = "Checkout thành công";
         $jsonObj['code'] = 200;
         http_response_code(200);
-        $jsonObj['data'] = [];
+        $jsonObj['data']['checkOutTime'] = $checkout;
         echo json_encode($jsonObj);
 
     }

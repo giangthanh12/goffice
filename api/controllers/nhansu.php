@@ -14,7 +14,7 @@ class Nhansu extends Controller
             $jsonObj['message'] = "Lỗi lấy dữ liệu";
             $jsonObj['code'] = 401;
             $jsonObj['data'] = [];
-            http_response_code(401);
+            http_response_code(200);
             echo json_encode($jsonObj);
             return false;
         } else {
@@ -35,7 +35,7 @@ class Nhansu extends Controller
             $jsonObj['message'] = "Chưa nhập staffId";
             $jsonObj['code'] = 401;
             $jsonObj['data'] = [];
-            http_response_code(401);
+            http_response_code(200);
             echo json_encode($jsonObj);
             return false;
         } else {
@@ -44,7 +44,7 @@ class Nhansu extends Controller
                 $jsonObj['message'] = "Lỗi lấy dữ liệu";
                 $jsonObj['code'] = 402;
                 $jsonObj['data'] = [];
-                http_response_code(402);
+                http_response_code(200);
                 echo json_encode($jsonObj);
                 return false;
             } else {
@@ -61,13 +61,13 @@ class Nhansu extends Controller
 
     function filterStaff()
     {
-        $status = isset($_REQUEST['status']) ? $_REQUEST['status'] : '';
-        $json = $this->model->filterStaff($status);
+        $positionId = isset($_REQUEST['positionId']) ? $_REQUEST['positionId'] : '';
+        $json = $this->model->filterStaff($positionId);
         if ($json == 0) {
             $jsonObj['message'] = "Lỗi lấy dữ liệu";
             $jsonObj['code'] = 402;
             $jsonObj['data'] = [];
-            http_response_code(402);
+            http_response_code(200);
             echo json_encode($jsonObj);
             return false;
         } else {
@@ -104,6 +104,7 @@ class Nhansu extends Controller
         if ($id == 0) {
             $jsonObj['message'] = "Bạn chưa nhập id nhân viên";
             $jsonObj['code'] = 401;
+            http_response_code(200);
             echo json_encode($jsonObj);
             return false;
         }
@@ -111,18 +112,21 @@ class Nhansu extends Controller
         if ($json == 0) {
             $jsonObj['message'] = "Lỗi API";
             $jsonObj['code'] = 402;
+            http_response_code(200);
             echo json_encode($jsonObj);
             return false;
         }
         if(count($json)==0){
             $jsonObj['message'] = "Nhân viên không tồn tại";
             $jsonObj['code'] = 403;
+            http_response_code(200);
             echo json_encode($jsonObj);
             return false;
         }
-        $jsonObj['message'] = "Cập nhật dữ liệu thành công";
+        $jsonObj['message'] = "Lấy dữ liệu thành công";
         $jsonObj['code'] = 200;
         $jsonObj['data'] = $json;
+        http_response_code(200);
         echo json_encode($jsonObj);
     }
 
@@ -132,7 +136,7 @@ class Nhansu extends Controller
         if ($id == 0) {
             $jsonObj['message'] = "Chưa nhập staffId";
             $jsonObj['code'] = 401;
-            http_response_code(401);
+            http_response_code(200);
             echo json_encode($jsonObj);
             return false;
         } else {
@@ -140,7 +144,7 @@ class Nhansu extends Controller
             if ($json == 0) {
                 $jsonObj['message'] = "Nhân viên không tồn tại trong hệ thống";
                 $jsonObj['code'] = 401;
-                http_response_code(401);
+                http_response_code(200);
                 echo json_encode($jsonObj);
                 return false;
             }
@@ -155,7 +159,7 @@ class Nhansu extends Controller
                 if ($json == 0) {
                     $jsonObj['message'] = "Email đã tồn tại trong hệ thống";
                     $jsonObj['code'] = 401;
-                    http_response_code(401);
+                    http_response_code(200);
                     echo json_encode($jsonObj);
                     return false;
                 } 
@@ -184,7 +188,7 @@ class Nhansu extends Controller
         if(isset($_REQUEST['maritalStatus']))
             $data['maritalStatus'] = $_REQUEST['maritalStatus'];
         if(isset($_REQUEST['nationality']))
-            $data['nationality'] = $_REQUEST['nationality'];
+            $data['nationalId'] = $_REQUEST['nationality'];
         if(isset($_REQUEST['description']))
             $data['description'] = $_REQUEST['description'];
         if(isset($_REQUEST['vssId']))
@@ -208,7 +212,7 @@ class Nhansu extends Controller
         if ($json == 0) {
             $jsonObj['message'] = "Lỗi cập nhật dữ liệu";
             $jsonObj['code'] = 402;
-            http_response_code(402);
+            http_response_code(200);
             echo json_encode($jsonObj);
         } else {
             $jsonObj['message'] = "Cập nhật dữ liệu thành công";
@@ -226,7 +230,7 @@ class Nhansu extends Controller
         if ($id == 0) {
             $jsonObj['message'] = "Chưa nhập staffId";
             $jsonObj['code'] = 401;
-            http_response_code(401);
+            http_response_code(200);
             echo json_encode($jsonObj);
             return false;
         } else {
@@ -234,7 +238,7 @@ class Nhansu extends Controller
             if ($json == 0) {
                 $jsonObj['message'] = "Nhân viên không tồn tại trong hệ thống";
                 $jsonObj['code'] = 401;
-                http_response_code(401);
+                http_response_code(200);
                 echo json_encode($jsonObj);
                 return false;
             }
@@ -248,17 +252,16 @@ class Nhansu extends Controller
                 $dir = ROOT_DIR . '/uploads/nhanvien/';
                 $file = functions::uploadfile('avatar', $dir, $id);
                 if ($file != '')
-                    $avatar =  'uploads/nhanvien/' . $file;
+                    $avatar = $file;
                 $data['avatar'] = $avatar;
             }
         }
-       
             
         $json = $this->model->updateProfile($id, $data);
         if ($json == 0) {
             $jsonObj['message'] = "Lỗi cập nhật dữ liệu";
             $jsonObj['code'] = 402;
-            http_response_code(402);
+            http_response_code(200);
             echo json_encode($jsonObj);
         } else {
             $jsonObj['message'] = "Cập nhật dữ liệu thành công";

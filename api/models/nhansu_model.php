@@ -9,8 +9,8 @@ class Nhansu_Model extends Model{
         $result = array();
         $query = $this->db->query("SELECT id,name,
             IFNULL((SELECT name FROM position WHERE id=(SELECT position FROM laborcontract WHERE staffId = a.id ORDER BY id DESC LIMIT 1)),'') AS position,
-            IF(avatar='',CONCAT('" . URLFILE . "','/uploads/useravatar.png'),CONCAT('" . URLFILE . "/',avatar)) AS avatar,status
-            FROM staffs a WHERE status > 0 ORDER BY id DESC ");
+            IF(avatar='',CONCAT('" . HOME . "','/layouts/useravatar.png'),CONCAT('" . URLFILE . "/uploads/nhanvien/',avatar)) AS avatar,status
+            FROM staffs a WHERE status IN (1,2,3,4,5) ORDER BY id DESC ");
         if ($query) {
             $result = $query->fetchAll(PDO::FETCH_ASSOC);
             return $result;
@@ -26,8 +26,8 @@ class Nhansu_Model extends Model{
             IFNULL((SELECT name FROM province WHERE id=a.province),'') AS provinceName,residence,idCard,idDate,
             IFNULL((SELECT name FROM province WHERE id=a.idAddress),'') AS idAddress,taxCode,
             IF(maritalStatus=1,'Đã kết hôn','Chưa kết hôn') AS maritalStatus,
-            IFNULL((SELECT name FROM national WHERE id=a.nationality),'') AS nationality,description,vssId,
-            IF(avatar='',CONCAT('" . URLFILE . "','/uploads/useravatar.png'),CONCAT('" . URLFILE . "/',avatar)) AS avatar,status
+            IFNULL((SELECT name FROM national WHERE id=a.nationalId),'') AS nationality,description,vssId,
+            IF(avatar='',CONCAT('" . HOME . "','/uploads/useravatar.png'),CONCAT('" . URLFILE . "/uploads/nhanvien/',avatar)) AS avatar,status
             FROM staffs a WHERE id=$staffId ");
         if ($query) {
             $result = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -47,16 +47,14 @@ class Nhansu_Model extends Model{
         }
     }
 
-    function filterStaff($status) {
+    function filterStaff($positionId) {
         $result = array();
         $dieukien = "";
-        if ($status != '')
-            $dieukien .= " WHERE status=$status ";
-        else
-            $dieukien .= " WHERE status>0 ";
+        if ($positionId != '')
+            $dieukien .= " WHERE (SELECT position FROM laborcontract WHERE staffId = a.id ORDER BY id DESC LIMIT 1) = $positionId ";
         $query = $this->db->query("SELECT id,name,
         IFNULL((SELECT name FROM position WHERE id=(SELECT position FROM laborcontract WHERE staffId = a.id ORDER BY id DESC LIMIT 1)),'') AS position,
-        IF(avatar='',CONCAT('" . URLFILE . "','/uploads/useravatar.png'),CONCAT('" . URLFILE . "/',avatar)) AS avatar,status
+        IF(avatar='',CONCAT('" . HOME . "','/uploads/useravatar.png'),CONCAT('" . URLFILE . "/uploads/nhanvien/',avatar)) AS avatar,status
         FROM staffs a $dieukien ORDER BY id DESC ");
         if ($query) {
             $result = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -99,14 +97,13 @@ class Nhansu_Model extends Model{
         $result = array();
         $query = $this->db->query("SELECT id, name, email, gender,IF(birthDay='0000-00-00','1970-01-01',birthDay) AS birthDay,address,phoneNumber,province,
             IFNULL((SELECT name FROM province WHERE id=province),'') AS provinceName,residence,idCard,IF(idDate='0000-00-00','1970-01-01',idDate) AS idDate,
-            idAddress,taxCode,maritalStatus,nationality,description,vssId,
-            IF(avatar='','uploads/useravatar.png',avatar) AS avatar
+            idAddress,taxCode,maritalStatus,IFNULL((SELECT name FROM national WHERE id=nationalId),'') AS nationality,description,vssId,
+            IF(avatar='',CONCAT('" . HOME . "','/uploads/useravatar.png'),CONCAT('" . URLFILE . "/uploads/nhanvien/',avatar)) AS avatar
             FROM staffs WHERE id=$staffid ");
         if ($query) {
             $result = $query->fetchAll(PDO::FETCH_ASSOC);
-            $result[0]['avatar'] = URLFILE.'/'.$result[0]['avatar'];
             return $result;
-        }else{
+        } else {
             return 0;
         }
     }

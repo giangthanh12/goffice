@@ -9,8 +9,8 @@ class interview_model extends Model
     function listInterviews()
     {
         $result = array();
-        $query = $this->db->query("SELECT campId,
-            IFNULL((SELECT title FROM recruitmentCamp WHERE id=a.campId),'') AS recruitmentCamp,applicantId,
+        $query = $this->db->query("SELECT id,campId,
+            IFNULL((SELECT title FROM recruitmentcamp WHERE id=a.campId),'') AS recruitmentCamp,applicantId,
             IFNULL((SELECT fullName FROM applicants WHERE id=a.applicantId),'') AS applicant,dateTime,round,result,status,interviewerIds
             FROM interview a WHERE status > 0 ORDER BY id DESC ");
         if ($query) {
@@ -37,8 +37,8 @@ class interview_model extends Model
     function detailInterview($interviewId)
     {
         $result = array();
-        $query = $this->db->query("SELECT campId,
-            IFNULL((SELECT title FROM recruitmentCamp WHERE id=a.campId),'') AS recruitmentCamp,applicantId,
+        $query = $this->db->query("SELECT id,campId,
+            IFNULL((SELECT title FROM recruitmentcamp WHERE id=a.campId),'') AS recruitmentCamp,applicantId,
             IFNULL((SELECT fullName FROM applicants WHERE id=a.applicantId),'') AS applicant,dateTime,round,result,status,interviewerIds
             FROM interview a WHERE status > 0 AND id=$interviewId ORDER BY id DESC ");
         if ($query) {

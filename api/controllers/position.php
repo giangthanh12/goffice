@@ -7,7 +7,11 @@ class position extends Controller{
     function listPositions()
     {
         $data = $this->model->listPositions();
-        echo json_encode($data);
+        $jsonObj['message'] = "Lấy dữ liệu thành công";
+        $jsonObj['code'] = 200;
+        $jsonObj['data'] = $data;
+        http_response_code(200);
+        echo json_encode($jsonObj);
     }
 
 }
