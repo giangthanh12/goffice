@@ -2,7 +2,7 @@
 
 class define_request extends Controller
 {
-    static private $funcs;
+    static private $funAdd = 0, $funEdit = 0, $funDel = 0;
     function __construct()
     {
         parent::__construct();
@@ -10,13 +10,24 @@ class define_request extends Controller
         $checkMenuRole = $model->checkMenuRole('define_request');
         if ($checkMenuRole == false)
             header('location:' . HOME);
-        self::$funcs = $model->getFunctions('define_request');
+        $funcs = $model->getFunctions('define_request');
+
+        foreach ($funcs as $item) {
+            if ($item['function'] == 'add')
+                self::$funAdd = 1;
+            if ($item['function'] == 'edit')
+                self::$funEdit = 1;
+            if ($item['function'] == 'del')
+                self::$funDel = 1;
+        }
     }
 
     function index()
     {
-        $this->view->funs  = self::$funcs;
         require "layouts/header.php";
+        $this->view->funAdd = self::$funAdd;
+        $this->view->funEdit = self::$funEdit;
+        $this->view->funDel = self::$funDel;
         $this->view->render("define_request/index");
         require "layouts/footer.php";
     }
@@ -45,6 +56,12 @@ class define_request extends Controller
 
     function add()
     {
+        if (self::$funAdd == 0) {
+            $jsonObj['msg'] = 'Bạn không có quyền sử dụng chức năng này';
+            $jsonObj['success'] = false;
+            echo json_encode($jsonObj);
+            return false;
+        }
 
         $name = isset($_REQUEST['name']) ? $_REQUEST['name'] : '';
         $object = isset($_REQUEST['object']) ? $_REQUEST['object'] : '';
@@ -81,6 +98,12 @@ class define_request extends Controller
 
     function update()
     {
+        if (self::$funAdd == 0) {
+            $jsonObj['msg'] = 'Bạn không có quyền sử dụng chức năng này';
+            $jsonObj['success'] = false;
+            echo json_encode($jsonObj);
+            return false;
+        }
         $id = $_REQUEST['id'];
         $idobj = $_REQUEST['Oid'];
         $name = isset($_REQUEST['name1']) ? $_REQUEST['name1'] : '';
@@ -139,6 +162,12 @@ class define_request extends Controller
 
     function updatestep()
     {
+        if (self::$funAdd == 0) {
+            $jsonObj['msg'] = 'Bạn không có quyền sử dụng chức năng này';
+            $jsonObj['success'] = false;
+            echo json_encode($jsonObj);
+            return false;
+        }
         $id = isset($_REQUEST['stid']) ? $_REQUEST['stid'] : '';
         $defineId = isset($_REQUEST['defineId']) ? $_REQUEST['defineId'] : '';
         $listStepId = $stepIds = isset($_REQUEST['stepIds']) ? $_REQUEST['stepIds'] : '';
@@ -218,115 +247,16 @@ class define_request extends Controller
 
         echo json_encode($jsonObj);
     
-
-
-
-
-
-
-
-
-        // if ($name != '') {
-        //     $listId = '';
-        //     for ($j = 0; $j < count($id); $j++) {
-        //         $stepId = $id[$j];
-        //         $listId .= $stepId . ",";
-        //     }
-        //     $listId = rtrim($listId, ",");
-
-        //     if ($this->model->delsteps($listId, $defineId)) {
-        //         for ($i = 0; $i < count($name); $i++) {
-        //             $stepId = $id[$i];
-        //             $ok = $this->model->checkStep($defineId, $stepId);
-        //             $listProcessors = '';
-        //             $processors = $processor[$i];
-        //             var_dump($processors);
-        //             for ($k = 0; $k < count($processors); $k++) {
-        //                 $listProcessors .= $processors[$k] . ",";
-        //             }
-        //             $listProcessors = rtrim($listProcessors, ",");
-        //             if ($ok == 1) {
-        //                 $data = array(
-        //                     'name' => $name[$i],
-        //                     'sortorder' => $sortorder[$i],
-        //                     'reviewerId' => $reviewer[$i],
-        //                     'processors' => $listProcessors
-        //                 );
-        //                 if ($this->model->updatestep($stepId, $data)) {
-        //                     $jsonObj['msg'] = 'Cập nhật dữ liệu thành công';
-        //                     $jsonObj['success'] = true;
-        //                 } else {
-        //                     $jsonObj['msg'] = 'Cập nhật dữ liệu không thành công';
-        //                     $jsonObj['success'] = false;
-        //                     echo json_encode($jsonObj);
-        //                     return false;
-        //                 }
-        //             } else {
-        //                 $data = array(
-        //                     'name' => $name[$i],
-        //                     'defineId' => $defineId,
-        //                     'sortorder' => $sortorder[$i],
-        //                     'reviewerId' => $reviewer[$i],
-        //                     'processors' => $listProcessors,
-        //                     'status' => 1
-        //                 );
-        //                 if ($this->model->addstep($data)) {
-        //                     $jsonObj['msg'] = 'Cập nhật dữ liệu thành công';
-        //                     $jsonObj['success'] = true;
-        //                 } else {
-        //                     $jsonObj['msg'] = 'Cập nhật dữ liệu không thành công';
-        //                     $jsonObj['success'] = false;
-        //                     echo json_encode($jsonObj);
-        //                     return false;
-        //                 }
-        //             }
-        //         }
-        //     } else {
-        //         $jsonObj['msg'] = 'Cập nhật dữ liệu không thành công';
-        //         $jsonObj['success'] = false;
-        //     }
-        // } else {
-        //     if ($this->model->delAllSteps($defineId)) {
-        //         $jsonObj['msg'] = 'Cập nhật dữ liệu thành công';
-        //         $jsonObj['success'] = true;
-        //     } else {
-        //         $jsonObj['msg'] = 'Cập nhật dữ liệu không thành công';
-        //         $jsonObj['success'] = false;
-        //     }
-        // }
-
-        // echo json_encode($jsonObj);
     }
-
-    // function addstep(){
-    //     $idprocess = isset($_REQUEST['iddefine']) ? $_REQUEST['iddefine'] : '';
-    //     $name = isset($_REQUEST['ten_buoc']) ? $_REQUEST['ten_buoc'] : '';
-    //     $sortorder = isset($_REQUEST['thu_tu']) ? $_REQUEST['thu_tu'] : '';
-    //     $reviewer = isset($_REQUEST['tham_chieu']) ? $_REQUEST['tham_chieu'] : '';
-    //     $processor = isset($_REQUEST['xu_ly']) ? $_REQUEST['xu_ly'] : '';
-
-    //     $data = array(
-    //         'defineId' => $idprocess,
-    //         'name' => $name,
-    //         'sortorder' => $sortorder,
-    //         'reviewerId' => $reviewer,
-    //         'processors' => $processor,
-    //         'status' => 1
-    //     );
-
-    //     if($this->model->addstep($data)){
-    //         $jsonObj['msg'] = 'Cập nhật dữ liệu thành công';
-    //         $jsonObj['success'] = true;
-    //     } else {
-    //         $jsonObj['msg'] = 'Cập nhật dữ liệu không thành công';
-    //         $jsonObj['success'] = false;
-    //     }
-
-    //     echo json_encode($jsonObj);
-    // }
 
     function del()
     {
+        if (self::$funAdd == 0) {
+            $jsonObj['msg'] = 'Bạn không có quyền sử dụng chức năng này';
+            $jsonObj['success'] = false;
+            echo json_encode($jsonObj);
+            return false;
+        }
         $id = $_REQUEST['id'];
         $data = ['status' => 0];
         if ($this->model->delObj($id, $data)) {
@@ -342,6 +272,12 @@ class define_request extends Controller
 
     function delstep()
     {
+        if (self::$funAdd == 0) {
+            $jsonObj['msg'] = 'Bạn không có quyền sử dụng chức năng này';
+            $jsonObj['success'] = false;
+            echo json_encode($jsonObj);
+            return false;
+        }
         $id = $_REQUEST['id'];
         $data = ['status' => 0];
         if ($this->model->delstep($id, $data)) {
