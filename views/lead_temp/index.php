@@ -69,8 +69,10 @@
                             </div>
                             <div class="col-lg-4">
                                 <div class="icon-sidebar-left">
+                                    <?php if($this->funAdd == 1) { ?>
                                     <i class='bx bx-plus-circle bx-md' onclick="showModalLead()"></i>
                                     <!-- <i class='bx bx-filter-alt bx-md'></i> -->
+                                    <?php } ?>
                                 </div>
                             </div>
                         </div>
@@ -100,7 +102,9 @@
                                             <i class='bx bx-dots-vertical-rounded bx-md icon-dots'></i>
                                             <div class="dropdown-content">
                                                 <span class="updateLead" onclick="loadData(<?= $item['id'] ?>)">Cập nhật</span>
+                                                <?php if($this->funDel == 1) { ?>
                                                 <span class="deleteLead" onclick="deleteLead(<?= $item['id'] ?>)">Xóa</span>
+                                                <?php } ?>
                                             </div>
                                         </div>
                                         <div class="btn-statement">
@@ -248,9 +252,11 @@
                                         <div class="takecare-history col-lg-8 col-md-8">
                                             <label>Lịch sử chăm sóc</label>
                                         </div>
+                                        <?php if( $this->funtakecare == 1) { ?>
                                         <div class="float-right col-lg-3 col-md-3" style="padding-top:15px;">
                                             <i class='bx bx-plus-circle bx-md float-right' onclick="showModalTakeCare()"></i>
                                         </div>
+                                        <?php } ?>
                                     </div>
                                     <hr style="border-top: 1px solid black; margin:1rem;">
                                     <div class="takecare-history-detail" id="history">
@@ -437,7 +443,9 @@
                                     </select>
                                 </div>
                                 <div class="d-flex flex-wrap mb-2">
+                                    <?php if($this->funEdit == 1) { ?>
                                     <button type="button" onclick="updateLead()" class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Cập nhật</button>
+                                    <?php } ?>
                                     <button type="reset" class="btn btn-outline-secondary mr-sm-1" data-dismiss="modal">Bỏ qua</button>
                                 </div>
                             </form>

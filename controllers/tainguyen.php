@@ -1,25 +1,54 @@
 <?php
 class Tainguyen extends Controller
 {
-    private $_Data;
+    static private $funAdd = 0, $funShare = 0, $funEdit = 0, $funDel = 0;
+    // private $_Data;
     function __construct()
     {
         parent::__construct();
-        $this->_Data = new Model();
+        // $this->_Data = new Model();
+        $model = new model();
+        $checkMenuRole = $model->checkMenuRole('tainguyen');
+        if ($checkMenuRole == false)
+            header('location:' . HOME);
+        $funcs = $model->getFunctions('tainguyen');
+      
+        foreach ($funcs as $item) {
+            if ($item['function'] == 'add')
+                self::$funAdd = 1;
+            if ($item['function'] == 'edit')
+                self::$funEdit = 1;
+            if ($item['function'] == 'share')
+            self::$funShare = 1;
+            if ($item['function'] == 'del')
+                self::$funDel = 1;
+        }
     }
     function index(){
         require "layouts/header.php";
+        $this->view->funAdd = self::$funAdd;
+        $this->view->funShare = self::$funShare;
+        $this->view->funEdit = self::$funEdit;
+        $this->view->funDel = self::$funDel;
         $this->view->render("tainguyen/index");
         require "layouts/footer.php";
     }
 
     function formedit(){
+        if (self::$funEdit == 0) {
+            header("Location:".HOME);
+            return false;
+        }
         require "layouts/header.php";
         $this->view->render("tainguyen/formedit");
         require "layouts/footer.php";
     }
 
     function formadd(){
+        if (self::$funAdd == 0) {
+            header("Location:".HOME);
+            return false;
+        }
         require "layouts/header.php";
         $this->view->render("tainguyen/formadd");
         require "layouts/footer.php";
@@ -58,6 +87,12 @@ class Tainguyen extends Controller
 
     function add()
     {
+        if (self::$funAdd == 0) {
+            $jsonObj['msg'] = 'Bạn không có quyền sử dụng chức năng này';
+            $jsonObj['success'] = false;
+            echo json_encode($jsonObj);
+            return false;
+        }
         $name = isset($_REQUEST['name']) ? $_REQUEST['name'] : '';
         $chusohuu = isset($_REQUEST['chu_so_huu']) ? $_REQUEST['chu_so_huu'] : '';
         $nhacungcap = isset($_REQUEST['nha_cung_cap']) ? $_REQUEST['nha_cung_cap'] : '';
@@ -85,6 +120,12 @@ class Tainguyen extends Controller
 
     function update()
     {
+        if (self::$funEdit == 0) {
+            $jsonObj['msg'] = 'Bạn không có quyền sử dụng chức năng này';
+            $jsonObj['success'] = false;
+            echo json_encode($jsonObj);
+            return false;
+        }
         $id = $_REQUEST['id'];
         $name = isset($_REQUEST['name']) ? $_REQUEST['name'] : '';
         $chusohuu = isset($_REQUEST['owner']) ? $_REQUEST['owner'] : 0;
@@ -121,6 +162,12 @@ class Tainguyen extends Controller
 
     function chiase()
     {
+        if (self::$funShare == 0) {
+            $jsonObj['msg'] = 'Bạn không có quyền sử dụng chức năng này';
+            $jsonObj['success'] = false;
+            echo json_encode($jsonObj);
+            return false;
+        }
         $id = $_REQUEST['id'];
         $nhanvien = $_REQUEST['nhanvien'];
         $data = ['staffId' => $nhanvien];
@@ -136,6 +183,12 @@ class Tainguyen extends Controller
 
     function del()
     {
+        if (self::$funDel == 0) {
+            $jsonObj['msg'] = 'Bạn không có quyền sử dụng chức năng này';
+            $jsonObj['success'] = false;
+            echo json_encode($jsonObj);
+            return false;
+        }
         $id = $_REQUEST['id'];
         $temp = $this->model->delObj($id);
         if ($temp) {

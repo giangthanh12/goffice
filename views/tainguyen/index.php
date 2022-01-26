@@ -255,5 +255,10 @@
     </div>
 
 </div>
-
+<script>
+     var funAdd = <?=$this->funAdd?>,
+     funShare = <?=$this->funShare?>,
+        funEdit = <?=$this->funEdit?>,
+        funDel = <?=$this->funDel?>;
+</script>
 <script src="<?= HOME ?>/js/tainguyen/index.js"></script>

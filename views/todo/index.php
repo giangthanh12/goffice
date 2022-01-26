@@ -55,7 +55,7 @@
                 </div>
                 <div class="content-body">
                     <div class="body-content-overlay"></div>
-                    <div class="todo-app-list">
+                    <div class="todo-app-list" >
                         <!-- Todo search starts -->
                         <div class="app-fixed-search d-flex align-items-center">
                             <div class="sidebar-toggle d-block d-lg-none ml-1">
@@ -66,7 +66,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i data-feather="search" class="text-muted"></i></span>
                                     </div>
-                                    <input type="text" class="form-control" id="todo-search" placeholder="Search task" aria-label="Search..." aria-describedby="todo-search" />
+                                    <input type="text" class="form-control" id="todo-search" placeholder="" aria-label="Search..." aria-describedby="todo-search" />
                                 </div>
                             </div>
                             <div class="dropdown">
@@ -120,7 +120,7 @@
                                                 </div>
                                                 <small class="text-nowrap text-muted mr-1">'.$item['deadline'].'</small>
                                                 <div class="avatar" data-id="'.$item['assigneeId'].'">
-                                                    <img src="'.$avatar.'" alt="user-avatar" height="32" width="32" />
+                                                    <img src="'.$avatar.'" '.'onerror='."this.src='https://velo.vn/goffice-test/layouts/useravatar.png'".' alt="user-avatar" height="32" width="32" />
                                                 </div>
                                                 <span class="taskDescription d-none">'.$item['description'].'</span>
                                                 <span class="taskProject d-none">'.$item['projectId'].'</span>
@@ -209,12 +209,12 @@
                                             </div>
                                         </div>
                                         <div class="form-group my-1">
-                                            <button type="submit" class="btn btn-primary d-none add-todo-item mr-1">Add</button>
+                                            <button type="submit" class="btn btn-primary d-none add-todo-item mr-1">Thêm</button>
                                             <button type="button" class="btn btn-outline-secondary add-todo-item d-none" data-dismiss="modal">
-                                                Cancel
+                                                Đóng
                                             </button>
-                                            <button type="button" class="btn btn-primary d-none update-btn update-todo-item mr-1">Update</button>
-                                            <button type="button" onclick="deleteTask()" class="btn btn-outline-danger update-btn d-none" data-dismiss="modal">Delete</button>
+                                            <button type="button" class="btn btn-primary d-none update-btn update-todo-item mr-1">Cập nhật</button>
+                                            <button type="button" onclick="deleteTask()" class="btn btn-outline-danger update-btn d-none" data-dismiss="modal">Xóa</button>
                                         </div>
                                     </div>
                                 </form>

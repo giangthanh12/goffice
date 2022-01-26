@@ -40,21 +40,29 @@
                                 <!-- <h6 class="mb-0">DataTable with Buttons</h6> -->
                             </div>
                             <div class="dt-buttons ml-1 text-right">
+                                <?php if($this->funCall == 1) { ?>
                                <button class="dt-button add-new btn btn-danger mt-50" onclick="showcall()" tabindex="0" aria-controls="DataTables_Table_0" type="button">
                                     <span>Gọi điện</span>
                                 </button>
+                                <?php } ?>
+                                <?php if($this->funAdd == 1) { ?>
                                 <button class="dt-button add-new btn btn-primary mt-50" onclick="showadd()" tabindex="0" aria-controls="DataTables_Table_0" type="button">
                                     <span>Thêm mới</span>
                                 </button>
+                                <?php } ?>
+                                <?php if($this->funShare == 1) { ?>
                                 <button class="dt-button btn btn-primary mt-50" onclick="chiadata()" tabindex="0" aria-controls="DataTables_Table_0" type="button">
                                     <span>Chia data</span>
                                 </button>
+                                <?php } ?>
                                 <!-- <button class="dt-button btn btn-primary mt-50" onclick="movetolead()" tabindex="0" aria-controls="DataTables_Table_0" type="button">
                                     <span>Chuyển sang lead</span>
                                 </button> -->
+                                <?php if($this->funImport == 1) { ?>
                                 <button class="dt-button btn btn-primary mt-50" onclick="nhapexcel()" tabindex="0" aria-controls="DataTables_Table_0" type="button">
                                     <span>Nhập excel</span>
                                 </button>
+                                <?php } ?>
                             </div>
                         </div>
 
@@ -458,6 +466,14 @@
     </div>
 </div>
 <script>
+    var funAdd = <?=$this->funAdd?>,
+        funCall = <?=$this->funCall?>,
+        funShare = <?=$this->funShare?>,
+        funImport = <?=$this->funImport?>,
+        funCreateChange = <?=$this->funCreateChange?>,
+        funEdit = <?=$this->funEdit?>,
+        funDel = <?=$this->funDel?>;
+     console.log(funCall,funAdd,funShare,funCreateChange,funImport,funEdit,funDel);
     let username = '<?php echo $_SESSION['user']['username'] ?>';
     let hinhanh = '<?php echo $_SESSION['user']['avatar'] ?>';
 </script>

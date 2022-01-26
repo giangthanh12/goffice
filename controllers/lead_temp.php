@@ -1,13 +1,34 @@
 <?php
 class lead_temp extends Controller
 {
+    static private $funAdd = 0, $funEdit = 0, $funDel = 0, $funtakecare = 0;
     function __construct()
     {
         parent::__construct();
+        $model = new model();
+        $checkMenuRole = $model->checkMenuRole('lead_temp');
+        if ($checkMenuRole == false)
+            header('location:' . HOME);
+        $funcs = $model->getFunctions('lead_temp');
+      
+        foreach ($funcs as $item) {
+            if ($item['function'] == 'add')
+                self::$funAdd = 1;
+            if ($item['function'] == 'edit')
+                self::$funEdit = 1;
+            if ($item['function'] == 'takecare')
+            self::$funtakecare = 1;
+            if ($item['function'] == 'del')
+                self::$funDel = 1;
+        }
     }
     function index()
     {
         require "layouts/header.php";
+        $this->view->funAdd = self::$funAdd;
+        $this->view->funEdit = self::$funEdit;
+        $this->view->funtakecare = self::$funtakecare;
+        $this->view->funDel = self::$funDel;
         $this->view->lead = $this->model->getLead();
         $this->view->customer = $this->model->getCustomer();
         // print_r($this->model->getlead());
@@ -31,6 +52,12 @@ class lead_temp extends Controller
 
     function insertTakeCareHistory()
     {
+        if (self::$funtakecare == 0) {
+            $jsonObj['msg'] = 'Bạn không có quyền sử dụng chức năng này';
+            $jsonObj['success'] = false;
+            echo json_encode($jsonObj);
+            return false;
+        }
         if (isset($_REQUEST['id'])) {
             $id = $_REQUEST['id'];
             $comment = $_REQUEST['comment'];
@@ -50,6 +77,12 @@ class lead_temp extends Controller
 
     function insertLead()
     {
+        if (self::$funAdd == 0) {
+            $jsonObj['msg'] = 'Bạn không có quyền sử dụng chức năng này';
+            $jsonObj['success'] = false;
+            echo json_encode($jsonObj);
+            return false;
+        }
         if (isset($_REQUEST['leadName']) && $_REQUEST['leadCustomer']) {
             $title = $_REQUEST['leadName'];
             $desc = $_REQUEST['leadDes'];
@@ -89,6 +122,12 @@ class lead_temp extends Controller
 
     function deleteLead()
     {
+        if (self::$funDel == 0) {
+            $jsonObj['msg'] = 'Bạn không có quyền sử dụng chức năng này';
+            $jsonObj['success'] = false;
+            echo json_encode($jsonObj);
+            return false;
+        }
         $id = $_REQUEST['id'];
         if ($this->model->deleteObj($id)) {
             $jsonObj['msg'] = "Xóa dữ liệu thành công";
@@ -102,6 +141,12 @@ class lead_temp extends Controller
 
     function updateLead($id)
     {
+        if (self::$funEdit == 0) {
+            $jsonObj['msg'] = 'Bạn không có quyền sử dụng chức năng này';
+            $jsonObj['success'] = false;
+            echo json_encode($jsonObj);
+            return false;
+        }
         $id = $_REQUEST['leadIdUpdate'];
         $name = $_REQUEST['leadNameUpdate'];
         $comment = $_REQUEST['leadDescUpdate'];
@@ -120,25 +165,6 @@ class lead_temp extends Controller
         echo json_encode($jsonObj);
     }
 
-    // function list()
-    // {
-    //     // $phutrach = isset($_SESSION['user']['staffId']) ? $_SESSION['user']['staffId'] : (isset($_REQUEST['phu_trach']) ? $$_REQUEST['phu_trach'] : '');
-    //     $keyword = isset($_REQUEST['search']['value']) ? $_REQUEST['search']['value'] : (isset($_REQUEST['keyword']) ? $_REQUEST['keyword'] : '');
-    //     $offset = isset($_REQUEST['start']) ? $_REQUEST['start'] : 0;
-    //     $rows = isset($_REQUEST['length']) ? $_REQUEST['length'] : 30;
-    //     // $page = isset($_REQUEST['page']) ? $_REQUEST['page']: 1;
-    //     // $offset = ($page - 1) * $rows;
-    //     $nhanvien = isset($_REQUEST['nhanvien']) && $_REQUEST['nhanvien'] != '' && $_REQUEST['nhanvien'] != 0 ? $_REQUEST['nhanvien'] : '';
-    //     $tungay = isset($_REQUEST['tu_ngay']) && $_REQUEST['tu_ngay'] != '' ? date("Y-m-d", strtotime(str_replace('/', '-', $_REQUEST['tu_ngay']))) : '';
-    //     $denngay = isset($_REQUEST['den_ngay']) && $_REQUEST['den_ngay'] != '' ? date("Y-m-d", strtotime(str_replace('/', '-', $_REQUEST['den_ngay']))) : '';
-    //     $result = $this->model->listObj($keyword, $nhanvien, $tungay, $denngay, $offset, $rows);
-    //     $totalData = $result['total'];
-
-    //     $data['data'] = $result['data'];
-    //     $data['draw'] = intval(isset($_REQUEST['draw']) ? $_REQUEST['draw'] : 1);
-    //     $data['recordsTotal'] = $totalData;
-    //     $data['recordsFiltered'] = $totalData;
-    //     echo json_encode($data);
-    // }
+ 
 
 }
