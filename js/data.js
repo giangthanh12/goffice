@@ -21,7 +21,6 @@ $(function () {
     return_combobox_multi('#phutrach', baseHome + '/common/nhanvien', 'Chọn nhân viên');
     return_combobox_multi('#chiacho', baseHome + '/common/nhanvien', 'Chọn nhân viên');
     return_combobox_multi('#estatus', baseHome + '/common/datastatus', 'Chọn tình trạng data');
-
     return_combobox_multi('#phutrach_import', baseHome + '/common/nhanvien', 'Chọn nhân viên');
 
     $('#nhanvien').val('').change();
@@ -154,21 +153,23 @@ $(function () {
                     title: feather.icons["database"].toSvg({ class: "font-medium-3 text-success mr-50" }),
                     render: function (data, type, full, meta) {
                         var html = '<div style="text-align:right;width: 130px;">';
-                        // html += '<button type="button" class="btn btn-icon btn-outline-success waves-effect"  title="Gọi" onclick="call(\'' + full['phoneNumber'] + '\')">';
-                        // html += '<i class="fas fa-phone-alt"></i>';
-                        // html += '</button> &nbsp;';
-                        // html += '<button type="button" class="btn btn-icon btn-outline-warning waves-effect" data-toggle="tooltip" data-placement="top" data-original-title="Chuyển sang Lead" onclick="movelead_id(' + full['id'] + ')">';
-                        // html += '<i class="fas fa-heart"></i>';
-                        // html += '</button> &nbsp;';
-                        html += '<button type="button" class="btn btn-icon btn-outline-warning waves-effect" data-toggle="tooltip" data-placement="top" data-original-title="Tạo cơ hội" onclick="addLead(' + full['id'] + ',' + full['status'] + ')">';
-                        html += '<i class="fas fa-retweet"></i>';
-                        html += '</button> &nbsp;';
-                        html += '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" title="Chỉnh sửa" onclick="loaddata(' + full['id'] + ')">';
-                        html += '<i class="fas fa-pencil-alt"></i>';
-                        html += '</button> &nbsp;';
-                        html += '<button type="button" class="btn btn-icon btn-outline-danger waves-effect" title="Xóa" id="confirm-text" onclick="xoa(' + full['id'] + ')">';
-                        html += '<i class="fas fa-trash-alt"></i>';
-                        html += '</button></div>';
+                      
+                        if(funCreateChange == 1) {
+                            html += '<button type="button" class="btn btn-icon btn-outline-warning waves-effect" data-toggle="tooltip" data-placement="top" data-original-title="Tạo cơ hội" onclick="addLead(' + full['id'] + ',' + full['status'] + ')">';
+                            html += '<i class="fas fa-retweet"></i>';
+                            html += '</button> &nbsp;';
+                        }
+                        if(funEdit == 1) {
+                            html += '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" title="Chỉnh sửa" onclick="loaddata(' + full['id'] + ')">';
+                            html += '<i class="fas fa-pencil-alt"></i>';
+                            html += '</button> &nbsp;';
+                        }
+                        if(funDel == 1) {
+                            html += '<button type="button" class="btn btn-icon btn-outline-danger waves-effect" title="Xóa" id="confirm-text" onclick="xoa(' + full['id'] + ')">';
+                            html += '<i class="fas fa-trash-alt"></i>';
+                            html += '</button>';
+                        }
+                        html+= '</div>';
                         return html;
                     },
                     width: 150

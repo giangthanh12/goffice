@@ -1,11 +1,21 @@
 <?php
 class todo extends Controller{
+  
     function __construct(){
         parent::__construct();
+        $model = new model();
+        $checkMenuRole = $model->checkMenuRole('todo');
+ 
+        if ($checkMenuRole == false)
+            header('location:' . HOME);
+    
+       
     }
 
     function index(){
+   
         require "layouts/header.php";
+    
         // $deadline = isset($_REQUEST['deadline'])?$_REQUEST['deadline']:false;
         $catid = isset($_REQUEST['catId'])?$_REQUEST['catId']:1;
         // $project = isset($_REQUEST['project'])?$_REQUEST['project']:0;
@@ -20,20 +30,41 @@ class todo extends Controller{
 
     function update(){
         $id = $_REQUEST['id'];
-        $title = $_REQUEST['newTitle'];
-        $project = isset($_REQUEST['newProject'])?$_REQUEST['newProject']:0;
-        $deadline = $_REQUEST['newDeadline'];
-        $label = isset($_REQUEST['newLabel'])?$_REQUEST['newLabel']:0;
-        $nhanvien = $_REQUEST['newAssignee'];
-        $description = $_REQUEST['newDescription'];
-        $data = array('title'=>$title, 'projectId'=>$project, 'deadline'=>$deadline,'description'=>$description, 'label'=>$label, 'assigneeId'=>$nhanvien);
-        if ($this->model->capnhat($id, $data)) {
-            $jsonObj['msg'] = "Cập nhật thành công";
-            $jsonObj['success'] = true;
-        } else {
-            $jsonObj['msg'] = "Cập nhật không thành công".$nhanvien;
-            $jsonObj['success'] = false;
+        if($id == 0) {
+          
+            $title = $_REQUEST['newTitle'];
+            $project = isset($_REQUEST['newProject'])?$_REQUEST['newProject']:0;
+            $deadline = $_REQUEST['newDeadline'];
+            $label = isset($_REQUEST['newLabel'])?$_REQUEST['newLabel']:0;
+            $nhanvien = $_REQUEST['newAssignee'];
+            $description = $_REQUEST['newDescription'];
+            $data = array('title'=>$title, 'projectId'=>$project, 'deadline'=>$deadline,'description'=>$description, 'label'=>$label, 'assigneeId'=>$nhanvien);
+            if ($this->model->capnhat($id, $data)) {
+                $jsonObj['msg'] = "Thêm mới thành công";
+                $jsonObj['success'] = true;
+            } else {
+                $jsonObj['msg'] = "Thêm mới không thành công".$nhanvien;
+                $jsonObj['success'] = false;
+            }
         }
+        else if ($id > 0) {
+            $title = $_REQUEST['newTitle'];
+            $project = isset($_REQUEST['newProject'])?$_REQUEST['newProject']:0;
+            $deadline = $_REQUEST['newDeadline'];
+            $label = isset($_REQUEST['newLabel'])?$_REQUEST['newLabel']:0;
+            $nhanvien = $_REQUEST['newAssignee'];
+            $description = $_REQUEST['newDescription'];
+            $data = array('title'=>$title, 'projectId'=>$project, 'deadline'=>$deadline,'description'=>$description, 'label'=>$label, 'assigneeId'=>$nhanvien);
+            if ($this->model->capnhat($id, $data)) {
+                $jsonObj['msg'] = "Cập nhật thành công";
+                $jsonObj['success'] = true;
+            } else {
+                $jsonObj['msg'] = "Cập nhật không thành công".$nhanvien;
+                $jsonObj['success'] = false;
+            }
+        }
+      
+        
         $jsonObj = json_encode($jsonObj);
         echo $jsonObj;
     }

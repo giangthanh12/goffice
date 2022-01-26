@@ -1,20 +1,55 @@
 <?php
 class data extends Controller
 {
+    static private $funCall = 0, $funAdd = 0, $funShare = 0, $funImport = 0, $funCreateChange = 0, $funEdit = 0, $funDel =0;
     function __construct()
     {
         parent::__construct();
+        $model = new model();
+        $checkMenuRole = $model->checkMenuRole('data');
+        if ($checkMenuRole == false)
+            header('location:' . HOME);
+        $funcs = $model->getFunctions('data');
+      
+        foreach ($funcs as $item) {
+            if ($item['function'] == 'call')
+                self::$funCall = 1;
+            if ($item['function'] == 'add')
+                self::$funAdd = 1;
+            if ($item['function'] == 'share')
+                self::$funShare = 1;
+            if ($item['function'] == 'import')
+                self::$funImport = 1;
+            if ($item['function'] == 'createChange')
+                self::$funCreateChange = 1;
+            if ($item['function'] == 'edit')
+                self::$funEdit = 1;
+            if ($item['function'] == 'del')
+            self::$funDel = 1;
+        }
     }
 
     function index()
     {
         require "layouts/header.php";
+        $this->view->funCall = self::$funCall;
+        $this->view->funAdd = self::$funAdd;
+        $this->view->funShare = self::$funShare;
+        $this->view->funImport = self::$funImport;
+        $this->view->funCreateChange = self::$funCreateChange;
+        $this->view->funEdit = self::$funEdit;
+        $this->view->funDel = self::$funDel;
         $this->view->render("data/index");
         require "layouts/footer.php";
     }
 
     function addLead()
     {
+        if (self::$funCreateChange == 0) {
+            $jsonObj['msg'] = 'Bạn không có quyền sử dụng chức năng này';
+            $jsonObj['success'] = false;
+            echo json_encode($jsonObj);
+        }
         $dataId = $_REQUEST['dataId'];
         $json = $this->model->getData($dataId);
         $data = [
@@ -79,6 +114,11 @@ class data extends Controller
 
     function importData()
     {
+        if (self::$funImport == 0) {
+            $jsonObj['msg'] = 'Bạn không có quyền sử dụng chức năng này';
+            $jsonObj['success'] = false;
+            echo json_encode($jsonObj);
+        }
         require_once 'libs/phpexcel/PHPExcel/IOFactory.php';
         try {
             $inputFileType = PHPExcel_IOFactory::identify($_FILES['file']['tmp_name']);
@@ -192,6 +232,12 @@ class data extends Controller
 
     function add()
     {
+        if (self::$funAdd == 0) {
+            $jsonObj['msg'] = 'Bạn không có quyền sử dụng chức năng này';
+            $jsonObj['success'] = false;
+            echo json_encode($jsonObj);
+            return false;
+        }
         $data['name'] = isset($_REQUEST['name']) ? $_REQUEST['name'] : '';
         $data['phoneNumber'] = isset($_REQUEST['phoneNumber']) ? $_REQUEST['phoneNumber'] : '';
         $data['address'] = isset($_REQUEST['address']) ? $_REQUEST['address'] : '';
@@ -220,6 +266,11 @@ class data extends Controller
 
     function update()
     {
+        if (self::$funEdit == 0) {
+            $jsonObj['msg'] = 'Bạn không có quyền sử dụng chức năng này';
+            $jsonObj['success'] = false;
+            echo json_encode($jsonObj);
+        }
         $id = $_REQUEST['id'];
         $data['name'] = isset($_REQUEST['ename']) ? $_REQUEST['ename'] : '';
         $data['phoneNumber'] = isset($_REQUEST['ephoneNumber']) ? $_REQUEST['ephoneNumber'] : '';
@@ -254,6 +305,11 @@ class data extends Controller
 
     function chiadata()
     {
+        if (self::$funShare == 0) {
+            $jsonObj['msg'] = 'Bạn không có quyền sử dụng chức năng này';
+            $jsonObj['success'] = false;
+            echo json_encode($jsonObj);
+        }
         $data = $_REQUEST['data'];
         $staffId = $_REQUEST['cstaffId'];
         if ($this->model->chiadata($staffId, $data)) {
@@ -291,6 +347,12 @@ class data extends Controller
 
     function del()
     {
+        if (self::$funDel == 0) {
+            $jsonObj['msg'] = 'Bạn không có quyền sử dụng chức năng này';
+            $jsonObj['success'] = false;
+            echo json_encode($jsonObj);
+            return false;
+        }
         $id = $_REQUEST['id'];
         $data = ['status' => 0];
         if ($this->model->updateObj($id, $data)) {

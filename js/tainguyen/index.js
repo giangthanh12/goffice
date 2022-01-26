@@ -37,7 +37,19 @@ $(function(){
     //     }, 100);
     // }
 });
-
+var buttons = [];
+if(funAdd == 1) {
+    buttons.push({
+        text: "Thêm mới",
+        className: "add-new btn btn-primary mt-50",
+        init: function (api, node, config) {
+            $(node).removeClass("btn-secondary");
+        },
+        action: function (e, dt, node, config) {
+            add_tainguyen();
+        },
+    });
+}
 function render_table(){
     $('#list_tainguyen').DataTable({
         "processing": true,
@@ -72,15 +84,24 @@ function render_table(){
                     var html = '';
                 
                     if(baseUser == full['creatorId']){
+                    if(funShare == 1) {
                         html += '<button type="button" class="btn btn-icon btn-outline-success waves-effect" title="Chia sẻ" onclick="share_tainguyen('+full['id']+')">';
-                    html += '<i class="fas fa-share-alt"></i>';
-                    html += '</button> &nbsp;';
-                    html += '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" title="Chỉnh sửa" onclick="edit_tainguyen('+full['id']+')">';
-                    html += '<i class="fas fa-pencil-alt"></i>';
-                    html += '</button> &nbsp;'; 
-                    html += '<button type="button" class="btn btn-icon btn-outline-danger waves-effect" title="Xóa" onclick="del_tainguyen('+full['id']+')">';
-                    html += '<i class="fas fa-trash-alt"></i>';
-                    html += '</button>';
+                        html += '<i class="fas fa-share-alt"></i>';
+                        html += '</button> &nbsp;';
+                    }
+                    
+                    if(funEdit == 1) {
+                        html += '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" title="Chỉnh sửa" onclick="edit_tainguyen('+full['id']+')">';
+                        html += '<i class="fas fa-pencil-alt"></i>';
+                        html += '</button> &nbsp;'; 
+                    }
+                    
+                    if(funDel == 1) {
+                        html += '<button type="button" class="btn btn-icon btn-outline-danger waves-effect" title="Xóa" onclick="del_tainguyen('+full['id']+')">';
+                        html += '<i class="fas fa-trash-alt"></i>';
+                        html += '</button>';
+                    }
+                    
                     }
                       return html;
                     
@@ -97,19 +118,20 @@ function render_table(){
                 '<"col-sm-12 col-md-6"i>' +
                 '<"col-sm-12 col-md-6"p>' +
                 ">",
+
+                language: {
+                    sLengthMenu: "Hiển thị _MENU_",
+                    search: "",
+                    searchPlaceholder: "Tìm kiếm...",
+                    paginate: {
+                        // remove previous & next text from pagination
+                        previous: "&nbsp;",
+                        next: "&nbsp;",
+                    },
+                    info:"Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
+                },
             // Buttons with Dropdown
-            buttons: [
-                {
-                    text: "Thêm mới",
-                    className: "add-new btn btn-primary mt-50",
-                    init: function (api, node, config) {
-                        $(node).removeClass("btn-secondary");
-                    },
-                    action: function (e, dt, node, config) {
-                        add_tainguyen();
-                    },
-                }
-            ],
+            buttons:buttons,
     });
 }
 
@@ -223,6 +245,7 @@ function saveshare()
 
 $('#duongdan').on('click', function() {
  /* Get the text field */
+
  var copyText = document.getElementById("duongdan");
 
  /* Select the text field */

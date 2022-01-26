@@ -2,7 +2,7 @@
 class project extends Controller
 {
     static private $funAdd = 0, $funEdit = 0, $funDel = 0;
-    static protected $funcs;
+    // static protected $funcs;
     function __construct()
     {
         parent::__construct();
@@ -23,6 +23,7 @@ class project extends Controller
     }
 
     function index(){
+   
         require "layouts/header.php";
         $this->view->funAdd = self::$funAdd;
         $this->view->funEdit = self::$funEdit;

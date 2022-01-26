@@ -10,6 +10,7 @@
 "use strict";
 
 $(function () {
+
     var // taskTitle ,
         flatPickr = $(".task-due-date"),
         newTaskModal = $(".sidebar-todo-modal"),
@@ -117,11 +118,11 @@ $(function () {
         }
         var $person =
             '<div class="media align-items-center">' +
-            '<img class="d-block rounded-circle mr-50" src="' +
+            '<img class="d-block rounded-circle mr-50"  src="' +
             $(option.element).data("img") +
-            '" height="26" width="26" alt="' +
+            '" height="26" width="26" onerror= '+"this.src='https://velo.vn/goffice-test/layouts/useravatar.png'" +' alt="' +
             option.text +
-            '">' +
+            '">'  +
             '<div class="media-body"><p class="mb-0">' +
             option.text +
             "</p></div></div>";
@@ -203,7 +204,7 @@ $(function () {
                 syntax: true,
                 toolbar: ".desc-toolbar",
             },
-            placeholder: "Write Your Description",
+            placeholder: "Mô tả dự án",
             theme: "snow",
         });
     }
@@ -213,7 +214,7 @@ $(function () {
         addTaskBtn.on("click", function (e) {
             addBtn.removeClass("d-none");
             updateBtns.addClass("d-none");
-            modalTitle.text("Add Task");
+            modalTitle.text("Thêm công việc");
             // newTaskModal.modal('show');
             sidebarLeft.removeClass("show");
             overlay.removeClass("show");
@@ -241,6 +242,17 @@ $(function () {
                 },
                 "task-due-date": {
                     required: true,
+                },
+            },
+            messages: {
+                todoTitleAdd: {
+                    required: "Bạn chưa nhập tên công việc!",
+                },
+                "task-assigned": {
+                    required: "Bạn chưa chọn người thực hiện!",
+                },
+                "task-due-date": {
+                    required: "Bạn chưa chọn ngày!",
                 },
             },
         });
