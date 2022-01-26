@@ -1,3 +1,4 @@
+
 $(function () {
     "use strict";
 
@@ -20,41 +21,51 @@ $(function () {
     }
 
     var column = $('#tb-timesheets');
+    column.empty();
     // var month = $('#month').val();
     // var year = $('#year').val();
-    column.append('<th style="width:180px">Nhân viên</th>');
+    column.append('<th style="width:240px">Nhân viên</th>');
     column.append('<th style="width:40px;text-align: center">Ngày công</th>');
     column.append('<th style="width:40px;text-align: center">Công chuẩn</th>');
     for (var i = 1; i <= 31; i++) {
         if (i < 10) { i = '0' + i; }
         var dt = new Date(year + '-' + month + '-' + i);
         if (dt.getDay() == 0) {
-            column.append('<th style="width:40px;text-align: center" class="text-center">CN<br><div class="text-center">' + i +'</div></th>');
+            column.append('<th style="width:40px;text-align: center" class="text-center" id="date_' + i +'">CN<br><div class="text-center">' + i +'</div></th>');
         } else if (dt.getDay() == 1) {
-            column.append('<th style="width:40px;text-align: center">T2<br><div class="text-center">' + i +'</div></th>');
+            column.append('<th style="width:40px;text-align: center" id="date_' + i +'">T2<br><div class="text-center">' + i +'</div></th>');
         } else if (dt.getDay() == 2) {
-            column.append('<th style="width:40px;text-align: center">T3<br><div class="text-center">' + i +'</div></th>');
+            column.append('<th style="width:40px;text-align: center" id="date_' + i +'">T3<br><div class="text-center">' + i +'</div></th>');
         } else if (dt.getDay() == 3) {
-            column.append('<th style="width:40px;text-align: center">T4<br><div class="text-center">' + i +'</div></th>');
+            column.append('<th style="width:40px;text-align: center" id="date_' + i +'">T4<br><div class="text-center">' + i +'</div></th>');
         } else if (dt.getDay() == 4) {
-            column.append('<th style="width:40px;text-align: center">T5<br><div class="text-center">' + i +'</div></th>');
+            column.append('<th style="width:40px;text-align: center" id="date_' + i +'">T5<br><div class="text-center">' + i +'</div></th>');
         } else if (dt.getDay() == 5) {
-            column.append('<th style="width:40px;text-align: center">T6<br><div class="text-center">' + i +'</div></th>');
+            column.append('<th style="width:40px;text-align: center" id="date_' + i +'">T6<br><div class="text-center">' + i +'</div></th>');
         } else {
-            column.append('<th style="width:40px;text-align: center">T7<br><div class="text-center">' + i +'</div></th>');
+            column.append('<th style="width:40px;text-align: center" id="date_' + i +'">T7<br><div class="text-center">' + i +'</div></th>');
         }
     }
 
-    var dtUserTable = $(".user-list-table");
-
+    var table = $(".user-list-table");
     // Users List datatable
-    if (dtUserTable.length) {
-        dtUserTable.DataTable({
+    if (table.length) {
+        table.DataTable({
             ajax: baseHome + "/timesheets/list?month="+month+"&year="+year,
-            autoWidth: false,
+            autoWidth: true,
             ordering: false,
-            searching: false,
+            fixedColumns:   {
+                left: 1
+            },
+            searching: true,
+            "lengthMenu": [[7, 15, 25, 50], [7, 15, 25, 50, "All"]],
             paging: false,
+            // // select: {
+            // //     style: 'single'
+            // // },
+            "scrollY":"430px",
+            "scrollX":true,
+            "scrollCollapse": true,
             columns: [
                 // columns according to JSON
                 { data: "staffName" },
@@ -162,14 +173,15 @@ $(function () {
                 '<"col-sm-12 col-md-6"p>' +
                 ">",
             language: {
-                sLengthMenu: "Show _MENU_",
-                search: "Search",
-                searchPlaceholder: "11111111112..",
+                sLengthMenu: "Hiển thị _MENU_",
+                search: "",
+                searchPlaceholder: "Tìm kiếm...",
                 paginate: {
                     // remove previous & next text from pagination
                     previous: "&nbsp;",
                     next: "&nbsp;",
                 },
+                info:"Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
             },
             // Buttons with Dropdown
             buttons: [
@@ -258,36 +270,36 @@ $(function () {
 function search() {
     var month = $("#month").val();
     var year = $("#year").val();
-    var column = $('#tb-timesheets');
-    column.empty();
-    // var month = $('#month').val();
-    // var year = $('#year').val();
-    column.append('<th style="width:180px">Nhân viên</th>');
-    column.append('<th>Ngày công</th>');
-    column.append('<th>Công chuẩn</th>');
+    // var column = $('#tb-timesheets');
+    // column.empty();
+    // // var month = $('#month').val();
+    // // var year = $('#year').val();
+    // column.append('<th style="width:247px;">Nhân viên</th>');
+    // column.append('<th style="width:40px;text-align: center">Ngày công</th>');
+    // column.append('<th style="width:40px;text-align: center">Công chuẩn</th>');
     for (var i = 1; i <= 31; i++) {
         if (i < 10) { i = '0' + i; }
         var dt = new Date(year + '-' + month + '-' + i);
         if (dt.getDay() == 0) {
-            column.append('<th style="width:40px" class="text-center">CN<br><div class="text-center">' + i +'</div></th>');
+           $('#date_'+i).html('CN<br><div class="text-center">' + i +'</div>');
         } else if (dt.getDay() == 1) {
-            column.append('<th style="width:40px">T2<br><div class="text-center">' + i +'</div></th>');
+            $('#date_'+i).html('T2<br><div class="text-center">' + i +'</div>');
         } else if (dt.getDay() == 2) {
-            column.append('<th style="width:40px">T3<br><div class="text-center">' + i +'</div></th>');
+            $('#date_'+i).html('T3<br><div class="text-center">' + i +'</div>');
         } else if (dt.getDay() == 3) {
-            column.append('<th style="width:40px">T4<br><div class="text-center">' + i +'</div></th>');
+            $('#date_'+i).html('T4<br><div class="text-center">' + i +'</div>');
         } else if (dt.getDay() == 4) {
-            column.append('<th style="width:40px">T5<br><div class="text-center">' + i +'</div></th>');
+            $('#date_'+i).html('T5<br><div class="text-center">' + i +'</div>');
         } else if (dt.getDay() == 5) {
-            column.append('<th style="width:40px">T6<br><div class="text-center">' + i +'</div></th>');
+            $('#date_'+i).html('T6<br><div class="text-center">' + i +'</div>');
         } else {
-            column.append('<th style="width:40px">T7<br><div class="text-center">' + i +'</div></th>');
+            $('#date_'+i).html('T7<br><div class="text-center">' + i +'</div>');
         }
     }
     if (month != '' || year != '') {
-        var table = $(".user-list-table").DataTable();
-        table.ajax.url(baseHome + "/timesheets/list?month=" + month + "&year=" + year).load();
-        table.draw();
+        var tableReload = $(".user-list-table").DataTable();
+        tableReload.ajax.url(baseHome + "/timesheets/list?month=" + month + "&year=" + year).load();
+        tableReload.draw();
     }
 }
 
