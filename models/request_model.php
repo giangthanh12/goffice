@@ -52,7 +52,9 @@ class request_model extends Model
         DATE_FORMAT(dateTime,'%d/%m/%Y') as dateTime,
        (SELECT name FROM staffs WHERE id=a.staffId) as staffName,
        (SELECT avatar FROM staffs WHERE id=a.staffId) as staffAvatar,
-        (SELECT name FROM department WHERE id=a.departmentId) as departmentName
+        (SELECT name FROM department WHERE id=a.departmentId) as departmentName,
+       (SELECT GROUP_CONCAT(staffId separator ',') FROM requestprocesses WHERE requestId=a.id AND status=2) as processors,
+       (SELECT GROUP_CONCAT(staffId separator ',') FROM requestprocesses WHERE requestId=a.id AND status=3) as refusers 
             FROM requests a $where ");
         if ($query)
             $data = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -69,12 +71,21 @@ class request_model extends Model
         return $data;
     }
 
-    function getStaffs($staffIds)
+    function getProcessors($staffId)
     {
-        if ($staffIds != '')
-            $where = " WHERE status IN (1,2,3,4) AND id IN ($staffIds)";
+        $where = " WHERE status IN (1,2,3,4) AND id =$staffId";
+        $query = $this->db->query("SELECT id, name,avatar
+            FROM staffs a $where ");
+        $data = $query->fetchAll(PDO::FETCH_ASSOC);
+        if (isset($data[0]))
+            return $data[0];
         else
-            $where = " WHERE status IN (1,2,3,4)";
+            return [];
+    }
+
+    function getStaffs()
+    {
+        $where = " WHERE status IN (1,2,3,4)";
         $query = $this->db->query("SELECT id, name,avatar
             FROM staffs a $where ");
         $data = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -114,11 +125,12 @@ class request_model extends Model
             return 0;
     }
 
-    function getStep($defineId, $id)
+    function getStep($defineId, $requestId)
     {
-        $where = " WHERE status >0 AND defineId=$defineId AND id!=$id ORDER BY sortorder ASC";
+        $where = " WHERE status >0 AND defineId=$defineId 
+        AND id NOT IN (SELECT stepId FROM requestprocesses WHERE requestId=$requestId AND status>0) ";
         $query = $this->db->query("SELECT id
-            FROM requeststeps a $where LIMIT 1");
+            FROM requeststeps a $where ORDER BY sortorder ASC LIMIT 1");
         $data = $query->fetchAll(PDO::FETCH_ASSOC);
         if (isset($data[0]['id']))
             return $data[0]['id'];
@@ -135,6 +147,7 @@ class request_model extends Model
         return $data[0]['total'];
     }
 
+
     function addRequest($data)
     {
         $ok = $this->insert("requests", $data);
@@ -146,7 +159,7 @@ class request_model extends Model
 
     function updateRequest($id, $data)
     {
-        return $this->update("requests", $data, "id=$id");
+        return $this->update("requests", $data, "id=$id AND status=1");
     }
 
     function updateProperty($id, $data)
@@ -162,6 +175,11 @@ class request_model extends Model
     function addStep($data)
     {
         return $this->insert("requestprocesses", $data);
+    }
+
+    function updateProcess($requestId, $stepId, $status, $data)
+    {
+        return $this->update("requestprocesses", $data, "requestId=$requestId AND stepId=$stepId AND status=$status");
     }
 }
 
