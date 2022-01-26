@@ -8,16 +8,17 @@ class Tainguyen_Model extends Model
 
     function getFetObj($nhanvienid, $draw, $keyword, $offset, $rows)
     {
+        $role = $_SESSION['user']['classify'];
         $result = array();
-        $query = $this->db->query("SELECT COUNT(*) AS Total FROM resource WHERE name LIKE '%$keyword%'
-                                    AND (creatorId = $nhanvienid OR FIND_IN_SET($nhanvienid, staffId))");
+        $query = $this->db->query("SELECT COUNT(*) AS Total FROM resource WHERE status = 1 AND name LIKE '%$keyword%'
+                                    AND (creatorId = $nhanvienid OR FIND_IN_SET($nhanvienid, staffId)) OR $role = 1 AND status = 1");
         $row = $query->fetchAll();
         $query = $this->db->query("SELECT id, name, owner, supplier, link, username, password, note, classify, creatorId, 
                                 (SELECT customers.name FROM customers WHERE customers.id = owner) AS chusohuu, 
                                 (SELECT customers.name FROM customers WHERE customers.id = supplier AND customers.classify > 1) AS nhacungcap,
                                 (SELECT classify.name FROM classify WHERE classify.id = classify) AS phanloai, 
                                 (SELECT staffs.name FROM staffs WHERE staffs.id = creatorId) AS nguoitao 
-                                FROM resource WHERE status = 1 AND name LIKE '%$keyword%' AND (creatorId = $nhanvienid OR FIND_IN_SET($nhanvienid, staffId)) ORDER BY id DESC LIMIT $offset, $rows");
+                                FROM resource WHERE status = 1 AND name LIKE '%$keyword%' AND (creatorId = $nhanvienid OR FIND_IN_SET($nhanvienid, staffId)) OR $role = 1 AND status = 1 ORDER BY id DESC LIMIT $offset, $rows");
         $result['draw'] = intval($draw);
         $result['recordsTotal'] = $row[0]['Total'];
         $result['recordsFiltered'] = $row[0]['Total'];
