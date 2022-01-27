@@ -5,8 +5,8 @@ class acm_model extends Model{
     }
 
     function listObj(){
-        $query = $this->db->query("SELECT id, type, classify, content,
-            DATE_FORMAT(dateTime,'%d/%m/%Y %h:%i %p') AS dateTime ,
+        $query = $this->db->query("SELECT id, type, classify, content,dateTime,
+            DATE_FORMAT(dateTime,'%d/%m/%Y') AS dateTimeNew,
             FORMAT(asset,0) AS asset,            
             IFNULL((SELECT name FROM accnumber WHERE id = a.accnumber AND status > 0), 'No Name') AS accName
             FROM 
@@ -99,7 +99,7 @@ class acm_model extends Model{
     
     function nhanvien(){
         $result = array();
-        $query = $this->db->query("SELECT id, name AS `text` FROM staffs WHERE status = 1");
+        $query = $this->db->query("SELECT id, name AS `text` FROM staffs WHERE status IN (1,2,3,4,5)");
         if ($query)
             $result = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;

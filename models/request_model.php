@@ -147,6 +147,37 @@ class request_model extends Model
         return $data[0]['total'];
     }
 
+    function checkRequestCreator($requestId)
+    {
+        if ($_SESSION['user']['classify'] == 1)
+            return 1;
+        $staffId = $_SESSION['user']['staffId'];
+        $where = " WHERE status > 0 AND id=$requestId AND staffId=$staffId ";
+        $query = $this->db->query("SELECT COUNT(id) AS total
+            FROM requests a $where ");
+        $data = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $data[0]['total'];
+    }
+
+    function checkProcessorStep($stepId)
+    {
+        if ($_SESSION['user']['classify'] == 1)
+            return 1;
+        $staffId = $_SESSION['user']['staffId'];
+        $where = " WHERE status > 0 AND id=$stepId ";
+        $query = $this->db->query("SELECT processors
+            FROM requeststeps a $where ");
+        $data = $query->fetchAll(PDO::FETCH_ASSOC);
+        if (isset($data[0]['processors']) && $data[0]['processors'] != '') {
+            $processors = explode(",", $data[0]['processors']);
+            if (in_array($staffId, $processors))
+                return 1;
+            else
+                return 0;
+        } else
+            return 0;
+    }
+
 
     function addRequest($data)
     {

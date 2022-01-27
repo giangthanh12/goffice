@@ -214,9 +214,13 @@ $(function () {
         sidebar.modal('show');
         $('#btnRefuse').addClass('d-none');
         $('#btnApprove').addClass('d-none');
-        $('#btnUpdate').removeClass('d-none');
         $('#refuserLabel').addClass('d-none');
         $('#processorLabel').addClass("d-none");
+        if (funAdd == '1') {
+            $('#btnUpdate').removeClass('d-none');
+        } else {
+            $('#btnUpdate').addClass('d-none');
+        }
         $('#modalTitle').html("Tạo yêu cầu");
         $('#title').val('');
         $('#staffId').val(baseUser).trigger("change");
@@ -263,9 +267,9 @@ function initKanban() {
         element: '.kanban-wrapper',
         gutter: '15px',
         widthBoard: '250px',
-        dragItems: true,
+        dragItems: false,
         boards: boards,
-        dragBoards: true,
+        dragBoards: false,
         addItemButton: false,
         itemAddOptions: {
             enabled: false, // add a button to board for easy item creation
@@ -277,23 +281,53 @@ function initKanban() {
             var el = $(el);
             requestId = el.attr('data-eid');
             stepId = el.attr('data-stepId');
+            var $creator = el.attr('data-staffId');
             if (stepId == 'success') {
                 $('#btnRefuse').addClass('d-none');
                 $('#btnUpdate').addClass('d-none');
                 $('#btnApprove').addClass('d-none');
+                $('#btnDel').addClass('d-none');
                 $('#processorLabel').removeClass('d-none');
                 $('#refuserLabel').addClass('d-none');
-            }
-            else if(stepId == 'refuse'){
+            } else if (stepId == 'refuse') {
                 $('#btnRefuse').addClass('d-none');
                 $('#btnUpdate').addClass('d-none');
                 $('#btnApprove').addClass('d-none');
+                $('#btnDel').addClass('d-none');
                 $('#processorLabel').removeClass('d-none');
                 $('#refuserLabel').removeClass('d-none');
-            }else{
-                $('#btnRefuse').removeClass('d-none');
-                $('#btnUpdate').removeClass('d-none');
-                $('#btnApprove').removeClass('d-none');
+            } else {
+                if ($creator == baseUser) {
+                    if (funEdit == '1')
+                        $('#btnUpdate').removeClass('d-none');
+                    else
+                        $('#btnUpdate').addClass('d-none');
+                    if (funDel == '1')
+                        $('#btnDel').removeClass('d-none');
+                    else
+                        $('#btnDel').addClass('d-none');
+
+                } else {
+                    $('#btnUpdate').addClass('d-none');
+                    $('#btnDel').addClass('d-none');
+                }
+                var $processors = el.attr('data-processors');
+                $processors = $processors.split(",");
+                var index = $processors.indexOf(baseUser);
+                if (index > 0) {
+                    if (funRefuse == '1')
+                        $('#btnRefuse').removeClass('d-none');
+                    else
+                        $('#btnRefuse').addClass('d-none');
+                    if (funApprove == '1')
+                        $('#btnApprove').removeClass('d-none');
+                    else
+                        $('#btnApprove').addClass('d-none');
+                } else {
+                    $('#btnRefuse').addClass('d-none');
+                    $('#btnApprove').addClass('d-none');
+                }
+
                 $('#processorLabel').addClass('d-none');
                 $('#refuserLabel').addClass('d-none');
             }
@@ -396,7 +430,7 @@ function initKanban() {
             });
         },
         dragEl: function (el, source) {
-            console.log(source);
+            return false;
             $(el).find('.item-dropdown, .item-dropdown .dropdown-menu.show').removeClass('show');
         }
     });
@@ -471,6 +505,7 @@ function renderBoardDropdown() {
 
 // Render item dropdown
 function renderDropdown() {
+    return '';
     return (
         "<div class='dropdown item-dropdown px-1'>" +
         feather.icons['more-vertical'].toSvg({
@@ -592,8 +627,8 @@ $('#btnUpdate').on('click', function () {
                 processData: false,
                 dataType: "json",
                 success: function (result) {
-                    requestId = result.data.requestId;
                     if (result.code == 200) {
+                        requestId = result.data.requestId;
                         $('#fmProperties').validate({
                             submitHandler: function (formPro) {
                                 var formDataPro = new FormData(formPro);
@@ -650,7 +685,7 @@ $('#btnApprove').on('click', function () {
                 dataType: "json",
                 data: {requestId: requestId, stepId: stepId, defineId: $defineId},
                 success: function (data) {
-                    if (data.code = 200) {
+                    if (data.code == 200) {
                         $('.modal').modal('hide');
                         notyfi_success(data.message);
                         initKanban();
@@ -681,7 +716,39 @@ $('#btnRefuse').on('click', function () {
                 dataType: "json",
                 data: {requestId: requestId, stepId: stepId},
                 success: function (data) {
-                    if (data.code = 200) {
+                    if (data.code == 200) {
+                        $('.modal').modal('hide');
+                        notyfi_success(data.message);
+                        initKanban();
+                    } else
+                        notify_error(data.message);
+                },
+            });
+        }
+    });
+})
+
+$('#btnDel').on('click', function () {
+    Swal.fire({
+        title: 'Xóa yêu cầu',
+        text: "Bạn có chắc chắn muốn xóa yêu cầu này!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Tôi đồng ý',
+        customClass: {
+            confirmButton: 'btn btn-primary',
+            cancelButton: 'btn btn-outline-danger ml-1'
+        },
+        buttonsStyling: false
+    }).then(function (result) {
+        if (result.value) {
+            $.ajax({
+                url: baseHome + "/request/del",
+                type: 'post',
+                dataType: "json",
+                data: {requestId: requestId, stepId: stepId},
+                success: function (data) {
+                    if (data.code == 200) {
                         $('.modal').modal('hide');
                         notyfi_success(data.message);
                         initKanban();

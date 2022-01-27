@@ -15,6 +15,8 @@
 
 <script src="<?=HOME?>/styles/app-assets/vendors/js/tables/datatable/responsive.bootstrap4.js"></script>
 <script src="<?=HOME?>/styles/app-assets/vendors/js/forms/validation/jquery.validate.min.js"></script>
+<script src="https://cdn.datatables.net/fixedcolumns/4.0.1/js/dataTables.fixedColumns.min.js"></script>
+<script src="https://cdn.datatables.net/fixedheader/3.2.1/js/dataTables.fixedHeader.min.js"></script>
 <script src="<?=HOME?>/styles/app-assets/vendors/js/pickers/pickadate/picker.js"></script>
 <script src="<?=HOME?>/styles/app-assets/vendors/js/pickers/pickadate/picker.date.js"></script>
 <script src="<?=HOME?>/styles/app-assets/vendors/js/pickers/pickadate/picker.time.js"></script>

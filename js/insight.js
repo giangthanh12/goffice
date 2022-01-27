@@ -1,7 +1,154 @@
 $(function () {
 //   var dtUserTable = $(".user-list-table");
+    $(window).ready(function () {
+      $("#table").click(function () {
+        $("#table").addClass("hidden");
+        $("#chart").removeClass("hidden");
+      });
+      $("#chart").click(function () {
+        $("#chart").addClass("hidden");
+        $("#table").removeClass("hidden");
+      });
+    });
 
+    var dtUserTable = $(".user-list-table");
+
+      if (dtUserTable.length) {
+        dtUserTable.DataTable({
+          // ajax: assetPath + "data/user-list.json", // JSON file to add data
+          ajax: baseHome + "/acm/list",
+          ordering: false,
+          columns: [
+            // columns according to JSON
+            // { data: "" },
+            { data: "dateTime" },
+            { data: "accName" },
+            { data: "content" },
+            { data: "asset" },
+            { data: "classify" },
+            { data: "type" },
+            { data: "" },
+          ],
+          columnDefs: [
+            {
+              // For Responsive
+              // className: "control",
+              // orderable: false,
+              // responsivePriority: 0,
+              // targets: 0,
+              // render: function (data, type, full, meta) {
+              //     return "";
+              // }
+            },
+            {
+              // User full name and username
+              targets: 4,
+              render: function (data, type, full, meta) {
+                var $type = full["type"];
+                // console.log(typeObj);
+                return (
+                  "<span text-capitalized>" + typeObj[$type].title + "</span>"
+                );
+              },
+            },
+            {
+              // classify Status
+              targets: 5,
+              render: function (data, type, full, meta) {
+                var $classify = full["classify"];
+                return (
+                  '<span class="badge badge-pill ' +
+                  classifyObj[$classify].class +
+                  '" text-capitalized>' +
+                  classifyObj[$classify].title +
+                  "</span>"
+                );
+              },
+            },
+
+            {
+              // Actions
+              targets: -1,
+              title: feather.icons["database"].toSvg({
+                class: "font-medium-3 text-success mr-50",
+              }),
+              orderable: false,
+              render: function (data, type, full, meta) {
+                var html = "";
+                html +=
+                  '<div style="width: 80px;"><button type="button" class="btn btn-icon btn-outline-primary waves-effect" data-toggle="modal" data-target="#updateinfo" title="Chỉnh sửa" onclick="loaddata(' +
+                  full["id"] +
+                  ')">';
+                html += '<i class="fas fa-pencil-alt"></i>';
+                html += "</button> &nbsp;";
+                html +=
+                  '<button type="button" class="btn btn-icon btn-outline-danger waves-effect" title="Xóa" onclick="xoa(' +
+                  full["id"] +
+                  ')">';
+                html += '<i class="fas fa-trash-alt"></i>';
+                html += "</button></div>";
+                return html;
+              },
+            },
+          ],
+          // order: [[2, "desc"]],
+          dom:
+            '<"d-flex justify-content-between align-items-center header-actions mx-1 row mt-75"' +
+            '<"col-lg-12 col-xl-6" l>' +
+            '<"col-lg-12 col-xl-6 pl-xl-75 pl-0"<"dt-action-buttons text-xl-right text-lg-left text-md-right text-left d-flex align-items-center justify-content-lg-end align-items-center flex-sm-nowrap flex-wrap mr-1"<"mr-1"f>B>>' +
+            ">t" +
+            '<"d-flex justify-content-between mx-2 row mb-1"' +
+            '<"col-sm-12 col-md-6"i>' +
+            '<"col-sm-12 col-md-6"p>' +
+            ">",
+          language: {
+            sLengthMenu: "Show _MENU_",
+            search: "Search",
+            searchPlaceholder: "11111111112..",
+          },
+          language: {
+            paginate: {
+              // remove previous & next text from pagination
+              previous: "&nbsp;",
+              next: "&nbsp;",
+            },
+          },
+          // initComplete: function () {
+          //   // Adding plan filter once table initialized
+          //   this.api()
+          //     .columns(1)
+          //     .every(function () {
+          //       var column = this;
+          //       var select = $(
+          //         '<select id="UserPlan" class="form-control text-capitalize mb-md-0 mb-2"><option value=""> Tài khoản </option></select>'
+          //       )
+          //         .appendTo(".taikhoan_filter")
+          //         .on("change", function () {
+          //           var val = $.fn.dataTable.util.escapeRegex($(this).val());
+          //           column
+          //             .search(val ? "^" + val + "$" : "", true, false)
+          //             .draw();
+          //         });
+
+          //       column
+          //         .data()
+          //         .unique()
+          //         .sort()
+          //         .each(function (d, j) {
+          //           select.append(
+          //             '<option value="' +
+          //               d +
+          //               '" class="text-capitalize">' +
+          //               d +
+          //               "</option>"
+          //           );
+          //         });
+          //     });
+          // },
+        });
+      }
 })
+
 
     // modal = $("#updateinfo"),
     // customer = $("#customer"),

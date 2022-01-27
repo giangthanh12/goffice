@@ -15,7 +15,7 @@
                         <table class="user-list-table table">
                             <thead class="thead-light">
                                 <tr>
-                                    <th>Label Task</th>
+                                    <th>Nhãn công việc</th>
                                     <th>Mã màu</th>
                                     <th>Trạng thái</th>
                                     <th>Thao tác</th>

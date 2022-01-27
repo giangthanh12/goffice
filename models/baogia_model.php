@@ -13,55 +13,96 @@ class Baogia_model extends Model{
         return $result;
     }
 
-    function addObj($data)
+    function send()
     {
-        $data_bg['ngay'] = $data['ngay'];
-        $data_bg['khach_hang'] = $data['khach_hang'];
-        $data_bg['nhan_vien'] = $data['nhan_vien'];
-        $data_bg['tien_truoc_ck'] = str_replace( ',', '', $data['tien_truoc_ck']);
-        $data_bg['chiet_khau'] = str_replace( ',', '', $data['chiet_khau']);
-        $data_bg['tien_sau_ck'] = str_replace( ',', '', $data['tien_sau_ck']);
-        $data_bg['noi_dung'] = $data['noi_dung'];
-        $data_bg['dinh_kem'] = $data['dinh_kem'];
-        $data_bg['tinh_trang'] = $data['tinh_trang'];
-        $query = $this->insert("baogia",$data_bg);
-        if($query){
-            $query = $this->db->query("SELECT id FROM baogia order by id desc limit 1");
-            $temp = $query->fetchAll(PDO::FETCH_ASSOC);
-            $id = $temp[0]['id'];
-
-            for($i=0;$i < count($data['id_child']);$i++){
-                $child['bao_gia'] = $id;
-                $child['dich_vu'] = $data['id_child'][$i];
-                $child['so_luong'] = $data['so_luong_child'][$i];
-                $child['don_gia'] = str_replace( ',', '', $data['dongia_child'][$i]);
-                $child['loai'] = $data['loai_child'][$i];
-                $child['thue_vat'] = $data['thuevat_child'][$i];
-                $child['tu_ngay'] = $data['ngays_child'][$i];
-                $child['den_ngay'] = $data['ngaye_child'][$i];
-                $child['tien_thue'] = str_replace( ',', '', $data['tienthue_child'][$i]);
-                $child['chiet_khau_tm'] = str_replace( ',', '', $data['chietkhau_child'][$i]);
-                $child['thanh_tien'] = str_replace( ',', '', $data['thanhtien_child'][$i]);
-                $child['tinh_trang'] = 1;
-                $this->insert("baogiasub",$child);
-            }
-        }
-        return $query;
+        // if ($id==0) {
+        //     $query = $this->insert("quotation",$data);
+        //     if ($query) {
+        //         $id = $this->db->lastInsertId();
+        //         foreach ($items AS $item) {
+        //             $sub['quotationId'] = $id;
+        //             $sub['goods'] = $item['product'];
+        //             $sub['description'] =  $item['noteProduct'];
+        //             $sub['price'] = str_replace(',','',$item['price']);
+        //             $sub['unit'] = $item['unit'];
+        //             $sub['quantity'] = $item['qty'];
+        //             $sub['reduce'] = str_replace(',','',$item['discount']);
+        //             $sub['discount'] = $item['chietkhau'];
+        //             $sub['vat'] = $item['vat'];
+        //             $sub['status'] = 1;
+        //             $query = $this->insert("subquotation",$sub);
+        //         }
+        //     }
+        // } else {
+        //     $query = $this->update("quotation",$data,"id=$id");
+        //     if ($query) {
+        //         $query =  $this->db->query("UPDATE subquotation SET status=0 WHERE quotationIdid = $id");
+        //         foreach ($items AS $item) {
+        //             $sub['quotationId'] = $id;
+        //             $sub['goods'] = $item['product'];
+        //             $sub['description'] =  $item['noteProduct'];
+        //             $sub['price'] = str_replace(',','',$item['price']);
+        //             $sub['unit'] = $item['unit'];
+        //             $sub['quantity'] = $item['qty'];
+        //             $sub['reduce'] = str_replace(',','',$item['discount']);
+        //             $sub['discount'] = $item['chietkhau'];
+        //             $sub['vat'] = $item['vat'];
+        //             $sub['status'] = 1;
+        //             $query = $this->insert("subquotation",$sub);
+        //         }
+        //     }
+        // }
+        // $id = 1;
+        // if($id>0) {
+            $from = ['Email' => 'info@gemstech.com.vn', 'Name' => 'G-office'];
+            $tolist = [['Email' => 'hai@vdata.com.vn', 'Name' => 'Khách hàng']];
+            $subject = 'Báo giá gửi quý khách hàng';
+            $textpart = 'Báo giá gửi từ hệ thống G-office';
+            $noidung = 'Báo giá gửi từ hệ thống G-office';
+            $result = $this->sendmail($from, $tolist, [], [], $subject, $noidung, $textpart);
+        // }
+        return $result;
     }
 
-    function getdata($id){
-        $result = array();
-        $query_bg = $this->db->query("SELECT * ,FORMAT(tien_sau_ck,0) AS tien_sau_ck,
-        FORMAT(chiet_khau,0) AS chiet_khau,
-        FORMAT(tien_truoc_ck,0) AS tien_truoc_ck
-         FROM baogia WHERE id = $id");
-        $temp_bg = $query_bg->fetchAll(PDO::FETCH_ASSOC);
-        $result['baogia'] = $temp_bg[0];
-        $query_bgs = $this->db->query("SELECT * ,IF(loai=0,(SELECT name FROM dichvu WHERE id = baogiasub.dich_vu),(SELECT name FROM sanpham WHERE id = baogiasub.dich_vu)) AS name
-         FROM baogiasub WHERE bao_gia = $id");
-        $temp_bgs = $query_bgs->fetchAll(PDO::FETCH_ASSOC);
-        $result['baogiasub'] = $temp_bgs;
-        return $result;
+    function saveQuote($id,$data,$items){
+        if ($id==0) {
+            $query = $this->insert("quotation",$data);
+            if ($query) {
+                $id = $this->db->lastInsertId();
+                foreach ($items AS $item) {
+                    $sub['quotationId'] = $id;
+                    $sub['goods'] = $item['product'];
+                    $sub['description'] =  $item['noteProduct'];
+                    $sub['price'] = str_replace(',','',$item['price']);
+                    $sub['unit'] = $item['unit'];
+                    $sub['quantity'] = $item['qty'];
+                    $sub['reduce'] = str_replace(',','',$item['discount']);
+                    $sub['discount'] = $item['chietkhau'];
+                    $sub['vat'] = $item['vat'];
+                    $sub['status'] = 1;
+                    $query = $this->insert("subquotation",$sub);
+                }
+            }
+        } else {
+            $query = $this->update("quotation",$data,"id=$id");
+            if ($query) {
+                $query =  $this->db->query("UPDATE subquotation SET status=0 WHERE quotationIdid = $id");
+                foreach ($items AS $item) {
+                    $sub['quotationId'] = $id;
+                    $sub['goods'] = $item['product'];
+                    $sub['description'] =  $item['noteProduct'];
+                    $sub['price'] = str_replace(',','',$item['price']);
+                    $sub['unit'] = $item['unit'];
+                    $sub['quantity'] = $item['qty'];
+                    $sub['reduce'] = str_replace(',','',$item['discount']);
+                    $sub['discount'] = $item['chietkhau'];
+                    $sub['vat'] = $item['vat'];
+                    $sub['status'] = 1;
+                    $query = $this->insert("subquotation",$sub);
+                }
+            }
+        }
+        return $id;
     }
 
     function updateObj($id, $data)

@@ -49,7 +49,7 @@
                                                     <div class="col-lg-3 col-md-6">
                                                         <div class="form-group">
                                                             <label for="name">Tên tài khoản</label>
-                                                            <input type="text" id="name" class="form-control " placeholder="Chọn thời gian">
+                                                            <input type="text" id="name" class="form-control " placeholder="Nhập tên tài khoản">
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-3 col-md-6">
@@ -60,7 +60,7 @@
                                                     </div>
                                                    <div class="col-lg-3 col-md-6">
                                                         <div class="form-group">
-                                                            <label for="type">Hạch toán</label>
+                                                            <label for="type">Loại giao dịch</label>
                                                             <select name="type" id="type" class="form-control">
                                                                 <option value="111">Tiền mặt</option>
                                                                 <option value="112">Ngân hàng</option>
