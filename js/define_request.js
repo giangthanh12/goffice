@@ -262,6 +262,11 @@ function showAdd() {
 
 
 function loaddata(id) {
+    if(funAdd == 1){
+        $('#btnStep,#addobject1,#btnUpdate,#btnUpdate2').removeClass('d-none'); 
+    }else{
+        $('#btnStep,#addobject1,#btnUpdate,#btnUpdate2').addClass('d-none');
+    }
     step =0;
     arrStep = [];
     stepIds = [];
