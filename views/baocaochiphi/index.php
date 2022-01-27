@@ -20,7 +20,7 @@
                     <div class="">
                         <div class="col-md-12 col-12 revenue-report-wrapper">
                             <div class="">
-                                <h4 class="col-md-12 col-12" id="title_thongke">Thống kê doanh thu</h4>
+                                <h4 class="col-md-12 col-12" id="title_thongke">Thống kê chi phí</h4>
                                 <div class="col-md-12 col-12">
                                     <div class="row  mt-3">
                                         <div class="col-xl-4 col-sm-6 col-12">
@@ -79,9 +79,10 @@
                                 <thead class="thead-light">
                                     <tr>
                                         <th>Ngày</th>
-                                        <th>Khách hàng</th>
-                                        <th>NV Sale</th>
+                                        <th>Đối tác/Nhà cung cấp</th>
+                                        <th>Khoản chi</th>
                                         <th>Đơn hàng/Hợp đồng</th>
+                                        <th>Nội dung</th>
                                         <th>Số tiền</th>
                                         <th>Ghi chú</th>
                                     </tr>
@@ -95,4 +96,4 @@
         </div>
     </div>
     <script src="<?=HOME?>/styles/app-assets/vendors/js/charts/apexcharts.min.js"></script>
-    <script src="<?= HOME ?>/js/baocaodoanhthu.js"></script>
+    <script src="<?= HOME ?>/js/baocaochiphi.js"></script>

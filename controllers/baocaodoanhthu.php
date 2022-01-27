@@ -6,6 +6,9 @@ class baocaodoanhthu extends Controller{
 
     function index(){
         require "layouts/header.php";
+        $this->view->doanhso = $this->model->totalDoanhso();
+        $this->view->thucthu = $this->model->totalThucthu();
+        $this->view->thucchi = $this->model->totalThucchi();
         $this->view->render("baocaodoanhthu/index");
         require "layouts/footer.php";
     }
@@ -148,7 +151,7 @@ class baocaodoanhthu extends Controller{
         $time_s = $_REQUEST['time_s'];
         $time_e = $_REQUEST['time_e'];
         $json['socai'] = $this->model->socai_loc($time_s,$time_e);
-        $json['donhang'] = $this->model->donhang_loc($time_s,$time_e);
+        // $json['donhang'] = $this->model->donhang_loc($time_s,$time_e);
       
         
         echo json_encode($json);
