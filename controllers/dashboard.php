@@ -45,5 +45,29 @@ class dashboard extends Controller{
         }
         $this->view->render("dashboard/del");
     }
+
+    function reportProfitLoss() 
+    {
+        $json = $this->model->reportProfitLoss();
+        echo json_encode($json);
+    }
+
+    function reportCashFlow() 
+    {
+        $json = $this->model->reportCashFlow();
+        echo json_encode($json);
+    }
+
+    function reportCustomer() 
+    {
+        $json = $this->model->reportCustomer();
+        echo json_encode($json);
+    }
+
+    function reportData() 
+    {
+        $json = $this->model->reportData();
+        echo json_encode($json);
+    }
 }
 ?>

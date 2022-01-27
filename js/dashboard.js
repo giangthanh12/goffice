@@ -24,6 +24,7 @@ $(window).on('load', function () {
   var $statisticsProfitChart = document.querySelector('#statistics-profit-chart');
   var $earningsChart = document.querySelector('#earnings-chart');
   var $revenueReportChart = document.querySelector('#revenue-report-chart');
+  var $cashflowReportChart = document.querySelector('#cash-flow-report-chart');
   var $budgetChart = document.querySelector('#budget-chart');
   var $browserStateChartPrimary = document.querySelector('#browser-state-chart-primary');
   var $browserStateChartWarning = document.querySelector('#browser-state-chart-warning');
@@ -36,6 +37,7 @@ $(window).on('load', function () {
   var statisticsProfitChartOptions;
   var earningsChartOptions;
   var revenueReportChartOptions;
+  var cashflowReportChartOptions;
   var budgetChartOptions;
   var browserStatePrimaryChartOptions;
   var browserStateWarningChartOptions;
@@ -48,6 +50,7 @@ $(window).on('load', function () {
   var statisticsProfitChart;
   var earningsChart;
   var revenueReportChart;
+  var cashflowReportChart;
   var budgetChart;
   var browserStatePrimaryChart;
   var browserStateDangerChart;
@@ -55,6 +58,13 @@ $(window).on('load', function () {
   var browserStateSecondaryChart;
   var browserStateWarningChart;
   var goalOverviewChart;
+  var arrNewCustomer = [];
+  var arrData = [];
+  var arrMonth = [];
+  var arrProfit = [];
+  var arrLoss = [];
+  var arrExpectedProfit = [];
+  var arrExpectedLoss = [];
   var isRtl = $('html').attr('data-textdirection') === 'rtl';
 
   // // On load Toast
@@ -70,17 +80,62 @@ $(window).on('load', function () {
   //   );
   // }, 2000);
 
-    $.ajax({ // tải thông báo
-        type: "GET",
-        dataType: "json",
-        async: false,
-        url: baseHome + "/dashboard/getdata",
-        success: function (data) {
-            $('#nguoigui').html('🎉 '+data['thongbao']['nguoigui']);
-            $('#noidung').html(data['thongbao']['tieu_de']);
-            $('#tinmoi').html(data['tinmoi']);
-        },
-    });
+  $.ajax({ // tải thông báo
+    type: "GET",
+    dataType: "json",
+    async: false,
+    url: baseHome + "/dashboard/getdata",
+    success: function (data) {
+      $('#nguoigui').html('🎉 ' + data['thongbao']['nguoigui']);
+      $('#noidung').html(data['thongbao']['tieu_de']);
+      $('#tinmoi').html(data['tinmoi']);
+    },
+  });
+
+  $.ajax({ // Report Customer
+    type: "GET",
+    dataType: "json",
+    async: false,
+    url: baseHome + "/dashboard/reportCustomer",
+    success: function (data) {
+      $('#new-customer').html(data.newCustomer)
+      arrNewCustomer = data.arrNewCustomer;
+      arrMonth = data.arrMonth;
+    },
+  });
+
+  $.ajax({ // Report Data
+    type: "GET",
+    dataType: "json",
+    async: false,
+    url: baseHome + "/dashboard/reportData",
+    success: function (data) {
+      $('#change-data').html(data.changeData)
+      arrData = data.arrData;
+    },
+  });
+
+  $.ajax({ // Report Profit/Loss
+    type: "GET",
+    dataType: "json",
+    async: false,
+    url: baseHome + "/dashboard/reportProfitLoss",
+    success: function (data) {
+      arrProfit = data.arrProfit;
+      arrLoss = data.arrLoss;
+    },
+  });
+
+  $.ajax({ // Report Cash flow
+    type: "GET",
+    dataType: "json",
+    async: false,
+    url: baseHome + "/dashboard/reportCashFlow",
+    success: function (data) {
+      arrExpectedProfit = data.arrExpectedProfit;
+      arrExpectedLoss = data.arrExpectedLoss;
+    },
+  });
 
   //------------ Statistics Bar Chart ------------
   //----------------------------------------------
@@ -186,7 +241,7 @@ $(window).on('load', function () {
     colors: [window.colors.solid.info],
     series: [
       {
-        data: [0, 20, 5, 30, 15, 45]
+        data: arrNewCustomer,
       }
     ],
     markers: {
@@ -213,6 +268,7 @@ $(window).on('load', function () {
       }
     },
     xaxis: {
+      categories: arrMonth,
       labels: {
         show: true,
         style: {
@@ -251,10 +307,10 @@ $(window).on('load', function () {
     dataLabels: {
       enabled: false
     },
-    series: [53, 16, 31],
+    series: arrData,
     legend: { show: false },
     comparedResult: [2, -3, 8],
-    labels: ['App', 'Service', 'Product'],
+    labels: ['Đã chuyển đổi', 'Chưa chuyển đổi'],
     stroke: { width: 0 },
     colors: [$earningsStrokeColor2, $earningsStrokeColor3, window.colors.solid.success],
     grid: {
@@ -282,9 +338,9 @@ $(window).on('load', function () {
             total: {
               show: true,
               offsetY: 15,
-              label: 'App',
+              label: 'Đã chuyển đổi',
               formatter: function (w) {
-                return '53%';
+                return arrData[0]+'%';
               }
             }
           }
@@ -334,30 +390,36 @@ $(window).on('load', function () {
   revenueReportChartOptions = {
     chart: {
       height: 230,
-      stacked: true,
+      width: '100%',
+      stacked: false,
       type: 'bar',
       toolbar: { show: false }
     },
     plotOptions: {
       bar: {
-        columnWidth: '17%',
+        columnWidth: '80%',
         endingShape: 'rounded'
       },
       distributed: true
     },
-    colors: [window.colors.solid.primary, window.colors.solid.warning],
+    colors: [window.colors.solid.success, window.colors.solid.danger],
     series: [
       {
-        name: 'Earning',
-        data: [95, 177, 284, 256, 105, 63, 168, 218, 72]
+        name: 'Doanh thu',
+        data: arrProfit
       },
       {
-        name: 'Expense',
-        data: [-145, -80, -60, -180, -100, -60, -85, -75, -100]
+        name: 'Chi phí',
+        data: arrLoss
       }
     ],
     dataLabels: {
       enabled: false
+    },
+    stroke: {
+      show: true,
+      width: 1,
+      colors: ['#fff']
     },
     legend: {
       show: false
@@ -372,7 +434,8 @@ $(window).on('load', function () {
       }
     },
     xaxis: {
-      categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+      width: '100%',
+      categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
       labels: {
         style: {
           colors: $textMutedColor,
@@ -397,6 +460,90 @@ $(window).on('load', function () {
   };
   revenueReportChart = new ApexCharts($revenueReportChart, revenueReportChartOptions);
   revenueReportChart.render();
+
+   //------------ Cash flow Report Chart ------------
+  //----------------------------------------------
+  cashflowReportChartOptions = {
+    chart: {
+      height: 230,
+      width: '100%',
+      stacked: false,
+      type: 'bar',
+      toolbar: { show: false }
+    },
+    plotOptions: {
+      bar: {
+        columnWidth: '80%',
+        endingShape: 'rounded'
+      },
+      distributed: true
+    },
+    colors: [window.colors.solid.primary, window.colors.solid.success, window.colors.solid.warning, window.colors.solid.danger],
+    series: [
+      {
+        name: 'Dự thu',
+        data: arrExpectedProfit
+      },
+      {
+        name: 'Thực thu',
+        data: arrProfit
+      },
+      {
+        name: 'Dự chi',
+        data: arrExpectedLoss
+      },
+      {
+        name: 'Thực chi',
+        data: arrLoss
+      }
+    ],
+    dataLabels: {
+      enabled: false,
+    },
+    stroke: {
+      show: true,
+      width: 1,
+      colors: ['#fff']
+    },
+    legend: {
+      show: false
+    },
+    grid: {
+      padding: {
+        top: -20,
+        bottom: -10
+      },
+      yaxis: {
+        lines: { show: false }
+      }
+    },
+    xaxis: {
+      width: '100%',
+      categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+      labels: {
+        style: {
+          colors: $textMutedColor,
+          fontSize: '0.86rem',
+        }
+      },
+      axisTicks: {
+        show: false
+      },
+      axisBorder: {
+        show: false
+      }
+    },
+    yaxis: {
+      labels: {
+        style: {
+          colors: $textMutedColor,
+          fontSize: '0.86rem'
+        }
+      }
+    }
+  };
+  cashflowReportChart = new ApexCharts($cashflowReportChart, cashflowReportChartOptions);
+  cashflowReportChart.render();
 
   //---------------- Budget Chart ----------------
   //----------------------------------------------
