@@ -94,12 +94,16 @@ class listusers extends Controller
     function update()
     {
         $id = $_REQUEST['id'];
+        $username = $_POST['username'];
+        $usernameMd5 = md5($username);
         $staffId = $_POST['staffId'];
         $groupId = $_POST['groupId'];
         $password = $_POST['password'];
         $extNum = $_POST['extNum'];
         $sipPass = $_POST['sipPass'];
         $data = [
+            'username' => $username,
+            'usernameMd5' => $usernameMd5,
             'staffId' => $staffId,
             'groupId' => $groupId,
             'extNum'=>$extNum,

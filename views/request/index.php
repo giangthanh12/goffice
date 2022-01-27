@@ -84,7 +84,13 @@
                                     <li class="nav-item">
                                         <a class="nav-link nav-link-activity" data-toggle="tab" href="#tab-activity">
                                             <i data-feather="activity"></i>
-                                            <span class="align-middle">Thuộc tính</span>
+                                            <span class="align-middle">Chi tiết</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link nav-link-comments" data-toggle="tab" href="#tab-comments">
+                                            <i data-feather="message-square"></i>
+                                            <span class="align-middle">Phản hồi</span>
                                         </a>
                                     </li>
                                 </ul>
@@ -145,6 +151,17 @@
                                                        class="form-control" placeholder="Tên thuộc tính"/>
                                             </div>
                                         </form>
+                                    </div>
+                                    <div class="tab-pane tab-pane-comments pb-1 fade" id="tab-comments" role="tabpanel">
+                                        <div class="media mb-1">
+                                            <div class="avatar bg-light-success my-0 ml-0 mr-50">
+                                                <span class="avatar-content">HJ</span>
+                                            </div>
+                                            <div class="media-body">
+                                                <p class="mb-0"><span class="font-weight-bold">Jordan</span> Left the board.</p>
+                                                <small class="text-muted">Today 11:00 AM</small>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
