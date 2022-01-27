@@ -298,7 +298,7 @@ $(function () {
     validator.resetForm();
     $(".error").removeClass("error"); // loại bỏ validate
     $("#updateinfo").modal("show");
-    $(".modal-title").html("Thêm thu chi mới");
+    $(".modal-title").html("Thêm chi mới");
     // $("#btn_add").attr("disabled", true);
     $("#dg").trigger("reset");
     // url = baseHome + "/acm/add";
@@ -315,7 +315,7 @@ $(function () {
     validator.resetForm();
     $(".error").removeClass("error"); // loại bỏ validate
     $("#updateinfo").modal("show");
-    $(".modal-title").html("Thêm thu chi mới");
+    $(".modal-title").html("Thêm thu mới");
     // $("#btn_add").attr("disabled", true);
     $("#dg").trigger("reset");
     // url = baseHome + "/acm/add";
