@@ -32,28 +32,14 @@ class baogia extends Controller{
             $jsonObj['row'] = $product;
             $jsonObj['success'] = true;
         } else {
-            $jsonObj['msg'] = "Cập nhật không thành công".$id;
+            $jsonObj['msg'] = "Lỗi query database";
             $jsonObj['success'] = false;
         }
         $jsonObj = json_encode($jsonObj);
         echo $jsonObj;
     }
 
-    function save(){
-        $data = $_REQUEST['data'];
-        // $product = $this->model->getProductDetail($id);
-        // if (count($product)>0) {
-        //     $jsonObj['row'] = $product;
-        //     $jsonObj['success'] = true;
-        // } else {
-            $jsonObj['msg'] = "Cập nhật không thành công".json_encode($data);
-            $jsonObj['success'] = false;
-        // }
-        $jsonObj = json_encode($jsonObj);
-        echo $jsonObj;
-    }
-
-    function newCustomer(){
+    function newCustomer(){ // them khach hang moi
         $customer = $_REQUEST['cusName'];
         $address = $_REQUEST['cusAdd'];
         $city = $_REQUEST['city'];
@@ -79,12 +65,54 @@ class baogia extends Controller{
         echo json_encode($json);
     }
 
-    // function comment(){
-    //     $id = $_REQUEST['id'];
-    //     $data = $this->model->comment($id);
-    //     echo json_encode($data);
-    // }
-    //
+    function save(){ // ghi nhap
+        $id = $_REQUEST['id'];
+        $customer = $_REQUEST['customer'];
+        $date = $_REQUEST['date'];
+        $validDate = $_REQUEST['validdate'];
+        $note = $_REQUEST['note'];
+        $items = $_REQUEST['items'];
+        $total = str_replace(',','',$_REQUEST['total']);
+        $tax = str_replace(',','',$_REQUEST['tax']);
+        $data = ['customerId'=>$customer, 'amount'=>$total, 'vat'=>$tax, 'note'=>$note, 'status'=>1, 'date'=>$date, 'validDate'=>$validDate];
+        $quoteid = $this->model->saveQuote($id,$data,$items);
+        if ($quoteid>0) {
+            $jsonObj['msg'] = "Đã ghi báo giá";
+            $jsonObj['success'] = true;
+            $jsonObj['id'] = $quoteid;
+        } else {
+            $jsonObj['msg'] = "Cập nhật không thành công".json_encode($items);
+            $jsonObj['success'] = false;
+        }
+        $jsonObj = json_encode($jsonObj);
+        echo $jsonObj;
+    }
+
+    function send(){ // gui bao gia qua email
+        // $id = $_REQUEST['id'];
+        // $customer = $_REQUEST['customer'];
+        // $date = $_REQUEST['date'];
+        // $validDate = $_REQUEST['validdate'];
+        // $note = $_REQUEST['note'];
+        // $items = $_REQUEST['items'];
+        // $total = str_replace(',','',$_REQUEST['total']);
+        // $tax = str_replace(',','',$_REQUEST['tax']);
+        // $data = ['customerId'=>$customer, 'amount'=>$total, 'vat'=>$tax, 'note'=>$note, 'status'=>1, 'date'=>$date, 'validDate'=>$validDate];
+        // $quoteid = $this->model->send($id,$data,$items);
+        // if ($quoteid>0) {
+        //     $jsonObj['msg'] = "Đã gửi báo giá và ghi lại";
+        //     $jsonObj['success'] = true;
+        //     $jsonObj['id'] = $quoteid;
+        // } else {
+        //     $jsonObj['msg'] = "Cập nhật không thành công".json_encode($items);
+        //     $jsonObj['success'] = false;
+        // }
+        // $jsonObj = json_encode($jsonObj);
+        // echo $jsonObj;
+        $result = $this->model->send();
+        echo $result;
+    }
+
     // function del(){
     //     $id = $_REQUEST['id'];
     //     if ($this->model->delObj($id)) {
@@ -127,11 +155,10 @@ class baogia extends Controller{
     //     echo $jsonObj;
     // }
     //
-    // function checkcomm() // dùng cho notification
-    // {
-    //     $data = $this->model->checkcomm();
-    //     echo json_encode($data);
-    // }
+    function printout()
+    {
+        $this->view->render("baogia/print");
+    }
 
 }
 ?>

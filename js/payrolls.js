@@ -13,31 +13,35 @@ $(function () {
     if (dtUserTable.length) {
         dtUserTable.DataTable({
             ajax: baseHome + "/payrolls/list?month=" + month + "&year=" + year,
-            autoWidth: false,
+            autoWidth: true,
             ordering: false,
-            fixedColumns: true,
-            searching: false,
+            fixedColumns:   {
+                left: 2
+            },
+            searching: true,
+            "lengthMenu": [[7, 15, 25, 50], [7, 15, 25, 50, "All"]],
             paging: false,
-            // select: {
-            //     style: 'single'
-            // },
-            fixedHeader: true,
-            scrollX: true,
+            // // select: {
+            // //     style: 'single'
+            // // },
+            "scrollY":"430px",
+            "scrollX":true,
+            "scrollCollapse": true,
             columns: [
-                {data: ""},
+                {data: "id"},
                 {data: "staffName"},
                 {data: "wokingDays"},
                 {data: "basicSalary"},
                 {data: "totalWorkDays"},
-                {data: ""},
+                {data: "id"},
                 {data: "allowance"},
                 {data: "revenueBonus"},
                 {data: "tetBonus"},
                 {data: "otherBonus"},
-                {data: ""},
+                {data: "id"},
                 {data: "insurance"},
                 {data: "advance"},
-                {data: "totalSalary"}
+                {data: "id"}
             ],
             columnDefs: [
                 {
@@ -189,14 +193,15 @@ $(function () {
                 '<"col-sm-12 col-md-6"p>' +
                 ">",
             language: {
-                sLengthMenu: "Show _MENU_",
-                search: "Search",
-                searchPlaceholder: "11111111112..",
+                sLengthMenu: "Hiển thị _MENU_",
+                search: "",
+                searchPlaceholder: "Tìm kiếm...",
                 paginate: {
                     // remove previous & next text from pagination
                     previous: "&nbsp;",
                     next: "&nbsp;",
                 },
+                info:"Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
             },
             // Buttons with Dropdown
             buttons: [

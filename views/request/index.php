@@ -42,7 +42,7 @@
                 </div>
                 <div class="d-flex mx-25 row pt-1 pb-1">
                     <div class="position-relative mx-75">
-                        <button type="button" class="btn btn-primary" id="addNewButon">Tạo yêu cầu</button>
+                        <button type="button" class="btn btn-primary <?=$this->funAdd!=1?'d-none':''?>" id="addNewButon">Tạo yêu cầu</button>
                     </div>
                 </div>
             </div>
@@ -151,11 +151,13 @@
                             <div class="modal-footer">
                                 <div class="form-group">
                                     <div class="d-flex flex-wrap">
-                                        <button class="btn btn-primary mr-1" id="btnUpdate">Cập nhật
+                                        <button class="btn btn-primary mr-1" style="margin-bottom: 15px;" id="btnUpdate">Cập nhật
                                         </button>
-                                        <button type="button" class="btn btn-success mr-1 d-none" id="btnApprove" onclick="">Duyệt
+                                        <button type="button" class="btn btn-success mr-1 d-none " style="margin-bottom: 15px;" id="btnApprove" onclick="">Duyệt
                                         </button>
-                                        <button type="button" class="btn btn-outline-danger d-none" id="btnRefuse">Từ chối
+                                        <button type="button" class="btn btn-outline-danger d-none" style="margin-bottom: 15px;" id="btnRefuse">Từ chối
+                                        </button>
+                                        <button type="button" class="btn btn-danger mr-1 d-none" style="margin-bottom: 15px;" id="btnDel">Xóa
                                         </button>
                                     </div>
                                 </div>
@@ -171,4 +173,11 @@
     </div>
 </div>
 <!-- END: Content-->
+<script>
+    var funEdit = '<?=$this->funEdit?>',
+        funApprove = '<?=$this->funApprove?>',
+        funRefuse = '<?=$this->funRefuse?>',
+        funDel = '<?=$this->funDel?>',
+        funAdd = '<?=$this->funAdd?>';
+</script>
 <script src="<?= HOME ?>/js/request.js"></script>

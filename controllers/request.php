@@ -2,9 +2,27 @@
 
 class request extends Controller
 {
+    static private $funAdd=0,$funEdit=0,$funApprove=0,$funRefuse=0,$funDel=0;
     function __construct()
     {
         parent::__construct();
+        $model = new model();
+        $checkMenuRole = $model->checkMenuRole('request');
+        if ($checkMenuRole == false)
+            header('location:' . HOME);
+        $funcs = $model->getFunctions('request');
+        foreach ($funcs as $item) {
+            if ($item['function'] == 'add')
+                self::$funAdd = 1;
+            if ($item['function'] == 'edit')
+                self::$funEdit = 1;
+            if ($item['function'] == 'del')
+                self::$funDel = 1;
+            if ($item['function'] == 'approve')
+                self::$funApprove = 1;
+            if ($item['function'] == 'refuse')
+                self::$funRefuse = 1;
+        }
 
     }
 
@@ -14,6 +32,11 @@ class request extends Controller
         $this->view->departments = $this->model->getDepartments();
         $this->view->staffs = $this->model->getStaffs();
         $this->view->requests = $this->model->getRequestDefines();
+        $this->view->funAdd = self::$funAdd;
+        $this->view->funEdit = self::$funEdit;
+        $this->view->funDel = self::$funDel;
+        $this->view->funApprove = self::$funApprove;
+        $this->view->funRefuse = self::$funRefuse;
         $this->view->render("request/index");
         require "layouts/footer.php";
     }
@@ -22,9 +45,8 @@ class request extends Controller
     {
         $defineId = isset($_REQUEST['defineId']) ? $_REQUEST['defineId'] : 0;
         $process = $this->model->getAllStep($defineId);
-
         foreach ($process as $key => $item) {
-            $jsonObj[]['id'] = 'step-'.$item['id'];
+            $jsonObj[]['id'] = 'step-' . $item['id'];
             $jsonObj[$key]['title'] = $item['name'];
             $tempItems = $this->model->getALlRequestSteps($item['id']);
             $jsonObj[$key]['item'] = [];
@@ -87,14 +109,16 @@ class request extends Controller
             array_push($jsonObj[$processKey + 2]['item'], $temp);
         }
         $jsonObjNew = [];
-        foreach ($jsonObj as $item){
-            $jsonObjNew[]=$item;
+        foreach ($jsonObj as $item) {
+            $jsonObjNew[] = $item;
         }
         echo json_encode($jsonObjNew);
     }
 
     function addRequest()
     {
+        if(self::$funAdd!=1)
+            return false;
         $defineId = isset($_REQUEST['defineId']) ? $_REQUEST['defineId'] : 0;
         $process = $this->model->getAllStep($defineId);
         $data['defineId'] = $defineId;
@@ -151,9 +175,18 @@ class request extends Controller
 
     function editRequest()
     {
+        if(self::$funEdit!=1)
+            return false;
         $jsonObj = [];
         $data = [];
         $requestId = $_REQUEST['id'];
+        $checkCreator = $this->model->checkRequestCreator($requestId);
+        if ($checkCreator <= 0) {
+            $jsonObj['code'] = 401;
+            $jsonObj['message'] = "Bạn không thể sửa yêu cầu của người khác!";
+            echo json_encode($jsonObj);
+            return false;
+        }
         $title = $_REQUEST['title'];
         if ($title == '') {
             $jsonObj['code'] = 402;
@@ -184,7 +217,7 @@ class request extends Controller
         $ok = $this->model->updateRequest($requestId, $data);
         if ($ok) {
             $jsonObj['code'] = 200;
-            $jsonObj['message'] = "Cập nhật yêu cầu thành công!";
+            $jsonObj['message'] = "Cập nhật yêu cầu thành công! ";
             $jsonObj['data']['requestId'] = $requestId;
         } else {
             $jsonObj['code'] = 400;
@@ -195,6 +228,8 @@ class request extends Controller
 
     function saveProperties()
     {
+        if(self::$funAdd!=1 || self::$funEdit!=1)
+            return false;
         $defineId = isset($_REQUEST['defineId']) ? $_REQUEST['defineId'] : 0;
         if ($defineId <= 0)
             return false;
@@ -230,12 +265,21 @@ class request extends Controller
 
     function approve()
     {
+        if(self::$funApprove!=1)
+            return false;
         $requestId = isset($_REQUEST['requestId']) ? $_REQUEST['requestId'] : 0;
         if ($requestId <= 0)
             return false;
         $stepId = isset($_REQUEST['stepId']) ? $_REQUEST['stepId'] : 0;
         if ($stepId <= 0)
             return false;
+        $checkProcess = $this->model->checkProcessorStep($stepId);
+        if ($checkProcess <= 0) {
+            $jsonObj['code'] = 401;
+            $jsonObj['message'] = "Bạn không có quyền duyệt yêu cầu này!";
+            echo json_encode($jsonObj);
+            return false;
+        }
         $defineId = isset($_REQUEST['defineId']) ? $_REQUEST['defineId'] : 0;
         $staffId = $_SESSION['user']['staffId'];
         $dataProcess = ['status' => 2, 'staffId' => $staffId];
@@ -260,12 +304,21 @@ class request extends Controller
 
     function refuse()
     {
+        if(self::$funRefuse!=1)
+            return false;
         $requestId = isset($_REQUEST['requestId']) ? $_REQUEST['requestId'] : 0;
         if ($requestId <= 0)
             return false;
         $stepId = isset($_REQUEST['stepId']) ? $_REQUEST['stepId'] : 0;
         if ($stepId <= 0)
             return false;
+        $checkProcess = $this->model->checkProcessorStep($stepId);
+        if ($checkProcess <= 0) {
+            $jsonObj['code'] = 401;
+            $jsonObj['message'] = "Bạn không có quyền từ chối yêu cầu này!";
+            echo json_encode($jsonObj);
+            return false;
+        }
         $staffId = $_SESSION['user']['staffId'];
         $dataProcess = ['status' => 3, 'staffId' => $staffId];
         $this->model->updateProcess($requestId, $stepId, 1, $dataProcess);
@@ -277,6 +330,31 @@ class request extends Controller
         } else {
             $jsonObj['code'] = 400;
             $jsonObj['message'] = "Từ chôi yêu cầu thất bại!";
+        }
+        echo json_encode($jsonObj);
+    }
+
+    function del(){
+        if(self::$funDel!=1)
+            return false;
+        $requestId = isset($_REQUEST['requestId']) ? $_REQUEST['requestId'] : 0;
+        if ($requestId <= 0)
+            return false;
+        $checkCreator = $this->model->checkRequestCreator($requestId);
+        if ($checkCreator <= 0) {
+            $jsonObj['code'] = 401;
+            $jsonObj['message'] = "Bạn không thể xóa yêu cầu của người khác!";
+            echo json_encode($jsonObj);
+            return false;
+        }
+        $dataRequest = ['status' => 0];
+        $checkDel = $this->model->updateRequest($requestId, $dataRequest);
+        if ($checkDel) {
+            $jsonObj['code'] = 200;
+            $jsonObj['message'] = "Xóa yêu cầu thành công!";
+        } else {
+            $jsonObj['code'] = 400;
+            $jsonObj['message'] = "Xóa yêu cầu thất bại!";
         }
         echo json_encode($jsonObj);
     }
