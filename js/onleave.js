@@ -22,33 +22,7 @@ $(function () {
     listItemFilter = $(".list-group-filters"),
     noResults = $(".no-results");
 
-  // list_to_do();
-  // load_select(
-  //   $("#level"),
-  //   baseHome + "/project/getLevelProject",
-  //   "Cấp độ dự án"
-  // );
-  // load_select(
-  //   $("#status"),
-  //   baseHome + "/project/getStatusProject",
-  //   "Trạng thái dự án"
-  // );
-
-  // $("#level").change(function () {
-  //   changeColorLevel();
-  // });
-  // $("#status").change(function () {
-  //   changeColorStatus();
-  // });
-  // biến đổi màu cho select
-  // function changeColorLevel() {
-  //   var style = $("option:selected", levelProject).attr("style");
-  //   $(levelProject).attr("style", `${style}`);
-  // }
-  // function changeColorStatus() {
-  //   var style = $("option:selected", statusProject).attr("style");
-  //   $(statusProject).attr("style", `${style}`);
-  // }
+ 
 
   // if it is not touch device
   if (!$.app.menu.is_touch_device()) {
@@ -181,6 +155,9 @@ $(function () {
 
     addTaskBtn.on("click", function (e) {
       $("#updateRequest").removeClass("d-none");
+      if(funAdd == 0) {
+        $("#updateRequest").addClass("d-none");
+      }
       $("#refuseRequest").addClass("d-none");
       $("#onLeave").addClass("d-none");
       sidebarLeft.removeClass("show");
@@ -296,6 +273,8 @@ $(function () {
       data: { id: id },
       url: baseHome + "/onleave/getitem",
       success: function (obj) {
+        $("#updateRequest").removeClass("d-none");
+       
         newTaskForm.find(".new-todo-item-title").val(obj.name);
         var quill_editor = $("#task-desc .ql-editor p");
         quill_editor.html(obj.description);
@@ -318,6 +297,11 @@ $(function () {
           $("#refuseRequest").removeClass("d-none");
         }
         // Thêm phần hiện số ngày nghỉ tại đây
+
+        if(funConfirm == 0) {
+    
+          $("#updateRequest").addClass("d-none");
+        }
       },
     });
 
@@ -635,6 +619,7 @@ function del() {
     icon: "warning",
     showCancelButton: true,
     confirmButtonText: "Tôi đồng ý",
+    cancelButtonText: 'Hủy',
     customClass: {
       confirmButton: "btn btn-primary",
       cancelButton: "btn btn-outline-danger ml-1",
