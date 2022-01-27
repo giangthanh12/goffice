@@ -12,119 +12,20 @@ $(function () {
       111 : { title: "Tiền mặt", class: "badge-light-warning" },
       112 : { title: "Ngân hàng", class: "badge-light-success" },
     };
-
-    // classifyObj = {
-    //   0: { title: "", class: "" },
-    //   1: { title: "Thu", class: "badge-light-success" },
-    //   2: { title: "Chi", class: "badge-light-warning" },
-    // };
-
-
-
-  // datepicker init
-//   if (datePicker.length) {
-//     datePicker.flatpickr({
-//       enableTime: false,
-//       dateFormat: "Y-m-d",
-//     });
-//   }
-
-//   $.ajax({
-//     // tải Khách hàng vào select1 customer
-//     type: "GET",
-//     dataType: "json",
-//     async: false,
-//     url: baseHome + "/acm/khachhang",
-//     success: function (data) {
-//       customer.wrap('<div class="position-relative"></div>').select2({
-//         dropdownAutoWidth: true,
-//         dropdownParent: customer.parent(),
-//         width: "100%",
-//         data: data,
-//       });
-//     },
-//   });
-
-//   $.ajax({
-//     // tải Nhân viên vào select1 staff
-//     type: "GET",
-//     dataType: "json",
-//     async: false,
-//     url: baseHome + "/acm/nhanvien",
-//     success: function (data) {
-//       authorized.wrap('<div class="position-relative"></div>').select2({
-//         dropdownAutoWidth: true,
-//         dropdownParent: authorized.parent(),
-//         width: "100%",
-//         data: data,
-//       });
-//     },
-//   });
-
-//   // $.ajax({
-//   //   // tải Khách hàng vào select1 customer
-//   //   type: "GET",
-//   //   dataType: "json",
-//   //   async: false,
-//   //   url: baseHome + "/acm/contract",
-//   //   success: function (data) {
-//   //     customer.wrap('<div class="position-relative"></div>').select2({
-//   //       dropdownAutoWidth: true,
-//   //       dropdownParent: contract.parent(),
-//   //       width: "100%",
-//   //       data: data,
-//   //     });
-//   //   },
-//   // });
-
-//   $.ajax({
-//     // tải Khách hàng vào select1 account
-//     type: "GET",
-//     dataType: "json",
-//     async: false,
-//     url: baseHome + "/acm/taikhoan",
-//     success: function (data) {
-//       account.wrap('<div class="position-relative"></div>').select2({
-//         dropdownAutoWidth: true,
-//         dropdownParent: account.parent(),
-//         width: "100%",
-//         data: data,
-//       });
-//     },
-//   });
-
-//   $.ajax({
-//     // tải Nhân viên vào select1 staff
-//     type: "GET",
-//     dataType: "json",
-//     async: false,
-//     url: baseHome + "/acm/nhanvien",
-//     success: function (data) {
-//       staff.wrap('<div class="position-relative"></div>').select2({
-//         dropdownAutoWidth: true,
-//         dropdownParent: staff.parent(),
-//         width: "100%",
-//         data: data,
-//       });
-//     },
-//   });
-
-//   $.ajax({
-//     // tải Nhân viên vào select1 staff
-//     type: "GET",
-//     dataType: "json",
-//     async: false,
-//     url: baseHome + "/acm/hopdong",
-//     success: function (data) {
-//       contract.wrap('<div class="position-relative"></div>').select2({
-//         dropdownAutoWidth: true,
-//         dropdownParent: contract.parent(),
-//         width: "100%",
-//         data: data,
-//       });
-//     },
-//   });
-
+var buttons = [];
+if(funAdd == 1) {
+  buttons.push({
+    text: "Thêm mới",
+    className: "add-new btn btn-primary mt-50",
+    init: function (api, node, config) {
+      $(node).removeClass("btn-secondary");
+    },
+    action: function (e, dt, node, config) {
+      actionMenu();
+    },
+  })
+}
+ 
   // Users List datatable
   if (dtUserTable.length) {
     dtUserTable.DataTable({
@@ -141,16 +42,7 @@ $(function () {
         { data: "" },
       ],
       columnDefs: [
-        {
-          // For Responsive
-          // className: "control",
-          // orderable: false,
-          // responsivePriority: 0,
-          // targets: 0,
-          // render: function (data, type, full, meta) {
-          //     return "";
-          // }
-        },
+        
         {
           // User full name and username
           targets: 3,
@@ -174,18 +66,25 @@ $(function () {
           orderable: false,
           render: function (data, type, full, meta) {
             var html = "";
-            html +=
-              '<div style="width: 80px;"><button type="button" class="btn btn-icon btn-outline-primary waves-effect" data-toggle="modal" data-target="#updateinfo" title="Chỉnh sửa" onclick="loaddata(' +
+            html +='<div style="width: 80px;">';
+            if(funEdit == 1) {
+              html +=  '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" data-toggle="modal" data-target="#updateinfo" title="Chỉnh sửa" onclick="loaddata(' +
               full["id"] +
               ')">';
-            html += '<i class="fas fa-pencil-alt"></i>';
-            html += "</button> &nbsp;";
+              html += '<i class="fas fa-pencil-alt"></i>';
+              html += "</button> &nbsp;";
+            }
+           if(funDel == 1) {
             html +=
-              '<button type="button" class="btn btn-icon btn-outline-danger waves-effect" title="Xóa" onclick="xoa(' +
-              full["id"] +
-              ')">';
+            '<button type="button" class="btn btn-icon btn-outline-danger waves-effect" title="Xóa" onclick="xoa(' +
+            full["id"] +
+            ')">';
             html += '<i class="fas fa-trash-alt"></i>';
-            html += "</button></div>";
+            html += "</button>";
+           }
+            
+
+            html += '</div>';
             return html;
           },
         },
@@ -200,70 +99,31 @@ $(function () {
         '<"col-sm-12 col-md-6"i>' +
         '<"col-sm-12 col-md-6"p>' +
         ">",
-      language: {
-        sLengthMenu: "Show _MENU_",
-        search: "Search",
-        searchPlaceholder: "11111111112..",
-      },
+        language: {
+          sLengthMenu: "Hiển thị _MENU_",
+          search: "",
+          searchPlaceholder: "Tìm kiếm...",
+          paginate: {
+              // remove previous & next text from pagination
+              previous: "&nbsp;",
+              next: "&nbsp;",
+          },
+          info:"Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
+      },  
       // Buttons with Dropdown
-      buttons: [
-        {
-          text: "Thêm mới",
-          className: "add-new btn btn-primary mt-50",
-          init: function (api, node, config) {
-            $(node).removeClass("btn-secondary");
-          },
-          action: function (e, dt, node, config) {
-            $("#updateinfo").modal("show");
-            $(".modal-title").html("Thêm Tài khoản mới");
-            // $("#btn_add").attr("disabled", true);
-            $("#dg").trigger("reset");
-            // url = baseHome + "/acm/add";
-          },
-        },
-        // {
-        //   text: "Chốt số dư",
-        //   className: "update_sodu btn btn-primary mt-50",
-        //   init: function (api, node, config) {
-        //     $(node).removeClass("btn-secondary");
-        //   },
-        //   action: function (e, dt, node, config) {
-        //     chot_so_du();
-        //   },
-        // },
-      ],
-      // For responsive popup
-      // responsive: {
-      //     details: {
-      //         display: $.fn.dataTable.Responsive.display.modal({
-      //             header: function (row) {
-      //                 var data = row.data();
-      //                 return "Details of " + data["name"];
-      //             },
-      //         }),
-      //         type: "column",
-      //         renderer: $.fn.dataTable.Responsive.renderer.tableAll({
-      //             tableClass: "table",
-      //             columnDefs: [
-      //                 {
-      //                     targets: 8,
-      //                     visible: false,
-      //                 },
-      //                 {
-      //                     targets: 1,
-      //                     visible: false,
-      //                 },
-      //             ],
-      //         }),
-      //     },
-      // },
+      buttons: buttons,
+     
       language: {
+        sLengthMenu: "Hiển thị _MENU_",
+        search: "",
+        searchPlaceholder: "Tìm kiếm...",
         paginate: {
-          // remove previous & next text from pagination
-          previous: "&nbsp;",
-          next: "&nbsp;",
+            // remove previous & next text from pagination
+            previous: "&nbsp;",
+            next: "&nbsp;",
         },
-      },
+        info:"Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
+    },       
       initComplete: function () {
         // Adding plan filter once table initialized
         this.api()
@@ -296,15 +156,17 @@ $(function () {
       },
     });
   }
-
-  // // Check Validity
-  // function checkValidity(el) {
-  //   if (el.validate().checkForm()) {
-  //     submitBtn.attr("disabled", false);
-  //   } else {
-  //     submitBtn.attr("disabled", true);
-  //   }
-  // }
+function actionMenu() {
+  var validator = $("#dg").validate(); // reset form
+      validator.resetForm();
+      $(".error").removeClass("error"); // loại bỏ validate
+      $("#updateinfo").modal("show");
+      $(".modal-title").html("Thêm Tài khoản mới");
+      // $("#btn_add").attr("disabled", true);
+      $("#dg").trigger("reset");
+      $('#id').val('');
+      // url = baseHome + "/acm/add";
+}
 
   // // Form Validation
   if (addNewBtn.length) {
@@ -348,8 +210,6 @@ $(function () {
               var account = $("#account").val();
               var type = $("#type").val();
               var status = 1;
-
-              
               $.ajax({
                 type: "POST",
                 dataType: "json",
@@ -395,11 +255,15 @@ function loaddata(id) {
     data: { id: id },
     url: baseHome + "/accnumber/loaddata",
     success: function (data) {
+      var validator = $("#dg").validate(); // reset form
+      validator.resetForm();
+      $(".error").removeClass("error"); // loại bỏ validate
       $("#name").val(data.name);
       $("#account").val(data.account);
       $("#type").val(data.type);
+      $('#id').val(data.id);
       // url = baseHome + "/accnumber/update";
-      console.log(data);
+      
     },
     error: function () {
       notify_error("Lỗi truy xuất database");
@@ -407,37 +271,6 @@ function loaddata(id) {
   });
 }
 
-// function saveacm() {
-//     var info = {};
-//     info.dateTime = $("#dateTime").val();
-//     info.content = $("#content").val();
-//     info.customer = $("#customer").val();
-//     info.staff = $("#staff").val();
-//     info.account = $("#account").val();
-//     info.classify = $("#classify").val();
-//     info.type = $("#type").val();
-//     info.asset = $("#asset").val();
-//     info.note = $("#note").val();
-
-//     $.ajax({
-//         type: "POST",
-//         dataType: "json",
-//         data: info,
-//         url: url,
-//         success: function (data) {
-//             if (data.success) {
-//                 notyfi_success(data.msg);
-//                 $('#updateinfo').modal('hide');
-//                 $(".user-list-table").DataTable().ajax.reload(null, false);
-//             }
-//             else
-//                 notify_error(data.msg);
-//         },
-//         error: function () {
-//             notify_error('Cập nhật không thành công');
-//         }
-//     });
-// }
 
 function xoa(id) {
   Swal.fire({
@@ -446,6 +279,7 @@ function xoa(id) {
     icon: "warning",
     showCancelButton: true,
     confirmButtonText: "Tôi đồng ý",
+    cancelButtonText:"Hủy",
     customClass: {
       confirmButton: "btn btn-primary",
       cancelButton: "btn btn-outline-danger ml-1",
@@ -468,13 +302,6 @@ function xoa(id) {
     }
   });
 }
-// function check_classify() {
-//   var classify = $("#classify").val();
-//   var taikhoan = $("#account").val();
-//   if (taikhoan > 0 && classify != "") {
-//     $("#btn_add").attr("disabled", false);
-//   }
-// }
 
 //format_number asset
 $("#asset")
@@ -494,20 +321,3 @@ function formatCurrency(number) {
   return n2.split("").reverse().join("");
 }
 
-// function chot_so_du() {
-//   $.ajax({
-//     type: "POST",
-//     dataType: "json",
-//     data: {},
-//     url: baseHome + "/acm/chotsodu",
-//     success: function (data) {
-//       if (data.success) {
-//         notyfi_success(data.msg);
-//         $(".user-list-table").DataTable().ajax.reload(null, false);
-//       } else notify_error(data.msg);
-//     },
-//     error: function () {
-//       notify_error("Lỗi truy xuất database");
-//     },
-//   });
-// }

@@ -9,10 +9,12 @@
                     <div class="todo-app-menu">
                         <div class="sidebar-menu-list">
                             <div class="add-task">
+                            <?php if($this->funAdd == 1) { ?>
                                 <button type="button" class="btn btn-primary btn-block" data-toggle="modal"
                                     data-target="#new-task-modal">
                                     Tạo đơn nghỉ phép
                                 </button>
+                                <?php } ?>
                             </div>
                             <div class="list-group list-group-filters">
                                 <a href="javascript:void(0)" onclick="loadTaskList(1)"
@@ -123,7 +125,9 @@
                                 <form id="form-modal-todo" class="todo-modal needs-validation" novalidate
                                     onsubmit="return false">
                                     <div class="modal-header align-items-center mb-1">
+                                       
                                         <h5 class="modal-title">Tạo đơn xin nghỉ phép</h5>
+                                    
                                         <div
                                             class="todo-item-action d-flex align-items-center justify-content-between ml-auto">
                                             <button type="button" class="close font-large-1 font-weight-normal py-0"
@@ -195,9 +199,11 @@
                                             <div class="form-group my-1">
                                                 <button type="submit" id="updateRequest"
                                                     class="btn btn-primary">Duyệt</button>
-                                                <button type="button" class="btn btn-danger update-btn d-none"
-                                                    data-dismiss="modal" id="refuseRequest" onclick="del()">Từ
-                                                    chối</button>
+                                                    <?php if($this->funDel == 1) { ?>
+                                                        <button type="button" class="btn btn-danger update-btn d-none"
+                                                            data-dismiss="modal" id="refuseRequest" onclick="del()">Từ
+                                                            chối</button>
+                                                    <?php } ?>
                                                 <button type="button" class="btn btn-outline-secondary" id="btn_boqua"
                                                     data-dismiss="modal">Bỏ qua</button>
                                             </div>
@@ -213,6 +219,11 @@
         </div>
     </div>
 </div>
-
+<script>
+    var funAdd = <?=$this->funAdd?>,
+        funConfirm = <?=$this->funConfirm?>,
+        funDel = <?=$this->funDel?>;
+   
+</script>
 
 <script src="<?= HOME ?>/js/onleave.js"></script>
