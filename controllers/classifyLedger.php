@@ -1,13 +1,13 @@
 <?php
-class classifyLedger extends Controller{
+class classifyledger extends Controller{
     static private $funAdd = 0, $funEdit = 0, $funDel = 0;
     function __construct(){
         parent::__construct();
         $model = new model();
-        $checkMenuRole = $model->checkMenuRole('classifyLedger');
+        $checkMenuRole = $model->checkMenuRole('classifyledger');
         if ($checkMenuRole == false)
             header('location:' . HOME);
-        $funcs = $model->getFunctions('classifyLedger');
+        $funcs = $model->getFunctions('classifyledger');
       
         foreach ($funcs as $item) {
             if ($item['function'] == 'add')
