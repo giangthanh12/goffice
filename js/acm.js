@@ -1,4 +1,5 @@
 $(function () {
+    
     var dtUserTable = $(".user-list-table"),
         modal = $("#updateinfo"),
         customer = $("#customer"),
@@ -16,18 +17,41 @@ $(function () {
         3: {title: "Nội bộ"},
     };
 
-    classifyObj = {
+    actionObj = {
         0: {title: "", class: ""},
         1: {title: "Thu", class: "badge-light-success"},
         2: {title: "Chi", class: "badge-light-warning"},
     };
 
-
+    var buttons = [];
+    if(funAdd == 1) {
+        buttons.push({
+            text: "Thêm thu",
+            className: "add-new btn btn-primary mt-50",
+            init: function (api, node, config) {
+                $(node).removeClass("btn-secondary");
+            },
+            action: function (e, dt, node, config) {
+             actionMenuCollect();
+            },
+        },
+        {
+            text: "Thêm chi",
+            className: "add-new btn btn-primary mt-50",
+            init: function (api, node, config) {
+                $(node).removeClass("btn-secondary");
+            },
+            action: function (e, dt, node, config) {
+             actionMenuPay();
+            },
+        });
+    }
+   
     // datepicker init
     if (datePicker.length) {
         datePicker.flatpickr({
             enableTime: false,
-            dateFormat: "Y-m-d",
+            dateFormat: "d-m-Y",
         });
     }
 
@@ -63,21 +87,7 @@ $(function () {
         },
     });
 
-    // $.ajax({
-    //   // tải Khách hàng vào select1 customer
-    //   type: "GET",
-    //   dataType: "json",
-    //   async: false,
-    //   url: baseHome + "/acm/contract",
-    //   success: function (data) {
-    //     customer.wrap('<div class="position-relative"></div>').select2({
-    //       dropdownAutoWidth: true,
-    //       dropdownParent: contract.parent(),
-    //       width: "100%",
-    //       data: data,
-    //     });
-    //   },
-    // });
+  
 
     $.ajax({
         // tải Khách hàng vào select1 account
@@ -87,6 +97,7 @@ $(function () {
         url: baseHome + "/acm/taikhoan",
         success: function (data) {
             account.wrap('<div class="position-relative"></div>').select2({
+                placeholder: 'Chọn tài khoản',
                 dropdownAutoWidth: true,
                 dropdownParent: account.parent(),
                 width: "100%",
@@ -126,6 +137,22 @@ $(function () {
             });
         },
     });
+    $.ajax({
+        // tải Nhân viên vào select1 staff
+        type: "GET",
+        dataType: "json",
+        async: false,
+        url: baseHome + "/acm/getClassify",
+        success: function (data) {
+            $('#classify').wrap('<div class="position-relative"></div>').select2({
+                placeholder: "Phân loại",
+                dropdownAutoWidth: true,
+                dropdownParent: $('#classify').parent(),
+                width: "100%",
+                data: data,
+            });
+        },
+    });
 
     // Users List datatable
     if (dtUserTable.length) {
@@ -140,25 +167,16 @@ $(function () {
                 {data: "accName"},
                 {data: "content"},
                 {data: "asset"},
-                {data: "classify"},
+                {data: "action"},
                 {data: "type"},
                 // {data: "dateTime"},
                 {data: ""},
             ],
             columnDefs: [
-                {
-                    // For Responsive
-                    // className: "control",
-                    // orderable: false,
-                    // responsivePriority: 0,
-                    // targets: 0,
-                    // render: function (data, type, full, meta) {
-                    //     return "";
-                    // }
-                },
+              
                 {
                     // User full name and username
-                    targets: 4,
+                    targets: 5,
                     render: function (data, type, full, meta) {
                         var $type = full["type"];
                         // console.log(typeObj);
@@ -171,14 +189,14 @@ $(function () {
                 },
                 {
                     // classify Status
-                    targets: 5,
+                    targets: 4,
                     render: function (data, type, full, meta) {
-                        var $classify = full["classify"];
+                        var $action = full["action"];
                         return (
                             '<span class="badge badge-pill ' +
-                            classifyObj[$classify].class +
+                            actionObj[$action].class +
                             '" text-capitalized>' +
-                            classifyObj[$classify].title +
+                            actionObj[$action].title +
                             "</span>"
                         );
                     },
@@ -193,18 +211,26 @@ $(function () {
                     orderable: false,
                     render: function (data, type, full, meta) {
                         var html = "";
-                        html +=
-                            '<div style="width: 80px;"><button type="button" class="btn btn-icon btn-outline-primary waves-effect" data-toggle="modal" data-target="#updateinfo" title="Chỉnh sửa" onclick="loaddata(' +
+                        html +='<div style="width: 80px;">';
+                        if(funEdit == 1) {
+                            html += '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" data-toggle="modal" data-target="#updateinfo" title="Chỉnh sửa" onclick="loaddata(' +
                             full["id"] +
                             ')">';
-                        html += '<i class="fas fa-pencil-alt"></i>';
-                        html += "</button> &nbsp;";
-                        html +=
+                            html += '<i class="fas fa-pencil-alt"></i>';
+                            html += "</button> &nbsp;";
+                        }
+                        if(funDel == 1) {
+                            html +=
                             '<button type="button" class="btn btn-icon btn-outline-danger waves-effect" title="Xóa" onclick="xoa(' +
                             full["id"] +
                             ')">';
                         html += '<i class="fas fa-trash-alt"></i>';
-                        html += "</button></div>";
+                        html += "</button>";
+                        }
+                       
+
+                        
+                        html += '</div>';
                         return html;
                     },
                 },
@@ -219,70 +245,21 @@ $(function () {
                 '<"col-sm-12 col-md-6"i>' +
                 '<"col-sm-12 col-md-6"p>' +
                 ">",
-            language: {
-                sLengthMenu: "Show _MENU_",
-                search: "Search",
-                searchPlaceholder: "11111111112..",
-            },
+                language: {
+                    sLengthMenu: "Hiển thị _MENU_",
+                    search: "",
+                    searchPlaceholder: "Tìm kiếm...",
+                    paginate: {
+                        // remove previous & next text from pagination
+                        previous: "&nbsp;",
+                        next: "&nbsp;",
+                    },
+                    info:"Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
+                },
             // Buttons with Dropdown
-            buttons: [
-                {
-                    text: "Thêm mới",
-                    className: "add-new btn btn-primary mt-50",
-                    init: function (api, node, config) {
-                        $(node).removeClass("btn-secondary");
-                    },
-                    action: function (e, dt, node, config) {
-                        $("#updateinfo").modal("show");
-                        $(".modal-title").html("Thêm thu chi mới");
-                        // $("#btn_add").attr("disabled", true);
-                        $("#dg").trigger("reset");
-                        // url = baseHome + "/acm/add";
-                    },
-                },
-                // {
-                //   text: "Chốt số dư",
-                //   className: "update_sodu btn btn-primary mt-50",
-                //   init: function (api, node, config) {
-                //     $(node).removeClass("btn-secondary");
-                //   },
-                //   action: function (e, dt, node, config) {
-                //     chot_so_du();
-                //   },
-                // },
-            ],
-            // For responsive popup
-            // responsive: {
-            //     details: {
-            //         display: $.fn.dataTable.Responsive.display.modal({
-            //             header: function (row) {
-            //                 var data = row.data();
-            //                 return "Details of " + data["name"];
-            //             },
-            //         }),
-            //         type: "column",
-            //         renderer: $.fn.dataTable.Responsive.renderer.tableAll({
-            //             tableClass: "table",
-            //             columnDefs: [
-            //                 {
-            //                     targets: 8,
-            //                     visible: false,
-            //                 },
-            //                 {
-            //                     targets: 1,
-            //                     visible: false,
-            //                 },
-            //             ],
-            //         }),
-            //     },
-            // },
-            language: {
-                paginate: {
-                    // remove previous & next text from pagination
-                    previous: "&nbsp;",
-                    next: "&nbsp;",
-                },
-            },
+            buttons: buttons,
+          
+            
             initComplete: function () {
                 // Adding plan filter once table initialized
                 this.api()
@@ -316,15 +293,40 @@ $(function () {
         });
     }
 
-    // // Check Validity
-    // function checkValidity(el) {
-    //   if (el.validate().checkForm()) {
-    //     submitBtn.attr("disabled", false);
-    //   } else {
-    //     submitBtn.attr("disabled", true);
-    //   }
-    // }
+   function actionMenuPay() {
+    var validator = $("#dg").validate(); // reset form
+    validator.resetForm();
+    $(".error").removeClass("error"); // loại bỏ validate
+    $("#updateinfo").modal("show");
+    $(".modal-title").html("Thêm thu chi mới");
+    // $("#btn_add").attr("disabled", true);
+    $("#dg").trigger("reset");
+    // url = baseHome + "/acm/add";
+    $('#account').val('').change();
+    $('#classify').val('').change();
+    $('#id').val('');
+    $('#action').val(2);
+    $('#type').html(`<option value="2">Chi phí</option>
+    `);
+   }
 
+   function actionMenuCollect() {
+    var validator = $("#dg").validate(); // reset form
+    validator.resetForm();
+    $(".error").removeClass("error"); // loại bỏ validate
+    $("#updateinfo").modal("show");
+    $(".modal-title").html("Thêm thu chi mới");
+    // $("#btn_add").attr("disabled", true);
+    $("#dg").trigger("reset");
+    // url = baseHome + "/acm/add";
+    $('#account').val('').change();
+    $('#classify').val('').change();
+    $('#id').val('');
+    $('#action').val(1);
+    $('#type').html('');
+    $('#type').html(`<option value="1">Doanh thu</option>
+    <option value="3">Nội bộ</option>`);
+   }
     // // Form Validation
     if (addNewBtn.length) {
         addNewBtn.on("click", function (e) {
@@ -344,7 +346,7 @@ $(function () {
                 customer: {
                     required: true,
                 },
-                staff: {
+                authorized: {
                     required: true,
                 },
                 account: {
@@ -370,7 +372,7 @@ $(function () {
                 customer: {
                     required: "Bạn chưa chọn khách hàng",
                 },
-                staff: {
+                authorized: {
                     required: "Bạn chưa chọn nhân viên",
                 },
                 account: {
@@ -396,7 +398,7 @@ $(function () {
                 var dateTime = $("#dateTime").val();
                 var content = $("#content").val();
                 var customer = $("#customer").val();
-                var staff = $("#staff").val();
+              
                 var account = $("#account").val();
                 var classify = $("#classify").val();
                 var type = $("#type").val();
@@ -404,9 +406,10 @@ $(function () {
                 var authorized = $("#authorized").val();
                 var contract = $("#contract").val();
                 var note = $("#note").val();
+                var action = $('#action').val();
                 var status = 1;
-
-
+            
+            
                 $.ajax({
                     type: "POST",
                     dataType: "json",
@@ -415,7 +418,7 @@ $(function () {
                         dateTime: dateTime,
                         content: content,
                         customer: customer,
-                        staff: staff,
+                 
                         account: account,
                         classify: classify,
                         type: type,
@@ -424,6 +427,7 @@ $(function () {
                         contract: contract,
                         note: note,
                         status: status,
+                        action:action
                     },
                     url: baseHome + "/acm/update",
                     success: function (data) {
@@ -459,18 +463,32 @@ function loaddata(id) {
         data: {id: id},
         url: baseHome + "/acm/loaddata",
         success: function (data) {
+            if(data.action == 1) {
+                $('#type').html('');
+                $('#type').html(`<option value="1">Doanh thu</option>
+                <option value="3">Nội bộ</option>`);
+            }
+            else if (data.action == 2) {
+                $('#type').html('');
+                $('#type').html(`
+                <option value="2">Chi Phí</option>`);
+            }
+            var validator = $("#dg").validate(); // reset form
+            validator.resetForm();
+            $(".error").removeClass("error"); // loại bỏ validate
             $("#dateTime").val(data.dateTime);
             $("#content").val(data.content);
-            $("#customer").val(data.customer).trigger("change");
+            $("#customer").val(data.customerId).trigger("change");
             $("#account").val(data.accnumber).trigger("change");
-            $("#staff").val(data.staff).trigger("change");
-            $("#classify").attr("disabled", false);
-            $("#classify").val(data.classify);
+            $('#action').val(data.action);
+            $("#classify").val(data.classify).change();
+            $("#authorized").val(data.authorized).change();
             $("#type").val(data.type);
             $("#asset").val(formatCurrency(data.asset.replace(/[,VNĐ]/g, "")));
             $("#note").val(data.note);
+            $('#id').val(data.id);
             url = baseHome + "/acm/update";
-            console.log(data);
+         
         },
         error: function () {
             notify_error("Lỗi truy xuất database");
@@ -478,36 +496,7 @@ function loaddata(id) {
     });
 }
 
-// function saveacm() {
-//     var info = {};
-//     info.dateTime = $("#dateTime").val();
-//     info.content = $("#content").val();
-//     info.customer = $("#customer").val();
-//     info.staff = $("#staff").val();
-//     info.account = $("#account").val();
-//     info.classify = $("#classify").val();
-//     info.type = $("#type").val();
-//     info.asset = $("#asset").val();
-//     info.note = $("#note").val();
 
-//     $.ajax({
-//         type: "POST",
-//         dataType: "json",
-//         data: info,
-//         url: url,
-//         success: function (data) {
-//             if (data.success) {
-//                 notyfi_success(data.msg);
-//                 $('#updateinfo').modal('hide');
-//                 $(".user-list-table").DataTable().ajax.reload(null, false);
-//             }
-//             else
-//                 notify_error(data.msg);
-//         },
-//         error: function () {
-//             notify_error('Cập nhật không thành công');
-//         }
-//     });
 // }
 
 function xoa(id) {
@@ -517,6 +506,7 @@ function xoa(id) {
         icon: "warning",
         showCancelButton: true,
         confirmButtonText: "Tôi đồng ý",
+        cancelButtonText: "Hủy",
         customClass: {
             confirmButton: "btn btn-primary",
             cancelButton: "btn btn-outline-danger ml-1",
@@ -540,13 +530,6 @@ function xoa(id) {
     });
 }
 
-// function check_classify() {
-//   var classify = $("#classify").val();
-//   var taikhoan = $("#account").val();
-//   if (taikhoan > 0 && classify != "") {
-//     $("#btn_add").attr("disabled", false);
-//   }
-// }
 
 //format_number asset
 $("#asset")
@@ -567,20 +550,4 @@ function formatCurrency(number) {
     return n2.split("").reverse().join("");
 }
 
-// function chot_so_du() {
-//   $.ajax({
-//     type: "POST",
-//     dataType: "json",
-//     data: {},
-//     url: baseHome + "/acm/chotsodu",
-//     success: function (data) {
-//       if (data.success) {
-//         notyfi_success(data.msg);
-//         $(".user-list-table").DataTable().ajax.reload(null, false);
-//       } else notify_error(data.msg);
-//     },
-//     error: function () {
-//       notify_error("Lỗi truy xuất database");
-//     },
-//   });
-// }
+

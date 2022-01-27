@@ -5,7 +5,7 @@ class acm_model extends Model{
     }
 
     function listObj(){
-        $query = $this->db->query("SELECT id, type, classify, content,dateTime,
+        $query = $this->db->query("SELECT id, type,action, classify, content,dateTime,
             DATE_FORMAT(dateTime,'%d/%m/%Y') AS dateTimeNew,
             FORMAT(asset,0) AS asset,            
             IFNULL((SELECT name FROM accnumber WHERE id = a.accnumber AND status > 0), 'No Name') AS accName
@@ -15,22 +15,6 @@ class acm_model extends Model{
         return $result;
     }
 
-    // function get_data_combo(){
-    //     $result = array();
-    //     $query = $this->db->query("SELECT id, name AS text FROM khachhang");
-    //     $result['items'] = $query->fetchAll(PDO::FETCH_ASSOC);
-    //     return $result;
-    // }
-
-    // function addObj($data)
-    // {
-        
-    //     $data['asset'] = str_replace( ',', '', $data['asset']);
-    //     $query = $this->insert("ledger",$data);
-
-        
-    //     return $query;
-    // }
 
     function getdata($id){
         $result = array();
@@ -53,17 +37,13 @@ class acm_model extends Model{
         return $result;
     }
 
-    // function update($id, $data) {
-    //     if($id > 0) {
-    //         $data['asset'] = str_replace( ',', '', $data['asset']);
-    //         $result = $this->update('ledger', $data, "id = $id");
-    //     }
-    //     else {
-    //         $data['asset'] = str_replace( ',', '', $data['asset']);
-    //         $result = $this->insert('ledger', $data);
-    //     }
-    //     return $result;
-    // }
+    function getClassify() {
+        $result = array();
+        $query = $this->db->query("SELECT id, name AS `text` FROM classifyledger WHERE status = 1");
+        if ($query)
+            $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
 
     function delObj($id,$data)
     {

@@ -1,11 +1,30 @@
 <?php
 class acm extends Controller{
+    static private $funAdd = 0, $funEdit = 0, $funDel = 0;
     function __construct(){
         parent::__construct();
+        $model = new model();
+        $checkMenuRole = $model->checkMenuRole('acm');
+        if ($checkMenuRole == false)
+            header('location:' . HOME);
+        $funcs = $model->getFunctions('acm');
+      
+        foreach ($funcs as $item) {
+            if ($item['function'] == 'add')
+                self::$funAdd = 1;
+            if ($item['function'] == 'edit')
+                self::$funEdit = 1;
+            if ($item['function'] == 'del')
+                self::$funDel = 1;
+        }
     }
 
     function index(){
+    
         require "layouts/header.php";
+        $this->view->funAdd = self::$funAdd;
+        $this->view->funEdit = self::$funEdit;
+        $this->view->funDel = self::$funDel;
         $this->view->render("acm/index");
         require "layouts/footer.php";
     }
@@ -24,72 +43,14 @@ class acm extends Controller{
         echo json_encode($json);
     }
 
-    function add()
-    {
-        $data = array(
-            'content' => $_REQUEST['content'],
-            'customerId' => $_REQUEST['customer'],
-            'staffId' =>   $_SESSION['user']['staffId'],
-            'accnumber' => $_REQUEST['account'],
-            'classify' => $_REQUEST['classify'],
-            'type' => $_REQUEST['type'],
-            'asset' => $_REQUEST['asset'],
-            'note' => $_REQUEST['note'],
-            'status' => 1
-        );
-        $time_now = date('H:i:s', time());
-        $data['dateTime'] = $_REQUEST['dateTime'] . " " . $time_now;
-        if($this->model->addObj($data)){
-            var_dump($data['dateTime']);
-            $jsonObj['msg'] = 'Cập nhật dữ liệu thành công';
-            $jsonObj['success'] = true;
-        } else {
-            var_dump($data['dateTime']);
-            $jsonObj['msg'] = 'Lỗi cập nhật database';
-            $jsonObj['success'] = false;
-        }
-        echo json_encode($jsonObj);
-    }
+   
 
-    // function update()
-    // {
-    //     $id = $_REQUEST['id'];
-    //     if($id == "") {
-    //         $data = array(
-    //             'content' => $_REQUEST['content'],
-    //             'customerId' => $_REQUEST['customer'],
-    //             'staffId' => $_REQUEST['staff'],
-    //             'accnumber' => $_REQUEST['account'],
-    //             'classify' => $_REQUEST['classify'],
-    //             'type' => $_REQUEST['type'],
-    //             'asset' => $_REQUEST['asset'],
-    //             'note' => $_REQUEST['note'],
-    //             'authorized' => $_REQUEST['authorized'],
-    //             'contract' => $_REQUEST['contract'],
-    //             'status' => $_REQUEST['status'],
-    //         );
-    //         $dateTime = substr($_REQUEST['dateTime'], 0, 10);
-    //         $time_now = date('H:i:s', time());
-    //         $data['dateTime'] = $dateTime . " " . $time_now;
-            
-    //         if($this->model->updateObj($id, $data)){
-    //             $jsonObj['msg'] = 'Cập nhật dữ liệu thành công';
-    //             $jsonObj['success'] = true;
-    //         } else {
-    //             $jsonObj['msg'] = 'Lỗi cập nhật database';
-    //             $jsonObj['success'] = false;
-    //         }
-    //     } else if($id > 0) {
-
-    //     }
-        
-       
-    //     echo json_encode($jsonObj);
-    // }
+   
 
     function update() {
         $id = $_REQUEST['id'];
-        if($id == "") {
+        if($id == "" && self::$funAdd == 1) {
+        
             $data = array(
                 'content' => $_REQUEST['content'],
                 'customerId' => $_REQUEST['customer'],
@@ -102,14 +63,22 @@ class acm extends Controller{
                 'authorized' => $_REQUEST['authorized'],
                 'contractId' => $_REQUEST['contract'],
                 'status' => $_REQUEST['status'],
+                'action'=>$_REQUEST['action']
             );
-            $dateTime = date("Y-m-d",strtotime(str_replace('/', '-',$_REQUEST['dateTime'])));
+            $dateTime = date("Y-m-d",strtotime($_REQUEST['dateTime']));
             $time_now = date('H:i:s', time());
             $data['dateTime'] = $dateTime . " " . $time_now;
 
             $result = $this->model->updateObj($id,$data); // vừa update vừa insert,
+            if ($result) {
+                $jsonObj['msg'] = "Thêm mới thành công";
+                $jsonObj['success'] = true;
+            } else {
+                $jsonObj['msg'] = "Cập nhật không thành công";
+                $jsonObj['success'] = false;
+            }
         }
-        else if($id > 0) {
+        else if($id > 0 && self::$funEdit == 1) {
             $data = array(
                 'content' => $_REQUEST['content'],
                 'customerId' => $_REQUEST['customer'],
@@ -122,41 +91,41 @@ class acm extends Controller{
                 'authorized' => $_REQUEST['authorized'],
                 'contractId' => $_REQUEST['contract'],
                 'status' => $_REQUEST['status'],
+                'action'=>$_REQUEST['action']
             );
-            $dateTime = date("Y-m-d",strtotime(str_replace('/', '-',$_REQUEST['dateTime'])));
+            $dateTime = date("Y-m-d",strtotime($_REQUEST['dateTime']));
             $time_now = date('H:i:s', time());
             $data['dateTime'] = $dateTime . " " . $time_now;
             
             $result = $this->model->updateObj($id,$data); // vừa update vừa insert,
+            if ($result) {
+                $jsonObj['msg'] = "Thêm mới thành công";
+                $jsonObj['success'] = true;
+            } else {
+                $jsonObj['msg'] = "Cập nhật không thành công";
+                $jsonObj['success'] = false;
+            }
         }
         else {
-            $result = false;
+            $jsonObj['msg'] = 'Bạn không có quyền sử dụng chức năng này';
+            $jsonObj['success'] = false;
+            echo json_encode($jsonObj);
+            return false;
         }
-      if ($result) {
-        $jsonObj['msg'] = "Cập nhật thành công";
-        $jsonObj['success'] = true;
-    } else {
-        $jsonObj['msg'] = "Cập nhật không thành công";
-        $jsonObj['success'] = false;
-    }
     $jsonObj = json_encode($jsonObj);
     echo $jsonObj;
     }
 
-    // function chotsodu()
-    // {
-    //     if($this->model->updateChotsodu()){
-    //         $jsonObj['msg'] = 'Cập nhật dữ liệu thành công';
-    //         $jsonObj['success'] = true;
-    //     } else {
-    //         $jsonObj['msg'] = 'Lỗi cập nhật database';
-    //         $jsonObj['success'] = false;
-    //     }
-    //     echo json_encode($jsonObj);
-    // }
+  
 
     function del()
     {
+        if (self::$funDel == 0) {
+            $jsonObj['msg'] = 'Bạn không có quyền sử dụng chức năng này';
+            $jsonObj['success'] = false;
+            echo json_encode($jsonObj);
+            return false;
+        }
         $id = $_REQUEST['id'];
         $data = ['status'=>0];
         if($this->model->delObj($id,$data)){
@@ -189,6 +158,9 @@ class acm extends Controller{
         echo json_encode($data);
     }
 
-    
+    function getClassify() {
+        $data = $this->model->getClassify();
+        echo json_encode($data);
+    }
 }
 ?>
