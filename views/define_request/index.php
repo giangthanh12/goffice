@@ -18,38 +18,6 @@
                             </thead>
                         </table>
                     </div>
-                    
-                   <div class="modal modal-slide-in new-user-modal fade" id="add-contract">
-                        <div class="modal-dialog">
-                            <form class="add-new-user modal-content pt-0" id="dg">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">×</button>
-                                <div class="modal-header mb-1">
-                                    <h5 class="modal-title" id="exampleModalLabel">Thêm thông tin</h5>
-                                </div>
-                                <div class="modal-body flex-grow-1">
-                                    <div class="form-group">
-                                        <label for="name">Yêu cầu</label>
-                                        <input id="name" name="name" type="text" class="form-control" />
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="row form-group">
-                                            <div class="col col-md-3"><label for="object" class=" form-control-label">Đối tượng</label></div>
-                                            <div class="col-12 col-md-9">
-                                                <button type="button" class="btn btn-primary" id="addobject" onclick="addobjectbutton()">
-                                                    + Thêm mới
-                                                </button>
-                                            </div>
-                                        </div>
-                                        <input type="hidden" id="sttobj" value="0">
-                                        <div id="listobject">
-                                        </div>
-                                    </div>
-                                    <button type="submit" class="btn btn-primary mr-1 data-submit" onclick="save()">Lưu</button>
-                                    <button type="reset" class="btn btn-outline-secondary" data-dismiss="modal">Bỏ qua</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
 
                     <div class="modal fade text-left" id="info-contract" tabindex="-1" role="dialog" aria-labelledby="myModalLabel16" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered" aria-labelledby="information-tab" role="document" id="infomation" style="max-width: 1000px;">
@@ -72,7 +40,7 @@
                                         </a>
                                     </li>
                                 </ul>
-                                <div class="modal-body">
+                                <div class="modal-body add">
                                     <div class="tab-content">
                                         <div class="tab-pane active" id="information" aria-labelledby="information-tab" role="tabpanel">
                                             <form class="form-validate" enctype="multipart/form-data" id="frm-1">
@@ -84,14 +52,14 @@
                                                     <!-- <div class="col-md-6 form-group"></div> -->
 
                                                     <div class="col-md-6 form-group">
-                                                            <div class="row form-group">
-                                                                <div class="col col-md-3"><label for="object1" class=" form-control-label">Đối tượng</label></div>
-                                                                <div class="col-12 col-md-9">
-                                                                    <button type="button" class="btn btn-primary" id="addobject1" onclick="addobjectbutton1()">
-                                                                        + Thêm mới
-                                                                    </button>
-                                                                </div>
+                                                        <div class="row form-group">
+                                                            <div class="col col-md-3"><label for="object1" class=" form-control-label">Đối tượng</label></div>
+                                                            <div class="col-12 col-md-9">
+                                                                <button type="button" class="btn btn-primary" id="addobject1" onclick="addobjectbutton1()">
+                                                                    + Thêm mới
+                                                                </button>
                                                             </div>
+                                                        </div>
                                                         <input type="hidden" id="sttobj1" value="0">
                                                         <div id="listobject1">
                                                         </div>
@@ -108,20 +76,20 @@
                                         <div class="tab-pane" id="step" aria-labelledby="step-info" role="tabpane">
                                             <section class="form-control-repeater">
                                                 <form class="invoice-repeater" enctype="multipart/form-data" id="frm-2">
-                                                        <div class="row" style="margin-bottom: 20px" id= "btnStep">
-                                                            <div class="col-12">
-                                                                <button class="btn btn-icon btn-primary" type="button" onclick="showStepButton()" data-repeater-create>
-                                                                    <i data-feather="plus" class="mr-25"></i>
-                                                                    <span>Thêm mới</span>
-                                                                </button>
-                                                            </div>
+                                                    <div class="row" style="margin-bottom: 20px" id="btnStep">
+                                                        <div class="col-12">
+                                                            <button class="btn btn-icon btn-primary" type="button" onclick="showStepButton()" data-repeater-create>
+                                                                <i data-feather="plus" class="mr-25"></i>
+                                                                <span>Thêm mới</span>
+                                                            </button>
                                                         </div>
+                                                    </div>
                                                     <div data-repeater-list="invoice" id="stepList">
 
                                                     </div>
                                                     <div class="d-flex flex-sm-row flex-column mt-2">
-                                                            <button type="button" onclick="update()" id="btnUpdate2" class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Cập nhật</button>
-                                                            <button type="reset" class="btn btn-outline-secondary" data-dismiss="modal">Bỏ qua</button>
+                                                        <button type="button" onclick="update()" id="btnUpdate2" class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Cập nhật</button>
+                                                        <button type="reset" class="btn btn-outline-secondary" data-dismiss="modal">Bỏ qua</button>
                                                     </div>
                                                 </form>
                                             </section>
