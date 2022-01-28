@@ -5,7 +5,7 @@ class Baocaochiphi_model extends Model{
     }
 
     function listObj() {
-        $where = " WHERE status > 0 AND type IN (2,3) ORDER BY id DESC ";
+        $where = " WHERE status > 0 AND type = 2 ORDER BY id DESC ";
         $query = $this->db->query("SELECT id, type, content, note,
         FORMAT(asset,0) AS asset,
         DATE_FORMAT(dateTime,'%d/%m/%Y') AS dateTimeNew,

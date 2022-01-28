@@ -16,59 +16,6 @@
             </div>
 
             <div class="">
-                <div class="card card-revenue-budget">
-                    <div class="">
-                        <div class="col-md-12 col-12 revenue-report-wrapper">
-                            <div class="">
-                                <h4 class="col-md-12 col-12" id="title_thongke">Thống kê chi phí</h4>
-                                <div class="col-md-12 col-12">
-                                    <div class="row  mt-3">
-                                        <div class="col-xl-4 col-sm-6 col-12">
-                                            <div class="media">
-                                                <div class="avatar bg-light-success mr-2">
-                                                    <div class="avatar-content">
-                                                        <i data-feather="dollar-sign" class="avatar-icon"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="media-body my-auto">
-                                                    <h4 class="font-weight-bolder mb-0" id="doanh_so_all"><?php echo $this->doanhso[0]["doanhThu"]; ?> VNĐ</h4>
-                                                    <p class="card-text font-small-3 mb-0">Doanh số</p>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-xl-4 col-sm-6 col-12 mb-2 mb-xl-0">
-                                            <div class="media">
-                                                <div class="avatar bg-light-primary mr-2">
-                                                    <div class="avatar-content">
-                                                        <i data-feather="log-in" class="avatar-icon"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="media-body my-auto">
-                                                    <h4 class="font-weight-bolder mb-0" id="thuc_thu_all"><?php echo $this->thucthu[0]["thucThu"]; ?> VNĐ</h4>
-                                                    <p class="card-text font-small-3 mb-0">Thực thu</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-xl-4 col-sm-6 col-12 mb-2 mb-xl-0">
-                                            <div class="media">
-                                                <div class="avatar bg-light-info mr-2">
-                                                    <div class="avatar-content">
-                                                        <i data-feather="log-out" class="avatar-icon"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="media-body my-auto">
-                                                    <h4 class="font-weight-bolder mb-0" id="chi_all"><?php echo $this->thucchi[0]["thucChi"]; ?> VNĐ</h4>
-                                                    <p class="card-text font-small-3 mb-0">Thực chi</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 <!-- users list start -->
                 <section class="app-user-list">
                     <!-- users filter end -->
