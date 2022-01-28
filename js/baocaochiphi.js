@@ -48,7 +48,7 @@ $(function () {
           .every(function () {
             var column = this;
             var select = $(
-              '<select class="form-control text-capitalize mb-md-0 mb-2"><option value=""> Khoản chi </option></select>'
+              '<select class="form-control text-capitalize mb-md-0 mb-2"><option value=""> Định khoản </option></select>'
             )
               .appendTo(".staff_filter")
               .on("change", function () {
