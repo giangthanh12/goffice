@@ -240,6 +240,7 @@ $(function () {
             },
         });
     }
+
 function showAdd() {
     $('#modals-slide-in').modal('show');
     $("#name").val('');
@@ -263,41 +264,47 @@ function showAdd() {
     // Form Validation
     if (newUserForm.length) {
         newUserForm.validate({
-            errorClass: "error",
-            rules: {
-                "name": {
-                    required: true,
-                },
-                "email": {
-                    required: true,
-                    email: true,
-                },
-                "birthday": {
-                    required: true,
-                },
-                "phoneNumber": {
-                    required: true,
-                    number: true,
-                    min: 0
-                },
+          errorClass: "error",
+          rules: {
+            staffCode: {
+              required: true,
             },
-            messages: {
-                "name": {
-                    required: "Bạn chưa nhập họ tên!",
-                },
-                "email": {
-                    required: "Bạn chưa nhập email!",
-                    email: "Yêu cầu nhập email!"
-                },
-                "birthday": {
-                    required: "Bạn chưa nhập ngày sinh!",
-                },
-                "phoneNumber": {
-                    required: "Bạn chưa nhập số điện thoại!",
-                    number: "Yêu cầu nhập số!",
-                    min: "Yêu cầu nhập số bắt đầu từ 0!",
-                },
+            name: {
+              required: true,
             },
+            email: {
+              required: true,
+              email: true,
+            },
+            birthday: {
+              required: true,
+            },
+            phoneNumber: {
+              required: true,
+              number: true,
+              min: 0,
+            },
+          },
+          messages: {
+            staffCode: {
+              required: "Bạn chưa nhập mã nhân viên",
+            },
+            name: {
+              required: "Bạn chưa nhập họ tên!",
+            },
+            email: {
+              required: "Bạn chưa nhập email!",
+              email: "Yêu cầu nhập email!",
+            },
+            birthday: {
+              required: "Bạn chưa nhập ngày sinh!",
+            },
+            phoneNumber: {
+              required: "Bạn chưa nhập số điện thoại!",
+              number: "Yêu cầu nhập số!",
+              min: "Yêu cầu nhập số bắt đầu từ 0!",
+            },
+          },
         });
 
         newUserForm.on("submit", function (e) {
@@ -468,6 +475,7 @@ function loaddata(id) {
 function updateinfo() {
     var id = $("#id").val();
     var info = {};
+    info.staffCode = $("#code1").val();
     info.gender = $("input[type='radio'][name='gender']:checked").val();
     info.maritalStatus = $("input[type='radio'][name='maritalStatus']:checked").val();
     info.name = $("#name1").val();
@@ -559,7 +567,7 @@ function updateInfoStaff() {
 
 function addStaff() {
     var info = {};
-
+    info.staffCode = $("#staffCode").val();
     info.name = $("#name").val();
     info.phoneNumber = $("#phoneNumber").val();
     info.birthday = $("#birthday").val();
@@ -685,4 +693,15 @@ function loadRecord(id) {
             },
         });
     }
+}
+
+function createCodeStaff() {
+  $("#staffCode").val("");
+  var codeAsset = Math.floor(Math.random() * (9999999 - 1000000 + 1)) + 1000000;
+  $("#staffCode").val(codeAsset);
+}
+function createCodeStaff1() {
+  $("#code1").val("");
+  var codeAsset = Math.floor(Math.random() * (9999999 - 1000000 + 1)) + 1000000;
+  $("#code1").val(codeAsset);
 }

@@ -27,7 +27,7 @@
                                     <tr>
                                         <th>Ngày</th>
                                         <th>Đối tác/Nhà cung cấp</th>
-                                        <th>Khoản chi</th>
+                                        <th>Định khoản</th>
                                         <th>Đơn hàng/Hợp đồng</th>
                                         <th>Nội dung</th>
                                         <th>Số tiền</th>
