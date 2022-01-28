@@ -15,7 +15,7 @@ class project_Model extends Model{
             return $row;
     }
     function getStaff() {
-        $query = $this->db->query("SELECT id, name, avatar as hinh_anh FROM staffs");
+        $query = $this->db->query("SELECT id, name, avatar as hinh_anh FROM staffs where status > 0");
         $row = $query->fetchAll(PDO::FETCH_ASSOC);
         return $row;
     }

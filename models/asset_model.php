@@ -16,7 +16,7 @@ class asset_model extends Model{
         $result['data'] = array();
         $query = $this->db->query("SELECT *,
                 IFNULL((SELECT name FROM taisan WHERE id = taisan_capphat.tai_san AND tinh_trang > 0), 'No Name') AS nameAsset,
-                (SELECT name FROM staffs WHERE id = taisan_capphat.nhan_vien AND status = 1) AS nameStaff,  
+                (SELECT name FROM staffs WHERE id = taisan_capphat.nhan_vien AND status > 0) AS nameStaff,  
                 (SELECT code FROM taisan WHERE id = taisan_capphat.tai_san AND tinh_trang > 0) AS code,
                 DATE_FORMAT(ngay_gio,'%d-%m-%Y') as ngay_gio
                 FROM taisan_capphat WHERE tinh_trang > 0 AND tai_san = $id ORDER BY id DESC");
@@ -149,7 +149,7 @@ class asset_model extends Model{
 
     function getStaff(){
         $result = array();
-        $query = $this->db->query("SELECT id, name AS `text` FROM staffs WHERE status = 1");
+        $query = $this->db->query("SELECT id, name AS `text` FROM staffs WHERE status > 0");
         if ($query)
         $result = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;

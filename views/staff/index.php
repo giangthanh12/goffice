@@ -42,6 +42,18 @@
                                 </div>
                                 <div class="modal-body flex-grow-1">
                                     <div class="form-group">
+                                        <label for="step" class="form-control-label">Mã nhân viên</label>
+                                        <div class="row">
+                                            <div class="col-sm-9">
+                                                <input type="text" id="code" name="code"  class="form-control">
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <button type="button" class="btn btn-primary" id="createCode" onclick="createCodeAsset()">+</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
                                         <label class="form-label" for="name">Họ tên</label>
                                         <input
                                                 type="text"
@@ -236,6 +248,13 @@
                                                                        class="font-medium-4 mr-25"></i>
                                                                     <span class="align-middle">Thông tin cá nhân</span>
                                                                 </h4>
+                                                            </div>
+                                                            <div class="col-lg-4 col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="code1">Mã nhân viên</label>
+                                                                    <input id="code1" type="text" class="form-control"
+                                                                           name="code1"/>
+                                                                </div>
                                                             </div>
                                                             <div class="col-lg-4 col-md-6">
                                                                 <div class="form-group">

@@ -24,6 +24,7 @@ $(function () {
             ajax: baseHome + "/asset_recall/list",
             columns: [
                 { data: "ngay_gio" },
+                { data:"nameIssue"},
                 { data: "code" },
                 { data: "name_taisan" },
                 { data: "ghi_chu" },
@@ -35,7 +36,7 @@ $(function () {
                 },
                 {
                     // User full name and username
-                    targets: 1,
+                    targets: 2,
                     render: function (data, type, full, meta) {
                         var $name = full["code"];
                         // Creates full output for row
@@ -54,7 +55,7 @@ $(function () {
 
                 {
                     // User full name and username
-                    targets: 3,
+                    targets: 4,
                     render: function (data, type, full, meta) {
                         var $note = full["ghi_chu"];
                         var $row_output = $note ? $note : `<div style="margin-left:20px;">---</div>`;
