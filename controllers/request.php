@@ -129,6 +129,28 @@ class request extends Controller
         echo json_encode($jsonObj);
     }
 
+    function listview()
+    {
+        require "layouts/header.php";
+        $this->view->departments = $this->model->getDepartments();
+        $this->view->staffs = $this->model->getStaffs();
+        $this->view->requests = $this->model->getRequestDefines();
+        $this->view->funAdd = self::$funAdd;
+        $this->view->funEdit = self::$funEdit;
+        $this->view->funDel = self::$funDel;
+        $this->view->funApprove = self::$funApprove;
+        $this->view->funRefuse = self::$funRefuse;
+        $this->view->render("request/list");
+        require "layouts/footer.php";
+    }
+
+    function getListRequests(){
+        $defineId = isset($_REQUEST['defineId']) ? $_REQUEST['defineId'] : 0;
+        $status = isset($_REQUEST['status']) ? $_REQUEST['status'] : 0;
+        $staffId = $_SESSION['user']['staffId'];
+        $jsonObj = $this->model->getALlRequestLists($defineId,$status,$staffId);
+    }
+
     function addRequest()
     {
         if(self::$funAdd!=1)

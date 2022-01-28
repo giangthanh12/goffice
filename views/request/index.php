@@ -4,20 +4,25 @@
     <div class="header-navbar-shadow"></div>
     <div class="content-wrapper container-xxl p-0">
         <div class="content-header row">
-            <div class="content-header-left col-md-9 col-12 mb-2 d-none">
+            <div class="content-header-left col-md-9 col-12 mb-2">
                 <div class="row breadcrumbs-top">
                     <div class="col-12">
-                        <h2 class="content-header-title float-left mb-0">Form Layouts</h2>
-                        <div class="breadcrumb-wrapper">
+                        <h2 class="float-left mb-0">Đề xuất/Yêu cầu</h2>
+                        <div class="breadcrumb-wrapper d-none">
                             <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="index.html">Home</a>
-                                </li>
-                                <li class="breadcrumb-item"><a href="#">Forms</a>
-                                </li>
-                                <li class="breadcrumb-item active"><a href="#">Form Layouts</a>
+                                <li class="breadcrumb-item"><a href="<?=HOME?>">Trang chủ</a>
                                 </li>
                             </ol>
                         </div>
+                    </div>
+                </div>
+            </div>
+            <div class="content-header-right text-md-right col-md-3 col-12 d-md-block d-none">
+                <div class="form-group breadcrumb-right">
+                    <div class="dropdown">
+                        <a class="btn-icon btn btn-primary btn-round btn-sm" href="<?=HOME?>/request/listview" aria-haspopup="true" aria-expanded="false">
+                            <i data-feather="grid"></i>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -197,4 +202,4 @@
         funDel = '<?=$this->funDel?>',
         funAdd = '<?=$this->funAdd?>';
 </script>
-<script src="<?= HOME ?>/js/request.js"></script>
+<script src="<?= HOME ?>/js/request-kanban.js"></script>
