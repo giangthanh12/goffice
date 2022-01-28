@@ -48,7 +48,7 @@ class request extends Controller
         foreach ($process as $key => $item) {
             $jsonObj[]['id'] = 'step-' . $item['id'];
             $jsonObj[$key]['title'] = $item['name'];
-            $tempItems = $this->model->getALlRequestSteps($item['id']);
+            $tempItems = $this->model->getALlRequestSteps($item['id'],$defineId);
             $jsonObj[$key]['item'] = [];
             foreach ($tempItems as $itemStep) {
                 $temp["stepId"] = $item['id'];
