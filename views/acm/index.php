@@ -48,10 +48,11 @@
                                             <form class="form-validate" enctype="multipart/form-data" id="dg">
                                                 <div class="row mt-1">
                                                     <input type="hidden" id="id" name="id">
+                                                    <input type="hidden" id="action" name="action">
                                                     <div class="col-lg-3 col-md-6">
                                                         <div class="form-group">
                                                             <label for="dateTime">Thời gian</label>
-                                                            <input type="text" id="dateTime" class="form-control " placeholder="Chọn thời gian">
+                                                            <input type="text" id="dateTime" name="dateTime" class="form-control " placeholder="Chọn thời gian">
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-3 col-md-6">
@@ -69,20 +70,16 @@
                                                     <div class="col-lg-3 col-md-6">
                                                         <div class="form-group">
                                                             <label for="account">Tài khoản</label>
-                                                            <select name="account" id="account" class="select2 form-control"></select>
+                                                            <select  name="account" id="account" required class="select2 form-control"></select>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-3 col-md-6">
                                                         <div class="form-group">
-                                                            <label for="classify">Loại<span class="red">*</span></label>
-                                                            <select name="classify" id="classify" class="form-control">
-                                                                <option value="1">Thu</option>
-                                                                <option value="2">Chi</option>
-                                                                
+                                                            <label for="classify">Phân loại hoạch toán</label>
+                                                            <select name="classify" id="classify" class="form-control select2">
                                                             </select>
                                                         </div>
                                                     </div>
-
                                                     <div class="col-lg-3 col-md-6">
                                                         <div class="form-group">
                                                             <label for="hach_toan">Hạch toán</label>
@@ -141,4 +138,9 @@
         </div>
     </div>
 </div>
+<script>
+    var funAdd = <?=$this->funAdd?>,
+        funEdit = <?=$this->funEdit?>,
+        funDel = <?=$this->funDel?>;
+</script>
 <script src="<?= HOME ?>/js/acm.js"></script>

@@ -86,31 +86,7 @@ class data extends Controller
         echo json_encode($jsonObj);
     }
 
-    // function movetolead()
-    // {
-    //     $data = $_REQUEST['data'];
-    //     if ($this->model->movetolead($data)) {
-    //         $jsonObj['msg'] = "Cập nhật dữ liệu thành công";
-    //         $jsonObj['success'] = true;
-    //     } else {
-    //         $jsonObj['msg'] = "Cập nhật dữ liệu không thành công";
-    //         $jsonObj['success'] = false;
-    //     }
-    //     echo json_encode($jsonObj);
-    // }
-
-    // function movelead_id()
-    // {
-    //     $data = $_REQUEST['id'];
-    //     if ($this->model->movetolead($data)) {
-    //         $jsonObj['msg'] = "Cập nhật dữ liệu thành công";
-    //         $jsonObj['success'] = true;
-    //     } else {
-    //         $jsonObj['msg'] = "Cập nhật dữ liệu không thành công";
-    //         $jsonObj['success'] = false;
-    //     }
-    //     echo json_encode($jsonObj);
-    // }
+   
 
     function importData()
     {
@@ -196,6 +172,9 @@ class data extends Controller
         $nhanvien = isset($_REQUEST['nhanvien']) && $_REQUEST['nhanvien'] != '' && $_REQUEST['nhanvien'] != 0 ? $_REQUEST['nhanvien'] : '';
         $tungay = isset($_REQUEST['tu_ngay']) && $_REQUEST['tu_ngay'] != '' ? date("Y-m-d", strtotime(str_replace('/', '-', $_REQUEST['tu_ngay']))) : '';
         $denngay = isset($_REQUEST['den_ngay']) && $_REQUEST['den_ngay'] != '' ? date("Y-m-d", strtotime(str_replace('/', '-', $_REQUEST['den_ngay']))) : '';
+        
+ 
+        
         $result = $this->model->listObj($keyword, $nhanvien, $tungay, $denngay, $offset, $rows);
         $totalData = $result['total'];
 

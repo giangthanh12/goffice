@@ -29,13 +29,14 @@ $(function () {
     dtUserTable.DataTable({
       ordering: false,
       // ajax: assetPath + "data/user-list.json", // JSON file to add data
-      ajax: baseHome + "/baocaodoanhthu/list",
+      ajax: baseHome + "/baocaochiphi/list",
       columns: [
         // columns according to JSON
         { data: "dateTimeNew" },
         { data: "customerName" },
-        { data: "staffName" },
+        { data: "classifyName" },
         { data: "contractName" },
+        { data: "content" },
         { data: "asset" },
         { data: "note" },
       ],
@@ -47,7 +48,7 @@ $(function () {
           .every(function () {
             var column = this;
             var select = $(
-              '<select class="form-control text-capitalize mb-md-0 mb-2"><option value=""> Nhân viên </option></select>'
+              '<select class="form-control text-capitalize mb-md-0 mb-2"><option value=""> Định khoản </option></select>'
             )
               .appendTo(".staff_filter")
               .on("change", function () {
@@ -70,34 +71,33 @@ $(function () {
               });
           });
 
-          this.api()
-            .columns(1)
-            .every(function () {
-              var column = this;
-              var select = $(
-                '<select class="form-control text-capitalize mb-md-0 mb-2"><option value=""> Chọn Khách hàng </option></select>'
-              )
-                .appendTo(".customer_filter")
-                .on("change", function () {
-                  var val = $.fn.dataTable.util.escapeRegex($(this).val());
-                  column.search(val ? "^" + val + "$" : "", true, false).draw();
-                });
+        this.api()
+          .columns(1)
+          .every(function () {
+            var column = this;
+            var select = $(
+              '<select class="form-control text-capitalize mb-md-0 mb-2"><option value=""> Đối tác/Nhà cung cấp </option></select>'
+            )
+              .appendTo(".customer_filter")
+              .on("change", function () {
+                var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                column.search(val ? "^" + val + "$" : "", true, false).draw();
+              });
 
-              column
-                .data()
-                .unique()
-                .sort()
-                .each(function (d, j) {
-                  select.append(
-                    '<option value="' +
-                      d +
-                      '" class="text-capitalize">' +
-                      d +
-                      "</option>"
-                  );
-                });
-            });
-
+            column
+              .data()
+              .unique()
+              .sort()
+              .each(function (d, j) {
+                select.append(
+                  '<option value="' +
+                    d +
+                    '" class="text-capitalize">' +
+                    d +
+                    "</option>"
+                );
+              });
+          });
       },
     });
   }

@@ -54,7 +54,7 @@ $(function () {
 
             columns: [
                 // columns according to JSON
-                { data: "" },
+                // { data: "" },
                 { data: "id" },
                 { data: "name" },
                 { data: "phoneNumber" },
@@ -62,23 +62,23 @@ $(function () {
                 { data: "assignmentDate" },
                 { data: "staff" },
                 { data: "status" },
-                { data: "" },
+                { data: "id" },
             ],
             columnDefs: [
-                {
-                    // For Responsive
-                    className: "control",
-                    // responsivePriority: 2,
-                    targets: 0,
-                    render: function (data, type, full, meta) {
-                        return "";
-                    },
-                },
+                // {
+                //     // For Responsive
+                //     className: "control",
+                //     // responsivePriority: 2,
+                //     targets: 0,
+                //     render: function (data, type, full, meta) {
+                //         return "";
+                //     },
+                // },
                 {
                     // For Checkboxes
-                    targets: 1,
+                    targets: 0,
                     render: function (data, type, full, meta) {
-                      
+                     
                         return (
                             '<div class="custom-control custom-checkbox"> <input class="custom-control-input dt-checkboxes" type="checkbox" value="" id="checkbox' +
                             data +
@@ -96,7 +96,7 @@ $(function () {
                     }
                 },
                 {
-                    targets: 2,
+                    targets: 1,
                     width: '30%',
                     render: function (data, type, full, meta) {
                         var roleBadgeObj = {
@@ -111,13 +111,13 @@ $(function () {
                     },
                 },
                 {
-                    targets: 3,
+                    targets: 2,
                     render: function (data, type, full, meta) {
                         return '<a class="text-truncate align-middle" onclick="call(\''+full['phoneNumber']+'\')">' + feather.icons["phone"].toSvg({ class: "font-medium-3 text-primary mr-50" }) + full["phoneNumber"] + '</a>';
                     },
                 },
                 {
-                    targets: 7,
+                    targets: 6,
                     render: function (data, type, full, meta) {
                         var $status = full["status"];
                         if ($status == 1) {
@@ -190,30 +190,30 @@ $(function () {
             buttons: [
             ],
             // For responsive popup
-            responsive: {
-                details: {
-                    display: $.fn.dataTable.Responsive.display.modal({
-                        header: function (row) {
-                            return "Chi tiết thông tin data";
-                        },
-                    }),
+         //   responsive: {
+                // details: {
+                //     display: $.fn.dataTable.Responsive.display.modal({
+                //         header: function (row) {
+                //             return "Chi tiết thông tin data";
+                //         },
+                //     }),
 
-                    type: "column",
-                    renderer: $.fn.dataTable.Responsive.renderer.tableAll({
-                        tableClass: "table",
-                        columnDefs: [
-                            {
-                                targets: 1,
-                                visible: false,
-                            },
-                            {
-                                targets: 8,
-                                visible: false,
-                            }
-                        ],
-                    }),
-                },
-            },
+                //     type: "column",
+                //     renderer: $.fn.dataTable.Responsive.renderer.tableAll({
+                //         tableClass: "table",
+                //         columnDefs: [
+                //             {
+                //                 targets: 1,
+                //                 visible: false,
+                //             },
+                //             {
+                //                 targets: 8,
+                //                 visible: false,
+                //             }
+                //         ],
+                //     }),
+                // },
+          //  },
             language: {
                 sLengthMenu: "Hiển thị _MENU_",
                 search: "",
@@ -223,7 +223,7 @@ $(function () {
                     previous: "&nbsp;",
                     next: "&nbsp;",
                 },
-                info:"Hiển thị _START_ đến _END_ of _TOTAL_ bản ghi",
+                info:"Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
             },
             initComplete: function () {
             },
@@ -488,7 +488,7 @@ function savenhatky() {
 function chiadata() {
     $("#chiacho").val('').change();
     var table = $(".user-list-table").DataTable();
-    var rows = table.column(1).checkboxes.selected();
+    var rows = table.column(0).checkboxes.selected();
     
  
     var listdata = '';

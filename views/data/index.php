@@ -70,7 +70,7 @@
                             <table class="user-list-table table">
                                 <thead class="thead-light">
                                     <tr>
-                                        <th></th>
+                                    
                                         <th></th>
                                         <th>Họ tên</th>
                                         <th>Số điện thoại</th>
@@ -78,7 +78,7 @@
                                         <th>Ngày chia</th>
                                         <th>Phụ trách</th>
                                         <th>Tình trạng</th>
-                                        <th>...</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                             </table>

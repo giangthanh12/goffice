@@ -281,15 +281,17 @@ function initKanban() {
             var el = $(el);
             requestId = el.attr('data-eid');
             stepId = el.attr('data-stepId');
+            $('#modalTitle').html("Chỉnh sửa yêu cầu. Giai đoạn: "+el.attr('data-stepName'));
             var $creator = el.attr('data-staffId');
-            if (stepId == 'success') {
+            var $status = el.attr('data-status');
+            if ($status == '2') {
                 $('#btnRefuse').addClass('d-none');
                 $('#btnUpdate').addClass('d-none');
                 $('#btnApprove').addClass('d-none');
                 $('#btnDel').addClass('d-none');
                 $('#processorLabel').removeClass('d-none');
                 $('#refuserLabel').addClass('d-none');
-            } else if (stepId == 'refuse') {
+            } else if ($status == '3') {
                 $('#btnRefuse').addClass('d-none');
                 $('#btnUpdate').addClass('d-none');
                 $('#btnApprove').addClass('d-none');
@@ -311,10 +313,10 @@ function initKanban() {
                     $('#btnUpdate').addClass('d-none');
                     $('#btnDel').addClass('d-none');
                 }
-                var $processors = el.attr('data-processors');
+                var $processors = el.attr('data-process');
                 $processors = $processors.split(",");
                 var index = $processors.indexOf(baseUser);
-                if (index > 0) {
+                if (index > -1) {
                     if (funRefuse == '1')
                         $('#btnRefuse').removeClass('d-none');
                     else
@@ -397,7 +399,36 @@ function initKanban() {
                     $('#fmProperties').html(html);
                 }
             });
-            $('#modalTitle').html("Chỉnh sửa yêu cầu");
+
+            $('#tab-comments').empty();
+            $.ajax({
+                type: 'GET',
+                dataType: 'json',
+                async: false,
+                url: baseHome + '/request/getComments?requestId=' + requestId,
+                success: function (dataComment) {
+                    console.log(dataComment);
+                    dataComment.forEach(function (item) {
+                        var html='';
+                        var statusText = ''
+                        if(item.status==2)
+                            statusText='Người duyệt';
+                        if(item.status==3)
+                            statusText='Người từ chối';
+                        html+='<div class="media mb-1">' +
+                            '<div class="avatar bg-light-success my-0 ml-0 mr-50">' +
+                            renderAvatar(item.avatar, true, 0, item.staffName, 28)+
+                            '</div>' +
+                            '<div class="media-body">' +
+                            '<p class="mb-0"><span class="font-weight-bold " style="color: red">'+item.stepName+'</span></p>' +
+                            '<p class="mb-0">'+statusText+': <span class="font-weight-bold " style="color: blue">'+item.staffName+'</span>:&nbsp;'+item.note+'</p>' +
+                            '</div>' +
+                            '</div>';
+                        $('#tab-comments').append(html);
+                    })
+
+                }
+            });
             url = baseHome + '/request/editRequest?id=' + requestId;
 
         },
@@ -439,6 +470,23 @@ function initKanban() {
     $.each($('.kanban-item'), function () {
         var $this = $(this),
             $text = "<span class='kanban-text'>" + $this.attr('data-note') + '</span>';
+        var status =  $this.attr('data-status');
+       if(status==3){
+           $this.removeClass("bg-primary");
+           $this.removeClass("bg-success");
+           $this.addClass("bg-danger");
+       }else if(status==2){
+           $this.removeClass("bg-danger");
+           $this.removeClass("bg-primary");
+           $this.addClass("bg-success");
+       } else {
+           $this.removeClass("bg-danger");
+           $this.removeClass("bg-success");
+           $this.addClass("bg-primary");
+       }
+        $this.addClass("text-white");
+
+
         if ($this.attr('data-badge') !== undefined && $this.attr('data-badge-title') !== undefined) {
             $this.html(renderHeader($this.attr('data-badge'), $this.attr('data-badge-title')) + $text);
         }
@@ -583,14 +631,13 @@ function renderFooter(dateTime, assigned, members) {
     return (
         "<div class='d-flex justify-content-between align-items-center flex-wrap mt-1'>" +
         "<div> <span class='align-middle mr-50'>" +
-        feather.icons['calendar'].toSvg({class: 'font-medium-1 align-middle mr-25'}) +
+        feather.icons['calendar'].toSvg({class: 'font-medium-1 align-middle mr-25 ',style:'stroke:white'}) +
         "<span class='attachments align-middle'>" +
         dateTime +
         '</span>' +
-        // "</span> <span class='align-middle'>" +
-        // feather.icons['message-square'].toSvg({ class: 'font-medium-1 align-middle mr-25' }) +
+        // "</span> <span class='align-middle' >" +
+        // feather.icons['message-square'].toSvg({class: 'font-medium-1 align-middle mr-25'}) +
         // '<span>' +
-        // comments +
         '</span>' +
         '</span></div>' +
         "<ul class='avatar-group mb-0'>" +
@@ -665,65 +712,91 @@ $('#btnUpdate').on('click', function () {
 })
 
 $('#btnApprove').on('click', function () {
-    Swal.fire({
+   Swal.fire({
         title: 'Duyệt đơn',
-        text: "Bạn có chắc chắn muốn duyệt yêu cầu này!",
+        html: '<span for="text-note" style="float: left">Vui lòng nhập phản hồi:</span>',
         icon: 'warning',
+        input: 'textarea',
+        inputAttributes: {
+            autocapitalize: 'off',
+            id: 'text-note'
+        },
         showCancelButton: true,
         confirmButtonText: 'Tôi đồng ý',
         customClass: {
             confirmButton: 'btn btn-primary',
             cancelButton: 'btn btn-outline-danger ml-1'
         },
-        buttonsStyling: false
+        buttonsStyling: false,
     }).then(function (result) {
-        if (result.value) {
-            var $defineId = slDefineId.val();
-            $.ajax({
-                url: baseHome + "/request/approve",
-                type: 'post',
-                dataType: "json",
-                data: {requestId: requestId, stepId: stepId, defineId: $defineId},
-                success: function (data) {
-                    if (data.code == 200) {
-                        $('.modal').modal('hide');
-                        notyfi_success(data.message);
-                        initKanban();
-                    } else
-                        notify_error(data.message);
-                },
-            });
+        if (result.isConfirmed) {
+            if (result.value != '') {
+                var $defineId = slDefineId.val();
+                $.ajax({
+                    url: baseHome + "/request/approve",
+                    type: 'post',
+                    dataType: "json",
+                    data: {requestId: requestId, stepId: stepId, defineId: $defineId,note:result.value},
+                    success: function (data) {
+                        if (data.code == 200) {
+                            $('.modal').modal('hide');
+                            notyfi_success(data.message);
+                            initKanban();
+                        } else
+                            notify_error(data.message);
+                    },
+                });
+
+            } else
+                swal.fire({
+                    title: 'Error',
+                    text: "Bạn chưa nhập phản hồi!",
+                    icon: 'error',
+                });
         }
+
     });
 })
 $('#btnRefuse').on('click', function () {
     Swal.fire({
         title: 'Từ chối đơn',
-        text: "Bạn có chắc chắn muốn từ chối yêu cầu này!",
+        html: '<span for="text-note" style="float: left">Vui lòng nhập phản hồi:</span>',
         icon: 'warning',
+        input: 'textarea',
+        inputAttributes: {
+            autocapitalize: 'off',
+            id: 'text-note'
+        },
         showCancelButton: true,
         confirmButtonText: 'Tôi đồng ý',
         customClass: {
             confirmButton: 'btn btn-primary',
             cancelButton: 'btn btn-outline-danger ml-1'
         },
-        buttonsStyling: false
+        buttonsStyling: false,
     }).then(function (result) {
-        if (result.value) {
-            $.ajax({
-                url: baseHome + "/request/refuse",
-                type: 'post',
-                dataType: "json",
-                data: {requestId: requestId, stepId: stepId},
-                success: function (data) {
-                    if (data.code == 200) {
-                        $('.modal').modal('hide');
-                        notyfi_success(data.message);
-                        initKanban();
-                    } else
-                        notify_error(data.message);
-                },
-            });
+        if (result.isConfirmed) {
+            if (result.value != '') {
+                $.ajax({
+                    url: baseHome + "/request/refuse",
+                    type: 'post',
+                    dataType: "json",
+                    data: {requestId: requestId, stepId: stepId,note:result.value},
+                    success: function (data) {
+                        if (data.code == 200) {
+                            $('.modal').modal('hide');
+                            notyfi_success(data.message);
+                            initKanban();
+                        } else
+                            notify_error(data.message);
+                    },
+                });
+            } else
+                swal.fire({
+                    title: 'Error',
+                    text: "Bạn chưa nhập phản hồi!",
+                    icon: 'error',
+                });
         }
     });
 })

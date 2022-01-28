@@ -41,17 +41,21 @@
                                     <h5 class="modal-title" id="exampleModalLabel">Thêm nhân viên mới</h5>
                                 </div>
                                 <div class="modal-body flex-grow-1">
+                                    <label class="form-label" for="staffCode">Mã nhân viên</label>
                                     <div class="form-group">
-                                        <label class="form-label" for="name">Họ tên</label>
-                                        <input
-                                                type="text"
-                                                class="form-control dt-full-name"
-                                                id="name"
-                                                placeholder="Họ và tên đầy đủ"
-                                                name="name"
-                                                aria-label="John Doe"
-                                                aria-describedby="basic-icon-default-fullname2"
-                                        />
+                                        <div class="row">
+                                            <div class="col-sm-9">
+                                                <input 
+                                                    type="text" 
+                                                    id="staffCode" 
+                                                    name="staffCode"  
+                                                    class="form-control"
+                                                    placeholder="Mã nhân viên"/>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label" for="phoneNumber">Điện thoại</label>
@@ -236,6 +240,20 @@
                                                                        class="font-medium-4 mr-25"></i>
                                                                     <span class="align-middle">Thông tin cá nhân</span>
                                                                 </h4>
+                                                            </div>
+                                                            <div class="col-lg-4 col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="code1">Mã nhân viên</label>
+                                                                      <div class="row">
+                                                                          <div class="col-lg-10 col-md-9">
+                                                                          <input id="code1" type="text"
+                                                                           class="form-control" name="code1"/>
+                                                                      </div>
+                                                                      <div class="col-lg-2 col-md-3">
+                                                                            <button type="button" class="btn btn-primary" id="createCode" onclick="createCodeStaff1()">+</button>      
+                                                                      </div>
+                                                                      </div>
+                                                                </div>
                                                             </div>
                                                             <div class="col-lg-4 col-md-6">
                                                                 <div class="form-group">

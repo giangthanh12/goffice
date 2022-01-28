@@ -22,16 +22,15 @@
                                 <tr>
                                     <!-- <th></th> -->
                                     <th>ID</th>
-                                    <th>Tên tài khoản</th>
-                                    <th>Số tài khoản</th>
-                                    <th>Loại</th>
+                                    <th>Tên hoạch toán</th>
+                                    <th>Ghi chú</th>
                                     <th>...</th>
                                 </tr>
                             </thead>
                         </table>
                     </div>
                     <div class="modal fade text-left" id="updateinfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel16" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+                    <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h4 class="modal-title" id="myModalLabel16"></h4>
@@ -46,28 +45,19 @@
                                             <form class="form-validate" enctype="multipart/form-data" id="dg">
                                                 <div class="row mt-1">
                                                     <input type="hidden" id="id" name="id">
-                                                    <div class="col-lg-3 col-md-6">
+                                                    <div class="col-lg-12 col-md-12">
                                                         <div class="form-group">
-                                                            <label for="name">Tên tài khoản</label>
-                                                            <input type="text" id="name" class="form-control " placeholder="Nhập tên tài khoản">
+                                                            <label for="name">Tên</label>
+                                                            <input type="text" id="name" name="name" class="form-control " placeholder="">
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-3 col-md-6">
+                                                    <div class="col-lg-12 col-md-12">
                                                         <div class="form-group">
-                                                            <label for="account">Số tài khoản</label>
-                                                            <input id="account" type="text" class="form-control" name="account" />
+                                                            <label for="note">Ghi chú</label>
+                                                            <textarea name="note" id="note" class="form-control"></textarea>
                                                         </div>
                                                     </div>
-                                                   <div class="col-lg-3 col-md-6">
-                                                        <div class="form-group">
-                                                            <label for="type">Loại giao dịch</label>
-                                                            <select name="type" id="type" class="form-control">
-                                                                <option value="111">Tiền mặt</option>
-                                                                <option value="112">Ngân hàng</option>
-                                                              
-                                                            </select>
-                                                        </div>
-                                                    </div>
+                                                  
                                                     <div class="col-12 d-flex flex-sm-row flex-column mt-2">
                                                         <button type="submit" id="btn_add" class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Cập nhật</button>
                                                         <button type="reset" class="btn btn-outline-secondary" data-dismiss="modal">Bỏ qua</button>
@@ -90,6 +80,5 @@
     var funAdd = <?=$this->funAdd?>,
         funEdit = <?=$this->funEdit?>,
         funDel = <?=$this->funDel?>;
-
 </script>
-<script src="<?= HOME ?>/js/accnumber.js"></script>
+<script src="<?= HOME ?>/js/classifyLedger.js"></script>

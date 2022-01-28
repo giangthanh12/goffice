@@ -8,23 +8,44 @@ class request_model extends Model
     }
 
 
-    function getALlRequestSteps($stepId)
+    function getALlRequestSteps($stepId,$defineId)
     {
         $data = array();
-        $query = $this->db->query("SELECT requestId FROM requestprocesses WHERE stepId=$stepId AND status=1");
+        $query = $this->db->query("SELECT requestId FROM requestprocesses WHERE stepId=$stepId AND status IN (1,3)");
         $rows = $query->fetchAll(PDO::FETCH_ASSOC);
         $listRequest = "";
         foreach ($rows as $item) {
             $listRequest .= $item['requestId'] . ",";
         }
         if ($listRequest != '') {
+            $staffId = $_SESSION['user']['staffId'];
+            $qr = $this->db->query("SELECT processors,reviewerId FROM requeststeps WHERE defineId=$defineId AND status > 0");
+            $temp = $qr->fetchAll(PDO::FETCH_ASSOC);
+            $view = 2;
+            foreach ($temp as $item){
+                if($item['reviewerId']==$staffId) {
+                    $view = 1;
+                    break;
+                }
+                if($item['processors']!=''){
+                    $processors = explode(",",$item['processors']);
+                    if(in_array($staffId,$processors)){
+                        $view = 1;
+                        break;
+                    }
+                }
+            }
+
             $listRequest = rtrim($listRequest, ",");
-            $where = " WHERE status = 1 AND id IN ($listRequest) ";
+            $where = " WHERE status IN (1,3) AND id IN ($listRequest) AND (staffId=$staffId OR $view=1)";
             $query = $this->db->query("SELECT id, title,staffId,departmentId,
             DATE_FORMAT(dateTime,'%d/%m/%Y') as dateTime,
             (SELECT name FROM staffs WHERE id=a.staffId) as staffName,
             (SELECT avatar FROM staffs WHERE id=a.staffId) as staffAvatar,
-            (SELECT name FROM department WHERE id=a.departmentId) as departmentName
+            (SELECT name FROM department WHERE id=a.departmentId) as departmentName,
+            (SELECT GROUP_CONCAT(staffId separator ',') FROM requestprocesses WHERE requestId=a.id AND status=2) as processors,
+            (SELECT GROUP_CONCAT(staffId separator ',') FROM requestprocesses WHERE requestId=a.id AND status=3) as refusers,
+            (SELECT status FROM requestprocesses WHERE requestId=a.id AND stepId=$stepId AND status>0 LIMIT 1) as stepStatus
             FROM requests a $where ");
             if ($query)
                 $data = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -46,9 +67,26 @@ class request_model extends Model
 
     function getALlRequests($defineId, $status)
     {
+        $staffId = $_SESSION['user']['staffId'];
+        $qr = $this->db->query("SELECT processors,reviewerId FROM requeststeps WHERE defineId=$defineId AND status > 0");
+        $temp = $qr->fetchAll(PDO::FETCH_ASSOC);
+        $view = 2;
+        foreach ($temp as $item){
+            if($item['reviewerId']==$staffId) {
+                $view = 1;
+                break;
+            }
+            if($item['processors']!=''){
+                $processors = explode(",",$item['processors']);
+                if(in_array($staffId,$processors)){
+                    $view = 1;
+                    break;
+                }
+            }
+        }
         $data = array();
-        $where = " WHERE status = $status AND defineId=$defineId ";
-        $query = $this->db->query("SELECT id, title,staffId,departmentId,
+        $where = " WHERE status = $status AND defineId=$defineId AND (staffId=$staffId OR $view=1)";
+        $query = $this->db->query("SELECT id, title,staffId,departmentId,status,
         DATE_FORMAT(dateTime,'%d/%m/%Y') as dateTime,
        (SELECT name FROM staffs WHERE id=a.staffId) as staffName,
        (SELECT avatar FROM staffs WHERE id=a.staffId) as staffAvatar,
@@ -59,6 +97,18 @@ class request_model extends Model
         if ($query)
             $data = $query->fetchAll(PDO::FETCH_ASSOC);
         return $data;
+    }
+
+    function getRequestProcess($requestId)
+    {
+        $where = " WHERE status > 1 AND requestId = $requestId";
+        $query = $this->db->query("SELECT id,status,note,
+            (SELECT name FROM requeststeps WHERE id=a.stepId) AS stepName,
+            (SELECT avatar FROM staffs WHERE id=a.stepId) AS avatar,
+            (SELECT name FROM staffs WHERE id=a.staffId) AS staffName
+            FROM requestprocesses a $where ");
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+
     }
 
     function getDepartments()

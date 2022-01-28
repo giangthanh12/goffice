@@ -48,10 +48,11 @@ class request extends Controller
         foreach ($process as $key => $item) {
             $jsonObj[]['id'] = 'step-' . $item['id'];
             $jsonObj[$key]['title'] = $item['name'];
-            $tempItems = $this->model->getALlRequestSteps($item['id']);
+            $tempItems = $this->model->getALlRequestSteps($item['id'],$defineId);
             $jsonObj[$key]['item'] = [];
             foreach ($tempItems as $itemStep) {
                 $temp["stepId"] = $item['id'];
+                $temp["stepName"] = $item['name'];
                 $temp["id"] = $itemStep['id'];
                 $temp["note"] = $itemStep['title'];
                 $temp["badge-title"] = $itemStep['departmentName'];
@@ -60,9 +61,11 @@ class request extends Controller
                 $temp["staffId"] = $itemStep['staffId'];
                 $temp["staffAvatar"] = $itemStep['staffAvatar'];
                 $temp["staffName"] = $itemStep['staffName'];
-                $temp["processors"] = $item['processors'];
-                $temp["refusers"] = '';
+                $temp["processors"] = $itemStep['processors'];
+                $temp["refusers"] = $itemStep['refusers'];
+                $temp["process"] = $item['processors'];
                 $temp["departmentId"] = $itemStep['departmentId'];
+                $temp["status"] = $itemStep['stepStatus'];
                 array_push($jsonObj[$key]['item'], $temp);
             }
         }
@@ -73,6 +76,7 @@ class request extends Controller
         $jsonObj[$processKey + 1]['item'] = [];
         foreach ($tempItems as $item) {
             $temp["stepId"] = 'success';
+            $temp["stepName"] = 'Hoàn thành';
             $temp["id"] = $item['id'];
             $temp["note"] = $item['title'];
             $temp["badge-title"] = $item['departmentName'];
@@ -83,36 +87,46 @@ class request extends Controller
             $temp["staffAvatar"] = $item['staffAvatar'];
             $temp["staffName"] = $item['staffName'];
             $temp["processors"] = $item['processors'];
+            $temp["process"] = '';
             $temp["refusers"] = '';
             $temp["departmentId"] = $item['departmentId'];
+            $temp["status"] = 2;
             array_push($jsonObj[$processKey + 1]['item'], $temp);
         }
 
-        $jsonObj[$processKey + 2]['id'] = 'refuse';
-        $jsonObj[$processKey + 2]['title'] = 'Từ chối';
-        $tempItems = $this->model->getALlRequests($defineId, 3);
-        $jsonObj[$processKey + 2]['item'] = [];
-        foreach ($tempItems as $item) {
-            $temp["stepId"] = 'refuse';
-            $temp["id"] = $item['id'];
-            $temp["note"] = $item['title'];
-            $temp["badge-title"] = $item['departmentName'];
-            $temp["badge"] = '';
-            $temp["dateTime"] = $item['dateTime'];
-            $temp["staffId"] = $item['staffId'];
-            $temp["staffAvatar"] = $item['staffAvatar'];
-            $temp["staffAvatar"] = $item['staffAvatar'];
-            $temp["staffName"] = $item['staffName'];
-            $temp["processors"] = $item['processors'];
-            $temp["refusers"] = $item['refusers'];
-            $temp["departmentId"] = $item['departmentId'];
-            array_push($jsonObj[$processKey + 2]['item'], $temp);
-        }
+//        $jsonObj[$processKey + 2]['id'] = 'refuse';
+//        $jsonObj[$processKey + 2]['title'] = 'Từ chối';
+//        $tempItems = $this->model->getALlRequests($defineId, 3);
+//        $jsonObj[$processKey + 2]['item'] = [];
+//        foreach ($tempItems as $item) {
+//            $temp["stepId"] = 'refuse';
+//            $temp["id"] = $item['id'];
+//            $temp["stepName"] = 'Từ chối';
+//            $temp["note"] = $item['title'];
+//            $temp["badge-title"] = $item['departmentName'];
+//            $temp["badge"] = '';
+//            $temp["dateTime"] = $item['dateTime'];
+//            $temp["staffId"] = $item['staffId'];
+//            $temp["staffAvatar"] = $item['staffAvatar'];
+//            $temp["staffAvatar"] = $item['staffAvatar'];
+//            $temp["staffName"] = $item['staffName'];
+//            $temp["processors"] = $item['processors'];
+//            $temp["refusers"] = $item['refusers'];
+//            $temp["departmentId"] = $item['departmentId'];
+//            $temp["status"] = 3;
+//            array_push($jsonObj[$processKey + 2]['item'], $temp);
+//        }
         $jsonObjNew = [];
         foreach ($jsonObj as $item) {
             $jsonObjNew[] = $item;
         }
         echo json_encode($jsonObjNew);
+    }
+
+    function getComments(){
+        $requestId = $_REQUEST['requestId'];
+        $jsonObj = $this->model->getRequestProcess($requestId);
+        echo json_encode($jsonObj);
     }
 
     function addRequest()
@@ -282,11 +296,12 @@ class request extends Controller
         }
         $defineId = isset($_REQUEST['defineId']) ? $_REQUEST['defineId'] : 0;
         $staffId = $_SESSION['user']['staffId'];
-        $dataProcess = ['status' => 2, 'staffId' => $staffId];
+        $note = $_REQUEST['note'];
+        $dataProcess = ['status' => 2, 'staffId' => $staffId,'note'=>$note];
         $this->model->updateProcess($requestId, $stepId, 1, $dataProcess);
-        $stepId = $this->model->getStep($defineId, $requestId);
-        if ($stepId > 0) {
-            $dataProcessNew = ['requestId' => $requestId, 'stepId' => $stepId, 'staffId' => 0, 'status' => 1];
+        $nextStepId = $this->model->getStep($defineId, $requestId);
+        if ($nextStepId > 0) {
+            $dataProcessNew = ['requestId' => $requestId, 'stepId' => $nextStepId, 'staffId' => 0, 'status' => 1];
             $checkApprove = $this->model->addStep($dataProcessNew);
         } else {
             $dataRequest = ['status' => 2];
@@ -320,7 +335,8 @@ class request extends Controller
             return false;
         }
         $staffId = $_SESSION['user']['staffId'];
-        $dataProcess = ['status' => 3, 'staffId' => $staffId];
+        $note = $_REQUEST['note'];
+        $dataProcess = ['status' => 3, 'staffId' => $staffId,'note'=>$note];
         $this->model->updateProcess($requestId, $stepId, 1, $dataProcess);
         $dataRequest = ['status' => 3];
         $checkDenny = $this->model->updateRequest($requestId, $dataRequest);

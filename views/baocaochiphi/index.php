@@ -26,9 +26,10 @@
                                 <thead class="thead-light">
                                     <tr>
                                         <th>Ngày</th>
-                                        <th>Khách hàng</th>
-                                        <th>NV Sale</th>
+                                        <th>Đối tác/Nhà cung cấp</th>
+                                        <th>Định khoản</th>
                                         <th>Đơn hàng/Hợp đồng</th>
+                                        <th>Nội dung</th>
                                         <th>Số tiền</th>
                                         <th>Ghi chú</th>
                                     </tr>
@@ -42,4 +43,4 @@
         </div>
     </div>
     <script src="<?=HOME?>/styles/app-assets/vendors/js/charts/apexcharts.min.js"></script>
-    <script src="<?= HOME ?>/js/baocaodoanhthu.js"></script>
+    <script src="<?= HOME ?>/js/baocaochiphi.js"></script>

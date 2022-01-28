@@ -1,13 +1,13 @@
 <?php
-class accnumber extends Controller{
+class classifyledger extends Controller{
     static private $funAdd = 0, $funEdit = 0, $funDel = 0;
     function __construct(){
         parent::__construct();
         $model = new model();
-        $checkMenuRole = $model->checkMenuRole('accnumber');
+        $checkMenuRole = $model->checkMenuRole('classifyledger');
         if ($checkMenuRole == false)
             header('location:' . HOME);
-        $funcs = $model->getFunctions('accnumber');
+        $funcs = $model->getFunctions('classifyledger');
       
         foreach ($funcs as $item) {
             if ($item['function'] == 'add')
@@ -24,7 +24,7 @@ class accnumber extends Controller{
         $this->view->funAdd = self::$funAdd;
         $this->view->funEdit = self::$funEdit;
         $this->view->funDel = self::$funDel;
-        $this->view->render("accnumber/index");
+        $this->view->render("classifyLedger/index");
         require "layouts/footer.php";
     }
 
@@ -44,16 +44,13 @@ class accnumber extends Controller{
 
     function update() {
         $id = $_REQUEST['id'];
-     
         if($id == "" && self::$funAdd == 1 ) {
        
             $data = array(
                 'name' => $_REQUEST['name'],
-                'account' => $_REQUEST['account'],
-                'type' => $_REQUEST['type'],
-                'status' => $_REQUEST['status'],
+                'note' => $_REQUEST['note'],
+                'status' => 1,
             );
-            
             $result = $this->model->updateObj($id,$data); // vừa update vừa insert,
             if ($result) {
                 $jsonObj['msg'] = "Thêm mới thành công";
@@ -65,11 +62,10 @@ class accnumber extends Controller{
         }
         else if($id > 0 && self::$funEdit == 1) {
      
-             $data = array(
+            $data = array(
                 'name' => $_REQUEST['name'],
-                'account' => $_REQUEST['account'],
-                'type' => $_REQUEST['type'],
-                'status' => $_REQUEST['status'],
+                'note' => $_REQUEST['note'],
+                'status' => 1,
             );
             $result = $this->model->updateObj($id,$data); // vừa update vừa insert,
             if ($result) {

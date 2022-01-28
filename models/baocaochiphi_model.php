@@ -1,14 +1,15 @@
 <?php
-class Baocaodoanhthu_model extends Model{
+class Baocaochiphi_model extends Model{
     function __construst(){
         parent::__construst();
     }
 
     function listObj() {
-        $where = " WHERE status > 0 AND type = 1 ORDER BY id DESC ";
+        $where = " WHERE status > 0 AND type = 2 ORDER BY id DESC ";
         $query = $this->db->query("SELECT id, type, content, note,
         FORMAT(asset,0) AS asset,
         DATE_FORMAT(dateTime,'%d/%m/%Y') AS dateTimeNew,
+        IFNULL((SELECT name FROM classifyledger WHERE id = a.classify), 'Định khoản') AS classifyName,
         IFNULL((SELECT name FROM staffs WHERE id = a.staffId), 'Tên nhân viên') AS staffName,
         IFNULL((SELECT fullName FROM customer WHERE id = a.customerId), 'Tên khách hàng') AS customerName,
         IFNULL((SELECT name FROM contracts WHERE id = a.contractId), 'Tên hợp đồng')AS contractName
@@ -114,12 +115,12 @@ class Baocaodoanhthu_model extends Model{
     // }
 
 
-    function socai_loc($time_s,$time_e){
-        $query_socai = $this->db->query("SELECT asset,classify FROM ledger WHERE status > 0 AND dateTime BETWEEN '$time_s' AND '$time_e'");
-        $result = $query_socai->fetchAll(PDO::FETCH_ASSOC);
-        return $result;
+    // function socai_loc($time_s,$time_e){
+    //     $query_socai = $this->db->query("SELECT asset,classify FROM ledger WHERE status > 0 AND dateTime BETWEEN '$time_s' AND '$time_e'");
+    //     $result = $query_socai->fetchAll(PDO::FETCH_ASSOC);
+    //     return $result;
 
-    }
+    // }
     // function donhang_loc($time_s,$time_e){
     //     $query_donhang = $this->db->query("SELECT  FROM donhang WHERE status > 0 AND ngay BETWEEN '$time_s' AND '$time_e'");
     //     $result = $query_donhang->fetchAll(PDO::FETCH_ASSOC);
@@ -127,16 +128,16 @@ class Baocaodoanhthu_model extends Model{
     // }
 
 
-    function listLoc($time_s,$time_e){
-        $query = $this->db->query("SELECT * ,
-        DATE_FORMAT(dateTime,'%d/%m/%Y') AS dateTimeNew,
-        IFNULL((SELECT name FROM staffs WHERE id = a.staffId), 'Tên nhân viên') AS staffName,
-        IFNULL((SELECT fullName FROM customer WHERE id = a.customerId), 'Tên khách hàng') AS customerName,
-        IFNULL((SELECT name FROM contracts WHERE id = a.contractId), 'Tên hợp đồng')AS contractName
-        FROM ledger a WHERE status > 0 AND dateTime BETWEEN '$time_s' AND '$time_e' order by dateTime desc");
-        $result['data'] = $query->fetchAll(PDO::FETCH_ASSOC);
-        return $result;
-    }
+    // function listLoc($time_s,$time_e){
+    //     $query = $this->db->query("SELECT * ,
+    //     DATE_FORMAT(dateTime,'%d/%m/%Y') AS dateTimeNew,
+    //     IFNULL((SELECT name FROM staffs WHERE id = a.staffId), 'Tên nhân viên') AS staffName,
+    //     IFNULL((SELECT fullName FROM customer WHERE id = a.customerId), 'Tên khách hàng') AS customerName,
+    //     IFNULL((SELECT name FROM contracts WHERE id = a.contractId), 'Tên hợp đồng')AS contractName
+    //     FROM ledger a WHERE status > 0 AND dateTime BETWEEN '$time_s' AND '$time_e' order by dateTime desc");
+    //     $result['data'] = $query->fetchAll(PDO::FETCH_ASSOC);
+    //     return $result;
+    // }
 
     
 }
