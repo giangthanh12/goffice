@@ -190,7 +190,7 @@ $(function () {
             buttons: [
             ],
             // For responsive popup
-            responsive: {
+         //   responsive: {
                 // details: {
                 //     display: $.fn.dataTable.Responsive.display.modal({
                 //         header: function (row) {
@@ -213,7 +213,7 @@ $(function () {
                 //         ],
                 //     }),
                 // },
-            },
+          //  },
             language: {
                 sLengthMenu: "Hiển thị _MENU_",
                 search: "",

@@ -63,8 +63,12 @@ class define_request extends Controller
             return false;
         }
 
-        $name = isset($_REQUEST['name']) ? $_REQUEST['name'] : '';
-        $object = isset($_REQUEST['object']) ? $_REQUEST['object'] : '';
+        $name = isset($_REQUEST['name1']) ? $_REQUEST['name1'] : '';
+        $object = isset($_REQUEST['object1']) ? $_REQUEST['object1'] : '';
+        // $sortorder = isset($_REQUEST['thu_tu']) ? $_REQUEST['thu_tu'] : '';
+        // $reviewer = isset($_REQUEST['tham_chieu']) ? $_REQUEST['tham_chieu'] : '';
+        // $processor = isset($_REQUEST['xu_ly']) ? $_REQUEST['xu_ly'] : [];
+
         $data = array(
             'name' => $name,
             'status' => 1
@@ -73,7 +77,7 @@ class define_request extends Controller
         $lastId = $this->model->getLastId();
 
         //object
-        if (isset($_REQUEST['object']) && !empty($object)) {
+        if (isset($_REQUEST['object1']) && !empty($object)) {
             try {
                 foreach ($object as $item) {
                     $dataObject = [
@@ -93,6 +97,41 @@ class define_request extends Controller
             $jsonObj['msg'] = 'Cập nhật không thành công';
             $jsonObj['success'] = false;
         }
+
+        echo json_encode($jsonObj);
+    }
+    function addstep()
+    {
+        $lastId = $this->model->getLastId();
+        $ndata = [];
+        $arrStep = isset($_REQUEST['stepArr']) ? $_REQUEST['stepArr'] : '';
+        if ($arrStep != '') {
+            $arrStep = json_decode($arrStep);
+            for ($n = 0; $n < count($arrStep); $n++) {
+                $namestep = isset($_REQUEST['n_ten_buoc' . $arrStep[$n]]) ? $_REQUEST['n_ten_buoc' . $arrStep[$n]] : '';
+                $sortorder = $_REQUEST['n_thu_tu' . $arrStep[$n]];
+                $reviewer = isset($_REQUEST['n_tham_chieu' . $arrStep[$n]]) ? $_REQUEST['n_tham_chieu' . $arrStep[$n]] : '';
+                $ntemp = isset($_REQUEST['n_xu_ly' . $arrStep[$n]]) ? $_REQUEST['n_xu_ly' . $arrStep[$n]] : [];
+                if (count($ntemp) > 0)
+                    $processor = implode(",", $ntemp);
+                else
+                    $processor = '';
+                $ndata['name'] = $namestep;
+                $ndata['defineId'] = $lastId;
+                $ndata['sortorder'] = $sortorder;
+                $ndata['reviewerId'] = $reviewer;
+                $ndata['processors'] = $processor;
+                $ndata['status'] = 1;
+                if ($this->model->addstep($ndata)) {
+                    $jsonObj['msg'] = 'Cập nhật dữ liệu thành công';
+                    $jsonObj['success'] = true;
+                } else {
+                    $jsonObj['msg'] = 'Cập nhật dữ liệu không thành công';
+                    $jsonObj['success'] = false;
+                }
+            }
+        }
+
         echo json_encode($jsonObj);
     }
 
@@ -171,25 +210,25 @@ class define_request extends Controller
         $id = isset($_REQUEST['stid']) ? $_REQUEST['stid'] : '';
         $defineId = isset($_REQUEST['defineId']) ? $_REQUEST['defineId'] : '';
         $listStepId = $stepIds = isset($_REQUEST['stepIds']) ? $_REQUEST['stepIds'] : '';
-       
+
         $data = [];
         $ndata = [];
         $jsonObj['msg'] = 'Bạn chưa thêm bước thực hiện!';
-                    $jsonObj['success'] = true;
+        $jsonObj['success'] = true;
         if ($stepIds != '') {
 
             $stepIds = explode(",", $stepIds);
-        
+
             for ($i = 0; $i < count($stepIds); $i++) {
-            
+
                 $name = isset($_REQUEST['ten_buoc' . $stepIds[$i]]) ? $_REQUEST['ten_buoc' . $stepIds[$i]] : '';
                 $sortorder = isset($_REQUEST['thu_tu' . $stepIds[$i]]) ? $_REQUEST['thu_tu' . $stepIds[$i]] : '';
                 $reviewer = isset($_REQUEST['tham_chieu' . $stepIds[$i]]) ? $_REQUEST['tham_chieu' . $stepIds[$i]] : '';
                 $temp = isset($_REQUEST['xu_ly' . $stepIds[$i]]) ? $_REQUEST['xu_ly' . $stepIds[$i]] : [];
                 if (count($temp) > 0)
                     $processor = implode(",", $temp);
-                    else
-                    $processor='';
+                else
+                    $processor = '';
                 $data['name'] = $name;
                 $data['sortorder'] = $sortorder;
                 $data['reviewerId'] = $reviewer;
@@ -213,8 +252,8 @@ class define_request extends Controller
                 echo json_encode($jsonObj);
                 return false;
             }
-        } 
-         $arrStep = isset($_REQUEST['stepArr']) ? $_REQUEST['stepArr'] : '';
+        }
+        $arrStep = isset($_REQUEST['stepArr']) ? $_REQUEST['stepArr'] : '';
         if ($arrStep != '') {
             $arrStep = json_decode($arrStep);
             for ($j = 0; $j < count($arrStep); $j++) {
@@ -222,31 +261,29 @@ class define_request extends Controller
                 $sortorder = $_REQUEST['n_thu_tu' . $arrStep[$j]];
                 $reviewer = isset($_REQUEST['n_tham_chieu' . $arrStep[$j]]) ? $_REQUEST['n_tham_chieu' . $arrStep[$j]] : '';
                 $ntemp = isset($_REQUEST['n_xu_ly' . $arrStep[$j]]) ? $_REQUEST['n_xu_ly' . $arrStep[$j]] : [];
-                    if (count($ntemp) > 0)
-                        $processor = implode(",", $ntemp);
-                        else
-                        $processor='';
-                    $ndata['name'] = $name;
-                    $ndata['defineId'] = $defineId;
-                    $ndata['sortorder'] = $sortorder;
-                    $ndata['reviewerId'] = $reviewer;
-                    $ndata['processors'] = $processor;
-                    $ndata['status'] = 1;
-                    if ($this->model->addstep($ndata)) {
-                        $jsonObj['msg'] = 'Cập nhật dữ liệu thành công';
-                        $jsonObj['success'] = true;
-                    } else {
-                        $jsonObj['msg'] = 'Cập nhật dữ liệu không thành công';
-                        $jsonObj['success'] = false;
-                        echo json_encode($jsonObj);
-                        return false;
-                    }
+                if (count($ntemp) > 0)
+                    $processor = implode(",", $ntemp);
+                else
+                    $processor = '';
+                $ndata['name'] = $name;
+                $ndata['defineId'] = $defineId;
+                $ndata['sortorder'] = $sortorder;
+                $ndata['reviewerId'] = $reviewer;
+                $ndata['processors'] = $processor;
+                $ndata['status'] = 1;
+                if ($this->model->addstep($ndata)) {
+                    $jsonObj['msg'] = 'Cập nhật dữ liệu thành công';
+                    $jsonObj['success'] = true;
+                } else {
+                    $jsonObj['msg'] = 'Cập nhật dữ liệu không thành công';
+                    $jsonObj['success'] = false;
+                    echo json_encode($jsonObj);
+                    return false;
+                }
             }
-
         }
 
         echo json_encode($jsonObj);
-    
     }
 
     function del()
