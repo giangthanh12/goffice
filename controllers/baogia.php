@@ -6,14 +6,6 @@ class baogia extends Controller{
 
     function index(){
         require "layouts/header.php";
-        // $deadline = isset($_REQUEST['deadline'])?$_REQUEST['deadline']:false;
-        // $status = isset($_REQUEST['status'])?$_REQUEST['status']:'';
-        // $project = isset($_REQUEST['project'])?$_REQUEST['project']:0;
-        // $nhanvien = isset($_REQUEST['assignee'])?$_REQUEST['assignee']:$_SESSION['user']['staffId'];
-        // $this->view->list=$this->model->getList($nhanvien, $project, $status,$deadline);
-        // $this->view->project=$this->model->getProject();
-        // $this->view->tag=$this->model->getLabel();
-        // $this->view->employee=$this->model->getEmployee();
         $this->view->render("baogia/index");
         require "layouts/footer.php";
     }
@@ -89,28 +81,38 @@ class baogia extends Controller{
     }
 
     function send(){ // gui bao gia qua email
-        // $id = $_REQUEST['id'];
-        // $customer = $_REQUEST['customer'];
-        // $date = $_REQUEST['date'];
-        // $validDate = $_REQUEST['validdate'];
-        // $note = $_REQUEST['note'];
-        // $items = $_REQUEST['items'];
-        // $total = str_replace(',','',$_REQUEST['total']);
-        // $tax = str_replace(',','',$_REQUEST['tax']);
-        // $data = ['customerId'=>$customer, 'amount'=>$total, 'vat'=>$tax, 'note'=>$note, 'status'=>1, 'date'=>$date, 'validDate'=>$validDate];
-        // $quoteid = $this->model->send($id,$data,$items);
-        // if ($quoteid>0) {
-        //     $jsonObj['msg'] = "Đã gửi báo giá và ghi lại";
-        //     $jsonObj['success'] = true;
-        //     $jsonObj['id'] = $quoteid;
-        // } else {
-        //     $jsonObj['msg'] = "Cập nhật không thành công".json_encode($items);
-        //     $jsonObj['success'] = false;
-        // }
-        // $jsonObj = json_encode($jsonObj);
-        // echo $jsonObj;
-        $result = $this->model->send();
-        echo $result;
+        $id = $_REQUEST['id'];
+        $customer = $_REQUEST['customer'];
+        $date = $_REQUEST['date'];
+        $validDate = $_REQUEST['validdate'];
+        $note = $_REQUEST['note'];
+        $items = $_REQUEST['items'];
+        $total = str_replace(',','',$_REQUEST['total']);
+        $tax = str_replace(',','',$_REQUEST['tax']);
+        $data = ['customerId'=>$customer, 'amount'=>$total, 'vat'=>$tax, 'note'=>$note, 'status'=>1, 'date'=>$date, 'validDate'=>$validDate];
+        $quoteid = $this->model->saveQuote($id,$data,$items);
+        if ($quoteid>0) {
+            $sendmail = $this->model->send($quoteid);
+            $jsonObj['msg'] = "Đã ghi báo giá và email cho khách hàng";
+            $jsonObj['success'] = true;
+            $jsonObj['id'] = $quoteid;
+        } else {
+            $jsonObj['msg'] = "Cập nhật không thành công";
+            $jsonObj['success'] = false;
+        }
+        $jsonObj = json_encode($jsonObj);
+        echo $jsonObj;
+    }
+
+    function printout()
+    {
+        $this->view->id = $_REQUEST['quoteNum'];
+        $this->view->date = $_REQUEST['date'];
+        $this->view->validDate = $_REQUEST['validDate'];
+        $this->view->customer = $_REQUEST['cusPrint'];
+        $this->view->note = $_REQUEST['notePrint'];
+        $this->view->items = json_decode($_REQUEST['itemsPrint']);
+        $this->view->render("baogia/print");
     }
 
     // function del(){
@@ -155,10 +157,7 @@ class baogia extends Controller{
     //     echo $jsonObj;
     // }
     //
-    function printout()
-    {
-        $this->view->render("baogia/print");
-    }
+
 
 }
 ?>
