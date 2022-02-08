@@ -41,7 +41,7 @@ $(function () {
     if ($('body').attr('data-framework') === 'laravel') {
         assetPath = $('body').attr('data-asset-path');
     }
-    initRequest();
+    initRequest(0,0);
 
     // if it is not touch device
     if (!$.app.menu.is_touch_device()) {
@@ -435,43 +435,52 @@ $(window).on('resize', function () {
     }
 });
 
-function initRequest(){
+function initRequest(defineId,status){
+    todoTaskList.empty();
     $.ajax({
-        url: baseHome + "/request/listRequests",
+        url: baseHome + "/request/getListRequests",
         type: 'post',
         dataType: "json",
-        //data: {},
+        data:{defineId:defineId,status:status},
         success: function (data) {
+            console.log(data);
+            data.forEach(function (item){
+                var html='<li class="todo-item" style="width: 100%">' +
+                    '<div class="todo-title-wrapper">' +
+                    '<div class="todo-title-area">' +
+                    //'<i data-feather="more-vertical" class="drag-icon"></i>' +
+                    '<div class="title-wrapper">' +
+                    '<div class="custom-control custom-checkbox">' +
+                    '<input type="checkbox" class="custom-control-input" id="customCheck'+item.id+'" />' +
+                    '<label class="custom-control-label" for="customCheck'+item.id+'"></label>' +
+                    '</div>' +
+                    '<span class="todo-title">'+item.title+'</span>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="todo-item-action">' +
+                    '<div class="badge-wrapper mr-1">';
+                item.processors.forEach(function (process){
+                    var $status='bg-primary'
+                    if(process.status==2)
+                        $status = 'bg-success';
+                    else if(process.status==3)
+                        $status = 'bg-danger';
+                    html+= '<div class="badge badge-pill '+$status+' text-white" alt="'+process.staffName+'" title="'+process.staffName+'">'+process.stepName+'</div>';
+                })
+                html+='</div>' +
+                    '<small class="text-nowrap text-muted mr-1">'+item.dateTimeCV+'</small>' +
+                    '<div class="avatar">' +
+                    '<img src="'+baseUrlFile+'/uploads/nhanvien/'+item.staffAvatar+'" ' +
+                    'onerror="this.src=\''+baseHome+'/layouts/useravatar.png\'" alt="'+item.staffName+'" height="32" width="32" />' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>' +
+                    '</li>';
 
+                todoTaskList.append(html);
+            })
         },
     });
-    var html = '<li class="todo-item" style="width: 100%">' +
-        '<div class="todo-title-wrapper">' +
-        '<div class="todo-title-area">' +
-        //'<i data-feather="more-vertical" class="drag-icon"></i>' +
-        '<div class="title-wrapper">' +
-        '<div class="custom-control custom-checkbox">' +
-        '<input type="checkbox" class="custom-control-input" id="customCheck1" />' +
-        '<label class="custom-control-label" for="customCheck1"></label>' +
-        '</div>' +
-        '<span class="todo-title">Fix Responsiveness for new structure 💻</span>' +
-        '</div>' +
-        '</div>' +
-        '<div class="todo-item-action">' +
-        '<div class="badge-wrapper mr-1">' +
-        '<div class="badge badge-pill bg-success text-white">Tạo mới</div>' +
-        '<div class="badge badge-pill bg-success text-white">Duyệt lần 1</div>' +
-        '<div class="badge badge-pill bg-success text-white">Duyệt lần 2</div>' +
-        '<div class="badge badge-pill bg-danger text-white">Duyệt lần 3</div>' +
-        '</div>' +
-        '<small class="text-nowrap text-muted mr-1">Aug 08</small>' +
-        '<div class="avatar">' +
-        '<img src="'+baseHome+'/styles/app-assets/images/portrait/small/avatar-s-4.jpg" alt="user-avatar" height="32" width="32" />' +
-        '</div>' +
-        '</div>' +
-        '</div>' +
-        '</li>';
-    todoTaskList.html(html);
 }
 
 $('#btnUpdate').on('click', function () {

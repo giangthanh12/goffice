@@ -132,18 +132,31 @@ class request_model extends Model
             $where = " WHERE status = $status";
         else
             $where = " WHERE status > 0 ";
-        if(count())
-        $where.=" AND (staffId=$staffId OR defineId IN ()) ";
-        $query = $this->db->query("SELECT id, title,staffId,departmentId,status,
-            DATE_FORMAT(dateTime,'%d/%m/%Y') as dateTime,
+        if(count($listDefineIds)>0){
+            $listDefineIds = implode(",",$listDefineIds);
+            $where.=" AND (staffId=$staffId OR defineId IN ($listDefineIds)) ";
+        }else{
+            $where.=" AND staffId=$staffId ";
+        }
+        $query = $this->db->query("SELECT id, title,staffId,departmentId,status,dateTime,defineId,
+            DATE_FORMAT(dateTime,'%d/%m/%Y') as dateTimeCV,
            (SELECT name FROM staffs WHERE id=a.staffId) as staffName,
            (SELECT avatar FROM staffs WHERE id=a.staffId) as staffAvatar,
-            (SELECT name FROM department WHERE id=a.departmentId) as departmentName,
-           (SELECT GROUP_CONCAT(staffId separator ',') FROM requestprocesses WHERE requestId=a.id AND status=2) as processors,
-           (SELECT GROUP_CONCAT(staffId separator ',') FROM requestprocesses WHERE requestId=a.id AND status=3) as refusers 
-            FROM requests a $where ");
-        if ($query)
+            (SELECT name FROM department WHERE id=a.departmentId) as departmentName
+            FROM requests a $where ORDER BY dateTime DESC");
+        if ($query){
             $data = $query->fetchAll(PDO::FETCH_ASSOC);
+            foreach($data as $key=>$item){
+                $requestId = $item['id'];
+                $qr = $this->db->query("SELECT *,
+                (SELECT name FROM requeststeps WHERE id=a.stepId) as stepName,
+                (SELECT name FROM staffs WHERE id=a.staffId) as staffName
+                /*(SELECT avatar FROM staffs WHERE id=a.staffId) as staffAvatar*/
+                FROM requestprocesses a WHERE status > 0 AND requestId=$requestId 
+                ORDER BY (SELECT sortorder FROM requeststeps WHERE id=a.stepId)");
+                $data[$key]['processors']=$qr->fetchAll(PDO::FETCH_ASSOC);
+            }
+        }
         return $data;
     }
 
