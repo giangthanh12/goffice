@@ -5,7 +5,7 @@ class transaction_Model extends Model{
         }
         function getCustomer(){
             $result = array();
-            $query = $this->db->query("SELECT id, fullName AS text FROM customer WHERE status = 1");
+            $query = $this->db->query("SELECT id, fullName AS text FROM customers WHERE status = 1");
             $result = $query->fetchAll(PDO::FETCH_ASSOC);
             return $result;
         }
@@ -26,7 +26,7 @@ class transaction_Model extends Model{
         function listObj() {
             $query = $this->db->query("SELECT *,
             DATE_FORMAT(dateTime,'%d-%m-%Y %H:%i') as date,
-            (SELECT fullName FROM customer WHERE id=a.customerId) AS nameCustomer
+            (SELECT fullName FROM customers WHERE id=a.customerId) AS nameCustomer
             FROM transaction a WHERE status = 1  ORDER BY id DESC ");
             $result['data'] = $query->fetchAll(PDO::FETCH_ASSOC);
             return $result;

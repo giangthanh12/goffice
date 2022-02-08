@@ -173,7 +173,7 @@ class Baogia_model extends Model{
 
     function getCustomer($keyword){
         $result = array();
-        $query = $this->db->query("SELECT id, shortName AS `text` FROM customer  WHERE status>0 AND shortName LIKE '%$keyword%' ORDER BY id DESC ");
+        $query = $this->db->query("SELECT id, shortName AS `text` FROM customers  WHERE status>0 AND shortName LIKE '%$keyword%' ORDER BY id DESC ");
         if ($query)
             $result['results'] = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;

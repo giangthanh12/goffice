@@ -11,7 +11,7 @@ class Baocaochiphi_model extends Model{
         DATE_FORMAT(dateTime,'%d/%m/%Y') AS dateTimeNew,
         IFNULL((SELECT name FROM classifyledger WHERE id = a.classify), 'Định khoản') AS classifyName,
         IFNULL((SELECT name FROM staffs WHERE id = a.staffId), 'Tên nhân viên') AS staffName,
-        IFNULL((SELECT fullName FROM customer WHERE id = a.customerId), 'Tên khách hàng') AS customerName,
+        IFNULL((SELECT fullName FROM customers WHERE id = a.customerId), 'Tên khách hàng') AS customerName,
         IFNULL((SELECT name FROM contracts WHERE id = a.contractId), 'Tên hợp đồng')AS contractName
         FROM ledger a $where");
         $result['data'] = $query->fetchAll(PDO::FETCH_ASSOC);
