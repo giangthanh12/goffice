@@ -48,14 +48,27 @@ class interview_Model extends Model{
         $thangnam = $nam . '-' . $thang;
         // $today = date('Y-m-d');
         $dieukien = " WHERE status=1 AND result !=5 AND dateTime LIKE '$thangnam%' ";
-        if(!empty($nhanvien)) {
-            $dieukien .= "  AND interviewerIds LIKE '%$nhanvien%' ";
-        }
+       
         $query = $this->db->query("SELECT *,
         DATE_FORMAT(dateTime,'%d-%m-%Y') as date,
         (SELECT fullName FROM applicants  WHERE id = a.applicantId) AS fullName,
         DATE_FORMAT(dateTime,'%H:%i') as time FROM interview a $dieukien ");
         $temp = $query->fetchAll(PDO::FETCH_ASSOC);
+        
+        if(!empty($nhanvien)) {
+            $arraytemp = array();
+            foreach($temp as $value) {
+                if(strlen(strstr($value['interviewerIds'], ',')) < 0) {
+                    if($value['interviewerIds'] == $nhanvien) 
+                        $arraytemp[] = $value;
+                }
+                else {
+                    if(in_array($nhanvien, explode(',', $value['interviewerIds'])))
+                    $arraytemp[] = $value;
+                }
+            }
+            return $arraytemp;
+        }
         return $temp;
     }
     function delObj($id, $data) {
