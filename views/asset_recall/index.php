@@ -22,6 +22,7 @@
                                 <tr>
                                     <th>Thời gian</th>
                                     <th>Mã cấp phát</th>
+                                    <th>Mã tài sản</th>
                                     <th>Tài sản</th>
                                     <th>Ghi chú</th>
                                 </tr>

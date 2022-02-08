@@ -6,7 +6,7 @@ class used_customer_Model extends Model{
 
         function getStaff() {
             $result = array();
-            $query = $this->db->query("SELECT id, name AS `text` FROM staffs");
+            $query = $this->db->query("SELECT id, name AS `text` FROM staffs where status > 0");
             if ($query)
                 $result = $query->fetchAll(PDO::FETCH_ASSOC);
             return $result;

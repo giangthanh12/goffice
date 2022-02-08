@@ -1,0 +1,125 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    width: 900px;
+    margin: auto;
+    line-height: 1.5;
+}
+h5 {margin-bottom: 0px; padding: 0px}
+.letter-head {
+    width: 100%;
+    float: left;
+    margin-bottom: 15px;
+    text-align: center;
+}
+.letter-head table {
+    border-collapse: collapse;
+    border: none;
+    width: 100%;
+}
+.letter-head table .col-left {
+    text-align: left;
+    padding: 3px;
+    width:70%;
+}
+.letter-head table .col-right {
+    text-align: left;
+    padding: 3px;
+    width:30%;
+}
+.title {
+    float: left;
+    width: 100%;
+    border-top: #999 1px solid;
+    padding-top: 10px;
+    margin-bottom: 15px;
+}
+.title  h1{
+    text-align: center;
+}
+.title table {
+    border-collapse: collapse;
+    border: none;
+    width: 100%;
+}
+.title table .col-left {
+    text-align: left;
+    padding: 3px;
+    width:70%;
+}
+.title table .col-right {
+    text-align: left;
+    padding: 3px;
+    width:30%;
+}
+
+.footer {
+    float: left;
+    margin-bottom: 15px;
+    width: 100%;
+    padding-left: 60px;
+}
+
+
+/* .head-left {width:70%; float:left}
+      .head-right {width:30%; text-align:right; float:left}
+
+  .tieude { text-align:center; margin-bottom:20px; width:100%;}
+  .thongtin {margin-bottom:15px; float:left; width:100%;  }
+      .tin-left { width:50%; float:left}
+      .tin-right {width:50%; float:left} */
+.noidung {
+    float: left;
+    margin-bottom: 15px;
+    width: 100%;
+}
+#customers {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#customers td, #customers th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#customers tr:nth-child(even){background-color: #f2f2f2;}
+
+#customers tr:hover {background-color: #ddd;}
+
+#customers th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #04AA6D;
+  color: white;
+}
+
+/*table.main tr:nth-child(even){background-color: #f2f2f2}*/
+
+
+.chuky {
+    float: left;
+    margin-bottom: 15px;
+    width: 100%;
+}
+.noprint {
+    float: left;
+    text-align: center;
+    width: 100%;
+}
+.linkbutton {
+    height: 30px;
+}
+@media print {
+    .noprint {
+        display: none;
+    }
+    @page {
+        margin: 0;
+    }
+    body {
+        margin: 1.6cm;
+    }
+}

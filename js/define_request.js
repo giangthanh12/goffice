@@ -11,11 +11,11 @@ $(function () {
     var dtUserTable = $(".user-list-table"),
         modal = $("#add-contract"),
         form = $("#dg"),
-    modalstep = $('#step');
+        modalstep = $('#step');
     // Users List datatable
     var buttons = [];
 
-    if(funAdd == 1) {
+    if (funAdd == 1) {
         buttons.push({
             text: "Thêm mới",
             className: "add-new btn btn-" + 'primary' + " mt-50",
@@ -55,18 +55,18 @@ $(function () {
                     orderable: false,
                     render: function (data, type, full, meta) {
                         var html = '';
-                        if(funEdit == 1){
+                        if (funEdit == 1) {
                             html += '<div d-flex justify-content-start style="width::150px;text-align:left">';
                             html += '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" title="Chỉnh sửa" onclick="loaddata(' + full['id'] + ')">';
                             html += '<i class="fas fa-pencil-alt"></i>';
                             html += '</button> &nbsp;';
                         }
-                        if(funDel == 1){
+                        if (funDel == 1) {
                             html += '<button type="button" class="btn btn-icon btn-outline-danger waves-effect" title="Xóa" id="confirm-text" onclick="xoa(' + full['id'] + ')">';
                             html += '<i class="fas fa-trash-alt"></i>';
                             html += '</button></div>';
                         }
-                       
+
                         return html;
                     },
                     width: 100
@@ -92,27 +92,11 @@ $(function () {
                 },
             },
             buttons: buttons,
-            // [{
-            //     text: "Thêm mới",
-            //     className: "add-new btn btn-primary mt-50",
-
-            //     init: function (api, node, config) {
-            //         $(node).removeClass("btn-secondary");
-            //     },
-
-            //     action: function (e, dt, node, config) {
-            //         actionMenu('add');
-            //     }
-            // }],
             initComplete: function () {
             },
         });
     }
-    // function actionMenu(func) {
-    //     if (func == 'add')
-    //         showAdd();
-
-    // }
+   
     // Check Validity
     function checkValidity(el) {
         if (el.validate().checkForm()) {
@@ -149,27 +133,15 @@ $(function () {
 
 });
 
-
 //object
-var x = 0;
 var x1 = 0
-
-function addobjectbutton() {
-    var sttobj = $('#sttobj').val();
-    var i = Number(sttobj) + 1;
-
-    $('#sttobj').val(i);
-    $('#listobject').append('<div class="row form-group" id="obj-' + i + '"><div class="col col-md-3"></div><div class="col-12 col-md-7"><input type="text" name="object[]" placeholder="Yêu cầu" class="form-control object"></div><button type="button" class="btn btn-icon btn-outline-danger waves-effect " onclick="removeobj(' + i + ')"><i class="fas fa-trash-alt"></i></button></div>'
-    );
-
-}
 
 function addobjectbutton1() {
     var sttobj1 = $('#sttobj1').val();
     var j = Number(sttobj1) + 1;
 
     $('#sttobj1').val(j);
-    $('#listobject1').append('<div class="row form-group" id="objupdate-' + j + '"><div class="col col-md-3"><input type="hidden" name="Oid[]" value=""></div><div class="col-12 col-md-7"><input type="text" name="object1[]" placeholder="Yêu cầu" class="form-control object"></div><button type="button" class="btn btn-icon btn-outline-danger waves-effect " onclick="remove1(' + j + ')"><i class="fas fa-trash-alt"></i></button></div>'
+    $('#listobject1').append('<div class="row form-group" id="objupdate-' + j + '"><div class="col col-md-3"><input type="hidden" name="Oid[]" value=""></div><div class="col-12 col-md-7"><input type="text" name="object1[]" placeholder="Đối tượng" class="form-control object"></div><button type="button" class="btn btn-icon btn-outline-danger waves-effect " onclick="remove1(' + j + ')"><i class="fas fa-trash-alt"></i></button></div>'
     );
 }
 
@@ -180,18 +152,15 @@ function removeobj(i) {
 function remove1(x1) {
     $('#objupdate-' + x1).remove();
 }
-
-
 //steps
 function showStepButton() {
-   
     $('#stepList').append(
         '<div data-repeater-item class="step-item" id="arr-' + step + '">' +
         '<div class = "row d-flex align-items-end" >' +
         '<div class="col-md-1 col-12" style="padding-right:0 !important;">' +
         '<div class="form-group">' +
         '<label for="thu_tu">Thứ Tự</label>' +
-        '<input id="n_thu_tu'+ step +'" name="n_thu_tu' + step + '" type="number" class="form-control" placeholder="Thứ tự" />' +
+        '<input id="n_thu_tu' + step + '" name="n_thu_tu' + step + '" type="number" class="form-control" placeholder="Thứ tự" />' +
         '</div></div>' +
         '<div class="col-md-3 col-12" style="padding-right:0 !important;">' +
         '<div class="form-group">' +
@@ -231,9 +200,8 @@ function showStepButton() {
 
 }
 
-
 function removestep(i) {
-    $('#arr-' + i).remove();    
+    $('#arr-' + i).remove();
     var index = arrStep.indexOf(i);
     if (index !== -1) {
         arrStep.splice(index, 1);
@@ -250,24 +218,30 @@ function removeStepById(id) {
 
 }
 
-
 function showAdd() {
-    $("#add-contract").modal('show');
+    arrStep = [];
+    $("#info-contract").modal('show');
     $(".modal-title").html('Thêm yêu cầu mới');
-    $('#name').val('');
-    $('#object').val('')
-    $('#listobject').empty();
+    $('#name1').val('');
+    $('#object1').val('');
+    $('#listobject1').empty();
+    $('#n_ten_buoc').val([]);
+    $('#n_thu_tu').val([]);
+    $('#n_tham_chieu').val([]).trigger('change');
+    $('#n_xu_ly').val([]).trigger('change');
+    $('#stepList').empty();
     url = baseHome + "/define_request/add";
+    urlstep = baseHome + "/define_request/addstep";
 }
 
 
 function loaddata(id) {
-    if(funAdd == 1){
-        $('#btnStep,#addobject1,#btnUpdate,#btnUpdate2').removeClass('d-none'); 
-    }else{
+    if (funAdd == 1) {
+        $('#btnStep,#addobject1,#btnUpdate,#btnUpdate2').removeClass('d-none');
+    } else {
         $('#btnStep,#addobject1,#btnUpdate,#btnUpdate2').addClass('d-none');
     }
-    step =0;
+    step = 0;
     arrStep = [];
     stepIds = [];
     $('#info-contract').modal('show');
@@ -343,8 +317,8 @@ function loaddata(id) {
                 stepIds.push(data.step[J]["id"]);
 
             }
-            url1 = baseHome + "/define_request/update?id=" + defineId;
-            url2 = baseHome + "/define_request/updatestep?defineId=" + defineId;
+            url = baseHome + "/define_request/update?id=" + defineId;
+            urlstep = baseHome + "/define_request/updatestep?defineId=" + defineId;
         },
         error: function () {
             notify_error('Lỗi truy xuất database');
@@ -353,81 +327,23 @@ function loaddata(id) {
 }
 
 
-// function loadstep(id) {
-//     $("#insertinfostep").modal('show');
-//     $(".modal-title-step").html('Thông tin bước thực hiện');
-//     $.ajax({
-//         type: "POST",
-//         dataType: "json",
-//         data: { id: id },
-//         url: baseHome + "/define_request/loadstep",
-//         success: function (data) {
-//             $('#step').val(data.step);
-//             $('#ten_buoc').val(data.name);
-//             $('#thu_tu').val(data.sortorder);
-//             $('#tham_chieu').val(data.reviewerId).trigger("change");
-//             $('#xu_ly').val(data.processors).trigger("change");
-
-//             url = baseHome + '/define_request/updatestep?id=' + id;
-//         },
-//         error: function () {
-//             notify_error('Lỗi truy xuất database');
-//         }
-//     });
-// }
-
-// function geturl() {
-//     var id = $('#iddefine').val();
-//     url = baseHome + '/define_request/update?id=' + id;
-//     console.log(url);
-// }
-
-// function geturlstep() {
-//     url = baseHome + '/define_request/updatestep';
-//     console.log(url);
-// }
-
-function save() {
-    var myform = new FormData($("#dg")[0]);
+function update() {
+    var frmdefine = new FormData($("#frm-1")[0]);
     $.ajax({
         type: "POST",
         dataType: "json",
-        data: myform,
+        data: frmdefine,
         url: url,
         contentType: false,
         processData: false,
         success: function (data) {
             if (data.success) {
-                notyfi_success(data.msg);
-                $('#add-contract').modal('hide');
-                $(".user-list-table").DataTable().ajax.reload(null, false);
-            }
-            else
-                notify_error(data.msg);
-        },
-        error: function () {
-            notify_error('Cập nhật không thành công');
-        }
-    });
-}
-
-function update() {
-    var frm1 = new FormData($("#frm-1")[0]);
-    $.ajax({
-        type: "POST",
-        dataType: "json",
-        data: frm1,
-        url: url1,
-        contentType: false,
-        processData: false,
-        success: function (data) {
-            if (data.success) {
-                var frm2 = new FormData($("#frm-2")[0]);
+                var frmstep = new FormData($("#frm-2")[0]);
                 $.ajax({
                     type: "POST",
                     dataType: "json",
-                    data: frm2,
-                    url: url2+'&stepArr='+JSON.stringify(arrStep)+'&stepIds='+stepIds,
+                    data: frmstep,
+                    url: urlstep + '&stepArr=' + JSON.stringify(arrStep) + '&stepIds=' + stepIds,
                     contentType: false,
                     processData: false,
                     success: function (data) {
@@ -443,35 +359,6 @@ function update() {
                         notify_error('Cập nhật không thành công');
                     }
                 });
-            } else
-                notify_error(data.msg);
-        },
-        error: function () {
-            notify_error('Cập nhật không thành công');
-        }
-    });
-}
-
-function savestp() {
-    // var info = {};
-    // info.stid = $("myformStep").val();
-    // info.iddefine = $("iddefine").val();
-    // info.ten_buoc = $("ten_buoc").val();
-    // info.thu_tu = $("thu_tu").val();
-    // info.tham_chieu = $("tham_chieu").val();
-    // info.xu_ly = $("xu_ly").val();
-    // console.log(info);
-    var myformStep = new FormData($("#dgStep")[0]);
-    $.ajax({
-        type: "POST",
-        dataType: "json",
-        data: myformStep,
-        url: url,
-        contentType: false,
-        processData: false,
-        success: function (data) {
-            if (data.success) {
-                notyfi_success(data.msg);
             }
             else
                 notify_error(data.msg);

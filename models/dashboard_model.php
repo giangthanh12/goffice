@@ -107,23 +107,31 @@ class dashboard_Model extends Model{
                 $month = '0'.$month;
             $yearMonth = $year.'-'.$month;
             $where = " WHERE status = 1 AND signatureDate LIKE '$yearMonth%' ";
-            $query = $this->db->query("SELECT quantity,discount,vat,
-            (SELECT price FROM products WHERE id=a.productId) AS productPrice,
-            (SELECT vat FROM products WHERE id=a.productId) AS productVAT
+            $query = $this->db->query("SELECT quantity,discount,vat,productId,quantity
             FROM contracts a $where");
             $temp = $query->fetchAll(PDO::FETCH_ASSOC);
             if(count($temp)>0) {
                 $expectedProfit = 0;
                 foreach($temp as $item) {
-                    if($item['productVAT']>0)
-                        $productVAT = $item['productVAT']/100;
-                    else 
-                        $productVAT = 1;
                     if($item['vat']>0)
                         $contractVAT = $item['vat']/100;
                     else 
                         $contractVAT = 1;
-                    $expectedProfit += (($item['productPrice']*$item['quantity'])*$productVAT - $item['discount'])*$contractVAT;
+                    if($item['productId']!='') {
+                        $arrProductIds = explode(',',$item['productId']);
+                        $arrQuantity = explode(',',$item['quantity']);
+                        foreach($arrProductIds as $key => $productId) {
+                            $query = $this->db->query("SELECT price,vat
+                            FROM products a WHERE id=$productId");
+                            $product = $query->fetchAll(PDO::FETCH_ASSOC);
+                            if($product[0]['vat']>0)
+                                $productVAT = $product[0]['vat']/100;
+                            else 
+                                $productVAT = 1;
+                            $expectedProfit += (($product[0]['price']*str_replace('"','',$arrQuantity[$key]))*$productVAT - $item['discount'])*$contractVAT;
+                        } 
+                        
+                    }
                 }
                 array_push($arrExpectedProfit, ROUND($expectedProfit/1000000,2));
             } else {
@@ -202,4 +210,3 @@ class dashboard_Model extends Model{
         return $result;
     }
 }
-?>
