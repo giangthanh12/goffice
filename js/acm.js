@@ -87,8 +87,6 @@ $(function () {
         },
     });
 
-  
-
     $.ajax({
         // tải Khách hàng vào select1 account
         type: "GET",
@@ -398,7 +396,6 @@ $(function () {
                 var dateTime = $("#dateTime").val();
                 var content = $("#content").val();
                 var customer = $("#customer").val();
-              
                 var account = $("#account").val();
                 var classify = $("#classify").val();
                 var type = $("#type").val();
@@ -418,7 +415,6 @@ $(function () {
                         dateTime: dateTime,
                         content: content,
                         customer: customer,
-                 
                         account: account,
                         classify: classify,
                         type: type,

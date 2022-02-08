@@ -50,6 +50,7 @@ class payrolls extends Controller
             $staffId = $_SESSION['user']['staffId'];
         else
             $staffId = isset($_REQUEST['staffId']) ? $_REQUEST['staffId'] : 0;
+   
         $data['data'] = $this->model->listObj($month, $year, $staffId,self::$funCheck);
         echo json_encode($data);
     }
