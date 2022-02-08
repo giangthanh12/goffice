@@ -3,6 +3,7 @@
 class define_request extends Controller
 {
     static private $funAdd = 0, $funEdit = 0, $funDel = 0;
+
     function __construct()
     {
         parent::__construct();
@@ -37,7 +38,6 @@ class define_request extends Controller
         $data = $this->model->listObj();
         echo json_encode($data);
     }
-
 
 
     function loadstep()
@@ -100,6 +100,7 @@ class define_request extends Controller
 
         echo json_encode($jsonObj);
     }
+
     function addstep()
     {
         $lastId = $this->model->getLastId();
@@ -195,7 +196,6 @@ class define_request extends Controller
         }
 
 
-
         echo json_encode($jsonObj);
     }
 
@@ -207,43 +207,45 @@ class define_request extends Controller
             echo json_encode($jsonObj);
             return false;
         }
+        $dataTemp = [];
         $id = isset($_REQUEST['stid']) ? $_REQUEST['stid'] : '';
         $defineId = isset($_REQUEST['defineId']) ? $_REQUEST['defineId'] : '';
-        $listStepId = $stepIds = isset($_REQUEST['stepIds']) ? $_REQUEST['stepIds'] : '';
+        $stepIds = isset($_REQUEST['stepIds']) ? $_REQUEST['stepIds'] : '';
 
         $data = [];
         $ndata = [];
         $jsonObj['msg'] = 'Bạn chưa thêm bước thực hiện!';
         $jsonObj['success'] = true;
         if ($stepIds != '') {
-
+            $check = 0;
             $stepIds = explode(",", $stepIds);
 
             for ($i = 0; $i < count($stepIds); $i++) {
-
-                $name = isset($_REQUEST['ten_buoc' . $stepIds[$i]]) ? $_REQUEST['ten_buoc' . $stepIds[$i]] : '';
-                $sortorder = isset($_REQUEST['thu_tu' . $stepIds[$i]]) ? $_REQUEST['thu_tu' . $stepIds[$i]] : '';
-                $reviewer = isset($_REQUEST['tham_chieu' . $stepIds[$i]]) ? $_REQUEST['tham_chieu' . $stepIds[$i]] : '';
-                $temp = isset($_REQUEST['xu_ly' . $stepIds[$i]]) ? $_REQUEST['xu_ly' . $stepIds[$i]] : [];
-                if (count($temp) > 0)
-                    $processor = implode(",", $temp);
-                else
-                    $processor = '';
-                $data['name'] = $name;
-                $data['sortorder'] = $sortorder;
-                $data['reviewerId'] = $reviewer;
-                $data['processors'] = $processor;
-                if ($this->model->updatestep($stepIds[$i], $data)) {
-                    $jsonObj['msg'] = 'Cập nhật dữ liệu thành công';
-                    $jsonObj['success'] = true;
-                } else {
-                    $jsonObj['msg'] = 'Cập nhật dữ liệu không thành công';
-                    $jsonObj['success'] = false;
-                    echo json_encode($jsonObj);
-                    return false;
+                if (isset($_REQUEST['ten_buoc' . $stepIds[$i]])) {
+                    $name = isset($_REQUEST['ten_buoc' . $stepIds[$i]]) ? $_REQUEST['ten_buoc' . $stepIds[$i]] : '';
+                    $sortorder = isset($_REQUEST['thu_tu' . $stepIds[$i]]) ? $_REQUEST['thu_tu' . $stepIds[$i]] : '';
+                    $reviewer = isset($_REQUEST['tham_chieu' . $stepIds[$i]]) ? $_REQUEST['tham_chieu' . $stepIds[$i]] : '';
+                    $temp = isset($_REQUEST['xu_ly' . $stepIds[$i]]) ? $_REQUEST['xu_ly' . $stepIds[$i]] : [];
+                    if (count($temp) > 0)
+                        $processor = implode(",", $temp);
+                    else
+                        $processor = '';
+                    $data['name'] = $name;
+                    $data['sortorder'] = $sortorder;
+                    $data['reviewerId'] = $reviewer;
+                    $data['processors'] = $processor;
+                    $dataTemp[] = $data;
+                    if ($this->model->updatestep($stepIds[$i], $data)) {
+                        $check++;
+                    }
+                }else{
+                    $data=['status'=>0];
+                    if($this->model->updatestep($stepIds[$i], $data))
+                        $check++;
                 }
+
             }
-            if ($this->model->delsteps($listStepId, $defineId)) {
+            if ($check>0) {
                 $jsonObj['msg'] = 'Cập nhật dữ liệu thành công';
                 $jsonObj['success'] = true;
             } else {
