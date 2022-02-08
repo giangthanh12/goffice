@@ -107,8 +107,6 @@
                 - Miễn phí nội thành Hà Nội<br>
             </td>
         </tr></table> -->
-
-
     </div>
     <div class="chuky"></div>
     <div class="noprint">

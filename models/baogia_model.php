@@ -334,7 +334,5 @@ class Baogia_model extends Model{
         }
     }
 
-
-
 }
 ?>
