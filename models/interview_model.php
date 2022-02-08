@@ -30,7 +30,7 @@ class interview_Model extends Model{
 
     function getStaff() {
         $result = array();
-        $query = $this->db->query("SELECT id, name AS `text` FROM staffs WHERE status = 1");
+        $query = $this->db->query("SELECT id, name AS `text` FROM staffs WHERE status > 0");
         if ($query)
             $result = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;

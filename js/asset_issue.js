@@ -30,6 +30,7 @@ $(function () {
             ajax: baseHome + "/asset_issue/list",
             columns: [
                 { data: "ngay_gio" },
+                { data: "name"},
                 { data: "code" },
                 { data: "nameAsset" },
                 { data: "nameStaff" },
@@ -40,7 +41,7 @@ $(function () {
                
                 {
                     // User full name and username
-                    targets: 2,
+                    targets: 3,
                     responsivePriority: 4,
                     render: function (data, type, full, meta) {
                         var $name = full["nameAsset"];
@@ -61,7 +62,7 @@ $(function () {
 
                 {
                     // User full name and username
-                    targets: 4,
+                    targets: 5,
                     responsivePriority: 4,
                     render: function (data, type, full, meta) {
                         var $status = full["tinh_trang"];

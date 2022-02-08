@@ -446,6 +446,10 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         },
         dateClick: function (info) {
+           updateEventBtn.removeClass('d-none');
+           if(funAdd == 0) {
+            updateEventBtn.addClass('d-none');
+           }
            if (baseUser == 11 || baseUser == 1 || baseUser == 27 || baseUser == 7)
             {
                 // if(baseUser==11 || user_nhan_vien==1 || user_nhan_vien==27)
@@ -478,6 +482,10 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         },
         eventClick: function (info) {
+            updateEventBtn.removeClass('d-none');
+                if(funEdit == 0) {
+                updateEventBtn.addClass('d-none');
+                }
             if (baseUser == 11 || baseUser == 1 || baseUser == 27 || baseUser == 7)
                 eventClick(info);
         },

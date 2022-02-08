@@ -138,6 +138,10 @@
         </div>
     </div>
 </div>
+<script>
+    var funAdd = <?=$this->funAdd?>,
+        funEdit = <?=$this->funEdit?>;
+</script>
 <script src="<?= HOME ?>/styles/app-assets/vendors/js/extensions/moment.min.js"></script>
 <script src="<?= HOME ?>/styles/app-assets/vendors/js/calendar/fullcalendar.min.js"></script>
 <script src="<?= HOME ?>/js/timekeeping.js"></script>

@@ -138,7 +138,7 @@ class staff extends Controller
         }
             $data = $_REQUEST['data'];
             $data['birthday'] = date("Y-m-d",strtotime(str_replace('/', '-',$data['birthday'] )));
-          
+            
             if ($this->model->add($data)) {
                 $jsonObj['msg'] = "Cập nhật dữ liệu thành công";
                 $jsonObj['success'] = true;

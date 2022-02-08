@@ -244,6 +244,7 @@ $(function () {
 function showAdd() {
     $('#modals-slide-in').modal('show');
     $("#name").val('');
+    $("#code").val('');
     $('#phoneNumber').val('');
     $('#email').val('');
     $('#birthday').val('');
@@ -432,6 +433,8 @@ function loaddata(id) {
             else if (data.maritalStatus == 2)
                 $("#alone").prop("checked", true);
             $('#name1').val(data.name);
+            $('#code1').val(data.code);
+            $('#code1').attr('disabled', 'disabled');
             $('#birthday1').val(data.birthDay);
             $('#phoneNumber1').val(data.phoneNumber);
             $('#email1').val(data.email);
@@ -471,7 +474,11 @@ function loaddata(id) {
         }
     });
 }
-
+function createCodeAsset() {
+    $('#code').val('');
+    var codeAsset =  Math.floor(Math.random() * (99999999 - 10000000 + 1)) + 10000000;
+    $('#code').val(codeAsset);
+    }
 function updateinfo() {
     var id = $("#id").val();
     var info = {};
@@ -574,6 +581,8 @@ function addStaff() {
     info.email = $("#email").val();
     info.status = $("#status").val();
     info.gender = $("input[type='radio'][name='gender']:checked").val();
+    info.code = $("#code").val();
+    console.log(info);
 
     $.ajax({
         type: "POST",
