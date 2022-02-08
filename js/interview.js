@@ -409,10 +409,6 @@
                         'w-100'
                     ];
                 }
-                
-         
-                
-            
          },
          dateClick: function (info) {
             $('#updateInterview').css('display','inline-block');

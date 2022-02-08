@@ -448,7 +448,6 @@ function initRequest(defineId,status){
                 var html='<li class="todo-item" style="width: 100%">' +
                     '<div class="todo-title-wrapper">' +
                     '<div class="todo-title-area">' +
-                    //'<i data-feather="more-vertical" class="drag-icon"></i>' +
                     '<div class="title-wrapper">' +
                     '<div class="custom-control custom-checkbox">' +
                     '<input type="checkbox" class="custom-control-input" id="customCheck'+item.id+'" />' +
@@ -461,7 +460,7 @@ function initRequest(defineId,status){
                     '<div class="badge-wrapper mr-1">';
                 item.processors.forEach(function (process){
                     var $status='bg-primary'
-                    if(process.status==2)
+                    if(process.status == 2)
                         $status = 'bg-success';
                     else if(process.status==3)
                         $status = 'bg-danger';
@@ -496,6 +495,7 @@ $('#btnUpdate').on('click', function () {
                 required: "Bạn chưa nhập ngày tạo!",
             }
         },
+
         submitHandler: function (form) {
             var formData = new FormData(form);
             var $defineId = $('#defineId').val();
@@ -557,6 +557,7 @@ $('#btnApprove').on('click', function () {
             autocapitalize: 'off',
             id: 'text-note'
         },
+
         showCancelButton: true,
         confirmButtonText: 'Tôi đồng ý',
         customClass: {
@@ -582,7 +583,6 @@ $('#btnApprove').on('click', function () {
                             notify_error(data.message);
                     },
                 });
-
             } else
                 swal.fire({
                     title: 'Error',
