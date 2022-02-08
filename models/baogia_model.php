@@ -221,6 +221,7 @@ class Baogia_model extends Model{
     function getCustomer($keyword){
         $result = array();
         $query = $this->db->query("SELECT id, name AS `text` FROM customers  WHERE status>0 AND name LIKE '%$keyword%' ORDER BY id DESC ");
+
         if ($query)
             $result['results'] = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;
