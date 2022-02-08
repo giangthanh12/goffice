@@ -10,6 +10,7 @@
                 <div class="row invoice-add">
                     <div class="col-xl-9 col-md-8 col-12">
                         <div class="card invoice-preview-card">
+                            <form id="fmPrint" method="post" action="baogia/printout">
                             <div class="card-body invoice-padding pb-0">
                                 <div class="d-flex justify-content-between flex-md-row flex-column invoice-spacing mt-0">
                                     <div>
@@ -57,21 +58,22 @@
                                         </div> -->
                                         <div class="d-flex align-items-center mb-1">
                                             <span class="title">Số báo giá:</span>
-                                            <input type="text" id="quoteNum" class="form-control invoice-edit-input" placeholder="auto" readonly value="0"/>
+                                            <input type="text" id="quoteNum" name="quoteNum"class="form-control invoice-edit-input" placeholder="auto" readonly value="0"/>
                                         </div>
                                         <div class="d-flex align-items-center mb-1">
                                             <span class="title">Ngày:</span>
-                                            <input type="text" id="date" class="form-control invoice-edit-input date-picker"  />
+                                            <input type="text" id="date" name="date" class="form-control invoice-edit-input date-picker"  />
                                         </div>
                                         <div class="d-flex align-items-center">
                                             <span class="title">Ngày hết hạn:</span>
-                                            <input type="text" id="validDate" class="form-control invoice-edit-input due-date-picker" />
+                                            <input type="text" id="validDate"  name="validDate" class="form-control invoice-edit-input due-date-picker" />
                                         </div>
+                                        <input type="hidden" id="itemsPrint" name="itemsPrint">
+                                        <input type="hidden" id="notePrint" name="notePrint">
+                                        <input type="hidden" id="cusPrint" name="cusPrint">
                                     </div>
                                 </div>
                             </div>
-                            <!-- Header ends -->
-
                             <hr class="invoice-spacing" />
 
                             <!-- Address and Contact starts -->
@@ -80,8 +82,7 @@
                                     <div class="col-xl-8 mb-lg-1 col-bill-to pl-0">
                                         <h6 class="invoice-to-title">Khách hàng:</h6>
                                         <div class="invoice-customer">
-                                            <select class="invoiceto form-control">
-                                            </select>
+                                            <select class="invoiceto form-control"></select>
                                         </div>
                                     </div>
                                     <div class="col-xl-4 pr-0 mt-xl-0 mt-2">
@@ -117,6 +118,7 @@
                                 <h3>Chọn sản phẩm/dịch vụ</h3>
                             </div>
                             <!-- Product Details starts -->
+                        </form>
                             <div class="card-body invoice-padding invoice-product-details">
                                 <form class="source-item" id="items" >
                                     <div data-repeater-list="group-a">
@@ -135,6 +137,7 @@
                                                                 ?>
                                                             </select>
                                                             <textarea class="form-control mt-2" rows="1" name="noteProduct"></textarea>
+                                                            <input type="hidden" class="productName" name="productName">
                                                         </div>
                                                         <div class="col-lg-3 col-12 my-lg-0 my-2">
                                                             <p class="card-text col-title mb-md-2 mb-0">Đơn giá</p>
@@ -221,7 +224,6 @@
                                 </form>
                             </div>
                             <!-- Product Details ends -->
-
                             <!-- Invoice Total starts -->
                             <div class="card-body invoice-padding">
                                 <div class="row invoice-sales-total-wrapper ">
@@ -261,9 +263,7 @@
                                 </div>
                             </div>
                             <!-- Invoice Total ends -->
-
                             <hr class="invoice-spacing mt-0" />
-
                             <div class="card-body invoice-padding py-0">
                                 <!-- Invoice Note starts -->
                                 <div class="row">
@@ -285,7 +285,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <button class="btn btn-primary btn-block mb-75" id="btnSend">Gửi báo giá</button>
-                                <a href="baogia/printout" class="btn btn-outline-primary btn-block mb-75" target="_blank">In báo giá</a>
+                                <button id="btnPrint"class="btn btn-outline-primary btn-block mb-75" target="_blank">In báo giá</button>
                                 <button type="button" id="btnSave" class="btn btn-outline-primary btn-block">Ghi nháp</button>
                                 <button class="btn btn-primary btn-block mb-75" >Lập báo giá mới</button>
                                 <a href="baogia" class="btn btn-outline-primary btn-block mb-75">Danh sách báo giá</a>
