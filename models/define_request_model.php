@@ -49,10 +49,10 @@ class define_request_model extends Model
         }
     }
 
-
-    function addstep($data)
+    
+    function addstep($ndata)
     {
-        $query = $this->insert("requeststeps", $data);
+        $query = $this->insert("requeststeps", $ndata);
         return $query;
     }
     function updatestep($id, $data)

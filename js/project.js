@@ -441,7 +441,7 @@ function load_select(selectId,url,place) {
             var html = '<option value="" disabled selected hidden>'+place+'</option>';
             data.forEach(function (element, index) {
                 html += `<option data-style="${element.color}"  value="${element.id}">${element.text}</option>`;
-                console.log(element.text);
+                // console.log(element.text);
             });
 
             selectId.html(html);

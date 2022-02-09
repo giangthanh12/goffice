@@ -21,8 +21,8 @@
                                 </button>
                                 <?php } ?>
                                 </div>
-                                <div class="card-body d-flex justify-content-center w-100">
-                                    <select class="select2 select-label form-control w-100" id="selectNhanVien" name="selectNhanVien">
+                                <div class="card-body d-flex justify-content-center ">
+                                    <select class="select2 select-label form-control " id="selectNhanVien" name="selectNhanVien">
                                     </select>
                                 </div>
                                 <div class="card-body pb-0">
@@ -203,6 +203,11 @@
         </div>
     </div>
 </div>
+<style>
+    .position-relative {
+        width:100%;
+    }
+</style>
 <script>
     var funAdd = <?=$this->funAdd?>,
         funEdit = <?=$this->funEdit?>,

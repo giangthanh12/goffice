@@ -23,12 +23,16 @@
                         </button>
                     </div>
                     <div class="d-flex align-items-center mx-50 row">
+                        <?php if($this->funAdd == 1) { ?>
                         <button type="button" class="dt-button btn btn-primary mt-50 ml-1" style="margin-top:10px"
                                 title="Lập bảng" onclick="add()">Lập bảng
                         </button>
+                        <?php } ?>
+                        <?php if($this->funEdit == 1) { ?>
                         <button type="button" class="dt-button btn btn-danger mt-50 ml-1" style="margin-top:10px"
                                 title="Lập bảng" onclick="update()">Chấm công tay
                         </button>
+                        <?php } ?>
                     </div>
                     <div class="card-datatable table-responsive pt-0">
                         <table class="user-list-table table">

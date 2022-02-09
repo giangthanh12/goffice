@@ -11,7 +11,7 @@ class lead_temp_Model extends Model
         $result = array();
         $where = " WHERE status IN (1,2,3) ";
         $query = $this->db->query("SELECT id, customerId, name, description, status, dateTime,
-        (SELECT fullName FROM customer WHERE customer.id = lead.customerId) AS fullName
+        (SELECT fullName FROM customers WHERE customer.id = lead.customerId) AS fullName
         FROM lead $where ORDER BY id DESC");
         if ($query)
             $result = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -24,7 +24,7 @@ class lead_temp_Model extends Model
         $where = " WHERE status > 0 AND id = $id ";
         $query = $this->db->query("SELECT fullName, taxCode, address, type, status, representative, phoneNumber, email,
         (SELECT name FROM staffs WHERE staffs.id = customer.staffInCharge) AS staffName
-        FROM customer $where ");
+        FROM customers $where ");
         $result = $query->fetchAll(PDO::FETCH_ASSOC);
         if (isset($result[0]))
             return $result[0];
@@ -62,7 +62,7 @@ class lead_temp_Model extends Model
         $result = array();
         $where = " WHERE status = 1 ";
         $query = $this->db->query("SELECT id, fullName
-            FROM customer $where ");
+            FROM customers $where ");
         $result = $query->fetchAll(PDO::FETCH_ASSOC);
         if (isset($result))
             return $result;
@@ -88,7 +88,7 @@ class lead_temp_Model extends Model
         }
         $query = $this->db->query("SELECT id, customerId, name, description, status,
             DATE_FORMAT(dateTime,'%d/%m/%Y') as dateTime,
-            (SELECT fullName FROM customer WHERE customer.id = lead.customerId) AS fullName
+            (SELECT fullName FROM customers WHERE customer.id = lead.customerId) AS fullName
             FROM lead $where ORDER BY id DESC ");
         $temp = $query->fetchAll(PDO::FETCH_ASSOC);
         if ($temp) {
@@ -102,8 +102,8 @@ class lead_temp_Model extends Model
         $result['data'] = array();
         $where = " WHERE status > 0 AND id = $id ";
         $query = $this->db->query("SELECT id, name, description, opportunity, status,
-        (SELECT fullName FROM customer WHERE id = lead.customerId) AS customerName,
-        (SELECT id FROM customer WHERE id = lead.customerId) AS customerId
+        (SELECT fullName FROM customers WHERE id = lead.customerId) AS customerName,
+        (SELECT id FROM customers WHERE id = lead.customerId) AS customerId
         FROM lead $where");
         $result = $query->fetchAll(PDO::FETCH_ASSOC);
         if (isset($result[0]))

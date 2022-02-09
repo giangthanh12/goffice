@@ -2,14 +2,32 @@
 
 class timekeeping extends Controller
 {
+    static private $funAdd = 0, $funEdit = 0;
     function __construct()
     {
         parent::__construct();
+        $model = new model();
+        $checkMenuRole = $model->checkMenuRole('timekeeping');
+        if ($checkMenuRole == false)
+            header('location:' . HOME);
+        $funcs = $model->getFunctions('timekeeping');
+     
+      
+        foreach ($funcs as $item) {
+            if ($item['function'] == 'add')
+                self::$funAdd = 1;
+            if ($item['function'] == 'edit')
+                self::$funEdit = 1;
+      
+        }
     }
 
     function index()
     {
+    
         require "layouts/header.php";
+        $this->view->funAdd = self::$funAdd;
+        $this->view->funEdit = self::$funEdit;
         $this->view->render("timekeeping/index");
         require "layouts/footer.php";
     }
@@ -81,31 +99,66 @@ class timekeeping extends Controller
 
     function manualTimekeeping()
     {
+        
         $id = $_REQUEST['id'];
-        $staffId = $_REQUEST['staffId'];
-        $date = $_REQUEST['date'];
-        $checkInTime = $_REQUEST['checkInTime'];
-        $checkOutTime = $_REQUEST['checkOutTime'];
-        if ($checkInTime == '00:00:00' || $checkInTime == '') {
-            $jsonObj['message'] = "Bạn chưa nhập giờ vào!";
-            $jsonObj['code'] = 402;
-            echo json_encode($jsonObj);
-            return false;
+        if(self::$funAdd == 1 && empty($id)) {
+            $staffId = $_REQUEST['staffId'];
+            $date = $_REQUEST['date'];
+            $checkInTime = $_REQUEST['checkInTime'];
+            $checkOutTime = $_REQUEST['checkOutTime'];
+            if ($checkInTime == '00:00:00' || $checkInTime == '') {
+                $jsonObj['message'] = "Bạn chưa nhập giờ vào!";
+                $jsonObj['code'] = 402;
+                echo json_encode($jsonObj);
+                return false;
+            }
+            $data = array(
+                'date' => $date,
+                'staffId' => $staffId,
+                'status' => 1
+            );
+            if ($checkInTime > 0)
+                $data['checkInTime'] = $checkInTime;
+            if ($checkOutTime > 0)
+                $data['checkOutTime'] = $checkOutTime;
+            if ($this->model->manualTimekeeping($id, $data)) {
+                $jsonObj['message'] = "Cập nhật dữ liệu thành công";
+                $jsonObj['code'] = 200;
+            } else {
+                $jsonObj['message'] = "Cập nhật dữ liệu không thành công";
+                $jsonObj['code'] = 401;
+            }
         }
-        $data = array(
-            'date' => $date,
-            'staffId' => $staffId,
-            'status' => 1
-        );
-        if ($checkInTime > 0)
-            $data['checkInTime'] = $checkInTime;
-        if ($checkOutTime > 0)
-            $data['checkOutTime'] = $checkOutTime;
-        if ($this->model->manualTimekeeping($id, $data)) {
-            $jsonObj['message'] = "Cập nhật dữ liệu thành công";
-            $jsonObj['code'] = 200;
-        } else {
-            $jsonObj['message'] = "Cập nhật dữ liệu không thành công";
+        else if(self::$funEdit == 1 && !empty($id) && $id > 0 ) {
+            $staffId = $_REQUEST['staffId'];
+            $date = $_REQUEST['date'];
+            $checkInTime = $_REQUEST['checkInTime'];
+            $checkOutTime = $_REQUEST['checkOutTime'];
+            if ($checkInTime == '00:00:00' || $checkInTime == '') {
+                $jsonObj['message'] = "Bạn chưa nhập giờ vào!";
+                $jsonObj['code'] = 402;
+                echo json_encode($jsonObj);
+                return false;
+            }
+            $data = array(
+                'date' => $date,
+                'staffId' => $staffId,
+                'status' => 1
+            );
+            if ($checkInTime > 0)
+                $data['checkInTime'] = $checkInTime;
+            if ($checkOutTime > 0)
+                $data['checkOutTime'] = $checkOutTime;
+            if ($this->model->manualTimekeeping($id, $data)) {
+                $jsonObj['message'] = "Cập nhật dữ liệu thành công";
+                $jsonObj['code'] = 200;
+            } else {
+                $jsonObj['message'] = "Cập nhật dữ liệu không thành công";
+                $jsonObj['code'] = 401;
+            }
+        }
+        else  {
+            $jsonObj['message'] = 'Bạn không có quyền sử dụng chức năng này';
             $jsonObj['code'] = 401;
         }
         echo json_encode($jsonObj);
