@@ -2,14 +2,28 @@
 
 class timesheets extends Controller
 {
+    static private $funAdd = 0, $funEdit = 0, $funDel = 0;
     function __construct()
     {
         parent::__construct();
+        $model = new model();
+        $checkMenuRole = $model->checkMenuRole('timesheets');
+        if ($checkMenuRole == false)
+            header('location:' . HOME);
+        $funcs = $model->getFunctions('timesheets');
+        foreach ($funcs as $item) {
+            if ($item['function'] == 'add')
+                self::$funAdd = 1;
+            if ($item['function'] == 'edit')
+                self::$funEdit = 1;
+        }
     }
 
     function index()
     {
         require "layouts/header.php";
+        $this->view->funAdd = self::$funAdd;
+        $this->view->funEdit = self::$funEdit;
         $this->view->employee = $this->model->getEmployee();
         $this->view->render("timesheets/index");
         require "layouts/footer.php";
@@ -25,6 +39,12 @@ class timesheets extends Controller
 
     function add()
     {
+        if (self::$funAdd == 0) {
+            $jsonObj['code'] = 401;
+            $jsonObj['message'] = "Bạn không có quyền truy cập chức năng này";
+            echo json_encode($jsonObj);
+            return false;
+        }
         $month = isset($_REQUEST['month']) ? $_REQUEST['month'] : date('m');
         $year = isset($_REQUEST['year']) ? $_REQUEST['year'] : date('Y');
         if ($this->model->getCong($month, $year)) {
@@ -39,6 +59,12 @@ class timesheets extends Controller
 
     function update()
     {
+        if (self::$funEdit == 0) {
+            $jsonObj['message'] = 'Bạn không có quyền sử dụng chức năng này';
+            $jsonObj['code'] = 401;
+            echo json_encode($jsonObj);
+            return false;
+        }
         $startDate = isset($_REQUEST['startDate']) ? $_REQUEST['startDate'] : '';
         $endDate = isset($_REQUEST['endDate']) ? $_REQUEST['endDate'] : '';
         $staffId = isset($_REQUEST['staffId']) ? $_REQUEST['staffId'] : '';

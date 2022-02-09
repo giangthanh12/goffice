@@ -92,27 +92,11 @@ $(function () {
                 },
             },
             buttons: buttons,
-            // [{
-            //     text: "Thêm mới",
-            //     className: "add-new btn btn-primary mt-50",
-
-            //     init: function (api, node, config) {
-            //         $(node).removeClass("btn-secondary");
-            //     },
-
-            //     action: function (e, dt, node, config) {
-            //         actionMenu('add');
-            //     }
-            // }],
             initComplete: function () {
             },
         });
     }
-    // function actionMenu(func) {
-    //     if (func == 'add')
-    //         showAdd();
-
-    // }
+   
     // Check Validity
     function checkValidity(el) {
         if (el.validate().checkForm()) {
@@ -149,7 +133,6 @@ $(function () {
 
 });
 
-
 //object
 var x1 = 0
 
@@ -169,11 +152,8 @@ function removeobj(i) {
 function remove1(x1) {
     $('#objupdate-' + x1).remove();
 }
-
-
 //steps
 function showStepButton() {
-
     $('#stepList').append(
         '<div data-repeater-item class="step-item" id="arr-' + step + '">' +
         '<div class = "row d-flex align-items-end" >' +
@@ -220,7 +200,6 @@ function showStepButton() {
 
 }
 
-
 function removestep(i) {
     $('#arr-' + i).remove();
     var index = arrStep.indexOf(i);
@@ -238,7 +217,6 @@ function removeStepById(id) {
     }
 
 }
-
 
 function showAdd() {
     arrStep = [];
@@ -350,51 +328,46 @@ function loaddata(id) {
 
 
 function update() {
-        var frmdefine = new FormData($("#frm-1")[0]);
-        $.ajax({
-            type: "POST",
-            dataType: "json",
-            data: frmdefine,
-            url: url,
-            contentType: false,
-            processData: false,
-            success: function (data) {
-                if (data.success) {
-                    var frmstep = new FormData($("#frm-2")[0]);
-                    $.ajax({
-                        type: "POST",
-                        dataType: "json",
-                        data: frmstep,
-                        url: urlstep + '&stepArr=' + JSON.stringify(arrStep) + '&stepIds=' + stepIds,
-                        contentType: false,
-                        processData: false,
-                        success: function (data) {
-                            if (data.success) {
-                                notyfi_success(data.msg);
-                                $('#info-contract').modal('hide');
-                                $(".user-list-table").DataTable().ajax.reload(null, false);
-                            }
-                            else
-                                notify_error(data.msg);
-                        },
-                        error: function () {
-                            notify_error('Cập nhật không thành công');
+    var frmdefine = new FormData($("#frm-1")[0]);
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        data: frmdefine,
+        url: url,
+        contentType: false,
+        processData: false,
+        success: function (data) {
+            if (data.success) {
+                var frmstep = new FormData($("#frm-2")[0]);
+                $.ajax({
+                    type: "POST",
+                    dataType: "json",
+                    data: frmstep,
+                    url: urlstep + '&stepArr=' + JSON.stringify(arrStep) + '&stepIds=' + stepIds,
+                    contentType: false,
+                    processData: false,
+                    success: function (data) {
+                        if (data.success) {
+                            notyfi_success(data.msg);
+                            $('#info-contract').modal('hide');
+                            $(".user-list-table").DataTable().ajax.reload(null, false);
                         }
-                    });
-                }
-                else
-                    notify_error(data.msg);
-            },
-            error: function () {
-                notify_error('Cập nhật không thành công');
+                        else
+                            notify_error(data.msg);
+                    },
+                    error: function () {
+                        notify_error('Cập nhật không thành công');
+                    }
+                });
             }
-        });
-    
-
-   
-
+            else
+                notify_error(data.msg);
+        },
+        error: function () {
+            notify_error('Cập nhật không thành công');
+        }
+    });
 }
-
 
 function xoa(id) {
     Swal.fire({

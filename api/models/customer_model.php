@@ -11,7 +11,7 @@ class customer_model extends Model
         $result = array();
         $query = $this->db->query("SELECT id,type,
         IF(type=1, 'Cá nhân', 'Tổ chức') AS customerTypeName,
-        shortName,fullName,address,phoneNumber,email,website,field,businessName,businessAddress,businessPlace,taxCode,authorized,representative,
+        name,fullName,address,phoneNumber,email,website,field,businessName,businessAddress,businessPlace,taxCode,authorized,representative,
         (SELECT name FROM province WHERE id=a.provinceId) AS province,
         (SELECT name FROM national WHERE id=a.nationalId) AS nationality,
         IFNULL((SELECT SUM(taxMoney) FROM contracts WHERE customerId=a.id AND status>0),0) AS totalSales,rank,field,classify,note,
@@ -33,7 +33,7 @@ class customer_model extends Model
         $result = array();
         $query = $this->db->query("SELECT id,type,
             IF(type=1, 'Cá nhân', 'Tổ chức') AS customerTypeName,
-            shortName,fullName,address,phoneNumber,email,website,field,businessName,businessAddress,businessPlace,taxCode,authorized,representative,
+            name,fullName,address,phoneNumber,email,website,field,businessName,businessAddress,businessPlace,taxCode,authorized,representative,
             (SELECT name FROM province WHERE id=a.provinceId) AS province,
             (SELECT name FROM national WHERE id=a.nationalId) AS nationality,
             IFNULL((SELECT SUM(taxMoney) FROM contracts WHERE customerId=a.id AND status>0),0) AS totalSales,rank,field,classify,note,

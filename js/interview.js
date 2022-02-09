@@ -127,7 +127,8 @@
          success: function (data) {
              selectNhanVien.select2({
                  data: data,
-                 placeholder:"Nhân viên phỏng vấn"
+                 placeholder:"Nhân viên phỏng vấn",
+                 dropdownParent: selectNhanVien.parent(),
              });
          },
      });
@@ -180,6 +181,7 @@
  
      // Event click function
      function eventClick(info) {
+        
          eventToUpdate = info.event;
          if (eventToUpdate.url) {
              info.jsEvent.preventDefault();
@@ -197,13 +199,13 @@
 
          // ngày
         $('.flatpickr-basic').flatpickr({
-            // enableTime: true,
-            dateFormat: "d-m-Y H:i",
+            enableTime: true,
+            dateFormat: "d-m-Y",
             defaultDate: eventToUpdate.extendedProps.dateTime
             });
         //Giờ
         $('#timeInterview').flatpickr({
-            // enableTime: true,
+            enableTime: true,
             noCalendar: true,
             dateFormat: "H:i",
             defaultDate: eventToUpdate.extendedProps.time
@@ -255,7 +257,7 @@
            }
          ); */
          nhanvien = selectNhanVien.val();
- 
+          
          $.ajax({
              type: "POST",
              dataType: "json",
@@ -289,7 +291,6 @@
                              };
                              events.push(arr);
                              i++;
-            
                      })
                  }
                  var calendars = selectedCalendars();
@@ -694,18 +695,18 @@ $('.btn-delete-event').click(function() {
      });
  
      // Select all & filter functionality
-     if (selectAll.length) {
-         selectAll.on('change', function () {
-             var $this = $(this);
- 
-             if ($this.prop('checked')) {
-                 calEventFilter.find('input').prop('checked', true);
-             } else {
-                 calEventFilter.find('input').prop('checked', false);
-             }
-             calendar.refetchEvents();
-         });
-     }
+    //  if (selectAll.length) {
+    //      selectAll.on('change', function () {
+          
+         
+    //          if ($this.prop('checked')) {
+    //              calEventFilter.find('input').prop('checked', true);
+    //          } else {
+    //              calEventFilter.find('input').prop('checked', false);
+    //          }
+    //          calendar.refetchEvents();
+    //      });
+    //  }
          filterInput.on('change', function () {
              $('.input-filter:checked').length < calEventFilter.find('input').length
                  ? selectAll.prop('checked', false)
