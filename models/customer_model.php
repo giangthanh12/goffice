@@ -47,13 +47,13 @@ class customer_Model extends Model{
            return $result;
         }
         function listObj() {
-            $query = $this->db->query("SELECT * FROM customer WHERE status > 0  ORDER BY id DESC ");
+            $query = $this->db->query("SELECT * FROM customers WHERE status > 0  ORDER BY id DESC ");
             $result['data'] = $query->fetchAll(PDO::FETCH_ASSOC);
             return $result;
         } 
         function getdata($id) {
             $result = array();
-            $query = $this->db->query("SELECT * FROM customer WHERE id = $id");
+            $query = $this->db->query("SELECT * FROM customers WHERE id = $id");
             $temp = $query->fetchAll(PDO::FETCH_ASSOC);
             $result = $temp[0];
             return $result;
@@ -68,7 +68,7 @@ class customer_Model extends Model{
         }
         function checkPhone($idCustomer, $phone) {
             if($idCustomer == 0) {
-                $query = $this->db->query("SELECT COUNT(id) AS total FROM customer WHERE phoneNumber=$phone AND status > 0  ");
+                $query = $this->db->query("SELECT COUNT(id) AS total FROM customers WHERE phoneNumber=$phone AND status > 0  ");
                 $temp = $query->fetchAll(PDO::FETCH_ASSOC);
                 if ($temp[0]['total'] > 0) {
                     return false;
@@ -77,13 +77,13 @@ class customer_Model extends Model{
                 }
             }
             else {
-                $query = $this->db->query("SELECT phoneNumber FROM customer WHERE status > 0 AND id = $idCustomer ");
+                $query = $this->db->query("SELECT phoneNumber FROM customers WHERE status > 0 AND id = $idCustomer ");
                 $temp = $query->fetchAll(PDO::FETCH_ASSOC);
                 if($temp[0]['phoneNumber'] == $phone) {
                   return true;
                 }
                 else {
-                    $query = $this->db->query("SELECT COUNT(id) AS total FROM customer WHERE phoneNumber=$phone AND status > 0");
+                    $query = $this->db->query("SELECT COUNT(id) AS total FROM customers WHERE phoneNumber=$phone AND status > 0");
                     $temp = $query->fetchAll(PDO::FETCH_ASSOC);
                  
                     if ($temp[0]['total'] > 0) {

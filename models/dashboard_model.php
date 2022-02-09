@@ -153,7 +153,7 @@ class dashboard_Model extends Model{
         $now = $year.'-'.$month;
         $where = " WHERE status = 1 AND createDate LIKE '$now%' ";
         $query = $this->db->query("SELECT COUNT(id) AS newCustomer
-        FROM customer $where");
+        FROM customers $where");
         $temp = $query->fetchAll(PDO::FETCH_ASSOC);
         $newCustomer = $temp[0]['newCustomer'];
         if(strlen($newCustomer)>=4 && strlen($newCustomer)<7) {
@@ -169,7 +169,7 @@ class dashboard_Model extends Model{
             $yearMonth = date("Y-m",strtotime("-$i month"));
             $where = " WHERE status = 1 AND createDate LIKE '$yearMonth%' ";
             $query = $this->db->query("SELECT COUNT(id) AS newCustomer
-            FROM customer $where ");
+            FROM customers $where ");
             $temp = $query->fetchAll(PDO::FETCH_ASSOC);
             array_push($arrNewCustomer, $temp[0]['newCustomer']);
             array_push($arrMonth, $month);

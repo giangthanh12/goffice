@@ -151,7 +151,7 @@ class Data_Model extends Model
             if ($row[0]['total'] > 0)
                 return false;
             else {
-                $query = $this->db->query("SELECT COUNT(id) AS total FROM customer WHERE status > 0 AND phoneNumber = '$phoneNumber' ");
+                $query = $this->db->query("SELECT COUNT(id) AS total FROM customers WHERE status > 0 AND phoneNumber = '$phoneNumber' ");
                 $row = $query->fetchAll(PDO::FETCH_ASSOC);
                 if ($row[0]['total'] > 0)
                     return false;

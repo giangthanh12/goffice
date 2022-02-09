@@ -13,7 +13,7 @@ class contact_Model extends Model{
     }
     function getCustomer() {
         $result = array();
-        $query = $this->db->query("SELECT id, fullName AS `text` FROM customer WHERE status = 1");
+        $query = $this->db->query("SELECT id, fullName AS `text` FROM customers WHERE status = 1");
         if ($query)
             $result = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;
