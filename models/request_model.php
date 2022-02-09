@@ -58,6 +58,16 @@ class request_model extends Model
         return $data;
     }
 
+    function getDetailRequest($requestId) {
+        $data = array();
+        $where = " WHERE status >0 AND requestId=$requestId ";
+        $query = $this->db->query("SELECT *
+            FROM subrequests $where ");
+        if ($query)
+            $data = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $data;
+    }
+
     function getAllStep($defineId)
     {
         $data = array();
@@ -133,11 +143,15 @@ class request_model extends Model
         else
             $where = " WHERE status > 0 ";
         if(count($listDefineIds)>0){
+            
             $listDefineIds = implode(",",$listDefineIds);
+            
             $where.=" AND (staffId=$staffId OR defineId IN ($listDefineIds)) ";
         }else{
             $where.=" AND staffId=$staffId ";
         }
+        if($defineId > 0)
+        $where.=" AND defineId=$defineId ";
         $query = $this->db->query("SELECT id, title,staffId,departmentId,status,dateTime,defineId,
             DATE_FORMAT(dateTime,'%d/%m/%Y') as dateTimeCV,
            (SELECT name FROM staffs WHERE id=a.staffId) as staffName,
@@ -166,7 +180,9 @@ class request_model extends Model
         $query = $this->db->query("SELECT id,status,note,
             (SELECT name FROM requeststeps WHERE id=a.stepId) AS stepName,
             (SELECT avatar FROM staffs WHERE id=a.stepId) AS avatar,
-            (SELECT name FROM staffs WHERE id=a.staffId) AS staffName
+            (SELECT name FROM staffs WHERE id=a.staffId) AS staffName,
+            (SELECT name FROM requeststeps WHERE id=a.stepId) AS stepName,
+            (SELECT phoneNumber FROM staffs WHERE id=a.staffId) AS phoneNumber
             FROM requestprocesses a $where ");
         return $query->fetchAll(PDO::FETCH_ASSOC);
 
@@ -240,6 +256,7 @@ class request_model extends Model
     {
         $where = " WHERE status >0 AND defineId=$defineId 
         AND id NOT IN (SELECT stepId FROM requestprocesses WHERE requestId=$requestId AND status>0) ";
+        // lấy những step không nằm trong 
         $query = $this->db->query("SELECT id
             FROM requeststeps a $where ORDER BY sortorder ASC LIMIT 1");
         $data = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -294,7 +311,7 @@ class request_model extends Model
     {
         $ok = $this->insert("requests", $data);
         if ($ok)
-            return $this->db->lastInsertId();
+            return $this->db->lastInsertId(); 
         else
             return 0;
     }

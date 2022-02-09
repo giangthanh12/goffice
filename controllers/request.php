@@ -32,6 +32,8 @@ class request extends Controller
         $this->view->departments = $this->model->getDepartments();
         $this->view->staffs = $this->model->getStaffs();
         $this->view->requestDefines = $this->model->getRequestDefines();
+
+
         $this->view->funAdd = self::$funAdd;
         $this->view->funEdit = self::$funEdit;
         $this->view->funDel = self::$funDel;
@@ -61,6 +63,21 @@ class request extends Controller
         $status = isset($_REQUEST['status']) ? $_REQUEST['status'] : 0;
         $staffId = $_SESSION['user']['staffId'];
         $jsonObj = $this->model->getALlRequestLists($defineId,$status,$staffId);
+        echo json_encode($jsonObj);
+    }
+
+    function getDetailRequest() {
+        $requestId = $_GET['requestId'];
+        $detailRequest = $this->model->getDetailRequest($requestId);
+        if(count($detailRequest) < 0) {
+            $jsonObj['code'] = 401;
+            $jsonObj['message'] = "Không lấy được dữ liệu";
+            echo json_encode($jsonObj);
+            return false;
+        }
+        $jsonObj['code'] = 200;
+        $jsonObj['message'] = "Tạo yêu cầu thành công!";
+        $jsonObj['data'] = $detailRequest;
         echo json_encode($jsonObj);
     }
 
@@ -157,16 +174,20 @@ class request extends Controller
     {
         if(self::$funAdd!=1)
             return false;
-        $defineId = isset($_REQUEST['defineId']) ? $_REQUEST['defineId'] : 0;
+        $defineId = !empty($_REQUEST['defineId']) ? $_REQUEST['defineId'] : 0;
         $process = $this->model->getAllStep($defineId);
         $data['defineId'] = $defineId;
         $jsonObj = [];
+        // không có bước thực hiện yêu cầu trả về lỗi
         if (count($process) == 0) {
+            
             $jsonObj['code'] = 401;
             $jsonObj['message'] = "Yêu cầu hiện tại chưa có tiến trình xử lý!";
             echo json_encode($jsonObj);
             return false;
         }
+     
+        //check lỗi validate form
         $title = $_REQUEST['title'];
         if ($title == '') {
             $jsonObj['code'] = 402;
@@ -182,6 +203,7 @@ class request extends Controller
             echo json_encode($jsonObj);
             return false;
         }
+        // $dateTime
         $dateTime = functions::convertDate($dateTime);
         $data['dateTime'] = $dateTime;
         $data['departmentId'] = $_REQUEST['department'];
@@ -303,6 +325,7 @@ class request extends Controller
 
     function approve()
     {
+
         if(self::$funApprove!=1)
             return false;
         $requestId = isset($_REQUEST['requestId']) ? $_REQUEST['requestId'] : 0;
@@ -311,6 +334,7 @@ class request extends Controller
         $stepId = isset($_REQUEST['stepId']) ? $_REQUEST['stepId'] : 0;
         if ($stepId <= 0)
             return false;
+        // kiem tra quyen duoc duyet
         $checkProcess = $this->model->checkProcessorStep($stepId);
         if ($checkProcess <= 0) {
             $jsonObj['code'] = 401;
@@ -318,16 +342,21 @@ class request extends Controller
             echo json_encode($jsonObj);
             return false;
         }
+
         $defineId = isset($_REQUEST['defineId']) ? $_REQUEST['defineId'] : 0;
         $staffId = $_SESSION['user']['staffId'];
         $note = $_REQUEST['note'];
         $dataProcess = ['status' => 2, 'staffId' => $staffId,'note'=>$note];
+        // status = 2 duyệt step
         $this->model->updateProcess($requestId, $stepId, 1, $dataProcess);
+
+
         $nextStepId = $this->model->getStep($defineId, $requestId);
         if ($nextStepId > 0) {
             $dataProcessNew = ['requestId' => $requestId, 'stepId' => $nextStepId, 'staffId' => 0, 'status' => 1];
             $checkApprove = $this->model->addStep($dataProcessNew);
         } else {
+            //nêu hết bước sẽ chuyển sang trạng thái hoàn thành status = 2
             $dataRequest = ['status' => 2];
             $checkApprove = $this->model->updateRequest($requestId, $dataRequest);
         }
