@@ -165,11 +165,16 @@ class payrolls extends Controller
     }
 
     function exportexcel(){
-        $month = isset($_GET['month']) ? $_GET['month'] : date('m');
-        $year = isset($_GET['year']) ? $_GET['year'] : date('Y');
+        $month = isset($_REQUEST['month']) ? $_REQUEST['month'] : date('m');
+        $year = isset($_REQUEST['year']) ? $_REQUEST['year'] : date('Y');
+        // echo $month;
+        // return;
         $funCheck = self::$funCheck;
         $staffId = 0;
+        $this->view->year=$year;
+        $this->view->month=$month;
         $this->view->payrolls = $this->model->listObj($month,$year,$staffId,$funCheck);
         $this->view->render('payrolls/export');
     }
+
 }
