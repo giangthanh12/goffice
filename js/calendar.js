@@ -65,7 +65,19 @@ document.addEventListener('DOMContentLoaded', function () {
     filterInput = $('.input-filter'),
     btnDeleteEvent = $('.btn-delete-event'),
     calendarEditor = $('#event-description-editor');
-
+    // Description Editor
+    if (calendarEditor.length) {
+      var calDescEditor = new Quill("#event-description-editor", {
+          bounds: "#event-description-editor",
+          modules: {
+              formula: true,
+              syntax: true,
+              toolbar: ".desc-toolbar",
+          },
+          placeholder: "Mô tả",
+          theme: "snow",
+      });
+    }
   // --------------------------------------------
   // On add new item, clear sidebar-right field fields
   // --------------------------------------------
@@ -181,17 +193,20 @@ document.addEventListener('DOMContentLoaded', function () {
     eventTitle.val(eventToUpdate.title);
     start.setDate(eventToUpdate.start, true, 'Y-m-d');
     eventToUpdate.allDay === true ? allDaySwitch.prop('checked', true) : allDaySwitch.prop('checked', false);
-    eventToUpdate.end !== null
-      ? end.setDate(eventToUpdate.end, true, 'Y-m-d')
+    eventToUpdate.extendedProps.endDate !== null
+      ? end.setDate(eventToUpdate.extendedProps.endDate, true, 'Y-m-d')
       : end.setDate(eventToUpdate.start, true, 'Y-m-d');
     sidebar.find(eventLabel).val(eventToUpdate.extendedProps.calendar).trigger('change');
     // eventToUpdate.extendedProps.location !== undefined ? eventLocation.val(eventToUpdate.extendedProps.location) : null;
     // eventToUpdate.extendedProps.guests !== undefined
     //   ? eventGuests.val(eventToUpdate.extendedProps.guests).trigger('change')
     //   : null;
-    eventToUpdate.extendedProps.description !== undefined
-      ? calendarEditor.val(eventToUpdate.extendedProps.description)
-      : null;
+    // eventToUpdate.extendedProps.description !== undefined
+    //   ? calendarEditor.val(eventToUpdate.extendedProps.description)
+    //   : null;
+    
+    var quill_editor = $("#event-description-editor .ql-editor");
+    quill_editor[0].innerHTML = eventToUpdate.extendedProps.description;
 
     //  Delete Event
     btnDeleteEvent.on('click', function () {
@@ -224,7 +239,7 @@ document.addEventListener('DOMContentLoaded', function () {
   // * This will be called by fullCalendar to fetch events. Also this can be used to refetch events.
   // --------------------------------------------------------------------------------------------------
   function fetchEvents(info, successCallback) {
-
+    
     // events = [
     //   {
     //     id: 1,
@@ -362,6 +377,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 allDay: allday,
                 extendedProps: {
                   calendar: item.objectType,
+                  endDate: item.endDate,
                   description: item.description
                 }
               }

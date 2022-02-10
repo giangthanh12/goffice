@@ -143,9 +143,23 @@
                                         <label for="event-location" class="form-label">Location</label>
                                         <input type="text" class="form-control" id="event-location" placeholder="Enter Location" />
                                     </div> -->
-                                    <div class="form-group">
+
+                                    <!-- <div class="form-group">
                                         <label class="form-label">Description</label>
                                         <textarea name="event-description-editor" id="event-description-editor" class="form-control" rows="5"></textarea>
+                                    </div> -->
+                                    <div class="form-group">
+                                        <label class="form-label" for="event-description-editor">Yêu cầu</label>
+                                        <div id="event-description-editor" class="border-bottom-0"></div>
+                                        <div class="d-flex justify-content-end desc-toolbar border-top-0">
+                                            <span class="ql-formats mr-0">
+                                                <button class="ql-bold"></button>
+                                                <button class="ql-italic"></button>
+                                                <button class="ql-underline"></button>
+                                                <button class="ql-align"></button>
+                                                <button class="ql-link"></button>
+                                            </span>
+                                        </div>
                                     </div>
                                     <div class="form-group d-flex">
                                         <button type="submit" class="btn btn-primary add-event-btn mr-1">Thêm</button>
