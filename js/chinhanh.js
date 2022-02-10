@@ -23,7 +23,7 @@ $(function () {
     if (dtUserTable.length) {
         dtUserTable.DataTable({
             // ajax: assetPath + "data/user-list.json", // JSON file to add data
-            ajax: baseHome + "/chinhanh/list",
+            ajax: baseHome + "/chinhanh/listdata",
             columns: [
                 // columns according to JSON
                 { data: "id" },

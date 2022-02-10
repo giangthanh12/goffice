@@ -34,7 +34,7 @@ class position extends Controller{
         echo json_encode($json);
     }
 
-    function list()
+    function listdata()
     {
         $data = $this->model->listObj();
         echo json_encode($data);

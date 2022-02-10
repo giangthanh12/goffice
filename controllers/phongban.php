@@ -29,7 +29,7 @@ class phongban extends Controller{
     }
  
 
-    function list()
+    function listdata()
     {
         $data = $this->model->listObj();
         echo json_encode($data);

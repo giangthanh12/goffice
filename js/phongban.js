@@ -22,7 +22,7 @@ $(function () {
     // Users List datatable
     if (dtUserTable.length) {
         dtUserTable.DataTable({
-            ajax: baseHome + "/phongban/list",
+            ajax: baseHome + "/phongban/listdata",
       
             columns: [
                 { data: "id" },

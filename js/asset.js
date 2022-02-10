@@ -82,7 +82,7 @@ if ($('#status').length) {
         dtUserTable.DataTable({
             ordering: false,
             // ajax: assetPath + "data/user-list.json", // JSON file to add data
-            ajax: baseHome + "/asset/list",
+            ajax: baseHome + "/asset/listdata",
             columns: [
                 // columns according to JSON
                 { data: "code" },
