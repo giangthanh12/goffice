@@ -18,6 +18,7 @@ class todo extends Controller{
         // $project = isset($_REQUEST['project'])?$_REQUEST['project']:0;
         $nhanvien = isset($_REQUEST['assignee'])?$_REQUEST['assignee']:$_SESSION['user']['staffId'];
         $this->view->list=$this->model->getList($nhanvien, $catid);
+        $this->view->catid=$catid;
         $this->view->project=$this->model->getProject();
         $this->view->tag=$this->model->getLabel();
         $this->view->employee=$this->model->getEmployee();
@@ -91,7 +92,7 @@ class todo extends Controller{
             'title' => $task['title'],
             'staffId' => $task['assigneeId'],
             'objectType' => 3,
-            'startDate' => $task['startDate'] != '0000-00-00' ? $task['startDate'] : date('y-m-d'),
+            'startDate' => $task['startDate'] != '0000-00-00' ? $task['startDate'] : date('Y-m-d'),
             'endDate' => $task['deadline'],
             'description' => $task['description'],
             'status' => $addCalendar,
