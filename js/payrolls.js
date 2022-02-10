@@ -206,13 +206,36 @@ $(function () {
                 info:"Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
             },
             // Buttons with Dropdown
-            buttons: [ 
-                
-                // extend: 'excel',
-                // text: feather.icons['file'].toSvg({ class: 'font-small-4 mr-50' }) + 'Excel',
-               
-              ],
-                
+            buttons: [
+              
+                // {
+                //     text: "Thêm mới",
+                //     className: "add-new btn btn-primary mt-50",
+                //     init: function (api, node, config) {
+                //         $(node).removeClass("btn-secondary");
+                //     },
+                //     action: function (e, dt, node, config) {
+                //         $("#addinfo").modal('show');
+                //         $(".modal-title").html('Thêm khách hàng mới');
+                //         $('#name').val('');
+                //         $('#ten_day_du').val('');
+                //         $('#dai_dien').val('');
+                //         $('#dien_thoai').val('');
+                //         $('#email').val('');
+                //         $('#website').val('');
+                //         $('#van_phong').val('');
+                //         $('#dia_chi').val('');
+                //         $('#ma_so').val('');
+                //         $('#chuc_vu').val('');
+                //         $('#linh_vuc').val('').change();
+                //         $('#loai').val(0).change();
+                //         $('#phu_trach').val('').change();
+                //         $('#tinh_trang').val('1').attr("disabled", true);
+                //         $('#phan_loai').val('1').attr("disabled", true);
+                //         $('#ghi_chu').val('');
+                //     },
+                // },
+            ],
             initComplete: function () {
                 // Adding role filter once table initialized
                 // this.api()

@@ -12,6 +12,7 @@ var url, boards,
     slDefineId = $('#defineId'),
     requestId = 0,
     stepId = 0;
+   
 $(function () {
     'use strict';
 

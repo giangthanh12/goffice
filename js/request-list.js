@@ -9,6 +9,9 @@
 
 'use strict';
 var  todoTaskList = $('.todo-task-list');
+var url;
+var $defineId = '';
+console.log('ok');
 $(function () {
     var taskTitle,
         flatPickr = $('.task-due-date'),
@@ -35,8 +38,9 @@ $(function () {
         listItemFilter = $('.list-group-filters'),
         noResults = $('.no-results'),
         checkboxId = 100,
+   
         isRtl = $('html').attr('data-textdirection') === 'rtl';
-
+       
     var assetPath = baseHome+'/styles/app-assets/';
     if ($('body').attr('data-framework') === 'laravel') {
         assetPath = $('body').attr('data-asset-path');
@@ -159,7 +163,7 @@ $(function () {
     // Flat Picker
     if (flatPickr.length) {
         flatPickr.flatpickr({
-            dateFormat: 'Y-m-d',
+            dateFormat: 'd/m/Y',
             defaultDate: 'today',
             onReady: function (selectedDates, dateStr, instance) {
                 if (instance.isMobile) {
@@ -186,18 +190,50 @@ $(function () {
     // On add new item button click, clear sidebar-right field fields
     if (addTaskBtn.length) {
         addTaskBtn.on('click', function (e) {
-            addBtn.removeClass('d-none');
-            updateBtns.addClass('d-none');
-            modalTitle.text('Add Task');
+            // addBtn.removeClass('d-none');
+            // updateBtns.addClass('d-none');
+            // $('#btnApprove').removeClass('d-none');
+            // $('#btnRefuse').removeClass('d-none');
+            $('#btnUpdate').removeClass('d-none');
+            $('#btnApprove').addClass('d-none');
+            $('#btnRefuse').addClass('d-none');
+            modalTitle.text('Tạo yêu cầu');
             // newTaskModal.modal('show');
             sidebarLeft.removeClass('show');
             overlay.removeClass('show');
             newTaskModal.find('.new-todo-item-title').val('');
-            var quill_editor = taskDesc.find('.ql-editor');
-            quill_editor[0].innerHTML = '';
+            // var quill_editor = taskDesc.find('.ql-editor');
+            // quill_editor[0].innerHTML = '';
+            url = baseHome + '/request/addRequest';
+            var $defineId = $('#defineId').val();
+            $('#defineId').select2({
+                placeholder: 'Yêu cầu',
+            })
+            $('#defineId').val('').change();
+            $('#title').val('');
+            $('#timelineComment').html('');
         });
     }
+    $('#defineId').change(function() {
+        var $defineId = $('#defineId').val();
 
+        $.ajax({
+            type: 'POST',
+            dataType: 'json',
+            async: false,
+            url: baseHome + '/request/getProperties?defineId=' + $defineId,
+            success: function (data) {
+                var html = '';
+                data.forEach(function (item) {
+                    html += '<div class="form-group">' +
+                        '<label class="form-label" for="property_' + item.id + '">' + item.name + '</label>' +
+                        '<input type="text" id="property_' + item.id + '" name="property_' + item.id + '" class="form-control" placeholder="' + item.name + '" />' +
+                        '</div>'
+                });
+                $('#fmProperties').html(html);
+            }
+        });
+    }) 
     // Add New ToDo List Item
 
     // To add new todo form
@@ -323,27 +359,120 @@ $(function () {
 
     // To open todo list item modal on click of item
     $(document).on('click', '.todo-task-list-wrapper .todo-item', function (e) {
+        var $status = $(this).find('.todo-statusRequest').html();
         newTaskModal.modal('show');
-        addBtn.addClass('d-none');
-        updateBtns.removeClass('d-none');
-        if ($(this).hasClass('completed')) {
-            modalTitle.html(
-                '<button type="button" class="btn btn-sm btn-outline-success complete-todo-item waves-effect waves-float waves-light" data-dismiss="modal">Completed</button>'
-            );
-        } else {
-            modalTitle.html(
-                '<button type="button" class="btn btn-sm btn-outline-secondary complete-todo-item waves-effect waves-float waves-light" data-dismiss="modal">Mark Complete</button>'
-            );
-        }
+        $('#btnUpdate').addClass('d-none');
+        // updateBtns.removeClass('d-none');
         taskTag.val('').trigger('change');
-        var quill_editor = $('#task-desc .ql-editor'); // ? Dummy data as not connected with API or anything else
-        quill_editor[0].innerHTML =
-            'Chocolate cake topping bonbon jujubes donut sweet wafer. Marzipan gingerbread powder brownie bear claw. Chocolate bonbon sesame snaps jelly caramels oat cake.';
-        taskTitle = $(this).find('.todo-title');
+        // taskTitle = $(this).find('.todo-title');
         var $title = $(this).find('.todo-title').html();
+        $('#title').val($title);
+        var $defineId =  $(this).find('.todo-defineId').html();
+        $('#defineId').val($defineId).change();
+        var $staffId =  $(this).find('.todo-staffId').html();
+        $('#staffId').val($staffId).change();
+        var $staffId =  $(this).find('.todo-staffId').html();
+        $('#staffId').val($staffId).change();
+        var $department =  $(this).find('.todo-departmnetId').html();
+        $('#department').val($department).change();
+        var $requestId = $(this).find('.todo-idRequest').html();
+        $('#requestId').val($requestId);
+        var $stepId = $(this).find('.todo-stepId').html();
+        $('#stepId').val($stepId);
+        $('#btnApprove').removeClass('d-none');
+        $('#btnRefuse').removeClass('d-none');
+        if($status == 2 || $status == 3) {
+        $('#btnApprove').addClass('d-none');
+        $('#btnRefuse').addClass('d-none');
+        }
+        // load comment form
+        $.ajax({
+            type: 'GET',
+            dataType: 'json',
+            async: false,
+            url: baseHome + '/request/getComments?requestId=' + $requestId,
+            success: function (dataComment) {
+                console.log(dataComment);
+                $('#timelineComment').html('');
+                var html = '';
+                dataComment.forEach(function (item) {
+                   if(item.status==2)
+                      var  colorStatus = 'success';
+                    var      statusText='Người duyệt';
+                    if(item.status==3)
+                    var    colorStatus = 'danger';
+                    var    statusText='Người từ chối';
 
-        // apply all variable values to fields
-        newTaskForm.find('.new-todo-item-title').val($title);
+                    html += `<li class="timeline-item">
+                        <span class="timeline-point timeline-point-secondary timeline-point-${colorStatus} timeline-point-indicator"></span>
+                        <div class="timeline-event">
+                            <div class="d-flex justify-content-between flex-sm-row flex-column mb-sm-0 mb-1">
+                                <h6>${item.stepName}</h6>
+                            </div>
+                            <p>${item.note}</p>
+                            <div class="media align-items-center">
+                                <div class="avatar">`;
+                                html +=    '<img onerror='+"this.src='https://velo.vn/goffice-test/layouts/useravatar.png'"+' src="../../../app-assets/images/avatars/12-small.png" alt="avatar" height="38" width="38" />';
+                               html+= `</div>
+                                <div class="media-body ml-50">
+                                    <h6 class="mb-0">${item.staffName}</h6>
+                                    <span>${item.phoneNumber}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </li>`;
+
+
+
+
+                    // html += `<li class="timeline-item">
+                    //         <span class="timeline-point timeline-point-indicator timeline-point-${colorStatus}"></span>
+                    //         <div class="timeline-event">
+                    //         <div class="media align-items-right float-right" >
+                    //                 <div class="avatar">`;
+                    //             html += '<img  onerror='+"this.src='https://velo.vn/goffice-test/layouts/useravatar.png'"+' src="${item.avatar}" alt="avatar" width="38" height="38">';
+                    //             html += `</div>
+                    //             </div>
+                    //             <div class="d-flex justify-content-between flex-sm-row flex-column mb-sm-0 mb-1">
+                    //                 <h6>${item.staffName}</h6>
+                    //             </div>
+                    //             <p>${item.note}</p>
+                    //         </div>
+                    //     </li>`;
+                });
+                $('#timelineComment').html(html);
+
+            }
+        });
+       // var statusText = ''
+                    // if(item.status==2)
+                    //     statusText='Người duyệt';
+                    // if(item.status==3)
+                    //     statusText='Người từ chối';
+                    // html+='<div class="media mb-1">' +
+                    //     '<div class="avatar bg-light-success my-0 ml-0 mr-50">' +
+                    //     renderAvatar(item.avatar, true, 0, item.staffName, 28)+
+                    //     '</div>' +
+                    //     '<div class="media-body">' +
+                    //     '<p class="mb-0"><span class="font-weight-bold " style="color: red">'+item.stepName+'</span></p>' +
+                    //     '<p class="mb-0">'+statusText+': <span class="font-weight-bold " style="color: blue">'+item.staffName+'</span>:&nbsp;'+item.note+'</p>' +
+                    //     '</div>' +
+                    //     '</div>';
+      
+
+        $.ajax({
+            type: 'POST',
+            dataType: 'json',
+            async: false,
+            url: baseHome + '/request/getDetailRequest?requestId=' + $requestId,
+            success: function (data) {
+                data.data.forEach(function(item) {
+                    $('#property_'+item.objectId).val(item.value);
+                })
+           
+            }
+        });
+      
     });
 
     // Updating Data Values to Fields
@@ -434,7 +563,8 @@ $(window).on('resize', function () {
         }
     }
 });
-
+var defineFilter = 0;
+var statusFilter = 0;
 function initRequest(defineId,status){
     todoTaskList.empty();
     $.ajax({
@@ -443,25 +573,27 @@ function initRequest(defineId,status){
         dataType: "json",
         data:{defineId:defineId,status:status},
         success: function (data) {
-            console.log(data);
+          
             data.forEach(function (item){
+               var indexStep = item.processors.length-1;
+               console.log(item['processors'][0])
                 var html='<li class="todo-item" style="width: 100%">' +
                     '<div class="todo-title-wrapper">' +
                     '<div class="todo-title-area">' +
-                    //'<i data-feather="more-vertical" class="drag-icon"></i>' +
-                    '<div class="title-wrapper">' +
-                    '<div class="custom-control custom-checkbox">' +
-                    '<input type="checkbox" class="custom-control-input" id="customCheck'+item.id+'" />' +
-                    '<label class="custom-control-label" for="customCheck'+item.id+'"></label>' +
-                    '</div>' +
                     '<span class="todo-title">'+item.title+'</span>' +
+                    '<span class="d-none todo-defineId">'+item.defineId+'</span>' +
+                    '<span class="d-none todo-staffId">'+item.staffId+'</span>' +
+                    '<span class="d-none todo-departmnetId">'+item.departmentId+'</span>' +
+                    '<span class="d-none todo-idRequest">'+item.id+'</span>' +
+                    '<span class="d-none todo-stepId">'+item['processors'][indexStep].stepId+'</span>' +
+                    '<span class="d-none todo-statusRequest">'+item.status+'</span>' +
                     '</div>' +
                     '</div>' +
                     '<div class="todo-item-action">' +
                     '<div class="badge-wrapper mr-1">';
                 item.processors.forEach(function (process){
                     var $status='bg-primary'
-                    if(process.status==2)
+                    if(process.status == 2)
                         $status = 'bg-success';
                     else if(process.status==3)
                         $status = 'bg-danger';
@@ -486,6 +618,9 @@ function initRequest(defineId,status){
 $('#btnUpdate').on('click', function () {
     $('#fmInfo').validate({
         messages: {
+            "defineId": {
+                required: "Bạn chưa chọn yêu cầu!",
+            },
             "title": {
                 required: "Bạn chưa nhập tiêu đề!",
             },
@@ -496,38 +631,43 @@ $('#btnUpdate').on('click', function () {
                 required: "Bạn chưa nhập ngày tạo!",
             }
         },
+       
         submitHandler: function (form) {
             var formData = new FormData(form);
-            var $defineId = $('#defineId').val();
             $.ajax({
                 url: url,
-                type: 'POST',
-                data: formData,
                 async: false,
                 cache: false,
-                contentType: false,
                 enctype: 'multipart/form-data',
+                method: "POST",
+                data: formData,
+                contentType: false,
                 processData: false,
-                dataType: "json",
+               dataType: "json",
                 success: function (result) {
+                   console.log(result);
                     if (result.code == 200) {
-                        requestId = result.data.requestId;
+                      
+                        var requestId = result.data.requestId;
+                        var defineId = $('#defineId').val();
+                        console.log(defineId);
+                        console.log(requestId);
                         $('#fmProperties').validate({
                             submitHandler: function (formPro) {
                                 var formDataPro = new FormData(formPro);
                                 $.ajax({
-                                    url: baseHome + '/request/saveProperties?defineId=' + $defineId + '&requestId=' + requestId,
+                                    url: baseHome + '/request/saveProperties?defineId=' + defineId + '&requestId=' + requestId,
                                     type: 'POST',
                                     data: formDataPro,
                                     async: false,
                                     cache: false,
                                     contentType: false,
-                                    enctype: 'multipart/form-data',
+                                    // enctype: 'multipart/form-data',
                                     processData: false,
                                     dataType: "json",
                                     success: function (data) {
                                         if (data.code == 200) {
-                                            initKanban();
+                                            initRequest(0,0);
                                             $('.modal').modal('hide');
                                             notyfi_success(result.message);
                                         } else
@@ -567,7 +707,9 @@ $('#btnApprove').on('click', function () {
     }).then(function (result) {
         if (result.isConfirmed) {
             if (result.value != '') {
-                var $defineId = slDefineId.val();
+                var $defineId = $('#defineId').val();
+                var requestId = $('#requestId').val();
+                var stepId = $('#stepId').val();
                 $.ajax({
                     url: baseHome + "/request/approve",
                     type: 'post',
@@ -577,12 +719,11 @@ $('#btnApprove').on('click', function () {
                         if (data.code == 200) {
                             $('.modal').modal('hide');
                             notyfi_success(data.message);
-                            initKanban();
+                            initRequest(0,0);
                         } else
                             notify_error(data.message);
                     },
                 });
-
             } else
                 swal.fire({
                     title: 'Error',
@@ -613,6 +754,8 @@ $('#btnRefuse').on('click', function () {
     }).then(function (result) {
         if (result.isConfirmed) {
             if (result.value != '') {
+                var requestId = $('#requestId').val();
+                var stepId = $('#stepId').val();
                 $.ajax({
                     url: baseHome + "/request/refuse",
                     type: 'post',
@@ -622,7 +765,7 @@ $('#btnRefuse').on('click', function () {
                         if (data.code == 200) {
                             $('.modal').modal('hide');
                             notyfi_success(data.message);
-                            initKanban();
+                            initRequest(0,0);
                         } else
                             notify_error(data.message);
                     },
@@ -667,4 +810,25 @@ $('#btnDel').on('click', function () {
             });
         }
     });
+})
+
+function chooseRequest(defineId) {
+    defineFilter = defineId;
+    initRequest(defineFilter,statusFilter);
+    console.log(defineFilter,statusFilter);
+}
+function chooseStatus(status) {
+    statusFilter = status;
+    initRequest(defineFilter,statusFilter);
+    console.log(defineFilter,statusFilter);
+}
+$(document).on('click','.chooseRequest-item',function() {
+    console.log(this);
+    var $chooseRequestItems = document.querySelectorAll('.chooseRequest-item');
+    $chooseRequestItems.forEach(function(item) {
+        if(item.classList.contains('colorDefine')) {
+            item.classList.remove('colorDefine');
+        }
+    })
+   $(this).addClass('colorDefine');
 })

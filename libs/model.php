@@ -14,6 +14,7 @@ class Model
         $bind = array();
         foreach ($array as $key => $value) {
             $cols[] = $key;
+            $value = str_replace("'","\'",$value);
             $bind[] = "'" . $value . "'";
         }
         $query = $this->db->query("INSERT INTO " . $table . " (" . implode(",", $cols) . ") VALUES (" . implode(",", $bind) . ")");
@@ -25,6 +26,7 @@ class Model
     {
         $set = array();
         foreach ($array as $key => $value) {
+            $value = str_replace("'","\'",$value);
             $set[] = $key . " = '" . $value . "'";
         }
         $query = $this->db->query("UPDATE " . $table . " SET " . implode(",", $set) . " WHERE " . $where);
