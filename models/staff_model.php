@@ -6,7 +6,7 @@ class staff_Model extends Model{
 
     function getStaff(){
         $nhanvien = array();
-        $query = $this->db->query("SELECT id, name, email, phoneNumber, status,accesspoints,avatar
+        $query = $this->db->query("SELECT id, name, staffCode, email, phoneNumber, status,accesspoints,avatar
             FROM staffs WHERE status > 0 ORDER BY id DESC");
         if ($query)
             $data['data'] = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -17,8 +17,9 @@ class staff_Model extends Model{
         $result = array();
         $query = $this->db->query("SELECT *,
         DATE_FORMAT(birthDay,'%d/%m/%Y') as birthDay,
-        DATE_FORMAT(idDate,'%d/%m/%Y') as idDate
-        FROM staffs WHERE id=$id");
+        DATE_FORMAT(idDate,'%d/%m/%Y') as idDate,
+        (SELECT branchId FROM laborcontract WHERE staffId = a.id) AS branchId
+        FROM staffs a WHERE id=$id");
         $temp = $query->fetchAll(PDO::FETCH_ASSOC);
         $result['nhanvien'] = $temp[0];
       

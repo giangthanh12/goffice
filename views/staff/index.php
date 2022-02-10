@@ -24,6 +24,7 @@
                             <tr>
 
                                 <th>Họ tên</th>
+                                <th>Mã nhân viên</th>
                                 <th>Email</th>
                                 <th>Điện thoại</th>
                                 <th>Tình trạng</th>
@@ -40,7 +41,8 @@
                                 <div class="modal-header mb-1">
                                     <h5 class="modal-title" id="exampleModalLabel">Thêm nhân viên mới</h5>
                                 </div>
-                                <div class="modal-body flex-grow-1">
+                               
+                                <!-- <div class="modal-body flex-grow-1">
                                     <label class="form-label" for="staffCode">Mã nhân viên</label>
                                     <div class="form-group">
                                         <div class="row">
@@ -56,7 +58,7 @@
                                                 
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> -->
                                     <div class="form-group">
                                         <label class="form-label" for="phoneNumber">Điện thoại</label>
                                         <input type="text" id="phoneNumber" class="form-control dt-uname"
@@ -189,6 +191,7 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
+                                                             
                                                             <div class="col-lg-3 d-flex mt-1 px-0">
                                                                 <div class="form-group">
                                                                     <label class="d-block mb-1">Giới tính</label>
@@ -241,16 +244,17 @@
                                                                     <span class="align-middle">Thông tin cá nhân</span>
                                                                 </h4>
                                                             </div>
+                                                            <input type="hidden" id="branchId" name="branchId">
                                                             <div class="col-lg-4 col-md-6">
                                                                 <div class="form-group">
                                                                     <label for="code1">Mã nhân viên</label>
                                                                       <div class="row">
                                                                           <div class="col-lg-10 col-md-9">
-                                                                          <input id="code1" type="text"
+                                                                          <input id="staffCode" type="text"
                                                                            class="form-control" name="code1"/>
                                                                       </div>
                                                                       <div class="col-lg-2 col-md-3">
-                                                                            <button type="button" class="btn btn-primary" id="createCode" onclick="createCodeStaff1()">+</button>      
+                                                                            <button type="button" class="btn btn-primary" id="createCode" onclick="createCodeStaff()">+</button>      
                                                                       </div>
                                                                       </div>
                                                                 </div>

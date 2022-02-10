@@ -63,6 +63,46 @@ class calendar extends Controller
         echo json_encode($jsonObj);
     }
 
+    function addCalendar()
+    {
+        $title = $_REQUEST['title'];
+        $startDate = $_REQUEST['startDate'];
+        $endDate = $_REQUEST['endDate'];
+        $description = $_REQUEST['description'];
+        $objectType = $_REQUEST['objectType'];
+        $objectId = $_REQUEST['objectId'];
+        $data = [
+            'title' => $title,
+            'startDate' => $startDate,
+            'endDate' => $endDate,
+            'description' => $description,
+            'objectType' => $objectType,
+            'objectId' => $objectId,
+            'status' => 1
+        ];
+        if ($this->model->addObj($data)) {
+            $jsonObj['success'] = true;
+            $jsonObj['msg'] = "Cập nhật dữ liệu thành công";
+        } else {
+            $jsonObj['success'] = false;
+            $jsonObj['msg'] = "Lỗi truy xuất database";
+        }
+        echo json_encode($jsonObj);
+    }
+
+    function delCalendar()
+    {
+        $calendarId = $_REQUEST['id'];
+        if ($this->model->updateObj($calendarId,['status'=>0])) {
+            $jsonObj['success'] = true;
+            $jsonObj['msg'] = "Cập nhật dữ liệu thành công";
+        } else {
+            $jsonObj['success'] = false;
+            $jsonObj['msg'] = "Lỗi truy xuất database";
+        }
+        echo json_encode($jsonObj);
+    }
+
 }
 
 ?>
