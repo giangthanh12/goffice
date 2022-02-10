@@ -93,7 +93,7 @@ class interview_result_Model extends Model{
     function checkqty($id) {
         $query = $this->db->query("SELECT COUNT(1) as rowNumber, quantity, 
         (SELECT COUNT(1) FROM interview WHERE STATUS = 1 AND campId = recruitmentcamp.id AND result = 5) AS countReceived 
-        FROM recruitmentcamp WHERE status > 0 AND id =$id HAVING countReceived < quantity");
+        FROM recruitmentcamp WHERE status > 0 AND id=$id HAVING countReceived < quantity");
          $result = $query->fetchAll(PDO::FETCH_ASSOC);
          if($result[0]['rowNumber'] > 0) return true;
          return false;

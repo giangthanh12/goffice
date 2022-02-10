@@ -5,7 +5,7 @@ class acm_model extends Model{
     }
 
     function listObj(){
-        $query = $this->db->query("SELECT id, type,action, classify, content,dateTime,
+        $query = $this->db->query("SELECT id, type, classify, content,dateTime,
             DATE_FORMAT(dateTime,'%d/%m/%Y') AS dateTimeNew,
             FORMAT(asset,0) AS asset,            
             IFNULL((SELECT name FROM accnumber WHERE id = a.accnumber AND status > 0), 'No Name') AS accName
