@@ -54,11 +54,14 @@
                                     <th style="text-align: right">Bảo hiểm</th>
                                     <th style="text-align: right">Tạm ứng</th>
                                     <th style="text-align: right">Thực lĩnh</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tfoot>
                                 <tr>
-                                    <th colspan="11" id="total"></th>
+                                    <th colspan="12" ></th>
+                                    <!-- <th  id="total"></th> -->
+                                    <th colspan="2"  id="total"></th>
                                 </tr>
                             </tfoot>
                         </table>
@@ -129,3 +132,4 @@
     let month = "<?= date('m') ?>";
     let year = "<?= date('Y') ?>";
 </script>
+<script src="<?= HOME ?>/js/payrolls.js"></script>

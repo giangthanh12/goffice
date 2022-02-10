@@ -13,11 +13,27 @@ $(function () {
     if (dtUserTable.length) {
         dtUserTable.DataTable({
             ajax: baseHome + "/payrolls/list?month=" + month + "&year=" + year,
-            autoWidth: true,
+            autoWidth: false,
             ordering: false,
             fixedColumns:   {
                 left: 2
             },
+            drawCallback: function () {
+                var api = this.api();
+            
+                var  total = api
+                .column( 14 )
+                .data()
+                .reduce( function (a, b) {
+                    return a +  b;
+                }, 0 );
+
+               
+               
+                $('#total').html(
+                 '<div style="text-align:right;  font-size:1rem;">Tổng: '+Comma(total)+'</div>'
+                );
+              },
             searching: true,
             "lengthMenu": [[7, 15, 25, 50], [7, 15, 25, 50, "All"]],
             paging: false,
@@ -41,9 +57,14 @@ $(function () {
                 {data: "id"},
                 {data: "insurance"},
                 {data: "advance"},
-                {data: "id"}
+                {data: "id"},
+                {data:"thuclinh"}
             ],
             columnDefs: [
+                {
+                    targets: 14,
+                    visible: false,
+                },
                 {
                     // User full name and username
                     targets: 1,
@@ -193,6 +214,7 @@ $(function () {
                 '<"col-sm-12 col-md-6"i>' +
                 '<"col-sm-12 col-md-6"p>' +
                 ">",
+            
             language: {
                 sLengthMenu: "Hiển thị _MENU_",
                 search: "",
@@ -205,35 +227,13 @@ $(function () {
                 info:"Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
             },
             // Buttons with Dropdown
-            buttons: [
-                // {
-                //     text: "Thêm mới",
-                //     className: "add-new btn btn-primary mt-50",
-                //     init: function (api, node, config) {
-                //         $(node).removeClass("btn-secondary");
-                //     },
-                //     action: function (e, dt, node, config) {
-                //         $("#addinfo").modal('show');
-                //         $(".modal-title").html('Thêm khách hàng mới');
-                //         $('#name').val('');
-                //         $('#ten_day_du').val('');
-                //         $('#dai_dien').val('');
-                //         $('#dien_thoai').val('');
-                //         $('#email').val('');
-                //         $('#website').val('');
-                //         $('#van_phong').val('');
-                //         $('#dia_chi').val('');
-                //         $('#ma_so').val('');
-                //         $('#chuc_vu').val('');
-                //         $('#linh_vuc').val('').change();
-                //         $('#loai').val(0).change();
-                //         $('#phu_trach').val('').change();
-                //         $('#tinh_trang').val('1').attr("disabled", true);
-                //         $('#phan_loai').val('1').attr("disabled", true);
-                //         $('#ghi_chu').val('');
-                //     },
-                // },
-            ],
+            buttons: [ 
+                
+                // extend: 'excel',
+                // text: feather.icons['file'].toSvg({ class: 'font-small-4 mr-50' }) + 'Excel',
+               
+              ],
+                
             initComplete: function () {
                 // Adding role filter once table initialized
                 // this.api()
@@ -466,5 +466,5 @@ function uncheckRollById(id,staffName){
 function exportexcel(){
     var month = $('#month').val();
     var year = $('#year').val();
-    window.location.href = baseHome + '/payrolls/exportexcel?month='+month+'&year='+year;
+    window.location.href = baseHome + '/payrolls/exportexcel?thang='+month+'&nam='+year;
 }

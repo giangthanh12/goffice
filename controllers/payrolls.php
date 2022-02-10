@@ -52,6 +52,18 @@ class payrolls extends Controller
             $staffId = isset($_REQUEST['staffId']) ? $_REQUEST['staffId'] : 0;
    
         $data['data'] = $this->model->listObj($month, $year, $staffId,self::$funCheck);
+        foreach($data['data'] as $key=>$value) {
+         $salary = ($value['basicSalary'] / $value['wokingDays']) * $value['totalWorkDays'];
+            $provisionalSalary = $salary;
+            $provisionalSalary += $value['allowance'];
+            $provisionalSalary +=$value['revenueBonus'];
+            $provisionalSalary +=$value['tetBonus']; 
+            $provisionalSalary += $value['otherBonus'];
+            $totalSalary = $provisionalSalary;
+            $totalSalary -= $value['insurance'];
+            $totalSalary -= $value['advance'];
+            $data['data'][$key]['thuclinh'] = round($totalSalary);
+        }
         echo json_encode($data);
     }
 
@@ -153,14 +165,10 @@ class payrolls extends Controller
     }
 
     function exportexcel(){
-        $month = isset($_REQUEST['month']) ? $_REQUEST['month'] : date('m');
-        $year = isset($_REQUEST['year']) ? $_REQUEST['year'] : date('Y');
-        // echo $month;
-        // return;
+        $month = isset($_GET['month']) ? $_GET['month'] : date('m');
+        $year = isset($_GET['year']) ? $_GET['year'] : date('Y');
         $funCheck = self::$funCheck;
         $staffId = 0;
-        $this->view->year=$year;
-        $this->view->month=$month;
         $this->view->payrolls = $this->model->listObj($month,$year,$staffId,$funCheck);
         $this->view->render('payrolls/export');
     }
