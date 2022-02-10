@@ -103,4 +103,14 @@ class timesheets extends Controller
         }
         echo json_encode($jsonObj);
     }
+
+    function exportexcel(){
+        $month = isset($_REQUEST['month']) ? $_REQUEST['month'] : date('m');
+        $year = isset($_REQUEST['year']) ? $_REQUEST['year'] : date('Y');
+        
+        $this->view->month = $month;
+        $this->view->year = $year;
+         $this->view->timesheets = $this->model->listObj($month,$year);
+        $this->view->render('timesheets/export');
+    }
 }
