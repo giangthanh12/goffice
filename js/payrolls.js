@@ -468,5 +468,5 @@ function uncheckRollById(id,staffName){
 function exportexcel(){
     var month = $('#month').val();
     var year = $('#year').val();
-    window.location.href = baseHome + '/payrolls/exportexcel?thang='+month+'&nam='+year;
+    window.location.href = baseHome + '/payrolls/exportexcel?month='+month+'&year='+year;
 }

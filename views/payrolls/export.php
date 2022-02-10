@@ -1,5 +1,5 @@
 <?php
-require_once 'libs/phpexcel/phpexcel copy/PHPExcel.php';
+require_once 'libs/phpexcel/PHPExcel.php';
 // $sql = new Model();
 $objPHPExcel = new PHPExcel();
 $objPHPExcel->getProperties()->setCreator("Bảng Lương")
