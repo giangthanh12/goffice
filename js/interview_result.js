@@ -264,6 +264,7 @@ function loaddata(id,applicantId) {
 }
 function signContract() {
     var myform = new FormData($("#dg")[0]);
+    
     $.ajax({
         type: "POST",
         dataType: "json",
