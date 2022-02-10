@@ -9,7 +9,7 @@ class Data_Model extends Model
     function addCustomer($dataId, $data)
     {
         $this->update("data", ['status' => 11], " id=$dataId ");
-        $this->insert("customer", $data);
+        $this->insert("customers", $data);
         return $this->db->lastInsertId();
     }
 

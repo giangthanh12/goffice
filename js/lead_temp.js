@@ -182,6 +182,7 @@ $(function() {
                 $(overlay).removeClass('show');
             });
     }
+    leadSearch()
 
     // // Chat Profile sidebar & overlay toggle
     // if (profileToggle.length) {

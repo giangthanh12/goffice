@@ -36,11 +36,11 @@
                             <div class="list-group list-group-labels">
                                 <input type="hidden" id="projectId" />
                                 <?php
-                                  // foreach ($this->project AS $item)
-                                  //     echo '
-                                  //     <a href="javascript:void(0)" onclick="listTaskPro('.$item['id'].')" class="list-group-item list-group-item-action d-flex align-items-center">
-                                  //         <span class="bullet bullet-sm bullet-primary mr-1"></span>'.$item['name'].'</a>
-                                  //     ';
+                                // foreach ($this->project AS $item)
+                                //     echo '
+                                //     <a href="javascript:void(0)" onclick="listTaskPro('.$item['id'].')" class="list-group-item list-group-item-action d-flex align-items-center">
+                                //         <span class="bullet bullet-sm bullet-primary mr-1"></span>'.$item['name'].'</a>
+                                //     ';
                                 ?>
                             </div> -->
                         </div>
@@ -55,7 +55,7 @@
                 </div>
                 <div class="content-body">
                     <div class="body-content-overlay"></div>
-                    <div class="todo-app-list" >
+                    <div class="todo-app-list">
                         <!-- Todo search starts -->
                         <div class="app-fixed-search d-flex align-items-center">
                             <div class="sidebar-toggle d-block d-lg-none ml-1">
@@ -70,18 +70,18 @@
                                 </div>
                             </div>
                             <div class="dropdown">
-                              <!-- <input type="hidden" id="assigneeId" /> -->
-                              <select class="select2 form-control" id="task-assigned-list" onchange="listOtherTask(this.value)">
-                                  <?php
-                                      foreach ($this->employee AS $item) {
-                                          if ($item['avatar']!='')
-                                              $avatar = HOME.'/users/gemstech/uploads/nhanvien/'.$item['avatar'];
-                                          else
-                                              $avatar = HOME.'/users/gemstech/uploads/useravatar.png';
-                                          echo '<option data-img="'.$avatar.'" value="'.$item['id'].'">'.$item['name'].'</option>';
-                                      }
-                                  ?>
-                              </select>
+                                <!-- <input type="hidden" id="assigneeId" /> -->
+                                <select class="select2 form-control" id="task-assigned-list" onchange="listOtherTask(this.value)">
+                                    <?php
+                                    foreach ($this->employee as $item) {
+                                        if ($item['avatar'] != '')
+                                            $avatar = HOME . '/users/gemstech/uploads/nhanvien/' . $item['avatar'];
+                                        else
+                                            $avatar = HOME . '/users/gemstech/uploads/useravatar.png';
+                                        echo '<option data-img="' . $avatar . '" value="' . $item['id'] . '">' . $item['name'] . '</option>';
+                                    }
+                                    ?>
+                                </select>
                             </div>
                         </div>
                         <!-- Todo search ends -->
@@ -90,42 +90,48 @@
                         <div class="todo-task-list-wrapper list-group" id="my-task-list">
                             <ul class="todo-task-list media-list" id="todo-task-list">
                                 <?php
-                                foreach ($this->list AS $item) {
-                                    if ($item['avatar']!='')
-                                        $avatar = HOME.'/users/gemstech/uploads/nhanvien/'.$item['avatar'];
+                                foreach ($this->list as $item) {
+                                    if ($item['avatar'] != '')
+                                        $avatar = HOME . '/users/gemstech/uploads/nhanvien/' . $item['avatar'];
                                     else
-                                        $avatar = HOME.'/users/gemstech/uploads/useravatar.png';
-                                    $checked = ($item['status']==4)?'checked="true"':'';
-                                    $dnone = (($item['status']==6) || ($item['status']==0))?'d-none':'';
+                                        $avatar = HOME . '/users/gemstech/uploads/useravatar.png';
+                                    $checked = ($item['status'] == 4) ? 'checked="true"' : '';
+                                    $dnone = (($item['status'] == 6) || ($item['status'] == 0)) ? 'd-none' : '';
                                     $color = 'primary';
-                                    if ($item['label']==2) $color = 'info';
-                                    elseif ($item['label']==3) $color = 'success';
+                                    if ($item['label'] == 2) $color = 'info';
+                                    elseif ($item['label'] == 3) $color = 'success';
+                                    $addCalendar = '';
+                                    if($item['addCalendar'] != 0) $addCalendar = 'checked';
                                     echo '
-                                    <li class="todo-item">
-                                        <div class="todo-title-wrapper">
+                                    <li class="">
+                                        <div class="todo-title-wrapper todo-item pb-2">
                                             <div class="todo-title-area">
-                                                <span class="taskId d-none">'.$item['id'].'</span>
+                                                <span class="taskId d-none">' . $item['id'] . '</span>
                                                 <i data-feather="more-vertical" class="drag-icon"></i>
                                                 <div class="title-wrapper">
-                                                    <div class="custom-control custom-checkbox '.$dnone.'">
-                                                        <input type="checkbox" class="custom-control-input" id="customCheck'.$item['id'].'" '.$checked.'/>
-                                                        <label class="custom-control-label" for="customCheck'.$item['id'].'"></label>
+                                                    <div class="custom-control custom-checkbox ' . $dnone . '">
+                                                        <input type="checkbox" class="custom-control-input" id="customCheck' . $item['id'] . '" ' . $checked . '/>
+                                                        <label class="custom-control-label" for="customCheck' . $item['id'] . '"></label>
                                                     </div>
-                                                    <span class="todo-title">'.$item['title'].'</span>
+                                                    <span class="todo-title">' . $item['title'] . '</span>
                                                 </div>
                                             </div>
                                             <div class="todo-item-action">
                                                 <div class="badge-wrapper mr-1">
-                                                    <div class="badge badge-pill badge-light-'.$color.'" data-id="'.$item['label'].'">'.$item['labelText'].'</div>
+                                                    <div class="badge badge-pill badge-light-' . $color . '" data-id="' . $item['label'] . '">' . $item['labelText'] . '</div>
                                                 </div>
-                                                <small class="text-nowrap text-muted mr-1">'.$item['deadline'].'</small>
-                                                <div class="avatar" data-id="'.$item['assigneeId'].'">
-                                                    <img src="'.$avatar.'" '.'onerror='."this.src='https://velo.vn/goffice-test/layouts/useravatar.png'".' alt="user-avatar" height="32" width="32" />
+                                                <small class="text-nowrap text-muted mr-1">' . $item['deadline'] . '</small>
+                                                <div class="avatar" data-id="' . $item['assigneeId'] . '">
+                                                    <img src="' . $avatar . '" ' . 'onerror=' . "this.src='https://velo.vn/goffice-test/layouts/useravatar.png'" . ' alt="user-avatar" height="32" width="32" />
                                                 </div>
-                                                <span class="taskDescription d-none">'.$item['description'].'</span>
-                                                <span class="taskProject d-none">'.$item['projectId'].'</span>
-                                                <span class="statusProject d-none">'.$item['status'].'</span>
+                                                <span class="taskDescription d-none">' . $item['description'] . '</span>
+                                                <span class="taskProject d-none">' . $item['projectId'] . '</span>
+                                                <span class="statusProject d-none">' . $item['status'] . '</span>
                                             </div>
+                                        </div>
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input add-to-calendar" id="item-'.$item['id'].'"  data-id="'.$item['id'].'" '. $addCalendar .' />
+                                            <label class="custom-control-label" for="item-'.$item['id'].'">Thêm vào lịch</label>
                                         </div>
                                     </li>
                                     ';
@@ -157,14 +163,14 @@
                                             <div class="form-group">
                                                 <input type="hidden" id="taskId" name="taskId" />
                                                 <label for="todoTitleAdd" class="form-label">Công việc</label>
-                                                <input type="text" id="todoTitleAdd" name="todoTitleAdd" class="new-todo-item-title form-control"  />
+                                                <input type="text" id="todoTitleAdd" name="todoTitleAdd" class="new-todo-item-title form-control" />
                                             </div>
                                             <div class="form-group position-relative">
                                                 <label for="task-assigned" class="form-label d-block">Thuộc dự án/nhóm công việc</label>
                                                 <select class="select2 form-control" id="onProject" name="onProject">
                                                     <?php
-                                                        foreach ($this->project AS $item)
-                                                            echo '<option value="'.$item['id'].'">'.$item['name'].'</option>';
+                                                    foreach ($this->project as $item)
+                                                        echo '<option value="' . $item['id'] . '">' . $item['name'] . '</option>';
                                                     ?>
                                                 </select>
                                             </div>
@@ -172,13 +178,13 @@
                                                 <label for="task-assigned" class="form-label d-block">Người thực hiện</label>
                                                 <select class="select2 form-control" id="task-assigned" name="task-assigned">
                                                     <?php
-                                                        foreach ($this->employee AS $item) {
-                                                            if ($item['avatar']!='')
-                                                                $avatar = HOME.'/users/gemstech/uploads/nhanvien/'.$item['avatar'];
-                                                            else
-                                                                $avatar = HOME.'/users/gemstech/uploads/useravatar.png';
-                                                            echo '<option data-img="'.$avatar.'" value="'.$item['id'].'">'.$item['name'].'</option>';
-                                                        }
+                                                    foreach ($this->employee as $item) {
+                                                        if ($item['avatar'] != '')
+                                                            $avatar = HOME . '/users/gemstech/uploads/nhanvien/' . $item['avatar'];
+                                                        else
+                                                            $avatar = HOME . '/users/gemstech/uploads/useravatar.png';
+                                                        echo '<option data-img="' . $avatar . '" value="' . $item['id'] . '">' . $item['name'] . '</option>';
+                                                    }
                                                     ?>
                                                 </select>
                                             </div>
@@ -189,9 +195,9 @@
                                             <div class="form-group">
                                                 <label for="task-tag" class="form-label d-block">Nhãn</label>
                                                 <!-- <select class="form-control task-tag" id="task-tag" name="task-tag" multiple="multiple"> -->
-                                                <select class="form-control task-tag" id="task-tag" name="task-tag" >
-                                                    <?php foreach($this->tag AS $item)
-                                                        echo '<option value="'.$item['id'].'">'.$item['name'].'</option>';
+                                                <select class="form-control task-tag" id="task-tag" name="task-tag">
+                                                    <?php foreach ($this->tag as $item)
+                                                        echo '<option value="' . $item['id'] . '">' . $item['name'] . '</option>';
                                                     ?>
                                                 </select>
                                             </div>
@@ -229,4 +235,4 @@
         </div>
     </div>
 </div>
-<script src="<?=HOME?>/js/todo.js"></script>
+<script src="<?= HOME ?>/js/todo.js"></script>

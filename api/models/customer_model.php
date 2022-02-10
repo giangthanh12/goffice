@@ -19,8 +19,8 @@ class customer_model extends Model
         (SELECT name FROM staffs WHERE id=a.staffInCharge) AS staffInCharge,
         (SELECT name FROM province WHERE id=a.provinceId) AS province,
         (SELECT name FROM national WHERE id=a.nationalId) AS nationality,status
-            FROM customers a WHERE status > 0 ORDER BY id DESC ");
-        if ($query) {
+        FROM customers a WHERE status > 0 ORDER BY id DESC ");
+        if ($query) { 
             $result = $query->fetchAll(PDO::FETCH_ASSOC);
             return $result;
         } else {

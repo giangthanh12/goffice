@@ -1,7 +1,7 @@
 <?php
 class todo_Model extends Model{
-    function __construst(){
-        parent::__construst();
+    function __construct(){
+        parent::__construct();
     }
 
     function getList($nhanvien, $catid){
@@ -33,9 +33,11 @@ class todo_Model extends Model{
         $query = $this->db->query("SELECT id, title, label, assigneeId, description, deadline,status,
             (SELECT avatar FROM staffs WHERE id=a.assigneeId) AS avatar, projectId,
             (SELECT name FROM tasklabels WHERE id=a.label) AS labelText,
-            (SELECT COUNT(1) FROM commenttasks WHERE taskId=a.id) AS comment
+            (SELECT COUNT(1) FROM commenttasks WHERE taskId=a.id) AS comment,
+            If((SELECT COUNT(1) FROM calendars WHERE status=1 AND objectId=a.id AND objectType=3)>0,1,0) AS addCalendar
             FROM tasks a $dieukien ORDER BY id DESC ");
         $data = $query->fetchAll(PDO::FETCH_ASSOC);
+        
         return $data;
         //     if ($project>0) {
         //         $dieukien .= " AND projectId=$project ";
@@ -93,6 +95,37 @@ class todo_Model extends Model{
         $query = $this->update("tasks", $data, " id=$id ");
         return $query;
     }
+
+    function getTask($taskId) 
+    {
+        $data = array();
+        $query = $this->db->query("SELECT *
+            FROM tasks WHERE id=$taskId ");
+        if ($query)
+            $data = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $data[0];
+    }
+
+    function checkCalendar($taskId)
+    {
+        $query = $this->db->query("SELECT id,COUNT(1) as total FROM calendars WHERE objectId=$taskId AND objectType=3");
+        if ($query)
+            $data = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $data[0];
+    }
+
+    function updateCalendar($calendarId, $taskData) 
+    {
+        $query = $this->update("calendars", $taskData, " id=$calendarId ");
+        return $query;
+    }
+
+    function addCalendar($taskData) 
+    {
+        $query = $this->insert("calendars", $taskData);
+        return $query;
+    }
+
     //
     //
     // function comment($id){
@@ -176,4 +209,3 @@ class todo_Model extends Model{
     //     return $row[0]['Total'];
     // }
 }
-?>
