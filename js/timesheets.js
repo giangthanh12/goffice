@@ -25,8 +25,8 @@ $(function () {
     // var month = $('#month').val();
     // var year = $('#year').val();
     column.append('<th style="width:240px">Nhân viên</th>');
-    column.append('<th style="width:40px;text-align: center">Ngày công</th>');
     column.append('<th style="width:40px;text-align: center">Công chuẩn</th>');
+    column.append('<th style="width:40px;text-align: center">Ngày công</th>');
     for (var i = 1; i <= 31; i++) {
         if (i < 10) { i = '0' + i; }
         var dt = new Date(year + '-' + month + '-' + i);
@@ -378,4 +378,9 @@ function save() {
         }
     });
     $('#fm').submit();
+}
+function exportexcel(){
+    var month = $('#month').val();
+    var year = $('#year').val();
+    window.location.href = baseHome + '/timesheets/exportexcel?month='+month+'&year='+year;
 }

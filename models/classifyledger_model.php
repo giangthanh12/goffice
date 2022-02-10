@@ -1,5 +1,5 @@
 <?php
-class classifyLedger_model extends Model{
+class classifyledger_model extends Model{
     function __construst(){
         parent::__construst();
     }

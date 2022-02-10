@@ -21,6 +21,7 @@ $(function () {
         0: {title: "", class: ""},
         1: {title: "Thu", class: "badge-light-success"},
         2: {title: "Chi", class: "badge-light-warning"},
+        3: {title: "Khác", class: ""}
     };
 
     var buttons = [];
