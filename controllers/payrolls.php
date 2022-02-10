@@ -159,6 +159,8 @@ class payrolls extends Controller
         // return;
         $funCheck = self::$funCheck;
         $staffId = 0;
+        $this->view->year=$year;
+        $this->view->month=$month;
         $this->view->payrolls = $this->model->listObj($month,$year,$staffId,$funCheck);
         $this->view->render('payrolls/export');
     }
