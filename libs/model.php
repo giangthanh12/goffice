@@ -152,7 +152,7 @@ class Model
     {
         if ($_SESSION['user']['classify'] == 1)
             return true;
-        $dieukien = " WHERE active = 1 AND link='$link' ";
+        $dieukien = " WHERE active = 1 AND link='$link' AND type < 3 ";
         $userId = $_SESSION['user']['id'];
         $groupId = $_SESSION['user']['groupId'];
         $query = $this->db->query("SELECT id FROM g_menus $dieukien ORDER BY sortOrder");
