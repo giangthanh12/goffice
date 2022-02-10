@@ -20,7 +20,7 @@
         <div class="content-header-right text-md-right col-md-3 col-12 d-md-block d-none">
             <div class="form-group breadcrumb-right">
                 <div class="dropdown">
-                    <a class="btn-icon btn btn-primary btn-round btn-sm" href="<?=HOME?>/request" aria-haspopup="true" aria-expanded="false">
+                    <a class="btn-icon btn btn-primary btn-round btn-sm" href="<?=HOME?>/request/kanbanview" aria-haspopup="true" aria-expanded="false">
                         <i data-feather="align-center"></i>
                     </a>
                 </div>
@@ -34,19 +34,19 @@
                     <div class="todo-app-menu">
                         <div class="add-task">
                             <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#new-task-modal">
-                                Add Task
+                               Tạo yêu cầu
                             </button>
                         </div>
                         <div class="sidebar-menu-list">
                             <div class="list-group list-group-filters">
-                                <a href="javascript:void(0)" class="list-group-item list-group-item-action active">
+                                <a href="javascript:void(0)" onclick="chooseStatus(1)" class="list-group-item list-group-item-action ">
                                     <i data-feather="play" class="font-medium-3 mr-50"></i>
                                     <span class="align-middle">Đang duyệt</span>
                                 </a>
-                                <a href="javascript:void(0)" class="list-group-item list-group-item-action">
+                                <a href="javascript:void(0)" onclick="chooseStatus(2)" class="list-group-item list-group-item-action">
                                     <i data-feather="check" class="font-medium-3 mr-50"></i> <span class="align-middle">Hoàn thành</span>
                                 </a>
-                                <a href="javascript:void(0)" class="list-group-item list-group-item-action">
+                                <a href="javascript:void(0)" onclick="chooseStatus(3)" class="list-group-item list-group-item-action">
                                     <i data-feather="x" class="font-medium-3 mr-50"></i> <span class="align-middle">Từ chối</span>
                                 </a>
                             </div>
@@ -58,7 +58,7 @@
                                 <?php
                                     foreach ($this->requestDefines as $define){
                                 ?>
-                                <a href="javascript:void(0)" onclick="chooseRequest(<?=$define['id']?>)" class="list-group-item list-group-item-action d-flex align-items-center">
+                                <a href="javascript:void(0)" onclick="chooseRequest(<?=$define['id']?>)" class="list-group-item chooseRequest-item list-group-item-action d-flex align-items-center">
                                     <span class="bullet bullet-sm bullet-primary mr-1"></span><?=$define['name']?>
                                 </a>
                                 <?php }?>
@@ -86,7 +86,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i data-feather="search" class="text-muted"></i></span>
                                     </div>
-                                    <input type="text" class="form-control" id="todo-search" placeholder="Search task" aria-label="Search..." aria-describedby="todo-search" />
+                                    <input type="text" class="form-control" id="todo-search" placeholder="Tìm kiếm" aria-label="Search..." aria-describedby="todo-search" />
                                 </div>
                             </div>
                             <div class="dropdown d-none">
@@ -166,85 +166,151 @@
                     <!-- Right Sidebar starts -->
                     <div class="modal modal-slide-in sidebar-todo-modal fade" id="new-task-modal">
                         <div class="modal-dialog sidebar-lg">
-                            <div class="modal-content p-0">
-                                <form id="form-modal-todo" class="todo-modal needs-validation" novalidate onsubmit="return false">
-                                    <div class="modal-header align-items-center mb-1">
-                                        <h5 class="modal-title">Add Task</h5>
-                                        <div class="todo-item-action d-flex align-items-center justify-content-between ml-auto">
-                                            <span class="todo-item-favorite cursor-pointer mr-75"><i data-feather="star" class="font-medium-2"></i></span>
-                                            <button type="button" class="close font-large-1 font-weight-normal py-0" data-dismiss="modal" aria-label="Close">
-                                                ×
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div class="modal-body flex-grow-1 pb-sm-0 pb-3">
-                                        <div class="action-tags">
-                                            <div class="form-group">
-                                                <label for="todoTitleAdd" class="form-label">Title</label>
-                                                <input type="text" id="todoTitleAdd" name="todoTitleAdd" class="new-todo-item-title form-control" placeholder="Title" />
-                                            </div>
-                                            <div class="form-group position-relative">
-                                                <label for="task-assigned" class="form-label d-block">Assignee</label>
-                                                <select class="select2 form-control" id="task-assigned" name="task-assigned">
-                                                    <option data-img="../../../app-assets/images/portrait/small/avatar-s-3.jpg" value="Phill Buffer" selected>
-                                                        Phill Buffer
-                                                    </option>
-                                                    <option data-img="../../../app-assets/images/portrait/small/avatar-s-1.jpg" value="Chandler Bing">
-                                                        Chandler Bing
-                                                    </option>
-                                                    <option data-img="../../../app-assets/images/portrait/small/avatar-s-4.jpg" value="Ross Geller">
-                                                        Ross Geller
-                                                    </option>
-                                                    <option data-img="../../../app-assets/images/portrait/small/avatar-s-6.jpg" value="Monica Geller">
-                                                        Monica Geller
-                                                    </option>
-                                                    <option data-img="../../../app-assets/images/portrait/small/avatar-s-2.jpg" value="Joey Tribbiani">
-                                                        Joey Tribbiani
-                                                    </option>
-                                                    <option data-img="../../../app-assets/images/portrait/small/avatar-s-11.jpg" value="Rachel Green">
-                                                        Rachel Green
-                                                    </option>
-                                                </select>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="task-due-date" class="form-label">Due Date</label>
-                                                <input type="text" class="form-control task-due-date" id="task-due-date" name="task-due-date" />
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="task-tag" class="form-label d-block">Tag</label>
-                                                <select class="form-control task-tag" id="task-tag" name="task-tag" multiple="multiple">
-                                                    <option value="Team">Team</option>
-                                                    <option value="Low">Low</option>
-                                                    <option value="Medium">Medium</option>
-                                                    <option value="High">High</option>
-                                                    <option value="Update">Update</option>
-                                                </select>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="form-label">Description</label>
-                                                <div id="task-desc" class="border-bottom-0" data-placeholder="Write Your Description"></div>
-                                                <div class="d-flex justify-content-end desc-toolbar border-top-0">
-                                                        <span class="ql-formats mr-0">
-                                                            <button class="ql-bold"></button>
-                                                            <button class="ql-italic"></button>
-                                                            <button class="ql-underline"></button>
-                                                            <button class="ql-align"></button>
-                                                            <button class="ql-link"></button>
-                                                        </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group my-1">
-                                            <button type="submit" class="btn btn-primary d-none add-todo-item mr-1">Add</button>
-                                            <button type="button" class="btn btn-outline-secondary add-todo-item d-none" data-dismiss="modal">
-                                                Cancel
-                                            </button>
-                                            <button type="button" class="btn btn-primary d-none update-btn update-todo-item mr-1">Update</button>
-                                            <button type="button" class="btn btn-outline-danger update-btn d-none" data-dismiss="modal">Delete</button>
-                                        </div>
-                                    </div>
-                                </form>
+                        <div class="modal-content p-0">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">×</button>
+                            <div class="modal-header mb-1">
+                                <h5 class="modal-title" id="modalTitle">Tạo yêu cầu</h5>
                             </div>
+                            <div class="modal-body flex-grow-1">
+                                <ul class="nav nav-tabs tabs-line">
+                                    <li class="nav-item">
+                                        <a class="nav-link nav-link-update active" data-toggle="tab" href="#tab-update">
+                                            <i data-feather="edit"></i>
+                                            <span class="align-middle">Thông tin</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link nav-link-activity" data-toggle="tab" href="#tab-activity">
+                                            <i data-feather="activity"></i>
+                                            <span class="align-middle">Chi tiết</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link nav-link-comments" data-toggle="tab" href="#tab-comments">
+                                            <i data-feather="message-square"></i>
+                                            <span class="align-middle">Phản hồi</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content mt-2">
+                                    <div class="tab-pane tab-pane-update fade show active" id="tab-update"
+                                         role="tabpanel">
+                                        <form id="fmInfo">
+                                            <input type="hidden" name="requestId" id="requestId" value="">
+                                            <input type="hidden" name="stepId" id="stepId" value="">
+                                           
+                                            <div class="form-group">
+                                                <label class="form-label" for="department">Yêu cầu</label>
+                                                <select class="form-control" id="defineId"
+                                                        name="defineId" required>
+                                                    <!-- <option value="">&nbsp;</option> -->
+                                                    <?php
+                                                    foreach ($this->requestDefines as $item) {
+                                                        ?>
+                                                             <option value="<?= $item['id'] ?>"><?= $item['name'] ?></option>
+                                                    <?php } ?>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="form-label" for="title">Tiêu đề</label>
+                                                <input type="text" id="title" name="title" class="form-control"
+                                                        required/>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="form-label" for="dateTime">Ngày tạo</label>
+                                                <input type="text" id="dateTime" name="dateTime" class="form-control task-due-date"  required/>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="form-label" for="department">Phòng ban</label>
+                                                <select class="select2 select2-label form-control" id="department"
+                                                        name="department">
+                                                    <!-- <option value="">&nbsp;</option> -->
+                                                    <?php
+                                                    foreach ($this->departments as $item) {
+                                                        ?>
+                                                        <option data-color="badge-light-success"
+                                                                value="<?= $item['id'] ?>"><?= $item['text'] ?></option>
+                                                    <?php } ?>
+                                                </select>
+                                            </div>
+                                            <!-- <div class="form-group" id="processorLabel">
+                                                <label class="form-label">Người duyệt</label>
+                                                <ul class="pl-0" id="processor"></ul>
+                                            </div>
+                                            <div class="form-group d-none" id="refuserLabel">
+                                                <label class="form-label">Người từ chối</label>
+                                                <ul class="pl-0" id="refuser"></ul>
+                                            </div> -->
+                                            <div class="form-group">
+                                                <label class="form-label" for="staffId">Người tạo</label>
+                                                <select class="select2 select2-label form-control" id="staffId"
+                                                        name="staffId" required>
+                                                    <!-- <option value="">&nbsp;</option> -->
+                                                    <?php
+                                                    foreach ($this->staffs as $item) {
+                                                        ?>
+                                                        <option data-avatar="<?= $item['avatar'] ?>"
+                                                                value="<?= $item['id'] ?>"><?= $item['name'] ?></option>
+                                                    <?php } ?>
+                                                </select>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="tab-pane tab-pane-activity pb-1 fade" id="tab-activity" role="tabpanel">
+                                        <form id="fmProperties">
+                                            <div class="form-group">
+                                                <label class="form-label" for="property_1">Tên thuộc tính</label>
+                                                <input type="text" id="property_1" name="property_1"
+                                                       class="form-control" placeholder="Tên thuộc tính"/>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="tab-pane tab-pane-comments pb-1 fade" id="tab-comments" role="tabpanel">
+                                        <div class="media mb-1">
+                                            <!-- <div class="avatar bg-light-success my-0 ml-0 mr-50">
+                                                <span class="avatar-content">HJ</span>
+                                            </div>
+                                            <div class="media-body">
+                                                <p class="mb-0"><span class="font-weight-bold">Jordan</span> Left the board.</p>
+                                                <small class="text-muted">Today 11:00 AM</small>
+                                            </div> -->
+
+                                            <section class="basic-timeline" style="width:100%;">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <ul class="timeline" id="timelineComment">
+                             
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    
+                    </div>
+                </section>
+
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <div class="form-group">
+                                    <div class="d-flex flex-wrap">
+                                        <button class="btn btn-primary mr-1" style="margin-bottom: 15px;" id="btnUpdate">Cập nhật
+                                        </button>
+                                        <button type="button" class="btn btn-success mr-1 d-none " style="margin-bottom: 15px;" id="btnApprove" onclick="">Duyệt
+                                        </button>
+                                        <button type="button" class="btn btn-outline-danger d-none" style="margin-bottom: 15px;" id="btnRefuse">Từ chối
+                                        </button>
+                                        <button type="button" class="btn btn-danger mr-1 d-none" style="margin-bottom: 15px;" id="btnDel">Xóa
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         </div>
                     </div>
                     <!-- Right Sidebar ends -->
@@ -263,3 +329,8 @@
         funAdd = '<?=$this->funAdd?>';
 </script>
 <script src="<?=HOME?>/js/request-list.js"></script>
+<style>
+    .colorDefine {
+        color: rgb(115, 103, 240);
+    }
+</style>
