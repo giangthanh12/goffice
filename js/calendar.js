@@ -15,7 +15,7 @@ var nextDay = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
 var nextMonth = date.getMonth() === 11 ? new Date(date.getFullYear() + 1, 0, 1) : new Date(date.getFullYear(), date.getMonth() + 1, 1);
 // prettier-ignore
 var prevMonth = date.getMonth() === 11 ? new Date(date.getFullYear() - 1, 0, 1) : new Date(date.getFullYear(), date.getMonth() - 1, 1);
-var year = '', month = '';
+var year = '', month = '', objectId = 0;
 var events = [];
 // RTL Support
 var direction = 'ltr',
@@ -65,19 +65,19 @@ document.addEventListener('DOMContentLoaded', function () {
     filterInput = $('.input-filter'),
     btnDeleteEvent = $('.btn-delete-event'),
     calendarEditor = $('#event-description-editor');
-    // Description Editor
-    if (calendarEditor.length) {
-      var calDescEditor = new Quill("#event-description-editor", {
-          bounds: "#event-description-editor",
-          modules: {
-              formula: true,
-              syntax: true,
-              toolbar: ".desc-toolbar",
-          },
-          placeholder: "Mô tả",
-          theme: "snow",
-      });
-    }
+  // Description Editor
+  if (calendarEditor.length) {
+    var calDescEditor = new Quill("#event-description-editor", {
+      bounds: "#event-description-editor",
+      modules: {
+        formula: true,
+        syntax: true,
+        toolbar: ".desc-toolbar",
+      },
+      placeholder: "Mô tả",
+      theme: "snow",
+    });
+  }
   // --------------------------------------------
   // On add new item, clear sidebar-right field fields
   // --------------------------------------------
@@ -178,10 +178,10 @@ document.addEventListener('DOMContentLoaded', function () {
   // Event click function
   function eventClick(info) {
     eventToUpdate = info.event;
-    if (eventToUpdate.url) {
-      info.jsEvent.preventDefault();
-      window.open(eventToUpdate.url, '_blank');
-    }
+    // if (eventToUpdate.url) {
+    //   info.jsEvent.preventDefault();
+    //   window.open(eventToUpdate.url, '_blank');
+    // }
 
     sidebar.modal('show');
     $(".modal-title").html('Cập nhật sự kiện');
@@ -192,11 +192,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
     eventTitle.val(eventToUpdate.title);
     start.setDate(eventToUpdate.start, true, 'Y-m-d');
+    startDate.attr("disabled", true);
+    // start.prop('disabled', true);
     eventToUpdate.allDay === true ? allDaySwitch.prop('checked', true) : allDaySwitch.prop('checked', false);
+    allDaySwitch.attr("disabled", true);
     eventToUpdate.extendedProps.endDate !== null
       ? end.setDate(eventToUpdate.extendedProps.endDate, true, 'Y-m-d')
       : end.setDate(eventToUpdate.start, true, 'Y-m-d');
+    endDate.attr("disabled", true);
     sidebar.find(eventLabel).val(eventToUpdate.extendedProps.calendar).trigger('change');
+    eventLabel.attr("disabled", true);
     // eventToUpdate.extendedProps.location !== undefined ? eventLocation.val(eventToUpdate.extendedProps.location) : null;
     // eventToUpdate.extendedProps.guests !== undefined
     //   ? eventGuests.val(eventToUpdate.extendedProps.guests).trigger('change')
@@ -204,10 +209,11 @@ document.addEventListener('DOMContentLoaded', function () {
     // eventToUpdate.extendedProps.description !== undefined
     //   ? calendarEditor.val(eventToUpdate.extendedProps.description)
     //   : null;
-    
+
     var quill_editor = $("#event-description-editor .ql-editor");
     quill_editor[0].innerHTML = eventToUpdate.extendedProps.description;
 
+    objectId = eventToUpdate.extendedProps.objectId;
     //  Delete Event
     btnDeleteEvent.on('click', function () {
       eventToUpdate.remove();
@@ -239,7 +245,7 @@ document.addEventListener('DOMContentLoaded', function () {
   // * This will be called by fullCalendar to fetch events. Also this can be used to refetch events.
   // --------------------------------------------------------------------------------------------------
   function fetchEvents(info, successCallback) {
-    
+
     // events = [
     //   {
     //     id: 1,
@@ -377,6 +383,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 allDay: allday,
                 extendedProps: {
                   calendar: item.objectType,
+                  objectId: item.objectId,
                   endDate: item.endDate,
                   description: item.description
                 }
@@ -408,7 +415,7 @@ document.addEventListener('DOMContentLoaded', function () {
   var calendar = new FullCalendar.Calendar(calendarEl, {
     initialView: 'dayGridMonth',
     events: fetchEvents,
-    editable: true,
+    editable: false,
     dragScroll: true,
     dayMaxEvents: 5,
     eventResizableFromStart: true,
@@ -486,6 +493,10 @@ document.addEventListener('DOMContentLoaded', function () {
       btnDeleteEvent.addClass('d-none');
       startDate.val(date);
       endDate.val(date);
+      startDate.attr("disabled", false);
+      endDate.attr("disabled", false);
+      eventLabel.attr("disabled", false);
+      allDaySwitch.attr("disabled", false);
     },
     eventClick: function (info) {
       eventClick(info);
@@ -538,10 +549,10 @@ document.addEventListener('DOMContentLoaded', function () {
   // ------------------------------------------------
   // addEvent
   // ------------------------------------------------
-  // function addEvent(eventData) {
-  //   calendar.addEvent(eventData);
-  //   calendar.refetchEvents();
-  // }
+  function addEvent(eventData) {
+    calendar.addEvent(eventData);
+    calendar.refetchEvents();
+  }
 
   // ------------------------------------------------
   // updateEvent
@@ -626,24 +637,34 @@ document.addEventListener('DOMContentLoaded', function () {
   // Update new event
   updateEventBtn.on('click', function () {
     if (eventForm.valid()) {
+      var quill_editor = $("#event-description-editor .ql-editor");
+      var description = quill_editor[0].innerHTML;
       var eventData = {
         id: eventToUpdate.id,
         title: sidebar.find(eventTitle).val(),
-        start: sidebar.find(startDate).val(),
-        end: sidebar.find(endDate).val(),
-        url: eventUrl.val(),
-        extendedProps: {
-          // location: eventLocation.val(),
-          // guests: eventGuests.val(),
-          calendar: eventLabel.val(),
-          description: calendarEditor.val()
-        },
-        display: 'block',
-        allDay: allDaySwitch.prop('checked') ? true : false
+        description: description,
+        objectType: eventLabel.val(),
+        objectId: objectId,
       };
+      $.ajax({
+        type: "POST",
+        dataType: "json",
+        data: eventData,
+        url: baseHome + '/calendar/updateCalendar',
+        success: function (data) {
+          if (data.success) {
+            calendar.refetchEvents();
+            sidebar.modal('hide');
+            notyfi_success(data.msg);
+          } else {
+            notify_error(data.msg);
+          }
 
-      updateEvent(eventData);
-      sidebar.modal('hide');
+        },
+        error: function () {
+          notify_error('Lỗi truy xuất database');
+        }
+      });
     }
   });
 
