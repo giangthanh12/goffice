@@ -8,14 +8,11 @@ class todo extends Controller{
  
         if ($checkMenuRole == false)
             header('location:' . HOME);
-    
-       
     }
 
-    function index(){
-   
+    function index()
+    {
         require "layouts/header.php";
-    
         // $deadline = isset($_REQUEST['deadline'])?$_REQUEST['deadline']:false;
         $catid = isset($_REQUEST['catId'])?$_REQUEST['catId']:1;
         // $project = isset($_REQUEST['project'])?$_REQUEST['project']:0;
@@ -31,7 +28,6 @@ class todo extends Controller{
     function update(){
         $id = $_REQUEST['id'];
         if($id == 0) {
-          
             $title = $_REQUEST['newTitle'];
             $project = isset($_REQUEST['newProject'])?$_REQUEST['newProject']:0;
             $deadline = $_REQUEST['newDeadline'];
@@ -63,8 +59,6 @@ class todo extends Controller{
                 $jsonObj['success'] = false;
             }
         }
-      
-        
         $jsonObj = json_encode($jsonObj);
         echo $jsonObj;
     }
@@ -73,6 +67,10 @@ class todo extends Controller{
         $id = $_REQUEST['id'];
         $status = $_REQUEST['status'];
         if ($this->model->checkOut($id, $status)) {
+            $data = $this->model->checkCalendar($id);
+            if($data['total']>0){
+                $this->model->updateCalendar($data['id'], ['status'=>0]);
+            }
             $jsonObj['msg'] = "Cập nhật thành công";
             $jsonObj['success'] = true;
         } else {
@@ -83,6 +81,41 @@ class todo extends Controller{
         echo $jsonObj;
     }
 
+    function addCalendar()
+    {
+        $taskId = $_REQUEST['taskId'];
+        $addCalendar = $_REQUEST['addCalendar'];
+        $data = $this->model->checkCalendar($taskId);
+        $task = $this->model->getTask($taskId);
+        $taskData = [
+            'title' => $task['title'],
+            'staffId' => $task['assigneeId'],
+            'objectType' => 3,
+            'startDate' => $task['startDate'] != '0000-00-00' ? $task['startDate'] : date('y-m-d'),
+            'endDate' => $task['deadline'],
+            'description' => $task['description'],
+            'status' => $addCalendar,
+            'objectId' => $taskId,
+        ];
+        if($data['total']>0) {
+            if($this->model->updateCalendar($data['id'], $taskData)) {
+                $jsonObj['msg'] = "Cập nhật thành công";
+                $jsonObj['success'] = true;
+            } else {
+                $jsonObj['msg'] = "Cập nhật không thành công";
+                $jsonObj['success'] = false;
+            }
+        } else {
+            if($this->model->addCalendar($taskData)) {
+                $jsonObj['msg'] = "Cập nhật thành công";
+                $jsonObj['success'] = true;
+            } else {
+                $jsonObj['msg'] = "Cập nhật không thành công";
+                $jsonObj['success'] = false;
+            } 
+        }
+        echo json_encode($jsonObj);
+    }
 
     // function getData(){
     //     $nhanvien = (isset($_REQUEST['nhanvien']) && $_REQUEST['nhanvien']>0)?$_REQUEST['nhanvien']:$_SESSION['user']['staffId'];
