@@ -17,7 +17,7 @@ class asset_recall extends Controller{
         require "layouts/footer.php";
     }
 
-    function list()
+    function listdata()
     {
         $data = $this->model->listObj();
         echo json_encode($data);

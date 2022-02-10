@@ -22,7 +22,7 @@ $(function () {
         dtUserTable.DataTable({
             // ajax: assetPath + "data/user-list.json", // JSON file to add data
             ordering: false,
-            ajax: baseHome + "/accesspoints/list",
+            ajax: baseHome + "/accesspoints/listdata",
             columns: [
                 // columns according to JSON
                 {data: "id"},

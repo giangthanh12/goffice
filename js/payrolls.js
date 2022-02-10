@@ -193,7 +193,6 @@ $(function () {
                 '<"col-sm-12 col-md-6"i>' +
                 '<"col-sm-12 col-md-6"p>' +
                 ">",
-            
             language: {
                 sLengthMenu: "Hiển thị _MENU_",
                 search: "",
@@ -207,7 +206,6 @@ $(function () {
             },
             // Buttons with Dropdown
             buttons: [
-              
                 // {
                 //     text: "Thêm mới",
                 //     className: "add-new btn btn-primary mt-50",

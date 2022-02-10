@@ -27,7 +27,7 @@ $(function () {
         dtUserTable.DataTable({
             ordering: false,
             // ajax: assetPath + "data/user-list.json", // JSON file to add data
-            ajax: baseHome + "/asset_issue/list",
+            ajax: baseHome + "/asset_issue/listdata",
             columns: [
                 { data: "ngay_gio" },
                 { data: "name"},
