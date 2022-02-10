@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // eventUrl = $('#event-url'),
     // eventGuests = $('#event-guests'),
     // eventLocation = $('#event-location'),
-    allDaySwitch = $('.allDay-switch'),
+    // allDaySwitch = $('.allDay-switch'),
     selectAll = $('.select-all'),
     calEventFilter = $('.calendar-events-filter'),
     filterInput = $('.input-filter'),
@@ -194,8 +194,8 @@ document.addEventListener('DOMContentLoaded', function () {
     start.setDate(eventToUpdate.start, true, 'Y-m-d');
     startDate.attr("disabled", true);
     // start.prop('disabled', true);
-    eventToUpdate.allDay === true ? allDaySwitch.prop('checked', true) : allDaySwitch.prop('checked', false);
-    allDaySwitch.attr("disabled", true);
+    // eventToUpdate.allDay === true ? allDaySwitch.prop('checked', true) : allDaySwitch.prop('checked', false);
+    // allDaySwitch.attr("disabled", true);
     eventToUpdate.extendedProps.endDate !== null
       ? end.setDate(eventToUpdate.extendedProps.endDate, true, 'Y-m-d')
       : end.setDate(eventToUpdate.start, true, 'Y-m-d');
@@ -215,13 +215,40 @@ document.addEventListener('DOMContentLoaded', function () {
 
     objectId = eventToUpdate.extendedProps.objectId;
     //  Delete Event
-    btnDeleteEvent.on('click', function () {
-      eventToUpdate.remove();
-      // removeEvent(eventToUpdate.id);
-      sidebar.modal('hide');
-      $('.event-sidebar').removeClass('show');
-      $('.app-calendar .body-content-overlay').removeClass('show');
-    });
+    btnDeleteEvent.click(function () {
+      var calendarId = eventToUpdate.id;
+      Swal.fire({
+        title: 'Xóa dữ liệu',
+        text: "Bạn có chắc chắn muốn xóa!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Tôi đồng ý',
+        cancelButtonText: 'Hủy',
+        customClass: {
+          confirmButton: 'btn btn-primary',
+          cancelButton: 'btn btn-outline-danger ml-1'
+        },
+        buttonsStyling: false
+      }).then(function (result) {
+        if (result.value) {
+          $.ajax({
+            url: baseHome + "/calendar/delCalendar",
+            type: 'post',
+            dataType: "json",
+            data: { id: calendarId },
+            success: function (data) {
+              if (data.success) {
+                calendar.refetchEvents();
+                $('#add-new-sidebar').modal('hide');
+                notyfi_success(data.msg);
+              }
+              else
+                notify_error(data.msg);
+            },
+          });
+        }
+      });
+    })
   }
 
   // Modify sidebar toggler
@@ -246,118 +273,6 @@ document.addEventListener('DOMContentLoaded', function () {
   // --------------------------------------------------------------------------------------------------
   function fetchEvents(info, successCallback) {
 
-    // events = [
-    //   {
-    //     id: 1,
-    //     url: '',
-    //     title: 'Task 1',
-    //     start: date,
-    //     end: nextDay,
-    //     allDay: false,
-    //     extendedProps: {
-    //       calendar: '1'
-    //     }
-    //   },
-    //   {
-    //     id: 2,
-    //     url: '',
-    //     title: 'Task 2',
-    //     start: nextMonth,
-    //     end: nextMonth,
-    //     allDay: true,
-    //     extendedProps: {
-    //       calendar: '2'
-    //     }
-    //   },
-    //   {
-    //     id: 1,
-    //     url: '',
-    //     title: 'Task 3',
-    //     start: prevMonth,
-    //     end: prevMonth,
-    //     allDay: true,
-    //     extendedProps: {
-    //       calendar: '3'
-    //     }
-    //   },
-    //   {
-    //     id: 2,
-    //     url: '',
-    //     title: 'Design Review',
-    //     start: date,
-    //     end: date,
-    //     allDay: false,
-    //     extendedProps: {
-    //       calendar: '4'
-    //     }
-    //   },
-    //   {
-    //     id: 1,
-    //     url: '',
-    //     title: 'Design Review',
-    //     start: date,
-    //     end: date,
-    //     allDay: false,
-    //     extendedProps: {
-    //       calendar: '5'
-    //     }
-    //   },
-    //   {
-    //     id: 1,
-    //     url: '',
-    //     title: 'Design Review',
-    //     start: date,
-    //     end: date,
-    //     allDay: false,
-    //     extendedProps: {
-    //       calendar: '1'
-    //     }
-    //   },
-    //   {
-    //     id: 2,
-    //     url: '',
-    //     title: 'Design Review',
-    //     start: date,
-    //     end: date,
-    //     allDay: false,
-    //     extendedProps: {
-    //       calendar: '2'
-    //     }
-    //   },
-    //   {
-    //     id: 1,
-    //     url: '',
-    //     title: 'Design Review',
-    //     start: date,
-    //     end: date,
-    //     allDay: false,
-    //     extendedProps: {
-    //       calendar: '3'
-    //     }
-    //   },
-    //   {
-    //     id: 2,
-    //     url: '',
-    //     title: 'Design Review',
-    //     start: date,
-    //     end: date,
-    //     allDay: false,
-    //     extendedProps: {
-    //       calendar: '4'
-    //     }
-    //   },
-    //   {
-    //     id: 1,
-    //     url: '',
-    //     title: 'Design Review',
-    //     start: date,
-    //     end: date,
-    //     allDay: false,
-    //     extendedProps: {
-    //       calendar: '5'
-    //     }
-    //   }
-    // ];
     $.ajax({
       type: "POST",
       dataType: "json",
@@ -379,7 +294,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 url: '',
                 title: item.title,
                 start: new Date(item.startDate),
-                // end: new Date(item.endDate),
+                end: new Date(item.endDate),
                 allDay: allday,
                 extendedProps: {
                   calendar: item.objectType,
@@ -496,7 +411,7 @@ document.addEventListener('DOMContentLoaded', function () {
       startDate.attr("disabled", false);
       endDate.attr("disabled", false);
       eventLabel.attr("disabled", false);
-      allDaySwitch.attr("disabled", false);
+      // allDaySwitch.attr("disabled", false);
     },
     eventClick: function (info) {
       eventClick(info);
@@ -624,13 +539,36 @@ document.addEventListener('DOMContentLoaded', function () {
           description: calendarEditor.val()
         }
       };
-      // if (eventUrl.val().length) {
-      //   newEvent.url = eventUrl.val();
-      // }
-      if (allDaySwitch.prop('checked')) {
-        newEvent.allDay = true;
-      }
-      addEvent(newEvent);
+
+      var quill_editor = $("#event-description-editor .ql-editor");
+      var description = quill_editor[0].innerHTML;
+      var eventData = {
+        title: sidebar.find(eventTitle).val(),
+        startDate: startDate.val(),
+        endDate: endDate.val(),
+        description: description,
+        objectType: eventLabel.val(),
+        objectId: objectId,
+      };
+      $.ajax({
+        type: "POST",
+        dataType: "json",
+        data: eventData,
+        url: baseHome + '/calendar/addCalendar',
+        success: function (data) {
+          if (data.success) {
+            calendar.refetchEvents();
+            sidebar.modal('hide');
+            notyfi_success(data.msg);
+          } else {
+            notify_error(data.msg);
+          }
+
+        },
+        error: function () {
+          notify_error('Lỗi truy xuất database');
+        }
+      });
     }
   });
 
@@ -675,7 +613,7 @@ document.addEventListener('DOMContentLoaded', function () {
     startDate.val('');
     eventTitle.val('');
     // eventLocation.val('');
-    allDaySwitch.prop('checked', false);
+    // allDaySwitch.prop('checked', false);
     // eventGuests.val('').trigger('change');
     calendarEditor.val('');
   }
@@ -720,5 +658,4 @@ document.addEventListener('DOMContentLoaded', function () {
 function loadAdd() {
   $("#add-new-sidebar").modal('show');
   $(".modal-title").html('Thêm mới sự kiện');
-
 }
