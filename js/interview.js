@@ -640,8 +640,8 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         return false;
     });
-    $('.btn-delete-event').click(function () {
 
+    $('.btn-delete-event').click(function () {
         var idInterview = $('#idInterview').val();
         Swal.fire({
             title: 'Xóa dữ liệu',
@@ -675,10 +675,6 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     })
-
-
-
-
 
 
     // Hide left sidebar if the right sidebar is open
