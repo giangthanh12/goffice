@@ -30,7 +30,7 @@ $(function () {
     if (dtUserTable.length) {
       dtUserTable.DataTable({
         // ajax: assetPath + "data/user-list.json", // JSON file to add data
-        ajax: baseHome + "/classifyLedger/list",
+        ajax: baseHome + "/classifyledger/list",
         ordering: false,
         columns: [
   
@@ -190,7 +190,7 @@ $(function () {
                     name: name,
                     note: note,
                   },
-                  url: baseHome + "/classifyLedger/update",
+                  url: baseHome + "/classifyledger/update",
                   success: function (data) {
                     if (data.success == true) {
                       notyfi_success(data.msg);
@@ -223,7 +223,7 @@ $(function () {
       type: "POST",
       dataType: "json",
       data: { id: id },
-      url: baseHome + "/classifyLedger/loaddata",
+      url: baseHome + "/classifyledger/loaddata",
       success: function (data) {
         var validator = $("#dg").validate(); // reset form
         validator.resetForm();
@@ -257,7 +257,7 @@ $(function () {
     }).then(function (result) {
       if (result.value) {
         $.ajax({
-          url: baseHome + "/classifyLedger/del",
+          url: baseHome + "/classifyledger/del",
           type: "post",
           dataType: "json",
           data: { id: id },
