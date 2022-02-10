@@ -143,12 +143,13 @@ $(function () {
                         $provisionalSalary += parseFloat(full['otherBonus']);
                         var $totalSalary = $provisionalSalary;
                         $totalSalary -= parseFloat(full['insurance']);
-                        $totalSalary -= parseFloat(full['insurance']);
+                        $totalSalary -= parseFloat(full['advance']);
                         return (
-                            '<div style="width:100px;text-align: right">' +
+                            '<div id="totalSalary" style="width:100px;text-align: right">' +
                             Comma($totalSalary.toFixed(0)) +
                             '</div>'
                         );
+                        
                     }
                 },
                 {
@@ -201,7 +202,7 @@ $(function () {
                     // remove previous & next text from pagination
                     previous: "&nbsp;",
                     next: "&nbsp;",
-                },
+                },  
                 info:"Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
             },
             // Buttons with Dropdown
@@ -273,6 +274,8 @@ $(function () {
     }
 
 });
+
+
 
 function search() {
     var month = $("#month").val();
@@ -461,4 +464,9 @@ function uncheckRollById(id,staffName){
             });
         }
     });
+}
+function exportexcel(){
+    var month = $('#month').val();
+    var year = $('#year').val();
+    window.location.href = baseHome + '/payrolls/exportexcel?thang='+month+'&nam='+year;
 }
