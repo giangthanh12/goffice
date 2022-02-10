@@ -118,12 +118,12 @@
                                         <label for="end-date" class="form-label">End Date</label>
                                         <input type="text" class="form-control" id="end-date" name="end-date" placeholder="End Date" />
                                     </div>
-                                    <div class="form-group">
+                                    <!-- <div class="form-group">
                                         <div class="custom-control custom-switch">
                                             <input type="checkbox" class="custom-control-input allDay-switch" id="customSwitch3" />
                                             <label class="custom-control-label" for="customSwitch3">All Day</label>
                                         </div>
-                                    </div>
+                                    </div> -->
                                     <!-- <div class="form-group">
                                         <label for="event-url" class="form-label">Event URL</label>
                                         <input type="url" class="form-control" id="event-url" placeholder="https://www.google.com" />
