@@ -135,4 +135,3 @@
     let month = "<?= date('m') ?>";
     let year = "<?= date('Y') ?>";
 </script>
-<script src="<?= HOME ?>/js/payrolls.js"></script>
