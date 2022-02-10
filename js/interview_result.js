@@ -264,6 +264,17 @@ function loaddata(id,applicantId) {
 }
 function signContract() {
     var myform = new FormData($("#dg")[0]);
+    var branchId = $("#branchId").val();
+    
+    if(branchId < 10) branchId = "0"+branchId;
+    var codeRandom = Math.floor(Math.random() * (9999 - 1000 + 1)) + 1000;
+    if (codeRandom < 1000) codeRandom = "0" + codeRandom;
+    else if (codeRandom < 100) codeRandom = "00" + codeRandom;
+    else if (codeRandom < 10) codeRandom = "000" + codeRandom;
+    let staffCode = branchId + "" + codeRandom;
+
+    myform.append("staffCode", staffCode);
+    alert(staffCode);
     $.ajax({
         type: "POST",
         dataType: "json",
