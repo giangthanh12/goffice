@@ -83,7 +83,7 @@ function render_table(){
                 render: function(data, type, full, meta){
                     var html = '';
                 
-                    if(baseUser == full['creatorId']){
+                    if(baseUser == full['creatorId'] || baseUser == 1){
                     if(funShare == 1) {
                         html += '<button type="button" class="btn btn-icon btn-outline-success waves-effect" title="Chia sẻ" onclick="share_tainguyen('+full['id']+')">';
                         html += '<i class="fas fa-share-alt"></i>';
