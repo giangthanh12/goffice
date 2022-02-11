@@ -1,4 +1,3 @@
-
 $(function () {
     "use strict";
     var dtUserTable = $(".user-list-table"),
@@ -168,7 +167,7 @@ function loaddata(id) {
         $("#gia_tri").removeClass('d-none');
     }
     
-    $(".modal-title").html('Cập nhật thông tin chi nhánh');
+    $(".modal-title").html('Cập nhật thông tin');
     $.ajax({
         type: "POST",
         dataType: "json",
@@ -191,10 +190,10 @@ function save() {
     $('#fm').validate({
         messages: {
             "name": {
-                required: "Bạn chưa nhập tên nơi làm việc!",
+                required: "Bạn chưa nhập tên thông tin!",
             },
             "gia_tri": {
-                required: "Bạn chưa chọn chi nhánh!",
+                required: "Bạn chưa nhập giá trị!",
             }
         },
         submitHandler: function (form) {
