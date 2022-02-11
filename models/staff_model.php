@@ -18,11 +18,12 @@ class staff_Model extends Model{
         $query = $this->db->query("SELECT *,
         DATE_FORMAT(birthDay,'%d/%m/%Y') as birthDay,
         DATE_FORMAT(idDate,'%d/%m/%Y') as idDate,
-        (SELECT branchId FROM laborcontract WHERE staffId = a.id) AS branchId
+        (SELECT branchId FROM laborcontract WHERE staffId = a.id ORDER BY id DESC LIMIT 1) AS branchId
         FROM staffs a WHERE id=$id");
+
         $temp = $query->fetchAll(PDO::FETCH_ASSOC);
         $result['nhanvien'] = $temp[0];
-      
+        
         $query2 = $this->db->query("SELECT * FROM users WHERE staffId = $id AND 1 ");
         $temp = $query2->fetchAll(PDO::FETCH_ASSOC);
         if(isset($temp[0]))
