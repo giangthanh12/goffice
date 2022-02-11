@@ -7,7 +7,7 @@ class staff_Model extends Model{
     function getStaff(){
         $nhanvien = array();
         $query = $this->db->query("SELECT id, name, staffCode, email, phoneNumber, status,accesspoints,avatar
-            FROM staffs WHERE status > 0 ORDER BY id DESC");
+            FROM staffs WHERE status IN (1,2,3,4,5,6) ORDER BY id DESC");
         if ($query)
             $data['data'] = $query->fetchAll(PDO::FETCH_ASSOC);
         return $data;
