@@ -37,7 +37,7 @@
                                                 <!-- <div class="row mt-1"> -->
                                                 <div class="form-group">
                                                     <label for="name">Tên gọi</label>
-                                                    <input type="text" class="form-control" id="name" placeholder="Nhập tên nơi làm việc" name="name" required />
+                                                    <input type="text" class="form-control" id="name" placeholder="Nhập tên thông tin" name="name" required />
                                                 </div>
 
 
