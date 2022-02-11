@@ -451,7 +451,7 @@ function loaddata(id) {
           $("#email1").val(data.email);
           $("#address").val(data.address);
           $("#residence").val(data.residence);
-          $("#idCard").val(data.residence);
+          $("#idCard").val(data.idCard);
           $("#idDate").val(data.idDate);
           $("#status_update").val(data.status);
           if (data.idDate == "00/00/0000") {
