@@ -6,6 +6,7 @@ $(function () {
         staff = $("#staff"),
         addNewBtn = $(".add-new button"),
         authorized = $("#authorized"),
+        contract = $('#contract'),
         account = $("#account"),
         datePicker = $("#dateTime"),
         form = $("#dg");

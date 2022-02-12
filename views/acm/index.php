@@ -102,8 +102,9 @@
                                                     <div class="col-lg-6 col-md-6">
                                                         <div class="form-group">
                                                             <label for="contract">Hợp đồng</label>
-                                                            <input id="contract" type="text" class="select2 form-control" name="contract" />
-                                                          
+                                                            <select id="contract" name="contract" class="form-control select2">
+                                                               
+                                                            </select>
                                                         </div>
                                                     </div>
 
