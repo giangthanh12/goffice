@@ -13,8 +13,8 @@ $(function () {
 
   var dtInvoiceTable = $('.invoice-list-table'),
     assetPath = baseHome+'/styles/app-assets/',
-    invoicePreview = 'app-invoice-preview.html',
-    invoiceAdd = 'app-invoice-add.html',
+    invoicePreview = 'baogia/printQuote',
+    invoiceAdd = 'baogia/add',
     invoiceEdit = 'app-invoice-edit.html';
 
   // if ($('body').attr('data-framework') === 'laravel') {
@@ -27,8 +27,9 @@ $(function () {
   // datatable
   if (dtInvoiceTable.length) {
     var dtInvoice = dtInvoiceTable.DataTable({
-      ajax: assetPath + 'data/invoice-list.json', // JSON file to add data
+      ajax: 'baogia/dataTable', // JSON file to add data
       autoWidth: false,
+      ordering: false,
       columns: [
         // columns according to JSON
         { data: 'responsive_id' },
@@ -55,7 +56,7 @@ $(function () {
           render: function (data, type, full, meta) {
             var $invoiceId = full['invoice_id'];
             // Creates full output for row
-            var $rowOutput = '<a class="font-weight-bold" href="' + invoicePreview + '"> #' + $invoiceId + '</a>';
+            var $rowOutput = '<a class="font-weight-bold" href="javascript:void(0)"> #' + $invoiceId + '</a>';
             return $rowOutput;
           }
         },
@@ -68,12 +69,12 @@ $(function () {
               $dueDate = full['due_date'],
               $balance = full['balance'],
               roleObj = {
-                Sent: { class: 'bg-light-secondary', icon: 'send' },
-                Paid: { class: 'bg-light-success', icon: 'check-circle' },
-                Draft: { class: 'bg-light-primary', icon: 'save' },
-                Downloaded: { class: 'bg-light-info', icon: 'arrow-down-circle' },
-                'Past Due': { class: 'bg-light-danger', icon: 'info' },
-                'Partial Payment': { class: 'bg-light-warning', icon: 'pie-chart' }
+                'Mới tạo': { class: 'bg-light-secondary', icon: 'info' },
+                'Đã gửi': { class: 'bg-light-success', icon: 'send' },
+                'Đã chốt': { class: 'bg-light-primary', icon: 'check-circle' },
+                'Hủy': { class: 'bg-light-info', icon: 'arrow-down-circle' },
+                // 'Past Due': { class: 'bg-light-danger', icon: 'save' },
+                // 'Partial Payment': { class: 'bg-light-warning', icon: 'pie-chart' }
               };
             return (
               "<span data-toggle='tooltip' data-html='true' title='<span>" +
@@ -147,7 +148,7 @@ $(function () {
           width: '73px',
           render: function (data, type, full, meta) {
             var $total = full['total'];
-            return '<span class="d-none">' + $total + '</span>$' + $total;
+            return '<span class="d-none">' + $total + '</span>' + $total;
           }
         },
         {
@@ -159,9 +160,9 @@ $(function () {
             // Creates full output for row
             var $rowOutput =
               '<span class="d-none">' +
-              moment($dueDate).format('YYYYMMDD') +
+              moment($dueDate).format('DD/MM/YYYY') +
               '</span>' +
-              moment($dueDate).format('DD MMM YYYY');
+              moment($dueDate).format('DD/MM/YYYY');
             $dueDate;
             return $rowOutput;
           }
@@ -187,18 +188,18 @@ $(function () {
         {
           // Actions
           targets: -1,
-          title: 'Actions',
+          title: feather.icons["database"].toSvg({ class: "font-medium-3 text-success mr-50" }),
           width: '80px',
           orderable: false,
           render: function (data, type, full, meta) {
             return (
               '<div class="d-flex align-items-center col-actions">' +
-              '<a class="mr-1" href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title="Send Mail">' +
+              '<span class="mr-1" id="sendMail" data-toggle="tooltip" onclick="sendMail('+full['invoice_id']+')" data-placement="top" title="Send Mail">' +
               feather.icons['send'].toSvg({ class: 'font-medium-2' }) +
-              '</a>' +
+              '</span>' +
               '<a class="mr-1" href="' +
               invoicePreview +
-              '" data-toggle="tooltip" data-placement="top" title="Preview Invoice">' +
+              '?id='+full['invoice_id']+'" data-toggle="tooltip" data-placement="top" title="Preview Invoice">' +
               feather.icons['eye'].toSvg({ class: 'font-medium-2' }) +
               '</a>' +
               '<div class="dropdown">' +
@@ -250,7 +251,7 @@ $(function () {
       // Buttons with Dropdown
       buttons: [
         {
-          text: 'Add Record',
+          text: 'Báo giá mới',
           className: 'btn btn-primary btn-add-record ml-2',
           action: function (e, dt, button, config) {
             window.location = invoiceAdd;
@@ -290,7 +291,7 @@ $(function () {
           .every(function () {
             var column = this;
             var select = $(
-              '<select id="UserRole" class="form-control ml-50 text-capitalize"><option value=""> Select Status </option></select>'
+              '<select id="UserRole" class="form-control ml-50 text-capitalize"><option value=""> Theo tình trạng </option></select>'
             )
               .appendTo('.invoice_status')
               .on('change', function () {
@@ -312,4 +313,50 @@ $(function () {
       }
     });
   }
+
+  $(document).on("change", "#selectEmail", function () {
+      var email = $( "#selectEmail option:selected" ).text();
+      var curValue = $('#emails').val();
+      var newValue = '';
+      if (curValue=='')
+         newValue = email;
+      else
+         newValue = curValue + ';' + email;
+      $('#emails').val(newValue);
+  });
+
+  $(document).on("click", "#btnSend", function () {
+      var quoteId = $('#quoteId').val();
+      var emailList = $('#emails').val();
+      $.post("baogia/send", {id:quoteId,emailList:emailList},
+          function (result, status) {
+              if (result.success == true) {
+                  console.log(result.msg)
+                  toastr["success"](result.msg, "💾 Task Action!", {
+                      closeButton: true,
+                      tapToDismiss: false,
+                      rtl: isRtl,
+                  });
+                  $('#emailList').modal('hide');
+              } else {
+                  notify_error(result.msg);
+                  return false;
+              }
+      },"json");
+  });
+
 });
+
+function sendMail(id) {
+    $('#emailList').modal('show');
+    $('#emails').val('');
+    $('#quoteId').val(id);
+    $('#selectEmail').empty();
+    $('#selectEmail').append($('<option>', {value:'', text:'Chọn email'}));
+    $.post("baogia/getEmails", {id:id},
+        function (result, status) {
+            result.forEach(function(item){
+                $('#selectEmail').append($('<option>', {value:item.id, text:item.email}));
+            });
+    },"json");
+}

@@ -216,9 +216,11 @@ $(function () {
         var $this = $(this);
             // value = adminDetails[$this.val()];
         var id= $this.val();
+        $this.closest(".repeater-wrapper").find(".productName").val($this.find('option:selected').text());
         $.post("baogia/getProductDetail", {id:id},
             function (data, status) {
                 if (data.success) {
+                    // console.log(data.row['description']);
                     $this.closest(".repeater-wrapper").find(".qty").val(1);
                     $this.closest(".repeater-wrapper").find(".discount").val(0);
                     $this.closest(".repeater-wrapper").find(".chietkhau").val(0);
@@ -363,56 +365,7 @@ $(function () {
         $('#totalAmount').text(Comma(invoiceTotal+taxTotal));
     });
 
-    $(document).on("click", "#btnSave", function () {
-        var items = sourceItem.repeaterVal();
-        var customer = select2.val();
-        var date = $('#date').val();
-        var validdate = $('#validDate').val();
-        var note = $('#note').val();
-        var total = $('#invoiceTotal').text()
-        var tax = $('#taxTotal').text();
-        var id = $('#quoteNum').val();
-        console.log(items);
-        if(customer>0) {
-            if (items['group-a'][0]['product']!='') {
-                $.post("baogia/save", {id:id,customer:customer,items:items['group-a'],date:date,validdate:validdate,note:note,total:total,tax:tax},
-                    function (data, status) {
-                        if (data.success) {
-                            // sourceItem.setList([{}]);
-                            // select2.val(0).trigger('change');
-                            // $('#invoiceTotal').text(0);
-                            // $('#totalAmount').text(0);
-                            $('#quoteNum').val(data.id);
-                            toastr["success"](data.msg, "💾 Task Action!", {
-                                closeButton: true,
-                                tapToDismiss: false,
-                                rtl: isRtl,
-                            });
-                        } else {
-                            toastr["error"](data.msg, "💾 Task Action!", {
-                                closeButton: true,
-                                tapToDismiss: false,
-                                rtl: isRtl,
-                            });
-                        }
-                },"json");
-            } else {
-                toastr["error"]('Bạn chưa chọn sản phẩm!', "💾 Task Action!", {
-                closeButton: true,
-                tapToDismiss: false,
-                rtl: isRtl,
-                });
-            }
-        } else {
-            toastr["error"]('Bạn chưa chọn khách hàng!', "💾 Task Action!", {
-            closeButton: true,
-            tapToDismiss: false,
-            rtl: isRtl,
-            });
-        }
-    });
-
-    newCusForm.on("submit", function(e) {
+    newCusForm.on("submit", function(e) { // thêm khách hàng
         e.preventDefault();
         var isValid = newCusForm.valid();
         if (isValid) {
@@ -445,7 +398,7 @@ $(function () {
         }
     });
 
-    $(document).on("click", "#btnSend", function () {
+    $(document).on("click", "#btnSave", function () {  // ghi nháp
         var items = sourceItem.repeaterVal();
         var customer = select2.val();
         var date = $('#date').val();
@@ -457,13 +410,9 @@ $(function () {
         console.log(items);
         if(customer>0) {
             if (items['group-a'][0]['product']!='') {
-                $.post("baogia/send", {id:id,customer:customer,items:items['group-a'],date:date,validdate:validdate,note:note,total:total,tax:tax},
+                $.post("baogia/save", {id:id,customer:customer,items:items['group-a'],date:date,validdate:validdate,note:note,total:total,tax:tax},
                     function (data, status) {
                         if (data.success) {
-                            // sourceItem.setList([{}]);
-                            // select2.val(0).trigger('change');
-                            // $('#invoiceTotal').text(0);
-                            // $('#totalAmount').text(0);
                             $('#quoteNum').val(data.id);
                             toastr["success"](data.msg, "💾 Task Action!", {
                                 closeButton: true,
@@ -494,5 +443,204 @@ $(function () {
         }
     });
 
+    $(document).on("click", "#btnNew", function () {
+        $('#quoteNum').val('');
+        sourceItem.setList([{}]);
+        select2.val(0).trigger('change');
+        $('#invoiceTotal').text(0);
+        $('#totalAmount').text(0);
+    });
+
+    $(document).on("change", "#selectEmail", function () {
+        if($("#selectEmail").val()>0) {
+            var email = $( "#selectEmail option:selected" ).text();
+            var curValue = $('#emails').val();
+            var newValue = '';
+            if (curValue=='')
+               newValue = email;
+            else
+               newValue = curValue + ';' + email;
+            $('#emails').val(newValue);
+        }
+    });
+
+    $(document).on("click", "#btnSend", function () { //Ghi và send email
+        var items = sourceItem.repeaterVal();
+        var customer = select2.val();
+        var date = $('#date').val();
+        var validdate = $('#validDate').val();
+        var note = $('#note').val();
+        var total = $('#invoiceTotal').text()
+        var tax = $('#taxTotal').text();
+        var id = $('#quoteNum').val();
+        // console.log(items);
+        if(customer>0) {
+            if (items['group-a'][0]['product']!='') {
+                $.post("baogia/save", {id:id,customer:customer,items:items['group-a'],date:date,validdate:validdate,note:note,total:total,tax:tax},
+                    function (data, status) {
+                        if (data.success) {
+                            $('#quoteId').val(data.id);
+                            $('#emailList').modal('show');
+                            $('#selectEmail').empty();
+                            $('#selectEmail').append($('<option>', {value:0, text:'Chọn email'}));
+                            $.post("baogia/getEmails", {id:data.id},
+                                function (result, status) {
+                                    result.forEach(function(item){
+                                        $('#selectEmail').append($('<option>', {value:item.id, text:item.email}));
+                                    });
+                            },"json");
+                        } else {
+                            toastr["error"](data.msg, "💾 Task Action!", {
+                                closeButton: true,
+                                tapToDismiss: false,
+                                rtl: isRtl,
+                            });
+                        }
+                },"json");
+            } else {
+                toastr["error"]('Bạn chưa chọn sản phẩm!', "💾 Task Action!", {
+                closeButton: true,
+                tapToDismiss: false,
+                rtl: isRtl,
+                });
+            }
+        } else {
+            toastr["error"]('Bạn chưa chọn khách hàng!', "💾 Task Action!", {
+            closeButton: true,
+            tapToDismiss: false,
+            rtl: isRtl,
+            });
+        }
+    });
+
+    $(document).on("click", "#sendMail", function () { //Gửi email
+        var quoteId = $('#quoteId').val();
+        var emailList = $('#emails').val();
+        $.post("baogia/send", {id:quoteId,emailList:emailList},
+            function (result, status) {
+                if (result.success == true) {
+                    $('#quoteNum').val('');
+                    sourceItem.setList([{}]);
+                    select2.val(0).trigger('change');
+                    $('#invoiceTotal').text(0);
+                    $('#totalAmount').text(0);
+                    toastr["success"](result.msg, "💾 Task Action!", {
+                        closeButton: true,
+                        tapToDismiss: false,
+                        rtl: isRtl,
+                    });
+                    $('#emailList').modal('hide');
+                } else {
+                    notify_error(result.msg);
+                    return false;
+                }
+        },"json");
+    //     var items = sourceItem.repeaterVal();
+    //     var customer = select2.val();
+    //     var date = $('#date').val();
+    //     var validdate = $('#validDate').val();
+    //     var note = $('#note').val();
+    //     var total = $('#invoiceTotal').text()
+    //     var tax = $('#taxTotal').text();
+    //     var id = $('#quoteNum').val();
+    //     console.log(items);
+    //     if(customer>0) {
+    //         if (items['group-a'][0]['product']!='') {
+    //             $.post("baogia/save", {id:id,customer:customer,items:items['group-a'],date:date,validdate:validdate,note:note,total:total,tax:tax},
+    //                 function (data, status) {
+    //                     if (data.success) {
+    //                         $('#quoteNum').val('');
+    //                         sourceItem.setList([{}]);
+    //                         select2.val(0).trigger('change');
+    //                         $('#invoiceTotal').text(0);
+    //                         $('#totalAmount').text(0);
+    //                         toastr["success"](data.msg, "💾 Task Action!", {
+    //                             closeButton: true,
+    //                             tapToDismiss: false,
+    //                             rtl: isRtl,
+    //                         });
+    //                         $.post("baogia/send", {id:data.id},
+    //                             function (result, status) {
+    //                                 if (result.success) {
+    //                                     toastr["success"](result.msg, "💾 Task Action!", {
+    //                                         closeButton: true,
+    //                                         tapToDismiss: false,
+    //                                         rtl: isRtl,
+    //                                     });
+    //                                 } else {
+    //                                     toastr["error"](result.msg, "💾 Task Action!", {
+    //                                         closeButton: true,
+    //                                         tapToDismiss: false,
+    //                                         rtl: isRtl,
+    //                                     });
+    //                                 }
+    //                         },"json");
+    //                     } else {
+    //                         toastr["error"](data.msg, "💾 Task Action!", {
+    //                             closeButton: true,
+    //                             tapToDismiss: false,
+    //                             rtl: isRtl,
+    //                         });
+    //                     }
+    //             },"json");
+    //         } else {
+    //             toastr["error"]('Bạn chưa chọn sản phẩm!', "💾 Task Action!", {
+    //             closeButton: true,
+    //             tapToDismiss: false,
+    //             rtl: isRtl,
+    //             });
+    //         }
+    //     } else {
+    //         toastr["error"]('Bạn chưa chọn khách hàng!', "💾 Task Action!", {
+    //         closeButton: true,
+    //         tapToDismiss: false,
+    //         rtl: isRtl,
+    //         });
+    //     }
+    });
+
+    $(document).on("click", "#btnPrint", function () { // Ghi và in ra
+        var items = sourceItem.repeaterVal();
+        var customer = select2.val();
+        var date = $('#date').val();
+        var validdate = $('#validDate').val();
+        var note = $('#note').val();
+        var total = $('#invoiceTotal').text()
+        var tax = $('#taxTotal').text();
+        var id = $('#quoteNum').val();
+        if(customer) {
+            if (items['group-a'][0]['product']!='') {
+                $.post("baogia/save", {id:id,customer:customer,items:items['group-a'],date:date,validdate:validdate,note:note,total:total,tax:tax},
+                    function (data, status) {
+                        if (data.success) {
+                            window.location = 'baogia/printQuote?id='+data.id;
+                            // var data = select2.select2('data')
+                            // $('#cusPrint').val(data[0].text);
+                            // $('#notePrint').val($('#note').val());
+                            // $('#itemsPrint').val(JSON.stringify(items['group-a']));
+                            // $('#fmPrint').submit();
+                        } else {
+                            toastr["error"](data.msg, "💾 Task Action!", {
+                                closeButton: true,
+                                tapToDismiss: false,
+                                rtl: isRtl,
+                            });
+                        }
+                },"json");
+            } else {
+                toastr["error"]('Bạn chưa chọn sản phẩm!', "💾 Task Action!", {
+                closeButton: true,
+                tapToDismiss: false,
+                rtl: isRtl,
+                });
+            }
+        } else {
+            toastr["error"]('Bạn chưa chọn khách hàng!', "💾 Task Action!", {
+            closeButton: true,
+            tapToDismiss: false,
+            rtl: isRtl,
+            });
+        }
+    });
 
 });
