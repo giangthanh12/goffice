@@ -7,6 +7,7 @@ $(function () {
     return_combobox_multi('#staffId', baseHome + '/used_customer/getStaff', 'Chọn nhân viên chăm sóc');
     return_combobox_multi('#nationalId', baseHome + '/used_customer/getNational', 'Chọn quốc gia');
     return_combobox_multi('#staffId1', baseHome + '/used_customer/getStaff', 'Chọn nhân viên chăm sóc');
+    
     return_combobox_multi('#staffId2', baseHome + '/used_customer/getStaff', 'Chọn nhân viên chăm sóc');
     return_combobox_multi('#nationalId1', baseHome + '/used_customer/getNational', 'Chọn quốc gia');
     return_combobox_multi('#provinceId', baseHome + '/used_customer/getProvince', 'Chọn tỉnh thành');
@@ -86,8 +87,6 @@ $(function () {
                 { data: "" },
             ],
             columnDefs: [
-              
-
                 {
                     // User full name and username
                     targets: 0,
@@ -397,6 +396,50 @@ function actionMenu() {
             }
         });
     }
+    if ($('#dgContact').length) {
+        $('#dgContact').validate({
+            errorClass: "error",
+            rules: {
+                "phoneNumberContact": {
+                    required: true,
+                },
+                "nameContact": {
+                    required: true,
+                },
+              
+                "emailContact": {
+                    required: true,
+                },
+                "facebook": {
+                    required: true,
+                },
+            },
+            messages: {
+            
+                "phoneNumberContact": {
+                    required: "Yêu cầu nhập số điện thoại",
+                },
+                "nameContact": {
+                    required: "Yêu cầu nhập tên liên lạc",
+                },
+                "emailContact": {
+                    required: "Yêu cầu nhập địa chỉ email liên lạc",
+                },
+                "facebook": {
+                    required: "Yêu cầu nhập địa chỉ facebook",
+                },
+              
+            },
+        });
+    
+        $('#dgContact').on("submit", function (e) {
+            var isValid = $('#dgContact').valid();
+            e.preventDefault();
+            if (isValid) {
+                saveContact();
+            }
+        });
+    }
 
 
 
@@ -407,6 +450,50 @@ function actionMenu() {
         container: "body",
     });
 });
+
+var urlContact = '';
+function showFormContact() {
+    return_combobox_multi('#positionContact', baseHome + '/used_customer/getPosition', 'Chức danh');
+ 
+    $('#dgContact')[0].reset();
+    $('#updateinfoContact').modal('show');
+    $('.modal-title-contact').html('Thêm liên lạc cho khách hàng');
+        urlContact = baseHome + "/contact/add";
+}
+
+
+function saveContact() {
+    
+    var info = {};
+    info.name = $("#nameContact").val();
+    info.customerId = $("#idCustomerContact").val();
+    info.phoneNumber = $("#phoneNumberContact").val();
+    info.email = $("#emailContact").val();
+    info.facebook = $("#facebook").val();
+    info.zalo = $("#zalo").val();
+    info.note = $("#noteContact").val();
+    info.position = $('#positionContact').val();
+   
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        data: info,
+        url: urlContact,
+        success: function (data) {
+            if (data.success) {
+                notyfi_success(data.msg);
+                $('#updateinfoContact').modal('hide');
+                $("#dichvu-list-table").DataTable().ajax.reload(null, false);
+            }
+            else
+                notify_error(data.msg);
+        },
+        error: function () {
+            notify_error('Cập nhật không thành công');
+        }
+    });
+}
+
 
 function loaddata(id) {
     if(funEdit != 1) {
@@ -444,6 +531,7 @@ function loaddata(id) {
             $('#nationalId1').val(data.nationalId).change();
             $('#provinceId1').val(data.provinceId).change();
             $('#status1').val(data.status).change();
+            $('#idCustomerContact').val(id);
             loaddichvu(id);
             loadTransaction(id);
         },
@@ -464,6 +552,7 @@ function loaddichvu(id) {
             columns: [
                 // columns according to JSON
                 { data: "name" },
+                {data:'positionName'},
                 { data: "phoneNumber" },
                 { data: "email" },
                 { data: "facebook" },

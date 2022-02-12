@@ -18,6 +18,13 @@ class used_customer_Model extends Model{
                 $result = $query->fetchAll(PDO::FETCH_ASSOC);
             return $result;
         }
+        function getPosition() {
+            $result = array();
+            $query = $this->db->query("SELECT id, name AS `text` FROM position WHERE status > 0");
+            if ($query)
+                $result = $query->fetchAll(PDO::FETCH_ASSOC);
+            return $result;
+        }
         function getProvince() {
             $result = array();
             $query = $this->db->query("SELECT id, name AS `text` FROM province WHERE status > 0");
@@ -32,7 +39,7 @@ class used_customer_Model extends Model{
             return $result;
         }
         function loadContact($id) {
-            $query = $this->db->query("SELECT * FROM contact WHERE status = 1 AND customerId = $id  ORDER BY id DESC ");
+            $query = $this->db->query("SELECT *,(SELECT name from position where id = a.position) AS positionName FROM contact a WHERE status = 1 AND customerId = $id  ORDER BY id DESC ");
             $result['data'] = $query->fetchAll(PDO::FETCH_ASSOC);
             return $result;
         }

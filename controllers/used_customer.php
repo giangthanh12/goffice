@@ -49,6 +49,10 @@ class used_customer extends Controller
         $jsonObj = $this->model->getProvince();
         echo json_encode($jsonObj);
     }
+    function getPosition() {
+        $jsonObj = $this->model->getPosition();
+        echo json_encode($jsonObj);
+    }
     function list()
     {
         $data = $this->model->listObj();

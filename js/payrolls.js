@@ -2,7 +2,6 @@ var url = '';
 var index = 0;
 $(function () {
     "use strict";
-
     return_combobox_multi('#month', baseHome + '/common/thang', 'Chọn nhân viên');
     return_combobox_multi('#year', baseHome + '/common/nam', 'Chọn loại khách hàng');
     $('#month').val(month).change();
@@ -18,6 +17,19 @@ $(function () {
             fixedColumns:   {
                 left: 2
             },
+            drawCallback: function () {
+                var api = this.api();
+            
+                var  total = api
+                .column( 14 )
+                .data()
+                .reduce( function (a, b) {
+                    return a +  b;
+                }, 0 );
+                $('#total').html(
+                 '<div style="text-align:right;  font-size:1rem;">Tổng: '+Comma(total)+'</div>'
+                );
+              },
             searching: true,
             "lengthMenu": [[7, 15, 25, 50], [7, 15, 25, 50, "All"]],
             paging: false,
@@ -41,9 +53,14 @@ $(function () {
                 {data: "id"},
                 {data: "insurance"},
                 {data: "advance"},
-                {data: "id"}
+                {data: "id"},
+                {data:"thuclinh"}
             ],
             columnDefs: [
+                {
+                    targets: 14,
+                    visible: false,
+                },
                 {
                     // User full name and username
                     targets: 1,

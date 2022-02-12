@@ -159,13 +159,20 @@
                                     </div>
                                     <div class="tab-pane tab-pane-comments pb-1 fade" id="tab-comments" role="tabpanel">
                                         <div class="media mb-1">
-                                            <div class="avatar bg-light-success my-0 ml-0 mr-50">
-                                                <span class="avatar-content">HJ</span>
-                                            </div>
-                                            <div class="media-body">
-                                                <p class="mb-0"><span class="font-weight-bold">Jordan</span> Left the board.</p>
-                                                <small class="text-muted">Today 11:00 AM</small>
-                                            </div>
+                                        <section class="basic-timeline" style="width:100%;">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <ul class="timeline" id="timelineComment">
+                             
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    
+                    </div>
+                </section>
                                         </div>
                                     </div>
                                 </div>
