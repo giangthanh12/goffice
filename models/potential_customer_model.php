@@ -32,7 +32,7 @@ class potential_customer_Model extends Model{
             return $result;
         }
         function loadContact($id) {
-            $query = $this->db->query("SELECT * FROM contact WHERE status = 1 AND customerId = $id  ORDER BY id DESC ");
+            $query = $this->db->query("SELECT *,(SELECT name from position where id = a.position) AS positionName FROM contact a WHERE status = 1 AND customerId = $id  ORDER BY id DESC ");
             $result['data'] = $query->fetchAll(PDO::FETCH_ASSOC);
             return $result;
         }
