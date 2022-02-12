@@ -78,7 +78,7 @@ class Data_Model extends Model
         $temp = $query->fetchAll(PDO::FETCH_ASSOC);
         $result['data'] = $temp[0];
         $query = $this->db->query("SELECT *,
-            (SELECT IF(avatar='',CONCAT('" . URLFILE . "','/uploads/useravatar.png'),CONCAT('" . URLFILE . "/',avatar)) FROM staffs WHERE id=a.staffId) AS hinhanh,
+            (SELECT IF(avatar='',CONCAT('" . HOME . "','/layouts/useravatar.png'),CONCAT('" . URLFILE . "/uploads/nhanvien/',avatar)) FROM staffs WHERE id=a.staffId) AS hinhanh,
             (SELECT name FROM staffs WHERE id = a.staffId) AS username,
             IF(dateTime!='',DATE_FORMAT(dateTime,'%d/%m/%Y %H:%i:%s'),'') as dateTime
             FROM datareports a WHERE status = 1 AND dataId = $id ORDER BY dateTime DESC");
