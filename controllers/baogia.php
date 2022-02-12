@@ -73,31 +73,30 @@ class baogia extends Controller{
             $jsonObj['success'] = true;
             $jsonObj['id'] = $quoteid;
         } else {
-            $jsonObj['msg'] = "Cập nhật không thành công".json_encode($items);
+            $jsonObj['msg'] = "Cập nhật không thành công";
             $jsonObj['success'] = false;
         }
         $jsonObj = json_encode($jsonObj);
         echo $jsonObj;
     }
 
+    function getEmails(){
+        $id = $_REQUEST['id'];
+        $email = $this->model->getEmails($id);
+        $result = json_encode($email);
+        echo $result;
+    }
+
     function send(){ // gui bao gia qua email
         $id = $_REQUEST['id'];
-        $customer = $_REQUEST['customer'];
-        $date = $_REQUEST['date'];
-        $validDate = $_REQUEST['validdate'];
-        $note = $_REQUEST['note'];
-        $items = $_REQUEST['items'];
-        $total = str_replace(',','',$_REQUEST['total']);
-        $tax = str_replace(',','',$_REQUEST['tax']);
-        $data = ['customerId'=>$customer, 'amount'=>$total, 'vat'=>$tax, 'note'=>$note, 'status'=>1, 'date'=>$date, 'validDate'=>$validDate];
-        $quoteid = $this->model->saveQuote($id,$data,$items);
-        if ($quoteid>0) {
-            $sendmail = $this->model->send($quoteid);
+        $emailList = $_REQUEST['emailList'];
+        $sendmail = $this->model->send($id,$emailList);
+        $result = json_decode($sendmail,true);
+        if (isset($result['Messages'][0]['Status']) && ($result['Messages'][0]['Status']=='success')) {
             $jsonObj['msg'] = "Đã ghi báo giá và email cho khách hàng";
             $jsonObj['success'] = true;
-            $jsonObj['id'] = $quoteid;
         } else {
-            $jsonObj['msg'] = "Cập nhật không thành công";
+            $jsonObj['msg'] = "Lỗi khi gửi email";
             $jsonObj['success'] = false;
         }
         $jsonObj = json_encode($jsonObj);
@@ -115,34 +114,17 @@ class baogia extends Controller{
         $this->view->render("baogia/print");
     }
 
-    // function del(){
-    //     $id = $_REQUEST['id'];
-    //     if ($this->model->delObj($id)) {
-    //         $jsonObj['msg'] = "Đã xóa item";
-    //         $jsonObj['success'] = true;
-    //     } else {
-    //         $jsonObj['msg'] = "Xóa không thành công";
-    //         $jsonObj['success'] = false;
-    //     }
-    //     $jsonObj = json_encode($jsonObj);
-    //     echo $jsonObj;
-    // }
-    //
-    // function addcomment(){
-    //     $id = $_REQUEST['id'];
-    //     $comment = $_REQUEST['comment'];
-    //     $return = $this->model->addcomment($id,$comment);
-    //     if ($return['query']) {
-    //         $jsonObj['msg'] = "Cập nhật thành công";
-    //         $jsonObj['success'] = true;
-    //         $jsonObj['receiver'] = $return['receiver'];
-    //     } else {
-    //         $jsonObj['msg'] = "Lỗi khi cập nhật database";
-    //         $jsonObj['success'] = false;
-    //     }
-    //     $jsonObj = json_encode($jsonObj);
-    //     echo $jsonObj;
-    // }
+    function dataTable(){
+        $jsonObj = $this->model->listObj();
+        $jsonObj = json_encode($jsonObj);
+        echo $jsonObj;
+    }
+
+    function printQuote(){
+        $id = $_REQUEST['id'];
+        $this->view->quote = $this->model->printQuote($id);
+        $this->view->render("baogia/print");
+    }
     //
     // function completed(){
     //     $id = $_REQUEST['id'];
@@ -157,6 +139,7 @@ class baogia extends Controller{
     //     echo $jsonObj;
     // }
     //
+
 
 }
 ?>
