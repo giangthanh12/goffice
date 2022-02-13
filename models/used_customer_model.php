@@ -1,7 +1,7 @@
 <?php
 class used_customer_Model extends Model{
-    function __construst(){
-        parent::__construst();
+    function __construct(){
+        parent::__construct();
     }
 
         function getStaff() {
@@ -50,7 +50,7 @@ class used_customer_Model extends Model{
             return $result;
         }
         function addObj($data) {
-           $result = $this->insert("customer",$data);
+           $result = $this->insert("customers",$data);
            return $result;
         }
         function listObj() {
@@ -66,11 +66,11 @@ class used_customer_Model extends Model{
             return $result;
         }
         function updateObj($id, $data) {
-            $result = $this->update('customer', $data, "id = $id");
+            $result = $this->update('customers', $data, "id = $id");
             return $result;
         }
         function delObj($id, $data) {
-            $result = $this->update('customer', $data, "id = $id");
+            $result = $this->update('customers', $data, "id = $id");
             return $result;
         }
         function checkPhone($idCustomer, $phone) {
