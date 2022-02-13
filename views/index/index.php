@@ -8,7 +8,7 @@
         <div class="content-body">
             <section id="dashboard-ecommerce">
                 <div class="row match-height">
-                    <div class="col-xl-4 col-md-6 col-12">
+                    <!-- <div class="col-xl-4 col-md-6 col-12">
                         <div class="card card-congratulation-medal">
                             <div class="card-body">
                                 <h5 id="nguoigui"></h5>
@@ -17,13 +17,13 @@
                                     <span>Bạn có <span id="tinmoi" style="color:red"></span> tin nhắn chưa đọc!</span>
                                 </h6>
                                 <a href="inbox" type="button" class="btn btn-primary">Xem tất cả</a>
-                                <!-- <img src="styles/app-assets/images/illustration/badge.svg" class="congratulation-medal" alt="Medal Pic" /> -->
+                                <img src="styles/app-assets/images/illustration/badge.svg" class="congratulation-medal" alt="Medal Pic" />
                             </div>
                         </div>
-                    </div>
+                    </div> -->
 
                     <!-- Statistics Card -->
-                    <div class="col-xl-8 col-md-6 col-12">
+                    <!-- <div class="col-xl-8 col-md-6 col-12">
                         <div class="card card-statistics">
                             <div class="card-header">
                                 <h4 class="card-title">Báo cáo thống kê</h4>
@@ -88,7 +88,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <!--/ Statistics Card -->
                 </div>
 
@@ -286,7 +286,7 @@
 
                 <div class="row match-height">
                     <!-- Company Table Card -->
-                    <div class="col-lg-8 col-12">
+                    <!-- <div class="col-lg-8 col-12">
                         <div class="card card-company-table">
                             <div class="card-body p-0">
                                 <div class="table-responsive">
@@ -364,7 +364,7 @@
                                                 </div>
                                             </td>
                                         </tr>
-                                        <!-- <tr>
+                                        <tr>
                                                 <td>
                                                     <div class="d-flex align-items-center">
                                                         <div class="avatar rounded">
@@ -553,17 +553,17 @@
                                                         <i data-feather="trending-up" class="text-success font-medium-1"></i>
                                                     </div>
                                                 </td>
-                                            </tr> -->
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <!--/ Company Table Card -->
 
                     <!-- Developer Meetup Card -->
-                    <div class="col-lg-4 col-md-6 col-12">
+                    <!-- <div class="col-lg-4 col-md-6 col-12">
                         <div class="card card-developer-meetup">
                             <div class="meetup-img-wrapper rounded-top text-center">
                                 <img src="<?=HOME?>/styles/app-assets/images/illustration/email.svg" alt="Meeting Pic" height="170" />
@@ -621,11 +621,11 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <!--/ Developer Meetup Card -->
 
                     <!-- Browser States Card -->
-                    <div class="col-lg-4 col-md-6 col-12">
+                    <!-- <div class="col-lg-4 col-md-6 col-12">
                         <div class="card card-browser-states">
                             <div class="card-header">
                                 <div>
@@ -695,11 +695,11 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <!--/ Browser States Card -->
 
                     <!-- Goal Overview Card -->
-                    <div class="col-lg-4 col-md-6 col-12">
+                    <!-- <div class="col-lg-4 col-md-6 col-12">
                         <div class="card">
                             <div class="card-header d-flex justify-content-between align-items-center">
                                 <h4 class="card-title">KPI Cá nhân</h4>
@@ -719,11 +719,11 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <!--/ Goal Overview Card -->
 
                     <!-- Transaction Card -->
-                    <div class="col-lg-4 col-md-6 col-12">
+                    <!-- <div class="col-lg-4 col-md-6 col-12">
                         <div class="card card-transaction">
                             <div class="card-header">
                                 <h4 class="card-title">Quản lý công việc</h4>
@@ -809,7 +809,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <!--/ Transaction Card -->
                 </div>
             </section>
