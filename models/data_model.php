@@ -38,7 +38,7 @@ class Data_Model extends Model
         if ($denngay != '') {
             $dieukien .= " AND inputDate <= '$denngay' ";
         }
-        $query = $this->db->query("SELECT id FROM data $dieukien ");
+        $query = $this->db->query("SELECT id FROM data $dieukien");
         $temp = $query->fetchAll(PDO::FETCH_ASSOC);
 
         if ($temp) {
@@ -52,7 +52,7 @@ class Data_Model extends Model
             (SELECT name FROM staffs WHERE id = inputId) as input,
             (SELECT name FROM datasource WHERE id= sourceId) as source,
             IFNULL((SELECT name FROM staffs WHERE id = staffId),'') as staff
-            FROM data $dieukien ORDER BY id DESC LIMIT $offset,$rows ");
+            FROM data $dieukien ORDER BY inputDate DESC LIMIT $offset,$rows ");
         $temp = $query->fetchAll(PDO::FETCH_ASSOC);
         if ($temp) {
             $result['data'] = $temp;

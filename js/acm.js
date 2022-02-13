@@ -282,7 +282,7 @@ $(function () {
                     .every(function () {
                         var column = this;
                         var select = $(
-                            '<select id="UserPlan" class="form-control text-capitalize mb-md-0 mb-2"><option value=""> Tài khoản </option></select>'
+                            '<select id="UserPlan" class="form-control text-capitalize mb-md-0 mb-2"></select>'
                         )
                             .appendTo(".taikhoan_filter")
                             .on("change", function () {
