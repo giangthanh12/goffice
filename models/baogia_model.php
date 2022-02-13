@@ -1,19 +1,23 @@
 <?php
 class Baogia_model extends Model{
-    function __construst(){
-        parent::__construst();
+    function __construct(){
+        parent::__construct();
     }
 
     function listObj(){
-        $query = $this->db->query("SELECT * ,FORMAT(tien_sau_ck,0) AS tien_sau_ck,
-        IFNULL((SELECT ten_day_du FROM khachhang WHERE khach_hang = khachhang.id AND tinh_trang > 0), '-') AS khach_hang ,
-        IFNULL((SELECT name FROM nhanvien WHERE nhan_vien = nhanvien.id AND tinh_trang > 0), '-') AS nhan_vien
-         FROM baogia  WHERE tinh_trang>0 order by ngay DESC");
+        $query = $this->db->query("SELECT '' AS responsive_id, id AS invoice_id, 
+            DATE_FORMAT('Y-m-d',date) AS issued_date,
+            IFNULL((SELECT name FROM customers WHERE id=customerId),'Unknown') AS client_name,
+            IFNULL((SELECT fullName FROM customers WHERE id=customerId),'-') AS email,'' AS service,
+            FORMAT(amount,0) AS total, '' AS avatar, date AS due_date,
+            IF(status=1,'Mới tạo',IF(status=2,'Đã gửi',IF(status=3,'Đã chốt','Hủy'))) AS invoice_status,
+            IFNULL((SELECT name FROM staffs WHERE id=staffId),'') AS balance
+            FROM quotation  WHERE status>0 order by `date` DESC");
         $result['data'] = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }
 
-    function send($id)
+    function send($id,$emailList)
     {
         $query =  $this->db->query("SELECT *,
             (SELECT fullName FROM customers WHERE id=customerId) AS khachhang
@@ -25,9 +29,10 @@ class Baogia_model extends Model{
         $sub = $query->fetchAll(PDO::FETCH_ASSOC);
         $tablebody = "";
         $totalTable = 0;
+        $totalVat = 0;
         $i=1;
         foreach ($sub as $item) {
-            $totalRow = $item['quantity']*($item['price']-$item['reduce'])*(1-$item['chietkhau']/100);
+            $totalRow = $item['quantity']*($item['price']-$item['reduce'])*(1-$item['discount']/100);
             $vat = $totalRow*$item['vat']/100;
             $totalTable += $totalRow;
             $totalVat += $vat;
@@ -89,7 +94,6 @@ class Baogia_model extends Model{
                   <br>
                   Nếu cần thêm thông tin tư vấn, Quý khách vui lòng gọi số Hotline bên dưới
                   <br><br>
-
                   Trân trọng! <br>
                   --------------------------<br>
                   Phòng kinh doanh công ty GEMS<span style="color:red">TECH</span><br>
@@ -103,12 +107,18 @@ class Baogia_model extends Model{
             </div>
             </body>
             </html>';
+            $tolist = [];
+            $mailto = explode(";",$emailList);
+            foreach ($mailto AS $key=>$item)
+                if (filter_var($item, FILTER_VALIDATE_EMAIL))
+                    $tolist[$key] = array('Email' => $item, 'Name'=>'Khách hàng');
             $from = ['Email' => 'info@gemstech.com.vn', 'Name' => 'G-office'];
-            $tolist = [['Email' => 'hai@vdata.com.vn', 'Name' => 'Khách hàng']];
+            // $tolist = [['Email' => 'info@thuonghieuweb.com', 'Name' => 'Khách hàng']];
             $subject = 'Báo giá gửi quý khách hàng';
             $textpart = 'Báo giá gửi từ hệ thống G-office';
             $result = $this->sendmail($from, $tolist, [], [], $subject, $noidung, $textpart);
         return $result;
+        // return $tolist;
     }
 
     function saveQuote($id,$data,$items){
@@ -152,76 +162,76 @@ class Baogia_model extends Model{
         return $id;
     }
 
-    function updateObj($id, $data)
+    // function updateObj($id, $data)
+    // {
+    //     $data_bg['ngay'] = $data['ngay'];
+    //     $data_bg['khach_hang'] = $data['khach_hang'];
+    //     $data_bg['nhan_vien'] = $data['nhan_vien'];
+    //     $data_bg['tien_truoc_ck'] = str_replace( ',', '', $data['tien_truoc_ck']);
+    //     $data_bg['chiet_khau'] = str_replace( ',', '', $data['chiet_khau']);
+    //     $data_bg['tien_sau_ck'] = str_replace( ',', '', $data['tien_sau_ck']);
+    //     $data_bg['noi_dung'] = $data['noi_dung'];
+    //     $data_bg['tinh_trang'] = $data['tinh_trang'];
+    //     if($data['dinh_kem'] != ''){
+    //         $data_bg['dinh_kem'] = $data['dinh_kem'];
+    //     }
+    //     $query = $this->update("baogia",$data_bg,"id = $id");
+    //     if($query){
+    //         //xoa het baogia sub
+    //         $query = $this->delete("baogiasub","bao_gia = $id");
+    //         for($i=0;$i < count($data['id_child']);$i++){
+    //             $child['bao_gia'] = $id;
+    //             $child['dich_vu'] = $data['id_child'][$i];
+    //             $child['so_luong'] = $data['so_luong_child'][$i];
+    //             $child['don_gia'] = str_replace( ',', '', $data['dongia_child'][$i]);
+    //             $child['loai'] = $data['loai_child'][$i];
+    //             $child['thue_vat'] = $data['thuevat_child'][$i];
+    //             $child['tien_thue'] = str_replace( ',', '', $data['tienthue_child'][$i]);
+	// 			$child['tu_ngay'] = $data['ngays_child'][$i];
+    //             $child['den_ngay'] = $data['ngaye_child'][$i];
+    //             $child['chiet_khau_tm'] = str_replace( ',', '', $data['chietkhau_child'][$i]);
+    //             $child['thanh_tien'] = str_replace( ',', '', $data['thanhtien_child'][$i]);
+    //             $child['tinh_trang'] = 1;
+    //             $this->insert("baogiasub",$child);
+    //         }
+    //     }
+    //     return $query;
+    // }
+
+
+    // function delObj($id,$data)
+    // {
+    //     $query = $this->update("baogia",$data,"id = $id");
+    //     $query = $this->update("baogiasub",$data,"bao_gia = $id");
+    //     return $query;
+    // }
+    //
+    function getEmails($id)
     {
-        $data_bg['ngay'] = $data['ngay'];
-        $data_bg['khach_hang'] = $data['khach_hang'];
-        $data_bg['nhan_vien'] = $data['nhan_vien'];
-        $data_bg['tien_truoc_ck'] = str_replace( ',', '', $data['tien_truoc_ck']);
-        $data_bg['chiet_khau'] = str_replace( ',', '', $data['chiet_khau']);
-        $data_bg['tien_sau_ck'] = str_replace( ',', '', $data['tien_sau_ck']);
-        $data_bg['noi_dung'] = $data['noi_dung'];
-        $data_bg['tinh_trang'] = $data['tinh_trang'];
-        if($data['dinh_kem'] != ''){
-            $data_bg['dinh_kem'] = $data['dinh_kem'];
-        }
-        $query = $this->update("baogia",$data_bg,"id = $id");
-        if($query){
-            //xoa het baogia sub
-            $query = $this->delete("baogiasub","bao_gia = $id");
-            for($i=0;$i < count($data['id_child']);$i++){
-                $child['bao_gia'] = $id;
-                $child['dich_vu'] = $data['id_child'][$i];
-                $child['so_luong'] = $data['so_luong_child'][$i];
-                $child['don_gia'] = str_replace( ',', '', $data['dongia_child'][$i]);
-                $child['loai'] = $data['loai_child'][$i];
-                $child['thue_vat'] = $data['thuevat_child'][$i];
-                $child['tien_thue'] = str_replace( ',', '', $data['tienthue_child'][$i]);
-				$child['tu_ngay'] = $data['ngays_child'][$i];
-                $child['den_ngay'] = $data['ngaye_child'][$i];
-                $child['chiet_khau_tm'] = str_replace( ',', '', $data['chietkhau_child'][$i]);
-                $child['thanh_tien'] = str_replace( ',', '', $data['thanhtien_child'][$i]);
-                $child['tinh_trang'] = 1;
-                $this->insert("baogiasub",$child);
-            }
-        }
-        return $query;
-    }
-
-
-    function delObj($id,$data)
-    {
-        $query = $this->update("baogia",$data,"id = $id");
-        $query = $this->update("baogiasub",$data,"bao_gia = $id");
-        return $query;
-    }
-
-    function get_files($id)
-    {
-        $query =  $this->db->query("SELECT dinh_kem FROM baogia WHERE id = $id");
-        $temp = $query->fetchAll(PDO::FETCH_ASSOC);
-        $result = $temp[0];
-        return $result;
-    }
-
-    function xoafile($id,$data)
-    {
-        $query = $this->update("baogia",$data,"id = $id");
-        return $query;
-    }
-
-    function nhanvien(){
         $result = array();
-        $query = $this->db->query("SELECT id, name AS `text` FROM nhanvien WHERE tinh_trang > 0");
+        $query =  $this->db->query("SELECT id, email FROM contact WHERE status = 1 AND customerId=$id ");
         if ($query)
-        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+            $result = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }
+    //
+    // function xoafile($id,$data)
+    // {
+    //     $query = $this->update("baogia",$data,"id = $id");
+    //     return $query;
+    // }
+
+    // function nhanvien(){
+    //     $result = array();
+    //     $query = $this->db->query("SELECT id, name AS `text` FROM nhanvien WHERE tinh_trang > 0");
+    //     if ($query)
+    //     $result = $query->fetchAll(PDO::FETCH_ASSOC);
+    //     return $result;
+    // }
 
     function getCustomer($keyword){
         $result = array();
         $query = $this->db->query("SELECT id, name AS `text` FROM customers  WHERE status>0 AND name LIKE '%$keyword%' ORDER BY id DESC ");
-
         if ($query)
             $result['results'] = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;
@@ -253,87 +263,62 @@ class Baogia_model extends Model{
         }
         return $query;
     }
-    function sanpham(){
-        $result = array();
-        $query = $this->db->query("SELECT id, name AS `text` FROM sanpham WHERE tinh_trang > 0");
-        if ($query)
-        $result = $query->fetchAll(PDO::FETCH_ASSOC);
-        return $result;
-    }
-    function status_cskh(){
-        $result = array();
-        $query = $this->db->query("SELECT id, name AS `text` FROM tinhtrang_chamsocbaogia WHERE tinh_trang > 0");
-        if ($query)
-        $result = $query->fetchAll(PDO::FETCH_ASSOC);
-        return $result;
-    }
+    // function sanpham(){
+    //     $result = array();
+    //     $query = $this->db->query("SELECT id, name AS `text` FROM sanpham WHERE tinh_trang > 0");
+    //     if ($query)
+    //     $result = $query->fetchAll(PDO::FETCH_ASSOC);
+    //     return $result;
+    // }
 
-
-    function getdata_dichvu($id){
-        $result = array();
-        $query = $this->db->query("SELECT *,FORMAT(don_gia,0) AS don_gia, FORMAT(thue_vat,0) AS thue_vat
-        FROM dichvu WHERE id = $id");
-        $temp = $query->fetchAll(PDO::FETCH_ASSOC);
-        $result = $temp[0];
-        return $result;
-    }
-
-    function getdata_sanpham($id){
-        $result = array();
-        $query = $this->db->query("SELECT *,FORMAT(don_gia,0) AS don_gia, FORMAT(thue_vat,0) AS thue_vat
-        FROM sanpham WHERE id = $id");
-        $temp = $query->fetchAll(PDO::FETCH_ASSOC);
-        $result = $temp[0];
-        return $result;
-    }
-
-    function lichsuchamsoc($id){
-
-        $query = $this->db->query("SELECT * ,
-        IFNULL((SELECT name FROM nhanvien WHERE nhan_vien = nhanvien.id AND tinh_trang > 0), 'Nhân viên') AS nhan_vien,
-        IFNULL((SELECT hinh_anh FROM nhanvien WHERE nhan_vien = nhanvien.id AND tinh_trang > 0), 'https://velo.vn/goffice/users/gemstech/uploads/useravatar.png') AS hinh_anh,
-        IFNULL((SELECT name FROM tinhtrang_chamsocbaogia WHERE status = tinhtrang_chamsocbaogia.id), '-') AS status
-        FROM baogia_chamsoc WHERE bao_gia = $id ORDER BY ngay_gio DESC");
-        $result = $query->fetchAll(PDO::FETCH_ASSOC);
-        return $result;
-    }
-    function add_chamsoc($data){
-        $query = $this->insert("baogia_chamsoc",$data);
-        return $query;
-    }
-
-    function load_id_lead($id){
-        $query = $this->db->query("SELECT *  FROM data WHERE id = $id");
-        $temp = $query->fetchAll(PDO::FETCH_ASSOC);
-        $result = $temp[0];
-        return $result;
-    }
-    function load_id_kh($id){
-        $query = $this->db->query("SELECT *  FROM khachhang WHERE id = $id");
-        $temp = $query->fetchAll(PDO::FETCH_ASSOC);
-        $result = $temp[0];
-        return $result;
-    }
-    function update_lead($id, $data)
+    function printQuote($id)
     {
-        $query = $this->update("data",$data,"id = $id");
-        return $query;
+        $return = array();
+        $query =  $this->db->query("SELECT *,
+            (SELECT fullName FROM customers WHERE id=customerId) AS khachhang
+            FROM quotation WHERE id = $id");
+        $temp = $query->fetchAll(PDO::FETCH_ASSOC);
+        $return['quote'] = $temp[0];
+        $query =  $this->db->query("SELECT *,
+            (SELECT name FROM products WHERE id=goods) AS product
+            FROM subquotation WHERE quotationId = $id");
+        $return['items'] = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $return;
     }
-    function update_kh($id, $data)
-    {
-        $query = $this->update("khachhang",$data,"id = $id");
-        return $query;
-    }
-    function movetokh($data)
-    {
-        $query = $this->insert("khachhang",$data);
-        if($query){
-            $query2 = $this->db->query("SELECT id FROM khachhang order by id desc limit 1");
-            $temp = $query2->fetchAll(PDO::FETCH_ASSOC);
-            $result = $temp[0];
-            return $result;
-        }
-    }
+
+    //
+    // function getdata_dichvu($id){
+    //     $result = array();
+    //     $query = $this->db->query("SELECT *,FORMAT(don_gia,0) AS don_gia, FORMAT(thue_vat,0) AS thue_vat
+    //     FROM dichvu WHERE id = $id");
+    //     $temp = $query->fetchAll(PDO::FETCH_ASSOC);
+    //     $result = $temp[0];
+    //     return $result;
+    // }
+
+    // function getdata_sanpham($id){
+    //     $result = array();
+    //     $query = $this->db->query("SELECT *,FORMAT(don_gia,0) AS don_gia, FORMAT(thue_vat,0) AS thue_vat
+    //     FROM sanpham WHERE id = $id");
+    //     $temp = $query->fetchAll(PDO::FETCH_ASSOC);
+    //     $result = $temp[0];
+    //     return $result;
+    // }
+
+    // function lichsuchamsoc($id){
+    //
+    //     $query = $this->db->query("SELECT * ,
+    //     IFNULL((SELECT name FROM nhanvien WHERE nhan_vien = nhanvien.id AND tinh_trang > 0), 'Nhân viên') AS nhan_vien,
+    //     IFNULL((SELECT hinh_anh FROM nhanvien WHERE nhan_vien = nhanvien.id AND tinh_trang > 0), 'https://velo.vn/goffice/users/gemstech/uploads/useravatar.png') AS hinh_anh,
+    //     IFNULL((SELECT name FROM tinhtrang_chamsocbaogia WHERE status = tinhtrang_chamsocbaogia.id), '-') AS status
+    //     FROM baogia_chamsoc WHERE bao_gia = $id ORDER BY ngay_gio DESC");
+    //     $result = $query->fetchAll(PDO::FETCH_ASSOC);
+    //     return $result;
+    // // }
+    // function add_chamsoc($data){
+    //     $query = $this->insert("baogia_chamsoc",$data);
+    //     return $query;
+    // }
 
 }
 ?>

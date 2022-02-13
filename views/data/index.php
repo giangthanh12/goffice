@@ -475,6 +475,6 @@
         funDel = <?=$this->funDel?>;
      console.log(funCall,funAdd,funShare,funCreateChange,funImport,funEdit,funDel);
     let username = '<?php echo $_SESSION['user']['username'] ?>';
-    let hinhanh = '<?php echo $_SESSION['user']['avatar'] ?>';
+    let hinhanh = '<?php echo URLFILE.'/uploads/nhanvien/'.$_SESSION['user']['avatar'] ?>';
 </script>
 <script src="<?= HOME ?>/js/data.js"></script>

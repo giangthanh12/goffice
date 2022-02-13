@@ -353,11 +353,15 @@
                                                         <h6 class="py-1 mx-1 mb-0 font-medium-2">
                                                             <i data-feather="lock" class="font-medium-3 mr-25"></i>
                                                             <span class="align-middle">Chi tiết</span>
+                                                            <button class="dt-button add-new-contact btn btn-primary mt-50" onclick="showFormContact()" tabindex="0" aria-controls="DataTables_Table_0" type="button">
+                                                                <span>Thêm mới</span>
+                                                            </button>
                                                         </h6>
                                                         <table class="table table-striped table-borderless" id="dichvu-list-table">
                                                             <thead class="thead-light ">
                                                                 <tr>
                                                                     <th>Họ tên</th>
+                                                                    <th>Chức danh</th>
                                                                     <th>Điện thoại</th>
                                                                     <th>Email</th>
                                                                     <th>Facebook</th>
@@ -393,7 +397,63 @@
                         </div>
                     </div>
 
+                    <div class="modal fade text-left" id="updateinfoContact" tabindex="-1" role="dialog" aria-labelledby="myModalLabel16" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title-contact" id="myModalLabel16"></h4>
+                                </div>
+                                <div class="modal-body">
+                                    <!-- <input type="hidden" id="id" name="id" /> -->
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <form class="form-validate" enctype="multipart/form-data" id="dgContact">
+                                                <input type="hidden" name="idCustomerContact" id="idCustomerContact" value=''>
+                                                <div class="row mt-1">
+                                                    <div class="col-md-6 form-group">
+                                                    <label for="nameContact">Tên liên lạc</label>
+                                                        <input id="nameContact" name="nameContact" type="text" class="form-control" />
+                                                    </div>
+                                                    <div class="col-md-6 form-group">
+                                                        <label for="positionContact">Chức danh</label>
+                                                        <select id="positionContact" name="positionContact" class="form-control">
 
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-6 form-group">
+                                                        <label for="phoneNumberContact">Số điện thoại</label>
+                                                        <input id="phoneNumberContact" name="phoneNumberContact" type="text" class="form-control" />
+                                                    </div>
+                                                    <div class="col-md-6 form-group">
+                                                        <label for="emailContact">Email</label>
+                                                        <input id="emailContact" name="emailContact" type="email" class="form-control" />
+                                                    </div>
+                                                    <div class="col-md-6 form-group">
+                                                        <label for="facebook">Facebook(nếu có)</label>
+                                                        <input id="facebook" name="facebook" type="text" class="form-control" />
+                                                    </div>
+                                                    <div class="col-md-6 form-group">
+                                                        <label for="zalo">Zalo(nếu có)</label>
+                                                        <input id="zalo" name="zalo" type="text" class="form-control" />
+                                                    </div>
+                                                   
+                                                    <div class="col-md-6 form-group">
+                                                        <label for="noteContact">Chú thích</label>
+                                                       <textarea name="noteContact" class="form-control" id="noteContact" cols="30" rows="5"></textarea>
+                                                    </div>
+                                                    <div class="col-12 d-flex flex-sm-row flex-column mt-2">
+                                                        <button type="submit"  class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Cập nhật</button>
+                                                        <button type="reset" class="btn btn-outline-secondary" data-dismiss="modal">Bỏ qua</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
 
 
@@ -601,10 +661,6 @@
 
                     </div>
                     <!--end modal add/edit bao gia-->
-
-
-
-
 
                 </div>
             </section>

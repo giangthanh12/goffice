@@ -33,6 +33,7 @@ class contact extends Controller{
             $phoneNumber = !empty($_REQUEST['phoneNumber']) ? $_REQUEST['phoneNumber'] : '';
             $email = !empty($_REQUEST['email']) ? $_REQUEST['email'] : '';
             $facebook = !empty($_REQUEST['facebook']) ? $_REQUEST['facebook'] : '';
+            $position = !empty($_REQUEST['position']) ? $_REQUEST['position'] : '';
             $zalo = !empty($_REQUEST['zalo']) ? $_REQUEST['zalo'] : '';
             $note = !empty($_REQUEST['note']) ? $_REQUEST['note'] : '';
             $status = !empty($_REQUEST['status']) ? $_REQUEST['status'] : 1;
@@ -47,6 +48,7 @@ class contact extends Controller{
                     'phoneNumber' =>$phoneNumber,
                     'email'=>$email,
                     'facebook' =>$facebook,
+                    'position'=>$position,
                     'zalo'=>$zalo,
                     'note' =>$note,
                     'status' =>$status
