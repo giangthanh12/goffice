@@ -425,8 +425,9 @@
                                             <div class="form-group">
                                                 <label for="opportunity">Cơ hội</label>
                                                 <select id="opportunity" class="select2 form-control" name="opportunity">
-                                                    <option value="1">Ít tiềm năng</option>
-                                                    <option value="2">Tiềm năng nhất</option>
+                                                    <option value="1">Nhỏ</option>
+                                                    <option value="2">Trung bình</option>
+                                                    <option value="3">Lớn</option>
                                                 </select>
                                             </div>
                                         </form>
