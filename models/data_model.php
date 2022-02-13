@@ -6,9 +6,8 @@ class Data_Model extends Model
         parent::__construct();
     }
 
-    function addCustomer($dataId, $data)
+    function addCustomer($data)
     {
-        $this->update("data", ['status' => 11], " id=$dataId ");
         $this->insert("customers", $data);
         return $this->db->lastInsertId();
     }
@@ -26,7 +25,7 @@ class Data_Model extends Model
         $result['data'] = [];
         $result['total'] = 0;
 
-        $dieukien = " WHERE status > 0 ";
+        $dieukien = " WHERE status > 0 AND status != 6 ";
         if ($keyword != '') {
             $dieukien .= " AND (name LIKE '%$keyword%' OR phoneNumber LIKE '%$keyword%') ";
         }

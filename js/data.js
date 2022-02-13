@@ -78,7 +78,7 @@ $(function () {
                     // For Checkboxes
                     targets: 0,
                     render: function (data, type, full, meta) {
-                     
+
                         return (
                             '<div class="custom-control custom-checkbox"> <input class="custom-control-input dt-checkboxes" type="checkbox" value="" id="checkbox' +
                             data +
@@ -113,7 +113,7 @@ $(function () {
                 {
                     targets: 2,
                     render: function (data, type, full, meta) {
-                        return '<a class="text-truncate align-middle" onclick="call(\''+full['phoneNumber']+'\')">' + feather.icons["phone"].toSvg({ class: "font-medium-3 text-primary mr-50" }) + full["phoneNumber"] + '</a>';
+                        return '<a class="text-truncate align-middle" onclick="call(\'' + full['phoneNumber'] + '\')">' + feather.icons["phone"].toSvg({ class: "font-medium-3 text-primary mr-50" }) + full["phoneNumber"] + '</a>';
                     },
                 },
                 {
@@ -153,23 +153,23 @@ $(function () {
                     title: feather.icons["database"].toSvg({ class: "font-medium-3 text-success mr-50" }),
                     render: function (data, type, full, meta) {
                         var html = '<div style="text-align:right;width: 130px;">';
-                      
-                        if(funCreateChange == 1) {
+
+                        if (funCreateChange == 1) {
                             html += '<button type="button" class="btn btn-icon btn-outline-warning waves-effect" data-toggle="tooltip" data-placement="top" data-original-title="Tạo cơ hội" onclick="addLead(' + full['id'] + ',' + full['status'] + ')">';
                             html += '<i class="fas fa-retweet"></i>';
                             html += '</button> &nbsp;';
                         }
-                        if(funEdit == 1) {
+                        if (funEdit == 1) {
                             html += '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" title="Chỉnh sửa" onclick="loaddata(' + full['id'] + ')">';
                             html += '<i class="fas fa-pencil-alt"></i>';
                             html += '</button> &nbsp;';
                         }
-                        if(funDel == 1) {
+                        if (funDel == 1) {
                             html += '<button type="button" class="btn btn-icon btn-outline-danger waves-effect" title="Xóa" id="confirm-text" onclick="xoa(' + full['id'] + ')">';
                             html += '<i class="fas fa-trash-alt"></i>';
                             html += '</button>';
                         }
-                        html+= '</div>';
+                        html += '</div>';
                         return html;
                     },
                     width: 150
@@ -190,30 +190,30 @@ $(function () {
             buttons: [
             ],
             // For responsive popup
-         //   responsive: {
-                // details: {
-                //     display: $.fn.dataTable.Responsive.display.modal({
-                //         header: function (row) {
-                //             return "Chi tiết thông tin data";
-                //         },
-                //     }),
+            //   responsive: {
+            // details: {
+            //     display: $.fn.dataTable.Responsive.display.modal({
+            //         header: function (row) {
+            //             return "Chi tiết thông tin data";
+            //         },
+            //     }),
 
-                //     type: "column",
-                //     renderer: $.fn.dataTable.Responsive.renderer.tableAll({
-                //         tableClass: "table",
-                //         columnDefs: [
-                //             {
-                //                 targets: 1,
-                //                 visible: false,
-                //             },
-                //             {
-                //                 targets: 8,
-                //                 visible: false,
-                //             }
-                //         ],
-                //     }),
-                // },
-          //  },
+            //     type: "column",
+            //     renderer: $.fn.dataTable.Responsive.renderer.tableAll({
+            //         tableClass: "table",
+            //         columnDefs: [
+            //             {
+            //                 targets: 1,
+            //                 visible: false,
+            //             },
+            //             {
+            //                 targets: 8,
+            //                 visible: false,
+            //             }
+            //         ],
+            //     }),
+            // },
+            //  },
             language: {
                 sLengthMenu: "Hiển thị _MENU_",
                 search: "",
@@ -223,7 +223,7 @@ $(function () {
                     previous: "&nbsp;",
                     next: "&nbsp;",
                 },
-                info:"Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
+                info: "Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
             },
             initComplete: function () {
             },
@@ -489,15 +489,15 @@ function chiadata() {
     $("#chiacho").val('').change();
     var table = $(".user-list-table").DataTable();
     var rows = table.column(0).checkboxes.selected();
-    
- 
+
+
     var listdata = '';
     rows.each(function (item) {
         listdata += item + ',';
     })
     console.log(listdata);
     listdata = listdata.slice(0, -1);
-     
+
     if (rows.length > 0) {
         $("#chiadata").modal('show');
         $("#modal-title4").html('Chia data');
@@ -585,15 +585,10 @@ function savechia() {
 // }
 
 function addLead(id, status) {
-    if (status != 11) {
-        $("#add-lead").modal('show');
-        $('#descriptionLead').val();
-        $('#opportunity').val(1).change();
-        dataId = id;
-
-    } else {
-        notify_error('Data đã được chuyển sang khách hàng!');
-    }
+    $("#add-lead").modal('show');
+    $('#descriptionLead').val();
+    $('#opportunity').val(1).change();
+    dataId = id;
 }
 
 function saveAddLead() {
