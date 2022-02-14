@@ -42,33 +42,7 @@ class system extends Controller
         $json = $this->model->getInfo($id);
         echo json_encode($json);
     }
-
-    function add()
-    {
-        if (self::$funAdd == 0) {
-            $jsonObj['msg'] = 'Bạn không có quyền sử dụng chức năng này';
-            $jsonObj['success'] = false;
-            echo json_encode($jsonObj);
-            return false;
-        }
-        $name = isset($_REQUEST['name']) ? $_REQUEST['name'] : '';
-        $value = isset($_REQUEST['gia_tri']) ? $_REQUEST['gia_tri'] : '';
-        $tinhtrang = 1;
-        $data = array(
-            'name' => $name,
-            'value' => $value,
-            'status' => $tinhtrang,
-        );
-        if($this->model->addObj($data)){
-            $jsonObj['msg'] = 'Cập nhật dữ liệu thành công';
-            $jsonObj['success'] = true;
-        } else {
-            $jsonObj['msg'] = 'Cập nhật dữ liệu không thành công';
-            $jsonObj['success'] = false;
-        }
-        echo json_encode($jsonObj);
-    }
-
+    
     function update()
     {
         if (self::$funEdit == 0) {
@@ -101,26 +75,5 @@ class system extends Controller
         
         echo json_encode($jsonObj);
     }
-
-    function del()
-    {
-        if (self::$funDel == 0) {
-            $jsonObj['msg'] = 'Bạn không có quyền sử dụng chức năng này';
-            $jsonObj['success'] = false;
-            echo json_encode($jsonObj);
-            return false;
-        }
-        $id = $_REQUEST['id'];
-        $data = ['tinh_trang'=>0];
-        if($this->model->delInfo($id,$data)){
-            $jsonObj['msg'] = "Xóa dữ liệu thành công";
-            $jsonObj['success'] = true;
-        } else {
-            $jsonObj['msg'] = "Xóa dữ liệu không thành công";
-            $jsonObj['success'] = false;
-        } 
-        echo json_encode($jsonObj);
-    }
 }
-
 ?>

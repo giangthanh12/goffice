@@ -4,18 +4,6 @@ $(function () {
         modal = $("#updateinfo"),
         form = $("#dg");
     var buttons = [];
-    if (funAdd == 1) {
-        buttons.push({
-            text: "Thêm mới",
-            className: "add-new btn btn-" + 'primary' + " mt-50",
-            init: function (api, node, config) {
-                $(node).removeClass("btn-secondary");
-            },
-            action: function (e, dt, node, config) {
-                actionMenu();
-            }
-        });
-    }
     // Users List datatable
     if (dtUserTable.length) {
         dtUserTable.DataTable({
@@ -70,11 +58,6 @@ $(function () {
                             html += '<i class="fas fa-pencil-alt"></i>';
                             html += '</button> &nbsp;';
                         }
-                        if (funDel == 1) {
-                            html += '<button type="button" class="btn btn-icon btn-outline-danger waves-effect" title="Xóa" id="confirm-text" onclick="xoa(' + full['id'] + ')">';
-                            html += '<i class="fas fa-trash-alt"></i>';
-                            html += '</button>';
-                        }
                         return html;
                     },
                     width: 100
@@ -109,13 +92,6 @@ $(function () {
             },
         });
 
-    }
-    function actionMenu() {
-        $("#updateinfo").modal('show');
-        $(".modal-title").html('Thêm thông tin mới');
-        $('#name').val('');
-        $('#gia_tri').val('');
-        url = baseHome + "/system/add";
     }
     // Check Validity
     function checkValidity(el) {
@@ -221,37 +197,4 @@ function save() {
         }
     });
     $('#fm').submit();
-}
-
-function xoa(id) {
-    Swal.fire({
-        title: 'Xóa dữ liệu',
-        text: "Bạn có chắc chắn muốn xóa!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Tôi đồng ý',
-        cancelButtonText: "Hủy",
-        customClass: {
-            confirmButton: 'btn btn-primary',
-            cancelButton: 'btn btn-outline-danger ml-1'
-        },
-        buttonsStyling: false
-    }).then(function (result) {
-        if (result.value) {
-            $.ajax({
-                url: baseHome + "/system/del",
-                type: 'post',
-                dataType: "json",
-                data: { id: id },
-                success: function (data) {
-                    if (data.success) {
-                        notyfi_success(data.msg);
-                        $(".user-list-table").DataTable().ajax.reload(null, false);
-                    }
-                    else
-                        notify_error(data.msg);
-                },
-            });
-        }
-    });
 }
