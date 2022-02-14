@@ -69,6 +69,23 @@ class lead_temp_Model extends Model
         else return [];
     }
 
+    function checkPhone($phoneNumber)
+    {
+        $query = $this->db->query("SELECT COUNT(id) AS total FROM customers WHERE phoneNumber=$phoneNumber AND status > 0  ");
+        $temp = $query->fetchAll(PDO::FETCH_ASSOC);
+        if ($temp[0]['total'] > 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    function addCustomer($data)
+    {
+        $this->insert("customers", $data);
+        return $this->db->lastInsertId();
+    }
+
     function insertLead($data)
     {
         $query = $this->insert("lead", $data);
