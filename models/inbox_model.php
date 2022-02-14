@@ -41,6 +41,12 @@ class inbox_Model extends Model{
         $query = $this->db->query("SELECT COUNT(1) AS total FROM events $dieukien ");
         $temp = $query->fetchAll(PDO::FETCH_ASSOC);
         $return['inbox'] = $temp[0]['total'];
+
+        $dieukien = " WHERE status in (1,2) AND receiverId LIKE '%$user%' ";
+        $query = $this->db->query("SELECT COUNT(1) AS total FROM events $dieukien ");
+        $temp = $query->fetchAll(PDO::FETCH_ASSOC);
+        $return['inboxNotSee'] = $temp[0]['total'];
+
         $dieukien = " WHERE status>0 AND senderId=$user ";
         $query = $this->db->query("SELECT COUNT(1) AS total FROM events $dieukien ");
         $temp = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -51,7 +57,23 @@ class inbox_Model extends Model{
         $return['trash'] = $temp[0]['total'];
         return $return;
     }
-
+    function getInboxNotSeen() {
+        $result = -1;
+        $user = '"'.$_SESSION['user']['staffId'].'"';
+        $dieukien = " WHERE status in (1,2) AND receiverId LIKE '%$user%' ";
+        $query = $this->db->query("SELECT COUNT(1) AS total FROM events $dieukien ");
+        $temp = $query->fetchAll(PDO::FETCH_ASSOC);
+        $result = $temp[0]['total'];
+        return $result;
+    }
+    function getAvatar($idStaff) {
+        $avatar = '';
+        $query = $this->db->query("SELECT avatar FROM staffs where status > 0 and status < 7 and id = $idStaff");
+        $temp = $query->fetchAll(PDO::FETCH_ASSOC);
+        if(!empty($temp[0]['avatar'])) 
+        $avatar = $temp[0]['avatar'];
+        return $avatar;
+    }
     function deleteMsg($ids){
         $query = $this->update("events", ['status'=>0], " id IN ($ids) ");
         return $query;
@@ -122,7 +144,6 @@ class inbox_Model extends Model{
             $temp = $query->fetchAll(PDO::FETCH_ASSOC);
         return $temp;
     }
-
     function checkmail(){ // dung cho notification
         $result = array();
         $nguoinhan = '"'.$_SESSION['user']['staffId'].'"';

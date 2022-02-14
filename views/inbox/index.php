@@ -19,26 +19,13 @@
                                 <a href="javascript:void(0)" onclick="listInbox()" class="list-group-item list-group-item-action active">
                                     <i data-feather="mail" class="font-medium-3 mr-50"></i>
                                     <span class="align-middle">Hộp thư (<?=$this->count['inbox']?>)</span>
-                                    <span class="badge badge-light-primary badge-pill float-right">3</span>
+                                    <span id="inboxNotSee" class="badge badge-light-primary badge-pill float-right">(<?=$this->count['inboxNotSee']?>)</span>
                                 </a>
                                 <a href="javascript:void(0)" onclick="listSent()"class="list-group-item list-group-item-action">
                                     <i data-feather="send" class="font-medium-3 mr-50"></i>
                                     <span class="align-middle">Đã gửi (<?=$this->count['sent']?>)</span>
                                 </a>
-                                <!-- <a href="javascript:void(0)" class="list-group-item list-group-item-action">
-                                    <i data-feather="edit-2" class="font-medium-3 mr-50"></i>
-                                    <span class="align-middle">Draft</span>
-                                    <span class="badge badge-light-warning badge-pill float-right">2</span>
-                                </a>
-                                <a href="javascript:void(0)" class="list-group-item list-group-item-action">
-                                    <i data-feather="star" class="font-medium-3 mr-50"></i>
-                                    <span class="align-middle">Starred</span>
-                                </a>
-                                <a href="javascript:void(0)" class="list-group-item list-group-item-action">
-                                    <i data-feather="info" class="font-medium-3 mr-50"></i>
-                                    <span class="align-middle">Spam</span>
-                                    <span class="badge badge-light-danger badge-pill float-right">5</span>
-                                </a> -->
+                            
                                 <a href="javascript:void(0)" onclick="listTrash()" class="list-group-item list-group-item-action">
                                     <i data-feather="trash" class="font-medium-3 mr-50"></i>
                                     <span class="align-middle">Thùng rác (<?=$this->count['trash']?>)</span>
@@ -157,7 +144,7 @@
                                     <li class="media" onclick="toggleEmail('.$item['id'].')" id="'.$item['id'].'">
                                         <div class="media-left pr-50">
                                             <div class="avatar">
-                                                <img src="'.$avatar.'" alt="avatar" />
+                                                <img onerror='."this.src='https://velo.vn/goffice-test/layouts/useravatar.png'".' src="'.$avatar.'" alt="avatar" />
                                             </div>
                                             <div class="user-action">
                                                 <div class="custom-control custom-checkbox '.$dnone.'">
@@ -173,7 +160,7 @@
                                                     <span class="text-truncate">'.$item['title'].'</span>
                                                 </div>
                                                 <div class="mail-meta-item">
-                                                    <span class="mr-50 bullet '.$new.' bullet-sm"></span>
+                                                    <span id="alertInbox'.$item['id'].'" class="mr-50 bullet '.$new.' bullet-sm"></span>
                                                     <span class="mail-date">'.$item['dateTime'].'</span>
                                                 </div>
                                             </div>
@@ -353,7 +340,7 @@
                                         <div class="card-header email-detail-head">
                                             <div class="user-details d-flex justify-content-between align-items-center flex-wrap">
                                                 <div class="avatar mr-75">
-                                                    <img src="" id="senderImg" alt="avatar img holder" width="48" height="48" />
+                                                    <img src="<?=HOME?>/layouts/useravatar.png'" id="senderImg" onerror="this.src='<?=HOME?>/layouts/useravatar.png'" alt="avatar img holder" width="48" height="48" />
                                                 </div>
                                                 <div class="mail-items">
                                                     <h5 class="mb-0" id="senderName"></h5>

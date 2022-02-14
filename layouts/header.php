@@ -60,6 +60,7 @@ $notifications = $model->getNotification();
         activeurl = activeurl.split("/");
         activeurl = activeurl[3];
         var baseUser = '<?= $_SESSION['user']['staffId']; ?>';
+ 
         var baseHome = '<?= HOME ?>';
         let baseUrlFile = '<?= URLFILE ?>';
         let now = '<?= date('Y-m-d H:i:s') ?>';
@@ -144,18 +145,20 @@ $notifications = $model->getNotification();
             <li class="nav-item dropdown dropdown-notification mr-25">
                     <a class="nav-link" href="javascript:void(0);" data-toggle="dropdown">
                         <i class="ficon" data-feather="bell"></i>
-                        <span class="badge badge-pill badge-danger badge-up"><?= !empty($notifications) ? count($notifications): '0' ?></span>
+                        <?php if(!empty($notifications)) { ?>
+                        <span id="countNotifications" class="badge badge-pill badge-danger badge-up"><?=  count($notifications)?></span>
+                        <?php } ?>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-media dropdown-menu-right">
                         <li class="dropdown-menu-header">
                             <div class="dropdown-header d-flex">
                                 <h4 class="notification-title mb-0 mr-auto">Thông báo</h4>
-                                <div class="badge badge-pill badge-light-primary"><?= !empty($notifications) ? count($notifications): '0' ?> tin</div>
+                                <div id="countNotifications1" class="badge badge-pill badge-light-primary"><?= !empty($notifications) ? count($notifications): '0' ?> tin</div>
                             </div>
                         </li>
-                        <li class="scrollable-container media-list">
+                        <li class="scrollable-container media-list notification-items">
                             <?php foreach ($notifications as $item) { ?>
-                            <a class="d-flex" href="<?= HOME ?>/inbox">
+                            <a  data-id="<?= $item['id'] ?>" class="d-flex notification-item<?=$item['id']?>" href="<?= HOME ?>/inbox">
                                 <div class="media d-flex align-items-start">
                                     <div class="media-left">
                                         <div class="avatar">
