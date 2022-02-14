@@ -40,6 +40,31 @@ class staff_Model extends Model{
         
         return $result;
     }
+    function addContract($data) {
+        $query = $this->insert("laborcontract", $data);
+        if ($query)
+            return $this->db->lastInsertId();
+        else
+            return 0;
+    }
+    function loaddataContract($id) {
+        $result = array();
+        $dieukien = "  WHERE id = $id ";
+        $query = $this->db->query("SELECT *,
+                FORMAT(basicSalary,0) AS luong_co_ban,
+                FORMAT(insuranceSalary,0) AS luong_bao_hiem,
+                FORMAT(allowance,0) AS phu_cap,
+                 IF(startDate!='0000-00-00',DATE_FORMAT(startDate,'%d/%m/%Y'),'') as startDateCv,
+            IF(stopDate!='0000-00-00',DATE_FORMAT(stopDate,'%d/%m/%Y'),'') as stopDateCv
+                FROM laborcontract $dieukien ORDER BY id DESC");
+        $temp = $query->fetchAll(PDO::FETCH_ASSOC);
+        $result = $temp[0];
+        return $result;
+    }
+    function updateContract($id, $data) {
+        $query = $this->update("laborcontract", $data, "id = $id");
+        return $query;
+    }
 
     function loadRecord($id) {
         $data = array();
@@ -90,6 +115,10 @@ class staff_Model extends Model{
 
     function del($id){
         $query = $this->update("staffs", ['status'=>0], " id=$id ");
+        return $query;
+    }
+    function delContract($id){
+        $query = $this->update("laborcontract", ['status'=>0], " id=$id ");
         return $query;
     }
     function updateInfoStaff($data,$id){

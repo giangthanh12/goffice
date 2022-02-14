@@ -39,6 +39,7 @@ $(function () {
     if (basicPickr.length) {
         basicPickr.flatpickr({
             dateFormat: "d/m/Y",
+            defaultDate:"today"
         });
     }
 
@@ -394,6 +395,90 @@ function showAdd() {
     }
 
 
+
+    if ($('#formContract').length) {
+        $('#formContract').validate({
+            errorClass: "error",
+            rules: {
+                "nameContract": {
+                    required: true,
+                },
+                "type": {
+                    required: true,
+                },
+              
+                "staffId": {
+                    required: true,
+                },
+                "departmentId": {
+                    required: true,
+                },
+                "position": {
+                    required: true,
+                },
+                "branchId": {
+                    required: true,
+                },
+              
+                "workPlaceId": {
+                    required: true,
+                },
+                "shiftId": {
+                    required: true,
+                },
+                "basicSalary": {
+                    required: true,
+                },
+                "salaryPercentage": {
+                    required: true,
+                },
+              
+                "allowance": {
+                    required: true,
+                },
+                "startDate": {
+                    required: true,
+                },
+              
+                "stopDate": {
+                    required: true,
+                },
+               
+            },
+            messages: {
+                "nameContract": {
+                    required: "Bạn chưa nhập tên hợp đồng ",
+                },
+                "basicSalary": {
+                    required: "Bạn chưa nhập lương cơ bản",
+                },
+                "allowance": {
+                    required: "Bạn chưa nhập phụ cấp",
+                },
+                "salaryPercentage": {
+                    required: "Bạn chưa nhập % lương",
+                },
+                "startDate": {
+                    required: "Bạn chưa nhập ngày bắt đầu",
+                },
+              
+                "stopDate": {
+                    required: "Bạn chưa nhập ngày kết thúc",
+                },
+            },
+           
+        });
+    
+        $('#formContract').on("submit", function (e) {
+            var isValid = $('#formContract').valid();
+            e.preventDefault();
+            if (isValid) {
+                saveContract();
+            }
+        });
+    }
+
+
     // To initialize tooltip with body container
     $("body").tooltip({
         selector: '[data-toggle="tooltip"]',
@@ -477,8 +562,16 @@ function loaddata(id) {
           } else {
             $("#socailForm").trigger("reset");
           }
-
+// load hợp đồng lao động nhân viên
+          $('#staffId').val(id);
           loadRecord(id);
+        //   return_combobox_multi('#staffId', baseHome + '/common/listStaff', 'Lựa chọn nhân viên');
+          return_combobox_multi('#type', baseHome + '/common/typeContracts', 'Lựa chọn loại hợp đồng');
+          return_combobox_multi('#departmentId', baseHome + '/common/departments', 'Lựa chọn phòng ban');
+          return_combobox_multi('#branchId', baseHome + '/common/branchs', 'Lựa chọn chi nhánh');
+          return_combobox_multi('#position', baseHome + '/common/positions', 'Lựa chọn vị trí');
+          return_combobox_multi('#shiftId', baseHome + '/common/shifts', 'Lựa chọn ca làm việc');
+          return_combobox_multi('#workPlaceId', baseHome + '/common/workPlaces', 'Địa điểm làm việc');
         },
         error: function () {
             notify_error('Lỗi truy xuất database');
@@ -649,6 +742,53 @@ function del(id) {
 
 
 
+function delContract(id) {
+    Swal.fire({
+        title: 'Xóa dữ liệu',
+        text: "Bạn có chắc chắn muốn xóa!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Tôi đồng ý',
+        cancelButtonText: 'Hủy',
+        customClass: {
+            confirmButton: 'btn btn-primary',
+            cancelButton: 'btn btn-outline-danger ml-1'
+        },
+        buttonsStyling: false
+    }).then(function (result) {
+        if (result.value) {
+            $.ajax({
+                url: baseHome + "/staff/delContract",
+                type: 'post',
+                dataType: "json",
+                data: {id: id},
+                success: function (data) {
+                    if (data.success) {
+                      
+                        notyfi_success(data.msg);
+                        $('#add-contract').modal('hide');
+                        $("#record-list-table").DataTable().ajax.reload(null, false);
+                    } else
+                        notify_error(data.msg);
+                },
+            });
+        }
+    });
+}
+
+var urlContract = '';
+function showFormContract() {
+    $('#formContract')[0].reset();
+    $('#add-contract').modal('show');
+    var validator = $("#formContract").validate(); // reset form
+        validator.resetForm();
+        $(".error").removeClass("error"); // loại bỏ validate
+    
+     
+    $('.modal-title-contract').html('Thêm hợp đồng cho nhân viên');
+    urlContract = baseHome + "/staff/addContract";
+}
+
 
 // load record
 function loadRecord(id) {
@@ -658,6 +798,7 @@ function loadRecord(id) {
         $("#record-list-table").DataTable({
             ajax: baseHome + "/staff/loadRecord?id=" + id,
             destroy: true,
+            ordering: false,
             columns: [
                 // columns according to JSON
                 {data: "name"},
@@ -666,6 +807,7 @@ function loadRecord(id) {
                 {data: "allowance"},
                 {data: "startDate"},
                 {data: "stopDate"},
+                {data: ""},
             ],
             columnDefs: [
 
@@ -698,8 +840,29 @@ function loadRecord(id) {
                     },
 
                 },
+                {
+                    // Actions
+                    targets: -1,
+                    title: feather.icons["database"].toSvg({class: "font-medium-3 text-success mr-50"}),
+                    orderable: false,
+                    render: function (data, type, full, meta) {
+                        var html = '';
+                        if (funEdit == 1) {
+                            html += '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" title="Chỉnh sửa" onclick="loaddataContract(' + full['id'] + ')">';
+                            html += '<i class="fas fa-pencil-alt"></i>';
+                            html += '</button> &nbsp;';
+                        }
+                        if (funDel == 1) {
+                            html += '<button type="button" class="btn btn-icon btn-outline-danger waves-effect" title="Xóa" id="confirm-text" onclick="delContract(' + full['id'] + ')">';
+                            html += '<i class="fas fa-trash-alt"></i>';
+                            html += '</button>';
+                        }
+                        return html;
+                    },
+                    width: 100
+                },
             ],
-
+            
             language: {
                 sLengthMenu: "Hiển thị _MENU_",
                 search: "",
@@ -711,9 +874,91 @@ function loadRecord(id) {
                 },
                 info: "Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
             },
+           
         });
     }
 }
+
+function loaddataContract(id) {
+    $('#add-contract').modal('show');
+    $('.modal-title-contract').html('Cập nhật hợp đồng cho nhân viên');
+   
+
+    if (funEdit == 1)
+        $('#btnUpdate').removeClass('d-none');
+    else
+        $('#btnUpdate').addClass('d-none');
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        data: {id: id},
+        url: baseHome + "/staff/loaddataContract",
+        success: function (data) {
+            // Default
+
+            $('#nameContract').val(data.name);
+            $('#basicSalary').val(Comma(data.basicSalary));
+            $('#salaryPercentage').val(data.salaryPercentage);
+            $('#allowance').val(Comma(data.allowance));
+            $('#startDate').val(data.startDateCv);
+            $('#stopDate').val(data.stopDateCv);
+            $('#staffId').val(data.staffId).trigger("change");
+            $('#departmentId').val(data.departmentId).trigger("change");
+            $('#position').val(data.position).trigger("change");
+            $('#branchId').val(data.branchId).trigger("change");
+            $('#type').val(data.type).trigger("change");
+            $('#statusContract').val(data.status).trigger("change");
+            $('#shiftId').val(data.shiftId).trigger("change");
+            $('#workPlaceId').val(data.workPlaceId).trigger('change');
+            $('#description').val(data.description);
+            var basicPickr = $('.flatpickr-basic');
+            if (basicPickr.length) {
+                basicPickr.flatpickr({
+                    dateFormat: "d/m/Y",
+                    onReady: function (selectedDates, dateStr, instance) {
+                      
+                        console.log(instance);
+                        if (instance.isMobile) {
+                            $(instance.mobileInput).attr("step", null);
+                        }
+                    }
+                });
+            }
+            urlContract = baseHome + '/staff/updateContract?id=' + id;
+        },
+        error: function () {
+            notify_error('Lỗi truy xuất database');
+        }
+    });
+}
+
+
+// load record
+function saveContract() {
+   
+  
+    var formData = new FormData($('#formContract')[0]);
+    $.ajax({
+        url: urlContract,
+        type: 'POST',
+        data: formData,
+        async: false,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: "json",
+        success: function (data) {
+            if (data.code == 200) {
+                notyfi_success(data.message);
+                $('#add-contract').modal('hide');
+                $("#record-list-table").DataTable().ajax.reload(null, false);
+            } else
+                notify_error(data.message);
+        }
+    });
+    return false;
+}
+
 
 function createCodeStaff() {
   var id = $("#branchId").val();

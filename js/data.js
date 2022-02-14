@@ -321,12 +321,12 @@ $(function () {
 });
 
 function search() {
-    var nhanvien = $("#nhanvien").val();
+    // var nhanvien = $("#nhanvien").val();
     var tungay = $("#tungay").val();
     var denngay = $("#denngay").val();
-    if (nhanvien != '' || tungay != '' || denngay != '') {
+    if (tungay != '' || denngay != '') {
         var table = $(".user-list-table").DataTable();
-        table.ajax.url(baseHome + "/data/list?nhan_vien=" + nhanvien + "&tu_ngay=" + tungay + "&den_ngay=" + denngay).load();
+        table.ajax.url(baseHome + "/data/list?tu_ngay=" + tungay + "&den_ngay=" + denngay).load();
         table.draw();
     }
 }

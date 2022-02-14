@@ -22,6 +22,43 @@ class applicant_Model extends Model{
             $ungvien['data'] = $query->fetchAll(PDO::FETCH_ASSOC);
         return $ungvien;
     }
+    // function getRecruitmentCamp($id) {
+    //     $result = array();
+    //     $query = $this->db->query("SELECT *,
+    //         (SELECT fullName FROM applicants WHERE id = a.canId) AS fullName,
+    //         (SELECT gender FROM applicants WHERE id = a.canId) AS gender,
+    //         (SELECT email FROM applicants WHERE id = a.canId) AS email,
+    //         (SELECT phoneNumber FROM applicants WHERE id = a.canId) AS phoneNumber,
+    //         (SELECT status FROM applicants WHERE id = a.canId) AS status
+    //         FROM sortlist a WHERE status = 1 AND campId = $id ORDER BY ID DESC");
+    //     $result['data'] = $query->fetchAll(PDO::FETCH_ASSOC);
+    //     return $result;
+    // }
+
+    function getRecruitmentCamp($id) {
+        $query = $this->db->query("SELECT campId FROM sortlist WHERE status = 1 AND canId = $id");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        $campId = [];
+        if(!empty($result)) {
+            foreach($result as $item) {
+                $campId[] = $item['campId'];
+            }
+            $campId = implode(',',$campId);
+            $where = " AND id NOT IN ($campId) ";
+        }
+        else {
+            $where = "";
+        }
+        $result = array();
+        $query = $this->db->query("SELECT id, title AS `text` FROM recruitmentcamp WHERE status = 1 $where ");
+        if ($query)
+            $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+    function addSortlist($data) {
+        $query = $this->insert("sortlist", $data);
+        return $query;
+    }
 
     function getdata($id){
         $result = array();

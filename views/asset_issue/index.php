@@ -7,12 +7,7 @@
             <!-- users list start -->
             <section class="app-user-list">
                 <!-- users filter start -->
-                <div class="card">
-                    <div class="d-flex justify-content-between align-items-center mx-50 row pt-2 pb-2">
-                        <div class="col-md-4 taisan_filter"></div>
-                        <div class="col-md-4 nhanvien_filter"></div>
-                    </div>
-                </div>
+               
                 <!-- users filter end -->
                 <!-- list section start -->
                 <div class="card">
