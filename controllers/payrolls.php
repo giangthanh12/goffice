@@ -176,4 +176,5 @@ class payrolls extends Controller
         $this->view->payrolls = $this->model->listObj($month,$year,$staffId,$funCheck);
         $this->view->render('payrolls/export');
     }
+
 }
