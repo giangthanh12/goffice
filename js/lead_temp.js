@@ -47,6 +47,10 @@ $(function () {
                 leadDesc: {
                     required: true
                 },
+                customerEmail: {
+                    required: true,
+                    email: "Sai định dạng email!",
+                },
             }
         });
     });
@@ -377,39 +381,67 @@ $(function () {
     // }
 });
 
-function saveLead() {
-    $('#fmLead').validate({
-        submitHandler: function (form) {
-            var formData = new FormData(form);
-            var comment = $('#leadDesc').find(".ql-editor p").html();
-            if (comment == '<br>') {
-                notify_error('Vui lòng nhập mô tả!');
-                return false;
-            }
-            formData.append('leadDes', comment)
-            $.ajax({
-                url: baseHome + "/lead_temp/insertLead",
-                type: 'POST',
-                data: formData,
-                async: false,
-                cache: false,
-                contentType: false,
-                enctype: 'multipart/form-data',
-                processData: false,
-                dataType: "json",
-                success: function (data) {
-                    if (data.code == 200) {
-                        notyfi_success(data.message);
-                        leadSearch();
-                        $('#new-lead-modal').modal('hide');
-                    } else
-                        notify_error(data.message);
+$(document).on('blur', '#customerPhone', function () {
+    var customerPhone = $(this).val();
+
+    if (customerPhone != '' && customerPhone.toString().length >= 10) {
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            data: { customerPhone: customerPhone },
+            url: baseHome + "/lead_temp/checkPhone",
+            success: function (data) {
+                if (data.success) {
+                    // notyfi_success(data.msg);
+                    $('#btn-add-lead').prop('disabled', false);
+                } else {
+                    $('#btn-add-lead').prop('disabled', true);
+                    notify_error(data.msg);
                 }
-            });
-            return false;
-        }
-    });
-    $('#fmLead').submit();
+            }
+        });
+    } else {
+        1
+        $('#btn-add-lead').prop('disabled', true);
+        notify_error('Số điện thoại không hợp lệ');
+    }
+})
+
+function saveLead() {
+    var isValid = $('#fmLead').valid();
+    if (isValid) {
+        // $('#fmLead').validate({
+        //     submitHandler: function (form) {
+        var formData = new FormData($('#fmLead')[[0]]);
+        // var comment = $('#leadDesc').find(".ql-editor p").html();
+        // if (comment == '<br>') {
+        //     notify_error('Vui lòng nhập mô tả!');
+        //     return false;
+        // }
+        // formData.append('leadDes', comment)
+        $.ajax({
+            url: baseHome + "/lead_temp/insertLead",
+            type: 'POST',
+            data: formData,
+            async: false,
+            cache: false,
+            contentType: false,
+            enctype: 'multipart/form-data',
+            processData: false,
+            dataType: "json",
+            success: function (data) {
+                if (data.code == 200) {
+                    notyfi_success(data.message);
+                    leadSearch();
+                    $('#new-lead-modal').modal('hide');
+                } else
+                    notify_error(data.message);
+            }
+        });
+        return false;
+    }
+    // });
+    // $('#fmLead').submit();
 }
 
 // // Window Resize
@@ -517,7 +549,7 @@ $('#list-lead').on('click', '.sidebar-list', function () {
 });
 
 function showModalTakeCare() {
-    if($('.list-active').length>0) {
+    if ($('.list-active').length > 0) {
         $('#name').val('');
         var quill_editor = $("#task-desc .ql-editor");
         quill_editor[0].innerHTML = '';
