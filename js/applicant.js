@@ -4,6 +4,8 @@ var dtMemberTable = $("#member-list-table");
 var dtHVTable = $("#hocvan-list-table");
 var dtKNTable = $("#kinhnghiem-list-table");
 $(function () {
+    return_combobox_multi('#position', baseHome + '/recruitmentcamp/getPosition', 'Vị trí');
+    return_combobox_multi('#position1', baseHome + '/recruitmentcamp/getPosition', 'Vị trí');
     var basicPickr = $('.flatpickr-basic');
     // Default
     if (basicPickr.length) {
@@ -205,6 +207,9 @@ $(function () {
                     orderable: false,
                     render: function (data, type, full, meta) {
                         var html = '';
+                        html += '<button type="button"  class="btn btn-icon btn-outline-warning waves-effect" data-toggle="modal" data-target="#modalCandidate" title="Thêm ứng viên" onclick="loadRecruitment(' + full['id'] + ')">';
+                        html += '<i class="fas fa-plus"></i>';
+                        html += '</button> &nbsp;';
                         if(funEdit == 1) {
                             html += '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" title="Chỉnh sửa" onclick="loaddata(' + full['id'] + ')">';
                             html += '<i class="fas fa-pencil-alt"></i>';
@@ -482,6 +487,36 @@ if ($('#fm-tab4').length) {
     });
 });
 
+
+function loadRecruitment(id) {
+    return_combobox_multi('#campId', baseHome + '/applicant/getRecruitmentCamp?id='+id, 'Chiến dịch');
+    $('#campId').val('').change();
+    $('#canId').val(id);
+}
+
+function addRecruitment() {
+    var myform = new FormData($("#formCandidate")[0]);
+    $.ajax({
+        url: baseHome + "/applicant/addRecruitment",
+        type: 'post',
+        data: myform,
+        dataType: 'json',
+        contentType: false,
+        processData: false,
+        success: function (data) {
+            if (data.success) {
+                notyfi_success(data.msg);
+                $("#modalCandidate").modal('hide');
+                $(".user-list-table").DataTable().ajax.reload(null, false);
+            }
+            else
+                notify_error(data.msg);
+        },
+        error: function () {
+            notify_error('Cập nhật không thành công');
+        }
+    });
+}
 function loaddata(id) {
     if(funEdit != 1) {
         $('#updateInfoApplicant').css('display','none');
@@ -523,7 +558,7 @@ function loaddata(id) {
             $("#residence").val(data.residence).trigger('change');
            
             $('#introduce').val(data.introduce);
-            $('#position1').val(data.position);
+            $('#position1').val(data.position).change();
             $('#note1').html(data.note);
             $("#idPlace").val(data.idPlace).trigger('change');
             $('#idNumber').val(data.idNumber);
@@ -541,10 +576,16 @@ function loaddata(id) {
                 $('#idDate').val(data.idDate);
             }
 
-            $('#viewfile').html('');
+       
+            $('#showFileCv').attr('href','');
+            $('#showFileCv').html('');
+            $('#fileCv').val(data.cv);
             if(data.cv !== '') {
                 var urlfile = baseHome + '/users/gemstech/' +data.cv;
-                $('#viewfile').html(`<a target="_blank" href="${urlfile}" style="color: blue;">Tải xuống <i class="fas fa-download"></i></a>`)
+            //   $('#viewfile').html(`<a id="showFileCv" target="_blank" href="" style="color: blue;">Tải xuống <i class="fas fa-download"></i></a>`)
+                $('#showFileCv').attr('href',urlfile)
+                $('#showFileCv').html(`Tải xuống <i class="fas fa-download"></i>`);
+                
             }
             $('#e_mail').val(data.email);
             url = baseHome + "/applicant/update?id=" + id;
@@ -654,18 +695,22 @@ function thayanh() {
 }
 
 function saveadd() {
-    var info = {};
-    info.fullName = $("#fullName").val();
-    info.gender = $("input[type='radio'][name='gender']:checked").val();
-    info.dob = $("#dob").val();
-    info.phoneNumber = $("#phoneNumber").val();
-    info.email = $("#email").val();
-    info.position = $("#position").val();
-    info.note = $("#note").val();
+    var  formData = new FormData($("#dg")[0]); 
+
+    // var info = {};
+    // info.fullName = $("#fullName").val();
+    // info.gender = $("input[type='radio'][name='gender']:checked").val();
+    // info.dob = $("#dob").val();
+    // info.phoneNumber = $("#phoneNumber").val();
+    // info.email = $("#email").val();
+    // info.position = $("#position").val();
+    // info.note = $("#note").val();
     $.ajax({
         type: "POST",
         dataType: "json",
-        data: info,
+        data: formData,
+        contentType: false,
+        processData: false,
         url: baseHome + "/applicant/add",
         success: function (data) {
             if (data.success) {

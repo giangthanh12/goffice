@@ -49,7 +49,7 @@ class inbox extends Controller
     {
         $receiverId = json_encode($_REQUEST['email-to']);
         if ($receiverId=='["0"]')
-            $receiverId = $this->model->getAll();
+        $_REQUEST['email-to'] = $this->model->getIdStaff();
         $title = $_REQUEST['emailSubject'];
         $content = $_REQUEST['body'];
         $data = array('senderId'=>$_SESSION['user']['staffId'], 'title'=>$title, 'content'=>$content,
@@ -68,7 +68,15 @@ class inbox extends Controller
             }
             $data['attachmentFile']=$filenames;
         }
-        if ($this->model->add($data)) {
+        $row = 0;
+        foreach($_REQUEST['email-to'] as $item) {
+            $data = array('senderId'=>$_SESSION['user']['staffId'], 'title'=>$title, 'content'=>$content,
+            'receiverId'=>json_encode([$item]), 'status'=>1, 'dateTime'=>date('Y-m-d H:i:s'), 'link'=>'inbox');
+            $this->model->add($data);
+            $row++;
+        }
+
+        if ($row > 0) {
             $jsonObj['msg'] = "Đã gửi thông báo";
             $jsonObj['success'] = true;
         } else {

@@ -195,7 +195,16 @@ class Model
         } else
             return false;
     }
-
+    function getNotification() {
+    
+        $staffId = $_SESSION['user']['staffId'];
+        $query = $this->db->query("SELECT id,title,content,
+        (SELECT avatar FROM staffs where  id = events.senderId) as avatar
+         FROM events where receiverId LIKE '%$staffId%' AND status in (1,2)  ORDER BY id DESC");
+        $temp = $query->fetchAll(PDO::FETCH_ASSOC);
+        if(!empty($temp)) return $temp;
+        return [];
+    }
     function getLogo(){
         $query = $this->db->query("SELECT * FROM system WHERE tinh_trang = 1 AND id = 7 OR id = 8");
         $result = $query->fetchAll(PDO::FETCH_ASSOC);

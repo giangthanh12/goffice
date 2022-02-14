@@ -1,5 +1,6 @@
 <?php
 $model = new model();
+$notifications = $model->getNotification();
 ?>
 <!DOCTYPE html>
 <html class="loading semi-dark-layout" lang="en" data-layout="semi-dark-layout" data-textdirection="ltr">
@@ -140,6 +141,51 @@ $model = new model();
             </ul> -->
             </div>
             <ul class="nav navbar-nav align-items-center ml-auto">
+            <li class="nav-item dropdown dropdown-notification mr-25">
+                    <a class="nav-link" href="javascript:void(0);" data-toggle="dropdown">
+                        <i class="ficon" data-feather="bell"></i>
+                        <span class="badge badge-pill badge-danger badge-up"><?= !empty($notifications) ? count($notifications): '0' ?></span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-media dropdown-menu-right">
+                        <li class="dropdown-menu-header">
+                            <div class="dropdown-header d-flex">
+                                <h4 class="notification-title mb-0 mr-auto">Thông báo</h4>
+                                <div class="badge badge-pill badge-light-primary"><?= !empty($notifications) ? count($notifications): '0' ?> tin</div>
+                            </div>
+                        </li>
+                        <li class="scrollable-container media-list">
+                            <?php foreach ($notifications as $item) { ?>
+                            <a class="d-flex" href="<?= HOME ?>/inbox">
+                                <div class="media d-flex align-items-start">
+                                    <div class="media-left">
+                                        <div class="avatar">
+                                            <img onerror="this.src='<?=HOME?>/layouts/useravatar.png'" src="<?php echo ROOT_DIR. '/uploads/nhanvien/'.$item['avatar'] ?>" alt="avatar" width="32" height="32">
+                                        </div>
+                                    </div>
+                                    <div class="media-body">
+                                        <p class="media-heading">
+                                            <span class="font-weight-bolder"><?= $item['title'] ?></span>
+                                        </p>
+                                        <small class="notification-text">
+                                            <?php
+                                            $str = $item['content'];
+                                            $arrayStr = explode(' ',$item['content']);
+                                            if(count($arrayStr) > 7) {
+                                                $arrayStr = explode(' ',$item['content']);
+                                                $str = implode(' ',array_slice($arrayStr,0,7)).'...';
+                                            }
+                                            echo $str;
+                                            ?>
+                                        </small>
+                                    </div>
+                                </div>
+                            </a>
+                            <?php } ?>
+                           
+                        </li>
+                      
+                    </ul>
+                </li>
                 <!-- <li class="nav-item dropdown dropdown-language">
           <a class="nav-link dropdown-toggle" id="dropdown-flag" href="javascript:void(0);" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i class="flag-icon flag-icon-us"></i>

@@ -8,13 +8,7 @@
             <!-- users list start -->
             <section class="app-user-list">
                 <!-- users filter start -->
-                <div class="card">
-                    <div class="d-flex justify-content-between align-items-center mx-50 row pt-2 pb-2">
-                        <div class="col-md-4 user_role"></div>
-                        <div class="col-md-4 user_plan"></div>
-                        <div class="col-md-4 user_status"></div>
-                    </div>
-                </div>
+             
                 <!-- users filter end -->
                 <!-- list section start -->
                 <div class="card">
@@ -82,9 +76,17 @@
 
                                                 <div class="form-group">
                                                     <label for="position">Vị trí</label>
-                                                    <input type="text" class="form-control" id="position" name="position" />
+                                                    <select name="position" id="position" class="form-control" ></select>
                                                 </div>
-
+                                               
+                                                <div class="form-group">
+                                                    <label class="form-label" for="fileadd">CV</label>
+                                                    <div class="custom-file">
+                                                        <input type="file" class="custom-file-input" id="fileadd" name="fileadd">
+                                                        <label class="custom-file-label" for="fileadd">Chọn file</label>
+                                                    </div>
+                                                 
+                                                </div>
                                                 <div class="form-group">
                                                     <label for="note">Ghi chú</label>
                                                     <textarea id="note" name="note" class="form-control"></textarea>
@@ -103,6 +105,42 @@
                     </div>
 
                     <!--  -->
+
+                    <!-- Thêm chiến dịch theo ứng viên -->
+                    <div class="modal modal-slide-in new-user-modal fade" id="modalCandidate" tabindex="-1" role="dialog" aria-labelledby="myModalLabel16" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="myModalLabel16">Thêm chiến dịch cho ứng viên</h4>
+                                </div>
+                                <div class="modal-body" style="margin:0;">
+                                    <!-- <input type="hidden" id="id" name="id" /> -->
+                                    <div class="card">
+
+                                            <form class="form-validate" enctype="multipart/form-data" id="formCandidate">
+                                               <input type="hidden" name="canId" id="canId" />
+                                            <div class="row mt-1">
+                                       
+                                                    <div class="col-lg-12">
+                                                        <div class="form-group">
+                                                            <label for="campId">Chiến dịch</label>
+                                                            <select  id="campId" name="campId[]" multiple="multiple" class="form-control select2">
+                                                               
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 d-flex flex-sm-row flex-column mt-2">
+                                                        <button type="button" onclick="addRecruitment()" class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Cập nhật</button>
+                                                        <button type="reset" class="btn btn-outline-secondary" data-dismiss="modal">Bỏ qua</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
 
                     <!-- Modal to edit user -->
                     <div class="modal fade text-left" id="updateinfo" role="dialog" aria-labelledby="myModalLabel16" aria-hidden="true">
@@ -258,7 +296,7 @@
                                                             <div class="col-lg-2 col-md-6">
                                                                 <div class="form-group">
                                                                     <label for="position1">Vị trí ứng tuyển</label>
-                                                                    <input id="position1" type="text" class="form-control" name="position1" />
+                                                                    <select name="position1" id="position1" class="form-control1" ></select>
                                                                 </div>
                                                             </div>
 
@@ -332,7 +370,10 @@
                                                                         <input type="file" class="custom-file-input" id="file1" name="file1">
                                                                         <label class="custom-file-label" for="file1">Chọn file</label>
                                                                     </div>
-                                                                    <div id="viewfile"></div>
+                                                                    <div id="viewfile">
+                                                                        <a id="showFileCv" target="_blank" href="" style="color: blue;">Tải xuống <i class="fas fa-download"></i></a>
+                                                                    </div>
+                                                                    <input type="hidden" id="fileCv" name="fileCv" value="">
                                                                 </div>
                                                             </div>
                                                             <div class="col-12 d-flex flex-sm-row flex-column mt-2">

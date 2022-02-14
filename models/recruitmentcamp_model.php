@@ -26,6 +26,10 @@ class recruitmentcamp_Model extends Model{
         $query = $this->insert("sortlist", $data);
         return $query;
     }
+    function addInterview($data) {
+      $result =  $this->insert("interview",$data);
+      return $result;
+    }
     function getListCandidate($id) {
         $result = array();
         $query = $this->db->query("SELECT *,

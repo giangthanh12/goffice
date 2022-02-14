@@ -116,9 +116,9 @@ var   datePicker = $(".flatpickr-basic");
                         var html = '';
                         html += '<div d-flex justify-content-start style="width::150px;text-align:left">';
                        if(funAdd == 1) {
-                        html += '<button type="button"  class="btn btn-icon btn-outline-warning waves-effect" data-toggle="modal" data-target="#modalCandidate" title="Thêm ứng viên" onclick="loadCandidate(' + full['id'] + ')">';
-                        html += '<i class="fas fa-plus"></i>';
-                        html += '</button> &nbsp;';
+                        // html += '<button type="button"  class="btn btn-icon btn-outline-warning waves-effect" data-toggle="modal" data-target="#modalCandidate" title="Thêm ứng viên" onclick="loadCandidate(' + full['id'] + ')">';
+                        // html += '<i class="fas fa-plus"></i>';
+                        // html += '</button> &nbsp;';
                        }
                        
                        if(funEdit == 1) {
@@ -375,6 +375,20 @@ var   datePicker = $(".flatpickr-basic");
         });
     }
 
+    //validate interview
+    if ($('#interviewForm').length) {
+        $('#interviewForm').validate({
+            errorClass: "error",
+        });
+
+        $('#interviewForm').on("submit", function (e) {
+            var isValid = $('#interviewForm').valid();
+            e.preventDefault();
+            if (isValid) {
+               saveCalendar();
+            }
+        });
+    }
 
 
 
@@ -429,6 +443,7 @@ function loaddata(id) {
            
           
             loadListCandidate(id);
+            $('#campId').val(id);
         },
         error: function () {
             notify_error('Lỗi truy xuất database');
@@ -440,10 +455,38 @@ function loaddata(id) {
 function loadCandidate(id) {
     return_combobox_multi('#canId', baseHome + '/recruitmentcamp/getCandidate?id='+id, 'Ứng viên');
     $('#canId').val('').change();
-    $('#camId').val(id);
+    $('#camId').val();
 }
 
+function saveCalendar() {
 
+    var data = {
+      
+        campId: $('#campId').val(),
+        canId: $('#applicantId').val(),
+        dateTime: $('#dateTime').val() + ' ' + $('#timeInterview').val(),
+        interviewerIds: $('#interviewerIds').val(),
+        result: $('#result').val(),
+        note: $('#noteCalendar').val(),
+    };
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        data: data,
+        url: baseHome + '/recruitmentcamp/addCalendar',
+        success: function (data) {
+            if (data.success) {
+                $('#add-new-calendar').modal('hide');
+                notyfi_success(data.msg);
+            } else {
+                notify_error(data.msg);
+            }
+        },
+        error: function () {
+            notify_error('Lỗi truy xuất database');
+        }
+    });
+}
 //load transaction
 
 
@@ -595,6 +638,10 @@ function loadListCandidate(id) {
                     render: function (data, type, full, meta) {
                         var html = '';
                         if(full['status'] == 1) {
+                        html += '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" title="Thêm lịch phỏng vấn" onclick="addCalendar(' + full['canId'] + ')">';
+                        html += '<i class="fas fa-calendar"></i>';
+                        html += '</button>&nbsp;';
+
                         html += '<button type="button" class="btn btn-icon btn-outline-danger waves-effect" title="Xóa" onclick="delCandidate(' + full['id'] + ')">';
                         html += '<i class="fas fa-trash-alt"></i>';
                         html += '</button>';
@@ -619,6 +666,21 @@ function loadListCandidate(id) {
         });
     }
 }
+
+
+function addCalendar(id) {
+  $('#applicantId').val(id);
+    return_combobox_multi('#interviewerIds', baseHome + '/interview/getStaff', 'Chọn người phỏng vấn');
+  $('#add-new-calendar').modal('show');
+  $('.modal-title-calendar').html('Thêm lịch phỏng vấn cho ứng viên')
+  $('#timeInterview').flatpickr({
+    enableTime: true,
+    noCalendar: true,
+    dateFormat: "H:i",
+    defaultDate: "12:00"
+});
+}
+
 function delCandidate(id) {
     Swal.fire({
         title: 'Xóa dữ liệu',
