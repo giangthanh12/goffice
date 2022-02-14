@@ -617,12 +617,16 @@ $(function () {
         if (clickButton == 0) {
             $('#minlogo').addClass("d-none");
             $('#maxlogo').removeClass("d-none");
+            $('#minlogo-footer').addClass("d-none");
+            $('#maxlogo-footer').removeClass("d-none");
         }
     });
     $('.main-menu').mouseout(function () {
         if (clickButton == 0) {
             $('#minlogo').removeClass("d-none");
             $('#maxlogo').addClass("d-none");
+            $('#minlogo-footer').removeClass("d-none");
+            $('#maxlogo-footer').addClass("d-none");
         }
     });
 })

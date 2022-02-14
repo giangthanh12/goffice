@@ -195,4 +195,10 @@ class Model
         } else
             return false;
     }
+
+    function getLogo(){
+        $query = $this->db->query("SELECT * FROM system WHERE tinh_trang = 1 AND id = 7 OR id = 8");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
 }
