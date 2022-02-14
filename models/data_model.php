@@ -19,7 +19,7 @@ class Data_Model extends Model
         return $ok;
     }
 
-    function listObj($keyword, $nhanvien, $tungay, $denngay, $offset, $rows)
+    function listObj($keyword, $tungay, $denngay, $offset, $rows)
     {
         $result = array();
         $result['data'] = [];
@@ -29,16 +29,16 @@ class Data_Model extends Model
         if ($keyword != '') {
             $dieukien .= " AND (name LIKE '%$keyword%' OR phoneNumber LIKE '%$keyword%') ";
         }
-        if ($nhanvien > 0 && $nhanvien != 1 && $nhanvien != 2) {
-            $dieukien .= " AND staffId = $nhanvien ";
-        }
+        // if ($nhanvien > 0 && $nhanvien != 1 && $nhanvien != 2) {
+        //     $dieukien .= " AND staffId = $nhanvien ";
+        // }
         if ($tungay != '') {
             $dieukien .= " AND inputDate >= '$tungay' ";
         }
         if ($denngay != '') {
             $dieukien .= " AND inputDate <= '$denngay' ";
         }
-        $query = $this->db->query("SELECT id FROM data $dieukien ");
+        $query = $this->db->query("SELECT id FROM data $dieukien");
         $temp = $query->fetchAll(PDO::FETCH_ASSOC);
 
         if ($temp) {
@@ -52,7 +52,7 @@ class Data_Model extends Model
             (SELECT name FROM staffs WHERE id = inputId) as input,
             (SELECT name FROM datasource WHERE id= sourceId) as source,
             IFNULL((SELECT name FROM staffs WHERE id = staffId),'') as staff
-            FROM data $dieukien ORDER BY id DESC LIMIT $offset,$rows ");
+            FROM data $dieukien ORDER BY inputDate DESC LIMIT $offset,$rows ");
         $temp = $query->fetchAll(PDO::FETCH_ASSOC);
         if ($temp) {
             $result['data'] = $temp;
