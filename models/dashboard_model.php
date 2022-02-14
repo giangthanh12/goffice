@@ -56,45 +56,35 @@ class dashboard_Model extends Model{
         }
     }
 
-    function them($data){
-        $query = $this->insert("nhanvien", $data);
-        return $query;
-    }
-
-    function xoa($id){
-        $query = $this->update("nhanvien", ['tinh_trang'=>0], " id=$id ");
-        return $query;
-    }
-
-    function thoiviec($id){
-        $query = $this->update("nhanvien", ['tinh_trang'=>6], " id=$id ");
-        return $query;
-    }
-
     function reportProfitLoss()
     {
         $year = date('Y');
         $result = array();
         $arrProfit = [];
         $arrLoss = [];
-        for($month = 1; $month <= 12; $month++) {
-            if($month < 10) 
-                $month = '0'.$month;
-            $yearMonth = $year.'-'.$month;
-            $where = " WHERE status = 1 AND dateTime LIKE '$yearMonth%'";
+        $arrMonth = [];
+        for($i = 0; $i < 6; $i++) {
+            
+            $month = date("M",strtotime("-$i month"));
+            $yearMonth = date("Y-m",strtotime("-$i month"));
+            $where = " WHERE status = 1 AND dateTime LIKE '$yearMonth%' ";
 
             $query = $this->db->query("SELECT IFNULL(SUM(asset),0) AS profit
             FROM ledger $where AND type = 1");
             $profit = $query->fetchAll(PDO::FETCH_ASSOC);
             array_push($arrProfit, ROUND($profit[0]['profit']/1000000,2));
+            
 
             $query = $this->db->query("SELECT IFNULL(SUM(asset),0) AS loss
             FROM ledger $where AND type = 2");
             $loss = $query->fetchAll(PDO::FETCH_ASSOC);
             array_push($arrLoss, ROUND($loss[0]['loss']/1000000,2));
+            array_push($arrMonth, $month);
         }
-        $result['arrProfit'] = $arrProfit;
-        $result['arrLoss'] = $arrLoss;
+
+        $result['arrProfit'] = array_reverse($arrProfit);
+        $result['arrLoss'] = array_reverse($arrLoss);
+        $result['arrMonth'] = array_reverse($arrMonth);
         return $result;
     }
 
@@ -104,42 +94,57 @@ class dashboard_Model extends Model{
         $result = array();
         $arrExpectedProfit = [];
         $arrExpectedLoss = [0,0,0,0,0,0,0,0,0,0,0,0];
+        $arrProfit2 = [];
+        $arrLoss2 = [];
         for($month = 1; $month <= 12; $month++) {
             if($month < 10) 
                 $month = '0'.$month;
-            $yearMonth = $year.'-'.$month;
-            $where = " WHERE status = 1 AND signatureDate LIKE '$yearMonth%' ";
-            $query = $this->db->query("SELECT quantity,discount,vat,productId,quantity
-            FROM contracts a $where");
-            $temp = $query->fetchAll(PDO::FETCH_ASSOC);
-            if(count($temp)>0) {
-                $expectedProfit = 0;
-                foreach($temp as $item) {
-                    if($item['vat']>0)
-                        $contractVAT = $item['vat']/100;
-                    else 
-                        $contractVAT = 1;
-                    if($item['productId']!='') {
-                        $arrProductIds = explode(',',$item['productId']);
-                        $arrQuantity = explode(',',$item['quantity']);
-                        foreach($arrProductIds as $key => $productId) {
-                            $query = $this->db->query("SELECT price,vat
-                            FROM products a WHERE id=$productId");
-                            $product = $query->fetchAll(PDO::FETCH_ASSOC);
-                            if($product[0]['vat']>0)
-                                $productVAT = $product[0]['vat']/100;
-                            else 
-                                $productVAT = 1;
-                            $expectedProfit += (($product[0]['price']*str_replace('"','',$arrQuantity[$key]))*$productVAT - $item['discount'])*$contractVAT;
-                        } 
-                        
+                $yearMonth = $year.'-'.$month;
+                $where = " WHERE status = 1 AND signatureDate LIKE '$yearMonth%' ";
+                $query = $this->db->query("SELECT quantity,discount,vat,productId,quantity
+                FROM contracts a $where");
+                $temp = $query->fetchAll(PDO::FETCH_ASSOC);
+                if(count($temp)>0) {
+                    $expectedProfit = 0;
+                    foreach($temp as $item) {
+                        if($item['vat']>0)
+                            $contractVAT = $item['vat']/100;
+                        else 
+                            $contractVAT = 1;
+                        if($item['productId']!='') {
+                            $arrProductIds = explode(',',$item['productId']);
+                            $arrQuantity = explode(',',$item['quantity']);
+                            foreach($arrProductIds as $key => $productId) {
+                                $query = $this->db->query("SELECT price,vat
+                                FROM products a WHERE id=$productId");
+                                $product = $query->fetchAll(PDO::FETCH_ASSOC);
+                                if($product[0]['vat']>0)
+                                    $productVAT = $product[0]['vat']/100;
+                                else 
+                                    $productVAT = 1;
+                                $expectedProfit += (($product[0]['price']*str_replace('"','',$arrQuantity[$key]))*$productVAT - $item['discount'])*$contractVAT;
+                            } 
+                        }
                     }
+                    array_push($arrExpectedProfit, ROUND($expectedProfit/1000000,2));
+                } else {
+                    array_push($arrExpectedProfit, 0);
                 }
-                array_push($arrExpectedProfit, ROUND($expectedProfit/1000000,2));
-            } else {
-                array_push($arrExpectedProfit, 0);
-            }
+
+                $where = " WHERE status = 1 AND dateTime LIKE '$yearMonth%' ";
+                $query = $this->db->query("SELECT IFNULL(SUM(asset),0) AS profit
+                FROM ledger $where AND type = 1");
+                $profit = $query->fetchAll(PDO::FETCH_ASSOC);
+                array_push($arrProfit2, ROUND($profit[0]['profit']/1000000,2));
+                $query = $this->db->query("SELECT IFNULL(SUM(asset),0) AS loss
+                FROM ledger $where AND type = 2");
+                $loss = $query->fetchAll(PDO::FETCH_ASSOC);
+                array_push($arrLoss2, ROUND($loss[0]['loss']/1000000,2));
+
+
         }
+        $result['arrProfit'] = $arrProfit2;
+        $result['arrLoss'] = $arrLoss2;
         $result['arrExpectedProfit'] = $arrExpectedProfit;
         $result['arrExpectedLoss'] = $arrExpectedLoss;
         return $result;
