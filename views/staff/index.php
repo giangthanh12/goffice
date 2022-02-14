@@ -8,13 +8,7 @@
             <!-- users list start -->
             <section class="app-user-list">
                 <!-- users filter start -->
-                <div class="card">
-                    <div class="d-flex justify-content-between align-items-center mx-50 row pt-2 pb-2">
-                        <div class="col-md-4 user_role"></div>
-                        <div class="col-md-4 user_plan"></div>
-                        <div class="col-md-4 user_status"></div>
-                    </div>
-                </div>
+                
                 <!-- users filter end -->
                 <!-- list section start -->
                 <div class="card">
@@ -404,6 +398,9 @@
                                                         <h6 class="py-1 mx-1 mb-0 font-medium-2">
                                                             <i data-feather="lock" class="font-medium-3 mr-25"></i>
                                                             <span class="align-middle">Chi tiết</span>
+                                                            <button class="dt-button add-new-contact btn btn-primary mt-50" onclick="showFormContract()" tabindex="0" aria-controls="DataTables_Table_0" type="button">
+                                                                <span>Thêm mới</span>
+                                                            </button>
                                                         </h6>
                                                         <table class="table table-striped table-borderless"
                                                             id="record-list-table">
@@ -415,6 +412,7 @@
                                                                     <th>Trợ cấp</th>
                                                                     <th>Ngày bắt đầu</th>
                                                                     <th>Ngày kết thúc</th>
+                                                                    <th></th>
                                                                 </tr>
                                                             </thead>
                                                         </table>
@@ -534,12 +532,117 @@
                                                 <!-- Social Tab ends -->
                                             </div>
                                         </div>
+                                        
+
+                     <div class="modal fade text-left" id="add-contract" role="dialog" aria-labelledby="myModalLabel16" aria-hidden="true">     
+                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title-contract" id="myModalLabel16"></h4>
+                                    <button type="button" class="close" onclick=" $('#add-contract').modal('toggle');" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <!-- <input type="hidden" id="id" name="id" /> -->
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <form class="form-validate" enctype="multipart/form-data" id="formContract">
+                                                <div class="row mt-1">
+                                                    <input type="hidden" id="staffId" name="staffId" value="">
+                                                    <div class="col-md-4 form-group">
+                                                        <label for="nameContract">Tên hợp đồng</label>
+                                                        <input id="nameContract" name="nameContract" type="text" class="form-control"  />
+                                                    </div>
+                                                    <div class="col-md-4 form-group">
+                                                        <label for="type">Loại hợp đồng</label>
+                                                        <select id="type" class="form-control" name="type" >
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-4 form-group">
+                                                        <label for="departmentId">Phòng ban</label>
+                                                        <select id="departmentId" class="form-control" name="departmentId" >
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-4 form-group">
+                                                        <label for="position">Vị trí</label>
+                                                        <select id="position" class="form-control" name="position" >
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-4 form-group">
+                                                        <label for="branchId">Chi nhánh</label>
+                                                        <select id="branchId" class="form-control" name="branchId" >
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-4 form-group">
+                                                        <label for="workPlaceId">Địa điểm làm việc</label>
+                                                        <select id="workPlaceId" class="form-control" name="workPlaceId" >
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-4 form-group">
+                                                        <label for="shiftId">Phân ca</label>
+                                                        <select id="shiftId" class="form-control" name="shiftId" >
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-4 form-group">
+                                                        <label for="basicSalary">Lương cơ bản</label>
+                                                        <input id="basicSalary" type="text" class="form-control format_number" name="basicSalary" onkeyup="this.value=Comma(this.value)" />
+                                                    </div>
+                                                    <div class="col-md-4 form-group">
+                                                        <label for="salaryPercentage">Tỉ lệ lương (%)</label>
+                                                        <input id="salaryPercentage" type="text" class="form-control" name="salaryPercentage" value="100" />
+                                                    </div>
+
+                                                    <div class="col-md-4 form-group">
+                                                        <label for="allowance">Phụ cấp</label>
+                                                        <input id="allowance" type="text" class="form-control format_number" name="allowance" onkeyup="this.value=Comma(this.value)" />
+                                                    </div>
+
+                                                    <div class="col-md-4 form-group">
+                                                        <label for="startDate">Ngày bắt đầu</label>
+                                                        <input type="text" id="startDate" name="startDate" class="form-control flatpickr-basic" placeholder="" />
+                                                    </div>
+
+                                                    <div class="col-md-4 form-group">
+                                                        <label for="stopDate">Ngày kết thúc</label>
+                                                        <input type="text" id="stopDate" name="stopDate" class="form-control flatpickr-basic" placeholder="" />
+                                                    </div>
+                                                    <div class="col-md-4 form-group">
+                                                        <label for="statusContract">Tình trạng</label>
+                                                        <select id="statusContract" class="select2 form-control" name="statusContract">
+                                                            <option value="1">Đang thực hiện</option>
+                                                            <option value="2">Đã kết thúc</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-4 form-group">
+                                                        <label for="description">Ghi chú</label>
+                                                        <input type="text" id="description" name="description" type="text" class="form-control " />
+                                                    </div>
+                                                    <div class="col-12 d-flex flex-sm-row flex-column mt-2">
+                                                        <button type="submit"  class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1" id="btnUpdate">Cập nhật</button>
+                                                        
+                                                        <button type="button" onclick=" $('#add-contract').modal('toggle');"  class="btn btn-outline-secondary" >Bỏ qua</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
                                     </div>
                                 </div>
 
                             </div>
                         </div>
                     </div>
+
 
                 </div>
             </section>

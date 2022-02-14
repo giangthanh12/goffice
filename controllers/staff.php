@@ -197,6 +197,124 @@ class staff extends Controller
         }
         echo json_encode($jsonObj);
     }
+
+    function addContract() {
+      
+        $name = isset($_REQUEST['nameContract']) ? $_REQUEST['nameContract'] : '';
+        if ($name == '') {
+            return false;
+        }
+        $basicSalary = isset($_REQUEST['basicSalary']) ? str_replace(',', '', $_REQUEST['basicSalary']) : 0;
+        $salaryPercentage = isset($_REQUEST['salaryPercentage']) ? $_REQUEST['salaryPercentage'] : 0;
+        $shiftId = isset($_REQUEST['shiftId']) ? $_REQUEST['shiftId'] : 0;
+        $allowance = isset($_REQUEST['allowance']) ? str_replace(',', '', $_REQUEST['allowance']) : 0;
+        $startDate = isset($_REQUEST['startDate']) && $_REQUEST['startDate'] != '' ? functions::convertDate($_REQUEST['startDate']) : '';
+        if ($startDate == '') {
+            return false;
+        }
+        $stopDate = isset($_REQUEST['stopDate']) && $_REQUEST['stopDate'] != '' ? functions::convertDate($_REQUEST['stopDate']) : '';
+        $staffId = isset($_REQUEST['staffId']) ? $_REQUEST['staffId'] : 0;
+        if ($staffId == 0 || $staffId == '') {
+            return false;
+        }
+        $departmentId = isset($_REQUEST['departmentId']) ? $_REQUEST['departmentId'] : 0;
+        $position = isset($_REQUEST['position']) ? $_REQUEST['position'] : 0;
+        $branchId = isset($_REQUEST['branchId']) ? $_REQUEST['branchId'] : 0;
+        $workPlaceId = isset($_REQUEST['workPlaceId']) ? $_REQUEST['workPlaceId'] : 0;
+        $type = isset($_REQUEST['type']) ? $_REQUEST['type'] : 0;
+        $status = isset($_REQUEST['statusContract']) ? $_REQUEST['statusContract'] : 1;
+        $description = isset($_REQUEST['description']) ? $_REQUEST['description'] : '';
+        $data = array(
+            'name' => $name,
+            'basicSalary' => $basicSalary,
+            'salaryPercentage' => $salaryPercentage,
+            'shiftId' => $shiftId,
+            'allowance' => $allowance,
+            'startDate' => $startDate,
+            'stopDate' => $stopDate,
+            'staffId' => $staffId,
+            'departmentId' => $departmentId,
+            'position' => $position,
+            'branchId' => $branchId,
+            'workPlaceId'=>$workPlaceId,
+            'type' => $type,
+            'status' => $status,
+            'description' => $description
+        );
+      
+        $contractId = $this->model->addContract($data);
+        if ($contractId > 0) {
+            $jsonObj['message'] = 'Cập nhật dữ liệu thành công';
+            $jsonObj['code'] = 200;
+        } else {
+            $jsonObj['message'] = 'Cập nhật dữ liệu không thành công';
+            $jsonObj['code'] = 401;
+        }
+        echo json_encode($jsonObj);
+    }
+    function loaddataContract() {
+            $id = isset($_REQUEST['id']) ? $_REQUEST['id'] : 0;
+            $json = $this->model->loaddataContract($id);
+            echo json_encode($json);
+    }
+    function updateContract() {
+       
+        $id = isset($_REQUEST['id']) ? $_REQUEST['id'] : '';
+        if ($id == '' || $id == 0) {
+            return false;
+        }
+        $name = isset($_REQUEST['nameContract']) ? $_REQUEST['nameContract'] : '';
+        if ($name == '') {
+            return false;
+        }
+        $basicSalary = isset($_REQUEST['basicSalary']) ? str_replace(',', '', $_REQUEST['basicSalary']) : 0;
+        $salaryPercentage = isset($_REQUEST['salaryPercentage']) ? $_REQUEST['salaryPercentage'] : 0;
+        $shiftId = isset($_REQUEST['shiftId']) ? $_REQUEST['shiftId'] : 0;
+        $allowance = isset($_REQUEST['allowance']) ? str_replace(',', '', $_REQUEST['allowance']) : 0;
+        $startDate = isset($_REQUEST['startDate']) && $_REQUEST['startDate'] != '' ? functions::convertDate($_REQUEST['startDate']) : '';
+        if ($startDate == '') {
+            return false;
+        }
+        $stopDate = isset($_REQUEST['stopDate']) && $_REQUEST['stopDate'] != '' ? functions::convertDate($_REQUEST['stopDate']) : '';
+        $staffId = isset($_REQUEST['staffId']) ? $_REQUEST['staffId'] : 0;
+        if ($staffId == 0 || $staffId == '') {
+            return false;
+        }
+        $departmentId = isset($_REQUEST['departmentId']) ? $_REQUEST['departmentId'] : 0;
+        $position = isset($_REQUEST['position']) ? $_REQUEST['position'] : 0;
+        $branchId = isset($_REQUEST['branchId']) ? $_REQUEST['branchId'] : 0;
+        $type = isset($_REQUEST['type']) ? $_REQUEST['type'] : 0;
+        $status = isset($_REQUEST['statusContract']) ? $_REQUEST['statusContract'] : 1;
+        $description = isset($_REQUEST['description']) ? $_REQUEST['description'] : '';
+        $workPlaceId = isset($_REQUEST['workPlaceId']) ? $_REQUEST['workPlaceId'] : 0;
+        $data = array(
+            'name' => $name,
+            'basicSalary' => $basicSalary,
+            'salaryPercentage' => $salaryPercentage,
+            'shiftId' => $shiftId,
+            'allowance' => $allowance,
+            'startDate' => $startDate,
+            'stopDate' => $stopDate,
+            'staffId' => $staffId,
+            'departmentId' => $departmentId,
+            'position' => $position,
+            'branchId' => $branchId,
+            'workPlaceId'=>$workPlaceId,
+            'type' => $type,
+            'status' => $status,
+            'description' => $description
+        );
+        
+        if ($this->model->updateContract($id, $data)) {
+            $jsonObj['message'] = 'Cập nhật dữ liệu thành công';
+            $jsonObj['code'] = 200;
+        } else {
+            $jsonObj['message'] = 'Cập nhật dữ liệu không thành công';
+            $jsonObj['code'] = 401;
+        }
+
+        echo json_encode($jsonObj);
+    }
     function add_nhanvien_info()
     {
         if (self::$funEdit == 0) {
@@ -251,7 +369,17 @@ class staff extends Controller
         echo json_encode($jsonObj);
     }
 
-
+    function delContract() {
+        $id = $_REQUEST['id'];
+        if ($this->model->delContract($id)) {
+            $jsonObj['msg'] = "Xóa dữ liệu thành công";
+            $jsonObj['success'] = true;
+        } else {
+            $jsonObj['msg'] = "Lỗi khi xóa dữ liệu" . $id;
+            $jsonObj['success'] = false;
+        }
+        echo json_encode($jsonObj);
+    }
 }
 
 ?>

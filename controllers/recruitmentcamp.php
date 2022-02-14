@@ -42,9 +42,7 @@ class recruitmentcamp extends Controller
     }
     function getCandidate() {
         $id = $_REQUEST['id']; 
-        
         $jsonObj = $this->model->getCandidate($id);
-      
         echo json_encode($jsonObj);
     }
     function getDepartment() {
@@ -132,6 +130,32 @@ class recruitmentcamp extends Controller
         }
         echo json_encode($jsonObj);
     }
+    function addCalendar() {
+    
+        $campId = isset($_REQUEST['campId']) ? $_REQUEST['campId'] : '';
+        $canId = isset($_REQUEST['canId']) ? $_REQUEST['canId'] : '';
+        $dateTime = isset($_REQUEST['dateTime']) ? date('Y-m-d H:i',strtotime($_REQUEST['dateTime'])) : '';
+        $interviewerIds = isset($_REQUEST['interviewerIds']) ? implode(',',$_REQUEST['interviewerIds']) : '';
+        $result = isset($_REQUEST['result']) ? $_REQUEST['result'] : '';
+        $note = isset($_REQUEST['noteCalendar']) ? $_REQUEST['noteCalendar'] : '';
+        $data = array(
+            'campId' => $campId,
+            'applicantId' => $canId,
+            'dateTime' => $dateTime,
+            'interviewerIds' => $interviewerIds,
+            'result' => $result,
+            'note' => $note,
+            'status'=>1
+        );
+        if ($this->model->addInterview($data)) {
+            $jsonObj['msg'] = 'Cập nhật dữ liệu thành công';
+            $jsonObj['success'] = true;
+        } else {
+            $jsonObj['msg'] = 'Cập nhật dữ liệu không thành công';
+            $jsonObj['success'] = false;
+        }
+        echo json_encode($jsonObj);
+    }
     function addCandidate() {
         if (self::$funAdd == 0) {
             $jsonObj['msg'] = 'Bạn không có quyền sử dụng chức năng này';
@@ -170,6 +194,7 @@ class recruitmentcamp extends Controller
         echo json_encode($jsonObj);
         
     }
+
     function loadListCandidate() {
         $id = $_REQUEST['id'];
         $jsonObj = $this->model->getListCandidate($id);

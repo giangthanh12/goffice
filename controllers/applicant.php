@@ -60,7 +60,7 @@ class applicant extends Controller
         $filename = $_FILES['file1']['name'];
         $fname = explode('.',$filename);
         
-        $file = '';
+        $file = $_REQUEST['fileCv'];
         if ($filename != '') {
             $dir = ROOT_DIR . '/uploads/ungvien/';
             $file = functions::uploadfile('file1', $dir, $fname[0]);
@@ -169,6 +169,17 @@ class applicant extends Controller
             echo json_encode($jsonObj);
             return false;
         }
+        $filename = $_FILES['fileadd']['name'];
+        $fname = explode('.',$filename);
+        
+        $file = '';
+        if ($filename != '') {
+            $dir = ROOT_DIR . '/uploads/ungvien/';
+            $file = functions::uploadfile('fileadd', $dir, $fname[0]);
+            if ($file != '')
+                $file = 'uploads/ungvien/' . $file;
+        }
+       
         $fullName = isset($_REQUEST['fullName']) ? $_REQUEST['fullName'] : '';
         $gender = isset($_REQUEST['gender']) ? $_REQUEST['gender'] : '';
         $dob = isset($_REQUEST['dob']) ? date('Y-m-d',strtotime($_REQUEST['dob'])) : '';
@@ -185,6 +196,7 @@ class applicant extends Controller
             'dob' => $dob,
             'position' => $position,
             'note'=>$note,
+            'cv'=>$file,
             'status' => $tinhtrang ];
         if ($this->model->addObj($data)) {
             $jsonObj['msg'] = "Cập nhật dữ liệu thành công";
@@ -195,7 +207,52 @@ class applicant extends Controller
         }
         echo json_encode($jsonObj);
     }
+    function getRecruitmentCamp() {
+        $id = $_REQUEST['id']; 
+        $jsonObj = $this->model->getRecruitmentCamp($id);
+        echo json_encode($jsonObj);
+    }
+    function addRecruitment() {
+        // if (self::$funAdd == 0) {
+        //     $jsonObj['msg'] = 'Bạn không có quyền sử dụng chức năng này';
+        //     $jsonObj['success'] = false;
+        //     echo json_encode($jsonObj);
+        //     return false;
+        // }
+        $campId = $_REQUEST['campId'];
+        $canId = $_REQUEST['canId'];
+       
 
+
+
+        if(isset($canId) && !empty($canId)) {
+            try {
+                $row = 0;
+                foreach($campId as $val) {
+                  $data = array('campId'=>$val, 'canId'=>$canId, 'status'=>1);
+                  $result =  $this->model->addSortlist($data);
+                  if($result) $row++;
+                }
+                if($row > 0) {
+                    $jsonObj['msg'] = "Cập nhật thành công $row data";
+                    $jsonObj['success'] = true;
+                }
+                else {
+                    $jsonObj['msg'] = "Lỗi cập nhật database";
+                    $jsonObj['success'] = false;
+                }
+            }
+            catch (Exception $e) {
+                $jsonObj['msg'] = "Cập nhật dữ liệu không thành công";
+                $jsonObj['success'] = false;
+            }
+        }
+        else {
+            $jsonObj['msg'] = "Cập nhật dữ liệu không thành công";
+            $jsonObj['success'] = false;
+        }
+        echo json_encode($jsonObj);
+    }
     function del()
     {
         if (self::$funDel == 0) {

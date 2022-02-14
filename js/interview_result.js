@@ -91,7 +91,7 @@ $(function () {
                         var html = '';
                         if(full['result'] == 2 ) {
                             if(funSign == 1) {
-                                html += '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" title="Chỉnh sửa" onclick="checkqty('+ full['id']+ ',' + full['applicantId'] + ')">';
+                                html += '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" title="Chỉnh sửa" onclick="checkqty('+ full['id']+ ',' + full['applicantId'] +','+ full['campId'] + ')">';
                                 html += 'Ký hợp đồng';
                                 html += '</button> &nbsp;';
                             }
@@ -322,13 +322,13 @@ $('.format_number').on('input', function(e){
 }
 //check số lượng ứng viên trong chiến dịch
 
-function checkqty(id,applicantId) {
+function checkqty(id,applicantId,campId) {
 
     $.ajax({
         type: "POST",
         dataType: "json",
         url: baseHome + '/interview_result/checkQty',
-        data: {id:id},
+        data: {id:campId},
         success: function (data) {
             if (data.success) {
                 loaddata(id,applicantId);
