@@ -1,6 +1,3 @@
-<!-- <link rel="stylesheet" type="text/css" href="<?= HOME ?>/styles/app-assets/css/pages/app-kanban.css"> -->
-
-
 <div class="app-content content">
     <div class="content-overlay"></div>
     <div class="header-navbar-shadow"></div>
@@ -10,45 +7,67 @@
             <!-- users list start -->
             <section class="app-user-list">
                 <!-- list section start -->
-               <div class="row">
-               <div class="col-md-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="tab-content">
-                                    <!-- general tab -->
-                                    <div role="tabpanel" class="tab-pane active" id="account-vertical-general" aria-labelledby="account-pill-general" aria-expanded="true">
-                                        <!-- header media -->
-                                     
-                                        <!--/ header media -->
-                                        <h4 class="">Thông tin công ty</h4>
-                                        <!-- form -->
-                                        <form class="validate-form mt-2" id="formInfoCompany">
-                                            <div class="row">
-                                                <?php foreach( $this->system as $item ) { ?>
-                                                <div class="col-12 col-sm-12">
-                                                    <div class="form-group">
-                                                        <label for="tt<?=$item['id']?>"><?=$item['name']?></label>
-                                                        <input type="text" required class="form-control" data-msg-required="Bạn chưa nhập <?= $item['name'] ?>" id="tt<?=$item['id']?>" value="<?=$item['value']?>" name="tt<?=$item['id']?>"   />
-                                                    </div>
+                <div class="card">
+                    <div class="card-datatable table-responsive pt-0">
+                        <table class="user-list-table table">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th></th>
+                                    <th>Tên gọi</th>
+                                    <th>Giá trị</th>
+                                    <th>...</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                    <div class="modal fade text-left" id="updateinfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel16" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="myModalLabel16"></h4>
+                                    <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                    </button> -->
+                                </div>
+                                <div class="modal-body">
+                                    <!-- <input type="hidden" id="id" name="id" /> -->
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <form class="form-validate" enctype="multipart/form-data" id="fm">
+                                                <!-- <div class="row mt-1"> -->
+                                                <div class="form-group">
+                                                    <label for="name">Tên gọi</label>
+                                                    <input type="text" class="form-control" id="name" placeholder="Nhập tên thông tin" name="name" required />
                                                 </div>
-                                                <?php } ?>
-                                               
-                                                <div class="col-12">
-                                                    <button type="submit" class="btn btn-primary mt-2 mr-1" >Cập nhật</button>
+
+
+                                                <div class="form-group">
+                                                    <label for="gia_tri">Giá trị</label>
+                                                    <input id="gia_tri" name="gia_tri" placeholder="Nhập giá trị" type="text" class="form-control" required />
+                                                    <input type="file" name="file" id="logo"/>
                                                 </div>
-                                            </div>
-                                        </form>
-                                        <!--/ form -->
+
+                                                <div class="d-flex flex-sm-row flex-column mt-2">
+                                                    <button type="button" onclick="save()" class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Cập nhật</button>
+                                                    <button type="reset" class="btn btn-outline-secondary" data-dismiss="modal">Bỏ qua</button>
+                                                </div>
+                                                <!-- </div> -->
+                                            </form>
+
+                                        </div>
                                     </div>
-                             
                                 </div>
                             </div>
                         </div>
                     </div>
-               </div>
+                </div>
             </section>
         </div>
     </div>
 </div>
-<!--  -->
+<script>
+    var funAdd = <?= $this->funAdd ?>,
+        funEdit = <?= $this->funEdit ?>,
+        funDel = <?= $this->funDel ?>;
+</script>
 <script src="<?= HOME ?>/js/system.js"></script>
