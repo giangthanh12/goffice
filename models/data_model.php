@@ -19,7 +19,7 @@ class Data_Model extends Model
         return $ok;
     }
 
-    function listObj($keyword, $nhanvien, $tungay, $denngay, $offset, $rows)
+    function listObj($keyword, $tungay, $denngay, $offset, $rows)
     {
         $result = array();
         $result['data'] = [];
@@ -29,9 +29,9 @@ class Data_Model extends Model
         if ($keyword != '') {
             $dieukien .= " AND (name LIKE '%$keyword%' OR phoneNumber LIKE '%$keyword%') ";
         }
-        if ($nhanvien > 0 && $nhanvien != 1 && $nhanvien != 2) {
-            $dieukien .= " AND staffId = $nhanvien ";
-        }
+        // if ($nhanvien > 0 && $nhanvien != 1 && $nhanvien != 2) {
+        //     $dieukien .= " AND staffId = $nhanvien ";
+        // }
         if ($tungay != '') {
             $dieukien .= " AND inputDate >= '$tungay' ";
         }
