@@ -43,14 +43,29 @@ class acm extends Controller{
         echo json_encode($json);
     }
 
-   
+   function totalAccountBalance() {
+       // lấy thông tin tài khoản
+        $accounts = $this->model->taikhoan();
+        foreach($accounts as $key=>$account) {
+            $sodutk = $this->model->getSodutk($account['id']);
+            $accounts[$key]['sodu'] = $sodutk;
+        }
+        echo json_encode($accounts);
+   }
 
    
 
     function update() {
         $id = $_REQUEST['id'];
         if($id == "" && self::$funAdd == 1) {
-        
+           $sodutk = $this->model->getSodutk( $_REQUEST['account']);
+          
+           if(str_replace(',','',$_REQUEST['asset']) > $sodutk && $_REQUEST['action'] == 2) {
+            $jsonObj['msg'] = "Số dư tài khoản không đủ";
+            $jsonObj['success'] = false;
+            echo json_encode($jsonObj);
+            return false;
+           }
             $data = array(
                 'content' => $_REQUEST['content'],
                 'customerId' => $_REQUEST['customer'],
@@ -79,6 +94,13 @@ class acm extends Controller{
             }
         }
         else if($id > 0 && self::$funEdit == 1) {
+            $sodutk = $this->model->getSodutk( $_REQUEST['account']);
+                if(str_replace(',','',$_REQUEST['asset']) > $sodutk && $_REQUEST['action'] == 2) {
+                    $jsonObj['msg'] = "Số dư tài khoản không đủ";
+                    $jsonObj['success'] = false;
+                    echo json_encode($jsonObj);
+                    return false;
+                }
             $data = array(
                 'content' => $_REQUEST['content'],
                 'customerId' => $_REQUEST['customer'],

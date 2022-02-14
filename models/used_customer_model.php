@@ -1,7 +1,7 @@
 <?php
 class used_customer_Model extends Model{
-    function __construst(){
-        parent::__construst();
+    function __construct(){
+        parent::__construct();
     }
 
         function getStaff() {
@@ -14,6 +14,13 @@ class used_customer_Model extends Model{
         function getNational() {
             $result = array();
             $query = $this->db->query("SELECT id, name AS `text` FROM national");
+            if ($query)
+                $result = $query->fetchAll(PDO::FETCH_ASSOC);
+            return $result;
+        }
+        function getPosition() {
+            $result = array();
+            $query = $this->db->query("SELECT id, name AS `text` FROM position WHERE status > 0");
             if ($query)
                 $result = $query->fetchAll(PDO::FETCH_ASSOC);
             return $result;
@@ -32,7 +39,7 @@ class used_customer_Model extends Model{
             return $result;
         }
         function loadContact($id) {
-            $query = $this->db->query("SELECT * FROM contact WHERE status = 1 AND customerId = $id  ORDER BY id DESC ");
+            $query = $this->db->query("SELECT *,(SELECT name from position where id = a.position) AS positionName FROM contact a WHERE status = 1 AND customerId = $id  ORDER BY id DESC ");
             $result['data'] = $query->fetchAll(PDO::FETCH_ASSOC);
             return $result;
         }
@@ -43,7 +50,7 @@ class used_customer_Model extends Model{
             return $result;
         }
         function addObj($data) {
-           $result = $this->insert("customer",$data);
+           $result = $this->insert("customers",$data);
            return $result;
         }
         function listObj() {
@@ -59,11 +66,11 @@ class used_customer_Model extends Model{
             return $result;
         }
         function updateObj($id, $data) {
-            $result = $this->update('customer', $data, "id = $id");
+            $result = $this->update('customers', $data, "id = $id");
             return $result;
         }
         function delObj($id, $data) {
-            $result = $this->update('customer', $data, "id = $id");
+            $result = $this->update('customers', $data, "id = $id");
             return $result;
         }
         function checkPhone($idCustomer, $phone) {

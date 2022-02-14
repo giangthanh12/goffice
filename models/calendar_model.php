@@ -40,4 +40,16 @@ class calendar_model extends Model
         }
         return $result;
     }
+
+    function updateObj($calendarId,$data) 
+    {
+        $result = $this->update("calendars",$data,"id=$calendarId");
+        return $result;
+    }
+
+    function addObj($data)
+    {
+        $result = $this->insert("calendars",$data);
+        return $result;
+    }
 }

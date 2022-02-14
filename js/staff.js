@@ -65,6 +65,7 @@ $(function () {
             columns: [
                 // columns according to JSON
                 {data: "name"},
+                {data: "staffCode"},
                 {data: "email"},
                 {data: "phoneNumber"},
                 {data: "status"},
@@ -119,7 +120,7 @@ $(function () {
                 },
                 {
                     // User Role
-                    targets: 2,
+                    targets: 3,
                     render: function (data, type, full, meta) {
                         var $phone = full["phoneNumber"];
                         if ($phone != '') {
@@ -133,7 +134,7 @@ $(function () {
                 },
                 {
                     // User Role
-                    targets: 1,
+                    targets: 2,
                     render: function (data, type, full, meta) {
                         var $email = full["email"];
                         if ($email != '') {
@@ -144,7 +145,7 @@ $(function () {
                 },
                 {
                     // Staff Status
-                    targets: 3,
+                    targets: 4,
                     render: function (data, type, full, meta) {
                         var $status = full["status"];
                         var $text = '';
@@ -412,62 +413,72 @@ function loaddata(id) {
         data: {id: id},
         url: baseHome + "/staff/loaddata",
         success: function (result) {
-            var data = result.nhanvien;
+          var data = result.nhanvien;
 
-            $('#nhanvien').html(data.name);
-            if(data.avatar!='')
-                var $avatar = baseUrlFile+'/uploads/nhanvien/'+data.avatar;
-            else
-                var $avatar = baseHome+'/layouts/useravatar.png';
-            $('#avatar').attr('src', $avatar);
-            //gender
-            if (data.gender == 1)
-                $("#male1").prop("checked", true);
-            else if (data.gender == 2)
-                $("#female1").prop("checked", true);
-            else
-                $("#other1").prop("checked", true);
-            //maritalStatus
-            if (data.maritalStatus == 1)
-                $("#married").prop("checked", true);
-            else if (data.maritalStatus == 2)
-                $("#alone").prop("checked", true);
-            $('#name1').val(data.name);
-            $('#code1').val(data.code);
-            $('#code1').attr('disabled', 'disabled');
-            $('#birthday1').val(data.birthDay);
-            $('#phoneNumber1').val(data.phoneNumber);
-            $('#email1').val(data.email);
-            $('#address').val(data.address);
-            $('#residence').val(data.residence);
-            $('#idCard').val(data.residence);
-            $('#idDate').val(data.idDate);
-            $('#status_update').val(data.status);
-            if (data.idDate == "00/00/0000") {
-                $('#idDate').val('').attr('placeholder', 'DD/MM/YYYY');
-            }
-            $('#taxCode').val(data.taxCode);
-            $('#idAddress').val(data.idAddress);
-            $('#vssId').val(data.vssId);
-            $('#nationality').val(data.nationality);
-            $("#description").val(data.description);
-            $("#id").val(id);
-            var accessPoints = data.accesspoints.split(',');
-            $('#accesspoints').val(accessPoints).trigger("change");
-            var staffInfo = result.staff_info;
-            if (staffInfo != 0) {
-                $('#twitter').val(staffInfo.twitter);
-                $('#facebook').val(staffInfo.facebook);
-                $('#instagram').val(staffInfo.instagram);
-                $('#zalo').val(staffInfo.zalo);
-                $('#wechat').val(staffInfo.wechat);
-                $('#linkein').val(staffInfo.linkein);
-            } else {
-                $('#socailForm').trigger("reset");
-            }
+          $("#nhanvien").html(data.name);
+          if (data.avatar != "")
+            var $avatar = baseUrlFile + "/uploads/nhanvien/" + data.avatar;
+          else var $avatar = baseHome + "/layouts/useravatar.png";
+          $("#avatar").attr("src", $avatar);
+          //gender
+          if (data.gender == 1) $("#male1").prop("checked", true);
+          else if (data.gender == 2) $("#female1").prop("checked", true);
+          else $("#other1").prop("checked", true);
+          //maritalStatus
+          if (data.maritalStatus == 1) $("#married").prop("checked", true);
+          else if (data.maritalStatus == 2) $("#alone").prop("checked", true);
+          $("#name1").val(data.name);
+          if(data.staffCode != '') {
+            $("#staffCode").attr("disabled","disabled");
+            $("#staffCode").parent().removeClass("col-lg-10 col-md-9");
+            $("#staffCode").parent().addClass("col-lg-12 col-md-12");
+            $("#createCode").parent().removeClass("col-lg-2 col-md-3");
+            $("#createCode").parent().css("display","none");
+            $("#staffCode").val(data.staffCode);
+          } else {
+              $("#staffCode").attr("disabled", "none");
+              $("#staffCode").parent().addClass("col-lg-10 col-md-9");
+              $("#staffCode").parent().removeClass("col-lg-12 col-md-12");
+              $("#createCode").parent().css("display", "inline-block");
+              $("#createCode").parent().addClass("col-lg-2 col-md-3");
+              
+              $("#staffCode").val(data.staffCode);
+          }
+          $("#staffCode").val(data.staffCode);
+          $("#branchId").val(data.branchId);
+          $("#birthday1").val(data.birthDay);
+          $("#phoneNumber1").val(data.phoneNumber);
+          $("#email1").val(data.email);
+          $("#address").val(data.address);
+          $("#residence").val(data.residence);
+          $("#idCard").val(data.idCard);
+          $("#idDate").val(data.idDate);
+          $("#status_update").val(data.status);
+          if (data.idDate == "00/00/0000") {
+            $("#idDate").val("").attr("placeholder", "DD/MM/YYYY");
+          }
+          $("#taxCode").val(data.taxCode);
+          $("#idAddress").val(data.idAddress);
+          $("#vssId").val(data.vssId);
+          $("#nationality").val(data.nationality);
+          $("#description").val(data.description);
+          $("#id").val(id);
+          $("#branchId").val(data.branchId);
+          var accessPoints = data.accesspoints.split(",");
+          $("#accesspoints").val(accessPoints).trigger("change");
+          var staffInfo = result.staff_info;
+          if (staffInfo != 0) {
+            $("#twitter").val(staffInfo.twitter);
+            $("#facebook").val(staffInfo.facebook);
+            $("#instagram").val(staffInfo.instagram);
+            $("#zalo").val(staffInfo.zalo);
+            $("#wechat").val(staffInfo.wechat);
+            $("#linkein").val(staffInfo.linkein);
+          } else {
+            $("#socailForm").trigger("reset");
+          }
 
-
-            loadRecord(id);
+          loadRecord(id);
         },
         error: function () {
             notify_error('Lỗi truy xuất database');
@@ -482,7 +493,7 @@ function createCodeAsset() {
 function updateinfo() {
     var id = $("#id").val();
     var info = {};
-    info.staffCode = $("#code1").val();
+    info.staffCode = $("#staffCode").val();
     info.gender = $("input[type='radio'][name='gender']:checked").val();
     info.maritalStatus = $("input[type='radio'][name='maritalStatus']:checked").val();
     info.name = $("#name1").val();
@@ -705,12 +716,16 @@ function loadRecord(id) {
 }
 
 function createCodeStaff() {
-  $("#staffCode").val("");
-  var codeAsset = Math.floor(Math.random() * (9999999 - 1000000 + 1)) + 1000000;
-  $("#staffCode").val(codeAsset);
-}
-function createCodeStaff1() {
-  $("#code1").val("");
-  var codeAsset = Math.floor(Math.random() * (9999999 - 1000000 + 1)) + 1000000;
-  $("#code1").val(codeAsset);
+  var id = $("#branchId").val();
+  if (id == '') {
+      alert("Chưa có thông tin về chi nhánh làm việc")
+  }
+  else if(id < 10) id = "0"+id;
+  var codeRandom = Math.floor(Math.random() * (9999 - 1000 + 1)) + 1000;
+  if (codeRandom < 1000) codeRandom = "0" + codeRandom;
+  else if (codeRandom < 100) codeRandom = "00" + codeRandom;
+  else if (codeRandom < 10) codeRandom = "000" + codeRandom;
+
+  let staffCode = id+''+codeRandom;
+  $("#staffCode").val(staffCode);
 }

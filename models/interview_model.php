@@ -1,8 +1,9 @@
 <?php
 class interview_Model extends Model{
-    function __construst(){
-        parent::__construst();
+    function __construct(){
+        parent::__construct();
     }
+
     function getRecruitmentCamp() {
         $result = array();
         $query = $this->db->query("SELECT id, title AS `text` FROM recruitmentcamp WHERE status = 1");
@@ -10,6 +11,7 @@ class interview_Model extends Model{
             $result = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }
+
     // function getCandidate($campId) {
     //     $result = array();
     //     $query = $this->db->query("SELECT canId as id,
@@ -35,15 +37,39 @@ class interview_Model extends Model{
             $result = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }
+
     function updateInterview($id,$data) {
+        $result = false;
         if(!empty($id) && $id > 0) {
-            $result = $this->update("interview",$data, " id = $id ");
+            $this->update("interview",$data, " id = $id ");
+            $result = true;
         }
         else {
-            $result = $this->insert("interview",$data);
+            $this->insert("interview",$data);
+            $interviewId = $this->db->lastInsertId();
+            $campId = $data['campId'];
+            $query = $this->db->query("SELECT title FROM recruitmentcamp WHERE id=$campId");
+            $temp = $query->fetchAll(PDO::FETCH_ASSOC);
+            $campTitle = $temp[0]['title'];
+            $listInteviewerIds = explode(',',$data['interviewerIds']);
+            foreach($listInteviewerIds as $item) {
+                $calendar = [
+                    'title' => "Lịch phỏng vấn cho chiến dịch: ".$campTitle,
+                    'staffId' => $item,
+                    'objectType' => 2,
+                    'startDate' => $data['dateTime'],
+                    'endDate' => $data['dateTime'],
+                    'description' => $data['note'],
+                    'status' => 1,
+                    'objectid' => $interviewId
+                ];
+                $this->insert("calendars",$calendar);
+            }
+            $result = true;
         }
         return $result;
     }
+
     function getListInterview($thang,$nam,$nhanvien) {
         $thangnam = $nam . '-' . $thang;
         // $today = date('Y-m-d');
@@ -71,9 +97,24 @@ class interview_Model extends Model{
         }
         return $temp;
     }
+
     function delObj($id, $data) {
         $result = $this->update('interview', $data, "id = $id");
         return $result;
+    }
+
+    function checkCalendar($interviewId)
+    {
+        $query = $this->db->query("SELECT id FROM calendars WHERE objectId=$interviewId AND objectType=2");
+        if ($query)
+            $data = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $data;
+    }
+
+    function updateCalendar($calendarId, $data) 
+    {
+        $query = $this->update("calendars", $data, " id=$calendarId ");
+        return $query;
     }
 }
 ?>

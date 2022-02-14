@@ -16,9 +16,9 @@
                     034 678 8118
                 </td>
                 <td class="col-right">
-                    Báo giá số: <?=$this->id?><br>
-                    Ngày tạo: <?=$this->date?><br>
-                    Có giá trị đến: <?=$this->validDate?>
+                    Báo giá số: <?=$this->quote['quote']['id']?><br>
+                    Ngày tạo: <?=$this->quote['quote']['date']?><br>
+                    Có giá trị đến: <?=$this->quote['quote']['validDate']?>
                 </td>
             </tr>
         </table>
@@ -28,7 +28,7 @@
         <table>
             <tr>
                 <td class="col-left">
-                    Kính gửi quý khách hàng <?=$this->customer?><br>
+                    Kính gửi quý khách hàng <?=$this->quote['quote']['khachhang']?><br>
                     <!-- G5 Thanh Xuân Bắc, Quận Thanh Xuân, Tp Hà Nội<br>
                     034 678 8118 -->
                 </td>
@@ -60,18 +60,18 @@
             $i=1;
             $tongtien = 0;
             $tongthue = 0;
-            foreach ($this->items AS $item) {
-                $thanhtien = str_replace(',','',$item->thanhtien);
-                $vat = $thanhtien*$item->vat/100;
+            foreach ($this->quote['items'] AS $item) {
+                $thanhtien = ($item['price']-$item['reduce'])*(1-$item['discount']/100)*$item['quantity'];
+                $vat = $thanhtien*($item['vat']/100);
                 echo '<tr>';
                 echo '<td>'.$i.'</td>';
-                echo '<td>'.$item->productName.'<br>'.$item->noteProduct.'</td>';
-                echo '<td>'.$item->unit.'</td>';
-                echo '<td>'.$item->qty.'</td>';
-                echo '<td style="text-align:right">'.$item->price.'</td>';
-                echo '<td style="text-align:right">'.$item->discount.'</td>';
-                echo '<td style="text-align:center">'.$item->chietkhau.'</td>';
-                echo '<td style="text-align:right">'.$item->thanhtien.'</td>';
+                echo '<td>'.$item['product'].'<br>'.$item['description'].'</td>';
+                echo '<td>'.$item['unit'].'</td>';
+                echo '<td>'.$item['quantity'].'</td>';
+                echo '<td style="text-align:right">'.number_format($item['price']).'</td>';
+                echo '<td style="text-align:right">'.number_format($item['reduce']).'</td>';
+                echo '<td style="text-align:center">'.$item['discount'].'</td>';
+                echo '<td style="text-align:right">'.number_format($thanhtien).'</td>';
                 echo '<td style="text-align:right">'.number_format($vat).'</td>';
                 echo '</tr>';
                 $i++;
@@ -92,7 +92,7 @@
           </tr>
         </table>
         <h4>Ghi chú</h4>
-        <p><?=$this->note?><br></p>
+        <p><?=$this->quote['quote']['note']?><br></p>
     </div>
     <div class="footer">
         <!-- <table width="100%"><tr>
@@ -107,6 +107,8 @@
                 - Miễn phí nội thành Hà Nội<br>
             </td>
         </tr></table> -->
+
+
     </div>
     <div class="chuky"></div>
     <div class="noprint">

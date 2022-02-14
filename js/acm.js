@@ -1,11 +1,12 @@
 $(function () {
-    
+    return_combobox_multi('#authorized',baseHome + "/acm/nhanvien", 'Nhân viên');
     var dtUserTable = $(".user-list-table"),
         modal = $("#updateinfo"),
         customer = $("#customer"),
         staff = $("#staff"),
         addNewBtn = $(".add-new button"),
         authorized = $("#authorized"),
+        contract = $('#contract'),
         account = $("#account"),
         datePicker = $("#dateTime"),
         form = $("#dg");
@@ -72,21 +73,7 @@ $(function () {
         },
     });
 
-    $.ajax({
-        // tải Nhân viên vào select1 staff
-        type: "GET",
-        dataType: "json",
-        async: false,
-        url: baseHome + "/acm/nhanvien",
-        success: function (data) {
-            authorized.wrap('<div class="position-relative"></div>').select2({
-                dropdownAutoWidth: true,
-                dropdownParent: authorized.parent(),
-                width: "100%",
-                data: data,
-            });
-        },
-    });
+  
 
     $.ajax({
         // tải Khách hàng vào select1 account
@@ -113,6 +100,7 @@ $(function () {
         url: baseHome + "/acm/nhanvien",
         success: function (data) {
             staff.wrap('<div class="position-relative"></div>').select2({
+                placeholder:'Nhân viên',
                 dropdownAutoWidth: true,
                 dropdownParent: staff.parent(),
                 width: "100%",
@@ -159,6 +147,21 @@ $(function () {
             // ajax: assetPath + "data/user-list.json", // JSON file to add data
             ajax: baseHome + "/acm/list",
             ordering: false,
+            // drawCallback: function () {
+            //     var api = this.api();
+             
+            //     var  total = api
+            //     .column( 3 )
+            //     .data()
+            //     .reduce( function (a, b) {
+            //         return Number(a)   + Number(b);
+            //     }, 0 );
+                
+            //     $('.taikhoan_sodu1').html(
+            //         '<b>SDTK:'+Comma(total)+' đ</b>'
+            //     );
+            //     $('#sodutaikhoan').val(total);
+            //   },
             columns: [
                 // columns according to JSON
                 // { data: "" },
@@ -168,11 +171,16 @@ $(function () {
                 {data: "asset"},
                 {data: "action"},
                 {data: "type"},
-                // {data: "dateTime"},
+                {data: "asset"},
+           
                 {data: ""},
             ],
             columnDefs: [
-              
+                {
+                    // classify Status
+                    targets: 6,
+                    visible: false,
+                },
                 {
                     // User full name and username
                     targets: 5,
@@ -186,6 +194,7 @@ $(function () {
                         );
                     },
                 },
+              
                 {
                     // classify Status
                     targets: 4,
@@ -200,7 +209,14 @@ $(function () {
                         );
                     },
                 },
-
+                {
+                    // classify Status
+                    targets:3,
+                    render: function (data, type, full, meta) {
+                     
+                        return Comma(full['asset'])
+                    },
+                },
                 {
                     // Actions
                     targets: -1,
@@ -266,7 +282,7 @@ $(function () {
                     .every(function () {
                         var column = this;
                         var select = $(
-                            '<select id="UserPlan" class="form-control text-capitalize mb-md-0 mb-2"><option value=""> Tài khoản </option></select>'
+                            '<select id="UserPlan" class="form-control text-capitalize mb-md-0 mb-2"></select>'
                         )
                             .appendTo(".taikhoan_filter")
                             .on("change", function () {
@@ -303,6 +319,8 @@ $(function () {
     // url = baseHome + "/acm/add";
     $('#account').val('').change();
     $('#classify').val('').change();
+    $('#authorized').val('').change();
+    
     $('#id').val('');
     $('#action').val(2);
     $('#type').html(`<option value="2">Chi phí</option>
@@ -310,6 +328,7 @@ $(function () {
    }
 
    function actionMenuCollect() {
+       
     var validator = $("#dg").validate(); // reset form
     validator.resetForm();
     $(".error").removeClass("error"); // loại bỏ validate
@@ -323,6 +342,7 @@ $(function () {
     $('#id').val('');
     $('#action').val(1);
     $('#type').html('');
+    $('#authorized').val('').change();
     $('#type').html(`<option value="1">Doanh thu</option>
     <option value="3">Nội bộ</option>`);
    }
@@ -406,8 +426,8 @@ $(function () {
                 var note = $("#note").val();
                 var action = $('#action').val();
                 var status = 1;
-            
-            
+               
+           
                 $.ajax({
                     type: "POST",
                     dataType: "json",
@@ -431,11 +451,10 @@ $(function () {
                         if (data.success == true) {
                             notyfi_success(data.msg);
                             $(".user-list-table").DataTable().ajax.reload(null, false);
-                            $("#dg").trigger("reset");
+                            showAccountBalance();
                             modal.modal("hide");
                         } else {
                             notify_error(data.msg);
-                            $("#dg").trigger("reset");
                             return false;
                         }
                     },
@@ -451,6 +470,26 @@ $(function () {
         container: "body",
     });
 });
+
+function showAccountBalance() {
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        url: baseHome + "/acm/totalAccountBalance",
+        success: function (data) {
+            $('#showAccountBalance').html('');
+            var html = '';
+           data.forEach(function(item) {
+               html+= `<b>Số dư ${item.text}: ${Comma(item.sodu)}</b>`;
+           })
+           $('#showAccountBalance').html(html);
+        },
+        error: function () {
+            notify_error("Lỗi truy xuất database");
+        },
+    });
+}
+showAccountBalance()
 
 function loaddata(id) {
     $(".modal-title").html("Cập nhật thông tin sổ tiền mặt");
@@ -519,6 +558,7 @@ function xoa(id) {
                 success: function (data) {
                     if (data.success) {
                         notyfi_success(data.msg);
+                        showAccountBalance();
                         $(".user-list-table").DataTable().ajax.reload(null, false);
                     } else notify_error(data.msg);
                 },

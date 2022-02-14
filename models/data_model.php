@@ -6,9 +6,8 @@ class Data_Model extends Model
         parent::__construct();
     }
 
-    function addCustomer($dataId, $data)
+    function addCustomer($data)
     {
-        $this->update("data", ['status' => 11], " id=$dataId ");
         $this->insert("customers", $data);
         return $this->db->lastInsertId();
     }
@@ -26,7 +25,7 @@ class Data_Model extends Model
         $result['data'] = [];
         $result['total'] = 0;
 
-        $dieukien = " WHERE status > 0 ";
+        $dieukien = " WHERE status > 0 AND status != 6 ";
         if ($keyword != '') {
             $dieukien .= " AND (name LIKE '%$keyword%' OR phoneNumber LIKE '%$keyword%') ";
         }
@@ -39,7 +38,7 @@ class Data_Model extends Model
         if ($denngay != '') {
             $dieukien .= " AND inputDate <= '$denngay' ";
         }
-        $query = $this->db->query("SELECT id FROM data $dieukien ");
+        $query = $this->db->query("SELECT id FROM data $dieukien");
         $temp = $query->fetchAll(PDO::FETCH_ASSOC);
 
         if ($temp) {
@@ -53,7 +52,7 @@ class Data_Model extends Model
             (SELECT name FROM staffs WHERE id = inputId) as input,
             (SELECT name FROM datasource WHERE id= sourceId) as source,
             IFNULL((SELECT name FROM staffs WHERE id = staffId),'') as staff
-            FROM data $dieukien ORDER BY id DESC LIMIT $offset,$rows ");
+            FROM data $dieukien ORDER BY inputDate DESC LIMIT $offset,$rows ");
         $temp = $query->fetchAll(PDO::FETCH_ASSOC);
         if ($temp) {
             $result['data'] = $temp;
@@ -78,7 +77,7 @@ class Data_Model extends Model
         $temp = $query->fetchAll(PDO::FETCH_ASSOC);
         $result['data'] = $temp[0];
         $query = $this->db->query("SELECT *,
-            (SELECT IF(avatar='',CONCAT('" . URLFILE . "','/uploads/useravatar.png'),CONCAT('" . URLFILE . "/',avatar)) FROM staffs WHERE id=a.staffId) AS hinhanh,
+            (SELECT IF(avatar='',CONCAT('" . HOME . "','/layouts/useravatar.png'),CONCAT('" . URLFILE . "/uploads/nhanvien/',avatar)) FROM staffs WHERE id=a.staffId) AS hinhanh,
             (SELECT name FROM staffs WHERE id = a.staffId) AS username,
             IF(dateTime!='',DATE_FORMAT(dateTime,'%d/%m/%Y %H:%i:%s'),'') as dateTime
             FROM datareports a WHERE status = 1 AND dataId = $id ORDER BY dateTime DESC");

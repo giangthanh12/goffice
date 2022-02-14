@@ -287,7 +287,7 @@
                                 <button class="btn btn-primary btn-block mb-75" id="btnSend">Gửi báo giá</button>
                                 <button id="btnPrint"class="btn btn-outline-primary btn-block mb-75" target="_blank">In báo giá</button>
                                 <button type="button" id="btnSave" class="btn btn-outline-primary btn-block">Ghi nháp</button>
-                                <button class="btn btn-primary btn-block mb-75" >Lập báo giá mới</button>
+                                <button class="btn btn-primary btn-block mb-75" id="btnNew" >Lập báo giá mới</button>
                                 <a href="baogia" class="btn btn-outline-primary btn-block mb-75">Danh sách báo giá</a>
                                 <a href="lead_temp" class="btn btn-outline-primary btn-block mb-75">Cơ hội kinh doanh</a>
                             </div>
@@ -381,6 +381,35 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade text-left" id="emailList" tabindex="-1" role="dialog" aria-labelledby="myModalLabel17" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel17">Select Emails</h4>
+                <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button> -->
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6 mb-1">
+                        <label>Chọn email người nhận</label>
+                        <select class="form-control " id="selectEmail"></select>
+                        <br><br>
+                        <button type="button" class="btn btn-primary" id="sendMail" >Gửi</button>
+                    </div>
+                    <div class="col-md-6 mb-1">
+                        <label>Danh sách email (cách bởi dấu phẩy)</label>
+                        <textarea class="form-control" id="emails" rows="3" placeholder="Mailing list"></textarea>
+                        <input type="hidden" id="quoteId" name="quoteId">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script src="<?=HOME?>/styles/app-assets/vendors/js/ui/jquery.sticky.js"></script>
 <script src="<?=HOME?>/styles/app-assets/vendors/js/forms/repeater/jquery.repeater.min.js"></script>
 <script src="<?=HOME?>/js/bgadd.js"></script>

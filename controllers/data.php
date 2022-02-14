@@ -1,7 +1,7 @@
 <?php
 class data extends Controller
 {
-    static private $funCall = 0, $funAdd = 0, $funShare = 0, $funImport = 0, $funCreateChange = 0, $funEdit = 0, $funDel =0;
+    static private $funCall = 0, $funAdd = 0, $funShare = 0, $funImport = 0, $funCreateChange = 0, $funEdit = 0, $funDel = 0;
     function __construct()
     {
         parent::__construct();
@@ -10,7 +10,7 @@ class data extends Controller
         if ($checkMenuRole == false)
             header('location:' . HOME);
         $funcs = $model->getFunctions('data');
-      
+
         foreach ($funcs as $item) {
             if ($item['function'] == 'call')
                 self::$funCall = 1;
@@ -25,7 +25,7 @@ class data extends Controller
             if ($item['function'] == 'edit')
                 self::$funEdit = 1;
             if ($item['function'] == 'del')
-            self::$funDel = 1;
+                self::$funDel = 1;
         }
     }
 
@@ -65,8 +65,10 @@ class data extends Controller
             'taxCode' => $json['data']['taxCode'],
             'status' => 1
         ];
-        $customerId = $this->model->addCustomer($dataId, $data);
-        if ($customerId>0) {
+        $customerId = $this->model->addCustomer($data);
+
+        if ($customerId > 0) {
+            $this->model->updateObj($dataId, ['status' => 6]);
             $data = [
                 'name' => $_REQUEST['leadName'],
                 'customerId' => $customerId,
@@ -85,8 +87,6 @@ class data extends Controller
         }
         echo json_encode($jsonObj);
     }
-
-   
 
     function importData()
     {
@@ -169,13 +169,13 @@ class data extends Controller
         $rows = isset($_REQUEST['length']) ? $_REQUEST['length'] : 30;
         // $page = isset($_REQUEST['page']) ? $_REQUEST['page']: 1;
         // $offset = ($page - 1) * $rows;
-        $nhanvien = isset($_REQUEST['nhanvien']) && $_REQUEST['nhanvien'] != '' && $_REQUEST['nhanvien'] != 0 ? $_REQUEST['nhanvien'] : '';
+        // $nhanvien = isset($_REQUEST['nhanvien']) && $_REQUEST['nhanvien'] != '' && $_REQUEST['nhanvien'] != 0 ? $_REQUEST['nhanvien'] : '';
         $tungay = isset($_REQUEST['tu_ngay']) && $_REQUEST['tu_ngay'] != '' ? date("Y-m-d", strtotime(str_replace('/', '-', $_REQUEST['tu_ngay']))) : '';
         $denngay = isset($_REQUEST['den_ngay']) && $_REQUEST['den_ngay'] != '' ? date("Y-m-d", strtotime(str_replace('/', '-', $_REQUEST['den_ngay']))) : '';
-        
- 
-        
-        $result = $this->model->listObj($keyword, $nhanvien, $tungay, $denngay, $offset, $rows);
+
+
+
+        $result = $this->model->listObj($keyword, $tungay, $denngay, $offset, $rows);
         $totalData = $result['total'];
 
         $data['data'] = $result['data'];
@@ -268,12 +268,41 @@ class data extends Controller
         $data['status'] = isset($_REQUEST['estatus']) ? $_REQUEST['estatus'] : 1;
         $checkPhoneNumber = $this->model->checkPhoneNumber($data['phoneNumber'], $id);
         if ($checkPhoneNumber == true) {
-            if ($this->model->updateObj($id, $data)) {
-                $jsonObj['msg'] = 'Cập nhật dữ liệu thành công';
-                $jsonObj['success'] = true;
+            if ($data['status'] == 6) {
+                $json = $this->model->getData($id);
+                $customer = [
+                    'fullName' => $data['name'],
+                    'address' => $data['address'],
+                    'email' => $data['email'],
+                    'website' => $json['data']['website'],
+                    'phoneNumber' => $data['phoneNumber'],
+                    'staffInCharge' => $json['data']['staffInCharge'],
+                    'staffId' => $staffId,
+                    'type' => $json['data']['type'],
+                    'field' => $json['data']['field'],
+                    'note' => $data['note'],
+                    'taxCode' => $data['taxCode'],
+                    'date' => date('Y-m-d'),
+                    'status' => 1
+                ];
+                $customerId = $this->model->addCustomer($customer);
+                if ($customerId > 0) {
+                    if ($this->model->updateObj($id, $data)) {
+                        $jsonObj['msg'] = 'Cập nhật dữ liệu thành công';
+                        $jsonObj['success'] = true;
+                    } else {
+                        $jsonObj['msg'] = 'Cập nhật dữ liệu không thành công';
+                        $jsonObj['success'] = false;
+                    }
+                }
             } else {
-                $jsonObj['msg'] = 'Cập nhật dữ liệu không thành công';
-                $jsonObj['success'] = false;
+                if ($this->model->updateObj($id, $data)) {
+                    $jsonObj['msg'] = 'Cập nhật dữ liệu thành công';
+                    $jsonObj['success'] = true;
+                } else {
+                    $jsonObj['msg'] = 'Cập nhật dữ liệu không thành công';
+                    $jsonObj['success'] = false;
+                }
             }
         } else {
             $jsonObj['msg'] = "Số điện thoại đã tồn tại trong hệ thống!";

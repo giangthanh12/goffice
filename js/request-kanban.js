@@ -212,6 +212,7 @@ $(function () {
         });
     }
     addNewButton.on("click", function () {
+        $('#timelineComment').html('');
         sidebar.modal('show');
         $('#btnRefuse').addClass('d-none');
         $('#btnApprove').addClass('d-none');
@@ -401,7 +402,7 @@ function initKanban() {
                 }
             });
 
-            $('#tab-comments').empty();
+            $('#timelineComment').html();
             $.ajax({
                 type: 'GET',
                 dataType: 'json',
@@ -409,24 +410,37 @@ function initKanban() {
                 url: baseHome + '/request/getComments?requestId=' + requestId,
                 success: function (dataComment) {
                     console.log(dataComment);
+                    $('#timelineComment').html('');
+                    var html = '';
                     dataComment.forEach(function (item) {
-                        var html='';
-                        var statusText = ''
-                        if(item.status==2)
-                            statusText='Người duyệt';
+                       if(item.status==2)
+                          var  colorStatus = 'success';
+                        var      statusText='Người duyệt';
                         if(item.status==3)
-                            statusText='Người từ chối';
-                        html+='<div class="media mb-1">' +
-                            '<div class="avatar bg-light-success my-0 ml-0 mr-50">' +
-                            renderAvatar(item.avatar, true, 0, item.staffName, 28)+
-                            '</div>' +
-                            '<div class="media-body">' +
-                            '<p class="mb-0"><span class="font-weight-bold " style="color: red">'+item.stepName+'</span></p>' +
-                            '<p class="mb-0">'+statusText+': <span class="font-weight-bold " style="color: blue">'+item.staffName+'</span>:&nbsp;'+item.note+'</p>' +
-                            '</div>' +
-                            '</div>';
-                        $('#tab-comments').append(html);
-                    })
+                        var    colorStatus = 'danger';
+                        var    statusText='Người từ chối';
+    
+                        html += `<li class="timeline-item">
+                            <span class="timeline-point timeline-point-secondary timeline-point-${colorStatus} timeline-point-indicator"></span>
+                            <div class="timeline-event">
+                                <div class="d-flex justify-content-between flex-sm-row flex-column mb-sm-0 mb-1">
+                                    <h6>${item.stepName}</h6>
+                                </div>
+                                <p>${item.note}</p>
+                                <div class="media align-items-center">
+                                    <div class="avatar">`;
+                                    html +=    '<img onerror='+"this.src='https://velo.vn/goffice-test/layouts/useravatar.png'"+' src="../../../app-assets/images/avatars/12-small.png" alt="avatar" height="38" width="38" />';
+                                   html+= `</div>
+                                    <div class="media-body ml-50">
+                                        <h6 class="mb-0">${item.staffName}</h6>
+                                        <span>${item.phoneNumber}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>`;
+
+                    });
+                    $('#timelineComment').html(html);
 
                 }
             });

@@ -53,17 +53,17 @@ class payrolls extends Controller
    
         $data['data'] = $this->model->listObj($month, $year, $staffId,self::$funCheck);
         foreach($data['data'] as $key=>$value) {
-         $salary = ($value['basicSalary'] / $value['wokingDays']) * $value['totalWorkDays'];
-            $provisionalSalary = $salary;
-            $provisionalSalary += $value['allowance'];
-            $provisionalSalary +=$value['revenueBonus'];
-            $provisionalSalary +=$value['tetBonus']; 
-            $provisionalSalary += $value['otherBonus'];
-            $totalSalary = $provisionalSalary;
-            $totalSalary -= $value['insurance'];
-            $totalSalary -= $value['advance'];
-            $data['data'][$key]['thuclinh'] = round($totalSalary);
-        }
+            $salary = ($value['basicSalary'] / $value['wokingDays']) * $value['totalWorkDays'];
+               $provisionalSalary = $salary;
+               $provisionalSalary += $value['allowance'];
+               $provisionalSalary +=$value['revenueBonus'];
+               $provisionalSalary +=$value['tetBonus']; 
+               $provisionalSalary += $value['otherBonus'];
+               $totalSalary = $provisionalSalary;
+               $totalSalary -= $value['insurance'];
+               $totalSalary -= $value['advance'];
+               $data['data'][$key]['thuclinh'] = round($totalSalary);
+           }
         echo json_encode($data);
     }
 

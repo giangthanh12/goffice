@@ -11,6 +11,11 @@
                     <div class="d-flex justify-content-between align-items-center mx-50 row pt-2 pb-2">
                     <div class="col-md-4 taikhoan_filter"></div>
                     </div>
+                    <div class="d-flex justify-content-between align-items-center mx-50 row pt-2 pb-2" id="showAccountBalance">
+                       
+                    </div>
+                    </div>
+                    
                 </div>
                 
 
@@ -27,6 +32,8 @@
                                     <th>Số tiền</th>
                                     <th>Hình thức</th>
                                     <th>Loại</th>
+                                    <th></th>
+                                    <th></th>
                                     <th>...</th>
                                 </tr>
                             </thead>
@@ -49,6 +56,7 @@
                                                 <div class="row mt-1">
                                                     <input type="hidden" id="id" name="id">
                                                     <input type="hidden" id="action" name="action">
+                                                 
                                                     <div class="col-lg-3 col-md-6">
                                                         <div class="form-group">
                                                             <label for="dateTime">Thời gian</label>
@@ -94,22 +102,26 @@
                                                     <div class="col-lg-6 col-md-6">
                                                         <div class="form-group">
                                                             <label for="contract">Hợp đồng</label>
-                                                            <input id="contract" type="text" class="select2 form-control" name="contract" />
-                                                          
+                                                            <select id="contract" name="contract" class="form-control select2">
+                                                               
+                                                            </select>
                                                         </div>
                                                     </div>
 
                                                     <div class="col-lg-6 col-md-6">
                                                         <div class="form-group">
                                                             <label for="authorized">Nhân viên</label>
-                                                            <input id="authorized" type="text" class="select2 form-control" name="authorized" />
+                                                            <select name="authorized" id="authorized" class="form-control">
+                                                               
+                                                            </select>
+                                                            
                                                         </div>
                                                     </div>
 
                                                      <div class="col-lg-6 col-md-6">
                                                         <div class="form-group">
                                                             <label for="asset">Số tiền</label>
-                                                            <input id="asset" type="text" class="form-control" name="asset" />
+                                                            <input id="asset" type="text" class="form-control"  name="asset" />
                                                           
                                                         </div>
                                                     </div>
