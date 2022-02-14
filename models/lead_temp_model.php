@@ -11,7 +11,7 @@ class lead_temp_Model extends Model
         $result = array();
         $where = " WHERE status IN (1,2,3) ";
         $query = $this->db->query("SELECT id, customerId, name, description, status, dateTime,
-        (SELECT fullName FROM customers WHERE customer.id = lead.customerId) AS fullName
+        (SELECT fullName FROM customers WHERE id = lead.customerId) AS fullName
         FROM lead $where ORDER BY id DESC");
         if ($query)
             $result = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -60,7 +60,7 @@ class lead_temp_Model extends Model
     function getCustomer()
     {
         $result = array();
-        $where = " WHERE status = 1 ";
+        $where = " WHERE status > 0 ";
         $query = $this->db->query("SELECT id, fullName
             FROM customers $where ");
         $result = $query->fetchAll(PDO::FETCH_ASSOC);
