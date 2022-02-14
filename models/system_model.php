@@ -19,22 +19,10 @@ class system_Model extends Model{
         return $result;
     }
 
-    function addInfo($data)
-    {
-        $query = $this->insert("system",$data);
-        return $query;
-    }
-
    function updateInfo($id,$data) {
       $result = $this->update('system',$data,"id = $id");
       return $result;
    }
-
-   function delInfo($id,$data)
-    {
-        $query = $this->update("system",$data,"id = $id");
-        return $query;
-    }
 
    function saveLogo($data) {
     $result = $this->update('system',$data,"id = 7");
