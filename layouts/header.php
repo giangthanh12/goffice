@@ -67,6 +67,7 @@ $notifications = $model->getNotification();
         let dateNowDMY = '<?= date('d/m/Y') ?>';
         var SipUsername = '<?= $_SESSION['user']['extNum']; ?>';
         var SipPassword = '<?= $_SESSION['user']['sipPass']; ?>';
+        var taxCode = '<?= $_SESSION['folder']; ?>';
     </script>
     <!-- het thu vien -->
     <script src="<?= HOME ?>/styles/app-assets/vendors/js/vendors.min.js"></script>
@@ -85,7 +86,18 @@ $notifications = $model->getNotification();
     ?>
 </head>
 
+
 <body class="vertical-layout vertical-menu-modern  navbar-floating footer-static  " data-open="click" data-menu="vertical-menu-modern" data-col="">
+    <div class="toast toast-basic hide position-fixed" role="alert" aria-live="assertive" aria-atomic="true" data-delay="5000" style="bottom: 1rem; right: 1rem; z-index: 99999;height: 150px;width: 500px;">'
+        <div class="toast-header" style="background-color: #7367F0;">
+            <img src="" onerror="this.src='<?= HOME ?>/layouts/useravatar.png'" style="object-fit:cover;" id="avatarSent" t class="mr-1" alt="Toast image" height="18" width="25" />
+            <strong class="mr-auto" id="title-alert" style="color: white;"></strong>
+            <button type="button" class="ml-1 close" data-dismiss="toast" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="toast-body" id="content-alert"></div>
+    </div>
     <!-- BEGIN: Header-->
     <nav class="header-navbar navbar navbar-expand-lg align-items-center floating-nav navbar-light navbar-shadow container-xxl">
         <div class="navbar-container d-flex content">
@@ -114,6 +126,7 @@ $notifications = $model->getNotification();
                     <h6 class="align-self-center cursor-pointer ml-50 mb-0">+42</h6>
                 </div> -->
                 <ul class="nav navbar-nav bookmark-icons">
+
                     <li class="nav-item d-lg-block" id="checkIn">
                         <?php
                         if ($model->checkChamCong()) {
@@ -141,6 +154,51 @@ $notifications = $model->getNotification();
                 </li>
             </ul> -->
             </div>
+            <style>
+                .bell {
+                    animation: bellshake .5s cubic-bezier(.36, .07, .19, .97) both;
+                    backface-visibility: hidden;
+                    transform-origin: top right;
+                }
+
+                @keyframes bellshake {
+                    0% {
+                        transform: rotate(0);
+                    }
+
+                    15% {
+                        transform: rotate(5deg);
+                    }
+
+                    30% {
+                        transform: rotate(-5deg);
+                    }
+
+                    45% {
+                        transform: rotate(4deg);
+                    }
+
+                    60% {
+                        transform: rotate(-4deg);
+                    }
+
+                    75% {
+                        transform: rotate(2deg);
+                    }
+
+                    85% {
+                        transform: rotate(-2deg);
+                    }
+
+                    92% {
+                        transform: rotate(1deg);
+                    }
+
+                    100% {
+                        transform: rotate(0);
+                    }
+                }
+            </style>
             <ul class="nav navbar-nav align-items-center ml-auto">
             <li class="nav-item dropdown dropdown-notification mr-25">
                     <a class="nav-link" href="javascript:void(0);" data-toggle="dropdown">
@@ -184,8 +242,7 @@ $notifications = $model->getNotification();
                                 </div>
                             </a>
                             <?php } ?>
-                           
-                        </li>
+                            </li>
                       
                     </ul>
                 </li>
