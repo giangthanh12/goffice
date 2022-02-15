@@ -60,7 +60,6 @@ $notifications = $model->getNotification();
         activeurl = activeurl.split("/");
         activeurl = activeurl[3];
         var baseUser = '<?= $_SESSION['user']['staffId']; ?>';
- 
         var baseHome = '<?= HOME ?>';
         let baseUrlFile = '<?= URLFILE ?>';
         let now = '<?= date('Y-m-d H:i:s') ?>';
@@ -202,10 +201,13 @@ $notifications = $model->getNotification();
             <ul class="nav navbar-nav align-items-center ml-auto">
             <li class="nav-item dropdown dropdown-notification mr-25">
                     <a class="nav-link" href="javascript:void(0);" data-toggle="dropdown">
-                        <i class="ficon" data-feather="bell"></i>
+                        <i class="ficon bell bell-icon"  data-feather="bell"></i>
+                        <div id="showNotifi">
                         <?php if(!empty($notifications)) { ?>
-                        <span id="countNotifications" class="badge badge-pill badge-danger badge-up"><?=  count($notifications)?></span>
+                            <span id="countNotifications" class="badge badge-pill badge-danger badge-up"><?=  count($notifications)?></span>
+                           
                         <?php } ?>
+                        </div>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-media dropdown-menu-right">
                         <li class="dropdown-menu-header">
