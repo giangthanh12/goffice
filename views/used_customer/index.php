@@ -108,16 +108,16 @@
                                                     </div>
 
 
-                                                    <div class="col-lg-6 col-md-6">
+                                                    <!-- <div class="col-lg-6 col-md-6">
                                                         <div class="form-group">
                                                             <label for="nationalId">Quốc gia</label>
                                                             <select id="nationalId" class="select2 form-control" name="nationalId">
                                                             </select>
                                                         </div>
-                                                    </div>
+                                                    </div> -->
                                                     <div class="col-lg-6 col-md-6">
                                                         <div class="form-group">
-                                                            <label for="provinceId">Province</label>
+                                                            <label for="provinceId">Tỉnh thành phố</label>
                                                             <select id="provinceId" class="select2 form-control" name="provinceId">
                                                             </select>
                                                         </div>
@@ -249,7 +249,7 @@
                                                                 </div>
                                                             </div>
 
-                                                            <div class="col-lg-4 col-md-6">
+                                                            <!-- <div class="col-lg-4 col-md-6">
                                                                 <div class="form-group">
                                                                     <label for="rank1">Hạng khách hàng</label>
                                                                     <select id="rank1" class="form-control" name="rank1">
@@ -257,8 +257,8 @@
                                                                         <option value="2">VIP</option>
                                                                     </select>
                                                                 </div>
-                                                            </div>
-                                                            <div class="col-lg-4 col-md-6">
+                                                            </div> -->
+                                                            <!-- <div class="col-lg-4 col-md-6">
                                                                 <div class="form-group">
                                                                     <label for="bussinessName1">Tên doanh nghiệp của khách hàng</label>
                                                                     <input id="bussinessName1" name="bussinessName1" type="text" class="form-control" />
@@ -269,7 +269,7 @@
                                                                     <label for="bussinessAddress1">Địa chỉ doanh nghiệp khách hàng</label>
                                                                     <input id="bussinessAddress1" type="text" class="form-control" name="bussinessAddress1" />
                                                                 </div>
-                                                            </div>
+                                                            </div> -->
                                                             <div class="col-lg-4 col-md-6">
                                                                 <div class="form-group">
                                                                     <label for="bussinessPlace1">Vị trí doanh nghiệp khách hàng</label>
@@ -282,12 +282,12 @@
                                                                     <input id="representative1" type="text" class="form-control" name="representative1" />
                                                                 </div>
                                                             </div>
-                                                            <div class="col-lg-4 col-md-6">
+                                                            <!-- <div class="col-lg-4 col-md-6">
                                                                 <div class="form-group">
                                                                     <label for="authorized1">Người cấp phép</label>
                                                                     <input id="authorized1" type="text" class="form-control" name="authorized1" />
                                                                 </div>
-                                                            </div>
+                                                            </div> -->
                                                             <div class="col-lg-4 col-md-6">
                                                                 <div class="form-group">
                                                                     <label for="note1">Chú thích</label>
@@ -314,13 +314,13 @@
                                                                     </select>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-lg-4 col-md-6">
+                                                            <!-- <div class="col-lg-4 col-md-6">
                                                                 <div class="form-group">
                                                                     <label for="nationalId1">Quốc gia</label>
                                                                     <select id="nationalId1" class="select2 form-control" name="nationalId1">
                                                                     </select>
                                                                 </div>
-                                                            </div>
+                                                            </div> -->
                                                             <div class="col-lg-4 col-md-6">
                                                                 <div class="form-group">
                                                                     <label for="provinceId1">Tỉnh thành phố</label>

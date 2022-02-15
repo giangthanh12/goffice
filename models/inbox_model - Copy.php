@@ -41,22 +41,32 @@ class inbox_Model extends Model{
         $query = $this->db->query("SELECT COUNT(1) AS total FROM events $dieukien ");
         $temp = $query->fetchAll(PDO::FETCH_ASSOC);
         $return['inbox'] = $temp[0]['total'];
-        $dieukien = " WHERE status>0 AND senderId=$user ";
-        $query = $this->db->query("SELECT COUNT(1) AS total FROM events $dieukien ");
-        $temp = $query->fetchAll(PDO::FETCH_ASSOC);
-        $return['sent'] = $temp[0]['total'];
 
         $dieukien = " WHERE status in (1,2) AND receiverId LIKE '%$user%' ";
         $query = $this->db->query("SELECT COUNT(1) AS total FROM events $dieukien ");
         $temp = $query->fetchAll(PDO::FETCH_ASSOC);
-        $return['notseen'] = $temp[0]['total'];
+        $return['inboxNotSee'] = $temp[0]['total'];
 
-        $dieukien = " WHERE status=0 AND (receiverId LIKE '%$user%' or senderId=$user) ";
+        $dieukien = " WHERE status>0 AND senderId=$user ";
+        $query = $this->db->query("SELECT COUNT(1) AS total FROM events $dieukien ");
+        $temp = $query->fetchAll(PDO::FETCH_ASSOC);
+        $return['sent'] = $temp[0]['total'];
+        $dieukien = " WHERE status=0 AND (receiverId LIKE '%$user%' OR senderId=$user)";
         $query = $this->db->query("SELECT COUNT(1) AS total FROM events $dieukien ");
         $temp = $query->fetchAll(PDO::FETCH_ASSOC);
         $return['trash'] = $temp[0]['total'];
         return $return;
     }
+    function getInboxNotSeen() {
+        $result = -1;
+        $user = '"'.$_SESSION['user']['staffId'].'"';
+        $dieukien = " WHERE status in (1,2) AND receiverId LIKE '%$user%' ";
+        $query = $this->db->query("SELECT COUNT(1) AS total FROM events $dieukien ");
+        $temp = $query->fetchAll(PDO::FETCH_ASSOC);
+        $result = $temp[0]['total'];
+        return $result;
+    }
+   
     function getAvatar($idStaff) {
         $avatar = '';
         $query = $this->db->query("SELECT avatar FROM staffs where status > 0 and status < 7 and id = $idStaff");
@@ -72,6 +82,7 @@ class inbox_Model extends Model{
         else {
             $query = $this->update("events", ['status'=>0], " id IN ($ids) ");
         }
+    
         return $query;
     }
 
@@ -83,10 +94,8 @@ class inbox_Model extends Model{
             FROM events WHERE id=$id ");
         if ($query) {
             $temp = $query->fetchAll(PDO::FETCH_ASSOC);
-            if($type != 'trash') {
-                $query = $this->update("events", ['status'=>3], " id=$id ");
-            }
-            
+            if($type != 'sent')
+            $query = $this->update("events", ['status'=>3], " id=$id ");
             $result = $temp[0];
         }
         return $result;
@@ -112,22 +121,19 @@ class inbox_Model extends Model{
         if ($query) {
             $temp = $query->fetchAll(PDO::FETCH_ASSOC);
             $result = $temp[0]['ids'];
-            // $temp = explode(',',$result);
-            // $result = json_encode($temp);
+            $temp = explode(',',$result);
+            $result = json_encode($temp);
         }
         return $result;
     }
-
     function getIdStaff() {
         $result = [];
-        $query = $this->db->query("SELECT id FROM staffs WHERE status>0 AND status<7");
+        $query = $this->db->query("SELECT GROUP_CONCAT(id) AS ids FROM staffs WHERE status>0 AND status<7");
         if ($query) {
             $temp = $query->fetchAll(PDO::FETCH_ASSOC);
-            foreach($temp as $item) {
-                $result[] = $item['id'];
-            }
+            $result = $temp[0]['ids'];
+            $result = explode(',',$result);
         }
-        
         return $result;
     }
 
@@ -155,7 +161,6 @@ class inbox_Model extends Model{
             $temp = $query->fetchAll(PDO::FETCH_ASSOC);
         return $temp;
     }
-
     function checkmail(){ // dung cho notification
         $result = array();
         $nguoinhan = '"'.$_SESSION['user']['staffId'].'"';

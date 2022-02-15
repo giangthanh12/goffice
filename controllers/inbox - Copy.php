@@ -6,21 +6,38 @@ class inbox extends Controller
         parent::__construct();
     }
 
+
+
+
     function index()
     {
         require "layouts/header.php";
         $type = isset($_REQUEST['type'])?$_REQUEST['type']:'inbox';
         $this->view->list = $this->model->getList($type);
-        $this->view->count = $this->model->getCount();
         $this->view->type = $type;
+        $this->view->count = $this->model->getCount();
         $this->view->employee=$this->model->getEmployee();
         $this->view->render("inbox/index");
         require "layouts/footer.php";
     }
 
+    function getInboxNotSeen() {
+        $val = $this->model->getInboxNotSeen();
+        if ($val >= 0) {
+            $jsonObj['val'] = $val;
+            $jsonObj['msg'] = "Cập nhật thành công";
+            $jsonObj['success'] = true;
+        } else {
+            $jsonObj['val'] = $val;
+            $jsonObj['msg'] = "Xóa không thành công";
+            $jsonObj['success'] = false;
+        }
+        echo json_encode($jsonObj);
+    }
     function deleteMsg(){
-        $type = isset($_REQUEST['type'])?$_REQUEST['type']:'inbox';
         $ids = $_REQUEST['ids'];
+        $type = $_REQUEST['type'];
+       
         if ($this->model->deleteMsg($ids,$type)) {
             $jsonObj['msg'] = "Cập nhật thành công";
             $jsonObj['success'] = true;
@@ -35,7 +52,8 @@ class inbox extends Controller
     function loadMsg()
     {
         $id = $_REQUEST['id'];
-        $type = isset($_REQUEST['type'])?$_REQUEST['type']:'inbox';
+        $type = $_REQUEST['type'];
+        
         $data = $this->model->loadMsg($id,$type);
         if (sizeof($data)>0) {
             $jsonObj['data'] = $data;
@@ -53,11 +71,10 @@ class inbox extends Controller
         $receiverId = json_encode($_REQUEST['email-to']);
         if ($receiverId=='["0"]')
         $_REQUEST['email-to'] = $this->model->getIdStaff();
+        $avatar = $this->model->getAvatar($_SESSION['user']['staffId']);
         $title = $_REQUEST['emailSubject'];
         $content = $_REQUEST['body'];
-        $avatar = $this->model->getAvatar($_SESSION['user']['staffId']);
-        $data = array('senderId'=>$_SESSION['user']['staffId'], 'title'=>$title, 'content'=>$content,
-            'receiverId'=>$receiverId, 'status'=>1, 'dateTime'=>date('Y-m-d H:i:s'), 'link'=>'inbox');
+        
         $files = $_FILES['files'];
         if($_FILES['files']['name'][0]!='') {
             $dir = ROOT_DIR . '/uploads/dinhkem/';
@@ -108,10 +125,6 @@ class inbox extends Controller
     function sent()
     {
         $data = $this->model->getsentitem();
-        echo json_encode($data);
-    }
-    function getCount() {
-        $data = $this->model->getCount();
         echo json_encode($data);
     }
 
