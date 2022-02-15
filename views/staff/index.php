@@ -291,7 +291,7 @@
                                                             </div>
                                                             <div class="col-lg-4 col-md-6">
                                                                 <div class="form-group">
-                                                                    <label for="accesspoints">Điểm truy cập</label> <img src="<?=HOME?>/layouts/tooltip.png" width="15px" id="current_ip" data-toggle="tooltip" data-placement="top" data-original-title="Tạo hướng dẫn ở đây" data-trigger="click" >
+                                                                    <label for="accesspoints">Điểm truy cập</label><img src="<?=HOME?>/layouts/tooltip.png" width="15px" id="current_ip" data-toggle="tooltip" data-placement="top" data-original-title="Tạo hướng dẫn ở đây" data-trigger="click" >
                                                                     <select class="select2 form-control" multiple="true"
                                                                         id="accesspoints" name="accesspoints[]"
                                                                         placeholder="Điểm truy cập">

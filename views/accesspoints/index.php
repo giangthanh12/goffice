@@ -89,7 +89,7 @@
                                                                 required
                                                         />
                                                     </div>
-                                                    <label for="ip" style="color: red;font-weight: bold;font-size: 15px">IP Hiện tại: <?=$_SERVER['REMOTE_ADDR'];?></label>
+                                                    <label for="ip" style="color: red;font-weight: bold;font-size: 15px">IP Hiện tại: <?=$_SERVER['REMOTE_ADDR'];?></label><img src="<?=HOME?>/layouts/tooltip.png" width="15px" id="current_ip" data-toggle="tooltip" data-placement="top" data-original-title="Tạo hướng dẫn ở đây" data-trigger="click" >
                                                 </div>
                                             </form>
                                         </div>
