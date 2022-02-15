@@ -246,7 +246,7 @@ $(function () {
 function showAdd() {
     $('#modals-slide-in').modal('show');
     $("#name").val('');
-    $("#code").val('');
+    $("#staffCode").val('');
     $('#phoneNumber').val('');
     $('#email').val('');
     $('#birthday').val('');
@@ -526,7 +526,6 @@ function loaddata(id) {
               $("#staffCode").parent().removeClass("col-lg-12 col-md-12");
               $("#createCode").parent().css("display", "inline-block");
               $("#createCode").parent().addClass("col-lg-2 col-md-3");
-              
               $("#staffCode").val(data.staffCode);
           }
           $("#staffCode").val(data.staffCode);
@@ -578,11 +577,11 @@ function loaddata(id) {
         }
     });
 }
-function createCodeAsset() {
-    $('#code').val('');
-    var codeAsset =  Math.floor(Math.random() * (99999999 - 10000000 + 1)) + 10000000;
-    $('#code').val(codeAsset);
-    }
+// function createCodeAsset() {
+//     $('#code').val('');
+//     var codeAsset =  Math.floor(Math.random() * (99999999 - 10000000 + 1)) + 10000000;
+//     $('#code').val(codeAsset);
+//     }
 function updateinfo() {
     var id = $("#id").val();
     var info = {};
@@ -685,7 +684,7 @@ function addStaff() {
     info.email = $("#email").val();
     info.status = $("#status").val();
     info.gender = $("input[type='radio'][name='gender']:checked").val();
-    info.code = $("#code").val();
+    // info.code = $("#code").val();
     console.log(info);
 
     $.ajax({

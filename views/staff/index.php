@@ -233,16 +233,16 @@
                                                             </div>
                                                             <div class="col-lg-4 col-md-6">
                                                                 <div class="form-group">
-                                                                    <label for="code1">Mã nhân viên</label>
+                                                                    <label for="staffCode">Mã nhân viên</label>
                                                                     <div class="row">
                                                                         <div class="col-lg-10 col-md-9">
-                                                                            <input id="code1" type="text"
-                                                                                class="form-control" name="code1" />
+                                                                            <input id="staffCode" type="text"
+                                                                                class="form-control" name="staffCode" />
                                                                         </div>
                                                                         <div class="col-lg-2 col-md-3">
                                                                             <button type="button"
                                                                                 class="btn btn-primary" id="createCode"
-                                                                                onclick="createCodeStaff1()">+</button>
+                                                                                onclick="createCodeStaff()">+</button>
                                                                         </div>
                                                                     </div>
                                                                 </div>
