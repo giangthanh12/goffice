@@ -20,9 +20,52 @@ connection.onopen = function () {
 connection.onmessage = function (message) {
     var data = JSON.parse(message.data);
     if (data.type == 'inbox') {
-        var receiver = data.receiverid.split(",");
+        var receiver = JSON.parse(data.receiverid);
         if (receiver.includes(baseUser)) {
-            notifyMe();
+
+            var receiverid = data.receiverid;
+            var senderid = data.senderid;
+            var avatar = baseUrlFile + "/uploads/nhanvien/" + data.avatar;
+            var title = data.title;
+            var content = data.content;
+            console.log(receiverid,senderid,avatar,title,content);
+            var url = baseHome+'/inbox';
+            // notifList(receiverid, senderid, title, avatar, content);
+           if($('#countNotifications').length > 0) {
+            var countNoti =  $('#countNotifications').html();
+            $('#countNotifications').html(Number(countNoti)+1);
+           } 
+           else {
+               $('#showNotifi').html(`<span id="countNotifications" class="badge badge-pill badge-danger badge-up">1</span>`);
+           }
+           var countNoti1 =   $('#countNotifications1').html().slice(0,1);
+           $('#countNotifications1').html(Number(countNoti1)+1+' tin');
+         var bellInterval =  setInterval(function() {
+            $('.bell-icon').toggleClass( "bell" );
+          },100)
+          setTimeout(function(){
+             clearInterval(bellInterval);
+          },3000);
+          if(content.length > 90) {
+              content = content.slice(0,90)+'...';
+          }
+            $('.media-list').append(`
+            <a class="d-flex" href="${url}">
+                <div class="media d-flex align-items-start">
+                    <div class="media-left">
+                        <div class="avatar">`+
+                        '<img onerror='+"this.src='https://velo.vn/goffice-test/layouts/useravatar.png'"+' src="'+  avatar + '" alt="avatar" height="32" width="32" />'+
+                        `</div>
+                    </div>
+                    <div class="media-body">
+                        <p class="media-heading">
+                            <span class="font-weight-bolder" id="title-nofi">${title}</span>
+                        </p>
+                        <small class="notification-text" id="content-nofi">${content}</small>
+                    </div>
+                </div>
+            </a>`);
+            notifyMe(receiverid, senderid, title, avatar, content, 'inbox');
         }
     } else if (data.type == 'chatbox') {
         if (activeurl == 'chatbox') {
@@ -43,7 +86,7 @@ connection.onmessage = function (message) {
             type: "GET",
             dataType: "json",
             async: false,
-            data: {users: data.users},
+            data: { users: data.users },
             url: baseHome + "/dashboard/getactive",
             success: function (users) {
                 var html = '';
@@ -115,23 +158,37 @@ $(function () {
 //     });
 // }
 
-function notifyMe() { // notify khi co thong bao moi
-    $.ajax({
-        type: "GET",
-        dataType: "json",
-        async: false,
-        url: baseHome + "/inbox/checkmail",
-        success: function (data) {
-            if (data['tieu_de'].length) {
-                var link = baseUrl + '/inbox';
-                var noticeOptions = {body: data['tieu_de'], icon: data['hinhanh']};
-                var notification = new Notification("Bạn có thông báo mới", noticeOptions);
-                notification.onclick = function (event) {
-                    window.open(link, "_self");
-                };
-            }
-        }
-    });
+function notifyMe(receiverid, senderid, title, avatar, content, type) { // notify khi co thong bao moi
+    $('.toast-basic').toast('show');
+    var str = '';
+    var img = baseUrlFile + "/uploads/nhanvien/" + avatar;
+    if (type == 'inbox') {
+        str = ' bảng tin';
+    }
+
+    $('#avatarSent').attr('src', img);
+    $('#title-alert').html('Bạn vừa nhận thông báo mới từ' + str);
+    $('#content-alert').html(content);
+}
+
+function notifList(receiverid, senderid, title, avatar, content) { // notify khi co thong bao moi
+    $('.media-list').toast('show');
+    var img = baseUrlFile + "/uploads/nhanvien/" + avatar;
+
+    $('#avatar-nofi').attr('src',img);
+    $('#title-nofi').html(title);
+    // $('#content-nofi').html(content);
+        
+     var str = content;
+    var arrayStr = explode(' ', content);
+    if (count(arrayStr) > 7) {
+        arrayStr = explode(' ', content);
+        str = implode(' ', array_slice(arrayStr, 0, 7)) + '...';
+    }
+    $('#content-nofi').html(str);
+                                               
+        // alert('ok');
+
 }
 
 function commentMe() { // notify khi co comment cong viec lien quan
@@ -143,7 +200,7 @@ function commentMe() { // notify khi co comment cong viec lien quan
         success: function (data) {
             if (data['tieu_de'].length) {
                 var link = baseHome + '/todo';
-                var noticeOptions = {body: data['tieu_de'].replace(/(<([^>]+)>)/ig, ''), icon: data['hinhanh']};
+                var noticeOptions = { body: data['tieu_de'].replace(/(<([^>]+)>)/ig, ''), icon: data['hinhanh'] };
                 var notification = new Notification("Bạn có comment mới", noticeOptions);
                 notification.onclick = function (event) {
                     window.open(link, "_self");
@@ -169,7 +226,7 @@ function chatMe() { //notiffy khi có tin nhắn mới trong chatbox
             if (data.code == '200') {
                 var title = 'Bạn có tin nhắn mới';
                 var link = baseUrl + '/chatbox';
-                var noticeOptions = {body: data['message'], icon: data['hinhanh']};
+                var noticeOptions = { body: data['message'], icon: data['hinhanh'] };
                 var notification = new Notification(title, noticeOptions);
                 notification.onclick = function (event) {
                     window.open(link, "_self");
@@ -220,7 +277,7 @@ function logout() {
         dataType: 'json',
         success: function (data) {
             if (data.code == 200) {
-                var data = {'type': 'logout', 'userid': baseUser};
+                var data = { 'type': 'logout', 'userid': baseUser };
                 connection.send(JSON.stringify(data));
                 //  notyfi_success(data.msg);
                 window.location.href = baseHome;
