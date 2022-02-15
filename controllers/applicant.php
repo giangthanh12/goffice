@@ -59,11 +59,12 @@ class applicant extends Controller
         $id = $_REQUEST['id'];
         $filename = $_FILES['file1']['name'];
         $fname = explode('.',$filename);
+        $fname = functions::convertname($fname[0]);
         
         $file = $_REQUEST['fileCv'];
         if ($filename != '') {
             $dir = ROOT_DIR . '/uploads/ungvien/';
-            $file = functions::uploadfile('file1', $dir, $fname[0]);
+            $file = functions::uploadfile('file1', $dir, $fname);
             if ($file != '')
                 $file = $file;
         }
