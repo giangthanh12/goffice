@@ -89,7 +89,6 @@ $(function () {
 
             },
         });
-
     }
 function actionMenu() {
     $("#dgAccesspoint").modal('show');

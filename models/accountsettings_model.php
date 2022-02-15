@@ -12,8 +12,9 @@ class accountsettings_Model extends Model
         $result = array();
         $query = $this->db->query("SELECT *,
         DATE_FORMAT(birthday,'%d/%m/%Y') AS ngaysinh,
-        DATE_FORMAT(idDate,'%d/%m/%Y') AS ngaycap
-        FROM staffs WHERE id=$id");
+        DATE_FORMAT(idDate,'%d/%m/%Y') AS ngaycap,
+        (SELECT username FROM users WHERE staffId = a.id) AS username
+        FROM staffs a WHERE id=$id");
 //        $query = $this->db->query("SELECT username,staffId,
 //            (SELECT hinh_anh FROM nhanvien WHERE id = a.nhan_vien) as hinh_anh,
 //            (SELECT name FROM nhanvien WHERE id = a.nhan_vien) as name,

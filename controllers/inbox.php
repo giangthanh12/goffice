@@ -6,6 +6,9 @@ class inbox extends Controller
         parent::__construct();
     }
 
+
+
+
     function index()
     {
         require "layouts/header.php";
@@ -17,6 +20,19 @@ class inbox extends Controller
         require "layouts/footer.php";
     }
 
+    function getInboxNotSeen() {
+        $val = $this->model->getInboxNotSeen();
+        if ($val >= 0) {
+            $jsonObj['val'] = $val;
+            $jsonObj['msg'] = "Cập nhật thành công";
+            $jsonObj['success'] = true;
+        } else {
+            $jsonObj['val'] = $val;
+            $jsonObj['msg'] = "Xóa không thành công";
+            $jsonObj['success'] = false;
+        }
+        echo json_encode($jsonObj);
+    }
     function deleteMsg(){
         $ids = $_REQUEST['ids'];
         if ($this->model->deleteMsg($ids)) {
@@ -50,10 +66,10 @@ class inbox extends Controller
         $receiverId = json_encode($_REQUEST['email-to']);
         if ($receiverId=='["0"]')
         $_REQUEST['email-to'] = $this->model->getIdStaff();
+        $avatar = $this->model->getAvatar($_SESSION['user']['staffId']);
         $title = $_REQUEST['emailSubject'];
         $content = $_REQUEST['body'];
-        $data = array('senderId'=>$_SESSION['user']['staffId'], 'title'=>$title, 'content'=>$content,
-            'receiverId'=>$receiverId, 'status'=>1, 'dateTime'=>date('Y-m-d H:i:s'), 'link'=>'inbox');
+        
         $files = $_FILES['files'];
         if($_FILES['files']['name'][0]!='') {
             $dir = ROOT_DIR . '/uploads/dinhkem/';
@@ -77,6 +93,8 @@ class inbox extends Controller
         }
 
         if ($row > 0) {
+            $jsonObj['data'] = array('senderId'=>$_SESSION['user']['staffId'], 'avatar'=>$avatar, 'title'=>$title, 'content'=>$content,
+            'receiverId'=>$receiverId, 'status'=>1, 'dateTime'=>date('Y-m-d H:i:s'), 'link'=>'inbox');
             $jsonObj['msg'] = "Đã gửi thông báo";
             $jsonObj['success'] = true;
         } else {
