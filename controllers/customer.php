@@ -252,7 +252,6 @@ class customer extends Controller
                 $rank = $objPHPExcel->getActiveSheet()->getCell("P$row")->getValue();
                 $type = $objPHPExcel->getActiveSheet()->getCell("Q$row")->getValue();
                 $classify = $objPHPExcel->getActiveSheet()->getCell("R$row")->getValue();
-              
                         $data = [
                             'fullName' => $fullName,
                             'taxCode' => $taxCode,

@@ -13,25 +13,56 @@
                                 Soạn tin nhắn
                             </button>
                         </div>
-                        <div class="sidebar-menu-list">
-                            <div class="list-group list-group-messages" id="listType">
-                                <input type="hidden" id="selectedType" name="selectedType" value="inbox">
-                                <a href="javascript:void(0)" onclick="listInbox()" class="item-filter1 list-group-item list-group-item-action active">
+                        <div class="sidebar-menu-list"  id="listType" >
+                            <div class="list-group list-group-messages">
+                                <input type="hidden" id="selectedType" value="inbox">
+                                <a href="javascript:void(0)" onclick="listInbox()" class="list-group-item item-filter1  list-group-item-action active">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-mail font-medium-3 mr-50"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
                                     <span id="countInbox" class="align-middle">Hộp thư (<?=$this->count['inbox']?>)</span>
-                                    <span id="countnotsee" class="badge badge-light-primary badge-pill float-right"><?=$this->count['notseen']?></span>
+                                    <span id="inboxNotSee" class="badge badge-light-primary badge-pill float-right">(<?=$this->count['inboxNotSee']?>)</span>
                                 </a>
-                                <a href="javascript:void(0)" onclick="listSent()"class="item-filter2 list-group-item list-group-item-action">
+                                <a href="javascript:void(0)" onclick="listSent()" class="list-group-item item-filter2 list-group-item-action">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-send font-medium-3 mr-50"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
                                     <span id="countSent" class="align-middle">Đã gửi (<?=$this->count['sent']?>)</span>
                                 </a>
-                                <a href="javascript:void(0)" onclick="listTrash()" class="item-filter3 list-group-item list-group-item-action">
+                            
+                                <a href="javascript:void(0)" onclick="listTrash()" class="list-group-item item-filter3 list-group-item-action">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash font-medium-3 mr-50"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
                                     <span id="countTrash" class="align-middle">Thùng rác (<?=$this->count['trash']?>)</span>
                                 </a>
                             </div>
+
+                            <!-- <div class="list-group list-group-messages" id="listType">
+                                <div class="list-group list-group-messages" id="listType">
+                                    <input type="hidden" id="selectedType" value="trash">
+                                    <a href="javascript:void(0)" onclick="listInbox()" class="list-group-item list-group-item-action active">
+                                        <i data-feather="mail" class="font-medium-3 mr-50"></i>
+                                        <span id="countInbox" class="align-middle">Hộp thư (0)</span>
+                                        <span id="inboxNotSee" class="badge badge-light-primary badge-pill float-right">(0)</span>
+                                    </a>
+                                    <a href="javascript:void(0)" onclick="listSent()" class="list-group-item list-group-item-action">
+                                        <i data-feather="send" class="font-medium-3 mr-50"></i>
+                                        <span id="countSent" class="align-middle">Đã gửi (0)</span>
+                                    </a>
+                                
+                                    <a href="javascript:void(0)" onclick="listTrash()" class="list-group-item list-group-item-action">
+                                        <i data-feather="trash" class="font-medium-3 mr-50"></i>
+                                        <span id="countTrash" class="align-middle">Thùng rác (3)</span>
+                                    </a>
+                                </div>
+                            </div> -->
+
+
+
+
                             <!-- <hr /> -->
-                            <!--  -->
+                            <!-- <h6 class="section-label mt-3 mb-1 px-2">Ghi chú</h6> -->
+                            <!-- <div class="list-group list-group-labels"> -->
+                                <!-- <a href="javascript:void(0)" class="list-group-item list-group-item-action"><span class="bullet bullet-sm bullet-success mr-1"></span>Tin nhắn mới</a>
+                                <a href="javascript:void(0)" class="list-group-item list-group-item-action"><span class="bullet bullet-sm bullet-primary mr-1"></span>Chưa đọc</a> -->
+                                <!-- <a href="javascript:void(0)" class="list-group-item list-group-item-action"><span class="bullet bullet-sm bullet-warning mr-1"></span>Important</a>
+                                <a href="javascript:void(0)" class="list-group-item list-group-item-action"><span class="bullet bullet-sm bullet-danger mr-1"></span>Private</a> -->
+                            <!-- </div> -->
                         </div>
                     </div>
                 </div>
@@ -121,6 +152,7 @@
                         <div class="email-user-list" id="my-task-list">
                             <ul class="email-media-list">
                                 <?php
+                              
                                 foreach ($this->list AS $item) {
                                     if ($item['avatar']!='')
                                         $avatar = HOME.'/users/gemstech/uploads/nhanvien/'.$item['avatar'];
@@ -136,6 +168,7 @@
                                     echo '
                                     <li class="media" onclick="toggleEmail('.$item['id'].')" id="'.$item['id'].'">
                                         <div class="media-left pr-50">
+                                       <span class="d-none media-type">'.$this->type.'</span>
                                             <div class="avatar">
                                                 <img onerror='."this.src='https://velo.vn/goffice-test/layouts/useravatar.png'".' src="'.$avatar.'" alt="avatar" />
                                             </div>
@@ -333,7 +366,7 @@
                                         <div class="card-header email-detail-head">
                                             <div class="user-details d-flex justify-content-between align-items-center flex-wrap">
                                                 <div class="avatar mr-75">
-                                                    <img src="" id="senderImg" onerror="this.src='<?=HOME?>/layouts/useravatar.png'"   alt="avatar img holder" width="48" height="48" />
+                                                    <img src="<?=HOME?>/layouts/useravatar.png'" id="senderImg" onerror="this.src='<?=HOME?>/layouts/useravatar.png'" alt="avatar img holder" width="48" height="48" />
                                                 </div>
                                                 <div class="mail-items">
                                                     <h5 class="mb-0" id="senderName"></h5>
