@@ -217,6 +217,7 @@ document.addEventListener('DOMContentLoaded', function () {
         $('#timeInterview').val(eventToUpdate.extendedProps.time)
         $('#interviewerIds').val(eventToUpdate.extendedProps.interviewerIds).trigger('change');
         $('#round').val(eventToUpdate.extendedProps.round);
+        $('#div-result').removeClass('d-none');
         $('#result').val(eventToUpdate.extendedProps.result).trigger('change');
         $('#note').val(eventToUpdate.extendedProps.note);
     }
@@ -440,8 +441,9 @@ document.addEventListener('DOMContentLoaded', function () {
             $('#canId').val('').change();
             $('#interviewerIds').val('').change();
             $('#interviewerIds').val('');
-            $('#result').val('').change();
+            $('#result').val(1).change();
             $('#note').val('');
+            $('#div-result').addClass('d-none');
 
         },
         eventClick: function (info) {
