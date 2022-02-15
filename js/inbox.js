@@ -304,6 +304,7 @@ $(function () {
     // Filter
     if (emailSearch.length) {
         emailSearch.on("keyup", function () {
+            
             var value = $(this).val().toLowerCase();
             if (value !== "") {
                 emailUserList.find(".email-media-list li").filter(function () {
@@ -379,9 +380,16 @@ $(function () {
             }).done(function(response) {
                 if (response.success) {
                     notyfi_success(response.msg);
-                    // var receiver = response.receiver;
-                    // var data = {'type':'inbox','receiverid':receiver.toString()};
-                    // connection.send(JSON.stringify(data));
+                    var data = {
+                        type:'inbox',
+                        action:'send',
+                        receiverid: response.data.receiverId,
+                        senderid:baseUser,
+                        avatar:response.data.avatar,
+                        title:response.data.title,
+                        content:response.data.content,
+                };
+                    connection.send(JSON.stringify(data));
                     $('#compose-mail').modal('hide');
                 }
                 else notify_error(response.msg);
@@ -393,6 +401,86 @@ $(function () {
     });
 
 });
+
+function getInboxNotSeen() {
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        url: baseHome + "/inbox/getInboxNotSeen",
+        success: function (data) {
+            if (data.success == true) {
+                $('#inboxNotSee').html('');
+                if(data.val > 0) {
+                    $('#inboxNotSee').html(data.val);
+                }
+            } else {
+                notify_error(data.msg);
+               
+                return false;
+            }
+        },
+    });
+}
+getInboxNotSeen();
+
+
+
+
+
+connection.onmessage = function (message) {
+    var data = JSON.parse(message.data);
+    if (data.type == 'inbox') {
+   
+        var receiver = JSON.parse(data.receiverid);
+        if (receiver.includes(baseUser)) {
+          
+        }
+    } 
+    // else if (data.type == 'chatbox') {
+    //     if (activeurl == 'chatbox') {
+    //         actionchat(data);
+    //     } else {
+    //         var receiver = data.receiverid.split(",");
+    //         if (receiver.includes(baseUser)) {
+    //             chatMe();
+    //         }
+    //     }
+    // } else if (data.type == 'todo') {
+    //     var receiver = data.receiverid.split(",");
+    //     if (receiver.includes(baseUser)) {
+    //         commentMe();
+    //     }
+    // } else if (data.type == 'user') {
+    //     $.ajax({
+    //         type: "GET",
+    //         dataType: "json",
+    //         async: false,
+    //         data: {users: data.users},
+    //         url: baseHome + "/dashboard/getactive",
+    //         success: function (users) {
+    //             var html = '';
+    //             users.forEach(function (item, index) {
+    //                 var $avatar = baseHome + '/layouts/useravatar.png';
+    //                 if (item.avatar != '')
+    //                     $avatar = baseUrlFile + '/uploads/nhanvien/' + item.avatar;
+    //                 html += '<div data-toggle="tooltip" data-popup="tooltip-custom" data-placement="bottom" data-original-title="' + item.name + '" class="avatar pull-up">';
+    //                 html += '<img src="' + $avatar + '" onerror="this.src=\'' + baseHome + '/layouts/useravatar.png' + '\'" alt="Avatar" width="33" height="33" /></div>';
+    //             });
+    //             document.getElementById('online_users').innerHTML = html;
+    //             $('[data-toggle="tooltip"]').tooltip({
+    //                 container: 'body'
+    //             });
+    //         }
+    //     });
+    // } else {
+    //     return false;
+    // }
+};
+
+
+
+
+
 
 $(window).on("resize", function () {
     var sidebarLeft = $(".sidebar-left");
@@ -406,10 +494,28 @@ $(window).on("resize", function () {
 });
 
 function toggleEmail(id) {
+
     $.post(
         "inbox/loadMsg", {id:id},
         function (data, status) {
             if (data.success) {
+
+                if($('.notification-items').find('.notification-item'+data.data['id']).length > 0) {
+                 var $count =  Number($('#countNotifications').html());
+                  $count -= 1;
+                  if($count == 0) {
+                    $('#countNotifications').remove();
+                    $('#countNotifications1').html(`${$count} tin`);
+                  } 
+                  else {
+                    $('#countNotifications').html($count);
+                    $('#countNotifications1').html(`${$count} tin`);
+                  }
+                  $('.notification-item'+data.data['id']).remove();
+                }
+
+               getInboxNotSeen();
+               $('#alertInbox'+data.data['id']).remove('.bullet-success');
                 $('#msgId').val(data.data['id']);
                 $('#msgSender').val(data.data['senderId']);
                 $('#senderImg').attr('src', baseHome+'/users/gemstech/uploads/nhanvien/'+data.data['avatar']);

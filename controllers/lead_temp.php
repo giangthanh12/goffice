@@ -22,6 +22,7 @@ class lead_temp extends Controller
                 self::$funDel = 1;
         }
     }
+    
     function index()
     {
         require "layouts/header.php";
@@ -75,6 +76,19 @@ class lead_temp extends Controller
         }
     }
 
+    function checkPhone()
+    {
+        $customerPhone = $_REQUEST['customerPhone'];
+        if ($this->model->checkPhone($customerPhone)) {
+            $jsonObj['msg'] = "Số điện thoại hợp lệ";
+            $jsonObj['success'] = true;
+        } else {
+            $jsonObj['msg'] = "Số điện thoại đã tồn tại";
+            $jsonObj['success'] = false;
+        }
+        echo json_encode($jsonObj);
+    }
+
     function insertLead()
     {
         if (self::$funAdd == 0) {
@@ -84,14 +98,27 @@ class lead_temp extends Controller
             return false;
         }
         if (isset($_REQUEST['leadName']) && $_REQUEST['leadCustomer']) {
-            $title = $_REQUEST['leadName'];
-            $desc = $_REQUEST['leadDes'];
             $customer = $_REQUEST['leadCustomer'];
+            if($customer==-1) {
+                $customerName = $_REQUEST['customerName'];
+                $customerPhone = $_REQUEST['customerPhone'];
+                $customerEmail = $_REQUEST['customerEmail'];
+                $customerData = [
+                    'fullName' => $customerName,
+                    'phoneNumber' => $customerPhone,
+                    'email' => $customerEmail,
+                    'status' => 1
+                ];
+                $customer = $this->model->addCustomer($customerData);
+            }
+            $title = $_REQUEST['leadName'];
+            $desc = $_REQUEST['leadDesc'];
             $opportunity = $_REQUEST['opportunity'];
             $data = array(
                 'name' => $title, 'customerId' => $customer, 'description' => $desc, 'opportunity' => $opportunity, 'dateTime' => date('Y-m-d H:i:s'),
                 'staffInCharge' => $_SESSION['user']['staffId'], 'status' => 1,
             );
+            
             $temp = $this->model->insertLead($data);
             if ($temp == true) {
                 $jsonObj['message'] = "Cập nhật thành công";
