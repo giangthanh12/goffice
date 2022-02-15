@@ -65,7 +65,7 @@ class applicant extends Controller
             $dir = ROOT_DIR . '/uploads/ungvien/';
             $file = functions::uploadfile('file1', $dir, $fname[0]);
             if ($file != '')
-                $file = 'uploads/ungvien/' . $file;
+                $file = $file;
         }
         $gender1 = isset($_REQUEST["gender1"]) ? $_REQUEST["gender1"] : 0;
         $maritalStatus = isset($_REQUEST["tthonnhan"]) ? $_REQUEST["tthonnhan"] : 0;
@@ -147,7 +147,7 @@ class applicant extends Controller
             $dir = ROOT_DIR . '/uploads/ungvien/';
             $file = functions::uploadfile('hinhanh', $dir, $id);
             if ($file!='')
-                $hinhanh = URLFILE.'/uploads/ungvien/'.$file;
+                $hinhanh = $file;
         }
   
         if ($this->model->thayanh($hinhanh,$id)) {
@@ -177,7 +177,7 @@ class applicant extends Controller
             $dir = ROOT_DIR . '/uploads/ungvien/';
             $file = functions::uploadfile('fileadd', $dir, $fname[0]);
             if ($file != '')
-                $file = 'uploads/ungvien/' . $file;
+                $file = $file;
         }
        
         $fullName = isset($_REQUEST['fullName']) ? $_REQUEST['fullName'] : '';
@@ -221,10 +221,6 @@ class applicant extends Controller
         // }
         $campId = $_REQUEST['campId'];
         $canId = $_REQUEST['canId'];
-       
-
-
-
         if(isset($canId) && !empty($canId)) {
             try {
                 $row = 0;
@@ -590,5 +586,3 @@ class applicant extends Controller
     }
 
 }
-
-?>
