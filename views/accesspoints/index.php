@@ -73,7 +73,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="ip">Địa chỉ IP</label>
+                                                    <label for="ip">Địa chỉ IP <img src="<?=HOME?>/layouts/tooltip.png" width="15px" id="label_ip"  data-toggle="tooltip" data-placement="top" title="Tạo hướng dẫn ở đây"></label>
                                                     <div class="input-group input-group-merge">
                                                         <div class="input-group-prepend">
                                                             <span class="input-group-text">
@@ -89,7 +89,7 @@
                                                                 required
                                                         />
                                                     </div>
-                                                    <label for="ip" style="color: red;font-weight: bold;font-size: 15px">IP Hiện tại: <?=$_SERVER['REMOTE_ADDR'];?></label>
+                                                    <label for="ip" style="color: red;font-weight: bold;font-size: 15px">IP Hiện tại: <?=$_SERVER['REMOTE_ADDR'];?></label> <img src="<?=HOME?>/layouts/tooltip.png" width="15px" id="current_ip" data-toggle="tooltip" data-placement="top" title="Tạo hướng dẫn ở đây">
                                                 </div>
                                             </form>
                                         </div>

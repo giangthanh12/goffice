@@ -587,7 +587,7 @@ function updateinfo() {
     var id = $("#id").val();
     var info = {};
     info.staffCode = $("#staffCode").val();
-    info.gender = $("input[type='radio'][name='gender']:checked").val();
+    info.gender = $("input[type='radio'][name='gender1']:checked").val();
     info.maritalStatus = $("input[type='radio'][name='maritalStatus']:checked").val();
     info.name = $("#name1").val();
     info.birthDay = $("#birthday1").val();
