@@ -1,11 +1,14 @@
 <?php
-class todo_Model extends Model{
-    function __construct(){
+class todo_Model extends Model
+{
+    function __construct()
+    {
         parent::__construct();
     }
 
-    function getList($nhanvien, $catid){
-        if ($catid==2) {
+    function getList($nhanvien, $catid)
+    {
+        if ($catid == 2) {
             $today = date('Y-m-d');
             $dieukien = " WHERE status>0 AND assigneeId=$nhanvien AND ((endDate>deadline) OR (endDate='0000-00-00' AND deadline<'$today')) ";
             // $query = $this->db->query("SELECT id, title, label, assigneeId, description, deadline,status,
@@ -13,20 +16,20 @@ class todo_Model extends Model{
             //     (SELECT name FROM tasklabels WHERE id=a.label) AS labelText,
             //     (SELECT COUNT(1) FROM commenttasks WHERE taskId=a.id) AS comment
             //     FROM tasks a $dieukien ORDER BY id DESC ");
-        } elseif ($catid==3) {
+        } elseif ($catid == 3) {
             $dieukien = " WHERE assigneeId=$nhanvien AND status=6 ";
             // $query = $this->db->query("SELECT id, title, label, assigneeId, description, deadline,status,
             //     (SELECT avatar FROM staffs WHERE id=a.assignerId) AS avatar, projectId,
             //     (SELECT name FROM tasklabels WHERE id=a.label) AS labelText,
             //     (SELECT COUNT(1) FROM commenttasks WHERE taskId=a.id) AS comment
             //     FROM tasks a $dieukien ORDER BY id DESC ");
-        } elseif ($catid==4)
+        } elseif ($catid == 4)
             $dieukien = " WHERE assigneeId=$nhanvien AND status=0 ";
-            // $query = $this->db->query("SELECT id, title, label, assigneeId, description, deadline,status,
-            //     (SELECT avatar FROM staffs WHERE id=a.assignerId) AS avatar, projectId,
-            //     (SELECT name FROM tasklabels WHERE id=a.label) AS labelText,
-            //     (SELECT COUNT(1) FROM commenttasks WHERE taskId=a.id) AS comment
-            //     FROM tasks a $dieukien ORDER BY id DESC ");
+        // $query = $this->db->query("SELECT id, title, label, assigneeId, description, deadline,status,
+        //     (SELECT avatar FROM staffs WHERE id=a.assignerId) AS avatar, projectId,
+        //     (SELECT name FROM tasklabels WHERE id=a.label) AS labelText,
+        //     (SELECT COUNT(1) FROM commenttasks WHERE taskId=a.id) AS comment
+        //     FROM tasks a $dieukien ORDER BY id DESC ");
         else {
             $dieukien = " WHERE assigneeId=$nhanvien AND status IN (1,2,3,4,5) ";
         }
@@ -37,7 +40,7 @@ class todo_Model extends Model{
             If((SELECT COUNT(1) FROM calendars WHERE status=1 AND objectId=a.id AND objectType=3)>0,1,0) AS addCalendar
             FROM tasks a $dieukien ORDER BY id DESC ");
         $data = $query->fetchAll(PDO::FETCH_ASSOC);
-        
+
         return $data;
         //     if ($project>0) {
         //         $dieukien .= " AND projectId=$project ";
@@ -50,21 +53,24 @@ class todo_Model extends Model{
         //     }
     }
 
-    function getProject(){
-        $employee = '"'.$_SESSION['user']['staffId'].'"';
+    function getProject()
+    {
+        $employee = '"' . $_SESSION['user']['staffId'] . '"';
         $dieukien = " WHERE status>0 AND memberId LIKE '%$employee%' ";
         $query = $this->db->query("SELECT id, name FROM projects $dieukien ORDER BY id DESC ");
         $data = $query->fetchAll(PDO::FETCH_ASSOC);
         return $data;
     }
 
-    function getLabel(){
+    function getLabel()
+    {
         $query = $this->db->query("SELECT * FROM tasklabels WHERE status=1 ");
         $data = $query->fetchAll(PDO::FETCH_ASSOC);
         return $data;
     }
 
-    function getEmployee(){
+    function getEmployee()
+    {
         $result = array();
         $query = $this->db->query("SELECT id, name, avatar
               FROM staffs WHERE status IN (1,2,3,4) ORDER BY name ASC");
@@ -73,30 +79,31 @@ class todo_Model extends Model{
         return $result;
     }
 
-    function capnhat($id, $data) {
-        if ($id==0) {
+    function capnhat($id, $data)
+    {
+        if ($id == 0) {
             $data['status'] = 1;
             $data['assignmentDate'] = date('Y-m-d');
             $data['updated'] = date('Y-m-d');
             $data['assignerId'] = $_SESSION['user']['staffId'];
             $query = $this->insert("tasks", $data);
-        }
-        else {
+        } else {
             $query = $this->update("tasks", $data, " id=$id ");
         }
         return $query;
     }
 
-    function checkOut($id,$status){
-        if ($status==6)
-           $data = ['status'=>$status, 'endDate'=>date('Y-m-d')];
+    function checkOut($id, $status)
+    {
+        if ($status == 6)
+            $data = ['status' => $status, 'endDate' => date('Y-m-d')];
         else
-           $data['status'] = $status;
+            $data['status'] = $status;
         $query = $this->update("tasks", $data, " id=$id ");
         return $query;
     }
 
-    function getTask($taskId) 
+    function getTask($taskId)
     {
         $data = array();
         $query = $this->db->query("SELECT *
@@ -108,19 +115,34 @@ class todo_Model extends Model{
 
     function checkCalendar($taskId)
     {
-        $query = $this->db->query("SELECT id,COUNT(1) as total FROM calendars WHERE objectId=$taskId AND objectType=3");
+        $query = $this->db->query("SELECT id FROM calendars WHERE objectId=$taskId AND objectType=3");
         if ($query)
             $data = $query->fetchAll(PDO::FETCH_ASSOC);
         return $data[0];
     }
 
-    function updateCalendar($calendarId, $taskData) 
+    function checkStaffCalendar($taskId, $staffId)
+    {
+        $data = array();
+        $data['calendarId'] = 0;
+        $query = $this->db->query("SELECT id FROM calendars WHERE staffId = $staffId AND objectId=$taskId AND objectType=3");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        if (count($result)>0) {
+            $data['calendarId'] = $result[0]['id'];
+        }
+        $query = $this->db->query("SELECT id FROM calendars WHERE staffId != $staffId AND objectId=$taskId AND objectType=3");
+        if ($query)
+            $data['calDel'] = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $data;
+    }
+
+    function updateCalendar($calendarId, $taskData)
     {
         $query = $this->update("calendars", $taskData, " id=$calendarId ");
         return $query;
     }
 
-    function addCalendar($taskData) 
+    function addCalendar($taskData)
     {
         $query = $this->insert("calendars", $taskData);
         return $query;
