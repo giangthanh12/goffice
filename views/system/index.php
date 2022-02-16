@@ -8,57 +8,33 @@
             <section class="app-user-list">
                 <!-- list section start -->
                 <div class="card">
-                    <div class="card-datatable table-responsive pt-0">
-                        <table class="user-list-table table">
-                            <thead class="thead-light">
-                                <tr>
-                                    <th></th>
-                                    <th>Tên gọi</th>
-                                    <th>Giá trị</th>
-                                    <th>...</th>
-                                </tr>
-                            </thead>
-                        </table>
-                    </div>
-                    <div class="modal fade text-left" id="updateinfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel16" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered modal" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h4 class="modal-title" id="myModalLabel16"></h4>
-                                    <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                    </button> -->
-                                </div>
-                                <div class="modal-body">
-                                    <!-- <input type="hidden" id="id" name="id" /> -->
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <form class="form-validate" enctype="multipart/form-data" id="fm">
-                                                <!-- <div class="row mt-1"> -->
-                                                <div class="form-group">
-                                                    <label for="name">Tên gọi</label>
-                                                    <input type="text" class="form-control" id="name" placeholder="Nhập tên thông tin" name="name" required />
-                                                </div>
-
-
-                                                <div class="form-group">
-                                                    <label for="gia_tri">Giá trị</label>
-                                                    <input id="gia_tri" name="gia_tri" placeholder="Nhập giá trị" type="text" class="form-control" required />
-                                                    <input type="file" name="file" id="logo"/>
-                                                </div>
-
-                                                <div class="d-flex flex-sm-row flex-column mt-2">
-                                                    <button type="button" onclick="save()" class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Cập nhật</button>
-                                                    <button type="reset" class="btn btn-outline-secondary" data-dismiss="modal">Bỏ qua</button>
-                                                </div>
-                                                <!-- </div> -->
-                                            </form>
-
-                                        </div>
+                    <div class="card-body">
+                        <form class="form-validate" enctype="multipart/form-data" id="fm">
+                            <?php
+                            foreach ($this->data as $item) {
+                                if ($item['id'] == 7 || $item['id'] == 8) {
+                            ?>
+                                    <div class="form-group">
+                                        <label for="ten" id="ten"><?= $item['name'] ?></label></br>
+                                        <img src="<?= $item['value'] ?>" name="gia_tri<?= $item['id'] ?>" width="200px" /></br>
+                                        <input type="file" name="gia_tri<?=$item['id']?>" id="logo" />
                                     </div>
-                                </div>
+                                <?php
+                                } else {
+                                ?>
+                                    <div class="form-group">
+                                        <label for="ten" id="ten"><?= $item['name'] ?></label>
+                                        <input type="text" class="form-control " name="gia_tri<?= $item['id'] ?>" value="<?= $item['value'] ?>" placeholder="Nhập <?= $item['name'] ?>" name="gia_tri" required />
+                                    </div>
+                            <?php
+                                } 
+                            }
+                            ?>
+
+                            <div class="d-flex flex-sm-row flex-column mt-2">
+                                <button type="button" onclick="save()" class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Cập nhật</button>
                             </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </section>
