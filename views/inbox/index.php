@@ -119,7 +119,8 @@
 
                         <!-- Email list starts -->
                         <div class="email-user-list" id="my-task-list">
-                            <ul class="email-media-list">
+                        <input type="hidden" id="page" name="page" value="1">    
+                        <ul class="email-media-list">
                                 <?php
                                 foreach ($this->list AS $item) {
                                     if ($item['avatar']!='')
@@ -215,68 +216,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- <div class="row">
-                                <div class="col-12">
-                                    <div class="card">
-                                        <div class="card-header email-detail-head">
-                                            <div class="user-details d-flex justify-content-between align-items-center flex-wrap">
-                                                <div class="avatar mr-75">
-                                                    <img src="../../../app-assets/images/portrait/small/avatar-s-9.jpg" alt="avatar img holder" width="48" height="48" />
-                                                </div>
-                                                <div class="mail-items">
-                                                    <h5 class="mb-0">Carlos Williamson</h5>
-                                                    <div class="email-info-dropup dropdown">
-                                                        <span role="button" class="dropdown-toggle font-small-3 text-muted" id="card_top01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                            carlos@gmail.com
-                                                        </span>
-                                                        <div class="dropdown-menu" aria-labelledby="card_top01">
-                                                            <table class="table table-sm table-borderless">
-                                                                <tbody>
-                                                                    <tr>
-                                                                        <td class="text-right">From:</td>
-                                                                        <td>carlos@gmail.com</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td class="text-right">To:</td>
-                                                                        <td>johndoe@ow.ly</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td class="text-right">Date:</td>
-                                                                        <td>14:58, 29 Aug 2020</td>
-                                                                    </tr>
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="mail-meta-item d-flex align-items-center">
-                                                <small class="mail-date-time text-muted">29 Aug, 2020, 14:58</small>
-                                                <div class="dropdown ml-50">
-                                                    <div role="button" class="dropdown-toggle hide-arrow" id="email_more" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                        <i data-feather="more-vertical" class="font-medium-2"></i>
-                                                    </div>
-                                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="email_more">
-                                                        <div class="dropdown-item"><i data-feather="corner-up-left" class="mr-50"></i>Reply</div>
-                                                        <div class="dropdown-item"><i data-feather="corner-up-right" class="mr-50"></i>Forward</div>
-                                                        <div class="dropdown-item"><i data-feather="trash-2" class="mr-50"></i>Delete</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="card-body mail-message-wrapper pt-2">
-                                            <div class="mail-message">
-                                                <p class="card-text">Hey John,</p>
-                                                <p class="card-text">
-                                                    bah kivu decrete epanorthotic unnotched Argyroneta nonius veratrine preimaginary saunders demidolmen
-                                                    Chaldaic allusiveness lorriker unworshipping ribaldish tableman hendiadys outwrest unendeavored
-                                                    fulfillment scientifical Pianokoto Chelonia
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> -->
+                           
                             <div class="row">
                                 <div class="col-12">
                                     <div class="card">
