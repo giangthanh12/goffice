@@ -181,7 +181,8 @@ class acm extends Controller{
     }
 
     function getClassify() {
-        $data = $this->model->getClassify();
+        $type = isset($_REQUEST['type']) ? $_REQUEST['type'] : 1;
+        $data = $this->model->getClassify($type);
         echo json_encode($data);
     }
 }

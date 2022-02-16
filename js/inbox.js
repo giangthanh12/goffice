@@ -252,7 +252,6 @@ $(function () {
             overlay.removeClass("show");
         }
     }
-
     // single checkbox select
     if (emailUserListInput.length) {
         emailUserListInput.on("click", function (e) {
@@ -385,10 +384,16 @@ $(function () {
                     getCount();
                     $("#my-task-list").load(window.location.href + "?type="+type+" #my-task-list");
                     notyfi_success(response.msg);
+                    console.log(response.data.receiverId);
                     // $("#my-task-list").load(window.location.href + "?type=sent #my-task-list");
                     // var receiver = response.receiver;
                     // var data = {'type':'inbox','receiverid':receiver.toString()};
                     // connection.send(JSON.stringify(data));
+                    if (response.data.receiverId.includes(baseUser)) {
+                        response.data.receiverId.splice(response.data.receiverId.indexOf(baseUser),1);
+                        console.log(response.data.receiverId);
+                    }
+
                     var data = {
                         type:'inbox',
                         action:'send',
@@ -398,6 +403,7 @@ $(function () {
                         title:response.data.title,
                         content:response.data.content,
                 };
+                
                     connection.send(JSON.stringify(data));
 
 
@@ -470,6 +476,7 @@ function toggleEmail(id) {
                
                 var $count =  Number($('#countNotifications').html());
                     $count -= 1;
+               
                     if($count == 0) {
                     $('#countNotifications').remove();
                     $('#countNotifications1').html(`${$count} tin`);
@@ -542,48 +549,99 @@ function listTrash() {
 
 function deleteMsg() {
     var type = $('#selectedType').val();
+    var temp = $(".user-action").find(".custom-checkbox input:checked").closest(".media");
+    var oChild = '';
+    var i = 0;
+    for(i = 0; i < temp.length; i++){
+        if (oChild=='')
+            oChild = temp[i].id;
+        else
+            oChild += ','+temp[i].id;
+    }
    
     if ($(".user-action").find(".custom-checkbox input:checked").length) {
-        var temp = $(".user-action").find(".custom-checkbox input:checked").closest(".media");
-        var oChild = '';
-        var i = 0;
-        for(i = 0; i < temp.length; i++){
-            if (oChild=='')
-                oChild = temp[i].id;
-            else
-                oChild += ','+temp[i].id;
-        }
-        $.post(
-            "inbox/deleteMsg", {ids:oChild,type:type},
-            function (data, status) {
-                if (data.success) {
-                    getCount();
-                    $(".user-action").find(".custom-checkbox input:checked").closest(".media").remove();
-                   if(type != 'trash') {
-                    toastr["success"]("Bạn đã chuyển thư vào thùng rác thành công", {
-                        closeButton: true,
-                        tapToDismiss: false,
-                        rtl: isRtl,
-                    });
-                   }
-                   else {
-                    toastr["success"]("Bạn đã xóa thư thành công", {
-                        closeButton: true,
-                        tapToDismiss: false,
-                        rtl: isRtl,
-                    });
-                   }
-                    // $("#listType").load(window.location.href + " #listType");
-                } else {
-                    toastr["error"](data.msg, "💾 Task Action!", {
-                        closeButton: true,
-                        tapToDismiss: false,
-                        rtl: isRtl,
-                    });
+        if(type == 'trash') {
+            Swal.fire({
+                title: 'Xóa dữ liệu',
+                text: "Bạn có chắc chắn muốn xóa!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Tôi đồng ý',
+                cancelButtonText: 'Hủy',
+                customClass: {
+                    confirmButton: 'btn btn-primary',
+                    cancelButton: 'btn btn-outline-danger ml-1'
+                },
+                buttonsStyling: false
+            }).then(function (result) {
+                if (result.value) {
+                    $.post(
+                        "inbox/deleteMsg", {ids:oChild,type:type},
+                        function (data, status) {
+                            if (data.success) {
+                                getCount();
+                                $(".user-action").find(".custom-checkbox input:checked").closest(".media").remove();
+                               if(type != 'trash') {
+                                toastr["success"]("Bạn đã chuyển thư vào thùng rác thành công", {
+                                    closeButton: true,
+                                    tapToDismiss: false,
+                                    rtl: isRtl,
+                                });
+                               }
+                               else {
+                                toastr["success"]("Bạn đã xóa thư thành công", {
+                                    closeButton: true,
+                                    tapToDismiss: false,
+                                    rtl: isRtl,
+                                });
+                               }
+                                // $("#listType").load(window.location.href + " #listType");
+                            } else {
+                                toastr["error"](data.msg, "💾 Task Action!", {
+                                    closeButton: true,
+                                    tapToDismiss: false,
+                                    rtl: isRtl,
+                                });
+                            }
+                        },
+                        "json"
+                    );
                 }
-            },
-            "json"
-        );
+            });
+        } 
+        else {
+            $.post(
+                "inbox/deleteMsg", {ids:oChild,type:type},
+                function (data, status) {
+                    if (data.success) {
+                        getCount();
+                        $(".user-action").find(".custom-checkbox input:checked").closest(".media").remove();
+                       if(type != 'trash') {
+                        toastr["success"]("Bạn đã chuyển thư vào thùng rác thành công", {
+                            closeButton: true,
+                            tapToDismiss: false,
+                            rtl: isRtl,
+                        });
+                       }
+                       else {
+                        toastr["success"]("Bạn đã xóa thư thành công", {
+                            closeButton: true,
+                            tapToDismiss: false,
+                            rtl: isRtl,
+                        });
+                       }
+                        // $("#listType").load(window.location.href + " #listType");
+                    } else {
+                        toastr["error"](data.msg, "💾 Task Action!", {
+                            closeButton: true,
+                            tapToDismiss: false,
+                            rtl: isRtl,
+                        });
+                    }
+                },
+                "json"
+            );
+        }
     } else {
         toastr["error"]("Chưa tick tin nhắn cần xóa.", "Vui lòng chọn!", {
             closeButton: true,

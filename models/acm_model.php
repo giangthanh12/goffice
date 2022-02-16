@@ -54,9 +54,9 @@ class acm_model extends Model{
         return $result;
     }
 
-    function getClassify() {
+    function getClassify($type) {
         $result = array();
-        $query = $this->db->query("SELECT id, name AS `text` FROM classifyledger WHERE status = 1");
+        $query = $this->db->query("SELECT id, name AS `text` FROM classifyledger WHERE type = $type AND status = 1");
         if ($query)
             $result = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;
