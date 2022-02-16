@@ -842,7 +842,7 @@ function loadRecord(id) {
                 {
                     // Actions
                     targets: -1,
-                    title: feather.icons["database"].toSvg({class: "font-medium-3 text-success mr-50"}),
+                    title: 'Thao tác',
                     orderable: false,
                     render: function (data, type, full, meta) {
                         var html = '';
