@@ -89,6 +89,12 @@
                                     ĐĂNG NHẬP
                                 </button>
                             </form>
+                            <div>
+                            <a style="text-align: right;display: block;" href="https://gemstech.com.vn/signup">Đăng ký dùng thử tại đây</a>
+
+
+                            </div>
+                            
                             <p class="text-center mt-1">
                                 <span>Hotline: </span>
                                 <a href="tel:0346788118"><span>&nbsp;034 678 8118</span></a>

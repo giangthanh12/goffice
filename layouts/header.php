@@ -201,7 +201,7 @@ $notifications = $model->getNotification();
             <ul class="nav navbar-nav align-items-center ml-auto">
             <li class="nav-item dropdown dropdown-notification mr-25">
                     <a class="nav-link" href="javascript:void(0);" data-toggle="dropdown">
-                        <i class="ficon bell bell-icon"  data-feather="bell"></i>
+                        <i class="ficon bell-icon"  data-feather="bell"></i>
                         <div id="showNotifi">
                         <?php if(!empty($notifications)) { ?>
                             <span id="countNotifications" class="badge badge-pill badge-danger badge-up"><?=  count($notifications)?></span>

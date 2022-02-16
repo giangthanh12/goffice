@@ -28,7 +28,7 @@ class classifyledger extends Controller{
         require "layouts/footer.php";
     }
 
-    function list()
+    function listdata()
     {
         $data = $this->model->listObj();
         echo json_encode($data);
@@ -48,6 +48,7 @@ class classifyledger extends Controller{
        
             $data = array(
                 'name' => $_REQUEST['name'],
+                'type' => $_REQUEST['type'],
                 'note' => $_REQUEST['note'],
                 'status' => 1,
             );
@@ -64,6 +65,7 @@ class classifyledger extends Controller{
      
             $data = array(
                 'name' => $_REQUEST['name'],
+                'type' => $_REQUEST['type'],
                 'note' => $_REQUEST['note'],
                 'status' => 1,
             );

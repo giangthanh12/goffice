@@ -99,7 +99,7 @@ class inbox extends Controller
 
         if ($row > 0) {
             $jsonObj['data'] = array('senderId'=>$_SESSION['user']['staffId'], 'avatar'=>$avatar, 'title'=>$title, 'content'=>$content,
-            'receiverId'=>$receiverId, 'status'=>1, 'dateTime'=>date('Y-m-d H:i:s'), 'link'=>'inbox');
+            'receiverId'=>$_REQUEST['email-to'], 'status'=>1, 'dateTime'=>date('Y-m-d H:i:s'), 'link'=>'inbox');
             $jsonObj['msg'] = "Đã gửi thông báo";
             $jsonObj['success'] = true;
         } else {

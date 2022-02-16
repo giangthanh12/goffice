@@ -20,9 +20,10 @@
                         <table class="user-list-table table">
                             <thead class="thead-light">
                                 <tr>
-                                    <!-- <th></th> -->
+                                 
                                     <th>ID</th>
                                     <th>Tên hoạch toán</th>
+                                    <th>Loại</th>
                                     <th>Ghi chú</th>
                                     <th>...</th>
                                 </tr>
@@ -47,8 +48,17 @@
                                                     <input type="hidden" id="id" name="id">
                                                     <div class="col-lg-12 col-md-12">
                                                         <div class="form-group">
-                                                            <label for="name">Tên</label>
+                                                            <label for="name">Tên hoạch toán</label>
                                                             <input type="text" id="name" name="name" class="form-control " placeholder="">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12 col-md-12">
+                                                        <div class="form-group">
+                                                            <label for="type">Loại</label>
+                                                            <select name="type" id="type" class="form-control">
+                                                                <option value="1">Thu</option>
+                                                                <option value="2">Chi</option>
+                                                            </select>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-12 col-md-12">
