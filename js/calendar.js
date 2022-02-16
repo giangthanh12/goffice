@@ -9,6 +9,7 @@
  **/
 
 'use-strict';
+var add = 0;
 var date = new Date();
 var nextDay = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
 // prettier-ignore
@@ -177,6 +178,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Event click function
   function eventClick(info) {
+    add = 1;
     eventToUpdate = info.event;
     // if (eventToUpdate.url) {
     //   info.jsEvent.preventDefault();
@@ -417,6 +419,7 @@ document.addEventListener('DOMContentLoaded', function () {
       startDate.attr("disabled", false);
       endDate.attr("disabled", false);
       eventLabel.attr("disabled", false);
+      add = 1;
       // allDaySwitch.attr("disabled", false);
     },
     eventClick: function (info) {
@@ -546,13 +549,13 @@ document.addEventListener('DOMContentLoaded', function () {
         }
       };
 
-      var quill_editor = $("#event-description-editor .ql-editor");
-      var description = quill_editor[0].innerHTML;
+      // var quill_editor = $("#event-description-editor .ql-editor");
+      // var description = quill_editor[0].innerHTML;
       var eventData = {
         title: sidebar.find(eventTitle).val(),
         startDate: startDate.val(),
         endDate: endDate.val(),
-        description: description,
+        description: calendarEditor.val(),
         objectType: eventLabel.val(),
         objectId: objectId,
       };
@@ -664,4 +667,25 @@ document.addEventListener('DOMContentLoaded', function () {
 function loadAdd() {
   $("#add-new-sidebar").modal('show');
   $(".modal-title").html('Thêm mới sự kiện');
+  add = 0;
+  $('#start-date').attr("disabled", false);
+  $('#end-date').attr("disabled", false);
+  $('#select-label').attr("disabled", false);
+}
+
+function changeStartDate() {
+  if (add == 0) {
+    if ($('#end-date').length) {
+      var end = $('#end-date').flatpickr({
+        enableTime: true,
+        altFormat: 'Y-m-dTH:i:S',
+        minDate: $('#start-date').val(),
+        onReady: function (selectedDates, dateStr, instance) {
+          if (instance.isMobile) {
+            $(instance.mobileInput).attr('step', null);
+          }
+        }
+      });
+    }
+  }
 }
