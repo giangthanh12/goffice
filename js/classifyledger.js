@@ -12,6 +12,12 @@ $(function () {
         111 : { title: "Tiền mặt", class: "badge-light-warning" },
         112 : { title: "Ngân hàng", class: "badge-light-success" },
       };
+      actionObj = {
+        0: {title: "", class: ""},
+        1: {title: "Thu", class: "badge-light-success"},
+        2: {title: "Chi", class: "badge-light-warning"},
+        3: {title: "Khác", class: ""}
+    };
   var buttons = [];
   if(funAdd == 1) {
     buttons.push({
@@ -30,18 +36,32 @@ $(function () {
     if (dtUserTable.length) {
       dtUserTable.DataTable({
         // ajax: assetPath + "data/user-list.json", // JSON file to add data
-        ajax: baseHome + "/classifyledger/list",
+        ajax: baseHome + "/classifyledger/listdata",
         ordering: false,
         columns: [
   
           { data: "id" },
           { data: "name" },
+          { data:"type"},
           { data: "note" },
           { data: "" },
         ],
         columnDefs: [
           
-         
+          {
+            // classify Status
+            targets: 2,
+            render: function (data, type, full, meta) {
+                var $action = full["type"];
+                return (
+                    '<span class="badge badge-pill ' +
+                    actionObj[$action].class +
+                    '" text-capitalized>' +
+                    actionObj[$action].title +
+                    "</span>"
+                );
+            },
+        },
           {
             // Actions
             targets: -1,
@@ -166,10 +186,16 @@ $(function () {
             name: {
               required: true,
             },
+            type: {
+              required: true,
+            },
           },
           messages: {
             name: {
               required: "Bạn chưa nhập tên hoạch toán",
+            },
+            type: {
+              required: "Bạn chưa chọn loại hoạch toán",
             },
           },
         });
@@ -181,7 +207,7 @@ $(function () {
                 var id = $("#id").val();
                 var name = $("#name").val();
                 var note = $('#note').val();
-              
+                var type = $('#type').val();
                 $.ajax({
                   type: "POST",
                   dataType: "json",
@@ -189,6 +215,7 @@ $(function () {
                     id: id,
                     name: name,
                     note: note,
+                    type:type
                   },
                   url: baseHome + "/classifyledger/update",
                   success: function (data) {
@@ -230,6 +257,7 @@ $(function () {
         $(".error").removeClass("error"); // loại bỏ validate
         $("#name").val(data.name);
         $("#note").val(data.note);
+        $("#type").val(data.type);
         $('#id').val(data.id);
         // url = baseHome + "/accnumber/update";
         
