@@ -31,11 +31,11 @@ class calendar_model extends Model
         $result = false;
         if($objectId>0 && $objectTable!='') {
             if($objectTable=='interview') {
-                $data = [
+                $calendarData = [
                     'note' => $calendarData['description'],
                 ];
             }
-            if($this->update($objectTable,$data,"id=$objectId")) {
+            if($this->update($objectTable,$calendarData,"id=$objectId")) {
                 $this->update("calendars",$calendarData,"id=$calendarId");
                 $result = true;
             }
