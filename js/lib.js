@@ -20,9 +20,7 @@ connection.onopen = function () {
 connection.onmessage = function (message) {
     var data = JSON.parse(message.data);
     if (data.type == 'inbox') {
-        var receiver = JSON.parse(data.receiverid);
-        if (receiver.includes(baseUser)) {
-
+        if (data.receiverid.includes(baseUser)) {
             var receiverid = data.receiverid;
             var senderid = data.senderid;
             var avatar = baseUrlFile + "/uploads/nhanvien/" + data.avatar;
@@ -40,15 +38,15 @@ connection.onmessage = function (message) {
            }
            var countNoti1 =   $('#countNotifications1').html().slice(0,1);
            $('#countNotifications1').html(Number(countNoti1)+1+' tin');
-         var bellInterval =  setInterval(function() {
-            $('.bell-icon').toggleClass( "bell" );
-          },100)
-          setTimeout(function(){
-             clearInterval(bellInterval);
-          },3000);
-          if(content.length > 90) {
-              content = content.slice(0,90)+'...';
-          }
+            var bellInterval =  setInterval(function() {
+                $('.bell-icon').toggleClass( "bell" );
+            },100)
+            setTimeout(function(){
+                clearInterval(bellInterval);
+            },3000);
+            if(content.length > 90) {
+                content = content.slice(0,90)+'...';
+            }
             $('.media-list').append(`
             <a class="d-flex" href="${url}">
                 <div class="media d-flex align-items-start">

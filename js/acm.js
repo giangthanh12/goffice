@@ -229,7 +229,7 @@ $(function () {
                         html +='<div style="width: 80px;">';
                         if(funEdit == 1) {
                             html += '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" data-toggle="modal" data-target="#updateinfo" title="Chỉnh sửa" onclick="loaddata(' +
-                            full["id"] +
+                            full["id"]+ ',' + full["action"] +
                             ')">';
                             html += '<i class="fas fa-pencil-alt"></i>';
                             html += "</button> &nbsp;";
@@ -309,6 +309,7 @@ $(function () {
     }
 
    function actionMenuPay() {
+    return_combobox_multi('#classify',baseHome + "/acm/getClassify?type=2", 'Phân loại');
     var validator = $("#dg").validate(); // reset form
     validator.resetForm();
     $(".error").removeClass("error"); // loại bỏ validate
@@ -320,7 +321,6 @@ $(function () {
     $('#account').val('').change();
     $('#classify').val('').change();
     $('#authorized').val('').change();
-    
     $('#id').val('');
     $('#action').val(2);
     $('#type').html(`<option value="2">Chi phí</option>
@@ -328,7 +328,7 @@ $(function () {
    }
 
    function actionMenuCollect() {
-       
+    return_combobox_multi('#classify',baseHome + "/acm/getClassify?type=1", 'Phân loại');
     var validator = $("#dg").validate(); // reset form
     validator.resetForm();
     $(".error").removeClass("error"); // loại bỏ validate
@@ -342,6 +342,7 @@ $(function () {
     $('#id').val('');
     $('#action').val(1);
     $('#type').html('');
+    
     $('#authorized').val('').change();
     $('#type').html(`<option value="1">Doanh thu</option>
     <option value="3">Nội bộ</option>`);
@@ -491,8 +492,12 @@ function showAccountBalance() {
 }
 showAccountBalance()
 
-function loaddata(id) {
-    $(".modal-title").html("Cập nhật thông tin sổ tiền mặt");
+function loaddata(id,action) {
+  
+    $(".modal-title").html('Cập nhật thông tin thu');
+    return_combobox_multi('#classify',baseHome + "/acm/getClassify?type="+action, 'Phân loại');
+    if(action == 2) 
+        $(".modal-title").html("Cập nhật thông tin chi");
     $.ajax({
         type: "POST",
         dataType: "json",
