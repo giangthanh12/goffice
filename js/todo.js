@@ -213,6 +213,7 @@ $(function () {
         flatPickr.flatpickr({
             dateFormat: "Y-m-d",
             defaultDate: "today",
+            minDate: "today",
             onReady: function (selectedDates, dateStr, instance) {
                 if (instance.isMobile) {
                     $(instance.mobileInput).attr("step", null);
