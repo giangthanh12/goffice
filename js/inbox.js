@@ -525,6 +525,7 @@ function listInbox() {
     var $a = $('.list-group-messages').find('.active');
 $a[0].classList.remove('active');
    $('.item-filter1')[0].classList.add('active');
+   $('#page').val(1);
 }
 
 function listSent() {
@@ -535,6 +536,7 @@ function listSent() {
     var $a = $('.list-group-messages').find('.active');
     $a[0].classList.remove('active');
        $('.item-filter2')[0].classList.add('active');
+       $('#page').val(1);
 }
 
 function listTrash() {
@@ -545,6 +547,7 @@ function listTrash() {
     var $a = $('.list-group-messages').find('.active');
     $a[0].classList.remove('active');
        $('.item-filter3')[0].classList.add('active');
+       $('#page').val(1);
 }
 
 function deleteMsg() {
@@ -716,55 +719,75 @@ function forwardMsg() {
     $("#compose-mail").modal("show");
 }
 
-// function displayAttach() {
-//     var fullPath = $('#file-input').val();
-//     if (fullPath) {
-//         var startIndex = (fullPath.indexOf('\\') >= 0 ? fullPath.lastIndexOf('\\') : fullPath.lastIndexOf('/'));
-//         var filename = fullPath.substring(startIndex);
-//         if (filename.indexOf('\\') === 0 || filename.indexOf('/') === 0)
-//             filename = filename.substring(1);
-//         $('#attachment').text(filename);
-//     }
-// }
-
-// function sendMsg() {
-//     var emailto = $('#email-to').val();
-//     if (emailto.length>0) {
-//         var fd = new FormData();
-//         fd.append('emailto',emailto);
-//         fd.append('subject',$('#emailSubject').val());
-//         fd.append('body',$('#msgBody').html());
-//         var files = $('#file-input')[0].files;
-//         console.log(files);
-//         if(files.length > 0 ){
-//             fd.append('files',files);
-//         }
-//         $.ajax({
-//            url: 'inbox/sendMsg',
-//            type: 'post',
-//            data: fd,
-//            contentType: false,
-//            processData: false,
-//            dataType: "json",
-//            success: function(response){
-//               if(response.success){
-//                  // $("#img").attr("src",response);
-//                  // $(".preview img").show(); // Display image element
-//               }else{
-//                   toastr["error"](response.msg, "💾 Message not sent!", {
-//                       closeButton: true,
-//                       tapToDismiss: false,
-//                       rtl: isRtl,
-//                   });
-//               }
-//            },
-//         });
-//           //
-//     } else {
-//         toastr["error"]('Bạn chưa chọn người nhận thông báo', "💾 Message not sent!", {
-//             closeButton: true,
-//             tapToDismiss: false,
-//             rtl: isRtl,
-//         });
-//     }
-// }
+$('#my-task-list').scroll(function (e) {
+    console.log($('#my-task-list')[0].scrollHeight);
+    console.log($('#my-task-list')[0].offsetHeight);
+   
+   var page;
+   var selectedType = $('#selectedType').val();
+    // $('#chat_id').textbox({value: scroll.scrollTop + scroll.offsetHeight});
+    if ($('#my-task-list')[0].scrollTop + $('#my-task-list')[0].offsetHeight >= $('#my-task-list')[0].scrollHeight) {
+        page = $('#page').val();
+        page++;
+        $.ajax(
+            {
+                type: 'get',
+                dataType: 'json',
+                url: baseHome + '/inbox/getListInbox',
+                data: {page: page, selectedType:selectedType},
+                success: function (result) {
+                    if(result.success) {
+                        $('#page').val(page);
+                        // console.log(result.data);
+                        var $avatar;
+                        var $new;
+                        result.data.forEach(function(item,value) {
+                                    $avatar = baseHome+'/users/gemstech/uploads/nhanvien/'+item.avatar;
+                                    if (item.status == 1 && selectedType != 'sent')
+                                        $new = 'bullet-success';
+                                    else if (item.status == 2)
+                                        $new = 'bullet-primary';
+                                    else
+                                        $new = '';
+                            $('.email-media-list').append(`
+                            <li class="media" onclick="toggleEmail(${item.id})" id="'.$item['id'].'">
+                                        <div class="media-left pr-50">
+                                            <div class="avatar">`+
+                                                '<img onerror='+"this.src='https://velo.vn/goffice-test/layouts/useravatar.png'"+' src="'+$avatar+'" alt="avatar" />'+
+                                            `</div>
+                                            <div class="user-action">
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input" id="customCheck${item.id}'" />
+                                                    <label class="custom-control-label" for="customCheck${item.id}"></label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="media-body">
+                                            <div class="mail-details">
+                                                <div class="mail-items">
+                                                    <h5 class="mb-25">${item.senderName}</h5>
+                                                    <span class="text-truncate">${item.title}</span>
+                                                </div>
+                                                <div class="mail-meta-item">
+                                                    <span id="alertInbox${item.id}" class="mr-50 bullet ${$new} bullet-sm"></span>
+                                                    <span class="mail-date">${item.dateTime}</span>
+                                                </div>
+                                            </div>
+                                            <div class="mail-message">
+                                                ${item.subContent}
+                                            </div>
+                                        </div>
+                                    </li>
+                            `)
+                        })
+                    }
+                }
+            })
+            // .always(function () {
+            //     // Sau khi thực hiện xong ajax thì ẩn hidden và cho trạng thái gửi ajax = false
+            //     $loadding.addClass('hidden');
+            //     is_busy = false;
+            // });
+        return false;
+    }
+});
