@@ -35,7 +35,7 @@
                         <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h4 class="modal-title" id="myModalLabel16"></h4>
+                                    <h4 class="modal-title" id="myModalLabel16"></h4><img src="<?=HOME?>/layouts/tooltip.png" style="margin: 0 15px" width="25px" id="current_ip" data-toggle="tooltip" data-placement="left" data-original-title="Quản lý thời gian làm việc trong tuần của từng bộ phận/phòng ban trong doanh nghiệp" data-trigger="click" >
                                     <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                     </button> -->
