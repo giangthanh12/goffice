@@ -1,16 +1,16 @@
 <div class="app-content content">
     <div class="content-overlay"></div>
     <div class="header-navbar-shadow"></div>
-    <div class="content-wrapper container-xxl p-0">
+    <div class="content-wrapper container-xxl p-0">        
         <div class="content-header-left col-md-9 col-12 mb-2">
             <div class="row breadcrumbs-top">
                 <div class="col-12">
-                    <h2>Data</h2>
+                    <h2>Data <img src="<?=HOME?>/layouts/tooltip.png" style="margin: 0 15px" width="25px" id="current_ip" data-toggle="tooltip" data-placement="right" data-original-title="Là chức năng quản lý thông tin cá nhân và tình trạng của toàn bộ data khách hàng đang quan tâm đến SP/DV mà doanh nghiệp tìm kiếm được  " data-trigger="click" ></h2>
                 </div>
             </div>
         </div>
         <div class="content-body">
-            <!-- users list start -->
+            <!-- users list start -->            
             <section class="app-user-list">
                 <!-- users filter start -->
                 <div class="card">

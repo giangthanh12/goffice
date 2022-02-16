@@ -63,7 +63,7 @@ class interview extends Controller
             'status'=>1
         );
         if (self::$funAdd == 1 && empty($id)) {
-            if ($this->model->updateInterview($id,$data)) {
+            if ($this->model->addInterview($data)) {
                 $jsonObj['msg'] = 'Cập nhật dữ liệu thành công';
                 $jsonObj['success'] = true;
             } else {
@@ -88,7 +88,7 @@ class interview extends Controller
     }
 
     function getListInterview() {
-        $nhanvien = $_REQUEST['nhanvien'];
+        $nhanvien = (isset($_REQUEST['nhanvien']) && $_REQUEST['nhanvien']!='') ? $_REQUEST['nhanvien'] : '';
         $thang = (isset($_REQUEST['thang']) && ($_REQUEST['thang'] != '')) ? $_REQUEST['thang'] : date("m");
         $nam = (isset($_REQUEST['nam']) && ($_REQUEST['nam'] != '')) ? $_REQUEST['nam'] : date("Y");
         $data = $this->model->getListInterview($thang, $nam,$nhanvien);
@@ -113,7 +113,7 @@ class interview extends Controller
         $id = $_REQUEST['id'];
         $data = ['status' => 0];
         if ($this->model->delObj($id, $data)) {
-            $data = $this->model->checkCalendar($id);
+            $data = $this->model->checkCalendar($id,0);
             if(count($data)>0){
                 foreach($data as $item) {
                     $this->model->updateCalendar($item['id'], ['status'=>0]);

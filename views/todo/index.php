@@ -1,6 +1,17 @@
 <link rel="stylesheet" type="text/css" href="<?= HOME ?>/styles/app-assets/css/pages/app-todo.css">
 <div class="app-content content todo-application">
     <div class="content-overlay"></div>
+    <div class="content-header row">
+        <div class="content-header-left container-xxl">
+            <div class="row breadcrumbs-top">
+                <div class="col-12">
+                    <h2 class="content-header-title float-left mb-2" id="title_module">
+                        Công việc <img src="<?=HOME?>/layouts/tooltip.png" style="margin: 0 15px" width="25px" id="current_ip" data-toggle="tooltip" data-placement="right" data-original-title="Là chức năng giao việc và quản lý các đầu công việc khác nhau của từng nhân sự trong doanh nghiệp " data-trigger="click" >
+                    </h2>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="header-navbar-shadow"></div>
     <div class="content-area-wrapper container-xxl p-0">
         <div class="sidebar-left">

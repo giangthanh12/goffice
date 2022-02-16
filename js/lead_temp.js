@@ -8,7 +8,11 @@
 ==========================================================================================*/
 
 'use strict';
-$(function() {
+$(function () {
+    $('#leadCustomer').select2({
+        placeholder: 'Chọn khách hàng',
+        dropdownParent: $('#leadCustomer').parent(),
+    });
     var newTaskForm = $("#form-modal-todo"),
         chatUsersListWrapper = $('.chat-application .chat-user-list-wrapper'),
         overlay = $('.body-content-overlay'),
@@ -33,11 +37,29 @@ $(function() {
         leadDescUpdate = $("#leadDescUpdate"),
         flatPickr = $(".task-due-date");
 
+    $('#fmLead').each(function () {
+        var $this = $(this);
+        $this.validate({
+            rules: {
+                leadName: {
+                    required: true
+                },
+                leadDesc: {
+                    required: true
+                },
+                customerEmail: {
+                    required: true,
+                    email: "Sai định dạng email!",
+                },
+            }
+        });
+    });
+
     if (flatPickr.length) {
         flatPickr.flatpickr({
             dateFormat: "d-m-Y",
             // defaultDate: "today",
-            onReady: function(selectedDates, dateStr, instance) {
+            onReady: function (selectedDates, dateStr, instance) {
                 if (instance.isMobile) {
                     $(instance.mobileInput).attr("step", null);
                 }
@@ -96,7 +118,7 @@ $(function() {
             },
         });
 
-        newTaskForm.on("submit", function(e) {
+        newTaskForm.on("submit", function (e) {
             e.preventDefault();
             var isValid = newTaskForm.valid();
             if (isValid) {
@@ -112,12 +134,12 @@ $(function() {
                     dataType: "json",
                     data: { id: id, comment: comment },
                     url: baseHome + "/lead_temp/insertTakeCareHistory",
-                    success: function(data) {
+                    success: function (data) {
                         if (data.success == true) {
                             notyfi_success(data.msg);
                             $('#new-takecare-modal').modal('hide');
                             var html = '';
-                            data.list.forEach(function(value, index) {
+                            data.list.forEach(function (value, index) {
                                 html += '<div class="row">';
                                 html += '<div class="col-lg-3">';
                                 html += '<p>' + value.dateTime + '</p>';
@@ -177,7 +199,7 @@ $(function() {
         // on user click sidebar close in touch devices
         $(chatsUserList)
             .find('li')
-            .on('click', function() {
+            .on('click', function () {
                 $(sidebarContent).removeClass('show');
                 $(overlay).removeClass('show');
             });
@@ -359,39 +381,67 @@ $(function() {
     // }
 });
 
-function saveLead() {
-    $('#fmLead').validate({
-        submitHandler: function(form) {
-            var formData = new FormData(form);
-            var comment = $('#leadDesc').find(".ql-editor p").html();
-            if (comment == '<br>') {
-                notify_error('Vui lòng nhập mô tả!');
-                return false;
-            }
-            formData.append('leadDes', comment)
-            $.ajax({
-                url: baseHome + "/lead_temp/insertLead",
-                type: 'POST',
-                data: formData,
-                async: false,
-                cache: false,
-                contentType: false,
-                enctype: 'multipart/form-data',
-                processData: false,
-                dataType: "json",
-                success: function(data) {
-                    if (data.code == 200) {
-                        notyfi_success(data.message);
-                        leadSearch();
-                        $('#new-lead-modal').modal('hide');
-                    } else
-                        notify_error(data.message);
+$(document).on('blur', '#customerPhone', function () {
+    var customerPhone = $(this).val();
+
+    if (customerPhone != '' && customerPhone.toString().length >= 10) {
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            data: { customerPhone: customerPhone },
+            url: baseHome + "/lead_temp/checkPhone",
+            success: function (data) {
+                if (data.success) {
+                    // notyfi_success(data.msg);
+                    $('#btn-add-lead').prop('disabled', false);
+                } else {
+                    $('#btn-add-lead').prop('disabled', true);
+                    notify_error(data.msg);
                 }
-            });
-            return false;
-        }
-    });
-    $('#fmLead').submit();
+            }
+        });
+    } else {
+        1
+        $('#btn-add-lead').prop('disabled', true);
+        notify_error('Số điện thoại không hợp lệ');
+    }
+})
+
+function saveLead() {
+    var isValid = $('#fmLead').valid();
+    if (isValid) {
+        // $('#fmLead').validate({
+        //     submitHandler: function (form) {
+        var formData = new FormData($('#fmLead')[[0]]);
+        // var comment = $('#leadDesc').find(".ql-editor p").html();
+        // if (comment == '<br>') {
+        //     notify_error('Vui lòng nhập mô tả!');
+        //     return false;
+        // }
+        // formData.append('leadDes', comment)
+        $.ajax({
+            url: baseHome + "/lead_temp/insertLead",
+            type: 'POST',
+            data: formData,
+            async: false,
+            cache: false,
+            contentType: false,
+            enctype: 'multipart/form-data',
+            processData: false,
+            dataType: "json",
+            success: function (data) {
+                if (data.code == 200) {
+                    notyfi_success(data.message);
+                    leadSearch();
+                    $('#new-lead-modal').modal('hide');
+                } else
+                    notify_error(data.message);
+            }
+        });
+        return false;
+    }
+    // });
+    // $('#fmLead').submit();
 }
 
 // // Window Resize
@@ -416,7 +466,7 @@ function saveLead() {
 //   }
 // });
 
-$(document).on('click', '.sidebar-toggle', function() {
+$(document).on('click', '.sidebar-toggle', function () {
     if ($(window).width() < 992) {
         onClickFn();
     }
@@ -429,7 +479,7 @@ $(document).on('click', '.sidebar-toggle', function() {
 var leftId = '';
 // document.getElementById("list-lead").click();
 jQuery('#list-lead').click();
-$('#list-lead').on('click', '.sidebar-list', function() {
+$('#list-lead').on('click', '.sidebar-list', function () {
     let leadId = $(this).data("id");
     $('#list-lead .sidebar-list.list-active').removeClass('list-active');
     $(this).addClass('list-active');
@@ -442,7 +492,7 @@ $('#list-lead').on('click', '.sidebar-list', function() {
         type: 'post',
         dataType: "json",
         data: { id: customerId },
-        success: function(data) {
+        success: function (data) {
             $('#fullName').html(data.fullName);
             $('#taxCode').html(data.taxCode);
             $('#address').html(data.address);
@@ -476,9 +526,9 @@ $('#list-lead').on('click', '.sidebar-list', function() {
         type: 'post',
         dataType: "json",
         data: { id: leadId },
-        success: function(data) {
+        success: function (data) {
             var html = '';
-            data.forEach(function(value, index) {
+            data.forEach(function (value, index) {
                 html += '<div class="row">';
                 html += '<div class="col-lg-3">';
                 html += '<p>' + value.dateTime + '</p>';
@@ -499,17 +549,21 @@ $('#list-lead').on('click', '.sidebar-list', function() {
 });
 
 function showModalTakeCare() {
-    $('#name').val('');
-    var quill_editor = $("#task-desc .ql-editor");
-    quill_editor[0].innerHTML = '';
-    $('#new-takecare-modal').modal('show');
+    if ($('.list-active').length > 0) {
+        $('#name').val('');
+        var quill_editor = $("#task-desc .ql-editor");
+        quill_editor[0].innerHTML = '';
+        $('#new-takecare-modal').modal('show');
+    } else {
+        notify_error('Chưa có cơ hội nào được chọn!');
+    }
 }
 
 function showModalLead() {
     $('#leadName').val('');
-    $('#leadCustomer').val(0).change();
-    var quill_editor = $("#leadDesc .ql-editor");
-    quill_editor[0].innerHTML = '';
+    $('#leadCustomer').val('').change();
+    // var quill_editor = $("#leadDesc .ql-editor");
+    // quill_editor[0].innerHTML = '';
     $('#new-lead-modal').modal('show');
 }
 
@@ -527,7 +581,7 @@ function loadData(id) {
         dataType: "json",
         data: { id: id },
         url: baseHome + "/lead_temp/loadData",
-        success: function(data) {
+        success: function (data) {
             $('#leadIdUpdate').val(data.id);
             $('#leadNameUpdate').val(data.name);
             var leadDesc = data.description;
@@ -537,7 +591,7 @@ function loadData(id) {
             $('#opportunityUpdate').val(data.opportunity).change();
             $('#statusUpdate').val(data.status).change();
         },
-        error: function() {
+        error: function () {
             notify_error('Lỗi truy xuất database');
         }
     });
@@ -551,7 +605,7 @@ function leadQuote() {
         type: 'post',
         dataType: "json",
         data: { id: leftId },
-        success: function(data) {
+        success: function (data) {
             let yourDate = new Date()
             const offset = yourDate.getTimezoneOffset()
             yourDate = new Date(yourDate.getTime() - (offset * 60 * 1000))
@@ -559,7 +613,7 @@ function leadQuote() {
             $('#customerQuote').val(data.fullName);
             $('#dateQuote').val(yourDate.toISOString().split('T')[0]);
         },
-        error: function() {
+        error: function () {
             notify_error('Lỗi truy xuất database');
         }
     });
@@ -580,7 +634,7 @@ function load_dichvu() {
         dataType: "json",
         data: { id: id },
         url: baseHome + "/lead_temp/load_dichvu",
-        success: function(data) {
+        success: function (data) {
             var stt = $('#stt').val();
             var i = Number(stt) + 1;
             $('#stt').val(i);
@@ -592,7 +646,7 @@ function load_dichvu() {
             // $('#san_pham').trigger("change");
             $("#thue" + i).val(data.tax).trigger('change');
         },
-        error: function() {}
+        error: function () { }
     });
 
 }
@@ -600,7 +654,7 @@ function load_dichvu() {
 function updateLead() {
 
     $('#fmEdit').validate({
-        submitHandler: function(form) {
+        submitHandler: function (form) {
 
             var formData = new FormData(form);
             var comment = $('#leadDescUpdate').find(".ql-editor p").html();
@@ -619,7 +673,7 @@ function updateLead() {
                 enctype: 'multipart/form-data',
                 processData: false,
                 dataType: "json",
-                success: function(data) {
+                success: function (data) {
                     if (data.success) {
                         notyfi_success(data.msg);
                         leadSearch();
@@ -646,14 +700,14 @@ function deleteLead(id) {
             cancelButton: 'btn btn-outline-danger ml-1'
         },
         buttonsStyling: false
-    }).then(function(result) {
+    }).then(function (result) {
         if (result.value) {
             $.ajax({
                 url: baseHome + "/lead_temp/deleteLead",
                 type: 'post',
                 dataType: "json",
                 data: { id: id },
-                success: function(data) {
+                success: function (data) {
                     if (data.success) {
                         notyfi_success(data.msg);
                         leadSearch();
@@ -674,9 +728,9 @@ function leadSearch() {
         type: 'post',
         dataType: "json",
         data: info,
-        success: function(data) {
+        success: function (data) {
             var html = '';
-            data.forEach(function(value, index) {
+            data.forEach(function (value, index) {
                 html += '<li data-id="' + value.id + '" data-dateTime ="' + value.dateTime + '" data-customer="' + value.customerId + '" data-status="' + value.status + '" data-leadname="' + value.name + '" data-leaddes="' + value.description + '" class="sidebar-list">';
                 html += '<div class="chat-info flex-grow-1">';
                 html += '<div class="customer-name">';
@@ -746,7 +800,7 @@ function leadSearch() {
             //     });
             // }
         },
-        error: function() {
+        error: function () {
             notify_error("Định dạng dữ liệu không đúng");
             return;
         }
@@ -760,6 +814,15 @@ function onClickFn() {
     if (sidebarToggle.length) {
         sidebarContent.addClass('show');
         overlay.addClass('show');
+    }
+}
+
+function changeCustomer() {
+    var opt = $("#leadCustomer").val();
+    if (opt == -1) {
+        $('#new-customer').removeClass('d-none');
+    } else {
+        $('#new-customer').addClass('d-none');
     }
 }
 

@@ -119,12 +119,6 @@ $(function () {
                 { data: "" },
             ],
             columnDefs: [
-     
-
-
-
-
-
                 {
                     // User full name and username
                     targets: 0,
@@ -135,7 +129,7 @@ $(function () {
                             $image = full["image"];
                         if ($image) {
                             // For Avatar image
-                            var $output = '<img onerror='+"this.src='https://velo.vn/goffice-test/layouts/useravatar.png'"+' src="' + $image + '" alt="Avatar" height="32" width="32">';
+                            var $output = '<img onerror='+"this.src='https://velo.vn/goffice-test/layouts/useravatar.png'"+' src="' + baseUrlFile +'/uploads/ungvien/'+ $image + '" alt="Avatar" height="32" width="32">';
                             // var $output = '<img src="' + assetPath + "images/avatars/" + $image + '" alt="Avatar" height="32" width="32">';
                         } else {
                             // For Avatar badge
@@ -192,7 +186,7 @@ $(function () {
                        var html = '';
                       
                        if(full['cv'] !== '') {
-                        var urlfile = baseHome + '/users/gemstech/' +full['cv'];
+                        var urlfile = baseUrlFile + '/uploads/ungvien/' +full['cv'];
                         html +=  `<div id="viewfile"><a target="_blank" href="${urlfile}" style="color: blue;">Tải xuống <i class="fas fa-download"></i></a> </div>`;
                     }
                     return html;

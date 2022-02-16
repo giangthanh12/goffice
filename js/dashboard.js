@@ -61,8 +61,11 @@ $(window).on('load', function () {
   var arrNewCustomer = [];
   var arrData = [];
   var arrMonth = [];
+  var arrMonth2 = [];
   var arrProfit = [];
   var arrLoss = [];
+  var arrProfit2 = [];
+  var arrLoss2 = [];
   var arrExpectedProfit = [];
   var arrExpectedLoss = [];
   var isRtl = $('html').attr('data-textdirection') === 'rtl';
@@ -123,6 +126,7 @@ $(window).on('load', function () {
     success: function (data) {
       arrProfit = data.arrProfit;
       arrLoss = data.arrLoss;
+      arrMonth2 = data.arrMonth;
     },
   });
 
@@ -134,6 +138,8 @@ $(window).on('load', function () {
     success: function (data) {
       arrExpectedProfit = data.arrExpectedProfit;
       arrExpectedLoss = data.arrExpectedLoss;
+      arrProfit2 = data.arrProfit;
+      arrLoss2 = data.arrLoss;
     },
   });
 
@@ -390,75 +396,78 @@ $(window).on('load', function () {
   revenueReportChartOptions = {
     chart: {
       height: 230,
-      width: '100%',
+      width: "100%",
       stacked: false,
-      type: 'bar',
-      toolbar: { show: false }
+      type: "bar",
+      toolbar: { show: false },
     },
     plotOptions: {
       bar: {
-        columnWidth: '80%',
-        endingShape: 'rounded'
+        columnWidth: "80%",
+        endingShape: "rounded",
       },
-      distributed: true
+      distributed: true,
     },
     colors: [window.colors.solid.success, window.colors.solid.danger],
     series: [
       {
-        name: 'Doanh thu',
-        data: arrProfit
+        name: "Doanh thu",
+        data: arrProfit,
       },
       {
-        name: 'Chi phí',
-        data: arrLoss
-      }
+        name: "Chi phí",
+        data: arrLoss,
+      },
     ],
     dataLabels: {
-      enabled: false
+      enabled: false,
     },
     stroke: {
       show: true,
       width: 1,
-      colors: ['#fff']
+      colors: ["#fff"],
     },
     legend: {
-      show: false
+      show: false,
     },
     grid: {
       padding: {
         top: -20,
-        bottom: -10
+        bottom: -10,
       },
       yaxis: {
-        lines: { show: false }
-      }
+        lines: { show: false },
+      },
     },
     xaxis: {
-      width: '100%',
-      categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+      width: "100%",
+      categories: arrMonth2,
       labels: {
         style: {
           colors: $textMutedColor,
-          fontSize: '0.86rem'
-        }
+          fontSize: "0.86rem",
+        },
       },
       axisTicks: {
-        show: false
+        show: false,
       },
       axisBorder: {
-        show: false
-      }
+        show: false,
+      },
     },
     yaxis: {
       labels: {
         style: {
           colors: $textMutedColor,
-          fontSize: '0.86rem'
-        }
-      }
-    }
+          fontSize: "0.86rem",
+        },
+      },
+    },
   };
-  revenueReportChart = new ApexCharts($revenueReportChart, revenueReportChartOptions);
+  revenueReportChart = new ApexCharts(
+    $revenueReportChart,
+    revenueReportChartOptions
+  );
   revenueReportChart.render();
 
    //------------ Cash flow Report Chart ------------
@@ -486,7 +495,7 @@ $(window).on('load', function () {
       },
       {
         name: 'Thực thu',
-        data: arrProfit
+        data: arrProfit2
       },
       {
         name: 'Dự chi',
@@ -494,7 +503,7 @@ $(window).on('load', function () {
       },
       {
         name: 'Thực chi',
-        data: arrLoss
+        data: arrLoss2
       }
     ],
     dataLabels: {

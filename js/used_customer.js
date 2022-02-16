@@ -7,7 +7,6 @@ $(function () {
     return_combobox_multi('#staffId', baseHome + '/used_customer/getStaff', 'Chọn nhân viên chăm sóc');
     return_combobox_multi('#nationalId', baseHome + '/used_customer/getNational', 'Chọn quốc gia');
     return_combobox_multi('#staffId1', baseHome + '/used_customer/getStaff', 'Chọn nhân viên chăm sóc');
-    
     return_combobox_multi('#staffId2', baseHome + '/used_customer/getStaff', 'Chọn nhân viên chăm sóc');
     return_combobox_multi('#nationalId1', baseHome + '/used_customer/getNational', 'Chọn quốc gia');
     return_combobox_multi('#provinceId', baseHome + '/used_customer/getProvince', 'Chọn tỉnh thành');
@@ -39,9 +38,6 @@ $(function () {
     var dtUserTable = $(".user-list-table"),
         modal = $("#updateinfo"),
         form = $("#dg");
-
-
-
         var buttons = [];
         if(funAdd == 1) {
             buttons.push({
@@ -509,26 +505,26 @@ function loaddata(id) {
         data: { id: id },
         url: baseHome + "/used_customer/loaddata",
         success: function (data) {
-         console.log(data.fullName);
+       
             $('#fullName1').val(data.fullName);
             $('#taxCode1').val(data.taxCode);
             $('#address1').val(data.address);
             $('#phoneNumber1').val(data.phoneNumber);
             $('#email1').val(data.email);
             $('#website1').val(data.website);
-            $('#staffId1').val(data.staffid).change();
-            $('#shortName').val(data.shortName);
+            $('#staffId1').val(data.staffId).change();
+            $('#shortName').val(data.name);
             $('#field1').val(data.field);
             $('#rank1').val(data.rank).change();
-            $('#bussinessName1').val(data.businessName);
-            $('#bussinessAddress1').val(data.businessAddress);
-            $('#bussinessPlace1').val(data.businessPlace);
+            // $('#bussinessName1').val(data.businessName);
+            // $('#bussinessAddress1').val(data.businessAddress);
+            $('#bussinessPlace1').val(data.office);
             $('#representative1').val(data.representative);
-            $('#authorized1').val(data.authorized);
+            // $('#authorized1').val(data.authorized);
             $('#note1').val(data.note);
             $('#classify1').val(data.classify);
             $('#type1').val(data.type).change();
-            $('#nationalId1').val(data.nationalId).change();
+            // $('#nationalId1').val(data.nationalId).change();
             $('#provinceId1').val(data.provinceId).change();
             $('#status1').val(data.status).change();
             $('#idCustomerContact').val(id);

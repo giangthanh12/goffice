@@ -9,7 +9,7 @@
             <div class="row breadcrumbs-top">
                 <div class="col-12">
                     <h2 class="content-header-title float-left mb-0" id="title_module">
-                        Cơ hội
+                        Cơ hội <img src="<?=HOME?>/layouts/tooltip.png" style="margin: 0 15px" width="25px" id="current_ip" data-toggle="tooltip" data-placement="right" data-original-title="Là chức năng quản lý thông tin cá nhân, tình trạng và lịch sự chăm sóc của những khách hàng quan tâm đến SP/DV của doanh nghiệp   " data-trigger="click" >
                     </h2>
                 </div>
             </div>
@@ -69,9 +69,9 @@
                             </div>
                             <div class="col-lg-4">
                                 <div class="icon-sidebar-left">
-                                    <?php if($this->funAdd == 1) { ?>
-                                    <i class='bx bx-plus-circle bx-md' onclick="showModalLead()"></i>
-                                    <!-- <i class='bx bx-filter-alt bx-md'></i> -->
+                                    <?php if ($this->funAdd == 1) { ?>
+                                        <i class='bx bx-plus-circle bx-md' onclick="showModalLead()"></i>
+                                        <!-- <i class='bx bx-filter-alt bx-md'></i> -->
                                     <?php } ?>
                                 </div>
                             </div>
@@ -82,7 +82,7 @@
                             $i = 1;
                             foreach ($lead as $item) {
                             ?>
-                                <li id = "list<?=$i?>" data-id="<?= $item['id'] ?>" data-dateTime="<?= $item['dateTime'] ?>" data-customer="<?= $item['customerId'] ?>" data-status="<?= $item['status'] ?>" data-leadname="<?= $item['name'] ?>" data-leaddes="<?= $item['description'] ?>" class="sidebar-list">
+                                <li id="list<?= $i ?>" data-id="<?= $item['id'] ?>" data-dateTime="<?= $item['dateTime'] ?>" data-customer="<?= $item['customerId'] ?>" data-status="<?= $item['status'] ?>" data-leadname="<?= $item['name'] ?>" data-leaddes="<?= $item['description'] ?>" class="sidebar-list">
                                     <div class="chat-info flex-grow-1">
                                         <div class="customer-name">
                                             <label><?php echo $item['name'] ?></label>
@@ -102,8 +102,8 @@
                                             <i class='bx bx-dots-vertical-rounded bx-md icon-dots'></i>
                                             <div class="dropdown-content">
                                                 <span class="updateLead" onclick="loadData(<?= $item['id'] ?>)">Cập nhật</span>
-                                                <?php if($this->funDel == 1) { ?>
-                                                <span class="deleteLead" onclick="deleteLead(<?= $item['id'] ?>)">Xóa</span>
+                                                <?php if ($this->funDel == 1) { ?>
+                                                    <span class="deleteLead" onclick="deleteLead(<?= $item['id'] ?>)">Xóa</span>
                                                 <?php } ?>
                                             </div>
                                         </div>
@@ -124,7 +124,8 @@
                                         </div>
                                     </div>
                                 </li>
-                            <?php $i++; } ?>
+                            <?php $i++;
+                            } ?>
                         </ul>
                     </div>
                     <!-- Sidebar Users end -->
@@ -252,10 +253,10 @@
                                         <div class="takecare-history col-lg-8 col-md-8">
                                             <label>Lịch sử chăm sóc</label>
                                         </div>
-                                        <?php if( $this->funtakecare == 1) { ?>
-                                        <div class="float-right col-lg-3 col-md-3" style="padding-top:15px;">
-                                            <i class='bx bx-plus-circle bx-md float-right' onclick="showModalTakeCare()"></i>
-                                        </div>
+                                        <?php if ($this->funtakecare == 1) { ?>
+                                            <div class="float-right col-lg-3 col-md-3" style="padding-top:15px;">
+                                                <i class='bx bx-plus-circle bx-md float-right' onclick="showModalTakeCare()"></i>
+                                            </div>
                                         <?php } ?>
                                     </div>
                                     <hr style="border-top: 1px solid black; margin:1rem;">
@@ -321,24 +322,24 @@
         <div class="modal-dialog sidebar-lg">
             <div class="modal-content p-0">
                 <form class="form-validate" enctype="multipart/form-data" id="fmLead">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">×</button>
                     <div class="modal-header align-items-center mb-1">
                         <h5 class="modal-title">Thêm cơ hội kinh doanh</h5>
-                        <div class="todo-item-action d-flex align-items-center justify-content-between ml-auto">
-                            <button type="button" class="close font-large-1 font-weight-normal py-0" data-dismiss="modal" aria-label="Close">
-                                ×
-                            </button>
-                        </div>
                     </div>
                     <div class="modal-body flex-grow-1 pb-sm-0 pb-3">
                         <div class="action-tags">
                             <div class="form-group">
-                                <label for="todoTitleAdd" class="form-label">Tên cơ hội</label>
-                                <input type="text" id="leadName" name="leadName" class="new-todo-item-title form-control" placeholder="Tên cơ hội" required />
+                                <label for="leadName" class="form-label">Tên cơ hội</label>
+                                <input type="text" id="leadName" name="leadName" class="new-todo-item-title form-control" placeholder="Tên cơ hội" />
                                 <input type="hidden" id="id" name="id">
                             </div>
                             <div class="form-group">
+                                <label for="leadDesc" class="form-label">Mô tả cơ hội</label>
+                                <textarea id="leadDesc" name="leadDesc" class="new-todo-item-title form-control" rows="3" placeholder="Mô tả cơ hội" ></textarea>
+                            </div>
+                            <!-- <div class="form-group">
                                 <label class="form-label">Mô tả cơ hội</label>
-                                <div id="leadDesc" class="border-bottom-0" data-placeholder="Mô tả cơ hội"></div>
+                                <div id="leadDesc" name="leadDesc" class="border-bottom-0" data-placeholder="Mô tả cơ hội" required></div>
                                 <div class="d-flex justify-content-end desc-toolbar-2 border-top-0">
                                     <span class="ql-formats mr-0">
                                         <button class="ql-bold"></button>
@@ -348,17 +349,31 @@
                                         <button class="ql-link"></button>
                                     </span>
                                 </div>
-                            </div>
+                            </div> -->
                             <div class="form-group position-relative">
                                 <label for="task-assigned" class="form-label d-block">Khách hàng</label>
-                                <select class="select2 form-control" id="leadCustomer" name="leadCustomer" required>
-                                    <option value="0">-- Chọn khách hàng --</option>
+                                <select class="select2 form-control" id="leadCustomer" name="leadCustomer" required onchange="changeCustomer()">
+                                    <option value="-1">Khách hàng mới</option>
                                     <?php
                                     foreach ($this->customer as $item) {
                                         echo '<option value="' . $item['id'] . '">' . $item['fullName'] . '</option>';
                                     }
                                     ?>
                                 </select>
+                            </div>
+                            <div class="d-none" id="new-customer">
+                                <div class="form-group">
+                                    <label for="customerName" class="form-label">Tên khách hàng</label>
+                                    <input type="text" id="customerName" name="customerName" class="new-todo-item-title form-control" placeholder="Tên khách hàng" required />
+                                </div>
+                                <div class="form-group">
+                                    <label for="customerPhone" class="form-label">Số điện thoại</label>
+                                    <input type="text" id="customerPhone" name="customerPhone" class="new-todo-item-title form-control" placeholder="Số điện thoại" required />
+                                </div>
+                                <div class="form-group">
+                                    <label for="customerEmail" class="form-label">Email</label>
+                                    <input type="text" id="customerEmail" name="customerEmail" class="new-todo-item-title form-control" placeholder="Địa chỉ email" required />
+                                </div>
                             </div>
                             <div class="form-group position-relative">
                                 <label for="opportunity" class="form-label d-block">Đánh giá cơ hội</label>
@@ -372,7 +387,7 @@
                             </div>
                         </div>
                         <div class="form-group my-1">
-                            <button type="button" class="btn btn-primary" onClick="saveLead()">Cập nhật</button>
+                            <button type="button" class="btn btn-primary" id="btn-add-lead" onclick="saveLead()">Cập nhật</button>
                             <button type="button" class="btn btn-outline-secondary" id="btn_boqua" data-dismiss="modal">Bỏ qua</button>
                         </div>
                     </div>
@@ -443,8 +458,8 @@
                                     </select>
                                 </div>
                                 <div class="d-flex flex-wrap mb-2">
-                                    <?php if($this->funEdit == 1) { ?>
-                                    <button type="button" onclick="updateLead()" class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Cập nhật</button>
+                                    <?php if ($this->funEdit == 1) { ?>
+                                        <button type="button" onclick="updateLead()" class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Cập nhật</button>
                                     <?php } ?>
                                     <button type="reset" class="btn btn-outline-secondary mr-sm-1" data-dismiss="modal">Bỏ qua</button>
                                 </div>

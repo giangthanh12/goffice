@@ -24,7 +24,7 @@ $(function () {
                 $('#avatar').attr('src', baseUrlFile+'/uploads/nhanvien/'+staffInfo.avatar);
             else
                 $('#avatar').attr('src', baseHome + '/layouts/useravatar.png');
-            $('#username').val(staffInfo.email);
+            $('#username').val(staffInfo.username);
             $('#name').val(staffInfo.name);
             $('#email').val(staffInfo.email);
             $('#dien_thoai').val(staffInfo.phoneNumber);

@@ -11,6 +11,9 @@
             <section class="app-user-list">
                 <!-- list section start -->
                 <div class="card">
+                    <div class="d-flex justify-content-between align-items-center mx-50 row pt-2 ">
+                        <img src="<?=HOME?>/layouts/tooltip.png" style="margin: 0 15px" width="25px" id="current_ip" data-toggle="tooltip" data-placement="right" data-original-title="Là chức năng thiết lập và quản lý nhiều tình trạng khác nhau của một công việc" data-trigger="click" >
+                    </div> 
                     <div class="card-datatable table-responsive pt-0">
                         <table class="user-list-table table">
                             <thead class="thead-light">

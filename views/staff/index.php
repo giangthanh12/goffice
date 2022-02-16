@@ -12,6 +12,9 @@
                 <!-- users filter end -->
                 <!-- list section start -->
                 <div class="card">
+                    <div class="d-flex justify-content-between align-items-center mx-50 row pt-2">
+                        <img src="<?=HOME?>/layouts/tooltip.png" style="margin: 0 15px" width="25px" id="current_ip" data-toggle="tooltip" data-placement="right" data-original-title="Quản lý toàn bộ thông tin cá nhân của nhân sự trong doanh nghiệp" data-trigger="click" >
+                    </div>
                     <div class="card-datatable table-responsive pt-0">
                         <table class="user-list-table table">
                             <thead class="thead-light">
@@ -233,16 +236,16 @@
                                                             </div>
                                                             <div class="col-lg-4 col-md-6">
                                                                 <div class="form-group">
-                                                                    <label for="code1">Mã nhân viên</label>
+                                                                    <label for="staffCode">Mã nhân viên</label>
                                                                     <div class="row">
                                                                         <div class="col-lg-10 col-md-9">
-                                                                            <input id="code1" type="text"
-                                                                                class="form-control" name="code1" />
+                                                                            <input id="staffCode" type="text"
+                                                                                class="form-control" name="staffCode" />
                                                                         </div>
                                                                         <div class="col-lg-2 col-md-3">
                                                                             <button type="button"
                                                                                 class="btn btn-primary" id="createCode"
-                                                                                onclick="createCodeStaff1()">+</button>
+                                                                                onclick="createCodeStaff()">+</button>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -291,7 +294,7 @@
                                                             </div>
                                                             <div class="col-lg-4 col-md-6">
                                                                 <div class="form-group">
-                                                                    <label for="accesspoints">Điểm truy cập</label>
+                                                                    <label for="accesspoints">Điểm truy cập</label><img src="<?=HOME?>/layouts/tooltip.png" width="15px" id="current_ip" data-toggle="tooltip" data-placement="top" data-original-title="Tạo hướng dẫn ở đây" data-trigger="click" >
                                                                     <select class="select2 form-control" multiple="true"
                                                                         id="accesspoints" name="accesspoints[]"
                                                                         placeholder="Điểm truy cập">

@@ -10,10 +10,9 @@
                 <div class="card">
                     <div class="d-flex justify-content-between align-items-center mx-50 row pt-2 pb-2">
                     <div class="col-md-4 taikhoan_filter"></div>
+                    <img src="<?=HOME?>/layouts/tooltip.png" style="margin: 0 15px" width="25px" id="current_ip" data-toggle="tooltip" data-placement="right" data-original-title="Là chức năng quản lý các phân loại chi phí thu - chi của một doanh nghiệp " data-trigger="click" >
                     </div>
-                </div>
-                
-
+                </div>               
                 <!-- list section start -->
                 <div class="card" id="acmTable"> 
                     <div class="card-datatable table-responsive pt-0">
