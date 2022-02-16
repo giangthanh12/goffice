@@ -546,13 +546,13 @@ document.addEventListener('DOMContentLoaded', function () {
         }
       };
 
-      var quill_editor = $("#event-description-editor .ql-editor");
-      var description = quill_editor[0].innerHTML;
+      // var quill_editor = $("#event-description-editor .ql-editor");
+      // var description = quill_editor[0].innerHTML;
       var eventData = {
         title: sidebar.find(eventTitle).val(),
         startDate: startDate.val(),
         endDate: endDate.val(),
-        description: description,
+        description: calendarEditor.val(),
         objectType: eventLabel.val(),
         objectId: objectId,
       };
