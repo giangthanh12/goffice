@@ -563,7 +563,7 @@ $notifications = $model->getNotification();
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown-user">
                         <a class="dropdown-item" href="accountsettings">
                             <i class="mr-50" data-feather="user"></i> Profile </a>
-                        <a class="dropdown-item" href="app-email.html">
+                        <!-- <a class="dropdown-item" href="app-email.html">
                             <i class="mr-50" data-feather="mail"></i> Inbox </a>
                         <a class="dropdown-item" href="app-todo.html">
                             <i class="mr-50" data-feather="check-square"></i> Task </a>
@@ -575,7 +575,7 @@ $notifications = $model->getNotification();
                         <a class="dropdown-item" href="page-pricing.html">
                             <i class="mr-50" data-feather="credit-card"></i> Pricing </a>
                         <a class="dropdown-item" href="page-faq.html">
-                            <i class="mr-50" data-feather="help-circle"></i> FAQ </a>
+                            <i class="mr-50" data-feather="help-circle"></i> FAQ </a> -->
                         <a class="dropdown-item" href="javascript:void()" onclick="logout()">
                             <i class="mr-50" data-feather="power"></i> Logout </a>
                     </div>
@@ -930,7 +930,7 @@ $notifications = $model->getNotification();
                 <?php } ?>
             </ul>
         </div>
-        <div class="navbar-footer" style="padding-left: 25px;">
+        <div class="navbar-footer" style="padding-left: 25px; padding-top: 15px;">
             <div class="brand-logo d-none" id="minlogo-footer">
                 <img src="layouts/favicon.png" height="26" />
             </div>
