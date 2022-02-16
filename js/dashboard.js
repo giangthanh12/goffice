@@ -208,7 +208,7 @@ $(window).on('load', function () {
   //-----------------------------------------------
   statisticsProfitChartOptions = {
     chart: {
-      height: 70,
+      height: 90,
       type: 'line',
       toolbar: {
         show: false
@@ -231,8 +231,8 @@ $(window).on('load', function () {
         }
       },
       padding: {
-        top: -30,
-        bottom: -10
+        top: -10,
+        bottom: -5
       }
     },
     stroke: {
