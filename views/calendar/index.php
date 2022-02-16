@@ -111,12 +111,12 @@
                                         </select>
                                     </div>
                                     <div class="form-group position-relative">
-                                        <label for="start-date" class="form-label">Start Date</label>
-                                        <input type="text" class="form-control" id="start-date" name="start-date" placeholder="Start Date" />
+                                        <label for="start-date" class="form-label">Ngày bắt đầu</label>
+                                        <input type="text" class="form-control" id="start-date" name="start-date" placeholder="Ngày bắt đầu" onchange="changeStartDate()" />
                                     </div>
                                     <div class="form-group position-relative">
-                                        <label for="end-date" class="form-label">End Date</label>
-                                        <input type="text" class="form-control" id="end-date" name="end-date" placeholder="End Date" />
+                                        <label for="end-date" class="form-label">Ngày kết thúc</label>
+                                        <input type="text" class="form-control" id="end-date" name="end-date" placeholder="Ngày kết thúc" />
                                     </div>
                                     <!-- <div class="form-group">
                                         <div class="custom-control custom-switch">
