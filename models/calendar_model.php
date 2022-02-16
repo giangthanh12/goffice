@@ -6,10 +6,10 @@ class calendar_model extends Model
         parent::__construct();
     }
 
-    function listCalendars($month, $year, $nhanvien)
+    function listCalendars($month, $year, $staffId)
     {
         $yearMonth = $year . '-' . $month;
-        $dieukien = " WHERE status=1 AND (startDate LIKE '$yearMonth%' OR endDate LIKE '$yearMonth%') ";
+        $dieukien = " WHERE status=1 AND (startDate LIKE '$yearMonth%' OR endDate LIKE '$yearMonth%') AND staffId=$staffId ";
 
         $query = $this->db->query("SELECT *
         FROM calendars a $dieukien ");
@@ -26,16 +26,21 @@ class calendar_model extends Model
         return $temp;
     }
 
-    function updateCalendar($calendarId,$objectTable,$objectId,$data)
+    function updateCalendar($calendarId,$objectTable,$objectId,$calendarData)
     {
         $result = false;
         if($objectId>0 && $objectTable!='') {
+            if($objectTable=='interview') {
+                $data = [
+                    'note' => $calendarData['description'],
+                ];
+            }
             if($this->update($objectTable,$data,"id=$objectId")) {
-                $this->update("calendars",$data,"id=$calendarId");
+                $this->update("calendars",$calendarData,"id=$calendarId");
                 $result = true;
             }
         } else {
-            $this->update("calendars",$data,"id=$calendarId");
+            $this->update("calendars",$calendarData,"id=$calendarId");
             $result = true;
         }
         return $result;

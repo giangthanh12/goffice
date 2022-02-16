@@ -165,9 +165,9 @@
                                         <input type="number" min="1" class="form-control" id="round" name="round"
                                                 required="true" >
                                     </div> -->
-                                    <div class="form-group">
+                                    <div class="form-group" id="div-result">
                                         <label for="round" class="form-label">Kết quả phỏng vấn</label>
-                                        <select required data-msg-required="Yêu cầu chọn trạng thái" class="select2 select-label form-control w-100" id="result" name="result">
+                                        <select required data-msg-required="Yêu cầu chọn trạng thái" class="select2 select-label form-control w-100" id="result" name="result" required>
                                             <option data-label="#FF9F43" value="1">Hẹn phỏng vấn</option>
                                             <option data-label="#28C76F" value="2">Đạt</option>
                                             <option data-label="#EA5455" value="3">Không đạt</option>
