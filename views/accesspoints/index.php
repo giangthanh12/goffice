@@ -1,4 +1,3 @@
-
 <div class="app-content content">
     <div class="content-overlay"></div>
     <div class="header-navbar-shadow"></div>
@@ -9,6 +8,9 @@
             <section class="app-user-list">
                 <!-- list section start -->
                 <div class="card">
+                    <div class="d-flex justify-content-between align-items-center mx-50 row pt-2 ">
+                        <img src="<?=HOME?>/layouts/tooltip.png" style="margin: 0 15px" width="25px" id="current_ip" data-toggle="tooltip" data-placement="right" data-original-title="Quản lý tên wifi, các địa điểm có thể sử dụng để truy cập internet dùng để chấm công " data-trigger="click" >
+                    </div>                    
                     <div class="card-datatable table-responsive pt-0">
                         <table class="user-list-table table">
                             <thead class="thead-light">
@@ -73,7 +75,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="ip">Địa chỉ IP <img src="<?=HOME?>/layouts/tooltip.png" width="15px" id="current_ip" data-toggle="tooltip" data-placement="top" data-original-title="Tạo hướng dẫn ở đây" data-trigger="click" ></label>
+                                                    <label for="ip">Địa chỉ IP <img src="<?=HOME?>/layouts/tooltip.png" width="15px" id="current_ip" data-toggle="tooltip" data-placement="top" data-original-title="Quản lý các tên" data-trigger="click" ></label>
                                                     <div class="input-group input-group-merge">
                                                         <div class="input-group-prepend">
                                                             <span class="input-group-text">
@@ -89,7 +91,7 @@
                                                                 required
                                                         />
                                                     </div>
-                                                    <label for="ip" style="color: red;font-weight: bold;font-size: 15px">IP Hiện tại: <?=$_SERVER['REMOTE_ADDR'];?></label><img src="<?=HOME?>/layouts/tooltip.png" width="15px" id="current_ip" data-toggle="tooltip" data-placement="top" data-original-title="Tạo hướng dẫn ở đây" data-trigger="click" >
+                                                    <label for="ip" style="color: red;font-weight: bold;font-size: 15px">IP Hiện tại: <?=$_SERVER['REMOTE_ADDR'];?></label>
                                                 </div>
                                             </form>
                                         </div>
