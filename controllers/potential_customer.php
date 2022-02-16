@@ -90,8 +90,9 @@ class potential_customer extends Controller
         // $nationalId = isset($_REQUEST['nationalId']) ? $_REQUEST['nationalId'] : '';
         $provinceId = isset($_REQUEST['provinceId']) ? $_REQUEST['provinceId'] : '';
         $classify = !empty($_REQUEST['classify']) ? $_REQUEST['classify'] : 1;
-        $status = isset($_REQUEST['status']) ? $_REQUEST['status'] : 1;
-        if(!$fullName && !$phoneNumber && !$email && !$website) {
+        $type = (isset($_REQUEST['type']) && $_REQUEST['type'] != '') ? $_REQUEST['type'] : 1;
+        // $status = isset($_REQUEST['status']) ? $_REQUEST['status'] : 1;
+        if (!$fullName && !$phoneNumber && !$email && !$website) {
             $jsonObj['msg'] = 'Thông tin không chính xác';
             $jsonObj['success'] = false;
             echo json_encode($jsonObj);
@@ -99,7 +100,7 @@ class potential_customer extends Controller
         }
         $data = array(
             'fullName' => $fullName,
-            'name'=>$shortName,
+            'name' => $shortName,
             'phoneNumber' => $phoneNumber,
             'email' => $email,
             'website' => $website,
@@ -107,26 +108,27 @@ class potential_customer extends Controller
             'staffInCharge' => $staffInCharge,
             // 'nationalId' => $nationalId,
             'provinceId' => $provinceId,
-            'classify'=>$classify,
-            'status'=>$status
+            'classify' => $classify,
+            'type' => $type,
+            'status' => 1
         );
-            if ($this->model->addObj($data)) {
-                $jsonObj['msg'] = 'Cập nhật dữ liệu thành công';
-                $jsonObj['success'] = true;
-            } else {
-                $jsonObj['msg'] = 'Cập nhật dữ liệu không thành công';
-                $jsonObj['success'] = false;
-            }
+        if ($this->model->addObj($data)) {
+            $jsonObj['msg'] = 'Cập nhật dữ liệu thành công';
+            $jsonObj['success'] = true;
+        } else {
+            $jsonObj['msg'] = 'Cập nhật dữ liệu không thành công';
+            $jsonObj['success'] = false;
+        }
 
         echo json_encode($jsonObj);
     }
+
     function loaddata()
     {
         $id = $_REQUEST['id'];
         $json = $this->model->getdata($id);
         echo json_encode($json);
     }
-
 
     function update()
     {
@@ -146,22 +148,22 @@ class potential_customer extends Controller
         $website = isset($_REQUEST['website']) ? $_REQUEST['website'] : false;
         $staffId = isset($_REQUEST['staffId']) ? $_REQUEST['staffId'] : '';
         $staffInCharge = isset($_SESSION['user']['id']) ? $_SESSION['user']['id'] : '';
-   
         $field = isset($_REQUEST['field']) ? $_REQUEST['field'] : '';
-     
+
         // $rank = isset($_REQUEST['rank']) ? $_REQUEST['rank'] : '';
         // $bussinessName = isset($_REQUEST['bussinessName']) ? $_REQUEST['bussinessName'] : '';
-        // $bussinessAddress = isset($_REQUEST['bussinessAddress']) ? $_REQUEST['bussinessAddress'] : '';
-        $bussinessPlace = isset($_REQUEST['bussinessPlace']) ? $_REQUEST['bussinessPlace'] : '';
+        $businessAddress = isset($_REQUEST['businessAddress']) ? $_REQUEST['businessAddress'] : '';
+        $businessAddress = isset($_REQUEST['businessAddress']) ? $_REQUEST['businessAddress'] : '';
         $representative = isset($_REQUEST['representative']) ? $_REQUEST['representative'] : '';
-        // $authorized = isset($_REQUEST['authorized']) ? $_REQUEST['authorized'] : '';
+        $authorized = isset($_REQUEST['authorized']) ? $_REQUEST['authorized'] : '';
         $note = isset($_REQUEST['note']) ? $_REQUEST['note'] : '';
         $classify = isset($_REQUEST['classify']) ? $_REQUEST['classify'] : '';
         $type = isset($_REQUEST['type']) ? $_REQUEST['type'] : '';
         // $nationalId = isset($_REQUEST['nationalId']) ? $_REQUEST['nationalId'] : '';
+        $position = isset($_REQUEST['position']) ? $_REQUEST['position'] : '';
         $provinceId = isset($_REQUEST['provinceId']) ? $_REQUEST['provinceId'] : '';
         $status = isset($_REQUEST['status']) ? $_REQUEST['status'] : 1;
-        if(!$fullName && !$phoneNumber && !$email && !$website) {
+        if (!$fullName && !$phoneNumber && !$email && !$website) {
             $jsonObj['msg'] = 'Thông tin không chính xác';
             $jsonObj['success'] = false;
             echo json_encode($jsonObj);
@@ -181,25 +183,27 @@ class potential_customer extends Controller
             'field' => $field,
             // 'rank' => $rank,
             // 'businessName' => $bussinessName,
-            // 'businessAddress' => $bussinessAddress,
-            'office' => $bussinessPlace,
+            'businessAddress' => $businessAddress,
+            'businessPlace' => $businessAddress,
+            // 'office' => $businessAddress,
             'representative' => $representative,
-            // 'authorized' => $authorized,
+            'authorized' => $authorized,
             'note' => $note,
             'classify' => $classify,
-            'type'=> $type,
+            'type' => $type,
             // 'nationalId' => $nationalId,
+            'position' => $position,
             'provinceId' => $provinceId,
-            'status'=>$status
+            'status' => $status
         );
-       
-            if ($this->model->updateObj($id, $data)) {
-                $jsonObj['msg'] = 'Cập nhật dữ liệu thành công';
-                $jsonObj['success'] = true;
-            } else {
-                $jsonObj['msg'] = 'Cập nhật dữ liệu không thành công';
-                $jsonObj['success'] = false;
-            }
+
+        if ($this->model->updateObj($id, $data)) {
+            $jsonObj['msg'] = 'Cập nhật dữ liệu thành công';
+            $jsonObj['success'] = true;
+        } else {
+            $jsonObj['msg'] = 'Cập nhật dữ liệu không thành công';
+            $jsonObj['success'] = false;
+        }
 
         echo json_encode($jsonObj);
     }
@@ -254,8 +258,8 @@ class potential_customer extends Controller
                 $website = $objPHPExcel->getActiveSheet()->getCell("H$row")->getValue();
                 $field = $objPHPExcel->getActiveSheet()->getCell("I$row")->getValue();
                 $bussinessName = $objPHPExcel->getActiveSheet()->getCell("J$row")->getValue();
-                $bussinessAddress = $objPHPExcel->getActiveSheet()->getCell("K$row")->getValue();
-                $bussinessPlace = $objPHPExcel->getActiveSheet()->getCell("L$row")->getValue();
+                $businessAddress = $objPHPExcel->getActiveSheet()->getCell("K$row")->getValue();
+                $businessAddress = $objPHPExcel->getActiveSheet()->getCell("L$row")->getValue();
                 $representative = $objPHPExcel->getActiveSheet()->getCell("M$row")->getValue();
                 $authorized = $objPHPExcel->getActiveSheet()->getCell("N$row")->getValue();
                 $note = $objPHPExcel->getActiveSheet()->getCell("O$row")->getValue();
@@ -276,8 +280,8 @@ class potential_customer extends Controller
                     'field' => $field,
                     'rank' => $rank,
                     'businessName' => $bussinessName,
-                    'businessAddress' => $bussinessAddress,
-                    'businessPlace' => $bussinessPlace,
+                    'businessAddress' => $businessAddress,
+                    'businessPlace' => $businessAddress,
                     'representative' => $representative,
                     'authorized' => $authorized,
                     'note' => $note,

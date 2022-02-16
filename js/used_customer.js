@@ -12,15 +12,19 @@ $(function () {
     return_combobox_multi('#provinceId', baseHome + '/used_customer/getProvince', 'Chọn tỉnh thành');
     return_combobox_multi('#provinceId1', baseHome + '/used_customer/getProvince', 'Chọn tỉnh thành');
     // return_combobox_multi('#provinceId2', baseHome + '/used_customer/getProvince', 'Chọn tỉnh thành');
-    load_select2($('#provinceId2'), baseHome + '/used_customer/getProvince','Chọn tỉnh thành');
+    load_select2($('#provinceId2'), baseHome + '/used_customer/getProvince', 'Chọn tỉnh thành');
     $('#provinceId2').val('').change();
     $('#classify').select2({
         placeholder: 'Phân loại khách hàng',
         dropdownParent: $('#classify').parent(),
     });
     $('#type').select2({
-        placeholder: 'Loại hình hoạt động',
+        placeholder: 'Loại khách hàng',
         dropdownParent: $('#type').parent(),
+    });
+    $('#type1').select2({
+        placeholder: 'Loại khách hàng',
+        dropdownParent: $('#type1').parent(),
     });
     $("#classify3").select2({
         placeholder: 'Phân loại khách hàng',
@@ -31,41 +35,41 @@ $(function () {
         placeholder: 'Loại hình hoạt động',
         dropdownParent: $('#type2').parent(),
     });
-  
+
     $('#type2').val('').change();
 
     $('#phutrach_import').val('').change();
     var dtUserTable = $(".user-list-table"),
         modal = $("#updateinfo"),
         form = $("#dg");
-        var buttons = [];
-        if(funAdd == 1) {
-            buttons.push({
-                text: "Thêm mới",
-                className: "add-new btn btn-" + 'primary' + " mt-50",
-                init: function (api, node, config) {
-                    $(node).removeClass("btn-secondary");
-                },
-                action: function (e, dt, node, config) {
-                    actionMenu();
-                }
-            });
-        }
-        if(funImport == 1) {
-            buttons.push({
-                text: "Nhập excel",
-                className: " btn  btn-primary mt-50",
-                init: function (api, node, config) {
-                    $(node).removeClass("btn-secondary");
-                },
-                action: function (e, dt, node, config) {
-                    nhapexcel();
-                },
-            });
-        }
+    var buttons = [];
+    if (funAdd == 1) {
+        buttons.push({
+            text: "Thêm mới",
+            className: "add-new btn btn-" + 'primary' + " mt-50",
+            init: function (api, node, config) {
+                $(node).removeClass("btn-secondary");
+            },
+            action: function (e, dt, node, config) {
+                actionMenu();
+            }
+        });
+    }
+    if (funImport == 1) {
+        buttons.push({
+            text: "Nhập excel",
+            className: " btn  btn-primary mt-50",
+            init: function (api, node, config) {
+                $(node).removeClass("btn-secondary");
+            },
+            action: function (e, dt, node, config) {
+                nhapexcel();
+            },
+        });
+    }
     // Users List datatable
     if (dtUserTable.length) {
-     var table =   dtUserTable.DataTable({
+        var table = dtUserTable.DataTable({
             // ajax: assetPath + "data/user-list.json", // JSON file to add data
             ajax: baseHome + "/used_customer/list",
             autoWidth: false,
@@ -75,11 +79,11 @@ $(function () {
                 { data: "phoneNumber" },
                 { data: "website" },
                 { data: "email" },
-                { data: "field"},
-                { data: "classify"},
-                { data: "type"},
-                { data: "provinceId"},
-                { data: "address"},
+                { data: "field" },
+                { data: "classify" },
+                { data: "type" },
+                { data: "provinceId" },
+                { data: "address" },
                 { data: "" },
             ],
             columnDefs: [
@@ -96,19 +100,19 @@ $(function () {
                         // Creates full output for row
                         var $row_output =
                             '<div  class="text-wrap width-200">' +
-                           
+
                             '<a href="javascript:void(0)" onclick="loaddata(' + full["id"] + ')" data-toggle="modal" data-target="#updateinfo" class="user_name text-truncate"><span class="text-wrap width-200 font-weight-bold">' +
                             $name +
                             "</span></a>" +
                             '' +
-                          
+
                             "</small>" +
-                           
+
                             "</div>";
                         return $row_output;
                     },
-                   
-                   
+
+
                 },
                 {
                     targets: 1,
@@ -123,7 +127,7 @@ $(function () {
                         };
                         return "<span class='text-truncate align-middle'>" + roleBadgeObj['Subscriber'] + $role + "</span>";
                     },
-                   
+
                 },
                 {
                     targets: 2,
@@ -159,12 +163,12 @@ $(function () {
                     render: function (data, type, full, meta) {
                         var html = '';
                         html += '<div d-flex justify-content-start style="width::150px;text-align:left">';
-                        if(funEdit == 1) {
+                        if (funEdit == 1) {
                             html += '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" title="Chỉnh sửa" onclick="loaddata(' + full['id'] + ')">';
                             html += '<i class="fas fa-pencil-alt"></i>';
                             html += '</button> &nbsp;';
                         }
-                        if(funDel == 1) {
+                        if (funDel == 1) {
                             html += '<button type="button" class="btn btn-icon btn-outline-danger waves-effect" title="Xóa" id="confirm-text" onclick="del(' + full['id'] + ')">';
                             html += '<i class="fas fa-trash-alt"></i>';
                             html += '</button>';
@@ -172,7 +176,7 @@ $(function () {
                         html += '</div>'
                         return html;
                     },
-                    width:"15%"
+                    width: "15%"
                 },
             ],
             // order: [[2, "desc"]],
@@ -185,92 +189,84 @@ $(function () {
                 '<"col-sm-12 col-md-6"i>' +
                 '<"col-sm-12 col-md-6"p>' +
                 ">",
-                language: {
-                    sLengthMenu: "Hiển thị _MENU_",
-                    search: "",
-                    searchPlaceholder: "Tìm kiếm...",
-                    paginate: {
-                        // remove previous & next text from pagination
-                        previous: "&nbsp;",
-                        next: "&nbsp;",
-                    },
-                    info:"Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
+            language: {
+                sLengthMenu: "Hiển thị _MENU_",
+                search: "",
+                searchPlaceholder: "Tìm kiếm...",
+                paginate: {
+                    // remove previous & next text from pagination
+                    previous: "&nbsp;",
+                    next: "&nbsp;",
                 },
+                info: "Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
+            },
             // Buttons with Dropdown
             buttons: buttons,
 
         });
 
     }
-function actionMenu() {
+    function actionMenu() {
 
-    $("#addinfo").modal('show');
-    $(".modal-title").html('Thêm khách hàng tiềm năng mới');
-    $('#fullName').val('');
-    $('#phoneNumber').val('');
-    $('#email').val('');
-    $('#shortName_add').val('');
-    $('#website').val('');
-    $('#staffId').val('').change();
-    $('#nationalId').val(1);
-    $('#provinceId').val('').change();
-    $('#status').select2({
-        placeholder: 'Trạng thái',
-        dropdownParent: $('#status').parent(),
-    });
-    $('#status').val('').change();
-   
-   
-}
+        $("#addinfo").modal('show');
+        $(".modal-title").html('Thêm khách hàng mới');
+        $('#fullName').val('');
+        $('#phoneNumber').val('');
+        $('#email').val('');
+        $('#shortName_add').val('');
+        $('#website').val('');
+        $('#staffId').val('').change();
+        $('#nationalId').val(1);
+        $('#provinceId').val('').change();
+        $('#status').select2({
+            placeholder: 'Trạng thái',
+            dropdownParent: $('#status').parent(),
+        });
+        $('#status').val('').change();
+    }
 
     // lọc tỉnh
-
-    $('#provinceId2').change(function() {
-             if($(this).val() == 0) {
-                table.column($(this).data('column'))
+    $('#provinceId2').change(function () {
+        if ($(this).val() == 0) {
+            table.column($(this).data('column'))
                 .search('')
-                 .draw()
-            }
-            else {
-                table.column($(this).data('column'))
+                .draw()
+        }
+        else {
+            table.column($(this).data('column'))
                 .search($(this).val())
                 .draw()
-            }
+        }
     })
-   // lọc phân loại
-    $('#classify3').change(function() {
-        if($(this).val() == 0) {
+    // lọc phân loại
+    $('#classify3').change(function () {
+        if ($(this).val() == 0) {
             table.column($(this).data('column'))
-            .search('')
-             .draw()
+                .search('')
+                .draw()
         }
         else {
             table.column($(this).data('column'))
-            .search($(this).val())
-            .draw()
+                .search($(this).val())
+                .draw()
         }
-       
     })
-
 
     // lọc loại hình hoạt động
-    $('#type2').change(function() {
-      
-        if($(this).val() == 0) {
+    $('#type2').change(function () {
+
+        if ($(this).val() == 0) {
             table.column($(this).data('column'))
-            .search('')
-             .draw()
+                .search('')
+                .draw()
         }
         else {
             table.column($(this).data('column'))
-            .search($(this).val())
-            .draw()
+                .search($(this).val())
+                .draw()
         }
-       
     })
     // 
-
-    
 
     // Check Validity
     function checkValidity(el) {
@@ -291,20 +287,20 @@ function actionMenu() {
                 },
                 "phoneNumber": {
                     required: true,
-                    number:true,
-                    min:0
+                    number: true,
+                    min: 0
                 },
-                "email": {
-                    required: true,
-                    email:true
-                },
+                // "email": {
+                //     required: true,
+                //     email: true
+                // },
                 // "website": {
                 //     required: true,
                 // },
                 "status": {
                     required: true,
                 },
-                
+
             },
             messages: {
                 "fullName": {
@@ -315,10 +311,10 @@ function actionMenu() {
                     number: "Yêu cầu nhập số điện thoại!",
                     min: "Yều cầu nhập bắt đầu từ 0!"
                 },
-                "email": {
-                    required: "Bạn chưa nhập địa chỉ email!",
-                    email: "Yêu cầu nhập đúng định dạng email!",
-                },
+                // "email": {
+                //     required: "Bạn chưa nhập địa chỉ email!",
+                //     email: "Yêu cầu nhập đúng định dạng email!",
+                // },
                 // "website": {
                 //     required: "Bạn chưa nhập địa chỉ website của bạn",
                 // },
@@ -352,14 +348,13 @@ function actionMenu() {
                 },
                 "phoneNumber1": {
                     required: true,
-                    number:true,
-                    min:0
+                    number: true,
+                    min: 0
                 },
-                "email1": {
-                    required: true,
-                    email:true,
-                },
-             
+                // "email1": {
+                //     required: true,
+                //     email: true,
+                // },
             },
             messages: {
                 // "shortName": {
@@ -370,17 +365,16 @@ function actionMenu() {
                 },
                 "phoneNumber1": {
                     required: "Bạn chưa nhập số điện thoại!",
-                    number:"Yêu cầu nhập số điện thoại!",
+                    number: "Yêu cầu nhập số điện thoại!",
                     min: "Yều cầu nhập bắt đầu từ 0!"
                 },
-                "email1": {
-                    required: "Bạn chưa nhập địa chỉ email!",
-                    email:"Yêu cầu nhập đúng định dạng email!"
-                },
+                // "email1": {
+                //     required: "Bạn chưa nhập địa chỉ email!",
+                //     email: "Yêu cầu nhập đúng định dạng email!"
+                // },
                 "taxCode1": {
                     number: "Yêu cầu nhập số!",
                 },
-               
             },
         });
 
@@ -402,7 +396,7 @@ function actionMenu() {
                 "nameContact": {
                     required: true,
                 },
-              
+
                 "emailContact": {
                     required: true,
                 },
@@ -411,7 +405,7 @@ function actionMenu() {
                 },
             },
             messages: {
-            
+
                 "phoneNumberContact": {
                     required: "Yêu cầu nhập số điện thoại",
                 },
@@ -424,10 +418,10 @@ function actionMenu() {
                 "facebook": {
                     required: "Yêu cầu nhập địa chỉ facebook",
                 },
-              
+
             },
         });
-    
+
         $('#dgContact').on("submit", function (e) {
             var isValid = $('#dgContact').valid();
             e.preventDefault();
@@ -436,9 +430,6 @@ function actionMenu() {
             }
         });
     }
-
-
-
 
     // To initialize tooltip with body container
     $("body").tooltip({
@@ -450,16 +441,15 @@ function actionMenu() {
 var urlContact = '';
 function showFormContact() {
     return_combobox_multi('#positionContact', baseHome + '/used_customer/getPosition', 'Chức danh');
- 
+
     $('#dgContact')[0].reset();
     $('#updateinfoContact').modal('show');
     $('.modal-title-contact').html('Thêm liên lạc cho khách hàng');
-        urlContact = baseHome + "/contact/add";
+    urlContact = baseHome + "/contact/add";
 }
 
-
 function saveContact() {
-    
+
     var info = {};
     info.name = $("#nameContact").val();
     info.customerId = $("#idCustomerContact").val();
@@ -469,7 +459,7 @@ function saveContact() {
     info.zalo = $("#zalo").val();
     info.note = $("#noteContact").val();
     info.position = $('#positionContact').val();
-   
+
     $.ajax({
         type: "POST",
         dataType: "json",
@@ -490,9 +480,8 @@ function saveContact() {
     });
 }
 
-
 function loaddata(id) {
-    if(funEdit != 1) {
+    if (funEdit != 1) {
         $('.btn-update-customer').css('display', 'none');
     }
     khid = id;
@@ -505,7 +494,6 @@ function loaddata(id) {
         data: { id: id },
         url: baseHome + "/used_customer/loaddata",
         success: function (data) {
-       
             $('#fullName1').val(data.fullName);
             $('#taxCode1').val(data.taxCode);
             $('#address1').val(data.address);
@@ -517,16 +505,17 @@ function loaddata(id) {
             $('#field1').val(data.field);
             $('#rank1').val(data.rank).change();
             // $('#bussinessName1').val(data.businessName);
-            // $('#bussinessAddress1').val(data.businessAddress);
-            $('#bussinessPlace1').val(data.office);
+            $('#businessAddress1').val(data.businessAddress);
+            $('#businessPlace1').val(data.businessPlace);
             $('#representative1').val(data.representative);
-            // $('#authorized1').val(data.authorized);
+            $('#authorized1').val(data.authorized);
             $('#note1').val(data.note);
             $('#classify1').val(data.classify);
             $('#type1').val(data.type).change();
             // $('#nationalId1').val(data.nationalId).change();
-            $('#provinceId1').val(data.provinceId).change();
-            $('#status1').val(data.status).change();
+            $('#position1').val(data.position).change();
+            $('#type1').val(data.type).change();
+            $('#status1').val(data.status).change().attr('disabled', false);
             $('#idCustomerContact').val(id);
             loaddichvu(id);
             loadTransaction(id);
@@ -540,7 +529,7 @@ function loaddata(id) {
 function loaddichvu(id) {
 
     if (dtDVTable.length) {
-    
+
         dtDVTable.DataTable({
             ajax: baseHome + "/used_customer/loadContact?id=" + id,
             destroy: true,
@@ -548,15 +537,15 @@ function loaddichvu(id) {
             columns: [
                 // columns according to JSON
                 { data: "name" },
-                {data:'positionName'},
+                { data: 'positionName' },
                 { data: "phoneNumber" },
                 { data: "email" },
                 { data: "facebook" },
             ],
             columnDefs: [
-            
+
             ],
-            
+
             language: {
                 sLengthMenu: "Show _MENU_",
                 search: "Search",
@@ -569,7 +558,7 @@ function loaddichvu(id) {
             },
 
             // For responsive popup
-           
+
         });
     }
 }
@@ -578,7 +567,7 @@ function loaddichvu(id) {
 function loadTransaction(id) {
 
     if (transactionTable.length) {
-    
+
         transactionTable.DataTable({
             ajax: baseHome + "/used_customer/loadTransaction?id=" + id,
             destroy: true,
@@ -594,19 +583,19 @@ function loadTransaction(id) {
                 {
                     // Actions
                     targets: 1,
-                  
+
                     orderable: false,
                     render: function (data, type, full, meta) {
                         var html = '';
-                       if(full['type'] == 1) {
-                          html =  `<div class="badge badge-pill badge-light-info">Đơn hàng</div>`;
-                       }
-                       else if (full['type'] == 2) {
-                        html =  `<div class="badge badge-pill badge-light-primary">Hợp đồng</div>`;
-                       }
-                       else if(full['type'] == 3) {
-                        html =   `<div class="badge badge-pill badge-light-success">Thanh toán</div>`;
-                       }
+                        if (full['type'] == 1) {
+                            html = `<div class="badge badge-pill badge-light-info">Đơn hàng</div>`;
+                        }
+                        else if (full['type'] == 2) {
+                            html = `<div class="badge badge-pill badge-light-primary">Hợp đồng</div>`;
+                        }
+                        else if (full['type'] == 3) {
+                            html = `<div class="badge badge-pill badge-light-success">Thanh toán</div>`;
+                        }
                         return html;
                     },
                     width: 150
@@ -620,10 +609,10 @@ function loadTransaction(id) {
                         html = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(full['asset']);
                         return html;
                     },
-                 
+
                 },
             ],
-        
+
             language: {
                 sLengthMenu: "Show _MENU_",
                 search: "Search",
@@ -677,8 +666,9 @@ function saveadd() {
     info.provinceId = $("#provinceId").val();
     info.shortName = $("#shortName_add").val();
     info.classify = $("#classify_add").val();
+    info.type = $("#type").val();
     info.status = $("#status").val();
-  
+
     $.ajax({
         type: "POST",
         dataType: "json",
@@ -709,19 +699,20 @@ function saveedit() {
     info.email = $("#email1").val();
     info.website = $("#website1").val();
     info.staffId = $("#staffId1").val();
-    info.office = $("#office1").val();
+    // info.office = $("#office1").val();
     info.field = $("#field1").val();
     info.fieldDetail = $("#fieldDetail1").val();
     info.rank = $("#rank1").val();
-    info.bussinessName = $("#bussinessName1").val();
-    info.bussinessAddress = $("#bussinessAddress1").val();
-    info.bussinessPlace = $("#bussinessPlace1").val();
+    // info.bussinessName = $("#bussinessName1").val();
+    info.businessAddress = $("#businessAddress1").val();
+    info.businessPlace = $("#businessPlace1").val();
     info.representative = $("#representative1").val();
     info.authorized = $("#authorized1").val();
     info.note = $("#note1").val();
     info.classify = $("#classify1").val();
     info.type = $("#type1").val();
-    info.nationalId = $("#nationalId1").val();
+    // info.nationalId = $("#nationalId1").val();
+    info.position = $("#position1").val();
     info.provinceId = $("#provinceId1").val();
     info.status = $("#status1").val();
     $.ajax({
@@ -812,42 +803,42 @@ function load_select2(select2, url, place) {
         async: false,
         url: url,
         success: function (data) {
-           var html ='';
-            if(place != '')
-            html = '<option value="0" >Tất cả</option>';
+            var html = '';
+            if (place != '')
+                html = '<option value="0" >Tất cả</option>';
             data.forEach(function (element, index) {
-                if (element.selected==true) 
-                var select = 'selected';
+                if (element.selected == true)
+                    var select = 'selected';
                 html += `<option data-img="${element.hinh_anh}" ${select} value="${element.id}">${element.text}</option> `;
             });
-     
+
             select2.html(html);
             select2.wrap('<div class="position-relative"></div>').select2({
                 placeholder: place,
                 dropdownParent: select2.parent(),
-              
+
             });
         },
     });
 }
-$(document).on('blur','.phoneNumber', function() {
-   var id = $(this).data('id');
-   var phone = $(this).val();
-   var idCustomer = khid;
-   if(id == 'phoneNumber') {
-    idCustomer = 0;
-   }
-    
-    if(phone != '' && phone.toString().length >= 10 ) { 
+$(document).on('blur', '.phoneNumber', function () {
+    var id = $(this).data('id');
+    var phone = $(this).val();
+    var idCustomer = khid;
+    if (id == 'phoneNumber') {
+        idCustomer = 0;
+    }
+
+    if (phone != '' && phone.toString().length >= 10) {
         $.ajax({
             type: "POST",
             dataType: "json",
-            data: {phone:phone, idCustomer:idCustomer},
+            data: { phone: phone, idCustomer: idCustomer },
             url: baseHome + "/used_customer/checkPhone",
             success: function (data) {
                 if (data.success) {
                     notyfi_success(data.msg);
-                    if(id == 'phoneNumber') {
+                    if (id == 'phoneNumber') {
                         $('.btn-add-customer').prop('disabled', false);
                     }
                     else {
@@ -855,7 +846,7 @@ $(document).on('blur','.phoneNumber', function() {
                     }
                 }
                 else {
-                    if(id == 'phoneNumber') {
+                    if (id == 'phoneNumber') {
                         $('.btn-add-customer').prop('disabled', true);
                     }
                     else {
@@ -864,9 +855,26 @@ $(document).on('blur','.phoneNumber', function() {
                     notify_error(data.msg);
                 }
             },
-            error: function(){
+            error: function () {
                 notify_error('Số điện thoại đã tồn tại');
             }
         });
     }
 })
+
+function changeType() {
+    type = $('#type1').val();
+    if (type == 1) {
+        $('#div-businessPlace').addClass('d-none');
+        $('#div-businessAddress').addClass('d-none');
+        $('#div-authorized').addClass('d-none');
+        $('#div-position').addClass('d-none');
+    } else if (type == 2) {
+        $('#div-businessPlace').removeClass('d-none');
+        $('#div-businessAddress').removeClass('d-none');
+        $('#div-authorized').removeClass('d-none');
+        $('#div-position').removeClass('d-none');
+        $('#div-address').addClass('d-none');
+
+    }
+}

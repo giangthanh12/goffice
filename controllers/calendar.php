@@ -16,7 +16,7 @@ class calendar extends Controller
 
     function listCalendars()
     {
-        $staffId = $_REQUEST['staffId'];
+        $staffId = isset($_REQUEST['staffId']) ? $_REQUEST['staffId'] : $_SESSION['user']['staffId'];
         $month = (isset($_REQUEST['month']) && $_REQUEST['month'] != '') ? $_REQUEST['month'] : date("m");
         $year = (isset($_REQUEST['year']) && $_REQUEST['year'] != '') ? $_REQUEST['year'] : date("Y");
         $data = $this->model->listCalendars($month, $year,$staffId);
@@ -73,6 +73,7 @@ class calendar extends Controller
         $objectId = $_REQUEST['objectId'];
         $data = [
             'title' => $title,
+            'staffId' => $_SESSION['user']['staffId'],
             'startDate' => $startDate,
             'endDate' => $endDate,
             'description' => $description,

@@ -17,7 +17,7 @@
                 <!-- users filter start -->
                 <div class="card">
                     <div class="d-flex justify-content-between align-items-center mx-50 row pt-2 pb-2">
-                        <div class="col-md-4 classify3">
+                        <div class="col-md-3 classify3">
                             <select id="classify3" data-column="5" class="select2 form-control" name="classify3">
                                 <option value="0" selected>Tất cả</option>
                                 <option value="1">Khách hàng</option>
@@ -25,7 +25,7 @@
                                 <option value="3">Cả hai</option>
                             </select>
                         </div>
-                        <div class="col-md-4 type2">
+                        <div class="col-md-3 type2">
                             <select id="type2" data-column="6" class="select2 form-control" name="type2">
                                 <option value="0" selected>Tất cả</option>
                                 <option value="1">Sản xuất</option>
@@ -33,11 +33,12 @@
                                 <option value="3">Dịch vụ</option>
                             </select>
                         </div>
-                        <div class="col-md-4 provinceId2">
+                        <div class="col-md-3 provinceId2">
                             <select id="provinceId2" data-column="7" class="form-control" name="provinceId2">
 
                             </select>
                         </div>
+                        <img src="<?= HOME ?>/layouts/tooltip.png" style="margin: 0 15px" width="25px" id="current_ip" data-toggle="tooltip" data-placement="right" data-original-title="Là chức năng quản lý toàn bộ thông tin liên quan đến khách hàng có khả năng mua sản phẩm/ sử dụng dịch vụ của doanh nghiệp " data-trigger="click">
                     </div>
                 </div>
                 <!-- users filter end -->
@@ -58,7 +59,7 @@
                                     <th></th>
                                     <th></th>
                                     <th></th>
-                                    <th ></th>
+                                    <th></th>
                                 </tr>
                             </thead>
                         </table>
@@ -79,51 +80,35 @@
                                                     <div class="col-lg-6 col-md-6">
                                                         <div class="form-group">
                                                             <label for="fullName">Tên khách hàng</label>
-                                                            <input id="fullName" type="text" class="form-control" name="fullName" />
+                                                            <input id="fullName" type="text" class="form-control" name="fullName" placeholder="Tên khách hàng" />
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-6 col-md-6">
                                                         <div class="form-group">
                                                             <label for="shortName_add">Tên ngắn</label>
-                                                            <input id="shortName_add" type="text" class="form-control" name="shortName_add" />
+                                                            <input id="shortName_add" type="text" class="form-control" name="shortName_add" placeholder="Tên ngắn" />
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-6 col-md-6">
                                                         <div class="form-group">
                                                             <label for="phoneNumber">Số điện thoại</label>
-                                                            <input id="phoneNumber" type="text" data-id="phoneNumber" class="form-control phoneNumber" name="phoneNumber" />
+                                                            <input id="phoneNumber" type="text" data-id="phoneNumber" class="form-control phoneNumber" name="phoneNumber" placeholder="Số điện thoại" />
                                                         </div>
                                                     </div>
 
                                                     <div class="col-lg-6 col-md-6">
                                                         <div class="form-group">
                                                             <label for="email">Email</label>
-                                                            <input id="email" type="text" class="form-control" name="email" />
+                                                            <input id="email" type="text" class="form-control" name="email" placeholder="Địa chỉ email" />
                                                         </div>
                                                     </div>
 
                                                     <div class="col-lg-6 col-md-6">
                                                         <div class="form-group">
                                                             <label for="website">Website</label>
-                                                            <input id="website" type="text" class="form-control" name="website" />
+                                                            <input id="website" type="text" class="form-control" name="website" placeholder="Địa chỉ website" />
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-6 col-md-6">
-                                                        <div class="form-group">
-                                                            <label for="staffId">Nhân viên chăm sóc</label>
-                                                            <select id="staffId" class="select2 form-control" name="staffId">
-                                                            </select>
-                                                        </div>
-                                                    </div>
-
-
-                                                    <!-- <div class="col-lg-6 col-md-6">
-                                                        <div class="form-group">
-                                                            <label for="nationalId">Quốc gia</label>
-                                                            <select id="nationalId" class="select2 form-control" name="nationalId">
-                                                            </select>
-                                                        </div>
-                                                    </div> -->
                                                     <div class="col-lg-6 col-md-6">
                                                         <div class="form-group">
                                                             <label for="provinceId">Tỉnh thành phố</label>
@@ -133,25 +118,43 @@
                                                     </div>
                                                     <div class="col-lg-6 col-md-6">
                                                         <div class="form-group">
+                                                            <label for="type">Loại</label>
+                                                            <select id="type" class="select2 form-control" name="type">
+                                                                <option value="1">Cá nhân</option>
+                                                                <option value="2">Tổ chức</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-lg-6 col-md-6">
+                                                        <div class="form-group">
                                                             <label for="classify_add">Phân loại khách hàng</label>
-                                                            <select id="classify_add" class=" form-control" name="classify_add">
+                                                            <select id="classify_add" class="select2 form-control" name="classify_add">
                                                                 <option value="1">Khách hàng</option>
                                                                 <option value="2">Nhà cung cấp</option>
                                                                 <option value="3">Cả hai</option>
                                                             </select>
                                                         </div>
                                                     </div>
+
                                                     <div class="col-lg-6 col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="staffId">Nhân viên chăm sóc</label>
+                                                            <select id="staffId" class="select2 form-control" name="staffId">
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <!-- <div class="col-lg-6 col-md-6">
                                                         <div class="form-group">
                                                             <label for="status">Trạng thái</label>
                                                             <select id="status" class="select2 form-control" name="status">
-                                                                <option value="1" >Khách hàng mới</option>
+                                                                <option value="1">Khách hàng mới</option>
                                                                 <option value="2">Đang dùng dịch vụ</option>
                                                                 <option value="3">Tạm dùng dịch vụ</option>
                                                                 <option value="4">Đã dùng dịch vụ</option>
                                                             </select>
                                                         </div>
-                                                    </div>
+                                                    </div> -->
                                                     <div class="col-12 d-flex flex-sm-row flex-column mt-2">
                                                         <button type="submit" class="btn btn-primary btn-add-customer mb-1 mb-sm-0 mr-0 mr-sm-1">Cập nhật</button>
                                                         <button type="reset" class="btn btn-outline-secondary" data-dismiss="modal">Bỏ qua</button>
@@ -199,62 +202,108 @@
                                                             <div class="col-lg-4 col-md-6">
                                                                 <div class="form-group">
                                                                     <label for="fullName1">Tên khách hàng</label>
-                                                                    <input id="fullName1" type="text" class="form-control" name="fullName1" />
+                                                                    <input id="fullName1" type="text" class="form-control" name="fullName1" placeholder="Tên khách hàng" />
                                                                 </div>
                                                             </div>
-                                                         
+
                                                             <div class="col-lg-4 col-md-6">
                                                                 <div class="form-group">
                                                                     <label for="shortName">Tên ngắn</label>
-                                                                    <input id="shortName" type="text" class="form-control" name="shortName" />
+                                                                    <input id="shortName" type="text" class="form-control" name="shortName" placeholder="Tên ngắn" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-4 col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="type1">Loại</label>
+                                                                    <select id="type1" class="select2 form-control" name="type1" onchange="changeType()">
+                                                                        <option value="1">Cá nhân</option>
+                                                                        <option value="2">Tổ chức</option>
+                                                                    </select>
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-4 col-md-6">
                                                                 <div class="form-group">
                                                                     <label for="taxCode1">Mã số thuế</label>
-                                                                    <input id="taxCode1" name="taxCode1" type="text" class="form-control" />
+                                                                    <input id="taxCode1" name="taxCode1" type="text" class="form-control" placeholder="Mã số thuế" />
                                                                 </div>
                                                             </div>
+
                                                             <div class="col-lg-4 col-md-6">
                                                                 <div class="form-group">
+                                                                    <label for="provinceId1">Tỉnh thành phố</label>
+                                                                    <select id="provinceId1" class="select2 form-control" name="provinceId1">
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-lg-4 col-md-6" id="div-address">
+                                                                <div class="form-group">
                                                                     <label for="address1">Địa chỉ cư trú</label>
-                                                                    <input id="address1" type="text" class="form-control" name="address1" />
+                                                                    <input id="address1" type="text" class="form-control" name="address1" placeholder="Địa chỉ cư trú" />
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-lg-4 col-md-6" id="div-businessPlace">
+                                                                <div class="form-group">
+                                                                    <label for="businessPlace1">Địa chỉ văn phòng</label>
+                                                                    <input id="businessPlace1" type="text" class="form-control" name="businessPlace1" placeholder="Địa chỉ văn phòng" />
                                                                 </div>
                                                             </div>
 
                                                             <div class="col-lg-4 col-md-6">
                                                                 <div class="form-group">
                                                                     <label for="phoneNumber1">Số điện thoại</label>
-                                                                    <input id="phoneNumber1" data-id="phoneNumber1" type="text" class="form-control phoneNumber" name="phoneNumber1" />
+                                                                    <input id="phoneNumber1" data-id="phoneNumber1" type="text" class="form-control phoneNumber" name="phoneNumber1" placeholder="Số điện thoại" />
                                                                 </div>
                                                             </div>
 
                                                             <div class="col-lg-4 col-md-6">
                                                                 <div class="form-group">
                                                                     <label for="email1">Email</label>
-                                                                    <input id="email1" type="text" class="form-control" name="email1" />
+                                                                    <input id="email1" type="text" class="form-control" name="email1" placeholder="Địa chỉ email" />
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-lg-4 col-md-6" id="div-businessAddress">
+                                                                <div class="form-group">
+                                                                    <label for="businessAddress1">Địa chỉ ĐKKD</label>
+                                                                    <input id="businessAddress1" type="text" class="form-control" name="businessAddress1" placeholder="Địa chỉ đăng ký kinh doanh" />
                                                                 </div>
                                                             </div>
 
                                                             <div class="col-lg-4 col-md-6">
                                                                 <div class="form-group">
                                                                     <label for="website1">Website</label>
-                                                                    <input id="website1" type="text" class="form-control" name="website1" />
+                                                                    <input id="website1" type="text" class="form-control" name="website1" placeholder="Địa chỉ website" />
                                                                 </div>
                                                             </div>
-                                                            <div class="col-lg-4 col-md-6">
-                                                                <div class="form-group">
-                                                                    <label for="staffId1">Nhân viên chăm sóc</label>
-                                                                    <select id="staffId1" class="select2 form-control" name="staffId1">
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-
 
                                                             <div class="col-lg-4 col-md-6">
                                                                 <div class="form-group">
                                                                     <label for="field1">Lĩnh vực của khách hàng</label>
-                                                                    <input id="field1" name="field1" type="text" class="form-control" />
+                                                                    <input id="field1" name="field1" type="text" class="form-control" placeholder="Lĩnh vực kinh doanh" />
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-lg-4 col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="type1">Loại hình hoạt động</label>
+                                                                    <select id="type1" class="select2 form-control" name="type1">
+                                                                        <option value="1">Sản xuất</option>
+                                                                        <option value="2">Thương mại</option>
+                                                                        <option value="3">Dịch vụ</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-lg-4 col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="classify1">Phân loại khách hàng</label>
+                                                                    <select id="classify1" class=" form-control" name="classify1">
+                                                                        <option value="1">Khách hàng</option>
+                                                                        <option value="2">Nhà cung cấp</option>
+                                                                        <option value="3">Cả hai</option>
+                                                                    </select>
                                                                 </div>
                                                             </div>
 
@@ -275,54 +324,33 @@
                                                             </div>
                                                             <div class="col-lg-4 col-md-6">
                                                                 <div class="form-group">
-                                                                    <label for="bussinessAddress1">Địa chỉ doanh nghiệp khách hàng</label>
-                                                                    <input id="bussinessAddress1" type="text" class="form-control" name="bussinessAddress1" />
+                                                                    <label for="businessAddress1">Địa chỉ doanh nghiệp khách hàng</label>
+                                                                    <input id="businessAddress1" type="text" class="form-control" name="businessAddress1" />
                                                                 </div>
                                                             </div> -->
-                                                            <div class="col-lg-4 col-md-6">
-                                                                <div class="form-group">
-                                                                    <label for="bussinessPlace1">Vị trí doanh nghiệp khách hàng</label>
-                                                                    <input id="bussinessPlace1" type="text" class="form-control" name="bussinessPlace1" />
-                                                                </div>
-                                                            </div>
+
                                                             <div class="col-lg-4 col-md-6">
                                                                 <div class="form-group">
                                                                     <label for="representative1">Người đại diện</label>
-                                                                    <input id="representative1" type="text" class="form-control" name="representative1" />
+                                                                    <input id="representative1" type="text" class="form-control" name="representative1" placeholder="Người đại diện" />
                                                                 </div>
                                                             </div>
-                                                            <div class="col-lg-4 col-md-6">
+
+                                                            <div class="col-lg-4 col-md-6" id="div-position">
+                                                                <div class="form-group">
+                                                                    <label for="position1">Vị trí người đại diện</label>
+                                                                    <input id="position1" name="position1" type="text" class="form-control" placeholder="Vị trí người đại diện" />
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-lg-4 col-md-6" id="div-authorized">
                                                                 <div class="form-group">
                                                                     <label for="authorized1">Người cấp phép</label>
-                                                                    <input id="authorized1" type="text" class="form-control" name="authorized1" />
+                                                                    <input id="authorized1" type="text" class="form-control" name="authorized1" placeholder="Người cấp phép" />
                                                                 </div>
                                                             </div>
-                                                            <div class="col-lg-4 col-md-6">
-                                                                <div class="form-group">
-                                                                    <label for="note1">Chú thích</label>
-                                                                    <input id="note1" type="text" class="form-control" name="note1" />
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-lg-4 col-md-6">
-                                                                <div class="form-group">
-                                                                    <label for="classify1">Phân loại khách hàng</label>
-                                                                    <select id="classify1" class=" form-control" name="classify1">
-                                                                        <option value="1">Khách hàng</option>
-                                                                        <option value="2">Nhà cung cấp</option>
-                                                                        <option value="3">Cả hai</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-lg-4 col-md-6">
-                                                                <div class="form-group">
-                                                                    <label for="type1">Loại hình hoạt động</label>
-                                                                    <select id="type1" class=" form-control" name="type1">
-                                                                        <option value="1">Sản xuất</option>
-                                                                        <option value="2">Thương mại</option>
-                                                                        <option value="3">Dịch vụ</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
+
+
                                                             <!-- <div class="col-lg-4 col-md-6">
                                                                 <div class="form-group">
                                                                     <label for="nationalId1">Quốc gia</label>
@@ -330,21 +358,28 @@
                                                                     </select>
                                                                 </div>
                                                             </div> -->
+
                                                             <div class="col-lg-4 col-md-6">
                                                                 <div class="form-group">
-                                                                    <label for="provinceId1">Tỉnh thành phố</label>
-                                                                    <select id="provinceId1" class="select2 form-control" name="provinceId1">
+                                                                    <label for="staffId1">Nhân viên chăm sóc</label>
+                                                                    <select id="staffId1" class="select2 form-control" name="staffId1">
                                                                     </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-4 col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="note1">Ghi chú</label>
+                                                                    <input id="note1" type="text" class="form-control" name="note1" placeholder="Ghi chú" />
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-4 col-md-6">
                                                                 <div class="form-group">
                                                                     <label for="status1">Trạng thái</label>
                                                                     <select id="status1" class="select2 form-control" name="status1">
-                                                                        <option value="1" selected>Khách hàng mới</option>
+                                                                        <option value="1">Khách hàng mới</option>
                                                                         <option value="2">Đang dùng dịch vụ</option>
-                                                                        <option value="3">Tạm dùng dịch vụ</option>
-                                                                        <option value="4">Đã dùng dịch vụ</option>
+                                                                        <option value="3">Tạm dừng dùng dịch vụ</option>
+                                                                        <option value="4">Đã dừng dùng dịch vụ</option>
                                                                     </select>
                                                                 </div>
                                                             </div>
@@ -420,7 +455,7 @@
                                                 <input type="hidden" name="idCustomerContact" id="idCustomerContact" value=''>
                                                 <div class="row mt-1">
                                                     <div class="col-md-6 form-group">
-                                                    <label for="nameContact">Tên liên lạc</label>
+                                                        <label for="nameContact">Tên liên lạc</label>
                                                         <input id="nameContact" name="nameContact" type="text" class="form-control" />
                                                     </div>
                                                     <div class="col-md-6 form-group">
@@ -445,13 +480,13 @@
                                                         <label for="zalo">Zalo(nếu có)</label>
                                                         <input id="zalo" name="zalo" type="text" class="form-control" />
                                                     </div>
-                                                   
+
                                                     <div class="col-md-6 form-group">
                                                         <label for="noteContact">Chú thích</label>
-                                                       <textarea name="noteContact" class="form-control" id="noteContact" cols="30" rows="5"></textarea>
+                                                        <textarea name="noteContact" class="form-control" id="noteContact" cols="30" rows="5"></textarea>
                                                     </div>
                                                     <div class="col-12 d-flex flex-sm-row flex-column mt-2">
-                                                        <button type="submit"  class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Cập nhật</button>
+                                                        <button type="submit" class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Cập nhật</button>
                                                         <button type="reset" class="btn btn-outline-secondary" data-dismiss="modal">Bỏ qua</button>
                                                     </div>
                                                 </div>
@@ -677,10 +712,10 @@
     </div>
 </div>
 <script>
-    var funAdd = <?=$this->funAdd?>,
-        funImport = <?=$this->funImport?>,
-        funEdit = <?=$this->funEdit?>,
-        funDel = <?=$this->funDel?>;
-        console.log(funAdd,funImport,funEdit,funDel);
+    var funAdd = <?= $this->funAdd ?>,
+        funImport = <?= $this->funImport ?>,
+        funEdit = <?= $this->funEdit ?>,
+        funDel = <?= $this->funDel ?>;
+    console.log(funAdd, funImport, funEdit, funDel);
 </script>
 <script src="<?= HOME ?>/js/potential_customer.js"></script>

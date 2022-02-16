@@ -7,6 +7,9 @@
         </div>
         <div class="content-body">
             <!-- Full calendar start -->
+            <div class="d-flex justify-content-between align-items-center mx-50 row pt-2 pb-2">
+                <img src="<?=HOME?>/layouts/tooltip.png" style="margin: 0 15px" width="25px" id="current_ip" data-toggle="tooltip" data-placement="right" data-original-title="Là chức năng quản lý lịch tham gia phỏng vấn của các ứng viên" data-trigger="click" >
+            </div>
             <section>
                 <div class="app-calendar overflow-hidden border">
                     <div class="row no-gutters">
@@ -162,9 +165,9 @@
                                         <input type="number" min="1" class="form-control" id="round" name="round"
                                                 required="true" >
                                     </div> -->
-                                    <div class="form-group">
+                                    <div class="form-group" id="div-result">
                                         <label for="round" class="form-label">Kết quả phỏng vấn</label>
-                                        <select required data-msg-required="Yêu cầu chọn trạng thái" class="select2 select-label form-control w-100" id="result" name="result">
+                                        <select required data-msg-required="Yêu cầu chọn trạng thái" class="select2 select-label form-control w-100" id="result" name="result" required>
                                             <option data-label="#FF9F43" value="1">Hẹn phỏng vấn</option>
                                             <option data-label="#28C76F" value="2">Đạt</option>
                                             <option data-label="#EA5455" value="3">Không đạt</option>

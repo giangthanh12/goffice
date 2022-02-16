@@ -158,7 +158,7 @@ class dashboard_Model extends Model{
         $arrNewCustomer = [];
         $arrMonth = [];
         $now = $year.'-'.$month;
-        $where = " WHERE status = 1 AND createDate LIKE '$now%' ";
+        $where = " WHERE status = 1 AND date LIKE '$now%' ";
         $query = $this->db->query("SELECT COUNT(id) AS newCustomer
         FROM customers $where");
         $temp = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -174,7 +174,7 @@ class dashboard_Model extends Model{
         for($i = 0; $i < 7; $i++) {
             $month = date("M",strtotime("-$i month"));
             $yearMonth = date("Y-m",strtotime("-$i month"));
-            $where = " WHERE status = 1 AND createDate LIKE '$yearMonth%' ";
+            $where = " WHERE status = 1 AND date LIKE '$yearMonth%' ";
             $query = $this->db->query("SELECT COUNT(id) AS newCustomer
             FROM customers $where ");
             $temp = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -195,13 +195,13 @@ class dashboard_Model extends Model{
         $now = $year.'-'.$month;
 
         $query1 = $this->db->query("SELECT COUNT(id) AS changeData
-        FROM data WHERE status = 11 AND creteDate LIKE '$now%'");
+        FROM data WHERE status = 1 AND createDate LIKE '$now%'");
         $temp1 = $query1->fetchAll(PDO::FETCH_ASSOC);
         $changeData = $temp1[0]['changeData'];
         $result['changeData'] = $temp1[0]['changeData'];
 
         $query2 = $this->db->query("SELECT COUNT(id) AS totalData
-        FROM data WHERE status > 0 AND creteDate LIKE '$now%'");
+        FROM data WHERE status > 0 AND createDate LIKE '$now%'");
         $temp2 = $query2->fetchAll(PDO::FETCH_ASSOC);
         $totalData = $temp2[0]['totalData'];
         if($changeData>0) {

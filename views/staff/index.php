@@ -12,6 +12,9 @@
                 <!-- users filter end -->
                 <!-- list section start -->
                 <div class="card">
+                    <div class="d-flex justify-content-between align-items-center mx-50 row pt-2">
+                        <img src="<?=HOME?>/layouts/tooltip.png" style="margin: 0 15px" width="25px" id="current_ip" data-toggle="tooltip" data-placement="right" data-original-title="Quản lý toàn bộ thông tin cá nhân của nhân sự trong doanh nghiệp" data-trigger="click" >
+                    </div>
                     <div class="card-datatable table-responsive pt-0">
                         <table class="user-list-table table">
                             <thead class="thead-light">

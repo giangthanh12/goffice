@@ -66,18 +66,18 @@ document.addEventListener('DOMContentLoaded', function () {
     btnDeleteEvent = $('.btn-delete-event'),
     calendarEditor = $('#event-description-editor');
   // Description Editor
-  if (calendarEditor.length) {
-    var calDescEditor = new Quill("#event-description-editor", {
-      bounds: "#event-description-editor",
-      modules: {
-        formula: true,
-        syntax: true,
-        toolbar: ".desc-toolbar",
-      },
-      placeholder: "Mô tả",
-      theme: "snow",
-    });
-  }
+  // if (calendarEditor.length) {
+  //   var calDescEditor = new Quill("#event-description-editor", {
+  //     bounds: "#event-description-editor",
+  //     modules: {
+  //       formula: true,
+  //       syntax: true,
+  //       toolbar: ".desc-toolbar",
+  //     },
+  //     placeholder: "Mô tả",
+  //     theme: "snow",
+  //   });
+  // }
   // --------------------------------------------
   // On add new item, clear sidebar-right field fields
   // --------------------------------------------
@@ -206,12 +206,12 @@ document.addEventListener('DOMContentLoaded', function () {
     // eventToUpdate.extendedProps.guests !== undefined
     //   ? eventGuests.val(eventToUpdate.extendedProps.guests).trigger('change')
     //   : null;
-    // eventToUpdate.extendedProps.description !== undefined
-    //   ? calendarEditor.val(eventToUpdate.extendedProps.description)
-    //   : null;
+    eventToUpdate.extendedProps.description !== undefined
+      ? calendarEditor.val(eventToUpdate.extendedProps.description)
+      : null;
 
-    var quill_editor = $("#event-description-editor .ql-editor");
-    quill_editor[0].innerHTML = eventToUpdate.extendedProps.description;
+    // var quill_editor = $("#event-description-editor .ql-editor");
+    // quill_editor[0].innerHTML = eventToUpdate.extendedProps.description;
 
     objectId = eventToUpdate.extendedProps.objectId;
     //  Delete Event
@@ -330,6 +330,12 @@ document.addEventListener('DOMContentLoaded', function () {
   var calendar = new FullCalendar.Calendar(calendarEl, {
     initialView: 'dayGridMonth',
     events: fetchEvents,
+    eventTimeFormat: { // like '14:30:00'
+      hour: '2-digit',
+      minute: '2-digit',
+      //  second: '2-digit',
+      hour12: false
+    },
     editable: false,
     dragScroll: true,
     dayMaxEvents: 5,
@@ -540,13 +546,13 @@ document.addEventListener('DOMContentLoaded', function () {
         }
       };
 
-      var quill_editor = $("#event-description-editor .ql-editor");
-      var description = quill_editor[0].innerHTML;
+      // var quill_editor = $("#event-description-editor .ql-editor");
+      // var description = quill_editor[0].innerHTML;
       var eventData = {
         title: sidebar.find(eventTitle).val(),
         startDate: startDate.val(),
         endDate: endDate.val(),
-        description: description,
+        description: calendarEditor.val(),
         objectType: eventLabel.val(),
         objectId: objectId,
       };
@@ -575,12 +581,12 @@ document.addEventListener('DOMContentLoaded', function () {
   // Update new event
   updateEventBtn.on('click', function () {
     if (eventForm.valid()) {
-      var quill_editor = $("#event-description-editor .ql-editor");
-      var description = quill_editor[0].innerHTML;
+      // var quill_editor = $("#event-description-editor .ql-editor");
+      // var description = quill_editor[0].innerHTML;
       var eventData = {
         id: eventToUpdate.id,
         title: sidebar.find(eventTitle).val(),
-        description: description,
+        description: sidebar.find(calendarEditor).val(),
         objectType: eventLabel.val(),
         objectId: objectId,
       };
