@@ -419,7 +419,7 @@ document.addEventListener('DOMContentLoaded', function () {
       startDate.attr("disabled", false);
       endDate.attr("disabled", false);
       eventLabel.attr("disabled", false);
-      add = 1;
+      add = 0;
       // allDaySwitch.attr("disabled", false);
     },
     eventClick: function (info) {
