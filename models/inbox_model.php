@@ -4,35 +4,41 @@ class inbox_Model extends Model{
         parent::__construst();
     }
 
-    function getList($type){
+    function getList($start,$num_per_page,$type){
         $temp = array();
         $user = '"'.$_SESSION['user']['staffId'].'"';
         if ($type=='sent') {
-            $dieukien = " WHERE status>0 AND senderId=$user ";
+            $dieukien = " WHERE status>0 AND senderId=$user";
             $query = $this->db->query("SELECT id,title,senderId, receiverId, dateTime, link,
                 SUBSTRING(content,1,128) AS subContent, status,
                 (SELECT name FROM staffs WHERE id=senderId) AS senderName,
                 (SELECT avatar FROM staffs WHERE id=senderId) AS avatar
-                FROM events $dieukien ORDER BY dateTime DESC ");
+                FROM events $dieukien ORDER BY dateTime DESC LIMIT $start, $num_per_page ");
         } elseif ($type=='trash') {
             $dieukien = " WHERE status=0 AND (receiverId LIKE '%$user%' OR senderId=$user) ";
             $query = $this->db->query("SELECT id,title,senderId, receiverId, dateTime, link,
                 SUBSTRING(content,1,128) AS subContent, status,
                 (SELECT name FROM staffs WHERE id=senderId) AS senderName,
                 (SELECT avatar FROM staffs WHERE id=senderId) AS avatar
-                FROM events $dieukien ORDER BY dateTime DESC ");
+                FROM events $dieukien ORDER BY dateTime DESC LIMIT $start, $num_per_page ");
         } else {
             $dieukien = " WHERE status>0 AND receiverId LIKE '%$user%' ";
             $query = $this->db->query("SELECT id,title,senderId, receiverId, dateTime, link,
                 SUBSTRING(content,1,128) AS subContent, status,
                 (SELECT name FROM staffs WHERE id=senderId) AS senderName,
                 (SELECT avatar FROM staffs WHERE id=senderId) AS avatar
-                FROM events $dieukien ORDER BY dateTime DESC ");
+                FROM events $dieukien ORDER BY dateTime DESC LIMIT $start, $num_per_page ");
         }
         if ($query)
             $temp = $query->fetchAll(PDO::FETCH_ASSOC);
         return $temp;
     }
+
+
+
+
+
+
 
     function getCount(){
         $return = array();

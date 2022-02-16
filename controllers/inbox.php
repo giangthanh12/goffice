@@ -10,7 +10,7 @@ class inbox extends Controller
     {
         require "layouts/header.php";
         $type = isset($_REQUEST['type'])?$_REQUEST['type']:'inbox';
-        $this->view->list = $this->model->getList($type);
+        $this->view->list = $this->model->getList(0,5,$type);
         $this->view->count = $this->model->getCount();
         $this->view->type = $type;
         $this->view->employee=$this->model->getEmployee();
@@ -87,6 +87,22 @@ class inbox extends Controller
             $jsonObj['success'] = true;
         } else {
             $jsonObj['msg'] = "Lỗi khi cập nhật database".$receiverId;
+            $jsonObj['success'] = false;
+        }
+        echo json_encode($jsonObj);
+    }
+    function getListInbox() {
+        $page = $_REQUEST['page'];
+        $selectedType = isset($_REQUEST['selectedType']) ? $_REQUEST['selectedType'] :'inbox';
+        $num_per_page = 5;
+        $start = ($page-1)*$num_per_page;
+        $data = $this->model->getList($start,$num_per_page,$selectedType);
+        if(count($data) > 0) {
+            $jsonObj['data'] = $data;
+            $jsonObj['success'] = true;
+        }
+        else {
+            $jsonObj['data'] = [];
             $jsonObj['success'] = false;
         }
         echo json_encode($jsonObj);
