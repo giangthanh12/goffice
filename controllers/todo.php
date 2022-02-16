@@ -92,7 +92,7 @@ class todo extends Controller{
             'title' => $task['title'],
             'staffId' => $task['assigneeId'],
             'objectType' => 3,
-            'startDate' => $task['startDate'] != '0000-00-00' ? $task['startDate'] : date('Y-m-d'),
+            'startDate' => $task['assignmentDate'],
             'endDate' => $task['deadline'],
             'description' => $task['description'],
             'status' => $addCalendar,
