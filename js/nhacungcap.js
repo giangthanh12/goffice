@@ -67,7 +67,7 @@ $(function () {
             ajax: baseHome + "/nhacungcap/list",
             columns: [
                 // { data: "" },
-                { data: "name" },
+                { data: "fullName" },
                 { data: "phoneNumber" },
                 { data: "website" },
                 { data: "email" },
@@ -90,10 +90,10 @@ $(function () {
                     targets: 0,
                     responsivePriority: 4,
                     render: function (data, type, full, meta) {
-                        var $name = full["name"],
+                        var $name = full["fullName"],
                             $uname = full["office"];
                         if($name == ''){
-                            $name = full["fullName"];
+                            $name = full["name"];
                         }
 
                         // Creates full output for row

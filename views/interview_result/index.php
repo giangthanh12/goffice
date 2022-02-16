@@ -6,7 +6,7 @@
         <div class="content-header-left col-md-9 col-12 mb-2">
                     <div class="row breadcrumbs-top">
                         <div class="col-12">
-                            <h2 class="content-header-title float-left mb-0" style="border-right: none;">Kết quả phỏng vấn</h2>
+                            <h2 class="content-header-title float-left mb-0" style="border-right: none;">Kết quả phỏng vấn <img src="<?=HOME?>/layouts/tooltip.png" style="margin: 0 15px" width="25px" id="current_ip" data-toggle="tooltip" data-placement="right" data-original-title="Là chức năng quản lý kết quả phỏng vấn của ứng viên" data-trigger="click" ></h2>
                         </div>
                     </div>
                 </div>
@@ -17,9 +17,6 @@
             <section class="app-user-list">
                 <!-- users filter start -->
                 <div class="card">
-                    <div class="d-flex justify-content-between align-items-center mx-50 row pt-2 pb-2">
-                       <img src="<?=HOME?>/layouts/tooltip.png" style="margin: 0 15px" width="25px" id="current_ip" data-toggle="tooltip" data-placement="right" data-original-title="Là chức năng quản lý kết quả phỏng vấn của ứng viên" data-trigger="click" >
-                    </div>
                 </div>
                 <!-- users filter end -->
                 <!-- list section start -->
