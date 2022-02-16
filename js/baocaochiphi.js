@@ -1,13 +1,13 @@
 var url = "";
 
 $(function () {
-  var dtUserTable = $(".user-list-table"),
-    modal = $("#updateinfo"),
-    form = $("#dg");
-  statusObj = {
-    0: { title: "Thu", class: "badge-light-success" },
-    1: { title: "Chi", class: "badge-light-danger" },
-  };
+    var dtUserTable = $(".user-list-table"),
+        modal = $("#updateinfo"),
+        form = $("#dg");
+    statusObj = {
+        0: {title: "Thu", class: "badge-light-success"},
+        1: {title: "Chi", class: "badge-light-danger"},
+    };
 
 //   (timeStart = $("#time_s")), (timeEnd = $("#time_e"));
 
@@ -24,94 +24,115 @@ $(function () {
 //     });
 //   }
 
-  // Users List datatable
-  if (dtUserTable.length) {
-    dtUserTable.DataTable({
-      ordering: false,
-      // ajax: assetPath + "data/user-list.json", // JSON file to add data
-      ajax: baseHome + "/baocaochiphi/list",
-      columns: [
-        // columns according to JSON
-        { data: "dateTimeNew" },
-        { data: "customerName" },
-        { data: "classifyName" },
-        { data: "contractName" },
-        { data: "content" },
-        { data: "asset" },
-        { data: "note" },
-      ],
-      columnDefs: [],
-      initComplete: function () {
-        // Adding plan filter once table initialized
-        this.api()
-          .columns(2)
-          .every(function () {
-            var column = this;
-            var select = $(
-              '<select class="form-control text-capitalize mb-md-0 mb-2"><option value=""> Định khoản </option></select>'
-            )
-              .appendTo(".staff_filter")
-              .on("change", function () {
-                var val = $.fn.dataTable.util.escapeRegex($(this).val());
-                column.search(val ? "^" + val + "$" : "", true, false).draw();
-              });
+    // Users List datatable
+    if (dtUserTable.length) {
+        dtUserTable.DataTable({
+            ordering: false,
+            // ajax: assetPath + "data/user-list.json", // JSON file to add data
+            ajax: baseHome + "/baocaochiphi/list",
+            columns: [
+                // columns according to JSON
+                {data: "dateTimeNew"},
+                {data: "customerName"},
+                {data: "classifyName"},
+                {data: "contractName"},
+                {data: "content"},
+                {data: "asset"},
+                {data: "note"},
+            ],
+            columnDefs: [],
+            dom:
+                '<"d-flex justify-content-between align-items-center header-actions mx-1 row mt-75"' +
+                '<"col-lg-12 col-xl-6" l>' +
+                '<"col-lg-12 col-xl-6 pl-xl-75 pl-0"<"dt-action-buttons text-xl-right text-lg-left text-md-right text-left d-flex align-items-center justify-content-lg-end align-items-center flex-sm-nowrap flex-wrap mr-1"<"mr-1"f>B>>' +
+                ">t" +
+                '<"d-flex justify-content-between mx-2 row mb-1"' +
+                '<"col-sm-12 col-md-6"i>' +
+                '<"col-sm-12 col-md-6"p>' +
+                ">",
+            language: {
+                sLengthMenu: "Hiển thị _MENU_",
+                search: "",
+                searchPlaceholder: "Tìm kiếm...",
+                paginate: {
+                    // remove previous & next text from pagination
+                    previous: "&nbsp;",
+                    next: "&nbsp;",
+                },
+                info: "Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
+            },
+            initComplete: function () {
+                // Adding plan filter once table initialized
+                this.api()
+                    .columns(2)
+                    .every(function () {
+                        var column = this;
+                        var select = $(
+                            '<select class="form-control text-capitalize mb-md-0 mb-2"><option value=""> Định khoản </option></select>'
+                        )
+                            .appendTo(".staff_filter")
+                            .on("change", function () {
+                                var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                                column.search(val ? "^" + val + "$" : "", true, false).draw();
+                            });
 
-            column
-              .data()
-              .unique()
-              .sort()
-              .each(function (d, j) {
-                select.append(
-                  '<option value="' +
-                    d +
-                    '" class="text-capitalize">' +
-                    d +
-                    "</option>"
-                );
-              });
-          });
+                        column
+                            .data()
+                            .unique()
+                            .sort()
+                            .each(function (d, j) {
+                                select.append(
+                                    '<option value="' +
+                                    d +
+                                    '" class="text-capitalize">' +
+                                    d +
+                                    "</option>"
+                                );
+                            });
+                    });
 
-        this.api()
-          .columns(1)
-          .every(function () {
-            var column = this;
-            var select = $(
-              '<select class="form-control text-capitalize mb-md-0 mb-2"><option value=""> Đối tác/Nhà cung cấp </option></select>'
-            )
-              .appendTo(".customer_filter")
-              .on("change", function () {
-                var val = $.fn.dataTable.util.escapeRegex($(this).val());
-                column.search(val ? "^" + val + "$" : "", true, false).draw();
-              });
+                this.api()
+                    .columns(1)
+                    .every(function () {
+                        var column = this;
+                        var select = $(
+                            '<select class="form-control text-capitalize mb-md-0 mb-2"><option value=""> Đối tác/Nhà cung cấp </option></select>'
+                        )
+                            .appendTo(".customer_filter")
+                            .on("change", function () {
+                                var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                                column.search(val ? "^" + val + "$" : "", true, false).draw();
+                            });
 
-            column
-              .data()
-              .unique()
-              .sort()
-              .each(function (d, j) {
-                select.append(
-                  '<option value="' +
-                    d +
-                    '" class="text-capitalize">' +
-                    d +
-                    "</option>"
-                );
-              });
-          });
-      },
-    });
-  }
-
-  // Check Validity
-  function checkValidity(el) {
-    if (el.validate().checkForm()) {
-      submitBtn.attr("disabled", false);
-    } else {
-      submitBtn.attr("disabled", true);
+                        column
+                            .data()
+                            .unique()
+                            .sort()
+                            .each(function (d, j) {
+                                select.append(
+                                    '<option value="' +
+                                    d +
+                                    '" class="text-capitalize">' +
+                                    d +
+                                    "</option>"
+                                );
+                            });
+                    });
+            },
+            buttons:[]
+        });
     }
-  }
 
-  // Form Validation
+    // Check Validity
+    function checkValidity(el) {
+        if (el.validate().checkForm()) {
+            submitBtn.attr("disabled", false);
+        } else {
+            submitBtn.attr("disabled", true);
+        }
+    }
+
+    // Form Validation
 //   if (form.length) {
 //     form.validate({
 //       errorClass: "error",
@@ -137,23 +158,23 @@ $(function () {
 //     });
 //   }
 
-  // To initialize tooltip with body container
-  $("body").tooltip({
-    selector: '[data-toggle="tooltip"]',
-    container: "body",
-  });
+    // To initialize tooltip with body container
+    $("body").tooltip({
+        selector: '[data-toggle="tooltip"]',
+        container: "body",
+    });
 
-  ///bieu do doanh thu
-  var dateObj = new Date();
-  var thang = dateObj.getMonth();
-  thang = thang > 9 ? thang : "0" + thang;
-  var ngay = dateObj.getDate();
-  ngay = ngay > 9 ? ngay : "0" + ngay;
-  var dateToUse = dateObj.getFullYear() + "-" + thang + "-" + ngay;
+    ///bieu do doanh thu
+    var dateObj = new Date();
+    var thang = dateObj.getMonth();
+    thang = thang > 9 ? thang : "0" + thang;
+    var ngay = dateObj.getDate();
+    ngay = ngay > 9 ? ngay : "0" + ngay;
+    var dateToUse = dateObj.getFullYear() + "-" + thang + "-" + ngay;
 
 //   $("#time_e").val(dateToUse);
 //   $("#time_s").val(dateObj.getFullYear() + "-01-01");
-  $("#title_thongke").html("Thống kê doanh thu năm  " + dateObj.getFullYear());
+    $("#title_thongke").html("Thống kê doanh thu năm  " + dateObj.getFullYear());
 //   var $barColor = "#f3f3f3";
 //   var $trackBgColor = "#EBEBEB";
 //   var $textMutedColor = "#b9b9c3";
