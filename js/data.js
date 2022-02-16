@@ -150,7 +150,7 @@ $(function () {
                 },
                 {
                     targets: -1,
-                    title: feather.icons["database"].toSvg({ class: "font-medium-3 text-success mr-50" }),
+                    title: 'Thao tác',
                     render: function (data, type, full, meta) {
                         var html = '<div style="text-align:right;width: 130px;">';
 

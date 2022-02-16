@@ -52,9 +52,6 @@ if(funAdd == 1) {
 }
 function render_table(){
     $('#list_tainguyen').DataTable({
-        "processing": true,
-        "serverSide": true,
-        'serverMethod': 'post',
         ajax: baseHome + '/tainguyen/json?nhanvienid='+baseUser,
         columns: [
             { data: null },
@@ -79,7 +76,8 @@ function render_table(){
                 }
             },
             {
-                targets: 6,
+                targets: -1,
+                title: 'Thao tác',
                 render: function(data, type, full, meta){
                     var html = '';
                 
@@ -145,7 +143,7 @@ function detail(idh){
     var responseData = load_data(baseHome + '/tainguyen/detail_resource?id='+idh);
     responseData = JSON.parse(responseData.responseText);
     var Objdata = responseData.data[0];
-    console.log(responseData);
+    // console.log(responseData);
     $('#tentainguyen').text(Objdata.name); $('#chusohuu').text(Objdata.chusohuu);
     $('#phanloai').text(Objdata.phanloai); $('#nhacungcap').text(Objdata.nhacungcap);
     $('#tendangnhap').text(Objdata.username); $('#matkhau').text(Objdata.password);
