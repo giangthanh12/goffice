@@ -131,7 +131,8 @@
                                                 <div class="badge-wrapper mr-1">
                                                     <div class="badge badge-pill badge-light-' . $color . '" data-id="' . $item['label'] . '">' . $item['labelText'] . '</div>
                                                 </div>
-                                                <small class="text-nowrap text-muted mr-1">' . $item['deadline'] . '</small>
+                                                <small class="text-nowrap text-muted mr-1">' . $item['deadlineFormat'] . '</small>
+                                                <small class="d-none text-muted mr-1" id="deadline">' . $item['deadline'] . '</small>
                                                 <div class="avatar" data-id="' . $item['assigneeId'] . '">
                                                     <img src="' . $avatar . '" ' . 'onerror=' . "this.src='https://velo.vn/goffice-test/layouts/useravatar.png'" . ' alt="user-avatar" height="32" width="32" />
                                                 </div>

@@ -33,7 +33,8 @@ class todo_Model extends Model
         else {
             $dieukien = " WHERE assigneeId=$nhanvien AND status IN (1,2,3,4,5) ";
         }
-        $query = $this->db->query("SELECT id, title, label, assigneeId, description, deadline,status,
+        $query = $this->db->query("SELECT id, title, label, assigneeId, description, deadline, status,
+            DATE_FORMAT(deadline,'%d-%m-%Y') AS deadlineFormat,
             (SELECT avatar FROM staffs WHERE id=a.assigneeId) AS avatar, projectId,
             (SELECT name FROM tasklabels WHERE id=a.label) AS labelText,
             (SELECT COUNT(1) FROM commenttasks WHERE taskId=a.id) AS comment,
