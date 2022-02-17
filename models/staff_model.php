@@ -12,7 +12,17 @@ class staff_Model extends Model{
             $data['data'] = $query->fetchAll(PDO::FETCH_ASSOC);
         return $data;
     }
-
+    function updateStatusContract($id) {
+        $query = $this->db->query("SELECT id FROM laborcontract WHERE status IN (1,2) AND staffId = $id");
+        $data = $query->fetchAll(PDO::FETCH_ASSOC);
+        if($data != []) {
+            foreach ($data as $item) {
+                $idContract = $item['id'];
+                $query = $this->update('laborcontract',array('status'=>2),"id = $idContract");
+            }
+        }
+        return $query;
+    }
     function getdata($id){
         $result = array();
         $query = $this->db->query("SELECT *,

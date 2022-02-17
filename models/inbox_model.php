@@ -109,7 +109,10 @@ class inbox_Model extends Model{
 
     function add($data){  // gửi thông báo
         $query = $this->insert("events", $data);
-        return $query;
+        if($query) 
+        return $this->db->lastInsertId();
+        else 
+        return 0;
     }
 
     function getAll(){

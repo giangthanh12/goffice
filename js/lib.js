@@ -26,8 +26,18 @@ connection.onmessage = function (message) {
             var avatar = baseUrlFile + "/uploads/nhanvien/" + data.avatar;
             var title = data.title;
             var content = data.content;
+            var idInboxs = data.inboxId;
+            var idInbox;
             console.log(receiverid,senderid,avatar,title,content);
             var url = baseHome+'/inbox';
+            idInboxs.forEach(function(element) {
+             
+               if(Number(element.receiverId) == baseUser) {
+               idInbox = element.inboxId;
+             
+               }
+            });
+          
             // notifList(receiverid, senderid, title, avatar, content);
            if($('#countNotifications').length > 0) {
             var countNoti =  $('#countNotifications').html();
@@ -48,7 +58,7 @@ connection.onmessage = function (message) {
                 content = content.slice(0,90)+'...';
             }
             $('.media-list').append(`
-            <a class="d-flex" href="${url}">
+            <a data-id="${idInbox}" class="d-flex notification-item${idInbox}" href="${url}">
                 <div class="media d-flex align-items-start">
                     <div class="media-left">
                         <div class="avatar">`+

@@ -383,7 +383,12 @@ $(function () {
                 if (response.success) {
                     getCount();
                     $("#my-task-list").load(window.location.href + "?type="+type+" #my-task-list");
-                    notyfi_success(response.msg);
+              
+                    toastr["success"](response.msg, {
+                        closeButton: true,
+                        tapToDismiss: false,
+                        rtl: isRtl,
+                    });
                     console.log(response.data.receiverId);
                     // $("#my-task-list").load(window.location.href + "?type=sent #my-task-list");
                     // var receiver = response.receiver;
@@ -399,11 +404,13 @@ $(function () {
                         action:'send',
                         receiverid: response.data.receiverId,
                         senderid:baseUser,
+                        inboxId:response.data.idInbox,
                         avatar:response.data.avatar,
                         title:response.data.title,
                         content:response.data.content,
                 };
-                
+        
+           
                     connection.send(JSON.stringify(data));
 
 

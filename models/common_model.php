@@ -15,7 +15,7 @@ class Common_Model extends Model {
     function getListStaff(){
         $result = array();
         $query = $this->db->query("SELECT id, name AS `text`
-              FROM staffs WHERE status IN (1,2,3,4,5,6) ORDER BY name ASC");
+              FROM staffs WHERE status IN (1,2,3,4,5,6,7) ORDER BY name ASC");
         if ($query) {
             $temp = $query->fetchAll(PDO::FETCH_ASSOC);
             $result = $temp;

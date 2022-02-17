@@ -116,66 +116,9 @@ $(function () {
             },
             // Buttons with Dropdown
             buttons: buttons,
-            // For responsive popup
-            // responsive: {
-            //     details: {
-            //         display: $.fn.dataTable.Responsive.display.modal({
-            //             header: function (row) {
-            //                 var data = row.data();
-            //                 return "Details of " + data["name"];
-            //             },
-            //         }),
-            //         type: "column",
-            //         renderer: $.fn.dataTable.Responsive.renderer.tableAll({
-            //             tableClass: "table",
-            //             columnDefs: [
-            //                 {
-            //                     targets: 8,
-            //                     visible: false,
-            //                 },
-            //                 {
-            //                     targets: 1,
-            //                     visible: false,
-            //                 },
-            //             ],
-            //         }),
-            //     },
-            // },
+          
             initComplete: function () {
-                // Adding role filter once table initialized
-                // this.api()
-                //     .columns(8)
-                //     .every(function () {
-                //         var column = this;
-                //         var select = $('<select id="kh_tinhtrang" class="form-control text-capitalize mb-md-0 mb-2"><option value=""> Loại hợp đồng </option></select>')
-                //             .appendTo(".kh_tinhtrang")
-                //             .on("change", function () {
-                //                 var val = $.fn.dataTable.util.escapeRegex($(this).val());
-                //                 column.search(val ? "^" + val + "$" : "", true, false).draw();
-                //             });
-
-                //         column
-                //             .data()
-                //             .unique()
-                //             .sort()
-                //             .each(function (d, j) {
-                //                 var $stt_output = "";
-                //                 if (d == 1) {
-                //                     $stt_output = "Thực tập sinh";
-                //                 } else if (d == 2) {
-                //                     $stt_output = "Thử việc";
-                //                 } else if (d == 3) {
-                //                     $stt_output = "Chính thức";
-                //                 } else if (d == 4) {
-                //                     $stt_output = "Cộng tác viên";
-                //                 } else if (d == 5) {
-                //                     $stt_output = "Tạm ngừng";
-                //                 }
-                //                 if ($stt_output != '') {
-                //                     select.append('<option value="' + d + '" class="text-capitalize">' + $stt_output + "</option>");
-                //                 }
-                //             });
-                //     });
+             
 
             },
         });
@@ -225,6 +168,9 @@ $(function () {
 });
 
 function showAdd() {
+    var validator = $('#fm').validate(); // reset form
+        validator.resetForm();
+        $(".error").removeClass("error"); // loại bỏ validate
     if (funAdd == 1)
         $('#btnUpdate').removeClass('d-none');
     else
@@ -262,6 +208,9 @@ function showAdd() {
 }
 
 function loaddata(id) {
+    var validator = $('#fm').validate(); // reset form
+    validator.resetForm();
+    $(".error").removeClass("error"); // loại bỏ validate
     $('#add-contract').modal('show');
     $(".modal-title").html('Cập nhật thông tin hợp đồng');
     if (funEdit == 1)
@@ -275,7 +224,6 @@ function loaddata(id) {
         url: baseHome + "/laborcontracts/loaddata",
         success: function (data) {
             // Default
-
             $('#name').val(data.name);
             $('#basicSalary').val(Comma(data.basicSalary));
             $('#salaryPercentage').val(data.salaryPercentage);
@@ -320,41 +268,41 @@ function loaddata(id) {
 
 function save() {
     $('#fm').validate({
-        messages: {
-            "name": {
-                required: "Bạn chưa nhập tên hợp đồng!",
-            },
-            "type": {
-                required: "Bạn chưa chọn loại hợp đồng!",
-            },
-            "staffId": {
-                required: "Bạn chưa chọn nhân viên!",
-            },
-            "departmentId": {
-                required: "Bạn chưa chọn phòng ban!",
-            },
-            "position": {
-                required: "Bạn chưa chọn vị tri!",
-            },
-            "branchId": {
-                required: "Bạn chưa chọn chi nhánh!",
-            },
-            "shiftId": {
-                required: "Bạn chưa chọn ca làm việc!",
-            },
-            "workPlaceId": {
-                required: "Bạn chưa chọn địa điểm làm việc!",
-            },
-            "basicSalary": {
-                required: "Bạn chưa nhập lương cơ bản!",
-            },
-            "salaryPercentage": {
-                required: "Bạn chưa nhập tỷ lệ lương!",
-            },
-            "startDate": {
-                required: "Bạn chưa ngày ký hợp đồng!",
-            }
-        },
+        // messages: {
+        //     "name": {
+        //         required: "Bạn chưa nhập tên hợp đồng!",
+        //     },
+        //     "type": {
+        //         required: "Bạn chưa chọn loại hợp đồng!",
+        //     },
+        //     "staffId": {
+        //         required: "Bạn chưa chọn nhân viên!",
+        //     },
+        //     "departmentId": {
+        //         required: "Bạn chưa chọn phòng ban!",
+        //     },
+        //     "position": {
+        //         required: "Bạn chưa chọn vị tri!",
+        //     },
+        //     "branchId": {
+        //         required: "Bạn chưa chọn chi nhánh!",
+        //     },
+        //     "shiftId": {
+        //         required: "Bạn chưa chọn ca làm việc!",
+        //     },
+        //     "workPlaceId": {
+        //         required: "Bạn chưa chọn địa điểm làm việc!",
+        //     },
+        //     "basicSalary": {
+        //         required: "Bạn chưa nhập lương cơ bản!",
+        //     },
+        //     "salaryPercentage": {
+        //         required: "Bạn chưa nhập tỷ lệ lương!",
+        //     },
+        //     "startDate": {
+        //         required: "Bạn chưa ngày ký hợp đồng!",
+        //     }
+        // },
         submitHandler: function (form) {
             var formData = new FormData(form);
             $.ajax({
