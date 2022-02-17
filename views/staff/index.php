@@ -313,7 +313,6 @@
                                                                     <option value="5">Thời vụ</option>
                                                                     <option value="6">Tạm ngừng</option>
                                                                     <option value="7">Thôi việc</option>
-
                                                                 </select>
                                                             </div>
                                                             <div class="col-12">

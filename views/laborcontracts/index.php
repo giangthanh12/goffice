@@ -51,70 +51,69 @@
                                                 <div class="row mt-1">
                                                     <div class="col-md-4 form-group">
                                                         <label for="name">Tên hợp đồng</label>
-                                                        <input id="name" name="name" type="text" class="form-control" required />
+                                                        <input id="name" data-msg-required="Yêu cầu chọn tên hợp đồng" name="name" type="text" class="form-control" required />
                                                     </div>
                                                     <div class="col-md-4 form-group">
-                                                        <label for="type">Loại hợp đồng</label>
-                                                        <select id="type" class="form-control" name="type" required>
+                                                        <label for="type" >Loại hợp đồng</label>
+                                                        <select id="type" required data-msg-required="Yêu cầu chọn loại hợp đồng" class="form-control select2" name="type">
                                                         </select>
                                                     </div>
                                                     <div class="col-md-4 form-group">
                                                         <label for="staffId">Nhân viên</label>
-                                                        <select id="staffId" class="select2 form-control" name="staffId" required>
+                                                        <select id="staffId" data-msg-required="Yêu cầu chọn nhân viên" class="select2 form-control" name="staffId" required>
                                                         </select>
                                                     </div>
                                                     <div class="col-md-4 form-group">
                                                         <label for="departmentId">Phòng ban</label>
-                                                        <select id="departmentId" class="form-control" name="departmentId" required>
+                                                        <select id="departmentId" data-msg-required="Yêu cầu chọn phòng ban" class="select2 form-control" name="departmentId" required>
                                                         </select>
                                                     </div>
                                                     <div class="col-md-4 form-group">
                                                         <label for="position">Vị trí</label>
-                                                        <select id="position" class="form-control" name="position" required>
+                                                        <select id="position" data-msg-required="Yêu cầu vị trí" class="select2 form-control" name="position" required>
                                                         </select>
                                                     </div>
                                                     <div class="col-md-4 form-group">
                                                         <label for="branchId">Chi nhánh</label>
-                                                        <select id="branchId" class="form-control" name="branchId" required>
+                                                        <select id="branchId" data-msg-required="Yêu cầu chọn chi nhánh" class="select2 form-control" class="form-control" name="branchId" required>
                                                         </select>
                                                     </div>
                                                     <div class="col-md-4 form-group">
-                                                        <label for="insuranceSalary">Địa điểm làm việc</label>
-                                                        <select id="workPlaceId" class="form-control" name="workPlaceId" required>
+                                                        <label for="workPlaceId">Địa điểm làm việc</label>
+                                                        <select id="workPlaceId" data-msg-required="Yêu cầu chọn địa điểm làm việc" class="select2 form-control" class="form-control" name="workPlaceId" required>
                                                         </select>
                                                     </div>
                                                     <div class="col-md-4 form-group">
                                                         <label for="insuranceSalary">Phân ca</label>
-                                                        <select id="shiftId" class="form-control" name="shiftId" required>
+                                                        <select id="shiftId" data-msg-required="Yêu cầu chọn phân ca" class="select2 form-control" name="shiftId" required>
                                                         </select>
                                                     </div>
                                                     <div class="col-md-4 form-group">
                                                         <label for="basicSalary">Lương cơ bản</label>
-                                                        <input id="basicSalary" type="text" class="form-control format_number" name="basicSalary" onkeyup="this.value=Comma(this.value)" required/>
+                                                        <input id="basicSalary" data-msg-required="Yêu cầu nhập lương cơ bản" type="text" class="form-control format_number" name="basicSalary" onkeyup="this.value=Comma(this.value)" required/>
                                                     </div>
                                                     <div class="col-md-4 form-group">
                                                         <label for="salaryPercentage">Tỉ lệ lương (%)</label>
-                                                        <input id="salaryPercentage" type="text" class="form-control" name="salaryPercentage" value="100" required/>
+                                                        <input id="salaryPercentage" data-msg-required="Yêu cầu nhập tỉ lệ lương" type="text" class="form-control" name="salaryPercentage" value="100" required/>
                                                     </div>
 
                                                     <div class="col-md-4 form-group">
                                                         <label for="allowance">Phụ cấp</label>
-                                                        <input id="allowance" type="text" class="form-control format_number" name="allowance" onkeyup="this.value=Comma(this.value)" />
+                                                        <input id="allowance" required type="text" data-msg-required="Yêu cầu nhập phụ cấp" class="form-control format_number" name="allowance" onkeyup="this.value=Comma(this.value)" />
                                                     </div>
 
                                                     <div class="col-md-4 form-group">
                                                         <label for="startDate">Ngày bắt đầu</label>
-                                                        <input type="text" id="startDate" name="startDate" class="form-control flatpickr-basic" placeholder="" required/>
+                                                        <input type="text" id="startDate" data-msg-required="Yêu cầu nhập ngày bắt đầu" name="startDate" class="form-control flatpickr-basic" placeholder="" required/>
                                                     </div>
 
                                                     <div class="col-md-4 form-group">
                                                         <label for="stopDate">Ngày kết thúc</label>
-                                                        <input type="text" id="stopDate" name="stopDate" class="form-control flatpickr-basic" placeholder="" />
+                                                        <input type="text" required data-msg-required="Yêu cầu nhập ngày kết thúc" id="stopDate"  name="stopDate" class="form-control flatpickr-basic" placeholder="" />
                                                     </div>
                                                     <div class="col-md-4 form-group">
                                                         <label for="status">Tình trạng</label>
                                                         <select id="status" class="select2 form-control" name="status">
-                                                            <option value="">Chọn tình trạng</option>
                                                             <option value="1">Đang thực hiện</option>
                                                             <option value="2">Đã kết thúc</option>
                                                         </select>

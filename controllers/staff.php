@@ -69,6 +69,9 @@ class staff extends Controller
             return false;
         }
         $data = $_REQUEST['data'];
+        if($data['status'] == 7) {
+            $this->model->updateStatusContract($_REQUEST['id']);
+        }
         $data['birthDay'] = date("Y-m-d",strtotime(str_replace('/', '-',$data['birthDay'] )));
         $data['idDate'] = date("Y-m-d",strtotime(str_replace('/', '-',$data['idDate'] )));
         $temp = isset($data['accesspoints'])?$data['accesspoints']:[];
@@ -88,6 +91,7 @@ class staff extends Controller
             $jsonObj['msg'] = "Lỗi khi cập nhật database";
             $jsonObj['success'] = false;
         }
+        
         echo json_encode($jsonObj);
     }
 
@@ -358,7 +362,6 @@ class staff extends Controller
         $data['zalo'] = $post['zalo'];
         $data['wechat'] = $post['wechat'];
         $data['linkein'] = $post['linkein'];
-
         if ($this->model->updateInfoStaff($data, $staffId)) {
             $jsonObj['msg'] = "Cập nhật dữ liệu thành công";
             $jsonObj['success'] = true;

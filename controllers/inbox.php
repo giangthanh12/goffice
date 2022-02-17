@@ -73,17 +73,18 @@ class inbox extends Controller
             $data['attachmentFile']=$filenames;
         }
         $row = 0;
-        foreach($_REQUEST['email-to'] as $item) {
+        $dataInboxReceiver= [];
+        foreach($_REQUEST['email-to'] as $key=>$item) {
             $data = array('senderId'=>$_SESSION['user']['staffId'], 'title'=>$title, 'content'=>$content,
             'receiverId'=>json_encode([$item]), 'status'=>1, 'dateTime'=>date('Y-m-d H:i:s'), 'link'=>'inbox');
-            $this->model->add($data);
+            $idInbox = $this->model->add($data);
+            $dataInboxReceiver[] = array('inboxId'=> $idInbox, 'receiverId'=>$item);
             $row++;
         }
-
         if ($row > 0) {
             $jsonObj['data'] = array('senderId'=>$_SESSION['user']['staffId'], 'avatar'=>$avatar, 'title'=>$title, 'content'=>$content,
-            'receiverId'=>$_REQUEST['email-to'], 'status'=>1, 'dateTime'=>date('Y-m-d H:i:s'), 'link'=>'inbox');
-            $jsonObj['msg'] = "Đã gửi thông báo";
+            'receiverId'=>$_REQUEST['email-to'], 'status'=>1,'idInbox'=>$dataInboxReceiver, 'dateTime'=>date('Y-m-d H:i:s'), 'link'=>'inbox');
+            $jsonObj['msg'] = "Đã gửi thông báo thành công";
             $jsonObj['success'] = true;
         } else {
             $jsonObj['msg'] = "Lỗi khi cập nhật database".$receiverId;
