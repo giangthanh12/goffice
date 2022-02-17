@@ -553,7 +553,6 @@ $notifications = $model->getNotification();
                     <a class="nav-link dropdown-toggle dropdown-user-link" id="dropdown-user" href="javascript:void(0);" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <div class="user-nav d-sm-flex d-none">
                             <span class="user-name font-weight-bolder" id="hungsua1"><?= $_SESSION['user']['staffName'] ?></span>
-                            <span class="user-status"><?= $_SESSION['user']['username'] ?></span>
                         </div>
                         <span class="avatar">
                             <img class="round" onerror="this.src='<?= HOME ?>/layouts/useravatar.png'" src="<?= URLFILE . '/uploads/nhanvien/' . $_SESSION['user']['avatar'] ?>" alt="avatar" height="40" width="40" id="hungsua2">
