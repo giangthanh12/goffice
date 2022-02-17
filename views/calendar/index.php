@@ -162,10 +162,10 @@
                                         </div>
                                     </div>
                                     <div class="form-group d-flex">
-                                        <button type="submit" class="btn btn-primary add-event-btn mr-1">Thêm</button>
+                                        <button type="button" class="btn btn-primary add-event-btn mr-1">Thêm</button>
                                         <button type="button" class="btn btn-outline-secondary btn-cancel" data-dismiss="modal">Đóng</button>
-                                        <button type="submit" class="btn btn-primary update-event-btn d-none mr-1">Cập nhật</button>
-                                        <button class="btn btn-outline-danger btn-delete-event d-none">Xóa</button>
+                                        <button type="button" class="btn btn-primary update-event-btn d-none mr-1">Cập nhật</button>
+                                        <button type="button" class="btn btn-outline-danger btn-delete-event d-none">Xóa</button>
                                     </div>
                                 </form>
                             </div>
