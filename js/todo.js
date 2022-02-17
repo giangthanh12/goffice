@@ -478,7 +478,7 @@ $(function () {
         newTaskForm.find(".new-todo-item-title").val($title);
         var assigneeId = $(this).find(".avatar").attr("data-id");
         taskAssignSelect.val(assigneeId).trigger("change");
-        var deadline = $(this).find(".text-nowrap").text();
+        var deadline = $(this).find("#deadline").text();
         flatPickr.val(deadline);
         var thisLabel = $(this).find(".badge-pill").attr("data-id");
         taskTag.val(thisLabel).trigger("change");

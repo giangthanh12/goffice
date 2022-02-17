@@ -144,11 +144,11 @@
                                         <input type="text" class="form-control" id="event-location" placeholder="Enter Location" />
                                     </div> -->
 
-                                    <div class="form-group">
+                                    <!-- <div class="form-group">
                                         <label class="form-label">Ghi chú</label>
                                         <textarea name="event-description-editor" id="event-description-editor" class="form-control" rows="5"></textarea>
-                                    </div>
-                                    <!-- <div class="form-group">
+                                    </div> -->
+                                    <div class="form-group">
                                         <label class="form-label" for="event-description-editor">Ghi chú</label>
                                         <div id="event-description-editor" class="border-bottom-0"></div>
                                         <div class="d-flex justify-content-end desc-toolbar border-top-0">
@@ -160,12 +160,12 @@
                                                 <button class="ql-link"></button>
                                             </span>
                                         </div>
-                                    </div> -->
+                                    </div>
                                     <div class="form-group d-flex">
-                                        <button type="submit" class="btn btn-primary add-event-btn mr-1">Thêm</button>
+                                        <button type="button" class="btn btn-primary add-event-btn mr-1">Thêm</button>
                                         <button type="button" class="btn btn-outline-secondary btn-cancel" data-dismiss="modal">Đóng</button>
-                                        <button type="submit" class="btn btn-primary update-event-btn d-none mr-1">Cập nhật</button>
-                                        <button class="btn btn-outline-danger btn-delete-event d-none">Xóa</button>
+                                        <button type="button" class="btn btn-primary update-event-btn d-none mr-1">Cập nhật</button>
+                                        <button type="button" class="btn btn-outline-danger btn-delete-event d-none">Xóa</button>
                                     </div>
                                 </form>
                             </div>

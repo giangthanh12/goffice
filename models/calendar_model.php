@@ -26,21 +26,23 @@ class calendar_model extends Model
         return $temp;
     }
 
-    function updateCalendar($calendarId,$objectTable,$objectId,$calendarData)
+    function updateCalendar($calendarId,$objectTable,$objectId,$data)
     {
         $result = false;
         if($objectId>0 && $objectTable!='') {
+            $objectData = $calendarData = $data;
             if($objectTable=='interview') {
-                $calendarData = [
+                $calendarData = $data;
+                $objectData = [
                     'note' => $calendarData['description'],
                 ];
             }
-            if($this->update($objectTable,$calendarData,"id=$objectId")) {
+            if($this->update($objectTable,$objectData,"id=$objectId")) {
                 $this->update("calendars",$calendarData,"id=$calendarId");
                 $result = true;
             }
         } else {
-            $this->update("calendars",$calendarData,"id=$calendarId");
+            $this->update("calendars",$data,"id=$calendarId");
             $result = true;
         }
         return $result;

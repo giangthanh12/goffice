@@ -25,7 +25,7 @@ class calendar extends Controller
             $jsonObj['data'] = $data;
         } else {
             $jsonObj['success'] = false;
-            $jsonObj['msg'] = "Lỗi truy xuất database";
+            $jsonObj['msg'] = "Cập nhật dữ liệu không thành công";
         }
         echo json_encode($jsonObj);
     }
@@ -58,7 +58,7 @@ class calendar extends Controller
             $jsonObj['msg'] = "Cập nhật dữ liệu thành công";
         } else {
             $jsonObj['success'] = false;
-            $jsonObj['msg'] = "Lỗi truy xuất database";
+            $jsonObj['msg'] = "Cập nhật dữ liệu không thành công";
         }
         echo json_encode($jsonObj);
     }
@@ -86,7 +86,7 @@ class calendar extends Controller
             $jsonObj['msg'] = "Cập nhật dữ liệu thành công";
         } else {
             $jsonObj['success'] = false;
-            $jsonObj['msg'] = "Lỗi truy xuất database";
+            $jsonObj['msg'] = "Cập nhật dữ liệu không thành công";
         }
         echo json_encode($jsonObj);
     }
@@ -99,7 +99,7 @@ class calendar extends Controller
             $jsonObj['msg'] = "Cập nhật dữ liệu thành công";
         } else {
             $jsonObj['success'] = false;
-            $jsonObj['msg'] = "Lỗi truy xuất database";
+            $jsonObj['msg'] = "Cập nhật dữ liệu không thành công";
         }
         echo json_encode($jsonObj);
     }

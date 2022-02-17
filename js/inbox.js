@@ -582,6 +582,7 @@ function deleteMsg() {
                         "inbox/deleteMsg", {ids:oChild,type:type},
                         function (data, status) {
                             if (data.success) {
+                                $("#my-task-list").load(window.location.href + "?type="+type+" #my-task-list");
                                 getCount();
                                 $(".user-action").find(".custom-checkbox input:checked").closest(".media").remove();
                                if(type != 'trash') {
@@ -617,6 +618,7 @@ function deleteMsg() {
                 "inbox/deleteMsg", {ids:oChild,type:type},
                 function (data, status) {
                     if (data.success) {
+                        $("#my-task-list").load(window.location.href + "?type="+type+" #my-task-list");
                         getCount();
                         $(".user-action").find(".custom-checkbox input:checked").closest(".media").remove();
                        if(type != 'trash') {
@@ -750,14 +752,14 @@ $('#my-task-list').scroll(function (e) {
                                     else
                                         $new = '';
                             $('.email-media-list').append(`
-                            <li class="media" onclick="toggleEmail(${item.id})" id="'.$item['id'].'">
+                            <li class="media" onclick="toggleEmail(${item.id})" id="${item.id}">
                                         <div class="media-left pr-50">
                                             <div class="avatar">`+
                                                 '<img onerror='+"this.src='https://velo.vn/goffice-test/layouts/useravatar.png'"+' src="'+$avatar+'" alt="avatar" />'+
                                             `</div>
                                             <div class="user-action">
                                                 <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input" id="customCheck${item.id}'" />
+                                                    <input type="checkbox" class="custom-control-input" id="customCheck${item.id}" />
                                                     <label class="custom-control-label" for="customCheck${item.id}"></label>
                                                 </div>
                                             </div>
