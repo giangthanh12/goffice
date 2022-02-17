@@ -67,18 +67,18 @@ document.addEventListener('DOMContentLoaded', function () {
     btnDeleteEvent = $('.btn-delete-event'),
     calendarEditor = $('#event-description-editor');
   // Description Editor
-  // if (calendarEditor.length) {
-  //   var calDescEditor = new Quill("#event-description-editor", {
-  //     bounds: "#event-description-editor",
-  //     modules: {
-  //       formula: true,
-  //       syntax: true,
-  //       toolbar: ".desc-toolbar",
-  //     },
-  //     placeholder: "Mô tả",
-  //     theme: "snow",
-  //   });
-  // }
+  if (calendarEditor.length) {
+    var calDescEditor = new Quill("#event-description-editor", {
+      bounds: "#event-description-editor",
+      modules: {
+        formula: true,
+        syntax: true,
+        toolbar: ".desc-toolbar",
+      },
+      placeholder: "Ghi chú",
+      theme: "snow",
+    });
+  }
   // --------------------------------------------
   // On add new item, clear sidebar-right field fields
   // --------------------------------------------
@@ -179,6 +179,25 @@ document.addEventListener('DOMContentLoaded', function () {
   // Event click function
   function eventClick(info) {
     add = 1;
+    resetValues();
+    var start = startDate.flatpickr({
+      enableTime: true,
+      altFormat: 'Y-m-dTH:i:S',
+      onReady: function (selectedDates, dateStr, instance) {
+        if (instance.isMobile) {
+          $(instance.mobileInput).attr('step', null);
+        }
+      }
+    });
+    var end = endDate.flatpickr({
+      enableTime: true,
+      altFormat: 'Y-m-dTH:i:S',
+      onReady: function (selectedDates, dateStr, instance) {
+        if (instance.isMobile) {
+          $(instance.mobileInput).attr('step', null);
+        }
+      }
+    });
     eventToUpdate = info.event;
     // if (eventToUpdate.url) {
     //   info.jsEvent.preventDefault();
@@ -208,12 +227,12 @@ document.addEventListener('DOMContentLoaded', function () {
     // eventToUpdate.extendedProps.guests !== undefined
     //   ? eventGuests.val(eventToUpdate.extendedProps.guests).trigger('change')
     //   : null;
-    eventToUpdate.extendedProps.description !== undefined
-      ? calendarEditor.val(eventToUpdate.extendedProps.description)
-      : null;
+    // eventToUpdate.extendedProps.description !== undefined
+    //   ? calendarEditor.val(eventToUpdate.extendedProps.description)
+    //   : null;
 
-    // var quill_editor = $("#event-description-editor .ql-editor");
-    // quill_editor[0].innerHTML = eventToUpdate.extendedProps.description;
+    var quill_editor = $("#event-description-editor .ql-editor");
+    quill_editor[0].innerHTML = eventToUpdate.extendedProps.description;
 
     objectId = eventToUpdate.extendedProps.objectId;
     //  Delete Event
@@ -456,10 +475,10 @@ document.addEventListener('DOMContentLoaded', function () {
         'end-date': { required: true }
       },
       messages: {
-        'start-date': { required: 'Start Date is required' },
-        'end-date': { required: 'End Date is required' }
+        'title': { required: 'Tiêu đề không được để trống' },
+        'start-date': { required: 'Ngày bắt đầu không được để trống' },
+        'end-date': { required: 'Ngày kết thúc không được để trống' }
       }
-
     });
   }
 
@@ -549,13 +568,13 @@ document.addEventListener('DOMContentLoaded', function () {
         }
       };
 
-      // var quill_editor = $("#event-description-editor .ql-editor");
-      // var description = quill_editor[0].innerHTML;
+      var quill_editor = $("#event-description-editor .ql-editor");
+      var description = quill_editor[0].innerHTML;
       var eventData = {
         title: sidebar.find(eventTitle).val(),
         startDate: startDate.val(),
         endDate: endDate.val(),
-        description: calendarEditor.val(),
+        description: description,
         objectType: eventLabel.val(),
         objectId: objectId,
       };
@@ -584,12 +603,12 @@ document.addEventListener('DOMContentLoaded', function () {
   // Update new event
   updateEventBtn.on('click', function () {
     if (eventForm.valid()) {
-      // var quill_editor = $("#event-description-editor .ql-editor");
-      // var description = quill_editor[0].innerHTML;
+      var quill_editor = $("#event-description-editor .ql-editor");
+      var description = quill_editor[0].innerHTML;
       var eventData = {
         id: eventToUpdate.id,
         title: sidebar.find(eventTitle).val(),
-        description: sidebar.find(calendarEditor).val(),
+        description: description,
         objectType: eventLabel.val(),
         objectId: objectId,
       };
@@ -617,10 +636,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Reset sidebar input values
   function resetValues() {
+    eventForm.validate().resetForm();
+    $(".error").removeClass("error");
+    eventTitle.val('');
+    eventLabel.val(1).change();
+    startDate.val('');
     endDate.val('');
     // eventUrl.val('');
-    startDate.val('');
-    eventTitle.val('');
     // eventLocation.val('');
     // allDaySwitch.prop('checked', false);
     // eventGuests.val('').trigger('change');
@@ -668,6 +690,31 @@ function loadAdd() {
   $("#add-new-sidebar").modal('show');
   $(".modal-title").html('Thêm mới sự kiện');
   add = 0;
+  if ($('#start-date').length) {
+    $('#start-date').flatpickr({
+      enableTime: true,
+      altFormat: 'Y-m-dTH:i:S',
+      onReady: function (selectedDates, dateStr, instance) {
+        if (instance.isMobile) {
+          $(instance.mobileInput).attr('step', null);
+        }
+      }
+    });
+  }
+
+  // End date picker
+  if ($('#end-date').length) {
+    $('#end-date').flatpickr({
+      enableTime: true,
+      altFormat: 'Y-m-dTH:i:S',
+      minDate: "today",
+      onReady: function (selectedDates, dateStr, instance) {
+        if (instance.isMobile) {
+          $(instance.mobileInput).attr('step', null);
+        }
+      }
+    });
+  }
   $('#start-date').attr("disabled", false);
   $('#end-date').attr("disabled", false);
   $('#select-label').attr("disabled", false);
@@ -675,17 +722,34 @@ function loadAdd() {
 
 function changeStartDate() {
   if (add == 0) {
-    if ($('#end-date').length) {
-      var end = $('#end-date').flatpickr({
-        enableTime: true,
-        altFormat: 'Y-m-dTH:i:S',
-        minDate: $('#start-date').val(),
-        onReady: function (selectedDates, dateStr, instance) {
-          if (instance.isMobile) {
-            $(instance.mobileInput).attr('step', null);
+    var startDay = new Date($('#start-date').val());
+    var date = new Date();
+    if (startDay >= date) {
+      if ($('#end-date').length) {
+        var end = $('#end-date').flatpickr({
+          enableTime: true,
+          altFormat: 'Y-m-dTH:i:S',
+          minDate: $('#start-date').val(),
+          onReady: function (selectedDates, dateStr, instance) {
+            if (instance.isMobile) {
+              $(instance.mobileInput).attr('step', null);
+            }
           }
-        }
-      });
+        });
+      }
+    } else {
+      if ($('#end-date').length) {
+        var end = $('#end-date').flatpickr({
+          enableTime: true,
+          altFormat: 'Y-m-dTH:i:S',
+          minDate: "today",
+          onReady: function (selectedDates, dateStr, instance) {
+            if (instance.isMobile) {
+              $(instance.mobileInput).attr('step', null);
+            }
+          }
+        });
+      }
     }
   }
 }
