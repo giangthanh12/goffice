@@ -30,21 +30,21 @@ $(function () {
         // selectArray = $('.select2-data-array'),
 
         statusObj = {
-            1: {title: "Thực tập sinh", class: "badge-light-warning"},
-            2: {title: "Thử việc", class: "badge-light-success"},
-            3: {title: "Chính thức", class: "badge-light-secondary"},
+            1: { title: "Thực tập sinh", class: "badge-light-warning" },
+            2: { title: "Thử việc", class: "badge-light-success" },
+            3: { title: "Chính thức", class: "badge-light-secondary" },
         };
     var basicPickr = $('.flatpickr-basic');
     // Default
     if (basicPickr.length) {
         basicPickr.flatpickr({
             dateFormat: "d/m/Y",
-            defaultDate:"today"
+            defaultDate: "today"
         });
     }
 
     var buttons = [];
-    if(funAdd == 1) {
+    if (funAdd == 1) {
         buttons.push(
             {
                 text: "Thêm mới",
@@ -65,12 +65,12 @@ $(function () {
 
             columns: [
                 // columns according to JSON
-                {data: "name"},
-                {data: "staffCode"},
-                {data: "email"},
-                {data: "phoneNumber"},
-                {data: "status"},
-                {data: ""},
+                { data: "name" },
+                { data: "staffCode" },
+                { data: "email" },
+                { data: "phoneNumber" },
+                { data: "status" },
+                { data: "" },
             ],
             columnDefs: [
 
@@ -126,7 +126,7 @@ $(function () {
                         var $phone = full["phoneNumber"];
                         if ($phone != '') {
                             var roleBadgeObj = {
-                                Phone: feather.icons["phone"].toSvg({class: "font-medium-3 text-primary mr-50"}),
+                                Phone: feather.icons["phone"].toSvg({ class: "font-medium-3 text-primary mr-50" }),
                             };
                             return "<span class='text-truncate align-middle'>" + roleBadgeObj['Phone'] + $phone + "</span>";
                         } else
@@ -139,7 +139,7 @@ $(function () {
                     render: function (data, type, full, meta) {
                         var $email = full["email"];
                         if ($email != '') {
-                            return "<span class='text-truncate align-middle'>" + feather.icons["mail"].toSvg({class: "font-medium-3 text-primary mr-50"}) + $email + "</span>";
+                            return "<span class='text-truncate align-middle'>" + feather.icons["mail"].toSvg({ class: "font-medium-3 text-primary mr-50" }) + $email + "</span>";
                         } else
                             return "";
                     },
@@ -182,7 +182,7 @@ $(function () {
                 {
                     // Actions
                     targets: -1,
-                    title: feather.icons["database"].toSvg({class: "font-medium-3 text-success mr-50"}),
+                    title: feather.icons["database"].toSvg({ class: "font-medium-3 text-success mr-50" }),
                     orderable: false,
                     render: function (data, type, full, meta) {
                         var html = '';
@@ -194,7 +194,7 @@ $(function () {
                         //     }
                         // })
                         html += '<div d-flex justify-content-start style="width::150px;text-align:left">';
-                        if(funEdit == 1) {
+                        if (funEdit == 1) {
                             html += '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" title="Chỉnh sửa" onclick="loaddata(' + full['id'] + ')">';
                             html += '<i class="fas fa-pencil-alt"></i>';
                             html += '</button> &nbsp;';
@@ -204,8 +204,8 @@ $(function () {
                             html += '<i class="fas fa-trash-alt"></i>';
                             html += '</button>';
                         }
-                        html+= '</div>';
-                       
+                        html += '</div>';
+
                         return html;
 
 
@@ -243,18 +243,18 @@ $(function () {
         });
     }
 
-function showAdd() {
-    $('#modals-slide-in').modal('show');
-    $("#name").val('');
-    $("#staffCode").val('');
-    $('#phoneNumber').val('');
-    $('#email').val('');
-    $('#birthday').val('');
-    $("input[type='radio'][name='gender']:checked").val();
-    $('#status').val(1);
-}
+    function showAdd() {
+        $('#modals-slide-in').modal('show');
+        $("#name").val('');
+        $("#staffCode").val('');
+        $('#phoneNumber').val('');
+        $('#email').val('');
+        $('#birthday').val('');
+        $("input[type='radio'][name='gender']:checked").val();
+        $('#status').val(1);
+    }
     // Check Validity
-  
+
 
     function checkValidity(el) {
         if (el.validate().checkForm()) {
@@ -267,47 +267,52 @@ function showAdd() {
     // Form Validation
     if (newUserForm.length) {
         newUserForm.validate({
-          errorClass: "error",
-          rules: {
-            staffCode: {
-              required: true,
+            errorClass: "error",
+            rules: {
+                staffCode: {
+                    required: true,
+                },
+                name: {
+                    required: true,
+                },
+                email: {
+                    required: true,
+                    email: true,
+                },
+                birthday: {
+                    required: true,
+                },
+                phoneNumber: {
+                    required: true,
+                    number: true,
+                    maxlength: 10,
+                    minlength: 10,
+                    min: 0,
+                },
             },
-            name: {
-              required: true,
+            messages: {
+                staffCode: {
+                    required: "Bạn chưa nhập mã nhân viên",
+                },
+                name: {
+                    required: "Bạn chưa nhập họ tên!",
+                },
+                email: {
+                    required: "Bạn chưa nhập email!",
+                    email: "Yêu cầu nhập email!",
+                },
+                birthday: {
+                    required: "Bạn chưa nhập ngày sinh!",
+                },
+                phoneNumber: {
+                    required: "Bạn chưa nhập số điện thoại!",
+                    number: "Yêu cầu nhập số!",
+                    min: "Yêu cầu nhập số bắt đầu từ 0!",
+                    maxlength: "Yêu cầu nhập đủ 10 số!",
+                    minlength: "Yêu cầu nhập đủ 10 số!",
+                },
+               
             },
-            email: {
-              required: true,
-              email: true,
-            },
-            birthday: {
-              required: true,
-            },
-            phoneNumber: {
-              required: true,
-              number: true,
-              min: 0,
-            },
-          },
-          messages: {
-            staffCode: {
-              required: "Bạn chưa nhập mã nhân viên",
-            },
-            name: {
-              required: "Bạn chưa nhập họ tên!",
-            },
-            email: {
-              required: "Bạn chưa nhập email!",
-              email: "Yêu cầu nhập email!",
-            },
-            birthday: {
-              required: "Bạn chưa nhập ngày sinh!",
-            },
-            phoneNumber: {
-              required: "Bạn chưa nhập số điện thoại!",
-              number: "Yêu cầu nhập số!",
-              min: "Yêu cầu nhập số bắt đầu từ 0!",
-            },
-          },
         });
 
         newUserForm.on("submit", function (e) {
@@ -321,7 +326,7 @@ function showAdd() {
     }
 
 
-// Form Validation
+    // Form Validation
     if ($('#formInfoStaff').length) {
         $('#formInfoStaff').validate({
             errorClass: "error",
@@ -339,7 +344,9 @@ function showAdd() {
                 "phoneNumber1": {
                     required: true,
                     number: true,
-                    min: 0
+                    min: 0,
+                    maxlength: 10,
+                    minlength: 10,
                 },
                 "vssId": {
                     number: true,
@@ -351,6 +358,8 @@ function showAdd() {
                 },
                 "idCard": {
                     number: true,
+                    maxlength: 12,
+                    minlength: 12,
                     min: 0
                 },
             },
@@ -369,6 +378,8 @@ function showAdd() {
                     required: "Bạn chưa nhập số điện thoại!",
                     number: "Yêu cầu nhập số!",
                     min: "Yêu cầu nhập số bắt đầu từ 0!",
+                    maxlength: "Yêu cầu nhập đủ 10 số!",
+                    minlength: "Yêu cầu nhập đủ 10 số!",
                 },
                 "vssId": {
                     number: "Yêu cầu nhập số!",
@@ -381,6 +392,8 @@ function showAdd() {
                 "idCard": {
                     number: "Yêu cầu nhập số",
                     min: "Yêu cầu nhập số bắt đầu từ 0!",
+                    maxlength: "Yêu cầu nhập đủ 12 số!",
+                    minlength: "Yêu cầu nhập đủ 12 số!",
                 },
             },
         });
@@ -406,7 +419,7 @@ function showAdd() {
                 "type": {
                     required: true,
                 },
-              
+
                 "staffId": {
                     required: true,
                 },
@@ -419,7 +432,7 @@ function showAdd() {
                 "branchId": {
                     required: true,
                 },
-              
+
                 "workPlaceId": {
                     required: true,
                 },
@@ -432,18 +445,18 @@ function showAdd() {
                 "salaryPercentage": {
                     required: true,
                 },
-              
+
                 "allowance": {
                     required: true,
                 },
                 "startDate": {
                     required: true,
                 },
-              
+
                 "stopDate": {
                     required: true,
                 },
-               
+
             },
             messages: {
                 "nameContract": {
@@ -461,14 +474,14 @@ function showAdd() {
                 "startDate": {
                     required: "Bạn chưa nhập ngày bắt đầu",
                 },
-              
+
                 "stopDate": {
                     required: "Bạn chưa nhập ngày kết thúc",
                 },
             },
-           
+
         });
-    
+
         $('#formContract').on("submit", function (e) {
             var isValid = $('#formContract').valid();
             e.preventDefault();
@@ -487,90 +500,90 @@ function showAdd() {
 });
 
 function loaddata(id) {
-    if(funEdit != 1) {
+    if (funEdit != 1) {
         $('#updateStaff').css('display', 'none');
-        $('#update_nhanvien_info').css('display','none');
+        $('#update_nhanvien_info').css('display', 'none');
     }
     $('#updateinfo').modal('show');
     $.ajax({
         type: "POST",
         dataType: "json",
-        data: {id: id},
+        data: { id: id },
         url: baseHome + "/staff/loaddata",
         success: function (result) {
-          var data = result.nhanvien;
+            var data = result.nhanvien;
 
-          $("#nhanvien").html(data.name);
-          if (data.avatar != "")
-            var $avatar = baseUrlFile + "/uploads/nhanvien/" + data.avatar;
-          else var $avatar = baseHome + "/layouts/useravatar.png";
-          $("#avatar").attr("src", $avatar);
-          //gender
-          if (data.gender == 1) $("#male1").prop("checked", true);
-          else if (data.gender == 2) $("#female1").prop("checked", true);
-          else $("#other1").prop("checked", true);
-          //maritalStatus
-          if (data.maritalStatus == 1) $("#married").prop("checked", true);
-          else if (data.maritalStatus == 2) $("#alone").prop("checked", true);
-          $("#name1").val(data.name);
-          if(data.staffCode != '') {
-            $("#staffCode").attr("disabled","disabled");
-            $("#staffCode").parent().removeClass("col-lg-10 col-md-9");
-            $("#staffCode").parent().addClass("col-lg-12 col-md-12");
-            $("#createCode").parent().removeClass("col-lg-2 col-md-3");
-            $("#createCode").parent().css("display","none");
+            $("#nhanvien").html(data.name);
+            if (data.avatar != "")
+                var $avatar = baseUrlFile + "/uploads/nhanvien/" + data.avatar;
+            else var $avatar = baseHome + "/layouts/useravatar.png";
+            $("#avatar").attr("src", $avatar);
+            //gender
+            if (data.gender == 1) $("#male1").prop("checked", true);
+            else if (data.gender == 2) $("#female1").prop("checked", true);
+            else $("#other1").prop("checked", true);
+            //maritalStatus
+            if (data.maritalStatus == 1) $("#married").prop("checked", true);
+            else if (data.maritalStatus == 2) $("#alone").prop("checked", true);
+            $("#name1").val(data.name);
+            if (data.staffCode != '') {
+                $("#staffCode").attr("disabled", "disabled");
+                $("#staffCode").parent().removeClass("col-lg-10 col-md-9");
+                $("#staffCode").parent().addClass("col-lg-12 col-md-12");
+                $("#createCode").parent().removeClass("col-lg-2 col-md-3");
+                $("#createCode").parent().css("display", "none");
+                $("#staffCode").val(data.staffCode);
+            } else {
+                $("#staffCode").attr("disabled", "none");
+                $("#staffCode").parent().addClass("col-lg-10 col-md-9");
+                $("#staffCode").parent().removeClass("col-lg-12 col-md-12");
+                $("#createCode").parent().css("display", "inline-block");
+                $("#createCode").parent().addClass("col-lg-2 col-md-3");
+                $("#staffCode").val(data.staffCode);
+            }
             $("#staffCode").val(data.staffCode);
-          } else {
-              $("#staffCode").attr("disabled", "none");
-              $("#staffCode").parent().addClass("col-lg-10 col-md-9");
-              $("#staffCode").parent().removeClass("col-lg-12 col-md-12");
-              $("#createCode").parent().css("display", "inline-block");
-              $("#createCode").parent().addClass("col-lg-2 col-md-3");
-              $("#staffCode").val(data.staffCode);
-          }
-          $("#staffCode").val(data.staffCode);
-          $("#branchId").val(data.branchId);
-          $("#birthday1").val(data.birthDay);
-          $("#phoneNumber1").val(data.phoneNumber);
-          $("#email1").val(data.email);
-          $("#address").val(data.address);
-          $("#residence").val(data.residence);
-          $("#idCard").val(data.idCard);
-          $("#idDate").val(data.idDate);
-          $("#status_update").val(data.status);
-          if (data.idDate == "00/00/0000") {
-            $("#idDate").val("").attr("placeholder", "DD/MM/YYYY");
-          }
-          $("#taxCode").val(data.taxCode);
-          $("#idAddress").val(data.idAddress);
-          $("#vssId").val(data.vssId);
-          $("#nationality").val(data.nationality);
-          $("#description").val(data.description);
-          $("#id").val(id);
-          $("#branchId").val(data.branchId);
-          var accessPoints = data.accesspoints.split(",");
-          $("#accesspoints").val(accessPoints).trigger("change");
-          var staffInfo = result.staff_info;
-          if (staffInfo != 0) {
-            $("#twitter").val(staffInfo.twitter);
-            $("#facebook").val(staffInfo.facebook);
-            $("#instagram").val(staffInfo.instagram);
-            $("#zalo").val(staffInfo.zalo);
-            $("#wechat").val(staffInfo.wechat);
-            $("#linkein").val(staffInfo.linkein);
-          } else {
-            $("#socailForm").trigger("reset");
-          }
-// load hợp đồng lao động nhân viên
-          $('#staffId').val(id);
-          loadRecord(id);
-        //   return_combobox_multi('#staffId', baseHome + '/common/listStaff', 'Lựa chọn nhân viên');
-          return_combobox_multi('#type', baseHome + '/common/typeContracts', 'Lựa chọn loại hợp đồng');
-          return_combobox_multi('#departmentId', baseHome + '/common/departments', 'Lựa chọn phòng ban');
-          return_combobox_multi('#branchId', baseHome + '/common/branchs', 'Lựa chọn chi nhánh');
-          return_combobox_multi('#position', baseHome + '/common/positions', 'Lựa chọn vị trí');
-          return_combobox_multi('#shiftId', baseHome + '/common/shifts', 'Lựa chọn ca làm việc');
-          return_combobox_multi('#workPlaceId', baseHome + '/common/workPlaces', 'Địa điểm làm việc');
+            $("#branchId").val(data.branchId);
+            $("#birthday1").val(data.birthDay);
+            $("#phoneNumber1").val(data.phoneNumber);
+            $("#email1").val(data.email);
+            $("#address").val(data.address);
+            $("#residence").val(data.residence);
+            $("#idCard").val(data.idCard);
+            $("#idDate").val(data.idDate);
+            $("#status_update").val(data.status);
+            if (data.idDate == "00/00/0000") {
+                $("#idDate").val("").attr("placeholder", "DD/MM/YYYY");
+            }
+            $("#taxCode").val(data.taxCode);
+            $("#idAddress").val(data.idAddress);
+            $("#vssId").val(data.vssId);
+            $("#nationality").val(data.nationality);
+            $("#description").val(data.description);
+            $("#id").val(id);
+            $("#branchId").val(data.branchId);
+            var accessPoints = data.accesspoints.split(",");
+            $("#accesspoints").val(accessPoints).trigger("change");
+            var staffInfo = result.staff_info;
+            if (staffInfo != 0) {
+                $("#twitter").val(staffInfo.twitter);
+                $("#facebook").val(staffInfo.facebook);
+                $("#instagram").val(staffInfo.instagram);
+                $("#zalo").val(staffInfo.zalo);
+                $("#wechat").val(staffInfo.wechat);
+                $("#linkein").val(staffInfo.linkein);
+            } else {
+                $("#socailForm").trigger("reset");
+            }
+            // load hợp đồng lao động nhân viên
+            $('#staffId').val(id);
+            loadRecord(id);
+            //   return_combobox_multi('#staffId', baseHome + '/common/listStaff', 'Lựa chọn nhân viên');
+            return_combobox_multi('#type', baseHome + '/common/typeContracts', 'Lựa chọn loại hợp đồng');
+            return_combobox_multi('#departmentId', baseHome + '/common/departments', 'Lựa chọn phòng ban');
+            return_combobox_multi('#branchId', baseHome + '/common/branchs', 'Lựa chọn chi nhánh');
+            return_combobox_multi('#position', baseHome + '/common/positions', 'Lựa chọn vị trí');
+            return_combobox_multi('#shiftId', baseHome + '/common/shifts', 'Lựa chọn ca làm việc');
+            return_combobox_multi('#workPlaceId', baseHome + '/common/workPlaces', 'Địa điểm làm việc');
         },
         error: function () {
             notify_error('Lỗi truy xuất database');
@@ -606,7 +619,7 @@ function updateinfo() {
     $.ajax({
         type: "POST",
         dataType: "json",
-        data: {data: info, id: id},
+        data: { data: info, id: id },
         url: baseHome + "/staff/updateinfo",
         success: function (data) {
             if (data.success) {
@@ -658,7 +671,7 @@ function updateInfoStaff() {
     $.ajax({
         type: "POST",
         dataType: "json",
-        data: {data: info},
+        data: { data: info },
         url: baseHome + "/staff/updateInfoStaff",
         success: function (data) {
             if (data.success) {
@@ -690,7 +703,7 @@ function addStaff() {
     $.ajax({
         type: "POST",
         dataType: "json",
-        data: {data: info},
+        data: { data: info },
         url: baseHome + "/staff/add",
         success: function (data) {
             if (data.success) {
@@ -725,7 +738,7 @@ function del(id) {
                 url: baseHome + "/staff/del",
                 type: 'post',
                 dataType: "json",
-                data: {id: id},
+                data: { id: id },
                 success: function (data) {
                     if (data.success) {
                         $('.modal').modal('hide');
@@ -760,10 +773,10 @@ function delContract(id) {
                 url: baseHome + "/staff/delContract",
                 type: 'post',
                 dataType: "json",
-                data: {id: id},
+                data: { id: id },
                 success: function (data) {
                     if (data.success) {
-                      
+
                         notyfi_success(data.msg);
                         $('#add-contract').modal('hide');
                         $("#record-list-table").DataTable().ajax.reload(null, false);
@@ -780,10 +793,10 @@ function showFormContract() {
     $('#formContract')[0].reset();
     $('#add-contract').modal('show');
     var validator = $("#formContract").validate(); // reset form
-        validator.resetForm();
-        $(".error").removeClass("error"); // loại bỏ validate
-    
-     
+    validator.resetForm();
+    $(".error").removeClass("error"); // loại bỏ validate
+
+
     $('.modal-title-contract').html('Thêm hợp đồng cho nhân viên');
     urlContract = baseHome + "/staff/addContract";
 }
@@ -800,13 +813,13 @@ function loadRecord(id) {
             ordering: false,
             columns: [
                 // columns according to JSON
-                {data: "name"},
-                {data: "department"},
-                {data: "basicSalary"},
-                {data: "allowance"},
-                {data: "startDate"},
-                {data: "stopDate"},
-                {data: ""},
+                { data: "name" },
+                { data: "department" },
+                { data: "basicSalary" },
+                { data: "allowance" },
+                { data: "startDate" },
+                { data: "stopDate" },
+                { data: "" },
             ],
             columnDefs: [
 
@@ -861,7 +874,7 @@ function loadRecord(id) {
                     width: 100
                 },
             ],
-            
+
             language: {
                 sLengthMenu: "Hiển thị _MENU_",
                 search: "",
@@ -873,7 +886,7 @@ function loadRecord(id) {
                 },
                 info: "Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
             },
-           
+
         });
     }
 }
@@ -881,7 +894,7 @@ function loadRecord(id) {
 function loaddataContract(id) {
     $('#add-contract').modal('show');
     $('.modal-title-contract').html('Cập nhật hợp đồng cho nhân viên');
-   
+
 
     if (funEdit == 1)
         $('#btnUpdate').removeClass('d-none');
@@ -890,7 +903,7 @@ function loaddataContract(id) {
     $.ajax({
         type: "POST",
         dataType: "json",
-        data: {id: id},
+        data: { id: id },
         url: baseHome + "/staff/loaddataContract",
         success: function (data) {
             // Default
@@ -915,7 +928,7 @@ function loaddataContract(id) {
                 basicPickr.flatpickr({
                     dateFormat: "d/m/Y",
                     onReady: function (selectedDates, dateStr, instance) {
-                      
+
                         console.log(instance);
                         if (instance.isMobile) {
                             $(instance.mobileInput).attr("step", null);
@@ -934,8 +947,8 @@ function loaddataContract(id) {
 
 // load record
 function saveContract() {
-   
-  
+
+
     var formData = new FormData($('#formContract')[0]);
     $.ajax({
         url: urlContract,
@@ -960,16 +973,16 @@ function saveContract() {
 
 
 function createCodeStaff() {
-  var id = $("#branchId").val();
-  if (id == '') {
-      alert("Chưa có thông tin về chi nhánh làm việc")
-  }
-  else if(id < 10) id = "0"+id;
-  var codeRandom = Math.floor(Math.random() * (9999 - 1000 + 1)) + 1000;
-  if (codeRandom < 1000) codeRandom = "0" + codeRandom;
-  else if (codeRandom < 100) codeRandom = "00" + codeRandom;
-  else if (codeRandom < 10) codeRandom = "000" + codeRandom;
+    var id = $("#branchId").val();
+    if (id == '') {
+        alert("Chưa có thông tin về chi nhánh làm việc")
+    }
+    else if (id < 10) id = "0" + id;
+    var codeRandom = Math.floor(Math.random() * (9999 - 1000 + 1)) + 1000;
+    if (codeRandom < 1000) codeRandom = "0" + codeRandom;
+    else if (codeRandom < 100) codeRandom = "00" + codeRandom;
+    else if (codeRandom < 10) codeRandom = "000" + codeRandom;
 
-  let staffCode = id+''+codeRandom;
-  $("#staffCode").val(staffCode);
+    let staffCode = id + '' + codeRandom;
+    $("#staffCode").val(staffCode);
 }

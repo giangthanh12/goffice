@@ -25,7 +25,7 @@
                                     <th>Email</th>
                                     <th>Điện thoại</th>
                                     <th>Tình trạng</th>
-                                    <th>...</th>
+                                    <th>Thao tác</th>
                                 </tr>
                             </thead>
                         </table>
@@ -468,7 +468,7 @@
                                                                         </span>
                                                                     </div>
                                                                     <input id="instagram" name="instagram" type="text"
-                                                                        class="form-control" placeholder="Link"
+                                                                        class="form-control"
                                                                         aria-describedby="basic-addon5" />
                                                                 </div>
                                                             </div>

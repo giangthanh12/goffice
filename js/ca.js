@@ -152,6 +152,7 @@ $(function () {
                         html += '</button>';
                         return html;
                     },
+                    width:100 
                 },
             ],
             // order: [[2, "desc"]],
@@ -165,9 +166,16 @@ $(function () {
                 '<"col-sm-12 col-md-6"p>' +
                 ">",
             language: {
-                sLengthMenu: "Show _MENU_",
-                search: "Search",
-                searchPlaceholder: "11111111112..",
+                sLengthMenu: "Hiển thị _MENU_",
+                search: "",
+                searchPlaceholder: "Tìm kiếm...",
+                paginate: {
+                    // remove previous & next text from pagination
+                    previous: "&nbsp;",
+                    next: "&nbsp;",
+                },
+                info:"Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
+               
             },
             // Buttons with Dropdown
             buttons: [
@@ -211,13 +219,7 @@ $(function () {
             //         }),
             //     },
             // },
-            language: {
-                paginate: {
-                    // remove previous & next text from pagination
-                    previous: "&nbsp;",
-                    next: "&nbsp;",
-                },
-            },
+         
             initComplete: function () {
                 // Adding role filter once table initialized
                 
