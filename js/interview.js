@@ -252,7 +252,17 @@ document.addEventListener('DOMContentLoaded', function () {
         $('#round').val(eventToUpdate.extendedProps.round);
         $('#div-result').removeClass('d-none');
         $('#result').val(eventToUpdate.extendedProps.result).trigger('change');
-        $('#note').val(eventToUpdate.extendedProps.note);
+        // $('#note').val(eventToUpdate.extendedProps.note);
+        var quill_editor = $("#note .ql-editor");
+        quill_editor[0].innerHTML = eventToUpdate.extendedProps.note;
+        if (funEdit != 1) {
+            $('#campId').attr('disabled', true);
+            $('#canId').attr('disabled', true);
+            $('#dateTime').attr('disabled', true);
+            $('#timeInterview').attr('disabled', true);
+            $('#interviewerIds').attr('disabled', true);
+            $('#result').attr('disabled', true);
+        }
     }
     // Modify sidebar toggler
     function modifyToggler() {
@@ -420,47 +430,49 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         },
         dateClick: function (info) {
-            day = new Date(info.date);
-            today = new Date();
-            today = moment(today).format('YYYY-MM-DD');
-            today = new Date(today + ' 00:00:00');
-            if (day >= today) {
-                $('#updateInterview').css('display', 'inline-block');
-                $('#updateInterview').html('Thêm');
-                if (funAdd != 1) {
-                    $('#updateInterview').css('display', 'none');
+            if (funAdd == 1) {
+                day = new Date(info.date);
+                today = new Date();
+                today = moment(today).format('YYYY-MM-DD');
+                today = new Date(today + ' 00:00:00');
+                if (day >= today) {
+                    $('#updateInterview').css('display', 'inline-block');
+                    $('#updateInterview').html('Thêm');
+                    if (funAdd != 1) {
+                        $('#updateInterview').css('display', 'none');
+                    }
+                    // thêm dựa vào lịch
+                    $('#add-new-sidebar').modal('show');
+                    $('#camId').val('').change();
+                    $('#div-cv').addClass('d-none');
+                    var date = moment(info.date).format('DD-MM-YYYY');
+                    //ngày
+                    $('.flatpickr-basic').flatpickr({
+                        enableTime: true,
+                        dateFormat: "d-m-Y",
+                        defaultDate: date,
+                        minDate: "today"
+                    });
+                    //giờ
+                    $('#timeInterview').flatpickr({
+                        enableTime: true,
+                        noCalendar: true,
+                        dateFormat: "H:i",
+                        defaultDate: "12:00"
+                    });
+                    $('#dateTime').val(date);
+                    $('#idInterview').val('');
+                    $('#campId').val('').change();
+                    $('#canId').val('').change();
+                    $('#interviewerIds').val('').change();
+                    $('#interviewerIds').val('');
+                    $('#result').val(1).change();
+                    $('#note').val('');
+                    $('#div-result').addClass('d-none');
+                    btnDeleteEvent.addClass('d-none');
+                } else {
+                    notify_error('Không thể tạo lịch trong quá khứ!');
                 }
-                // thêm dựa vào lịch
-                $('#add-new-sidebar').modal('show');
-                $('#camId').val('').change();
-                $('#div-cv').addClass('d-none');
-                var date = moment(info.date).format('DD-MM-YYYY');
-                //ngày
-                $('.flatpickr-basic').flatpickr({
-                    enableTime: true,
-                    dateFormat: "d-m-Y",
-                    defaultDate: date,
-                    minDate: "today"
-                });
-                //giờ
-                $('#timeInterview').flatpickr({
-                    enableTime: true,
-                    noCalendar: true,
-                    dateFormat: "H:i",
-                    defaultDate: "12:00"
-                });
-                $('#dateTime').val(date);
-                $('#idInterview').val('');
-                $('#campId').val('').change();
-                $('#canId').val('').change();
-                $('#interviewerIds').val('').change();
-                $('#interviewerIds').val('');
-                $('#result').val(1).change();
-                $('#note').val('');
-                $('#div-result').addClass('d-none');
-                btnDeleteEvent.addClass('d-none');
-            } else {
-                notify_error('Không thể tạo lịch trong quá khứ!');
             }
         },
         eventClick: function (info) {
