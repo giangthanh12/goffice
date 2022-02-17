@@ -647,6 +647,8 @@ document.addEventListener('DOMContentLoaded', function () {
     // allDaySwitch.prop('checked', false);
     // eventGuests.val('').trigger('change');
     calendarEditor.val('');
+    var quill_editor = $("#event-description-editor .ql-editor");
+    quill_editor[0].innerHTML = "";
   }
 
   // When modal hides reset input values
