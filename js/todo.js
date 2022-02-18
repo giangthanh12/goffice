@@ -53,21 +53,21 @@ $(function () {
             "todo/addCalendar", { taskId: taskId, addCalendar: addCalendar },
             function (data, status) {
                 if (data.success) {
-                    if(addCalendar==1) {
+                    if (addCalendar == 1) {
                         toastr["success"]("Thêm vào lịch thành công", "Thành công", {
                             closeButton: true,
                             tapToDismiss: false,
                             rtl: isRtl,
                         });
                     } else {
-                        toastr["success"]("Bỏ lịch thành công","Thành công", {
+                        toastr["success"]("Bỏ lịch thành công", "Thành công", {
                             closeButton: true,
                             tapToDismiss: false,
                             rtl: isRtl,
                         });
                     }
-                   
-                } 
+
+                }
             },
             "json"
         );
@@ -231,7 +231,7 @@ $(function () {
                 syntax: true,
                 toolbar: ".desc-toolbar",
             },
-            placeholder: "Mô tả dự án",
+            placeholder: "Mô tả công việc",
             theme: "snow",
         });
     }
@@ -242,6 +242,8 @@ $(function () {
             addBtn.removeClass("d-none");
             updateBtns.addClass("d-none");
             modalTitle.text("Thêm công việc");
+            $('#form-modal-todo').validate().resetForm();
+            $(".error").removeClass("error");
             // newTaskModal.modal('show');
             sidebarLeft.removeClass("show");
             overlay.removeClass("show");
