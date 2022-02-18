@@ -747,13 +747,15 @@ function leadSearch() {
                 html += '</div>';
                 html += '</div>';
                 html += '<div class="chat-meta text-nowrap">';
-                html += '<div class="float-right dropdown">';
-                html += '<i class="bx bx-dots-vertical-rounded bx-md icon-dots"></i>';
-                html += '<div class="dropdown-content">';
-                html += '<span class="updateLead" onclick="loadData(' + value.id + ')">Cập nhật</span>';
-                html += '<span class="deleteLead" onclick="deleteLead(' + value.id + ')">Xóa</span>';
-                html += '</div>';
-                html += '</div>';
+                if(funEdit==1) {
+                    html += '<div class="float-right dropdown">';
+                    html += '<i class="bx bx-dots-vertical-rounded bx-md icon-dots"></i>';
+                    html += '<div class="dropdown-content">';
+                    html += '<span class="updateLead" onclick="loadData(' + value.id + ')">Cập nhật</span>';
+                    html += '<span class="deleteLead" onclick="deleteLead(' + value.id + ')">Xóa</span>';
+                    html += '</div>';
+                    html += '</div>';
+                }
                 html += '<div class="btn-statement">';
                 html += '<br>';
                 if (value.status == 1) {
