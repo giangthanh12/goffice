@@ -21,7 +21,13 @@
                                     <th>Nhãn công việc</th>
                                     <th>Mã màu</th>
                                     <th>Trạng thái</th>
-                                    <th>Thao tác</th>
+                                    <?php
+                                    if($this->funEdit==1 || $this->funDel==1) { 
+                                    ?>
+                                        <th>Thao tác</th>
+                                    <?php
+                                    }
+                                    ?>
                                 </tr>
                             </thead>
                         </table>
@@ -81,7 +87,8 @@
 </div>
 <script>
     var userFuns = JSON.parse('<?=json_encode($this->funs)?>');
-    console.log(userFuns);
+    var funEdit = <?=$this->funEdit?>,
+    funDel = <?=$this->funDel?>;
 </script>
 
 <script src="<?= HOME ?>/js/task_labels.js"></script>

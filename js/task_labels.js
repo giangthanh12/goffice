@@ -1,12 +1,4 @@
-
-
-
-
-
-
 $(function () {
-
-
     return_combobox_multi('#parentId', baseHome + '/menu/combo', 'Lựa chọn cha cho menu');
 
     var basicPickr = $('.flatpickr-basic');
@@ -41,6 +33,12 @@ $(function () {
         }
     })
 
+    if(funEdit!=1 || funDel!=1) {
+        var visible = false;
+    } else {
+        var visible = true;
+    }
+
     if (dtUserTable.length) {
         dtUserTable.DataTable({
             // ajax: assetPath + "data/user-list.json", // JSON file to add data
@@ -74,13 +72,12 @@ $(function () {
 
                     },
                 },
-              
-           
                 {
                     // Actions
                     targets: -1,
                     title:'Thao tác',
                     orderable: false,
+                    visible: visible,
                     render: function (data, type, full, meta) {
                         var html = '';
                         userFuns.forEach(function (item){
