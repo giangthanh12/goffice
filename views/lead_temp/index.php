@@ -156,7 +156,7 @@
                                         </div>
                                         <div class="content-right-icon col-lg-6">
                                             <!-- <i class='bx bx-trash-alt bx-sm'></i> -->
-                                            <i class='bx bx-pencil bx-sm'></i>
+                                            <!-- <i class='bx bx-pencil bx-sm'></i> -->
                                         </div>
                                     </div>
                                     <hr style="border-top: 1px solid black; margin:1rem;">
@@ -640,4 +640,7 @@
     </div>
 
 </div>
+<script>
+var funEdit = <?=$this->funEdit?>;
+</script>
 <script src="<?= HOME ?>/js/lead_temp.js"></script>
