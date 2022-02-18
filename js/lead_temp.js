@@ -75,7 +75,7 @@ $(function () {
                 syntax: true,
                 toolbar: ".desc-toolbar",
             },
-            placeholder: "Write Your Description",
+            placeholder: "Nội dung chăm sóc",
             theme: "snow",
         });
     }
@@ -86,9 +86,9 @@ $(function () {
             modules: {
                 formula: true,
                 syntax: true,
-                toolbar: ".desc-toolbar-2",
+                toolbar: ".desc-toolbar-3",
             },
-            placeholder: "Write Your Description",
+            placeholder: "Mô tả",
             theme: "snow",
             value: "",
         });
@@ -100,9 +100,9 @@ $(function () {
             modules: {
                 formula: true,
                 syntax: true,
-                toolbar: ".desc-toolbar-3",
+                toolbar: ".desc-toolbar-2",
             },
-            placeholder: "Write Your Description",
+            placeholder: "Mô tả",
             theme: "snow",
         });
     }
@@ -413,12 +413,12 @@ function saveLead() {
         // $('#fmLead').validate({
         //     submitHandler: function (form) {
         var formData = new FormData($('#fmLead')[[0]]);
-        // var comment = $('#leadDesc').find(".ql-editor p").html();
-        // if (comment == '<br>') {
-        //     notify_error('Vui lòng nhập mô tả!');
-        //     return false;
-        // }
-        // formData.append('leadDes', comment)
+        var comment = $('#leadDesc').find(".ql-editor p").html();
+        if (comment == '<br>') {
+            notify_error('Vui lòng nhập mô tả!');
+            return false;
+        }
+        formData.append('leadDesc', comment)
         $.ajax({
             url: baseHome + "/lead_temp/insertLead",
             type: 'POST',
@@ -562,8 +562,8 @@ function showModalTakeCare() {
 function showModalLead() {
     $('#leadName').val('');
     $('#leadCustomer').val('').change();
-    // var quill_editor = $("#leadDesc .ql-editor");
-    // quill_editor[0].innerHTML = '';
+    var quill_editor = $("#leadDesc .ql-editor");
+    quill_editor[0].innerHTML = '';
     $('#new-lead-modal').modal('show');
 }
 
@@ -658,10 +658,10 @@ function updateLead() {
 
             var formData = new FormData(form);
             var comment = $('#leadDescUpdate').find(".ql-editor p").html();
-            // if (comment == '<br>') {
-            //     notify_error('Vui lòng nhập mô tả!');
-            //     return false;
-            // }
+            if (comment == '<br>') {
+                notify_error('Vui lòng nhập mô tả!');
+                return false;
+            }
             formData.append('leadDescUpdate', comment)
             $.ajax({
                 url: baseHome + "/lead_temp/updateLead",
@@ -836,3 +836,15 @@ function changeCustomer() {
 //     $('.user-chats').scrollTop($('.user-chats > .chats').height());
 //   }
 // }
+
+function changeStart() {
+    var fromDate = $('#fromDate').val();
+    if ($('#toDate').length) {
+        $('#toDate').flatpickr({
+            dateFormat: "d/m/Y",
+            defaultDate: "",
+            readonly: true,
+            minDate: fromDate
+        });
+    }
+}

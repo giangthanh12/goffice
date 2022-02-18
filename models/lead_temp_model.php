@@ -10,7 +10,7 @@ class lead_temp_Model extends Model
     {
         $result = array();
         $where = " WHERE status IN (1,2,3) ";
-        $query = $this->db->query("SELECT id, customerId, name, description, status, dateTime,
+        $query = $this->db->query("SELECT id, customerId, name, description, status, DATE_FORMAT(dateTime,'%d-%m-%Y %H:%i:%s') AS dateTime,
         (SELECT fullName FROM customers WHERE id = lead.customerId) AS fullName
         FROM lead $where ORDER BY id DESC");
         if ($query)
