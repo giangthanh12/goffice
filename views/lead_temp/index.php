@@ -21,11 +21,11 @@
                 <div class="row">
                     <div class="form-group col-lg-6">
                         <label for="task-due-date" class="form-label">Từ ngày</label>
-                        <input type="text" class="form-control task-due-date" id="fromDate" name="fromDate" placeholder="DD/MM/YYYY" />
+                        <input type="text" class="form-control task-due-date" id="fromDate" name="fromDate" placeholder="Từ ngày" onchange="changeStart()" />
                     </div>
                     <div class="form-group col-lg-6">
                         <label for="task-due-date" class="form-label">Đến ngày</label>
-                        <input type="text" class="form-control task-due-date" id="toDate" name="toDate" placeholder="DD/MM/YYYY" />
+                        <input type="text" class="form-control task-due-date" id="toDate" name="toDate" placeholder="Đến ngày" />
                     </div>
                 </div>
             </div>
@@ -333,11 +333,11 @@
                                 <input type="text" id="leadName" name="leadName" class="new-todo-item-title form-control" placeholder="Tên cơ hội" />
                                 <input type="hidden" id="id" name="id">
                             </div>
-                            <div class="form-group">
+                            <!-- <div class="form-group">
                                 <label for="leadDesc" class="form-label">Mô tả cơ hội</label>
                                 <textarea id="leadDesc" name="leadDesc" class="new-todo-item-title form-control" rows="3" placeholder="Mô tả cơ hội" ></textarea>
-                            </div>
-                            <!-- <div class="form-group">
+                            </div> -->
+                            <div class="form-group">
                                 <label class="form-label">Mô tả cơ hội</label>
                                 <div id="leadDesc" name="leadDesc" class="border-bottom-0" data-placeholder="Mô tả cơ hội" required></div>
                                 <div class="d-flex justify-content-end desc-toolbar-2 border-top-0">
@@ -349,7 +349,7 @@
                                         <button class="ql-link"></button>
                                     </span>
                                 </div>
-                            </div> -->
+                            </div>
                             <div class="form-group position-relative">
                                 <label for="task-assigned" class="form-label d-block">Khách hàng</label>
                                 <select class="select2 form-control" id="leadCustomer" name="leadCustomer" required onchange="changeCustomer()">
