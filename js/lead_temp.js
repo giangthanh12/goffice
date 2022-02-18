@@ -504,7 +504,7 @@ $('#list-lead').on('click', '.sidebar-list', function () {
             $('#representative').html(data.representative);
             $('#phoneNumber').html(data.phoneNumber);
             $('#email').html(data.email);
-            $('#dateTime').html(data.dateTime);
+            // $('#dateTime').html(data.dateTime);
             $('#staffName').html(data.staffId);
             if (data.status == 1)
                 $('#status').html('<button class="btn-statement-orange">Khách hàng mới</button>');

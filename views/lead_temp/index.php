@@ -237,14 +237,14 @@
                                                     <p id="email"></p>
                                                 </div>
                                             </div>
-                                            <div class="row">
+                                            <!-- <div class="row">
                                                 <div class="col-lg-5">
                                                     <p>Ngày tạo:</p>
                                                 </div>
                                                 <div class="col-lg-7">
                                                     <p id="dateTime"></p>
                                                 </div>
-                                            </div>
+                                            </div> -->
                                         </div>
                                     </div>
                                 </div>

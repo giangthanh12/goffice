@@ -23,8 +23,8 @@ class lead_temp_Model extends Model
         $result = array();
         $where = " WHERE status > 0 AND id = $id ";
         $query = $this->db->query("SELECT fullName, taxCode, address, type, status, representative, phoneNumber, email,
-        (SELECT name FROM staffs WHERE staffs.id = customers.staffInCharge) AS staffName
-        FROM customers $where ");
+        (SELECT name FROM staffs WHERE id = a.staffInCharge) AS staffName
+        FROM customers a $where ");
         $result = $query->fetchAll(PDO::FETCH_ASSOC);
         if (isset($result[0]))
             return $result[0];
@@ -104,7 +104,7 @@ class lead_temp_Model extends Model
             $where .= " AND dateTime <= '$toDate' ";
         }
         $query = $this->db->query("SELECT id, customerId, name, description, status,
-            DATE_FORMAT(dateTime,'%d/%m/%Y') as dateTime,
+            DATE_FORMAT(dateTime,'%d-%m-%Y %H:%i:%s') AS dateTime,
             (SELECT fullName FROM customers WHERE customers.id = lead.customerId) AS fullName
             FROM lead $where ORDER BY id DESC ");
         $temp = $query->fetchAll(PDO::FETCH_ASSOC);
