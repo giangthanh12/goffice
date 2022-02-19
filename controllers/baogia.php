@@ -38,7 +38,7 @@ class baogia extends Controller{
         $contact = $_REQUEST['cusContact'];
         $phone = $_REQUEST['cusPhone'];
         $email = $_REQUEST['cusEmail'];
-        $data = ['fullName'=>$customer, 'shortName'=>$customer, 'address'=>$address, 'date'=>date('Y-m-d'), 'provinceId'=>$city, 'status'=>1];
+        $data = ['fullName'=>$customer, 'name'=>$customer, 'address'=>$address, 'date'=>date('Y-m-d'), 'provinceId'=>$city, 'status'=>1];
         $ok = $this->model->newCustomer($data,$contact,$phone,$email);
         if ($ok) {
             $jsonObj['msg'] = "Đã thêm khách hàng";
