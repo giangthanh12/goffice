@@ -186,12 +186,12 @@ $(function () {
           render: function (data, type, full, meta) {
             return (
               '<div class="d-flex align-items-center col-actions">' +
-              '<span class="mr-1" id="sendMail" data-toggle="tooltip" onclick="sendMail('+full['invoice_id']+')" data-placement="top" title="Send Mail">' +
+              '<span class="mr-1" id="sendMail" data-toggle="tooltip" onclick="sendMail('+full['invoice_id']+')" data-placement="top" title="Gửi mail">' +
               feather.icons['send'].toSvg({ class: 'font-medium-2' }) +
               '</span>' +
               '<a class="mr-1" href="' +
               invoicePreview +
-              '?id='+full['invoice_id']+'" data-toggle="tooltip" data-placement="top" title="Preview Invoice">' +
+              '?id='+full['invoice_id']+'" data-toggle="tooltip" data-placement="top" title="Xem chi tiết">' +
               feather.icons['eye'].toSvg({ class: 'font-medium-2' }) +
               '</a>' +
               '<div class="dropdown">' +
