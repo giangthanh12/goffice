@@ -205,7 +205,7 @@
                                                 <div class="col-12 col-sm-6">
                                                     <div class="form-group">
                                                         <label for="cmnd">CMND/CCCD</label>
-                                                        <input type="text" class="form-control flatpickr" placeholder="CMND/CCCD" id="cmnd" name="cmnd" />
+                                                        <input type="number" class="form-control flatpickr" placeholder="CMND/CCCD" id="cmnd" name="cmnd" />
                                                     </div>
                                                 </div>
                                                 <div class="col-12 col-sm-6">
@@ -406,7 +406,7 @@
                                             </div>
                                             <div class="col-12">
                                                 <button type="submit" class="btn btn-primary mt-2 mr-1">Lưu thay đổi</button>
-                                                <button type="reset" class="btn btn-outline-secondary mt-2">Đóng</button>
+                                                <!-- <button type="reset" class="btn btn-outline-secondary mt-2">Đóng</button> -->
                                             </div>
                                         </div>
                                     </div>

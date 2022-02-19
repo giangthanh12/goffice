@@ -21,17 +21,17 @@
                         <div class="col-md-3 classify3">
                             <select id="classify3" data-column="5" class="select2 form-control" name="classify3">
                                 <option value="0" selected>Tất cả</option>
-                                <option value="1">Khách hàng</option>
-                                <option value="2">Nhà cung cấp</option>
-                                <option value="3">Cả hai</option>
+                                <option value="1">Khách hàng tiềm năng</option>
+                                <option value="2">Khách hàng đang dùng dịch vụ</option>
+                                <option value="3">Khách hàng đã ngừng dịch vụ</option>
                             </select>
                         </div>
                         <div class="col-md-3 type2">
                             <select id="type2" data-column="6" class="select2 form-control" name="type2">
                                 <option value="0" selected>Tất cả</option>
-                                <option value="1">Sản xuất</option>
-                                <option value="2">Thương mại</option>
-                                <option value="3">Dịch vụ</option>
+                                <option value="1">Cá nhân</option>
+                                <option value="2">Tổ chức</option>
+                                <!-- <option value="3">Dịch vụ</option> -->
                             </select>
                         </div>
                         <div class="col-md-3 provinceId2">
@@ -147,10 +147,10 @@
                                                         <div class="form-group">
                                                             <label for="status">Trạng thái</label>
                                                             <select id="status" class="select2 form-control" name="status">
-                                                                <!-- <option value="1">Khách hàng mới</option> -->
-                                                                <option value="2">Đang dùng dịch vụ</option>
-                                                                <option value="3">Tạm dừng dùng dịch vụ</option>
-                                                                <option value="4">Đã dừng dùng dịch vụ</option>
+                                                            <option value="1" selected>Khách hàng tiềm năng</option>
+                                                            <option value="2">Khách hàng đang dùng dịch vụ</option>
+                                                            <!-- <option value="3">Tạm dừng dùng dịch vụ</option> -->
+                                                            <option value="3">Khách hàng đã ngừng dùng dịch vụ</option>
                                                             </select>
                                                         </div>
                                                     </div>
@@ -213,7 +213,7 @@
                                                             </div>
                                                             <div class="col-lg-4 col-md-6">
                                                                 <div class="form-group">
-                                                                    <label for="type1">Loại</label>
+                                                                    <label for="type1">Loại hình hoạt động</label>
                                                                     <select id="type1" class="select2 form-control" name="type1" onchange="changeType()">
                                                                         <option value="1">Cá nhân</option>
                                                                         <option value="2">Tổ chức</option>
@@ -279,12 +279,23 @@
 
                                                             <div class="col-lg-4 col-md-6">
                                                                 <div class="form-group">
-                                                                    <label for="field1">Lĩnh vực của khách hàng</label>
-                                                                    <input id="field1" name="field1" type="text" class="form-control" placeholder="Lĩnh vực kinh doanh" />
+                                                                    <label for="field1">Lĩnh vực kinh doanh</label>
+                                                                    <select class="form-control" name="field1" id="field1">
+                                                                        <option value="1">Công nghệ thông tin</option>
+                                                                        <option value="2">Chứng khoán đầu tư</option>
+                                                                        <option value="3">Tài chính ngân hàng</option>
+                                                                        <option value="4">Du lịch - khách hàng</option>
+                                                                        <option value="5">Xây dựng - bất động sản</option>
+                                                                        <option value="6">Sản xuất chế tạo</option>
+                                                                        <option value="7">Dịch vụ ăn uống</option>
+                                                                        <option value="8">Vận tải hành khách</option>
+                                                                        <option value="9">Logistic</option>
+                                                                    </select>
+                                                                    <!-- <input id="field1" name="field1" type="text" class="form-control" placeholder="Lĩnh vực kinh doanh" /> -->
                                                                 </div>
                                                             </div>
 
-                                                            <div class="col-lg-4 col-md-6">
+                                                            <!-- <div class="col-lg-4 col-md-6">
                                                                 <div class="form-group">
                                                                     <label for="type1">Loại hình hoạt động</label>
                                                                     <select id="type1" class="select2 form-control" name="type1">
@@ -293,7 +304,7 @@
                                                                         <option value="3">Dịch vụ</option>
                                                                     </select>
                                                                 </div>
-                                                            </div>
+                                                            </div> -->
 
                                                             <div class="col-lg-4 col-md-6">
                                                                 <div class="form-group">
@@ -375,10 +386,10 @@
                                                                 <div class="form-group">
                                                                     <label for="status1">Trạng thái</label>
                                                                     <select id="status1" class="select2 form-control" name="status1">
-                                                                        <!-- <option value="1" selected>Khách hàng mới</option> -->
-                                                                        <option value="2">Đang dùng dịch vụ</option>
-                                                                        <option value="3">Tạm dừng dùng dịch vụ</option>
-                                                                        <option value="4">Đã dừng dùng dịch vụ</option>
+                                                                        <option value="1" selected>Khách hàng tiềm năng</option>
+                                                                        <option value="2">Khách hàng đang dùng dịch vụ</option>
+                                                                        <!-- <option value="3">Tạm dừng dùng dịch vụ</option> -->
+                                                                        <option value="3">Khách hàng đã ngừng dùng dịch vụ</option>
                                                                     </select>
                                                                 </div>
                                                             </div>
@@ -419,11 +430,16 @@
                                                         <h6 class="py-1 mx-1 mb-0 font-medium-2">
                                                             <i data-feather="lock" class="font-medium-3 mr-25"></i>
                                                             <span class="align-middle">Chi tiết</span>
+                                                            <button class="dt-button add-new-contact btn btn-primary mt-50" onclick="showFormTransaction()" tabindex="0" aria-controls="DataTables_Table_0" type="button">
+                                                                <span>Thêm mới</span>
+                                                            </button>
                                                         </h6>
                                                         <table class="table table-striped table-borderless" id="transaction-list-table">
                                                             <thead class="thead-light ">
                                                                 <tr>
                                                                     <th>Thời gian giao dịch</th>
+                                                                    <th>Tên hợp đồng</th>
+                                                                    <th>Sản phẩm</th>
                                                                     <th>Loại giao dịch</th>
                                                                     <th>Số tiền</th>
                                                                     <th>Ghi chú</th>
@@ -439,6 +455,74 @@
                             </div>
                         </div>
                     </div>
+      <!-- showFormTransaction -->
+      <div class="modal fade text-left" id="modalTransaction" tabindex="-1" role="dialog" aria-labelledby="myModalLabel16" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title-transaction" id="myModalLabel16"></h4>
+                                </div>
+                                <div class="modal-body">
+                                    <!-- <input type="hidden" id="id" name="id" /> -->
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <form class="form-validate" enctype="multipart/form-data" id="dgTransaction">
+                                                
+                                                <div class="row mt-1">
+                                                    <div class="col-md-6 form-group">
+                                                        <label for="nameTransaction">Tên hợp đồng</label>
+                                                        <input id="nameTransaction" name="nameTransaction" type="text" class="form-control" />
+                                                    </div>
+                                                    <div class="col-md-6 form-group">
+                                                        <label for="productId">Sản phẩm</label>
+                                                        <select id="productId" name="productId" class="form-control">
+
+                                                        </select>
+                                                        <!-- <input id="productId" name="productId" type="text" class="form-control" /> -->
+                                                    </div>
+                                                    <div class="col-md-6 form-group">
+                                                        <label for="asset">Số tiền giao dịch</label>
+                                                        <input id="asset" name="asset" type="text" class="form-control format_number" />
+                                                    </div>
+
+                                                    <div class="col-md-6 form-group">
+                                                        <label for="dateTime">Thời gian giao dịch</label>
+                                                        <input id="dateTime" name="dateTime" type="email" class="form-control" />
+                                                    </div>
+                                                    <div class="col-md-6 form-group">
+                                                        <label for="performedId">Nhân viên thực hiện</label>
+                                                        <select id="performedId" name="performedId" class="form-control">
+
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-6 form-group">
+                                                        <label for="typeTransaction">Loại giao dịch</label>
+                                                        <select id="typeTransaction" name="typeTransaction" class="form-control">
+                                                            <option value="1">Đơn hàng</option>
+                                                            <option value="2">Hợp đồng</option>
+                                                            <option value="3">Thanh toán</option>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="col-md-6 form-group">
+                                                        <label for="description">Mô tả</label>
+                                                        <textarea name="description" class="form-control" id="description" cols="30" rows="5"></textarea>
+                                                    </div>
+                                                    <div class="col-12 d-flex flex-sm-row flex-column mt-2">
+                                                        <button type="submit" class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Cập nhật</button>
+                                                        <button type="reset" class="btn btn-outline-secondary" data-dismiss="modal">Bỏ qua</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>   
+
+                    <!-- end showFormTransaction -->
 
 
                     <div class="modal fade text-left" id="updateinfoContact" tabindex="-1" role="dialog" aria-labelledby="myModalLabel16" aria-hidden="true">

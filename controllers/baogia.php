@@ -17,6 +17,15 @@ class baogia extends Controller{
         require "layouts/footer.php";
     }
 
+    function edit(){
+        require "layouts/header.php";
+        $id = $_REQUEST['id'];
+        $this->view->quote = $this->model->getQuote($id);
+        $this->view->product=$this->model->getProduct();
+        $this->view->render("baogia/edit");
+        require "layouts/footer.php";
+    }
+
     function getProductDetail(){
         $id = $_REQUEST['id'];
         $product = $this->model->getProductDetail($id);
@@ -125,21 +134,37 @@ class baogia extends Controller{
         $this->view->quote = $this->model->printQuote($id);
         $this->view->render("baogia/print");
     }
-    //
-    // function completed(){
-    //     $id = $_REQUEST['id'];
-    //     if ($this->model->completed($id)) {
-    //         $jsonObj['msg'] = "Chúc mừng bạn đã hoàn thành task này";
-    //         $jsonObj['success'] = true;
-    //     } else {
-    //         $jsonObj['msg'] = "Lỗi khi cập nhật database";
-    //         $jsonObj['success'] = false;
-    //     }
-    //     $jsonObj = json_encode($jsonObj);
-    //     echo $jsonObj;
-    // }
-    //
 
+    function del(){
+        $id = $_REQUEST['id'];
+        if ($this->model->delObj($id)) {
+            $jsonObj['msg'] = "Đã xóa bản ghi";
+            $jsonObj['success'] = true;
+        } else {
+            $jsonObj['msg'] = "Lỗi khi cập nhật database";
+            $jsonObj['success'] = false;
+        }
+        $jsonObj = json_encode($jsonObj);
+        echo $jsonObj;
+    }
 
+    function getSubQuotation(){
+        $id = $_REQUEST['id'];
+        // $data = [[
+        //   "price"=> "450,000",
+        //   "discount"=> "100",
+        //   "qty"=> "1",
+        //   "chietkhau"=> "10",
+        //   "thanhtien"=> "450,000",
+        //   "vat"=> "20",
+        //   "noteProduct"=> "zzz",
+        //   "product"=> "2",
+        //   "productName"=> "Đăng ký tên miền .VN",
+        //   "unit"=> "lần"
+        // ]];
+        $data =  $this->model->getSubQuotation($id);
+        $jsonObj = json_encode($data);
+        echo $jsonObj;
+    }
 }
 ?>

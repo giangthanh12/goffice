@@ -15,8 +15,8 @@ $(function () {
     }
 
     return_combobox_multi('#estaffId', baseHome + '/common/nhanvien', 'Chọn nhân viên');
-    return_combobox_multi('#esourceId', baseHome + '/common/datasource', '');
-    return_combobox_multi('#sourceId', baseHome + '/common/datasource', '');
+    return_combobox_multi('#esourceId', baseHome + '/common/datasource', 'Chọn nguồn data');
+    return_combobox_multi('#sourceId', baseHome + '/common/datasource', 'Chọn nguồn data');
     return_combobox_multi('#sourceId_import', baseHome + '/common/datasource', '');
     return_combobox_multi('#phutrach', baseHome + '/common/nhanvien', 'Chọn nhân viên');
     return_combobox_multi('#chiacho', baseHome + '/common/nhanvien', 'Chọn nhân viên');
@@ -249,12 +249,12 @@ $(function () {
                     required: true
                 },
                 phoneNumber: {
-                    required: true
+                    required: true,
                 },
             },
             messages: {
                 "name": {
-                    required: "Bạn chưa nhập tên data!",
+                    required: "Bạn chưa nhập tên khách hàng!",
                 },
                 "phoneNumber": {
                     required: "Bạn chưa nhập số điện thoại!",
@@ -273,7 +273,15 @@ $(function () {
                 phoneNumber: {
                     required: true
                 },
-            }
+            },
+            messages: {
+                "name": {
+                    required: "Bạn chưa nhập tên khách hàng!",
+                },
+                "phoneNumber": {
+                    required: "Bạn chưa nhập số điện thoại!"
+                }
+            },
         });
     });
 
@@ -334,6 +342,8 @@ function search() {
 function showadd() {
     $("#addnew").modal('show');
     $("#modal-title1").html('Thêm data mới');
+    $('#frm-add').validate().resetForm();
+    $(".error").removeClass("error");
     $('#name').val('');
     $('#phoneNumber').val('');
     $('#address').val('');
@@ -687,4 +697,16 @@ function call(number) {
     // number = '0'+number;
     DialByLine('audio', '', number);
     // alert(number)
+}
+
+function changeStart() {
+    var startDate = $('#tungay').val();
+    if ($('#denngay').length) {
+        $('#denngay').flatpickr({
+            dateFormat: "d/m/Y",
+            defaultDate: "",
+            readonly: true,
+            minDate: startDate
+        });
+    }
 }

@@ -17,7 +17,7 @@ class congtac_model extends Model
         (SELECT name FROM staffs WHERE id = a.staffId) as staffName,
          (SELECT name FROM department WHERE id = a.departmentId) as departmentName,
        (SELECT name FROM position WHERE id = a.position) as positionName,
-       (SELECT name FROM department WHERE id = a.branchId) as branchName
+       (SELECT name FROM branch WHERE id = a.branchId) as branchName
          FROM laborcontract a $where ORDER BY id DESC");
         if ($query)
             $result['data'] = $query->fetchAll(PDO::FETCH_ASSOC);

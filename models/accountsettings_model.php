@@ -13,27 +13,8 @@ class accountsettings_Model extends Model
         $query = $this->db->query("SELECT *,
         DATE_FORMAT(birthday,'%d/%m/%Y') AS ngaysinh,
         DATE_FORMAT(idDate,'%d/%m/%Y') AS ngaycap,
-        (SELECT username FROM users WHERE staffId = a.id) AS username
+        (SELECT username FROM users WHERE staffId = a.id AND status > 0 LIMIT 1) AS username
         FROM staffs a WHERE id=$id");
-//        $query = $this->db->query("SELECT username,staffId,
-//            (SELECT hinh_anh FROM nhanvien WHERE id = a.nhan_vien) as hinh_anh,
-//            (SELECT name FROM nhanvien WHERE id = a.nhan_vien) as name,
-//            (SELECT email FROM nhanvien WHERE id = a.nhan_vien) as email,
-//            (SELECT dien_thoai FROM nhanvien WHERE id = a.nhan_vien) as dien_thoai,
-//            (SELECT DATE_FORMAT(ngay_sinh,'%d/%m/%Y') AS ngay_sinh FROM nhanvien WHERE id = a.nhan_vien) as ngay_sinh,
-//            (SELECT cmnd FROM nhanvien WHERE id = a.nhan_vien) as cmnd,
-//            (SELECT DATE_FORMAT(ngay_cap,'%d/%m/%Y') AS ngay_cap FROM nhanvien WHERE id = a.nhan_vien) as ngay_cap,
-//            (SELECT noi_cap FROM nhanvien WHERE id = a.nhan_vien) as noi_cap,
-//            (SELECT que_quan FROM nhanvien WHERE id = a.nhan_vien) as que_quan,
-//            (SELECT dia_chi FROM nhanvien WHERE id = a.nhan_vien) as dia_chi,
-//            (SELECT ghi_chu FROM nhanvien WHERE id = a.nhan_vien) as ghi_chu,
-//            (SELECT twitter FROM staffinfo WHERE nhanvien_id = a.nhan_vien) as twitter,
-//            (SELECT facebook FROM staffinfo WHERE nhanvien_id = a.nhan_vien) as facebook,
-//            (SELECT instagram FROM staffinfo WHERE nhanvien_id = a.nhan_vien) as instagram,
-//            (SELECT zalo FROM staffinfo WHERE nhanvien_id = a.nhan_vien) as zalo,
-//            (SELECT wechat FROM staffinfo WHERE nhanvien_id = a.nhan_vien) as wechat,
-//            (SELECT linkein FROM staffinfo WHERE nhanvien_id = a.nhan_vien) as linkedin
-//            FROM users a WHERE id = $id");
         $temp = $query->fetchAll(PDO::FETCH_ASSOC);
         $result['staffInfo'] = $temp[0];
         $query = $this->db->query("SELECT * FROM staffinfo WHERE staffId=$id");

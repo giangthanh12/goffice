@@ -17,7 +17,6 @@ class recruitmentcamp_Model extends Model{
         $result['data'] = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }
-
     function addObj($data){
         $query = $this->insert("recruitmentcamp", $data);
         return $query;

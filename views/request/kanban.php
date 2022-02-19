@@ -202,6 +202,11 @@
     </div>
 </div>
 <!-- END: Content-->
+<style>
+    .kanban-title-board{
+        white-space:normal!important;
+    }
+</style>
 <script>
     var funEdit = '<?=$this->funEdit?>',
         funApprove = '<?=$this->funApprove?>',
