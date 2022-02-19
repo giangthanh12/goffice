@@ -75,7 +75,7 @@ $(function () {
                 syntax: true,
                 toolbar: ".desc-toolbar",
             },
-            placeholder: "Write Your Description",
+            placeholder: "Nội dung chăm sóc",
             theme: "snow",
         });
     }
@@ -86,9 +86,9 @@ $(function () {
             modules: {
                 formula: true,
                 syntax: true,
-                toolbar: ".desc-toolbar-2",
+                toolbar: ".desc-toolbar-3",
             },
-            placeholder: "Write Your Description",
+            placeholder: "Mô tả",
             theme: "snow",
             value: "",
         });
@@ -100,9 +100,9 @@ $(function () {
             modules: {
                 formula: true,
                 syntax: true,
-                toolbar: ".desc-toolbar-3",
+                toolbar: ".desc-toolbar-2",
             },
-            placeholder: "Write Your Description",
+            placeholder: "Mô tả",
             theme: "snow",
         });
     }
@@ -413,12 +413,12 @@ function saveLead() {
         // $('#fmLead').validate({
         //     submitHandler: function (form) {
         var formData = new FormData($('#fmLead')[[0]]);
-        // var comment = $('#leadDesc').find(".ql-editor p").html();
-        // if (comment == '<br>') {
-        //     notify_error('Vui lòng nhập mô tả!');
-        //     return false;
-        // }
-        // formData.append('leadDes', comment)
+        var comment = $('#leadDesc').find(".ql-editor p").html();
+        if (comment == '<br>') {
+            notify_error('Vui lòng nhập mô tả!');
+            return false;
+        }
+        formData.append('leadDesc', comment)
         $.ajax({
             url: baseHome + "/lead_temp/insertLead",
             type: 'POST',
@@ -504,7 +504,7 @@ $('#list-lead').on('click', '.sidebar-list', function () {
             $('#representative').html(data.representative);
             $('#phoneNumber').html(data.phoneNumber);
             $('#email').html(data.email);
-            $('#dateTime').html(data.dateTime);
+            // $('#dateTime').html(data.dateTime);
             $('#staffName').html(data.staffId);
             if (data.status == 1)
                 $('#status').html('<button class="btn-statement-orange">Khách hàng mới</button>');
@@ -562,8 +562,8 @@ function showModalTakeCare() {
 function showModalLead() {
     $('#leadName').val('');
     $('#leadCustomer').val('').change();
-    // var quill_editor = $("#leadDesc .ql-editor");
-    // quill_editor[0].innerHTML = '';
+    var quill_editor = $("#leadDesc .ql-editor");
+    quill_editor[0].innerHTML = '';
     $('#new-lead-modal').modal('show');
 }
 
@@ -658,10 +658,10 @@ function updateLead() {
 
             var formData = new FormData(form);
             var comment = $('#leadDescUpdate').find(".ql-editor p").html();
-            // if (comment == '<br>') {
-            //     notify_error('Vui lòng nhập mô tả!');
-            //     return false;
-            // }
+            if (comment == '<br>') {
+                notify_error('Vui lòng nhập mô tả!');
+                return false;
+            }
             formData.append('leadDescUpdate', comment)
             $.ajax({
                 url: baseHome + "/lead_temp/updateLead",
@@ -747,13 +747,15 @@ function leadSearch() {
                 html += '</div>';
                 html += '</div>';
                 html += '<div class="chat-meta text-nowrap">';
-                html += '<div class="float-right dropdown">';
-                html += '<i class="bx bx-dots-vertical-rounded bx-md icon-dots"></i>';
-                html += '<div class="dropdown-content">';
-                html += '<span class="updateLead" onclick="loadData(' + value.id + ')">Cập nhật</span>';
-                html += '<span class="deleteLead" onclick="deleteLead(' + value.id + ')">Xóa</span>';
-                html += '</div>';
-                html += '</div>';
+                if(funEdit==1) {
+                    html += '<div class="float-right dropdown">';
+                    html += '<i class="bx bx-dots-vertical-rounded bx-md icon-dots"></i>';
+                    html += '<div class="dropdown-content">';
+                    html += '<span class="updateLead" onclick="loadData(' + value.id + ')">Cập nhật</span>';
+                    html += '<span class="deleteLead" onclick="deleteLead(' + value.id + ')">Xóa</span>';
+                    html += '</div>';
+                    html += '</div>';
+                }
                 html += '<div class="btn-statement">';
                 html += '<br>';
                 if (value.status == 1) {
@@ -836,3 +838,15 @@ function changeCustomer() {
 //     $('.user-chats').scrollTop($('.user-chats > .chats').height());
 //   }
 // }
+
+function changeStart() {
+    var fromDate = $('#fromDate').val();
+    if ($('#toDate').length) {
+        $('#toDate').flatpickr({
+            dateFormat: "d/m/Y",
+            defaultDate: "",
+            readonly: true,
+            minDate: fromDate
+        });
+    }
+}

@@ -65,7 +65,7 @@ class todo_Model extends Model
 
     function getLabel()
     {
-        $query = $this->db->query("SELECT * FROM tasklabels WHERE status=1 ");
+        $query = $this->db->query("SELECT * FROM tasklabels WHERE status=2 ");
         $data = $query->fetchAll(PDO::FETCH_ASSOC);
         return $data;
     }
@@ -119,7 +119,7 @@ class todo_Model extends Model
         $query = $this->db->query("SELECT id FROM calendars WHERE objectId=$taskId AND objectType=3");
         if ($query)
             $data = $query->fetchAll(PDO::FETCH_ASSOC);
-        return $data[0];
+        return $data;
     }
 
     function checkStaffCalendar($taskId, $staffId)

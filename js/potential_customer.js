@@ -394,9 +394,9 @@ $(function () {
                     required: true,
                 },
 
-                "emailContact": {
-                    required: true,
-                },
+                // "emailContact": {
+                //     required: true,
+                // },
                 // "facebook": {
                 //     required: true,
                 // },
@@ -409,9 +409,9 @@ $(function () {
                 "nameContact": {
                     required: "Yêu cầu nhập tên liên lạc",
                 },
-                "emailContact": {
-                    required: "Yêu cầu nhập địa chỉ email liên lạc",
-                },
+                // "emailContact": {
+                //     required: "Yêu cầu nhập địa chỉ email liên lạc",
+                // },
                 // "facebook": {
                 //     required: "Yêu cầu nhập địa chỉ facebook",
                 // },

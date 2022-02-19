@@ -41,6 +41,11 @@ $(function () {
         }
     })
 
+    var visible = true;
+    if(funEdit!=1 || funDel!=1) {
+        visible = false;
+    }
+
     if (dtUserTable.length) {
         dtUserTable.DataTable({
             // ajax: assetPath + "data/user-list.json", // JSON file to add data
@@ -82,6 +87,7 @@ $(function () {
                     targets: -1,
                     title: 'Thao tác',
                     orderable: false,
+                    visible: visible,
                     render: function (data, type, full, meta) {
                         var html = '';
                         userFuns.forEach(function (item){

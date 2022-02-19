@@ -744,7 +744,7 @@ function changeStartDate() {
         var end = $('#end-date').flatpickr({
           enableTime: true,
           altFormat: 'Y-m-dTH:i:S',
-          minDate: "today",
+          minDate: startDay,
           onReady: function (selectedDates, dateStr, instance) {
             if (instance.isMobile) {
               $(instance.mobileInput).attr('step', null);

@@ -1,12 +1,4 @@
-
-
-
-
-
-
 $(function () {
-
-
     var basicPickr = $('.flatpickr-basic');
    
     // Default
@@ -38,6 +30,11 @@ $(function () {
             i++;
         }
     })
+
+    var visible = true;
+    if(funEdit!=1 || funDel!=1) {
+        visible = false;
+    }
 
     if (dtUserTable.length) {
         dtUserTable.DataTable({
@@ -72,13 +69,12 @@ $(function () {
 
                     },
                 },
-              
-           
                 {
                     // Actions
                     targets: -1,
                     title: 'Thao tác',
                     orderable: false,
+                    visible: visible,
                     render: function (data, type, full, meta) {
                         var html = '';
                         userFuns.forEach(function (item){

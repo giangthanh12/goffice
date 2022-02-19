@@ -12,8 +12,8 @@
                 <!-- list section start -->
                 <div class="card">
                     <div class="d-flex justify-content-between align-items-center mx-50 row pt-2 ">
-                        <img src="<?=HOME?>/layouts/tooltip.png" style="margin: 0 15px" width="25px" id="current_ip" data-toggle="tooltip" data-placement="right" data-original-title="Là chức năng thiết lập và quản lý nhiều cấp độ khác nhau của một công việc" data-trigger="click" >
-                    </div> 
+                        <img src="<?= HOME ?>/layouts/tooltip.png" style="margin: 0 15px" width="25px" id="current_ip" data-toggle="tooltip" data-placement="right" data-original-title="Là chức năng thiết lập và quản lý nhiều cấp độ khác nhau của một công việc" data-trigger="click">
+                    </div>
                     <div class="card-datatable table-responsive pt-0">
                         <table class="user-list-table table">
                             <thead class="thead-light">
@@ -21,13 +21,19 @@
                                     <th>Nhãn công việc</th>
                                     <th>Mã màu</th>
                                     <th>Trạng thái</th>
-                                    <th>Thao tác</th>
+                                    <?php
+                                    if ($this->funEdit == 1 && $this->funDel == 1) {
+                                    ?>
+                                        <th>Thao tác</th>
+                                    <?php
+                                    } 
+                                    ?>
                                 </tr>
                             </thead>
                         </table>
                     </div>
 
-              
+
                     <div class="modal fade text-left" id="updateinfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel16" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                             <div class="modal-content">
@@ -44,7 +50,7 @@
                                             <form class="form-validate" enctype="multipart/form-data" id="dg">
                                                 <div class="row mt-1">
                                                     <div class="col-md-12 form-group">
-                                                    <label for="link">Label Task</label>
+                                                        <label for="link">Label Task</label>
                                                         <input id="name" name="name" type="text" class="form-control" />
                                                     </div>
                                                     <div class="col-md-12 form-group">
@@ -73,15 +79,16 @@
                     </div>
 
 
-                    
+
                 </div>
             </section>
         </div>
     </div>
 </div>
 <script>
-    var userFuns = JSON.parse('<?=json_encode($this->funs)?>');
-    console.log(userFuns);
+    var userFuns = JSON.parse('<?= json_encode($this->funs) ?>');
+    var funEdit = <?= $this->funEdit ?>,
+        funDel = <?= $this->funDel ?>;
 </script>
 
 <script src="<?= HOME ?>/js/task_labels.js"></script>

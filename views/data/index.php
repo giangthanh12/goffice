@@ -23,12 +23,12 @@
 
                         <div class="col-md-3 data_nhanvien form-group">
                             <label for="tungay">Từ ngày</label>
-                            <input type="text" id="tungay" name="tungay" class="form-control flatpickr-basic" placeholder="" />
+                            <input type="text" id="tungay" name="tungay" class="form-control flatpickr-basic" placeholder="Từ ngày" onchange="changeStart()" />
                         </div>
 
                         <div class="col-md-3 data_nhanvien form-group">
                             <label for="denngay">Đến ngày</label>
-                            <input type="text" id="denngay" name="denngay" class="form-control flatpickr-basic" placeholder="" />
+                            <input type="text" id="denngay" name="denngay" class="form-control flatpickr-basic" placeholder="Đến ngày" />
                         </div>
                         <button type="button" class="btn btn-icon btn-outline-primary waves-effect" style="margin-top:10px" title="Tìm kiếm" onclick="search()">Tìm kiếm</button>
                     </div>
@@ -94,19 +94,19 @@
                                     <div class="modal-body flex-grow-1">
                                         <div class="form-group">
                                             <label for="name">Khách hàng</label>
-                                            <input id="name" type="text" class="form-control" name="name" />
+                                            <input id="name" type="text" class="form-control" name="name" placeholder="Tên khách hàng" />
                                         </div>
                                         <div class="form-group">
                                             <label for="phoneNumber">Điện thoại</label>
-                                            <input id="phoneNumber" name="phoneNumber" type="text" class="form-control" />
+                                            <input id="phoneNumber" name="phoneNumber" type="number" class="form-control" placeholder="Số điện thoại" />
                                         </div>
                                         <div class="form-group">
                                             <label for="address">Địa chỉ</label>
-                                            <input id="address" type="text" class="form-control" name="address" />
+                                            <input id="address" type="text" class="form-control" name="address" placeholder="Địa chỉ" />
                                         </div>
                                         <div class="form-group">
                                             <label for="email">Email</label>
-                                            <input id="email" type="text" class="form-control" name="email" />
+                                            <input id="email" type="text" class="form-control" name="email" placeholder="Địa chỉ email" />
                                         </div>
                                         <div class="form-group">
                                             <label for="sourceId">Nguồn khách hàng</label>
@@ -115,7 +115,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="note">Ghi chú</label>
-                                            <textarea id="note" name="note" rows="3" class="form-control"></textarea>
+                                            <textarea id="note" name="note" rows="3" class="form-control" placeholder="Ghi chú"></textarea>
                                         </div>
                                         <button type="button" onclick="saveadd()" class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Cập nhật</button>
                                         <button type="reset" class="btn btn-outline-secondary" data-dismiss="modal">Bỏ qua</button>
@@ -151,19 +151,19 @@
                                                 <form class="update-item-form" id="frm-edit">
                                                     <div class="form-group">
                                                         <label for="ename">Khách hàng</label>
-                                                        <input id="ename" type="text" class="form-control" name="name" />
+                                                        <input id="ename" type="text" class="form-control" name="name" placeholder="Tên khách hàng" />
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="ephoneNumber">Điện thoại</label>
-                                                        <input id="ephoneNumber" name="phoneNumber" type="text" class="form-control" />
+                                                        <input id="ephoneNumber" name="phoneNumber" type="text" class="form-control" placeholder="Số điện thoại" />
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="eemail">Email</label>
-                                                        <input id="eemail" type="text" class="form-control" name="email" />
+                                                        <input id="eemail" type="text" class="form-control" name="email" placeholder="Địa chỉ email" />
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="eaddress">Địa chỉ</label>
-                                                        <input id="eaddress" type="text" class="form-control" name="address" />
+                                                        <input id="eaddress" type="text" class="form-control" name="address" placeholder="Địa chỉ"/>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="esourceId">Nguồn khách hàng</label>
@@ -171,15 +171,15 @@
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="econnectorName">Tên Công ty</label>
-                                                        <input id="econnectorName" type="text" class="form-control" name="connectorName" />
+                                                        <input id="econnectorName" type="text" class="form-control" name="connectorName" placeholder="Tên công ty" />
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="etaxCode">Mã số thuế</label>
-                                                        <input id="etaxCode" type="text" class="form-control" name="etaxCode" />
+                                                        <input id="etaxCode" type="text" class="form-control" name="etaxCode" placeholder="Mã số thuế" />
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="etype">Lĩnh vực hoạt động</label>
-                                                        <input type="text" id="etype" class="form-control" name="type" />
+                                                        <input type="text" id="etype" class="form-control" name="type" placeholder="Lĩnh vực hoạt động" />
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="estaffId">Phụ trách</label>
@@ -187,7 +187,7 @@
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="enote">Ghi chú</label>
-                                                        <textarea id="enote" name="note" rows="3" class="form-control"></textarea>
+                                                        <textarea id="enote" name="note" rows="3" class="form-control" placeholder="Ghi chú"></textarea>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="estatus">Tình trạng</label>
