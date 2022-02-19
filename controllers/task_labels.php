@@ -11,7 +11,7 @@ class task_labels extends Controller{
         foreach ($funcs as $item) {
             if ($item['function'] == 'add')
                 self::$funAdd = 1;
-            if ($item['function'] == 'edit')
+            if ($item['function'] == 'loaddata')
                 self::$funEdit = 1;
             if ($item['function'] == 'del')
                 self::$funDel = 1;
