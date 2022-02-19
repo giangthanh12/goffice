@@ -15,15 +15,8 @@ $(function () {
     assetPath = baseHome+'/styles/app-assets/',
     invoicePreview = 'baogia/printQuote',
     invoiceAdd = 'baogia/add',
-    invoiceEdit = 'app-invoice-edit.html';
+    invoiceEdit = 'baogia/edit';
 
-  // if ($('body').attr('data-framework') === 'laravel') {
-  //   assetPath = $('body').attr('data-asset-path');
-  //   invoicePreview = assetPath + 'app/invoice/preview';
-  //   invoiceAdd = assetPath + 'app/invoice/add';
-  //   invoiceEdit = assetPath + 'app/invoice/edit';
-  // }
-// alert();
   // datatable
   if (dtInvoiceTable.length) {
     var dtInvoice = dtInvoiceTable.DataTable({
@@ -31,7 +24,6 @@ $(function () {
       autoWidth: false,
       ordering: false,
       columns: [
-        // columns according to JSON
         { data: 'responsive_id' },
         { data: 'invoice_id' },
         { data: 'invoice_status' },
@@ -160,9 +152,9 @@ $(function () {
             // Creates full output for row
             var $rowOutput =
               '<span class="d-none">' +
-              moment($dueDate).format('DD/MM/YYYY') +
+              moment($dueDate).format('YYYYMMDD') +
               '</span>' +
-              moment($dueDate).format('DD/MM/YYYY');
+              moment($dueDate).format('DD-MM-YYYY');
             $dueDate;
             return $rowOutput;
           }
@@ -188,7 +180,7 @@ $(function () {
         {
           // Actions
           targets: -1,
-          title: feather.icons["database"].toSvg({ class: "font-medium-3 text-success mr-50" }),
+          title: 'Thao tác',
           width: '80px',
           orderable: false,
           render: function (data, type, full, meta) {
@@ -210,12 +202,10 @@ $(function () {
               '<a href="javascript:void(0);" class="dropdown-item">' +
               feather.icons['download'].toSvg({ class: 'font-small-4 mr-50' }) +
               'Download</a>' +
-              '<a href="' +
-              invoiceEdit +
-              '" class="dropdown-item">' +
+              '<a onclick="edit(' + full['invoice_id'] + ',' + full['status'] + ')" href="javascript:void(0);" class="dropdown-item">' +
               feather.icons['edit'].toSvg({ class: 'font-small-4 mr-50' }) +
               'Edit</a>' +
-              '<a href="javascript:void(0);" class="dropdown-item">' +
+              '<a onclick="del(' + full['invoice_id'] + ')" href="javascript:void(0);" class="dropdown-item">' +
               feather.icons['trash'].toSvg({ class: 'font-small-4 mr-50' }) +
               'Delete</a>' +
               '<a href="javascript:void(0);" class="dropdown-item">' +
@@ -359,4 +349,49 @@ function sendMail(id) {
                 $('#selectEmail').append($('<option>', {value:item.id, text:item.email}));
             });
     },"json");
+}
+
+function del(id) {
+    Swal.fire({
+        title: 'Xóa dữ liệu',
+        text: "Bạn có chắc chắn muốn xóa!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Tôi đồng ý',
+        cancelButtonText: 'Hủy',
+        customClass: {
+            confirmButton: 'btn btn-primary',
+            cancelButton: 'btn btn-outline-danger ml-1'
+        },
+        buttonsStyling: false
+    }).then(function (result) {
+        if (result.value) {
+            $.ajax({
+                url: "baogia/del",
+                type: 'post',
+                dataType: "json",
+                data: {id: id},
+                success: function (data) {
+                    if (data.success) {
+                        $('.modal').modal('hide');
+                        notyfi_success(data.msg);
+                        $('.invoice-list-table').DataTable().ajax.reload(null, false);
+                    } else
+                        notify_error(data.msg);
+                },
+            });
+        }
+    });
+}
+
+function edit(id,status) {
+    if (status==1) {
+        window.location = 'baogia/edit?id='+id;
+    } else {
+        toastr["error"]('Bạn chỉ được phép sửa các báo giá mới tạo', "💾 Task Action!", {
+            closeButton: true,
+            tapToDismiss: false,
+            rtl: isRtl,
+        });
+    }
 }

@@ -570,7 +570,6 @@ function loaddata(id) {
                 $('#idDate').val(data.idDate);
             }
 
-       
             $('#showFileCv').attr('href','');
             $('#showFileCv').html('');
             $('#fileCv').val(data.cv);
