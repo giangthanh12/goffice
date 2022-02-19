@@ -210,6 +210,9 @@ $(function () {
         var validator = $("#dg").validate(); // reset form
         validator.resetForm();
         $(".error").removeClass("error"); // loại bỏ validate
+        $('#fullName-error').css('display', 'none');
+        $('#phoneNumber-error').css('display', 'none');
+        $('#status-error').css('display', 'none');
         $("#addinfo").modal('show');
         $(".modal-title").html('Thêm khách hàng mới');
         $('#fullName').val('');
@@ -542,6 +545,7 @@ function loaddata(id) {
     var validator = $("#dg1").validate(); // reset form
         validator.resetForm();
         $(".error").removeClass("error"); // loại bỏ validate
+      
     $("#updateinfo").modal('show');
     $('#information-tab').click();
     $(".modal-title").html('Cập nhật thông tin khách hàng');
@@ -864,7 +868,7 @@ function savenhap() {
 function showFormTransaction() {
     return_combobox_multi('#productId', baseHome + '/used_customer/getProduct', 'Sản phẩm');
     return_combobox_multi('#performedId', baseHome + '/used_customer/getStaff', 'Nhân viên thực hiện');
-    // $('#dgTransaction')[0].reset();
+    $('#dgTransaction')[0].reset();
     var validator = $("#dgTransaction").validate(); // reset form
         validator.resetForm();
         $(".error").removeClass("error"); // loại bỏ validate
@@ -912,7 +916,12 @@ function saveTransaction() {
 function loaddataTransaction(id) {
     return_combobox_multi('#productId', baseHome + '/used_customer/getProduct', 'Sản phẩm');
     return_combobox_multi('#performedId', baseHome + '/used_customer/getStaff', 'Nhân viên thực hiện');
+ 
+    var validator = $("#dgTransaction").validate(); // reset form
+    validator.resetForm();
+    $(".error").removeClass("error"); // loại bỏ validate
     $('#modalTransaction').modal('show');
+    $('.modal-title-transaction').html('Cập nhật lịch sử giao dịch');
     $.ajax({
         type: "POST",
         dataType: "json",

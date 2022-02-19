@@ -261,9 +261,9 @@ function loaddata(id) {
             $("#listobject1").empty();
             x = data.object.length;
             for (var j = 0; j < x; j++) {
-                if(funEdit == 1) {
-                    var buttonDel = '<button type="button" class="btn btn-icon btn-outline-danger waves-effect remove-button" onclick="remove1(' + j + ')"><i class="fas fa-trash-alt"></i></button>';
-                }
+                var buttonDel = '';
+                if(funEdit == 1)
+                   buttonDel = '<button type="button" class="btn btn-icon btn-outline-danger waves-effect remove-button" onclick="remove1(' + j + ')"><i class="fas fa-trash-alt"></i></button>';
                 $("#listobject1").append(
                     '<div class="row form-group" id="objupdate-' + j + '"><div class="col col-md-3"></div><div class="col-12 col-md-7"><input type="text" name="object1[]" value="' +
                     data.object[j]["name"] +
@@ -277,7 +277,11 @@ function loaddata(id) {
             s = data.step.length;
             // step=s-1;
             for (var J = 0; J < s; J++) {
-                var buttonDelStep = '<button class="btn btn-icon btn-outline-danger waves-effect remove-step" onclick="removeStepById(' + data.step[J]["id"] + ')" data-repeater-delete type="button">';
+                var buttonDelStep = '';
+                if(funEdit == 1)
+                buttonDelStep = '<button class="btn btn-icon btn-outline-danger waves-effect remove-step" onclick="removeStepById(' + data.step[J]["id"] + ')" data-repeater-delete type="button">' +
+                '<i class="fas fa-trash-alt"></i>' +
+                '</button>';
                 $("#stepList").append(
                     '<div data-repeater-item class="step-item" id="arrId-' + data.step[J]["id"] + '">' +
                     '<div class = "row d-flex align-items-end" >' +
@@ -305,9 +309,9 @@ function loaddata(id) {
                     '</div>' +
                     '<div class="col-md-1 col-12" style="padding-right:0 !important;">' +
                     '<div class="form-group">' +
-                     +
-                    '<i class="fas fa-trash-alt"></i>' +buttonDelStep+
-                    '</button>' +
+                     
+                     buttonDelStep
+                    +
                     '</div>' +
                     '</div>' +
                     '</div >' +

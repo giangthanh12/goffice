@@ -62,7 +62,7 @@ $(function () {
         dtUserTable.DataTable({
             ajax: baseHome + "/staff/getData",
             ordering: false, // bỏ sắp xếp mặc định
-
+            autoWidth:false,
             columns: [
                 // columns according to JSON
                 { data: "name" },
@@ -210,6 +210,7 @@ $(function () {
 
 
                     },
+                    width:150
                 },
             ],
             // order: [[2, "desc"]],

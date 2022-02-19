@@ -10,7 +10,7 @@ class customer extends Controller
         if ($checkMenuRole == false)
             header('location:' . HOME);
         $funcs = $model->getFunctions('customer');
-      
+     
         foreach ($funcs as $item) {
             if ($item['function'] == 'add')
                 self::$funAdd = 1;
@@ -22,7 +22,9 @@ class customer extends Controller
                 self::$funDel = 1;
         }
     }
-    function index(){
+    function index()
+    {
+ 
         require "layouts/header.php";
         $this->view->funAdd = self::$funAdd;
         $this->view->funImport = self::$funImport;
@@ -32,21 +34,34 @@ class customer extends Controller
         require "layouts/footer.php";
     }
 
+    function getProduct() {
+        $jsonObj = $this->model->getProduct();
+        echo json_encode($jsonObj);
+    }
+
     function getStaff()
     {
         $jsonObj = $this->model->getStaff();
         echo json_encode($jsonObj);
     }
-    function combo() {
+    function combo()
+    {
         $jsonObj = $this->model->get_data_combo();
         echo json_encode($jsonObj);
     }
-    function getNational() {
+    function getNational()
+    {
         $jsonObj = $this->model->getNational();
         echo json_encode($jsonObj);
     }
-    function getProvince() {
+    function getProvince()
+    {
         $jsonObj = $this->model->getProvince();
+        echo json_encode($jsonObj);
+    }
+    function getPosition()
+    {
+        $jsonObj = $this->model->getPosition();
         echo json_encode($jsonObj);
     }
     function list()
@@ -54,19 +69,22 @@ class customer extends Controller
         $data = $this->model->listObj();
         echo json_encode($data);
     }
-    function loadContact() {
+    function loadContact()
+    {
         $id = $_GET['id'];
         $data = $this->model->loadContact($id);
         echo json_encode($data);
     }
-    function loadTransaction() {
+    function loadTransaction()
+    {
         $id = $_GET['id'];
         $data = $this->model->loadTransaction($id);
         echo json_encode($data);
     }
 
-    function add() {
-        if(self::$funAdd == 0) {
+    function add()
+    {
+        if (self::$funAdd == 0) {
             $jsonObj['msg'] = 'Bạn không có quyền sử dụng chức năng này';
             $jsonObj['success'] = false;
             echo json_encode($jsonObj);
@@ -79,11 +97,12 @@ class customer extends Controller
         $website = isset($_REQUEST['website']) ? $_REQUEST['website'] : false;
         $staffId = isset($_REQUEST['staffId']) ? $_REQUEST['staffId'] : '';
         $staffInCharge = isset($_SESSION['user']['id']) ? $_SESSION['user']['id'] : false;
-        $nationalId = isset($_REQUEST['nationalId']) ? $_REQUEST['nationalId'] : '';
+        // $nationalId = isset($_REQUEST['nationalId']) ? $_REQUEST['nationalId'] : '';
         $provinceId = isset($_REQUEST['provinceId']) ? $_REQUEST['provinceId'] : '';
         $classify = !empty($_REQUEST['classify']) ? $_REQUEST['classify'] : 1;
+        $type = isset($_REQUEST['type']) ? $_REQUEST['type'] : 1;
         $status = isset($_REQUEST['status']) ? $_REQUEST['status'] : 1;
-        if(!$fullName && !$phoneNumber && !$email && !$website) {
+        if (!$fullName && !$phoneNumber && !$email && !$website) {
             $jsonObj['msg'] = 'Thông tin không chính xác';
             $jsonObj['success'] = false;
             echo json_encode($jsonObj);
@@ -91,28 +110,30 @@ class customer extends Controller
         }
         $data = array(
             'fullName' => $fullName,
-            'shortName'=>$shortName,
+            'name' => $shortName,
             'phoneNumber' => $phoneNumber,
             'email' => $email,
             'website' => $website,
-            'staffid' => $staffId,
+            'staffId' => $staffId,
             'staffInCharge' => $staffInCharge,
-            'nationalId' => $nationalId,
+            // 'nationalId' => $nationalId,
             'provinceId' => $provinceId,
-            'classify'=>$classify,
-            'status'=>$status
+            'classify' => $classify,
+            'type' => $type,
+            'status' => $status
         );
-            if ($this->model->addObj($data)) {
-                $jsonObj['msg'] = 'Cập nhật dữ liệu thành công';
-                $jsonObj['success'] = true;
-            } else {
-                $jsonObj['msg'] = 'Cập nhật dữ liệu không thành công';
-                $jsonObj['success'] = false;
-            }
-        
+        if ($this->model->addObj($data)) {
+            $jsonObj['msg'] = 'Cập nhật dữ liệu thành công';
+            $jsonObj['success'] = true;
+        } else {
+            $jsonObj['msg'] = 'Cập nhật dữ liệu không thành công';
+            $jsonObj['success'] = false;
+        }
+
         echo json_encode($jsonObj);
     }
-    function loaddata() {
+    function loaddata()
+    {
         $id = $_REQUEST['id'];
         $json = $this->model->getdata($id);
         echo json_encode($json);
@@ -121,7 +142,7 @@ class customer extends Controller
 
     function update()
     {
-        if(self::$funEdit == 0) {
+        if (self::$funEdit == 0) {
             $jsonObj['msg'] = 'Bạn không có quyền sử dụng chức năng này';
             $jsonObj['success'] = false;
             echo json_encode($jsonObj);
@@ -137,22 +158,22 @@ class customer extends Controller
         $website = isset($_REQUEST['website']) ? $_REQUEST['website'] : false;
         $staffId = isset($_REQUEST['staffId']) ? $_REQUEST['staffId'] : '';
         $staffInCharge = isset($_SESSION['user']['id']) ? $_SESSION['user']['id'] : '';
-   
         $field = isset($_REQUEST['field']) ? $_REQUEST['field'] : '';
-     
-        $rank = isset($_REQUEST['rank']) ? $_REQUEST['rank'] : '';
-        $bussinessName = isset($_REQUEST['bussinessName']) ? $_REQUEST['bussinessName'] : '';
-        $bussinessAddress = isset($_REQUEST['bussinessAddress']) ? $_REQUEST['bussinessAddress'] : '';
-        $bussinessPlace = isset($_REQUEST['bussinessPlace']) ? $_REQUEST['bussinessPlace'] : '';
+        // $rank = isset($_REQUEST['rank']) ? $_REQUEST['rank'] : '';
+        // $bussinessName = isset($_REQUEST['bussinessName']) ? $_REQUEST['bussinessName'] : '';
+        $businessPlace = isset($_REQUEST['businessPlace']) ? $_REQUEST['businessPlace'] : '';
+        $businessAddress = isset($_REQUEST['businessAddress']) ? $_REQUEST['businessAddress'] : '';
         $representative = isset($_REQUEST['representative']) ? $_REQUEST['representative'] : '';
         $authorized = isset($_REQUEST['authorized']) ? $_REQUEST['authorized'] : '';
         $note = isset($_REQUEST['note']) ? $_REQUEST['note'] : '';
         $classify = isset($_REQUEST['classify']) ? $_REQUEST['classify'] : '';
         $type = isset($_REQUEST['type']) ? $_REQUEST['type'] : '';
-        $nationalId = isset($_REQUEST['nationalId']) ? $_REQUEST['nationalId'] : '';
+        // $nationalId = isset($_REQUEST['nationalId']) ? $_REQUEST['nationalId'] : '';
+        $position = isset($_REQUEST['position']) ? $_REQUEST['position'] : '';
         $provinceId = isset($_REQUEST['provinceId']) ? $_REQUEST['provinceId'] : '';
-        $status = isset($_REQUEST['status']) ? $_REQUEST['status'] : 2;
-        if(!$fullName && !$phoneNumber && !$email && !$website) {
+        $status = isset($_REQUEST['status']) ? $_REQUEST['status'] : 1;
+
+        if (!$fullName && !$phoneNumber && !$email && !$website) {
             $jsonObj['msg'] = 'Thông tin không chính xác';
             $jsonObj['success'] = false;
             echo json_encode($jsonObj);
@@ -166,37 +187,92 @@ class customer extends Controller
             'phoneNumber' => $phoneNumber,
             'email' => $email,
             'website' => $website,
-            'staffid' => $staffId,
+            'staffId' => $staffId,
             'staffInCharge' => $staffInCharge,
-            'shortName' => $shortName,
+            'name' => $shortName,
             'field' => $field,
-            'rank' => $rank,
-            'businessName' => $bussinessName,
-            'businessAddress' => $bussinessAddress,
-            'businessPlace' => $bussinessPlace,
+            // 'rank' => $rank,
+            // 'businessName' => $bussinessName,
+            'businessAddress' => $businessAddress,
+            'businessPlace' => $businessPlace,
+            // 'office' => $businessAddress,
             'representative' => $representative,
             'authorized' => $authorized,
             'note' => $note,
             'classify' => $classify,
-            'type'=> $type,
-            'nationalId' => $nationalId,
+            'type' => $type,
+            // 'nationalId' => $nationalId,
+            'position' => $position,
             'provinceId' => $provinceId,
-            'status'=>$status
+            'status' => $status
         );
+        
+        if ($this->model->updateObj($id, $data)) {
+            $jsonObj['msg'] = 'Cập nhật dữ liệu thành công';
+            $jsonObj['success'] = true;
+        } else {
+            $jsonObj['msg'] = 'Cập nhật dữ liệu không thành công';
+            $jsonObj['success'] = false;
+        }
 
-            if ($this->model->updateObj($id, $data)) {
-                $jsonObj['msg'] = 'Cập nhật dữ liệu thành công';
-                $jsonObj['success'] = true;
-            } else {
-                $jsonObj['msg'] = 'Cập nhật dữ liệu không thành công';
-                $jsonObj['success'] = false;
-            }
- 
+        echo json_encode($jsonObj);
+    }
+    function saveTransaction() {
+        $id = isset($_REQUEST['id']) ? $_REQUEST['id'] : 0;
+    
+        $name = isset($_REQUEST['name']) ? $_REQUEST['name'] : false;
+        $customerId = !empty($_REQUEST['customerId']) ? $_REQUEST['customerId'] :false;
+        $asset = isset($_REQUEST['asset']) ? str_replace(',', '', $_REQUEST['asset']): 0;
+        $dateTime = isset($_REQUEST['dateTime']) ? date('Y-m-d H:i',strtotime($_REQUEST['dateTime'])) : '';
+        $performedId = isset($_REQUEST['performedId']) ? $_REQUEST['performedId'] : false;
+        $productId = isset($_REQUEST['productId']) ? $_REQUEST['productId'] : false;
+        $type = isset($_REQUEST['type']) ? $_REQUEST['type'] : false;
+        $description = isset($_REQUEST['description']) ? $_REQUEST['description'] : false;
+        $data = array(
+            'name' => $name,
+            'customerId' => $customerId,
+            'asset' => $asset,
+            'dateTime' => $dateTime,
+            'productId' => $productId,
+            'performerId' => $performedId,
+            'type' => $type,
+            'description' => $description,
+            'status'=>1
+        );
+        // echo "<pre>";
+        // print_r($data);
+        // echo "</pre>";
+        // return;
+        if ($this->model->addTransaction($id,$data)) {
+            $jsonObj['msg'] = 'Cập nhật dữ liệu thành công';
+            $jsonObj['success'] = true;
+        } else {
+            $jsonObj['msg'] = 'Cập nhật dữ liệu không thành công';
+            $jsonObj['success'] = false;
+        }
+        echo json_encode($jsonObj);
+    }
+    
+    function loaddataTransaction() {
+        $id = $_REQUEST['id'];
+        $json = $this->model->getTransaction($id);
+        echo json_encode($json);
+    }
+    function delTransaction($id) {
+        $id = $_REQUEST['id'];
+        $data = ['status' => 0];
+        if ($this->model->delTransaction($id, $data)) {
+            $jsonObj['msg'] = "Xóa dữ liệu thành công";
+            $jsonObj['success'] = true;
+        } else {
+            $jsonObj['msg'] = "Xóa dữ liệu không thành công";
+            $jsonObj['success'] = false;
+        }
         echo json_encode($jsonObj);
     }
     function del()
     {
-        if(self::$funDel == 0) {
+        if (self::$funDel == 0) {
             $jsonObj['msg'] = 'Bạn không có quyền sử dụng chức năng này';
             $jsonObj['success'] = false;
             echo json_encode($jsonObj);
@@ -214,8 +290,9 @@ class customer extends Controller
         echo json_encode($jsonObj);
     }
 
-    function importExcel() {
-        if(self::$funImport == 0) {
+    function importExcel()
+    {
+        if (self::$funImport == 0) {
             $jsonObj['msg'] = 'Bạn không có quyền sử dụng chức năng này';
             $jsonObj['success'] = false;
             echo json_encode($jsonObj);
@@ -252,33 +329,32 @@ class customer extends Controller
                 $rank = $objPHPExcel->getActiveSheet()->getCell("P$row")->getValue();
                 $type = $objPHPExcel->getActiveSheet()->getCell("Q$row")->getValue();
                 $classify = $objPHPExcel->getActiveSheet()->getCell("R$row")->getValue();
-                        $data = [
-                            'fullName' => $fullName,
-                            'taxCode' => $taxCode,
-                            'address' => $address,
-                            'phoneNumber' => $phoneNumber,
-                            'email' => $email,
-                            'website' => $website,
-                            'staffid' => $staffid,
-                            'staffInCharge' => $staffInCharge,
-                            'shortName' => $shortName,
-                            'field' => $field,
-                            'rank' => $rank,
-                            'businessName' => $bussinessName,
-                            'businessAddress' => $bussinessAddress,
-                            'businessPlace' => $bussinessPlace,
-                            'representative' => $representative,
-                            'authorized' => $authorized,
-                            'note' => $note,
-                            'classify' => $classify,
-                            'type'=>$type,
-                            'nationalId'=>1,
-                            'status'=>1
-                        ];
-                        if ($this->model->addObj($data))
-                            $banghi++;
-                    
-               
+
+                $data = [
+                    'fullName' => $fullName,
+                    'taxCode' => $taxCode,
+                    'address' => $address,
+                    'phoneNumber' => $phoneNumber,
+                    'email' => $email,
+                    'website' => $website,
+                    'staffid' => $staffid,
+                    'staffInCharge' => $staffInCharge,
+                    'shortName' => $shortName,
+                    'field' => $field,
+                    'rank' => $rank,
+                    'businessName' => $bussinessName,
+                    'businessAddress' => $bussinessAddress,
+                    'businessPlace' => $bussinessPlace,
+                    'representative' => $representative,
+                    'authorized' => $authorized,
+                    'note' => $note,
+                    'classify' => $classify,
+                    'type' => $type,
+                    'nationalId' => 1,
+                    'status' => 1
+                ];
+                if ($this->model->addObj($data))
+                    $banghi++;
             }
             if ($banghi > 0) {
                 $jsonObj['msg'] = "Cập nhật thành công $banghi data";
@@ -293,19 +369,18 @@ class customer extends Controller
         }
         echo json_encode($jsonObj);
     }
-    function checkPhone() {
+    function checkPhone()
+    {
         $idCustomer = $_REQUEST['idCustomer'];
         $phone = $_REQUEST['phone'];
-   
-       if($this->model->checkPhone($idCustomer, $phone)) {
-        $jsonObj['msg'] = "Số điện thoại hợp lệ";
-        $jsonObj['success'] = true;
-       }
-       else {
-        $jsonObj['msg'] = "Số điện thoại đã tồn tại";
-        $jsonObj['success'] = false;
-       }
-       echo json_encode($jsonObj);
+
+        if ($this->model->checkPhone($idCustomer, $phone)) {
+            $jsonObj['msg'] = "Số điện thoại hợp lệ";
+            $jsonObj['success'] = true;
+        } else {
+            $jsonObj['msg'] = "Số điện thoại đã tồn tại";
+            $jsonObj['success'] = false;
+        }
+        echo json_encode($jsonObj);
     }
 }
-?>
