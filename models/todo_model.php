@@ -119,7 +119,7 @@ class todo_Model extends Model
         $query = $this->db->query("SELECT id FROM calendars WHERE objectId=$taskId AND objectType=3");
         if ($query)
             $data = $query->fetchAll(PDO::FETCH_ASSOC);
-        return $data[0];
+        return $data;
     }
 
     function checkStaffCalendar($taskId, $staffId)
