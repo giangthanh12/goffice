@@ -32,8 +32,6 @@ class request extends Controller
         $this->view->departments = $this->model->getDepartments();
         $this->view->staffs = $this->model->getStaffs();
         $this->view->requestDefines = $this->model->getRequestDefines();
-
-
         $this->view->funAdd = self::$funAdd;
         $this->view->funEdit = self::$funEdit;
         $this->view->funDel = self::$funDel;

@@ -17,6 +17,7 @@ var   datePicker = $(".flatpickr-basic");
             datePicker.flatpickr({
                 dateFormat: 'd-m-Y',
                 defaultDate: "today",
+                altFormat: "F j, Y",
             });
         }
         var buttons = [];
@@ -164,9 +165,37 @@ var   datePicker = $(".flatpickr-basic");
         });
 
     }
+    $.validator.addMethod('le', function (value, element, param) {
+        return this.optional(element) || value <= $(param).val();
+    }, 'Invalid value');
+    $.validator.addMethod('leluong', function(value, element, param) {
+       console.log($(param).val().replaceAll(',', ''));
+       var val2 = $(param).val().replaceAll(',', '');
+        return this.optional(element) || value.replaceAll(',', '') <= Number(val2);
+    }, 'Lương tối thiểu bé hơn lương tối đa');
 
+    // $.validator.addMethod('customNumber', function(value, element, param) {
+    //     console.log(value);
+    //      return this.optional(element) || value.replaceAll(',', '') > 0;
+    //  }, 'Yêu cầu nhập số dương');
     function showAdd() {
+
+        var validator = $("#dg").validate(); // reset form
+        validator.resetForm();
+        $(".error").removeClass("error"); // loại bỏ validate
         $("#addinfo").modal('show');
+        // console.log(new Date($('#startDate').val()));
+        var strStartDate = $('#startDate').val();
+        var day = Number(strStartDate.slice(0,2));
+        var month = Number(strStartDate.slice(3,5));
+        var year = Number(strStartDate.slice(6,10));
+       
+        $('#endDate').flatpickr({
+            dateFormat: 'd-m-Y',
+            altFormat: "F j, Y",
+            minDate: new Date(year,month,day).fp_incr(1),
+            defaultDate: new Date(year,month,day).fp_incr(1),
+        });
         $(".modal-title").html('Thêm chiến dịch tuyển dụng mới');
         $('#title').val('');
         $('#inChargeId').val('').change();
@@ -193,7 +222,7 @@ var   datePicker = $(".flatpickr-basic");
             submitBtn.attr("disabled", true);
         }
     }
-
+ 
     // Form Validation add 
     if (form.length) {
         form.validate({
@@ -224,13 +253,21 @@ var   datePicker = $(".flatpickr-basic");
                     number:true,
                     min:1
                 },
-                "minAge": {
+                "minSalary": {
+                 
+                    leluong:"#maxSalary"
+                },
+                "maxSalary": {
+            
+                },
+                minAge: {
                     number:true,
-                    min:1
+                    min:18,
+                    le: '#maxAge'
                 },
                 "maxAge": {
                     number:true,
-                    min:1
+                    max:40,
                 },
                 "yearOfExperience": {
                     number:true,
@@ -259,20 +296,31 @@ var   datePicker = $(".flatpickr-basic");
                 },
                 "quantity": {
                     number:"Yêu cầu nhập số",
-                    min:"Yêu cầu nhập số tối thiểu 1"
+                    min:"Yêu cầu nhập số tối thiểu 1",
+                
                 },
                 "minAge": {
                     number:"Yêu cầu nhập số",
-                    min:"Yêu cầu nhập số tối thiểu 1"
+                    min:"Yêu cầu nhập số tối thiểu 18",
+                    le:"Tuổi tối thiểu nhỏ hơn tuổi tối đa"
                 },
                 "maxAge": {
                     number:"Yêu cầu nhập số",
-                    min:"Yêu cầu nhập số tối thiểu 1"
+                    max:"Yêu cầu độ tuổi tối đa 40"
                 },
                 "yearOfExperience": {
                     number:"Yêu cầu nhập số",
-                    min:"Yêu cầu nhập số tối thiểu 1"
+                    min:"Yêu cầu nhập số dương"
                 },
+                // "minSalary": {
+                //     number:"Yêu cầu nhập số",
+                //     min:"Yêu cầu nhập số dương",
+                //     le:"Lương tối thiểu nhỏ hơn lương tối đa"
+                // },
+                // "maxSalary": {
+                //     number:"Yêu cầu nhập số",
+                //     min:"Yêu cầu nhập số dương",
+                // },
             },
         });
 
@@ -314,17 +362,23 @@ var   datePicker = $(".flatpickr-basic");
                     number:true,
                     min:1
                 },
+                "minSalary1": {
+                    leluong:"#maxSalary1"
+                },
+                "maxSalary1": {
+                },
                 "minAge1": {
                     number:true,
-                    min:1
+                    min:18,
+                    le: '#maxAge1'
                 },
                 "maxAge1": {
                     number:true,
-                    min:1
+                    max:40,
                 },
                 "yearOfExperience1": {
                     number:true,
-                    min:1
+                    min:0
                 },
             },
             messages: {
@@ -353,16 +407,28 @@ var   datePicker = $(".flatpickr-basic");
                 },
                 "minAge1": {
                     number:"Yêu cầu nhập số",
-                    min:"Yêu cầu nhập số tối thiểu 1"
+                    min:"Yêu cầu nhập số tối thiểu 18",
+                    le:"Tuổi tối thiểu nhỏ hơn tuổi tối đa"
                 },
                 "maxAge1": {
                     number:"Yêu cầu nhập số",
-                    min:"Yêu cầu nhập số tối thiểu 1"
+                    max:"Yêu cầu độ tuổi tối đa 40"
                 },
                 "yearOfExperience1": {
                     number:"Yêu cầu nhập số",
-                    min:"Yêu cầu nhập số tối thiểu 1"
+                    min:"Yêu cầu nhập số dương"
                 },
+                // "minSalary1": {
+                //     number:"Yêu cầu nhập số",
+                //     min:"Yêu cầu nhập số dương",
+                //     le:"Lương tối thiểu nhỏ hơn lương tối đa"
+                // },
+                // "maxSalary1": {
+                //     number:"Yêu cầu nhập số",
+                //     min:"Yêu cầu nhập số dương",
+               
+                // },
+                
             },
         });
 
@@ -390,15 +456,43 @@ var   datePicker = $(".flatpickr-basic");
         });
     }
 
-
+ 
 
     // To initialize tooltip with body container
     $("body").tooltip({
         selector: '[data-toggle="tooltip"]',
         container: "body",
     });
+    
 });
 
+$('#startDate').change(function() {
+    $('#endDate').val('');
+    
+
+    var strStartDate = $('#startDate').val();
+    var day = Number(strStartDate.slice(0,2));
+    var month = Number(strStartDate.slice(3,5));
+    var year = Number(strStartDate.slice(6,10));
+    console.log(new Date());
+    $('#endDate').flatpickr({
+        dateFormat: 'd-m-Y',
+        altFormat: "F j, Y",
+        minDate: new Date(year,month,day).fp_incr(1),
+    });
+})
+$('#startDate1').change(function() {
+    $('#endDate1').val('');
+    var strStartDate = $('#startDate1').val();
+    var day = Number(strStartDate.slice(0,2));
+    var month = Number(strStartDate.slice(3,5));
+    var year = Number(strStartDate.slice(6,10));
+    $('#endDate1').flatpickr({
+        dateFormat: 'd-m-Y',
+        altFormat: "F j, Y",
+        minDate: new Date(year,month,day).fp_incr(1),
+    });
+})
 function loaddata(id) {
     return_combobox_multi('#inChargeId1', baseHome + '/recruitmentcamp/getStaff', 'Chọn nhân viên chăm sóc');
     return_combobox_multi('#followerId1', baseHome + '/recruitmentcamp/getStaff', 'Nhân viên khác');
@@ -669,6 +763,7 @@ function loadListCandidate(id) {
 
 
 function addCalendar(id) {
+ 
   $('#applicantId').val(id);
     return_combobox_multi('#interviewerIds', baseHome + '/interview/getStaff', 'Chọn người phỏng vấn');
   $('#add-new-calendar').modal('show');

@@ -5,15 +5,143 @@ class Baogia_model extends Model{
     }
 
     function listObj(){
-        $query = $this->db->query("SELECT '' AS responsive_id, id AS invoice_id, 
-            DATE_FORMAT('Y-m-d',date) AS issued_date,
+        $query = $this->db->query("SELECT '' AS responsive_id, id AS invoice_id, date AS issued_date,
             IFNULL((SELECT name FROM customers WHERE id=customerId),'Unknown') AS client_name,
             IFNULL((SELECT fullName FROM customers WHERE id=customerId),'-') AS email,'' AS service,
-            FORMAT(amount,0) AS total, '' AS avatar, date AS due_date,
+            FORMAT(amount,0) AS total, '' AS avatar, date AS due_date, status,
             IF(status=1,'Mới tạo',IF(status=2,'Đã gửi',IF(status=3,'Đã chốt','Hủy'))) AS invoice_status,
             IFNULL((SELECT name FROM staffs WHERE id=staffId),'') AS balance
             FROM quotation  WHERE status>0 order by `date` DESC");
         $result['data'] = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    function delObj($id)
+    {
+        $data = ['status'=>0];
+        $query = $this->update("quotation",$data,"id = $id");
+        $query = $this->update("subquotation",$data,"quotationId = $id");
+        return $query;
+    }
+
+    function getQuote($id){
+        $result = array();
+        $query = $this->db->query("SELECT *, (SELECT name FROM customers WHERE id=customerId) AS khachhang
+            FROM quotation WHERE id = $id AND status=1");
+        $temp = $query->fetchAll(PDO::FETCH_ASSOC);
+        if (isset($temp[0]))
+            $result = $temp[0];
+        return $result;
+    }
+
+    function getSubQuotation($id){
+        $result = array();
+        $query = $this->db->query("SELECT FORMAT(price,0) AS price, description AS noteProduct,
+            FORMAT(reduce,0) AS discount, quantity AS qty, discount AS chietkhau, unit,vat,
+            FORMAT((price-reduce)*(1-discount/100)*quantity,0) AS thanhtien, goods AS product
+            FROM subquotation WHERE quotationId = $id AND status=1 ");
+        if ($query)
+            $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    function saveQuote($id,$data,$items){
+        if ($id==0) {
+            $query = $this->insert("quotation",$data);
+            if ($query) {
+                $id = $this->db->lastInsertId();
+                foreach ($items AS $item) {
+                    $sub['quotationId'] = $id;
+                    $sub['goods'] = $item['product'];
+                    $sub['description'] =  $item['noteProduct'];
+                    $sub['price'] = str_replace(',','',$item['price']);
+                    $sub['unit'] = $item['unit'];
+                    $sub['quantity'] = $item['qty'];
+                    $sub['reduce'] = str_replace(',','',$item['discount']);
+                    $sub['discount'] = $item['chietkhau'];
+                    $sub['vat'] = $item['vat'];
+                    $sub['status'] = 1;
+                    $query = $this->insert("subquotation",$sub);
+                }
+            }
+        } else {
+            $query = $this->update("quotation",$data,"id=$id");
+            if ($query) {
+                $query =  $this->delete("subquotation","quotationId=$id");
+                foreach ($items AS $item) {
+                    $sub['quotationId'] = $id;
+                    $sub['goods'] = $item['product'];
+                    $sub['description'] =  $item['noteProduct'];
+                    $sub['price'] = str_replace(',','',$item['price']);
+                    $sub['unit'] = $item['unit'];
+                    $sub['quantity'] = $item['qty'];
+                    $sub['reduce'] = str_replace(',','',$item['discount']);
+                    $sub['discount'] = $item['chietkhau'];
+                    $sub['vat'] = $item['vat'];
+                    $sub['status'] = 1;
+                    $query = $this->insert("subquotation",$sub);
+                }
+            }
+        }
+        return $id;
+    }
+
+    function getCustomer($keyword){
+        $result = array();
+        $query = $this->db->query("SELECT id, name AS `text` FROM customers  WHERE status>0 AND name LIKE '%$keyword%' ORDER BY id DESC ");
+        if ($query)
+            $result['results'] = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    function getProduct(){
+        $result = array();
+        $query = $this->db->query("SELECT id, name FROM products WHERE status>0 ");
+        if ($query)
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    function getProductDetail($id){
+        $result = array();
+        $query = $this->db->query("SELECT * FROM products WHERE id=$id");
+        $temp = $query->fetchAll(PDO::FETCH_ASSOC);
+        if (isset($temp[0]))
+            $result = $temp[0];
+        return $result;
+    }
+
+    function newCustomer($data,$contact,$phone,$email){
+        $query = $this->insert("customers",$data);
+        if ($query) {
+            $id = $this->db->lastInsertId();
+            $contact = ['name'=>$contact, 'customerId'=>$id, 'phoneNumber'=>$phone, 'email'=>$email,'status'=>1];
+            $query = $this->insert("contact",$contact);
+        }
+        return $query;
+    }
+
+    function printQuote($id)
+    {
+        $return = array();
+        $query =  $this->db->query("SELECT *,
+            (SELECT fullName FROM customers WHERE id=customerId) AS khachhang
+            FROM quotation WHERE id = $id");
+        $temp = $query->fetchAll(PDO::FETCH_ASSOC);
+        $return['quote'] = $temp[0];
+        $query =  $this->db->query("SELECT *,
+            (SELECT name FROM products WHERE id=goods) AS product
+            FROM subquotation WHERE quotationId = $id");
+        $return['items'] = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $return;
+    }
+
+    function getEmails($id)
+    {
+        $result = array();
+        $query =  $this->db->query("SELECT id, email FROM contact WHERE status = 1 ");
+        if ($query)
+            $result = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }
 
@@ -121,46 +249,6 @@ class Baogia_model extends Model{
         // return $tolist;
     }
 
-    function saveQuote($id,$data,$items){
-        if ($id==0) {
-            $query = $this->insert("quotation",$data);
-            if ($query) {
-                $id = $this->db->lastInsertId();
-                foreach ($items AS $item) {
-                    $sub['quotationId'] = $id;
-                    $sub['goods'] = $item['product'];
-                    $sub['description'] =  $item['noteProduct'];
-                    $sub['price'] = str_replace(',','',$item['price']);
-                    $sub['unit'] = $item['unit'];
-                    $sub['quantity'] = $item['qty'];
-                    $sub['reduce'] = str_replace(',','',$item['discount']);
-                    $sub['discount'] = $item['chietkhau'];
-                    $sub['vat'] = $item['vat'];
-                    $sub['status'] = 1;
-                    $query = $this->insert("subquotation",$sub);
-                }
-            }
-        } else {
-            $query = $this->update("quotation",$data,"id=$id");
-            if ($query) {
-                $query =  $this->delete("subquotation","quotationId=$id");
-                foreach ($items AS $item) {
-                    $sub['quotationId'] = $id;
-                    $sub['goods'] = $item['product'];
-                    $sub['description'] =  $item['noteProduct'];
-                    $sub['price'] = str_replace(',','',$item['price']);
-                    $sub['unit'] = $item['unit'];
-                    $sub['quantity'] = $item['qty'];
-                    $sub['reduce'] = str_replace(',','',$item['discount']);
-                    $sub['discount'] = $item['chietkhau'];
-                    $sub['vat'] = $item['vat'];
-                    $sub['status'] = 1;
-                    $query = $this->insert("subquotation",$sub);
-                }
-            }
-        }
-        return $id;
-    }
 
     // function updateObj($id, $data)
     // {
@@ -199,21 +287,8 @@ class Baogia_model extends Model{
     // }
 
 
-    // function delObj($id,$data)
-    // {
-    //     $query = $this->update("baogia",$data,"id = $id");
-    //     $query = $this->update("baogiasub",$data,"bao_gia = $id");
-    //     return $query;
-    // }
-    //
-    function getEmails($id)
-    {
-        $result = array();
-        $query =  $this->db->query("SELECT id, email FROM contact WHERE status = 1 AND customerId=$id ");
-        if ($query)
-            $result = $query->fetchAll(PDO::FETCH_ASSOC);
-        return $result;
-    }
+
+
     //
     // function xoafile($id,$data)
     // {
@@ -229,40 +304,6 @@ class Baogia_model extends Model{
     //     return $result;
     // }
 
-    function getCustomer($keyword){
-        $result = array();
-        $query = $this->db->query("SELECT id, name AS `text` FROM customers  WHERE status>0 AND name LIKE '%$keyword%' ORDER BY id DESC ");
-        if ($query)
-            $result['results'] = $query->fetchAll(PDO::FETCH_ASSOC);
-        return $result;
-    }
-
-    function getProduct(){
-        $result = array();
-        $query = $this->db->query("SELECT id, name FROM products WHERE status>0 ");
-        if ($query)
-        $result = $query->fetchAll(PDO::FETCH_ASSOC);
-        return $result;
-    }
-
-    function getProductDetail($id){
-        $result = array();
-        $query = $this->db->query("SELECT * FROM products WHERE id=$id");
-        $temp = $query->fetchAll(PDO::FETCH_ASSOC);
-        if (isset($temp[0]))
-            $result = $temp[0];
-        return $result;
-    }
-
-    function newCustomer($data,$contact,$phone,$email){
-        $query = $this->insert("customers",$data);
-        if ($query) {
-            $id = $this->db->lastInsertId();
-            $contact = ['name'=>$contact, 'customerId'=>$id, 'phoneNumber'=>$phone, 'email'=>$email,'status'=>1];
-            $query = $this->insert("contact",$contact);
-        }
-        return $query;
-    }
     // function sanpham(){
     //     $result = array();
     //     $query = $this->db->query("SELECT id, name AS `text` FROM sanpham WHERE tinh_trang > 0");
@@ -271,20 +312,7 @@ class Baogia_model extends Model{
     //     return $result;
     // }
 
-    function printQuote($id)
-    {
-        $return = array();
-        $query =  $this->db->query("SELECT *,
-            (SELECT fullName FROM customers WHERE id=customerId) AS khachhang
-            FROM quotation WHERE id = $id");
-        $temp = $query->fetchAll(PDO::FETCH_ASSOC);
-        $return['quote'] = $temp[0];
-        $query =  $this->db->query("SELECT *,
-            (SELECT name FROM products WHERE id=goods) AS product
-            FROM subquotation WHERE quotationId = $id");
-        $return['items'] = $query->fetchAll(PDO::FETCH_ASSOC);
-        return $return;
-    }
+
 
     //
     // function getdata_dichvu($id){
@@ -296,14 +324,7 @@ class Baogia_model extends Model{
     //     return $result;
     // }
 
-    // function getdata_sanpham($id){
-    //     $result = array();
-    //     $query = $this->db->query("SELECT *,FORMAT(don_gia,0) AS don_gia, FORMAT(thue_vat,0) AS thue_vat
-    //     FROM sanpham WHERE id = $id");
-    //     $temp = $query->fetchAll(PDO::FETCH_ASSOC);
-    //     $result = $temp[0];
-    //     return $result;
-    // }
+
 
     // function lichsuchamsoc($id){
     //

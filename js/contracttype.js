@@ -53,16 +53,17 @@ $(function () {
                 '<"col-sm-12 col-md-6"i>' +
                 '<"col-sm-12 col-md-6"p>' +
                 ">",
-            language: {
-                sLengthMenu: "Show _MENU_",
-                search: "Tìm kiếm",
-                searchPlaceholder: "Từ khóa ...",
-                paginate: {
-                    // remove previous & next text from pagination
-                    previous: "&nbsp;",
-                    next: "&nbsp;",
+                language: {
+                    sLengthMenu: "Hiển thị _MENU_",
+                    search: "",
+                    searchPlaceholder: "Tìm kiếm...",
+                    paginate: {
+                        // remove previous & next text from pagination
+                        previous: "&nbsp;",
+                        next: "&nbsp;",
+                    },
+                    info: "Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
                 },
-            },
             // Buttons with Dropdown
             buttons: [
                 {
@@ -72,6 +73,10 @@ $(function () {
                         $(node).removeClass("btn-secondary");
                     },
                     action: function (e, dt, node, config) {
+                        var validator = $("#fm").validate(); // reset form
+                        validator.resetForm();
+                        $(".error").removeClass("error"); 
+                
                         $("#dgAccesspoint").modal('show');
                         $(".modal-title").html('Thêm loại hợp đồng mới');
                         $('#name').val('');
@@ -105,6 +110,9 @@ $(function () {
 });
 
 function loaddata(id) {
+    var validator = $("#fm").validate(); // reset form
+        validator.resetForm();
+        $(".error").removeClass("error"); // loại bỏ validate
     $("#dgAccesspoint").modal('show');
     $(".modal-title").html('Cập nhật thông tin loại hợp đồng');
     $.ajax({
@@ -125,11 +133,7 @@ function loaddata(id) {
 
 function save() {
     $('#fm').validate({
-        messages: {
-            "name": {
-                required: "Bạn chưa nhập tên loại hợp đồng!",
-            }
-        },
+       
         submitHandler: function (form) {
             var formData = new FormData(form);
             $.ajax({

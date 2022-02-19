@@ -45,7 +45,7 @@
                             </li>
                             <!-- change password -->
                             <li class="nav-item">
-                                <a class="nav-link" id="account-pill-password" data-toggle="pill" href="#account-vertical-password" aria-expanded="false">
+                                <a class="nav-link" id="account-pill-password" data-toggle="pill" href="#account-vertical-password"  aria-expanded="false">
                                     <i data-feather="lock" class="font-medium-3 mr-1"></i>
                                     <span class="font-weight-bold">Thay đổi mật khẩu</span>
                                 </a>
@@ -101,7 +101,7 @@
                                         <!--/ header media -->
 
                                         <!-- form -->
-                                        <form class="validate-form mt-2">
+                                        <form class="validate-form mt-2" id="change">
                                             <div class="row">
                                                 <div class="col-12 col-sm-6">
                                                     <div class="form-group">
@@ -129,7 +129,7 @@
                                                 </div>
                                                 <div class="col-12">
                                                     <button type="button" class="btn btn-primary mt-2 mr-1" onclick="save()">Lưu thay đổi</button>
-                                                    <button type="reset" class="btn btn-outline-secondary mt-2">Đóng</button>
+                                                    <!-- <button type="reset" class="btn btn-outline-secondary mt-2">Đóng</button> -->
                                                 </div>
                                             </div>
                                         </form>
@@ -140,7 +140,7 @@
                                     <!-- change password -->
                                     <div class="tab-pane fade" id="account-vertical-password" role="tabpanel" aria-labelledby="account-pill-password" aria-expanded="false">
                                         <!-- form -->
-                                        <form class="validate-form">
+                                        <form class="validate-form" id="changePass">
                                             <div class="row">
                                                 <div class="col-12 col-sm-6">
                                                     <div class="form-group">
@@ -183,7 +183,7 @@
                                                 </div>
                                                 <div class="col-12">
                                                     <button type="button" class="btn btn-primary mr-1 mt-1" onclick="savepass()">Lưu thay đổi</button>
-                                                    <button type="reset" class="btn btn-outline-secondary mt-1">Đóng</button>
+                                                    <!-- <button type="reset" class="btn btn-outline-secondary mt-1">Đóng</button> -->
                                                 </div>
                                             </div>
                                         </form>
@@ -194,7 +194,7 @@
                                     <!-- information -->
                                     <div class="tab-pane fade" id="account-vertical-info" role="tabpanel" aria-labelledby="account-pill-info" aria-expanded="false">
                                         <!-- form -->
-                                        <form class="validate-form">
+                                        <form class="validate-form" id="changeInfo">
                                             <div class="row">
                                                 <div class="col-12 col-sm-6">
                                                     <div class="form-group">
@@ -205,7 +205,7 @@
                                                 <div class="col-12 col-sm-6">
                                                     <div class="form-group">
                                                         <label for="cmnd">CMND/CCCD</label>
-                                                        <input type="text" class="form-control flatpickr" placeholder="CMND/CCCD" id="cmnd" name="cmnd" />
+                                                        <input type="number" class="form-control flatpickr" placeholder="CMND/CCCD" id="cmnd" name="cmnd" />
                                                     </div>
                                                 </div>
                                                 <div class="col-12 col-sm-6">
@@ -239,8 +239,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-12">
-                                                    <button type="button" class="btn btn-primary mt-1 mr-1" onclick="save()">Lưu thay đổi</button>
-                                                    <button type="reset" class="btn btn-outline-secondary mt-1">Đóng</button>
+                                                    <button type="button" class="btn btn-primary mt-1 mr-1" onclick="saveInfo()">Lưu thay đổi</button>
+                                                    <!-- <button type="reset" class="btn btn-outline-secondary mt-1">Đóng</button> -->
                                                 </div>
                                             </div>
                                         </form>
@@ -251,7 +251,7 @@
                                     <!-- social -->
                                     <div class="tab-pane fade" id="account-vertical-social" role="tabpanel" aria-labelledby="account-pill-social" aria-expanded="false">
                                         <!-- form -->
-                                        <form class="validate-form">
+                                        <form class="validate-form" id="changeSocial">
                                             <div class="row">
                                                 <!-- social header -->
                                                 <div class="col-12">
@@ -351,7 +351,7 @@
                                                 <div class="col-12">
                                                     <!-- submit and cancel button -->
                                                     <button type="button" class="btn btn-primary mr-1 mt-1" onclick="savesocial()">Lưu thay đổi</button>
-                                                    <button type="reset" class="btn btn-outline-secondary mt-1">Đóng</button>
+                                                    <!-- <button type="reset" class="btn btn-outline-secondary mt-1">Đóng</button> -->
                                                 </div>
                                             </div>
                                         </form>
@@ -406,7 +406,7 @@
                                             </div>
                                             <div class="col-12">
                                                 <button type="submit" class="btn btn-primary mt-2 mr-1">Lưu thay đổi</button>
-                                                <button type="reset" class="btn btn-outline-secondary mt-2">Đóng</button>
+                                                <!-- <button type="reset" class="btn btn-outline-secondary mt-2">Đóng</button> -->
                                             </div>
                                         </div>
                                     </div>

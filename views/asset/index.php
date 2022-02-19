@@ -176,7 +176,7 @@
 
                                                             <div class="col-lg-4 d-flex mt-1 px-0">
 
-                                                                <img id="avatar" onerror="this.src='<?= HOME ?>/layouts/none_image.png'" src="" alt="Ảnh tài sản" class="user-avatar users-avatar-shadow rounded mr-2 my-25 cursor-pointer" height="90" width="90" />
+                                                                <img onerror="this.src='<?= HOME ?>/layouts/none_images.png'" id="avatar" alt="Ảnh tài sản" src="" class="user-avatar users-avatar-shadow rounded mr-2 my-25 cursor-pointer" onerror=" this.src='<?= HOME ?>/layouts/none_image.png'" height="90" width="90" />
 
                                                                 <div class="media-body col-lg-12 mt-50">
 
@@ -231,7 +231,7 @@
                                                             <div class="col-lg-2 col-md-2">
                                                                 <div class="form-group">
                                                                     <label for="code_add">Mã tài sản</label>
-                                                                    <input id="code_add" type="text" class="form-control"  name="code_add" />
+                                                                    <input id="code_add" type="text" disabled class="form-control"  name="code_add" />
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-2 col-md-2">
@@ -477,7 +477,7 @@
                                         <div class="col-lg-12 col-md-12">
                                             <div class="form-group">
                                                 <label for="dateIssue">Ngày cấp</label>
-                                                <input id="dateIssue" type="text" class="form-control flatpickr-basic" name="dateIssue" />
+                                                <input disabled id="dateIssue" type="text" class="form-control flatpickr-basic" name="dateIssue" />
                                             </div>
                                             <div class="form-group">
                                                 <label for="descIssue">Ghi chú</label>
@@ -532,7 +532,7 @@
                                         <div class="col-lg-12 col-md-12">
                                             <div class="form-group">
                                                 <label for="ngay_gio_th">Ngày trả</label>
-                                                <input id="ngay_gio_th" type="text" class="form-control flatpickr-basic" name="ngay_gio_th" />
+                                                <input disabled id="ngay_gio_th" type="text" class="form-control flatpickr-basic" name="ngay_gio_th" />
                                             </div>
                                             <div class="form-group">
                                                 <label for="ghi_chu_th">Ghi chú</label>

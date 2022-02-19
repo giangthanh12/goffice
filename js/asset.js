@@ -205,6 +205,7 @@ if ($('#status').length) {
                         next: "&nbsp;",
                     },
                     info:"Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
+                    infoFiltered: "(lọc từ _MAX_ bản ghi)",
                 },
             // Buttons with Dropdown
             buttons: buttons,
@@ -485,7 +486,7 @@ function loaddata(id) {
             $('#so_luong_add').val(tai_san.so_luong);
             $('#khau_hao_add').val(tai_san.khau_hao);
             $('#bao_hanh_add').val(tai_san.bao_hanh);
-            $("#so_tien_add").val(formatCurrency(tai_san.so_tien.replace(/[,VNĐ]/g,'')));
+            $("#so_tien_add").val(Comma(tai_san.so_tien));
             $('#ngay_gio_add').val(tai_san.ngay_gio);
             $('#code_add').val(tai_san.code);
             var taisan_info = result.taisan_info; 

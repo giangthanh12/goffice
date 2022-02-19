@@ -20,8 +20,8 @@ $(function () {
             let staffInfo = data.staffInfo;
 
             let social = data.social
-            if (staffInfo.avatar!='')
-                $('#avatar').attr('src', baseUrlFile+'/uploads/nhanvien/'+staffInfo.avatar);
+            if (staffInfo.avatar != '')
+                $('#avatar').attr('src', baseUrlFile + '/uploads/nhanvien/' + staffInfo.avatar);
             else
                 $('#avatar').attr('src', baseHome + '/layouts/useravatar.png');
             $('#username').val(staffInfo.username);
@@ -77,12 +77,12 @@ function thayanh() {
         data: myform,
         contentType: false,
         processData: false,
-        dataType:'json',
+        dataType: 'json',
         success: function (data) {
             if (data.success) {
                 notyfi_success(data.msg);
-                $('#avatar').attr('src', baseUrlFile+'/uploads/nhanvien/'+data.filename);
-                $('#hungsua2').attr('src', baseUrlFile+'/uploads/nhanvien/'+data.filename);
+                $('#avatar').attr('src', baseUrlFile + '/uploads/nhanvien/' + data.filename);
+                $('#hungsua2').attr('src', baseUrlFile + '/uploads/nhanvien/' + data.filename);
             }
             else
                 notify_error(data.msg);
@@ -95,7 +95,7 @@ function xoaanh() {
         type: "post",
         url: baseHome + "/accountsettings/xoaanh",
         success: function (data) {
-            if (data.success){
+            if (data.success) {
                 $('#avatar').attr('src', baseHome + '/layouts/useravatar.png');
                 $('#hungsua2').attr('src', baseHome + '/layouts/useravatar.png');
             }
@@ -103,31 +103,89 @@ function xoaanh() {
     });
 }
 
+
 function save() {
-    var info = {};
-    info.name = $("#name").val();
-    info.email = $("#email").val();
-    info.dien_thoai = $("#dien_thoai").val();
-    info.ngay_sinh = $("#ngay_sinh").val();
-    info.cmnd = $("#cmnd").val();
-    info.ngay_cap = $("#ngay_cap").val();
-    info.noi_cap = $("#noi_cap").val();
-    info.que_quan = $("#que_quan").val();
-    info.dia_chi = $("#dia_chi").val();
-    info.ghi_chu = $("#ghi_chu").val();
-    $.ajax({
-        type: "POST",
-        dataType: "json",
-        data: info,
-        url: baseHome + "/accountsettings/update",
-        success: function (data) {
-            if (data.success) {
-                $('#hungsua1').html(info.name);
-                notyfi_success(data.msg);
-            } else
-                notify_error(data.msg);
+    $('#change').validate({
+        rules:{
+            dien_thoai:{
+                number: true,
+                minlength: 10,
+                maxlength: 10
+            }
+        },
+        messages: {
+            "dien_thoai": {
+                number: "Yêu cầu nhập số!",
+                minlength: "Yêu cầu nhập đủ 10 số",
+                maxlength: "Yêu cầu nhập đủ 10 số"
+            },
+        },
+        submitHandler: function (form) {
+            var formData = new FormData(form);
+            $.ajax({
+                url:  baseHome + "/accountsettings/update",
+                type: 'POST',
+                data: formData,
+                async: false,
+                cache: false,
+                contentType: false,
+                enctype: 'multipart/form-data',
+                processData: false,
+                dataType: "json",
+                success: function (data) {
+                    if (data.success) {
+                        notyfi_success(data.msg);
+                    } else
+                        notify_error(data.msg);
+                }
+            });
+            return false;
         }
     });
+    $('#change').submit();
+}
+
+function saveInfo() {
+    $('#changeInfo').validate({
+        rules:{
+            cmnd:{
+                number: true,
+                minlength: 12,
+                maxlength: 12
+            }
+        },
+        messages: {
+            "cmnd": {
+                number: "Yêu cầu nhập số!",
+                minlength: "Yêu cầu nhập đủ 12 số",
+                maxlength: "Yêu cầu nhập đủ 12 số"
+            },
+        },
+        submitHandler: function (form) {
+            var formDataInfo = new FormData(form);
+            $.ajax({
+                url:  baseHome + "/accountsettings/updateInfo",
+                type: 'POST',
+                data: formDataInfo,
+                async: false,
+                cache: false,
+                contentType: false,
+                enctype: 'multipart/form-data',
+                processData: false,
+                dataType: "json",
+                success: function (data) {
+                    if (data.success) {
+                        notyfi_success(data.msg);
+                        // $('#dgAccesspoint').modal('hide');
+                        // $(".user-list-table").DataTable().ajax.reload(null, false);
+                    } else
+                        notify_error(data.msg);
+                }
+            });
+            return false;
+        }
+    });
+    $('#changeInfo').submit();
 }
 
 function savesocial() {

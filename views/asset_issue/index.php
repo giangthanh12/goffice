@@ -47,7 +47,7 @@
                                     <div class="col-lg-12 col-md-12">
                                         <div class="form-group">
                                             <label class="form-label" for="nhan_vien">Nhân viên</label>
-                                            <select name="nhan_vien" id="nhan_vien" class="select2 form-control"></select>
+                                            <select disabled name="nhan_vien" id="nhan_vien" class="select2 form-control"></select>
                                         </div>
 
                                         <div class="form-group">
@@ -59,17 +59,17 @@
                                     <div class="col-lg-12 col-md-12">
                                         <div class="form-group">
                                             <label for="dat_coc">Đặt cọc</label>
-                                            <input id="dat_coc" type="text" class="form-control format_number" name="dat_coc" />
+                                            <input id="dat_coc" disabled type="text" class="form-control format_number" name="dat_coc" />
                                         </div>
                                     </div>
                                     <div class="col-lg-12 col-md-12">
                                         <div class="form-group">
                                             <label for="ngay_gio">Ngày cấp</label>
-                                            <input id="ngay_gio" type="text" class="form-control ngay_gio" name="ngay_gio" />
+                                            <input id="ngay_gio" disabled type="text" class="form-control ngay_gio" name="ngay_gio" />
                                         </div>
                                         <div class="form-group">
                                             <label for="ghi_chu">Ghi chú</label>
-                                            <textarea id="ghi_chu" class="form-control" name="ghi_chu"></textarea>
+                                            <textarea id="ghi_chu" disabled class="form-control" name="ghi_chu"></textarea>
                                         </div>
                                     <button type="reset" class="btn btn-outline-secondary" data-dismiss="modal">Bỏ qua</button>
                                     </div>

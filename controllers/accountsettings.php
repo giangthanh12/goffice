@@ -71,6 +71,27 @@ class accountsettings extends Controller
         $name = isset($_REQUEST['name']) ? $_REQUEST['name'] : '';
         $email = isset($_REQUEST['email']) ? $_REQUEST['email'] : '';
         $dienthoai = isset($_REQUEST['dien_thoai']) ? $_REQUEST['dien_thoai'] : '';
+      
+        $data = [
+            'name' => $name,
+            'email' => $email,
+            'phoneNumber' => $dienthoai,
+        ];
+        if ($this->model->updateObj($id, $data)) {
+            $_SESSION['user']['hoten'] = $name;
+            $jsonObj['msg'] = "Cập nhật dữ liệu thành công";
+            $jsonObj['success'] = true;
+        } else {
+            $jsonObj['msg'] = "Lỗi khi cập nhật database";
+            $jsonObj['success'] = false;
+        }
+        echo json_encode($jsonObj);
+    }    
+
+    function updateInfo()
+    {
+        $id = isset($_SESSION['user']['staffId']) ? $_SESSION['user']['staffId'] : 0;
+        $name = isset($_REQUEST['name']) ? $_REQUEST['name'] : '';
         $ngaysinh = isset($_REQUEST['ngay_sinh']) ? date("Y-m-d", strtotime(str_replace('/', '-', $_REQUEST['ngay_sinh']))) : date("Y-m-d");
         $cmnd = isset($_REQUEST['cmnd']) ? $_REQUEST['cmnd'] : '';
         $ngaycap = isset($_REQUEST['ngay_cap']) ? date("Y-m-d", strtotime(str_replace('/', '-', $_REQUEST['ngay_cap']))) : date("Y-m-d");
@@ -79,9 +100,6 @@ class accountsettings extends Controller
         $diachi = isset($_REQUEST['dia_chi']) ? $_REQUEST['dia_chi'] : '';
         $ghichu = isset($_REQUEST['ghi_chu']) ? $_REQUEST['ghi_chu'] : '';
         $data = [
-            'name' => $name,
-            'email' => $email,
-            'phoneNumber' => $dienthoai,
             'birthday' => $ngaysinh,
             'idCard' => $cmnd,
             'idDate' => $ngaycap,
