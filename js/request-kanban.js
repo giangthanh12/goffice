@@ -144,7 +144,9 @@ $(function () {
     $(document).on('mouseenter', '.kanban-title-board', function () {
         //  $(this).attr('contenteditable', 'true');
     });
-
+    $(document).on('ready', '.kanban-title-board', function () {
+         $(this).css('white-space', 'inherit');
+    });
     // Appends delete icon with title
     // $.each($('.kanban-board-header'), function () {
     //     $(this).append(renderBoardDropdown());

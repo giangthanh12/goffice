@@ -137,8 +137,8 @@ class applicant_Model extends Model{
     {
         $result = array();
         $query = $this->db->query("SELECT *,
-            DATE_FORMAT(ngay_bat_dau,'%d/%m/%Y') as ngay_bat_dau,
-            DATE_FORMAT(ngay_ket_thuc,'%d/%m/%Y') as ngay_ket_thuc
+            DATE_FORMAT(ngay_bat_dau,'%d-%m-%Y') as ngay_bat_dau,
+            DATE_FORMAT(ngay_ket_thuc,'%d-%m-%Y') as ngay_ket_thuc
             FROM hocvanuv WHERE ung_vien = $id AND tinh_trang = 1");
         if ($query)
             $result['data'] = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -147,8 +147,10 @@ class applicant_Model extends Model{
 
     function getHV($id){
         $result = array();
-        $query = $this->db->query("SELECT *
-            FROM hocvanuv WHERE id = $id");
+        $query = $this->db->query("SELECT *,
+        DATE_FORMAT(ngay_bat_dau,'%d-%m-%Y') as ngay_bat_dau,
+        DATE_FORMAT(ngay_ket_thuc,'%d-%m-%Y') as ngay_ket_thuc
+        FROM hocvanuv WHERE id = $id");
         $temp = $query->fetchAll(PDO::FETCH_ASSOC);
         $result = $temp[0];
         return $result;
@@ -174,8 +176,8 @@ class applicant_Model extends Model{
     {
         $result = array();
         $query = $this->db->query("SELECT *,
-            DATE_FORMAT(ngay_bat_dau,'%d/%m/%Y') as ngay_bat_dau,
-            DATE_FORMAT(ngay_ket_thuc,'%d/%m/%Y') as ngay_ket_thuc
+            DATE_FORMAT(ngay_bat_dau,'%d-%m-%Y') as ngay_bat_dau,
+            DATE_FORMAT(ngay_ket_thuc,'%d-%m-%Y') as ngay_ket_thuc
             FROM kinhnghiemuv WHERE ung_vien = $id AND tinh_trang = 1");
         if ($query)
             $result['data'] = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -184,7 +186,9 @@ class applicant_Model extends Model{
 
     function getKN($id){
         $result = array();
-        $query = $this->db->query("SELECT *
+        $query = $this->db->query("SELECT *,
+            DATE_FORMAT(ngay_bat_dau, '%d-%m-%Y') as ngay_bat_dau,
+            DATE_FORMAT(ngay_ket_thuc, '%d-%m-%Y') as ngay_ket_thuc
             FROM kinhnghiemuv WHERE id = $id");
         $temp = $query->fetchAll(PDO::FETCH_ASSOC);
         $result = $temp[0];

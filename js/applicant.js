@@ -10,9 +10,9 @@ $(function () {
     // Default
     if (basicPickr.length) {
         basicPickr.flatpickr({
-            // defaultDate: "today",
+            defaultDate: "today",
             dateFormat: "d-m-Y",
-            allowInput:true,
+            // allowInput:true,
             // monthSelectorType:"dropdown",
             // yearSelectorType:"dropdown",
         });
@@ -31,8 +31,10 @@ $(function () {
                     $(node).removeClass("btn-secondary");
                 },
                 action: function (e, dt, node, config) {
-                    $('#dg')[0].reset();
-                
+               
+                    var validator = $("#dg").validate(); // reset form
+                    validator.resetForm();
+                    $(".error").removeClass("error"); // loại bỏ validate
                  
                    
                 }
@@ -255,7 +257,10 @@ $(function () {
     }
 
 function showAdd() {
-      $('#dg')[0].reset();
+    //   $('#dg')[0].reset();
+      var validator = $("#dg").validate(); // reset form
+        validator.resetForm();
+        $(".error").removeClass("error"); // loại bỏ validate
 }
 
     // Check Validity
@@ -375,7 +380,12 @@ if ($('#fm-tab3').length) {
     $('#fm-tab3').validate({
         errorClass: "error",
         rules: {
-   
+            "hvuv1": {
+                required: true,
+            },
+            "hvuv2": {
+                required: true,
+            },
             "hvuv3": {
                 required: true,
             },
@@ -391,7 +401,12 @@ if ($('#fm-tab3').length) {
           
         },
         messages: {
-        
+            "hvuv1": {
+                required:  "Bạn chưa nhập ngày bắt đầu",
+            },
+            "hvuv2": {
+                required: "Bạn chưa nhập ngày kết thúc",
+            },
             "hvuv3": {
                 required: "Bạn chưa nhập nơi đào tạo",
             },
@@ -422,7 +437,12 @@ if ($('#fm-tab4').length) {
     $('#fm-tab4').validate({
         errorClass: "error",
         rules: {
-   
+            "knuv1": {
+                required: true,
+            },
+            "knuv2": {
+                required: true,
+            },
             "knuv3": {
                 required: true,
             },
@@ -439,7 +459,12 @@ if ($('#fm-tab4').length) {
           
         },
         messages: {
-        
+            "knuv1": {
+                required: "Bạn chưa nhập ngày bắt đầu",
+            },
+            "knuv2": {
+                required: "Bạn chưa nhập ngày kết thúc",
+            },
             "knuv3": {
                 required: "Bạn chưa nhập tên công ty",
             },
@@ -530,7 +555,39 @@ function loaddata(id) {
         data: { id: id },
         url: baseHome + "/applicant/loaddata",
         success: function (data) {
+          
+            var validator1 = $("#fm-tab3").validate(); // reset form
+            validator1.resetForm();
+       
+            var validator2 = $("#fm-tab4").validate(); // reset form
+            validator2.resetForm();
+            $(".error").removeClass("error"); // loại bỏ validate
+            
+            var day = Number($('#knuv1').val().slice(0,2));
+            var month = Number($('#knuv1').val().slice(3,5));
+            var year = Number($('#knuv1').val().slice(6,10));
            
+            $('#knuv2').flatpickr({
+                dateFormat: 'd-m-Y',
+                altFormat: "F j, Y",
+                minDate: new Date(year,month,day).fp_incr(1),
+                // defaultDate: new Date(year,month,day).fp_incr(1),
+            });
+           
+            var day = Number( $('#hvuv1').val().slice(0,2));
+            var month = Number( $('#hvuv1').val().slice(3,5));
+            var year = Number( $('#hvuv1').val().slice(6,10));
+           
+            $('#hvuv2').flatpickr({
+                dateFormat: 'd-m-Y',
+                altFormat: "F j, Y",
+                minDate: new Date(year,month,day).fp_incr(1),
+                // defaultDate: new Date(year,month,day).fp_incr(1),
+            });
+          
+           
+
+
             $('#ungvien').html(data.fullName);
             $('#avatar').attr('src', data.image);
             if (data.gender == 1)
@@ -550,7 +607,6 @@ function loaddata(id) {
             $('#salary').val(formatCurrency(data.salary.replace(/[,VNĐ]/g,'')))
             if(data.salary == 0) $('#salary').val('');
             $("#residence").val(data.residence).trigger('change');
-           
             $('#introduce').val(data.introduce);
             $('#position1').val(data.position).change();
             $('#note1').html(data.note);
@@ -564,7 +620,6 @@ function loaddata(id) {
                     defaultDate: "today",
                 });
             }
-           
             $('#idDate').val('');
             if(data.idDate != '') {
                 $('#idDate').val(data.idDate);
@@ -678,7 +733,10 @@ function thayanh() {
         success: function (data) {
             if (data.success) {
                 notyfi_success(data.msg);
-                $('#avatar').attr('src', data.filename);
+              
+                var img = baseHome + '/users/gemstech/uploads/ungvien/' + data.filename;
+                console.log(img);
+                $('#avatar').attr('src', img);
                 $(".user-list-table").DataTable().ajax.reload(null, false);
             }
             else
@@ -969,7 +1027,7 @@ function loadlisthv(id) {
                 {
                     // Actions
                     targets: -1,
-                    title: feather.icons["database"].toSvg({ class: "font-medium-3 text-center text-success mr-50" }),
+                    title: "Thao tác",
                     orderable: false,
                     render: function (data, type, full, meta) {
                         var html = '';
@@ -984,85 +1042,59 @@ function loadlisthv(id) {
                     width: 150
                 },
             ],
-            // dom:
-            //     '<"d-flex justify-content-between align-items-center header-actions mx-1 row mt-75"' +
-            //     '<"col-lg-12 col-xl-6" l>' +
-            //     '<"col-lg-12 col-xl-6 pl-xl-75 pl-0"<"dt-action-buttons text-xl-right text-lg-left text-md-right text-left d-flex align-items-center justify-content-lg-end align-items-center flex-sm-nowrap flex-wrap mr-1"<"mr-1"f>B>>' +
-            //     ">t" +
-            //     '<"d-flex justify-content-between mx-2 row mb-1"' +
-            //     '<"col-sm-12 col-md-6"i>' +
-            //     '<"col-sm-12 col-md-6"p>' +
-            //     ">",
+            dom:
+                '<"d-flex justify-content-between align-items-center header-actions mx-1 row mt-75"' +
+                '<"col-lg-12 col-xl-6" l>' +
+                '<"col-lg-12 col-xl-6 pl-xl-75 pl-0"<"dt-action-buttons text-xl-right text-lg-left text-md-right text-left d-flex align-items-center justify-content-lg-end align-items-center flex-sm-nowrap flex-wrap mr-1"<"mr-1"f>B>>' +
+                ">t" +
+                '<"d-flex justify-content-between mx-2 row mb-1"' +
+                '<"col-sm-12 col-md-6"i>' +
+                '<"col-sm-12 col-md-6"p>' +
+                ">",
+            buttons:[],
+            // For responsive popup
             language: {
-                sLengthMenu: "Show _MENU_",
-                search: "Search",
-                searchPlaceholder: "Search..",
+                sLengthMenu: "Hiển thị _MENU_",
+                search: "",
+                searchPlaceholder: "Tìm kiếm...",
                 paginate: {
                     // remove previous & next text from pagination
                     previous: "&nbsp;",
                     next: "&nbsp;",
-                }
+                },
+                info:"Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
             },
 
             // // For responsive popup
-            responsive: {
-                details: {
-                    display: $.fn.dataTable.Responsive.display.modal({
-                        header: function (row) {
-                            var data = row.data();
-                            return "Details of " + data["name"];
-                        },
-                    }),
-                    type: "column",
-                    renderer: $.fn.dataTable.Responsive.renderer.tableAll({
-                        tableClass: "table",
-                        columnDefs: [
-                            {
-                                targets: 2,
-                                visible: false,
-                            },
-                            {
-                                targets: 3,
-                                visible: false,
-                            },
-                        ],
-                    }),
-                },
-            }
+           
         });
         urltab3 = baseHome + "/applicant/addhv?ung_vien=" + id;
     }
 }
 
 function loadhv(id) {
+
+
+
     $.ajax({
         type: "POST",
         dataType: "json",
         data: { id: id },
         url: baseHome + "/applicant/loadhv",
         success: function (data) {
-            if (data.ngay_bat_dau != '0000-00-00')
-                defaultDate = data.ngay_bat_dau;
-            else
-                defaultDate = '';
-            $('#hvuv1').flatpickr({
-                // monthSelectorType: "static",
-                altInput: true,
-                defaultDate: defaultDate,
-                altFormat: "j F, Y",
-                dateFormat: "Y-m-d",
-            });
-            if (data.ngay_ket_thuc != '0000-00-00')
-                defaultDate = data.ngay_ket_thuc;
-            else
-                defaultDate = '';
+            $('#hvuv1').val(data.ngay_bat_dau);
+   
+            var day = Number(data.ngay_bat_dau.slice(0,2));
+            var month = Number(data.ngay_bat_dau.slice(3,5));
+            var year = Number(data.ngay_bat_dau.slice(6,10));
+           
             $('#hvuv2').flatpickr({
-                // monthSelectorType: "static",
-                altInput: true,
-                defaultDate: defaultDate,
-                // altFormat: "j F, Y",
-                dateFormat: "d/m/Y",
+                dateFormat: 'd-m-Y',
+                altFormat: "F j, Y",
+                minDate: new Date(year,month,day).fp_incr(1),
+                // defaultDate: new Date(year,month,day).fp_incr(1),
             });
+            $('#hvuv2').val(data.ngay_ket_thuc);
             $('#hvuv3').val(data.noi_dao_tao);
             $('#hvuv4').val(data.chuyen_nganh);
             $('#hvuv5').val(data.hinh_thuc);
@@ -1074,7 +1106,19 @@ function loadhv(id) {
         }
     });
 }
+$('#hvuv1').change(function() {
 
+    $('#hvuv2').val('');
+    var strStartDate = $('#hvuv1').val();
+    var day = Number(strStartDate.slice(0,2));
+    var month = Number(strStartDate.slice(3,5));
+    var year = Number(strStartDate.slice(6,10));
+    $('#hvuv2').flatpickr({
+        dateFormat: 'd-m-Y',
+        altFormat: "F j, Y",
+        minDate: new Date(year,month,day).fp_incr(1),
+    });
+})
 function savehv() {
     var hv = {};
     hv.ngay_bat_dau = $("#hvuv1").val();
@@ -1160,7 +1204,7 @@ function loadlistkn(id) {
                 {
                     // Actions
                     targets: -1,
-                    title: feather.icons["database"].toSvg({ class: "font-medium-3 text-center text-success mr-50" }),
+                    title: "Thao tác",
                     orderable: false,
                     render: function (data, type, full, meta) {
                         var html = '';
@@ -1175,25 +1219,29 @@ function loadlistkn(id) {
                     width: 150
                 },
             ],
-            // dom:
-            //     '<"d-flex justify-content-between align-items-center header-actions mx-1 row mt-75"' +
-            //     '<"col-lg-12 col-xl-6" l>' +
-            //     '<"col-lg-12 col-xl-6 pl-xl-75 pl-0"<"dt-action-buttons text-xl-right text-lg-left text-md-right text-left d-flex align-items-center justify-content-lg-end align-items-center flex-sm-nowrap flex-wrap mr-1"<"mr-1"f>B>>' +
-            //     ">t" +
-            //     '<"d-flex justify-content-between mx-2 row mb-1"' +
-            //     '<"col-sm-12 col-md-6"i>' +
-            //     '<"col-sm-12 col-md-6"p>' +
-            //     ">",
-            language: {
-                sLengthMenu: "Show _MENU_",
-                search: "Search",
-                searchPlaceholder: "Search..",
-                paginate: {
-                    // remove previous & next text from pagination
-                    previous: "&nbsp;",
-                    next: "&nbsp;",
-                }
+            dom:
+            '<"d-flex justify-content-between align-items-center header-actions mx-1 row mt-75"' +
+            '<"col-lg-12 col-xl-6" l>' +
+            '<"col-lg-12 col-xl-6 pl-xl-75 pl-0"<"dt-action-buttons text-xl-right text-lg-left text-md-right text-left d-flex align-items-center justify-content-lg-end align-items-center flex-sm-nowrap flex-wrap mr-1"<"mr-1"f>B>>' +
+            ">t" +
+            '<"d-flex justify-content-between mx-2 row mb-1"' +
+            '<"col-sm-12 col-md-6"i>' +
+            '<"col-sm-12 col-md-6"p>' +
+            ">",
+        buttons:[],
+        // For responsive popup
+        language: {
+            sLengthMenu: "Hiển thị _MENU_",
+            search: "",
+            searchPlaceholder: "Tìm kiếm...",
+            paginate: {
+                // remove previous & next text from pagination
+                previous: "&nbsp;",
+                next: "&nbsp;",
             },
+            info:"Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
+        },
+            
 
             // // For responsive popup
             responsive: {
@@ -1226,34 +1274,27 @@ function loadlistkn(id) {
 }
 
 function loadkn(id) {
+
     $.ajax({
         type: "POST",
         dataType: "json",
         data: { id: id },
         url: baseHome + "/applicant/loadkn",
         success: function (data) {
-            if (data.ngay_bat_dau != '0000-00-00')
-                defaultDate = data.ngay_bat_dau;
-            else
-                defaultDate = '';
-            $('#knuv1').flatpickr({
-                // monthSelectorType: "static",
-                altInput: true,
-                defaultDate: defaultDate,
-                altFormat: "j F, Y",
-                dateFormat: "Y-m-d",
-            });
-            if (data.ngay_ket_thuc != '0000-00-00')
-                defaultDate = data.ngay_ket_thuc;
-            else
-                defaultDate = '';
+          
+          
+            $('#knuv1').val(data.ngay_bat_dau);
+            var day = Number(data.ngay_bat_dau.slice(0,2));
+            var month = Number(data.ngay_bat_dau.slice(3,5));
+            var year = Number(data.ngay_bat_dau.slice(6,10));
+           
             $('#knuv2').flatpickr({
-                // monthSelectorType: "static",
-                altInput: true,
-                defaultDate: defaultDate,
-                altFormat: "j F, Y",
-                dateFormat: "d/m/Y",
+                dateFormat: 'd-m-Y',
+                altFormat: "F j, Y",
+                minDate: new Date(year,month,day).fp_incr(1),
+                // defaultDate: new Date(year,month,day).fp_incr(1),
             });
+            $('#knuv2').val(data.ngay_ket_thuc);
             $('#knuv3').val(data.cong_ty);
             $('#knuv4').val(data.vi_tri);
             $('#knuv5').val(data.nguoi_tham_chieu);
@@ -1267,7 +1308,19 @@ function loadkn(id) {
         }
     });
 }
+$('#knuv1').change(function() {
 
+    $('#knuv2').val('');
+    var strStartDate = $('#knuv1').val();
+    var day = Number(strStartDate.slice(0,2));
+    var month = Number(strStartDate.slice(3,5));
+    var year = Number(strStartDate.slice(6,10));
+    $('#knuv2').flatpickr({
+        dateFormat: 'd-m-Y',
+        altFormat: "F j, Y",
+        minDate: new Date(year,month,day).fp_incr(1),
+    });
+})
 function savekn() {
     var kn = {};
     kn.ngay_bat_dau = $("#knuv1").val();

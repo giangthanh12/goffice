@@ -39,29 +39,30 @@
                                                 <div class="form-group">
                                                     <label for="name">Tên</label>
                                                     <div class="input-group input-group-merge">
-                                                        <div class="input-group-prepend">
+                                                        <!-- <div class="input-group-prepend">
                                                             <span class="input-group-text">
                                                                 <i data-feather='archive'></i>
                                                             </span>
-                                                        </div>
+                                                        </div> -->
                                                         <input
                                                                 type="text"
                                                                 id="name"
                                                                 class="form-control"
                                                                 name="name"
                                                                 placeholder="Tên loại hợp đồng"
-                                                                required
+                                                                data-msg-required="Yêu cầu chọn loại hợp đồng"
+                                                               required
                                                         />
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="address">Ghi chú</label>
                                                     <div class="input-group input-group-merge">
-                                                        <div class="input-group-prepend">
+                                                        <!-- <div class="input-group-prepend">
                                                             <span class="input-group-text">
                                                                 <i data-feather='bookmark'></i>
                                                             </span>
-                                                        </div>
+                                                        </div> -->
                                                         <input
                                                                 type="text"
                                                                 id="note"

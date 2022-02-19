@@ -3,16 +3,7 @@
     <div class="content-overlay"></div>
     <div class="header-navbar-shadow"></div>
     <div class="content-wrapper container-xxl p-0">
-        <div class="content-header row">
-            <div class="content-header-left col-md-9 col-12 mb-2">
-                <div class="row breadcrumbs-top">
-                    <div class="col-12">
-                        <h2 class="content-header-title float-left mb-0" style="border-right: none;">Chiến dịch tuyển dụng
-                            <img src="<?=HOME?>/layouts/tooltip.png" style="margin: 0 15px" width="25px" id="current_ip" data-toggle="tooltip" data-placement="right" data-original-title="Là chức năng quản lý tất cả những chiếc dịch tuyển dụng mà doanh nghiệp đang áp dụng để thu hút nhân ứng viên " data-trigger="click" ></h2>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <div class="content-header row"></div>
         <div class="content-body">
             <!-- users list start -->
             <section class="app-user-list">
@@ -87,7 +78,7 @@
                                                             <div class="col-lg-4 col-md-6">
                                                                 <div class="form-group">
                                                                     <label for="endDate">Ngày kết thúc</label>
-                                                                    <input id="endDate" type="text" class="form-control flatpickr-basic" name="endDate" />
+                                                                    <input id="endDate" type="text" class="form-control" name="endDate" />
                                                                 </div>
                                                             </div>
 
@@ -414,8 +405,8 @@
                                                         <h6 class="py-1 mx-1 mb-0 font-medium-2">
                                                             <i data-feather="lock" class="font-medium-3 mr-25"></i>
                                                             <span class="align-middle">Chi tiết</span>
+                                                       
                                                         </h6>
-
                                                         <table class="table asset-candidate-list-table" id="asset-issue-list-table">
                                                             <thead class="thead-light">
                                                                 <tr>
@@ -439,6 +430,65 @@
                             </div>
                         </div>
                     </div>
+
+<!-- Thêm lịch phỏng vấn -->
+<div class="modal modal-slide-in event-sidebar fade" id="add-new-calendar">
+                    <div class="modal-dialog sidebar-lg">
+                        <div class="modal-content p-0">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">×</button>
+                            <div class="modal-header mb-1">
+                                <h5 class="modal-title-calendar">Thêm lịch phỏng vấn cho ứng viên</h5>
+                            </div>
+                            <div class="modal-body flex-grow-1 pb-sm-0 pb-3">
+                                <form id="interviewForm" class="event-form needs-validation" data-ajax="false" novalidate="novalidate">
+                                    <input type="hidden" name="applicantId" id="applicantId">  
+                                    <input type="hidden" name="campId" id="campId">      
+                                
+                                    <div class="form-group">
+                                        <label for="dateTime" class="form-label">Lịch phỏng vấn</label>
+                                        <input type="text" class="form-control flatpickr-basic" id="dateTime" name="dateTime"
+                                               placeholder="DD-MM-YYYY" required="true" >
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="dateTime" class="form-label">Giờ phỏng vấn</label>
+                                        <input type="text" class="form-control" id="timeInterview" name="timeInterview"
+                                                required="true" >
+                                    </div>
+                                    <div class="form-group position-relative">
+                                        <label for="interviewerIds" class="form-label">Người phỏng vấn</label>
+                                        <select name="interviewerIds[]" id="interviewerIds" required data-msg-required="Yêu cầu chọn người phỏng vấn" multiple="multiple" class="form-control select2"></select>
+                                    </div>
+                                    <!-- <div class="form-group">
+                                        <label for="round" class="form-label">Vòng phỏng vấn</label>
+                                        <input type="number" min="1" class="form-control" id="round" name="round"
+                                                required="true" >
+                                    </div> -->
+                                    <div class="form-group">
+                                        <label for="round" class="form-label">Kết quả phỏng vấn</label>
+                                        <select required data-msg-required="Yêu cầu chọn trạng thái" class="select2 select-label form-control w-100" id="result" name="result">
+                                            <option data-label="#FF9F43" value="1">Hẹn phỏng vấn</option>
+                                            <option data-label="#28C76F" value="2">Đạt</option>
+                                            <option data-label="#EA5455" value="3">Không đạt</option>
+                                            <option data-label="#E83E8C" value="4">Từ chối</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Ghi chú</label>
+                                        <textarea name="noteCalendar" id="noteCalendar"
+                                         class="form-control"></textarea>
+                                    </div>
+                                    <div class="form-group d-flex">
+                                       <button type="submit" id = "updateInterview"
+                                               class="btn btn-primary add-event-btn mr-1 waves-effect waves-float waves-light">
+                                       Thêm
+                                       </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
 
 
   <!---modal BÁO MẤT HỎNG-->

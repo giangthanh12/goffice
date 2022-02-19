@@ -33,6 +33,11 @@ class used_customer extends Controller
         require "layouts/footer.php";
     }
 
+    function getProduct() {
+        $jsonObj = $this->model->getProduct();
+        echo json_encode($jsonObj);
+    }
+
     function getStaff()
     {
         $jsonObj = $this->model->getStaff();
@@ -153,10 +158,9 @@ class used_customer extends Controller
         $staffId = isset($_REQUEST['staffId']) ? $_REQUEST['staffId'] : '';
         $staffInCharge = isset($_SESSION['user']['id']) ? $_SESSION['user']['id'] : '';
         $field = isset($_REQUEST['field']) ? $_REQUEST['field'] : '';
-
         // $rank = isset($_REQUEST['rank']) ? $_REQUEST['rank'] : '';
         // $bussinessName = isset($_REQUEST['bussinessName']) ? $_REQUEST['bussinessName'] : '';
-        $businessAddress = isset($_REQUEST['businessAddress']) ? $_REQUEST['businessAddress'] : '';
+        $businessPlace = isset($_REQUEST['businessPlace']) ? $_REQUEST['businessPlace'] : '';
         $businessAddress = isset($_REQUEST['businessAddress']) ? $_REQUEST['businessAddress'] : '';
         $representative = isset($_REQUEST['representative']) ? $_REQUEST['representative'] : '';
         $authorized = isset($_REQUEST['authorized']) ? $_REQUEST['authorized'] : '';
@@ -167,7 +171,7 @@ class used_customer extends Controller
         $position = isset($_REQUEST['position']) ? $_REQUEST['position'] : '';
         $provinceId = isset($_REQUEST['provinceId']) ? $_REQUEST['provinceId'] : '';
         $status = isset($_REQUEST['status']) ? $_REQUEST['status'] : 1;
-        $status = isset($_REQUEST['status']) ? $_REQUEST['status'] : 1;
+
         if (!$fullName && !$phoneNumber && !$email && !$website) {
             $jsonObj['msg'] = 'Thông tin không chính xác';
             $jsonObj['success'] = false;
@@ -189,7 +193,7 @@ class used_customer extends Controller
             // 'rank' => $rank,
             // 'businessName' => $bussinessName,
             'businessAddress' => $businessAddress,
-            'businessPlace' => $businessAddress,
+            'businessPlace' => $businessPlace,
             // 'office' => $businessAddress,
             'representative' => $representative,
             'authorized' => $authorized,
@@ -201,7 +205,7 @@ class used_customer extends Controller
             'provinceId' => $provinceId,
             'status' => $status
         );
-
+        
         if ($this->model->updateObj($id, $data)) {
             $jsonObj['msg'] = 'Cập nhật dữ liệu thành công';
             $jsonObj['success'] = true;
@@ -210,6 +214,59 @@ class used_customer extends Controller
             $jsonObj['success'] = false;
         }
 
+        echo json_encode($jsonObj);
+    }
+    function saveTransaction() {
+        $id = isset($_REQUEST['id']) ? $_REQUEST['id'] : 0;
+    
+        $name = isset($_REQUEST['name']) ? $_REQUEST['name'] : false;
+        $customerId = !empty($_REQUEST['customerId']) ? $_REQUEST['customerId'] :false;
+        $asset = isset($_REQUEST['asset']) ? str_replace(',', '', $_REQUEST['asset']): 0;
+        $dateTime = isset($_REQUEST['dateTime']) ? date('Y-m-d H:i',strtotime($_REQUEST['dateTime'])) : '';
+        $performedId = isset($_REQUEST['performedId']) ? $_REQUEST['performedId'] : false;
+        $productId = isset($_REQUEST['productId']) ? $_REQUEST['productId'] : false;
+        $type = isset($_REQUEST['type']) ? $_REQUEST['type'] : false;
+        $description = isset($_REQUEST['description']) ? $_REQUEST['description'] : false;
+        $data = array(
+            'name' => $name,
+            'customerId' => $customerId,
+            'asset' => $asset,
+            'dateTime' => $dateTime,
+            'productId' => $productId,
+            'performerId' => $performedId,
+            'type' => $type,
+            'description' => $description,
+            'status'=>1
+        );
+        // echo "<pre>";
+        // print_r($data);
+        // echo "</pre>";
+        // return;
+        if ($this->model->addTransaction($id,$data)) {
+            $jsonObj['msg'] = 'Cập nhật dữ liệu thành công';
+            $jsonObj['success'] = true;
+        } else {
+            $jsonObj['msg'] = 'Cập nhật dữ liệu không thành công';
+            $jsonObj['success'] = false;
+        }
+        echo json_encode($jsonObj);
+    }
+    
+    function loaddataTransaction() {
+        $id = $_REQUEST['id'];
+        $json = $this->model->getTransaction($id);
+        echo json_encode($json);
+    }
+    function delTransaction($id) {
+        $id = $_REQUEST['id'];
+        $data = ['status' => 0];
+        if ($this->model->delTransaction($id, $data)) {
+            $jsonObj['msg'] = "Xóa dữ liệu thành công";
+            $jsonObj['success'] = true;
+        } else {
+            $jsonObj['msg'] = "Xóa dữ liệu không thành công";
+            $jsonObj['success'] = false;
+        }
         echo json_encode($jsonObj);
     }
     function del()

@@ -448,11 +448,11 @@
                                                         <div class="row">
                                                             <div class="form-group col-md-4">
                                                                 <label for="hvuv1">Từ ngày</label>
-                                                                <input type="text" id="hvuv1" name="hvuv1" class="form-control flatpickr-basic" placeholder="DD/MM/YYYY" />
+                                                                <input type="text" id="hvuv1" name="hvuv1" class="form-control flatpickr-basic" placeholder="DD-MM-YYY" />
                                                             </div>
                                                             <div class="form-group col-md-4">
                                                                 <label for="hvuv2">Đến ngày</label>
-                                                                <input type="text" id="hvuv2" name="hvuv2" class="form-control flatpickr-basic" placeholder="DD/MM/YYYY" />
+                                                                <input type="text" id="hvuv2" name="hvuv2" class="form-control" placeholder="DD-MM-YYYY" />
                                                             </div>
                                                             <div class="form-group col-md-4">
                                                                 <label for="hvuv3">Nơi đào tạo</label>
@@ -504,11 +504,11 @@
                                                         <div class="row">
                                                             <div class="form-group col-md-2">
                                                                 <label for="knuv1">Từ ngày</label>
-                                                                <input type="text" id="knuv1" name="knuv1" class="form-control flatpickr-basic" placeholder="DD/MM/YYYY" />
+                                                                <input type="text" id="knuv1" name="knuv1" class="form-control flatpickr-basic" placeholder="DD-MM-YYYY" />
                                                             </div>
                                                             <div class="form-group col-md-2">
                                                                 <label for="knuv2">Đến ngày</label>
-                                                                <input type="text" id="knuv2" name="knuv2" class="form-control flatpickr-basic" placeholder="DD/MM/YYYY" />
+                                                                <input type="text" id="knuv2" name="knuv2" class="form-control" placeholder="DD-MM-YYYY" />
                                                             </div>
                                                             <div class="form-group col-md-4">
                                                                 <label for="knuv3">Công ty</label>

@@ -82,15 +82,17 @@ $(function () {
                 '<"col-sm-12 col-md-6"i>' +
                 '<"col-sm-12 col-md-6"p>' +
                 ">",
-            language: {
-                sLengthMenu: "Show _MENU_",
-                search: "Tìm kiếm",
-                searchPlaceholder: "Từ khóa..",
-                paginate: {
-                    previous: "&nbsp;",
-                    next: "&nbsp;",
+                language: {
+                    sLengthMenu: "Hiển thị _MENU_",
+                    search: "",
+                    searchPlaceholder: "Tìm kiếm...",
+                    paginate: {
+                        // remove previous & next text from pagination
+                        previous: "&nbsp;",
+                        next: "&nbsp;",
+                    },
+                    info: "Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
                 },
-            },
             buttons: buttons,
             initComplete: function () {
             },
@@ -236,7 +238,7 @@ function showAdd() {
 
 
 function loaddata(id) {
-    if (funAdd == 1) {
+    if (funEdit == 1) {
         $('#btnStep,#addobject1,#btnUpdate,#btnUpdate2').removeClass('d-none');
     } else {
         $('#btnStep,#addobject1,#btnUpdate,#btnUpdate2').addClass('d-none');
@@ -259,12 +261,15 @@ function loaddata(id) {
             $("#listobject1").empty();
             x = data.object.length;
             for (var j = 0; j < x; j++) {
+                if(funEdit == 1) {
+                    var buttonDel = '<button type="button" class="btn btn-icon btn-outline-danger waves-effect remove-button" onclick="remove1(' + j + ')"><i class="fas fa-trash-alt"></i></button>';
+                }
                 $("#listobject1").append(
                     '<div class="row form-group" id="objupdate-' + j + '"><div class="col col-md-3"></div><div class="col-12 col-md-7"><input type="text" name="object1[]" value="' +
                     data.object[j]["name"] +
                     '" placeholder="Yêu cầu" class="form-control object"><input type="hidden" name="Oid[]" value="' +
                     data.object[j]["id"] +
-                    '" placeholder="Yêu cầu" class="form-control object"></div><button type="button" class="btn btn-icon btn-outline-danger waves-effect remove-button" onclick="remove1(' + j + ')"><i class="fas fa-trash-alt"></i></button></div></div>'
+                    '" placeholder="Yêu cầu" class="form-control object"></div>'+buttonDel+'</div></div>'
                 );
             }
 
@@ -272,6 +277,7 @@ function loaddata(id) {
             s = data.step.length;
             // step=s-1;
             for (var J = 0; J < s; J++) {
+                var buttonDelStep = '<button class="btn btn-icon btn-outline-danger waves-effect remove-step" onclick="removeStepById(' + data.step[J]["id"] + ')" data-repeater-delete type="button">';
                 $("#stepList").append(
                     '<div data-repeater-item class="step-item" id="arrId-' + data.step[J]["id"] + '">' +
                     '<div class = "row d-flex align-items-end" >' +
@@ -299,8 +305,8 @@ function loaddata(id) {
                     '</div>' +
                     '<div class="col-md-1 col-12" style="padding-right:0 !important;">' +
                     '<div class="form-group">' +
-                    '<button class="btn btn-icon btn-outline-danger waves-effect remove-step" onclick="removeStepById(' + data.step[J]["id"] + ')" data-repeater-delete type="button">' +
-                    '<i class="fas fa-trash-alt"></i>' +
+                     +
+                    '<i class="fas fa-trash-alt"></i>' +buttonDelStep+
                     '</button>' +
                     '</div>' +
                     '</div>' +

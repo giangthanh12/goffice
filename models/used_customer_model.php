@@ -22,6 +22,17 @@ class used_customer_Model extends Model
             $result = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }
+    function delTransaction($id, $data) {
+        $result = $this->update('transaction', $data, "id = $id");
+        return $result;
+    }
+    function getTransaction($id) {
+        $result = array();
+        $query = $this->db->query("SELECT *,DATE_FORMAT(dateTime,'%d-%m-%Y %H:%i') as date FROM transaction WHERE id = $id");
+        $temp = $query->fetchAll(PDO::FETCH_ASSOC);
+        $result = $temp[0];
+        return $result;
+    }
     function getPosition()
     {
         $result = array();
@@ -38,11 +49,27 @@ class used_customer_Model extends Model
             $result = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }
+    function getProduct() {
+        $result = array();
+        $query = $this->db->query("SELECT id, name AS `text` FROM products WHERE status > 0");
+        if ($query)
+            $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
     function get_data_combo()
     {
         $result = array();
         $query = $this->db->query("SELECT id, name AS text FROM customers WHERE status > 0 ");
         $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+    function addTransaction($id,$data) {
+        if($id > 0) {
+            $result = $this->update("transaction", $data, "id = $id");
+        }
+        else {
+            $result = $this->insert("transaction", $data);
+        }
         return $result;
     }
     function loadContact($id)
@@ -54,7 +81,8 @@ class used_customer_Model extends Model
     function loadTransaction($id)
     {
         $query = $this->db->query("SELECT *,
-            DATE_FORMAT(dateTime,'%d-%m-%Y %H:%i') as date FROM transaction WHERE status = 1 AND customerId = $id  ORDER BY id DESC ");
+            DATE_FORMAT(dateTime,'%d-%m-%Y %H:%i') as date,
+            (SELECT name from products where id = transaction.productId) AS productName FROM transaction WHERE status = 1 AND customerId = $id  ORDER BY id DESC ");
         $result['data'] = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }
@@ -65,7 +93,7 @@ class used_customer_Model extends Model
     }
     function listObj()
     {
-        $query = $this->db->query("SELECT * FROM customers WHERE status in (2,3,4)  ORDER BY id DESC ");
+        $query = $this->db->query("SELECT * FROM customers WHERE status > 0  ORDER BY id DESC ");
         $result['data'] = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }

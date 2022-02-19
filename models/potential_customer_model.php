@@ -22,6 +22,15 @@ class potential_customer_Model extends Model
             $result = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }
+    function addTransaction($id,$data) {
+        if($id > 0) {
+            $result = $this->update("transaction", $data, "id = $id");
+        }
+        else {
+            $result = $this->insert("transaction", $data);
+        }
+        return $result;
+    }
     function getProvince()
     {
         $result = array();
@@ -53,6 +62,17 @@ class potential_customer_Model extends Model
     function addObj($data)
     {
         $result = $this->insert("customers", $data);
+        return $result;
+    }
+    function getTransaction($id) {
+        $result = array();
+        $query = $this->db->query("SELECT *,DATE_FORMAT(dateTime,'%d-%m-%Y %H:%i') as date FROM transaction WHERE id = $id");
+        $temp = $query->fetchAll(PDO::FETCH_ASSOC);
+        $result = $temp[0];
+        return $result;
+    }
+    function delTransaction($id, $data) {
+        $result = $this->update('transaction', $data, "id = $id");
         return $result;
     }
     function listObj()
