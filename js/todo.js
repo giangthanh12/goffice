@@ -303,7 +303,7 @@ $(function () {
                     { id: taskId, newTitle: newTitle, newAssignee: newAssignee, newDeadline: newDeadline, newLabel: newLabel, newDescription: newDescription },
                     function (data, status) {
                         if (data.success) {
-                            toastr["success"](data.msg, "💾 Task Action!", {
+                            toastr["success"](data.msg, "Cập nhật dữ liệu thành công", "Thành công", {
                                 closeButton: true,
                                 tapToDismiss: false,
                                 rtl: isRtl,
@@ -313,7 +313,7 @@ $(function () {
                             var catId = $('#catId').val();
                             $("#my-task-list").load(window.location.href + "?assignee=" + assigneeId + "&catId=" + catId + " #my-task-list");
                         } else {
-                            toastr["error"](data.msg, "💾 Task Action!", {
+                            toastr["error"](data.msg, "Lỗi cập nhật dữ liệu", "Lỗi", {
                                 closeButton: true,
                                 tapToDismiss: false,
                                 rtl: isRtl,
@@ -413,13 +413,13 @@ $(function () {
                 "todo/checkOut", { id: taskId, status: 4 },
                 function (data, status) {
                     if (data.success) {
-                        toastr["success"]("Task Completed", "Congratulations!! 🎉", {
+                        toastr["success"]("Công việc đã hoàn thành", "Thành công", {
                             closeButton: true,
                             tapToDismiss: false,
                             rtl: isRtl,
                         });
                     } else {
-                        toastr["error"](data.msg, "💾 Task Action!", {
+                        toastr["error"](data.msg, "Lỗi cập nhât!", "Lỗi", {
                             closeButton: true,
                             tapToDismiss: false,
                             rtl: isRtl,
@@ -440,13 +440,13 @@ $(function () {
                 "todo/checkOut", { id: taskId, status: 2 },
                 function (data, status) {
                     if (data.success) {
-                        toastr["success"]("Task updated", "---", {
+                        toastr["success"]("Cập nhật dữ liệu thành công!", "Thành công", {
                             closeButton: true,
                             tapToDismiss: false,
                             rtl: isRtl,
                         });
                     } else {
-                        toastr["error"](data.msg, "💾 Task Action!", {
+                        toastr["error"](data.msg, "Lỗi cập nhật!", "Lỗi", {
                             closeButton: true,
                             tapToDismiss: false,
                             rtl: isRtl,
@@ -516,7 +516,7 @@ $(function () {
                     { id: taskId, newTitle: newTitle, newProject: newProject, newAssignee: newAssignee, newDeadline: newDeadline, newLabel: newLabel, newDescription: newDescription },
                     function (data, status) {
                         if (data.success) {
-                            toastr["success"](data.msg, "💾 Task Action!", {
+                            toastr["success"](data.msg, "Cập nhật dữ liệu thành công!", "Thành công", {
                                 closeButton: true,
                                 tapToDismiss: false,
                                 rtl: isRtl,
@@ -526,7 +526,7 @@ $(function () {
                             var catId = $('#catId').val();
                             $("#my-task-list").load(window.location.href + "?assignee=" + assigneeId + "&catId=" + catId + " #my-task-list");
                         } else {
-                            toastr["error"](data.msg, "💾 Task Action!", {
+                            toastr["error"](data.msg, "Lỗi cập nhật!", "Lỗi", {
                                 closeButton: true,
                                 tapToDismiss: false,
                                 rtl: isRtl,
@@ -644,7 +644,7 @@ function markCompleted(taskId) {
         "todo/checkOut", { id: taskId, status: 6 },
         function (data, status) {
             if (data.success) {
-                toastr["success"]("Task completed", "Congratulations!! 🎉", {
+                toastr["success"]("Công việc đã hoàn thành!", "Thành công", {
                     closeButton: true,
                     tapToDismiss: false,
                     rtl: isRtl,
@@ -653,7 +653,7 @@ function markCompleted(taskId) {
                 var catId = $('#catId').val();
                 $("#my-task-list").load(window.location.href + "?assignee=" + assigneeId + "&catId=" + catId + " #my-task-list");
             } else {
-                toastr["error"](data.msg, "💾 Task Action!", {
+                toastr["error"](data.msg, "Lỗi cập nhật!", "Lỗi", {
                     closeButton: true,
                     tapToDismiss: false,
                     rtl: isRtl,
@@ -670,7 +670,7 @@ function deleteTask() {
         "todo/checkOut", { id: taskId, status: 0 },
         function (data, status) {
             if (data.success) {
-                toastr["success"]("Xóa task thành công", "--", {
+                toastr["success"]("Xóa task thành công", "Thành công", {
                     closeButton: true,
                     tapToDismiss: false,
                     rtl: isRtl,
@@ -679,7 +679,7 @@ function deleteTask() {
                 var catId = $('#catId').val();
                 $("#my-task-list").load(window.location.href + "?assignee=" + assigneeId + "&catId=" + catId + " #my-task-list");
             } else {
-                toastr["error"](data.msg, "💾 Task Action!", {
+                toastr["error"](data.msg, "Lỗi cập nhật!","Lỗi", {
                     closeButton: true,
                     tapToDismiss: false,
                     rtl: isRtl,

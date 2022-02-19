@@ -65,7 +65,7 @@ class todo_Model extends Model
 
     function getLabel()
     {
-        $query = $this->db->query("SELECT * FROM tasklabels WHERE status=1 ");
+        $query = $this->db->query("SELECT * FROM tasklabels WHERE status=2 ");
         $data = $query->fetchAll(PDO::FETCH_ASSOC);
         return $data;
     }
