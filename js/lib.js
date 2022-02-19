@@ -12,7 +12,7 @@ function getParameterByName(name, url) { // lay tham so qua URL
 }
 
 // Web socket create and processs
-let connection = new WebSocket('wss://velo.vn:1337/?' + baseUser);
+let connection = new WebSocket('wss://velo.vn:1337/'+taxCode+'?staffId=' + baseUser);
 connection.onopen = function () {
     console.log("Open connection!");
 };
