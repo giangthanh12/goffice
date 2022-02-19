@@ -60,9 +60,7 @@ if(funAdd == 1) {
         {
           // Actions
           targets: -1,
-          title: feather.icons["database"].toSvg({
-            class: "font-medium-3 text-success mr-50",
-          }),
+          title: 'Thao tác',
           orderable: false,
           render: function (data, type, full, meta) {
             var html = "";
@@ -183,6 +181,8 @@ function actionMenu() {
           },
           account: {
             required: true,
+            number: true,
+            minlength: 8,
           },
           type: {
             required: true,
@@ -190,13 +190,15 @@ function actionMenu() {
         },
         messages: {
           name: {
-            required: "Bạn chưa nhập tên tài khoản",
+            required: "Bạn chưa nhập tên tài khoản!",
           },
           account: {
-            required: "Bạn chưa nhập sô tài khoản",
+            required: "Bạn chưa nhập sô tài khoản!",
+            number: "Yêu cầu nhập số!",
+            minlength: "Nhập ít nhất 8 số!"
           },
           type: {
-            required: "Bạn chưa chọn loại tài khoản",
+            required: "Bạn chưa chọn loại tài khoản!",
           },
         },
       });
