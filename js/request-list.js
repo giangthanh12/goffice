@@ -211,6 +211,8 @@ $(function () {
             })
             $('#defineId').val('').change();
             $('#title').val('');
+            $('#requestId').val('');
+            $('#stepId').val('');
             $('#timelineComment').html('');
         });
     }
@@ -362,22 +364,25 @@ $(function () {
         var $status = $(this).find('.todo-statusRequest').html();
         newTaskModal.modal('show');
         $('#btnUpdate').addClass('d-none');
-        // updateBtns.removeClass('d-none');
+        $('#btnDel').addClass('d-none');
         taskTag.val('').trigger('change');
         // taskTitle = $(this).find('.todo-title');
         var $title = $(this).find('.todo-title').html();
         $('#title').val($title);
         var $defineId =  $(this).find('.todo-defineId').html();
         $('#defineId').val($defineId).change();
+        $("#defineId").attr("disabled", true);
         var $staffId =  $(this).find('.todo-staffId').html();
         $('#staffId').val($staffId).change();
-        var $staffId =  $(this).find('.todo-staffId').html();
-        $('#staffId').val($staffId).change();
+      var dateTimeRequest =  $(this).find('.datetimeRequest').html();
+      $('#dateTime').val(dateTimeRequest);
         var $department =  $(this).find('.todo-departmnetId').html();
         $('#department').val($department).change();
         var $requestId = $(this).find('.todo-idRequest').html();
         $('#requestId').val($requestId);
         var $stepId = $(this).find('.todo-stepId').html();
+
+        var statusStepFirst =  Number($(this).find('.todo-stepFirstStatus').html());
         $('#stepId').val($stepId);
         $('#btnApprove').removeClass('d-none');
         $('#btnRefuse').removeClass('d-none');
@@ -385,6 +390,12 @@ $(function () {
         $('#btnApprove').addClass('d-none');
         $('#btnRefuse').addClass('d-none');
         }
+        // người tạo mới có quyền sửa
+        if(statusStepFirst == 1 & $staffId == baseUser) {
+            $('#btnUpdate').removeClass('d-none');
+            $('#btnDel').removeClass('d-none');
+        }
+        url = baseHome + '/request/editRequest?id=' + $requestId;
         // load comment form
         $.ajax({
             type: 'GET',
@@ -422,23 +433,6 @@ $(function () {
                         </div>
                     </li>`;
 
-
-
-
-                    // html += `<li class="timeline-item">
-                    //         <span class="timeline-point timeline-point-indicator timeline-point-${colorStatus}"></span>
-                    //         <div class="timeline-event">
-                    //         <div class="media align-items-right float-right" >
-                    //                 <div class="avatar">`;
-                    //             html += '<img  onerror='+"this.src='https://velo.vn/goffice-test/layouts/useravatar.png'"+' src="${item.avatar}" alt="avatar" width="38" height="38">';
-                    //             html += `</div>
-                    //             </div>
-                    //             <div class="d-flex justify-content-between flex-sm-row flex-column mb-sm-0 mb-1">
-                    //                 <h6>${item.staffName}</h6>
-                    //             </div>
-                    //             <p>${item.note}</p>
-                    //         </div>
-                    //     </li>`;
                 });
                 $('#timelineComment').html(html);
 
@@ -573,7 +567,6 @@ function initRequest(defineId,status){
         dataType: "json",
         data:{defineId:defineId,status:status},
         success: function (data) {
-          
             data.forEach(function (item){
                var indexStep = item.processors.length-1;
                console.log(item['processors'][0])
@@ -586,6 +579,7 @@ function initRequest(defineId,status){
                     '<span class="d-none todo-departmnetId">'+item.departmentId+'</span>' +
                     '<span class="d-none todo-idRequest">'+item.id+'</span>' +
                     '<span class="d-none todo-stepId">'+item['processors'][indexStep].stepId+'</span>' +
+                    '<span class="d-none todo-stepFirstStatus">'+item['processors'][0].status+'</span>' +
                     '<span class="d-none todo-statusRequest">'+item.status+'</span>' +
                     '</div>' +
                     '</div>' +
@@ -600,7 +594,7 @@ function initRequest(defineId,status){
                     html+= '<div class="badge badge-pill '+$status+' text-white" alt="'+process.staffName+'" title="'+process.staffName+'">'+process.stepName+'</div>';
                 })
                 html+='</div>' +
-                    '<small class="text-nowrap text-muted mr-1">'+item.dateTimeCV+'</small>' +
+                    '<small class="text-nowrap text-muted datetimeRequest mr-1">'+item.dateTimeCV+'</small>' +
                     '<div class="avatar">' +
                     '<img src="'+baseUrlFile+'/uploads/nhanvien/'+item.staffAvatar+'" ' +
                     'onerror="this.src=\''+baseHome+'/layouts/useravatar.png\'" alt="'+item.staffName+'" height="32" width="32" />' +
@@ -608,7 +602,6 @@ function initRequest(defineId,status){
                     '</div>' +
                     '</div>' +
                     '</li>';
-
                 todoTaskList.append(html);
             })
         },
@@ -794,6 +787,8 @@ $('#btnDel').on('click', function () {
         buttonsStyling: false
     }).then(function (result) {
         if (result.value) {
+            var requestId = $('#requestId').val();
+            var stepId = $('#stepId').val();
             $.ajax({
                 url: baseHome + "/request/del",
                 type: 'post',
@@ -803,7 +798,7 @@ $('#btnDel').on('click', function () {
                     if (data.code == 200) {
                         $('.modal').modal('hide');
                         notyfi_success(data.message);
-                        initKanban();
+                        initRequest(0,0);
                     } else
                         notify_error(data.message);
                 },

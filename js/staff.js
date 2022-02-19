@@ -182,7 +182,7 @@ $(function () {
                 {
                     // Actions
                     targets: -1,
-                    title: feather.icons["database"].toSvg({ class: "font-medium-3 text-success mr-50" }),
+                    // title: feather.icons["database"].toSvg({ class: "font-medium-3 text-success mr-50" }),
                     orderable: false,
                     render: function (data, type, full, meta) {
                         var html = '';
@@ -233,6 +233,7 @@ $(function () {
                 },
                 info: "Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
             },
+            
             // Buttons with Dropdown
             buttons: buttons,
             // For responsive popup
