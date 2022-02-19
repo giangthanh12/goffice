@@ -41,10 +41,9 @@ $(function () {
         }
     })
 
+    var visible = true;
     if(funEdit!=1 || funDel!=1) {
-        var visible = false;
-    } else {
-        var visible = true;
+        visible = false;
     }
 
     if (dtUserTable.length) {

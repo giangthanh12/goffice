@@ -22,11 +22,11 @@
                                     <th>Mã màu</th>
                                     <th>Trạng thái</th>
                                     <?php
-                                    if($this->funEdit==1 || $this->funDel==1) { 
+                                    if ($this->funEdit == 1 && $this->funDel == 1) {
                                     ?>
                                         <th>Thao tác</th>
                                     <?php
-                                    }
+                                    } 
                                     ?>
                                 </tr>
                             </thead>
