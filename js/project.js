@@ -353,6 +353,25 @@ $(function () {
                         $('#memberId').val(obj.memberId);
                         changeColorLevel();
                         changeColorStatus();
+                        if(funEdit!=1) {
+                            newTaskForm.find(".new-todo-item-title").attr('disabled',true);
+                            $('#task-due-date').attr('disabled',true);
+                            $('#customRadio').attr('disabled',true);
+                            $('#status').attr('disabled',true);
+                            $('#level').attr('disabled',true);
+                            $('#process').attr('disabled',true);
+                            taskAssignSelect.attr('disabled',true);
+                            $('#memberId').attr('disabled',true);
+                        } else {
+                            newTaskForm.find(".new-todo-item-title").attr('disabled',false);
+                            $('#task-due-date').attr('disabled',false);
+                            $('#customRadio').attr('disabled',false);
+                            $('#status').attr('disabled',false);
+                            $('#level').attr('disabled',false);
+                            $('#process').attr('disabled',false);
+                            taskAssignSelect.attr('disabled',false);
+                            $('#memberId').attr('disabled',false);
+                        }
                     }
                 });
             });

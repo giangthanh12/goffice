@@ -7,7 +7,7 @@
             <div class="row breadcrumbs-top">
                 <div class="col-12">
                     <h2 class="content-header-title float-left mb-2" id="title_module">
-                        Cơ hội <img src="<?=HOME?>/layouts/tooltip.png" style="margin: 0 15px" width="25px" id="current_ip" data-toggle="tooltip" data-placement="right" data-original-title="Là chức năng quản lý các dự án, tiến độ và mức độ của dự án trong doanh nghiệp " data-trigger="click" >
+                        Dự án <img src="<?=HOME?>/layouts/tooltip.png" style="margin: 0 15px" width="25px" id="current_ip" data-toggle="tooltip" data-placement="right" data-original-title="Là chức năng quản lý các dự án, tiến độ và mức độ của dự án trong doanh nghiệp " data-trigger="click" >
                     </h2>
                 </div>
             </div>

@@ -51,7 +51,7 @@
                         <button type="button" class="btn btn-primary" id="btnSend" >Gửi</button>
                     </div>
                     <div class="col-md-6 mb-1">
-                        <label>Danh sách email (cách bởi dấu chấm phẩy)</label>
+                        <label>Danh sách email (cách bởi dấu phẩy)</label>
                         <textarea class="form-control" id="emails" rows="3" placeholder="Mailing list"></textarea>
                         <input type="hidden" id="quoteId" name="quoteId">
                     </div>

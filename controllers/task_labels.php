@@ -1,17 +1,29 @@
 <?php
 class task_labels extends Controller{
-    static private $funcs;
+    static private $funcs, $funAdd = 0, $funEdit = 0, $funDel = 0;
     function __construct(){
         parent::__construct();
         $model = new model();
         $checkMenuRole = $model->checkMenuRole('task_labels');
         if ($checkMenuRole == false)
         header('location:' . HOME);
-        self::$funcs = $model->getFunctions('task_labels'); 
+        $funcs = $model->getFunctions('task_labels'); 
+        foreach ($funcs as $item) {
+            if ($item['function'] == 'add')
+                self::$funAdd = 1;
+            if ($item['function'] == 'loaddata')
+                self::$funEdit = 1;
+            if ($item['function'] == 'del')
+                self::$funDel = 1;
+        }
+        self::$funcs = $funcs;
     }
 
     function index(){
         $this->view->funs  = self::$funcs;
+        $this->view->funAdd = self::$funAdd;
+        $this->view->funEdit = self::$funEdit;
+        $this->view->funDel = self::$funDel;
         require "layouts/header.php";
         $this->view->render("task_labels/index");
         require "layouts/footer.php";
