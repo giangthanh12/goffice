@@ -59,17 +59,17 @@
                                     <div class="col-lg-12 col-md-12">
                                         <div class="form-group">
                                             <label for="hoten">Trả cọc</label>
-                                            <input id="tra_coc" type="text" class="form-control format_number" name="tra_coc" />
+                                            <input id="tra_coc" disabled type="text" class="form-control format_number" name="tra_coc" />
                                         </div>
                                     </div>
                                     <div class="col-lg-12 col-md-12">
                                         <div class="form-group">
                                             <label for="hoten">Ngày thu hồi</label>
-                                            <input id="ngay_gio" type="text" class="form-control ngay_gio" name="ngay_gio"  />
+                                            <input id="ngay_gio" disabled type="text" class="form-control ngay_gio" name="ngay_gio"  />
                                         </div>
                                         <div class="form-group">
                                             <label for="hoten">Ghi chú</label>
-                                            <textarea id="ghi_chu" class="form-control" name="ghi_chu" onblur="checkvali_th()"></textarea>
+                                            <textarea id="ghi_chu" disabled class="form-control" name="ghi_chu" onblur="checkvali_th()"></textarea>
                                         </div>
 
                                      
