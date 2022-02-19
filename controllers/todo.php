@@ -90,7 +90,7 @@ class todo extends Controller
         if ($this->model->checkOut($id, $status)) {
             $data = $this->model->checkCalendar($id);
             if (count($data) > 0) {
-                $this->model->updateCalendar($data['id'], ['status' => 0]);
+                $this->model->updateCalendar($data[0]['id'], ['status' => 0]);
             }
             $jsonObj['msg'] = "Cập nhật thành công";
             $jsonObj['success'] = true;
@@ -119,7 +119,7 @@ class todo extends Controller
             'objectId' => $taskId,
         ];
         if (count($data) > 0) {
-            if ($this->model->updateCalendar($data['id'], $taskData)) {
+            if ($this->model->updateCalendar($data[0]['id'], $taskData)) {
                 $jsonObj['msg'] = "Cập nhật thành công";
                 $jsonObj['success'] = true;
             } else {
