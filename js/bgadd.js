@@ -92,6 +92,7 @@ $(function () {
     // Close select2 on modal open
     $(document).on("click", ".add-new-customer", function () {
         select2.select2("close");
+        $('#newCus')[0].reset();
     });
 
     // Select2
@@ -383,6 +384,7 @@ $(function () {
                 url: "baogia/newCustomer",
                 success: function(result) {
                     if (result.success == true) {
+                        notyfi_success(result.msg);
                         $('#add-new-customer-sidebar').modal("hide");
                         // $(".invoiceto").select2("destroy");
                         // $(".invoiceto").select2({
@@ -644,3 +646,15 @@ $(function () {
     });
 
 });
+
+function changeStart() {
+    var startDate = $('#date').val();
+    if ($('#validDate').length) {
+        $('#validDate').flatpickr({
+            dateFormat: "Y-m-d",
+            defaultDate: "",
+            readonly: true,
+            minDate: startDate
+        });
+    }
+}

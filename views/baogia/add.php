@@ -62,7 +62,7 @@
                                         </div>
                                         <div class="d-flex align-items-center mb-1">
                                             <span class="title">Ngày:</span>
-                                            <input type="text" id="date" name="date" class="form-control invoice-edit-input date-picker"  />
+                                            <input type="text" id="date" name="date" class="form-control invoice-edit-input date-picker" onchange="changeStart()"  />
                                         </div>
                                         <div class="d-flex align-items-center">
                                             <span class="title">Ngày hết hạn:</span>
