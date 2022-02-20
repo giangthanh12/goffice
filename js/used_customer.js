@@ -210,6 +210,9 @@ $(function () {
         var validator = $("#dg").validate(); // reset form
         validator.resetForm();
         $(".error").removeClass("error"); // loại bỏ validate
+        $('#fullName-error').css('display', 'none');
+        $('#phoneNumber-error').css('display', 'none');
+        $('#status-error').css('display', 'none');
         $("#addinfo").modal('show');
         $(".modal-title").html('Thêm khách hàng mới');
         $('#fullName').val('');
@@ -290,7 +293,9 @@ $(function () {
                 "phoneNumber": {
                     required: true,
                     number: true,
-                    min: 0
+                    min: 0,
+                    minlength:10,
+                    maxlength:10
                 },
                 "email": {
                     // required: true,
@@ -311,7 +316,9 @@ $(function () {
                 "phoneNumber": {
                     required: "Bạn chưa nhập số điện thoại!",
                     number: "Yêu cầu nhập số điện thoại!",
-                    min: "Yều cầu nhập bắt đầu từ 0!"
+                    min: "Yều cầu nhập bắt đầu từ 0!",
+                    minlength:"Yêu cầu nhập số điện thoại 10 số!",
+                    maxlength:"Yêu cầu nhập số điện thoại 10 số!"
                 },
                 "email": {
                     // required: "Bạn chưa nhập địa chỉ email!",
@@ -351,7 +358,9 @@ $(function () {
                 "phoneNumber1": {
                     required: true,
                     number: true,
-                    min: 0
+                    min: 0,
+                    minlength:10,
+                    maxlength:10
                 },
                 "status1": {
                     required: true,
@@ -367,12 +376,15 @@ $(function () {
                 "phoneNumber1": {
                     required: "Bạn chưa nhập số điện thoại!",
                     number: "Yêu cầu nhập số điện thoại!",
-                    min: "Yều cầu nhập bắt đầu từ 0!"
+                    min: "Yều cầu nhập bắt đầu từ 0!",
+                    minlength:"Yêu cầu nhập số điện thoại 10 số!",
+                    maxlength:"Yêu cầu nhập số điện thoại 10 số!"
                 },
                 
                 "taxCode1": {
                     number: "Yêu cầu nhập số!",
                 },
+
                 "status1": {
                     required: "Bạn chưa cập nhật trạng thái!",
                 },
@@ -393,13 +405,17 @@ $(function () {
             rules: {
                 "phoneNumberContact": {
                     required: true,
+                    number: true,
+                    min: 0,
+                    minlength:10,
+                    maxlength:10
                 },
                 "nameContact": {
                     required: true,
                 },
-                // "emailContact": {
-                //     required: true,
-                // },
+                "emailContact": {
+                    email: true,
+                },
                 // "facebook": {
                 //     required: true,
                 // },
@@ -407,14 +423,18 @@ $(function () {
             messages: {
 
                 "phoneNumberContact": {
-                    required: "Yêu cầu nhập số điện thoại",
+                    required: "Bạn chưa nhập số điện thoại!",
+                    number: "Yêu cầu nhập số điện thoại!",
+                    min: "Yều cầu nhập bắt đầu từ 0!",
+                    minlength:"Yêu cầu nhập số điện thoại 10 số!",
+                    maxlength:"Yêu cầu nhập số điện thoại 10 số!"
                 },
                 "nameContact": {
                     required: "Yêu cầu nhập tên liên lạc",
                 },
-                // "emailContact": {
-                //     required: "Yêu cầu nhập địa chỉ email liên lạc",
-                // },
+                "emailContact": {
+                    email: "Yêu cầu nhập địa chỉ email liên lạc",
+                },
                 // "facebook": {
                 //     required: "Yêu cầu nhập địa chỉ facebook",
                 // },
@@ -542,6 +562,7 @@ function loaddata(id) {
     var validator = $("#dg1").validate(); // reset form
         validator.resetForm();
         $(".error").removeClass("error"); // loại bỏ validate
+      
     $("#updateinfo").modal('show');
     $('#information-tab').click();
     $(".modal-title").html('Cập nhật thông tin khách hàng');
@@ -603,18 +624,27 @@ function loaddichvu(id) {
 
             ],
 
-            language: {
-                sLengthMenu: "Show _MENU_",
-                search: "Search",
-                searchPlaceholder: "Search..",
-                paginate: {
-                    // remove previous & next text from pagination
-                    previous: "&nbsp;",
-                    next: "&nbsp;",
-                }
+            dom:
+            '<"d-flex justify-content-between align-items-center header-actions mx-1 row mt-75"' +
+            '<"col-lg-12 col-xl-6" l>' +
+            '<"col-lg-12 col-xl-6 pl-xl-75 pl-0"<"dt-action-buttons text-xl-right text-lg-left text-md-right text-left d-flex align-items-center justify-content-lg-end align-items-center flex-sm-nowrap flex-wrap mr-1"<"mr-1"f>B>>' +
+            ">t" +
+            '<"d-flex justify-content-between mx-2 row mb-1"' +
+            '<"col-sm-12 col-md-6"i>' +
+            '<"col-sm-12 col-md-6"p>' +
+            ">",
+        language: {
+            sLengthMenu: "Hiển thị _MENU_",
+            search: "",
+            searchPlaceholder: "Tìm kiếm...",
+            paginate: {
+                // remove previous & next text from pagination
+                previous: "&nbsp;",
+                next: "&nbsp;",
             },
-
-            // For responsive popup
+            info: "Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
+        },
+        buttons: [],
 
         });
     }
@@ -864,7 +894,7 @@ function savenhap() {
 function showFormTransaction() {
     return_combobox_multi('#productId', baseHome + '/used_customer/getProduct', 'Sản phẩm');
     return_combobox_multi('#performedId', baseHome + '/used_customer/getStaff', 'Nhân viên thực hiện');
-    // $('#dgTransaction')[0].reset();
+    $('#dgTransaction')[0].reset();
     var validator = $("#dgTransaction").validate(); // reset form
         validator.resetForm();
         $(".error").removeClass("error"); // loại bỏ validate
@@ -912,7 +942,12 @@ function saveTransaction() {
 function loaddataTransaction(id) {
     return_combobox_multi('#productId', baseHome + '/used_customer/getProduct', 'Sản phẩm');
     return_combobox_multi('#performedId', baseHome + '/used_customer/getStaff', 'Nhân viên thực hiện');
+ 
+    var validator = $("#dgTransaction").validate(); // reset form
+    validator.resetForm();
+    $(".error").removeClass("error"); // loại bỏ validate
     $('#modalTransaction').modal('show');
+    $('.modal-title-transaction').html('Cập nhật lịch sử giao dịch');
     $.ajax({
         type: "POST",
         dataType: "json",
