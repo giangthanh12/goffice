@@ -45,7 +45,7 @@ $(function () {
     var assetPath = baseHome + "/styles/app-assets/";
     if ($("body").attr("data-framework") === "laravel") {
         assetPath = $("body").attr("data-asset-path");
-    }
+    }   
 
     $(document).on('click', '.add-to-calendar', function (e) {
         var addCalendar = e.target.checked ? 1 : 0;
@@ -511,6 +511,14 @@ $(function () {
             onProject.attr('disabled',true);
             addBtn.addClass("d-none");
             updateBtns.addClass("d-none");
+        } else {
+            newTaskForm.find(".new-todo-item-title").attr('disabled',false);
+            flatPickr.attr('disabled',false);
+            taskTag.attr('disabled',false);
+            taskAssignSelect.attr('disabled',false);
+            onProject.attr('disabled',false);
+            addBtn.addClass("d-none");
+            updateBtns.removeClass("d-none");
         }
 
     });
