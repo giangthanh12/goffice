@@ -44,12 +44,16 @@ $(function () {
                 leadName: {
                     required: true
                 },
-                leadDesc: {
-                    required: true
-                },
-                customerEmail: {
+                leadCustomer: {
                     required: true,
-                    email: "Sai định dạng email!",
+                },
+            },
+            messages: {
+                leadName: {
+                    required: "Bạn chưa nhập tên cơ hội!"
+                },
+                leadCustomer: {
+                    required: "Bạn chưa chọn khách hàng!"
                 },
             }
         });
@@ -695,6 +699,7 @@ function deleteLead(id) {
         icon: 'warning',
         showCancelButton: true,
         confirmButtonText: 'Tôi đồng ý',
+        cancelButtonText: 'Hủy',
         customClass: {
             confirmButton: 'btn btn-primary',
             cancelButton: 'btn btn-outline-danger ml-1'
