@@ -1,10 +1,13 @@
 <?php
-class asset_model extends Model{
-    function __construst(){
+class asset_model extends Model
+{
+    function __construst()
+    {
         parent::__construst();
     }
 
-    function listObj(){
+    function listObj()
+    {
         $query = $this->db->query("SELECT *,
                 IFNULL((SELECT name FROM taisan_nhom WHERE id = taisan.nhom_ts AND tinh_trang > 0), 'No Name') AS name_nhomts,
                 (SELECT id FROM taisan_capphat WHERE tai_san = taisan.id AND tinh_trang > 0 ORDER BY id DESC LIMIT 1) AS id_capphat  
@@ -12,7 +15,8 @@ class asset_model extends Model{
         $result['data'] = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }
-    function loadListHisIssue($id){
+    function loadListHisIssue($id)
+    {
         $result['data'] = array();
         $query = $this->db->query("SELECT *,
                 IFNULL((SELECT name FROM taisan WHERE id = taisan_capphat.tai_san AND tinh_trang > 0), 'No Name') AS nameAsset,
@@ -25,8 +29,9 @@ class asset_model extends Model{
     }
 
 
-    
-    function loadListHisRecall($id){
+
+    function loadListHisRecall($id)
+    {
         $result['data'] = array();
         $query = $this->db->query("SELECT *,
                 IFNULL((SELECT name FROM taisan WHERE id = taisan_thuhoi.tai_san AND tinh_trang > 0), 'No Name') AS nameAsset,
@@ -37,22 +42,33 @@ class asset_model extends Model{
         $result['data'] = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }
+
     function addObj($data)
     {
-        $data['so_tien'] = str_replace( ',', '', $data['so_tien']);
-        $query = $this->insert("taisan",$data);
-        $query2 = $this->db->query("SELECT id FROM taisan ORDER BY id desc limit 1");
-        $result = $query2->fetchAll(PDO::FETCH_ASSOC);
-        $data_info['tai_san'] =  $result[0]['id'];
-        $query = $this->insert("taisan_info",$data_info);
-        return $query;
+        // $data['so_tien'] = str_replace(',', '', $data['so_tien']);
+        $code = $data['code'];
+        $dieukien = " WHERE tinh_trang=1 AND code ='$code' ";
+        $query = $this->db->query("SELECT COUNT(1) AS total FROM taisan $dieukien");
+        $temp = $query->fetchAll(PDO::FETCH_ASSOC);
+        if($temp[0]['total'] == 0){
+            $query = $this->insert("taisan", $data);
+            $query2 = $this->db->query("SELECT id FROM taisan ORDER BY id desc limit 1");
+            $result = $query2->fetchAll(PDO::FETCH_ASSOC);
+            $data_info['tai_san'] =  $result[0]['id'];
+            $query = $this->insert("taisan_info", $data_info);
+            return $query;
+        }else{
+            return false;
+        }
+        
     }
 
-    function getdata($id){
+    function getdata($id)
+    {
         $result = array();
 
         $query = $this->db->query("SELECT *,
-          IF(hinh_anh='','".URLFILE."/uploads/useravatar.png',hinh_anh) AS hinh_anh
+          IF(hinh_anh='','" . URLFILE . "/uploads/useravatar.png',hinh_anh) AS hinh_anh
           FROM taisan_info WHERE tai_san=$id");
         $temp = $query->fetchAll(PDO::FETCH_ASSOC);
         $result['taisan_info'] = $temp[0];
@@ -72,48 +88,50 @@ class asset_model extends Model{
 
         // $sl_chenh = $data['so_luong'] - $temp[0]['so_luong'];
         // $data['sl_tonkho'] = $temp[0]['sl_tonkho'] + $sl_chenh;
-        $data['so_tien'] = str_replace( ',', '', $data['so_tien']);
-        $query = $this->update("taisan",$data,"id = $id");
+        $data['so_tien'] = str_replace(',', '', $data['so_tien']);
+        $query = $this->update("taisan", $data, "id = $id");
         return $query;
     }
-    function getAsset(){
+    function getAsset()
+    {
         $result = array();
         $query = $this->db->query("SELECT id, name AS `text` FROM taisan WHERE tinh_trang = 1 or tinh_trang = 2");
         if ($query)
-        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+            $result = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }
     function updateObj_info($id, $data)
     {
-        $query = $this->update("taisan_info",$data,"tai_san = $id");
+        $query = $this->update("taisan_info", $data, "tai_san = $id");
         return $query;
     }
 
-    function delObj($id,$data)
+    function delObj($id, $data)
     {
         //check co trong cap phat ko
         $query_cp = $this->db->query("SELECT id FROM taisan_capphat WHERE tai_san = $id AND tinh_trang = 1");
         $temp_cp = $query_cp->fetchAll(PDO::FETCH_ASSOC);
-        if(count($temp_cp) > 0){
+        if (count($temp_cp) > 0) {
             return false;
-        }else{
-            $query = $this->update("taisan",$data,"id = $id");
+        } else {
+            $query = $this->update("taisan", $data, "id = $id");
             return $query;
-        } 
+        }
     }
 
     function addIssue($data)
     {
         $id = $data['tai_san'];
-        $data['dat_coc'] = str_replace( ',', '', $data['dat_coc']);
-        $query = $this->insert("taisan_capphat",$data);
-        if($query){
+        $data['dat_coc'] = str_replace(',', '', $data['dat_coc']);
+        $query = $this->insert("taisan_capphat", $data);
+        if ($query) {
             $data1['tinh_trang'] = 2;
-            $query = $this->update("taisan",$data1,"id = $id");
+            $query = $this->update("taisan", $data1, "id = $id");
         }
         return $query;
     }
-    function getAssetIssue($id){
+    function getAssetIssue($id)
+    {
         $result = array();
         $query = $this->db->query("SELECT *,
         DATE_FORMAT(ngay_gio,'%d-%m-%Y') AS ngay_gio FROM taisan_capphat WHERE id = $id");
@@ -122,61 +140,63 @@ class asset_model extends Model{
         return $result;
     }
 
-    function getnhomts(){
+    function getnhomts()
+    {
         $result = array();
         $query = $this->db->query("SELECT id, name AS `text` FROM taisan_nhom WHERE tinh_trang > 0");
         if ($query)
-        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+            $result = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }
-    function don_vi(){
+    function don_vi()
+    {
         $result = array();
         $query = $this->db->query("SELECT id, name AS `text` FROM donvidoluong");
         if ($query)
-        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+            $result = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }
 
-    function changeImage($file,$id){
-        if ($file=='')
+    function changeImage($file, $id)
+    {
+        if ($file == '')
             return false;
         else {
-            $data = ['hinh_anh'=>$file];
+            $data = ['hinh_anh' => $file];
             $query = $this->update("taisan_info", $data, "tai_san = $id");
             return $query;
         }
     }
 
-    function getStaff(){
+    function getStaff()
+    {
         $result = array();
         $query = $this->db->query("SELECT id, name AS `text` FROM staffs WHERE status > 0");
         if ($query)
-        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+            $result = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }
 
     function alertBroken($id, $data)
     {
-        $query = $this->update("taisan",$data,"id = $id");
+        $query = $this->update("taisan", $data, "id = $id");
         return $query;
     }
     function add_thuhoi($data)
     {
         $id_cp = $data['cap_phat'];
         $id_ts = $data['tai_san'];
-        $data['tra_coc'] = str_replace( ',', '', $data['tra_coc']);
-        $query = $this->insert("taisan_thuhoi",$data);
-        if($query){
+        $data['tra_coc'] = str_replace(',', '', $data['tra_coc']);
+        $query = $this->insert("taisan_thuhoi", $data);
+        if ($query) {
             $data_cp['tinh_trang'] = 2;
-            $this->update("taisan_capphat",$data_cp,"id = $id_cp");
+            $this->update("taisan_capphat", $data_cp, "id = $id_cp");
             $data_ts['tinh_trang'] =  1;
-            $this->update("taisan",$data_ts,"id = $id_ts");
+            $this->update("taisan", $data_ts, "id = $id_ts");
         }
 
 
-        
+
         return $query;
     }
-    
 }
-?>

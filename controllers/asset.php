@@ -65,30 +65,31 @@ class asset extends Controller{
             echo json_encode($jsonObj);
             return false;
         }
-        $data = array(
-            'name' => $_REQUEST['name'],
-            'code' => $_REQUEST['code'],
-            'so_luong' => 1,
-            'sl_tonkho' => 1,
-            'don_vi' => $_REQUEST['don_vi'],
-            'nhom_ts' => $_REQUEST['nhom_ts'],
-            'so_tien' => $_REQUEST['so_tien'],
-            'khau_hao' => $_REQUEST['khau_hao'],
-            'bao_hanh' => $_REQUEST['bao_hanh'],
-            'ngay_gio' => date("Y-m-d",strtotime($_REQUEST['ngay_gio'])),
-            'tinh_trang' => 1
-        );
-        if($this->model->addObj($data)){
-            $jsonObj['msg'] = 'Cập nhật dữ liệu thành công';
-            $jsonObj['success'] = true;
-        } else {
-            $jsonObj['msg'] = 'Lỗi cập nhật database';
-            $jsonObj['success'] = false;
-        }
+            
+            $data = array(
+                'name' => $_REQUEST['name'],
+                'code' => $_REQUEST['code'],
+                'so_luong' => 1,
+                'sl_tonkho' => 1,
+                'don_vi' => $_REQUEST['don_vi'],
+                'nhom_ts' => $_REQUEST['nhom_ts'],
+                'so_tien' => str_replace(',', '', $_REQUEST['so_tien']),
+                'khau_hao' => $_REQUEST['khau_hao'],
+                'bao_hanh' => $_REQUEST['bao_hanh'],
+                'ngay_gio' => date("Y-m-d",strtotime($_REQUEST['ngay_gio'])),
+                'tinh_trang' => 1
+            );
 
-
-
-        echo json_encode($jsonObj);
+            if($this->model->addObj($data)){
+                $jsonObj['msg'] = 'Cập nhật dữ liệu thành công';
+                $jsonObj['success'] = true;
+            } else {
+                $jsonObj['msg'] = 'Lỗi cập nhật database';
+                $jsonObj['success'] = false;
+            }
+    
+            echo json_encode($jsonObj);
+        
     }
 
     function update()
