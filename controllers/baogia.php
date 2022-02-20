@@ -47,13 +47,13 @@ class baogia extends Controller{
         $contact = $_REQUEST['cusContact'];
         $phone = $_REQUEST['cusPhone'];
         $email = $_REQUEST['cusEmail'];
-        $data = ['fullName'=>$customer, 'shortName'=>$customer, 'address'=>$address, 'date'=>date('Y-m-d'), 'provinceId'=>$city, 'status'=>1];
+        $data = ['fullName'=>$customer, 'name'=>$customer, 'address'=>$address, 'phoneNumber'=>$phone, 'email'=>$email, 'date'=>date('Y-m-d'), 'type'=>1, 'provinceId'=>$city, 'status'=>1];
         $ok = $this->model->newCustomer($data,$contact,$phone,$email);
         if ($ok) {
             $jsonObj['msg'] = "Đã thêm khách hàng";
             $jsonObj['success'] = true;
         } else {
-            $jsonObj['msg'] = "Lỗi cập nhật database";
+            $jsonObj['msg'] = "Cập nhật dữ liệu thành công";
             $jsonObj['success'] = false;
         }
         $jsonObj = json_encode($jsonObj);
