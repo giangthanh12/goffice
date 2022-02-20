@@ -294,7 +294,8 @@ $(function () {
                     required: true,
                     number: true,
                     min: 0,
-                    minlength:10
+                    minlength:10,
+                    maxlength:10
                 },
                 "email": {
                     // required: true,
@@ -316,7 +317,8 @@ $(function () {
                     required: "Bạn chưa nhập số điện thoại!",
                     number: "Yêu cầu nhập số điện thoại!",
                     min: "Yều cầu nhập bắt đầu từ 0!",
-                    minlength:"Yêu cầu nhập số điện thoại 10 số!"
+                    minlength:"Yêu cầu nhập số điện thoại 10 số!",
+                    maxlength:"Yêu cầu nhập số điện thoại 10 số!"
                 },
                 "email": {
                     // required: "Bạn chưa nhập địa chỉ email!",
