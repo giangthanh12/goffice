@@ -155,7 +155,7 @@
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="ephoneNumber">Điện thoại</label>
-                                                        <input id="ephoneNumber" name="phoneNumber" type="text" class="form-control" placeholder="Số điện thoại" />
+                                                        <input id="ephoneNumber" name="phoneNumber" type="number" class="form-control" placeholder="Số điện thoại" />
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="eemail">Email</label>
@@ -175,7 +175,7 @@
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="etaxCode">Mã số thuế</label>
-                                                        <input id="etaxCode" type="text" class="form-control" name="etaxCode" placeholder="Mã số thuế" />
+                                                        <input id="etaxCode" type="number" class="form-control" name="etaxCode" placeholder="Mã số thuế" />
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="etype">Lĩnh vực hoạt động</label>
@@ -474,7 +474,7 @@
         funCreateChange = <?=$this->funCreateChange?>,
         funEdit = <?=$this->funEdit?>,
         funDel = <?=$this->funDel?>;
-     console.log(funCall,funAdd,funShare,funCreateChange,funImport,funEdit,funDel);
+    //  console.log(funCall,funAdd,funShare,funCreateChange,funImport,funEdit,funDel);
     let username = '<?php echo $_SESSION['user']['username'] ?>';
     let hinhanh = '<?php echo URLFILE.'/uploads/nhanvien/'.$_SESSION['user']['avatar'] ?>';
 </script>
