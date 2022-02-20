@@ -651,7 +651,8 @@ function changeImage() {
             data = JSON.parse(data);
             if (data.success) {
                 notyfi_success(data.msg);
-                $('#avatar').attr('src', data.filename);
+                var imgUrl = baseHome+'/users/gemstech/uploads/nhanvien/'+data.filename;
+                $('#avatar').attr('src', imgUrl);
                 $(".user-list-table").DataTable().ajax.reload(null, false);
             } else
                 notify_error(data.msg);
