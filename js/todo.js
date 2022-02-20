@@ -8,7 +8,7 @@
 ==========================================================================================*/
 
 "use strict";
-
+var assignee = 0;
 $(function () {
 
     var // taskTitle ,
@@ -39,6 +39,7 @@ $(function () {
         listItemFilter = $(".list-group-filters"),
         noResults = $(".no-results"),
         checkboxId = 100,
+        
         isRtl = $("html").attr("data-textdirection") === "rtl";
 
     var assetPath = baseHome + "/styles/app-assets/";
@@ -501,6 +502,17 @@ $(function () {
             modalTitle.html('');
         }
 
+        if(baseUser != assignee) {
+            modalTitle.html('Thông tin chi tiết công việc');
+            newTaskForm.find(".new-todo-item-title").attr('disabled',true);
+            flatPickr.attr('disabled',true);
+            taskTag.attr('disabled',true);
+            taskAssignSelect.attr('disabled',true);
+            onProject.attr('disabled',true);
+            addBtn.addClass("d-none");
+            updateBtns.addClass("d-none");
+        }
+
     });
 
     // Updating Data Values to Fields
@@ -642,6 +654,7 @@ function listMyTask(catId) {
 
 function listOtherTask(assigneeId) {
     var catId = $('#catId').val();
+    assignee = assigneeId;
     $("#my-task-list").load(window.location.href + "?assignee=" + assigneeId + "&catId=" + catId + " #my-task-list");
 }
 
