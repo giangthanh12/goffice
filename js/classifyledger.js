@@ -36,7 +36,7 @@ $(function () {
     if (dtUserTable.length) {
       dtUserTable.DataTable({
         // ajax: assetPath + "data/user-list.json", // JSON file to add data
-        ajax: baseHome + "/classifyledger/listdata",
+        ajax: baseHome + "/classifyledger/list",
         ordering: false,
         columns: [
   
