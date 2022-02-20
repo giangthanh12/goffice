@@ -90,4 +90,4 @@
         funEdit = <?=$this->funEdit?>,
         funDel = <?=$this->funDel?>;
 </script>
-<script src="<?= HOME ?>/js/classifyLedger.js"></script>
+<script src="<?= HOME ?>/js/classifyledger.js"></script>
