@@ -221,7 +221,8 @@ $(function () {
                     next: "&nbsp;",
                 },  
                 info:"Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
-            },
+                infoFiltered: "(lọc từ _MAX_ bản ghi)",
+                sInfoEmpty : "Hiển thị 0 đến 0 của 0 bản ghi",            },
             // Buttons with Dropdown
             buttons: [ 
                 
@@ -229,6 +230,9 @@ $(function () {
                 // text: feather.icons['file'].toSvg({ class: 'font-small-4 mr-50' }) + 'Excel',
                
               ],
+              "oLanguage": {
+                "sZeroRecords": "Không có bản ghi nào"
+            },
                 
             initComplete: function () {
                 // Adding role filter once table initialized
