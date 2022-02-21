@@ -11,7 +11,7 @@ $(function () {
         flatPickr.flatpickr({
             dateFormat: "d/m/Y",
             defaultDate: "today",
-            allowInput:true,
+            allowInput: true,
             onReady: function (selectedDates, dateStr, instance) {
                 if (instance.isMobile) {
                     $(instance.mobileInput).attr("step", null);
@@ -31,19 +31,19 @@ $(function () {
         if (i < 10) { i = '0' + i; }
         var dt = new Date(year + '-' + month + '-' + i);
         if (dt.getDay() == 0) {
-            column.append('<th style="width:40px;text-align: center" class="text-center" id="date_' + i +'">CN<br><div class="text-center">' + i +'</div></th>');
+            column.append('<th style="width:40px;text-align: center" class="text-center" id="date_' + i + '">CN<br><div class="text-center">' + i + '</div></th>');
         } else if (dt.getDay() == 1) {
-            column.append('<th style="width:40px;text-align: center" id="date_' + i +'">T2<br><div class="text-center">' + i +'</div></th>');
+            column.append('<th style="width:40px;text-align: center" id="date_' + i + '">T2<br><div class="text-center">' + i + '</div></th>');
         } else if (dt.getDay() == 2) {
-            column.append('<th style="width:40px;text-align: center" id="date_' + i +'">T3<br><div class="text-center">' + i +'</div></th>');
+            column.append('<th style="width:40px;text-align: center" id="date_' + i + '">T3<br><div class="text-center">' + i + '</div></th>');
         } else if (dt.getDay() == 3) {
-            column.append('<th style="width:40px;text-align: center" id="date_' + i +'">T4<br><div class="text-center">' + i +'</div></th>');
+            column.append('<th style="width:40px;text-align: center" id="date_' + i + '">T4<br><div class="text-center">' + i + '</div></th>');
         } else if (dt.getDay() == 4) {
-            column.append('<th style="width:40px;text-align: center" id="date_' + i +'">T5<br><div class="text-center">' + i +'</div></th>');
+            column.append('<th style="width:40px;text-align: center" id="date_' + i + '">T5<br><div class="text-center">' + i + '</div></th>');
         } else if (dt.getDay() == 5) {
-            column.append('<th style="width:40px;text-align: center" id="date_' + i +'">T6<br><div class="text-center">' + i +'</div></th>');
+            column.append('<th style="width:40px;text-align: center" id="date_' + i + '">T6<br><div class="text-center">' + i + '</div></th>');
         } else {
-            column.append('<th style="width:40px;text-align: center" id="date_' + i +'">T7<br><div class="text-center">' + i +'</div></th>');
+            column.append('<th style="width:40px;text-align: center" id="date_' + i + '">T7<br><div class="text-center">' + i + '</div></th>');
         }
     }
 
@@ -51,10 +51,10 @@ $(function () {
     // Users List datatable
     if (table.length) {
         table.DataTable({
-            ajax: baseHome + "/timesheets/list?month="+month+"&year="+year,
+            ajax: baseHome + "/timesheets/list?month=" + month + "&year=" + year,
             autoWidth: true,
             ordering: false,
-            fixedColumns:   {
+            fixedColumns: {
                 left: 1
             },
             searching: true,
@@ -63,8 +63,8 @@ $(function () {
             // // select: {
             // //     style: 'single'
             // // },
-            "scrollY":"430px",
-            "scrollX":true,
+            "scrollY": "430px",
+            "scrollX": true,
             "scrollCollapse": true,
             columns: [
                 // columns according to JSON
@@ -110,7 +110,7 @@ $(function () {
                     render: function (data, type, full, meta) {
                         var $name = full["staffName"],
 
-                            $image = baseUrlFile+'/uploads/nhanvien/'+full["avatar"];
+                            $image = baseUrlFile + '/uploads/nhanvien/' + full["avatar"];
                         if ($image) {
                             // For Avatar image
                             var $output = '<img onerror=' + "this.src=''+baseHome+'/layouts/useravatar.png'" + ' src="' + $image + '" alt="Avatar" height="32" width="32">';
@@ -147,15 +147,15 @@ $(function () {
                     },
                 },
                 {
-                    targets: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33],
+                    targets: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33],
                     render: function (data, type, full, meta) {
                         var $color = '';
-                        if(data==1){
-                            $color='color:blue;font-weight:bold;';
-                        }else if(data==0.5)
-                            $color='color:red;';
+                        if (data == 1) {
+                            $color = 'color:blue;font-weight:bold;';
+                        } else if (data == 0.5)
+                            $color = 'color:red;';
                         return (
-                            '<div class="text-center" style="width:45px;font-weight:bold; '+$color+'" >'+
+                            '<div class="text-center" style="width:45px;font-weight:bold; ' + $color + '" >' +
                             data +
                             '</div>'
                         );
@@ -181,7 +181,12 @@ $(function () {
                     previous: "&nbsp;",
                     next: "&nbsp;",
                 },
-                info:"Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
+                info: "Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
+                infoFiltered: "(lọc từ _MAX_ bản ghi)",
+                sInfoEmpty: "Hiển thị 0 đến 0 của 0 bản ghi",
+            },
+            "oLanguage": {
+                "sZeroRecords": "Không có bản ghi nào"
             },
             // Buttons with Dropdown
             buttons: [
@@ -235,12 +240,12 @@ $(function () {
     var staffSl = $('#staffId');
     // Assign task
     function staffId(option) {
-        if (!option.id || option.id=='0' || option.id=='') {
+        if (!option.id || option.id == '0' || option.id == '') {
             return option.text;
         }
         var $person =
             '<div class="media align-items-center">' +
-            '<img class="d-block rounded-circle mr-50" onerror="this.src=\''+baseHome+'/layouts/useravatar.png\'" src="' +
+            '<img class="d-block rounded-circle mr-50" onerror="this.src=\'' + baseHome + '/layouts/useravatar.png\'" src="' +
             $(option.element).data("img") +
             '" height="26" width="26" alt="' +
             option.text +
@@ -281,19 +286,19 @@ function search() {
         if (i < 10) { i = '0' + i; }
         var dt = new Date(year + '-' + month + '-' + i);
         if (dt.getDay() == 0) {
-           $('#date_'+i).html('CN<br><div class="text-center">' + i +'</div>');
+            $('#date_' + i).html('CN<br><div class="text-center">' + i + '</div>');
         } else if (dt.getDay() == 1) {
-            $('#date_'+i).html('T2<br><div class="text-center">' + i +'</div>');
+            $('#date_' + i).html('T2<br><div class="text-center">' + i + '</div>');
         } else if (dt.getDay() == 2) {
-            $('#date_'+i).html('T3<br><div class="text-center">' + i +'</div>');
+            $('#date_' + i).html('T3<br><div class="text-center">' + i + '</div>');
         } else if (dt.getDay() == 3) {
-            $('#date_'+i).html('T4<br><div class="text-center">' + i +'</div>');
+            $('#date_' + i).html('T4<br><div class="text-center">' + i + '</div>');
         } else if (dt.getDay() == 4) {
-            $('#date_'+i).html('T5<br><div class="text-center">' + i +'</div>');
+            $('#date_' + i).html('T5<br><div class="text-center">' + i + '</div>');
         } else if (dt.getDay() == 5) {
-            $('#date_'+i).html('T6<br><div class="text-center">' + i +'</div>');
+            $('#date_' + i).html('T6<br><div class="text-center">' + i + '</div>');
         } else {
-            $('#date_'+i).html('T7<br><div class="text-center">' + i +'</div>');
+            $('#date_' + i).html('T7<br><div class="text-center">' + i + '</div>');
         }
     }
     if (month != '' || year != '') {
@@ -312,7 +317,7 @@ function add() {
         dataType: "json",
         data: { month: month, year: year },
         success: function (data) {
-            if (data.code==200) {
+            if (data.code == 200) {
                 notyfi_success(data.message);
                 $(".user-list-table").DataTable().ajax.reload(null, false);
             }
@@ -366,7 +371,7 @@ function save() {
                 processData: false,
                 dataType: "json",
                 success: function (data) {
-                    if (data.code==200) {
+                    if (data.code == 200) {
                         notyfi_success(data.message);
                         $('#updateinfo').modal('hide');
                         $(".user-list-table").DataTable().ajax.reload(null, false);
@@ -379,8 +384,8 @@ function save() {
     });
     $('#fm').submit();
 }
-function exportexcel(){
+function exportexcel() {
     var month = $('#month').val();
     var year = $('#year').val();
-    window.location.href = baseHome + '/timesheets/exportexcel?month='+month+'&year='+year;
+    window.location.href = baseHome + '/timesheets/exportexcel?month=' + month + '&year=' + year;
 }
