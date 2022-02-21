@@ -67,6 +67,10 @@ $(function () {
             },
         });
     }
+    var visible = true;
+    if(funEdit != 1 && funDel != 1) {
+        visible = false;
+    }
     // Users List datatable
     if (dtUserTable.length) {
         var table = dtUserTable.DataTable({
