@@ -12,7 +12,7 @@ $(function () {
     return_combobox_multi('#provinceId', baseHome + '/customer/getProvince', 'Chọn tỉnh thành');
     return_combobox_multi('#provinceId1', baseHome + '/customer/getProvince', 'Chọn tỉnh thành');
     // return_combobox_multi('#provinceId2', baseHome + '/customer/getProvince', 'Chọn tỉnh thành');
-    load_select2($('#provinceId2'), baseHome + '/customer/getProvince','Chọn tỉnh thành');
+    load_select2($('#provinceId2'), baseHome + '/customer/getProvince', 'Chọn tỉnh thành');
     $('#provinceId2').val('').change();
     $('#classify').select2({
         placeholder: 'Phân loại khách hàng',
@@ -31,7 +31,7 @@ $(function () {
         placeholder: 'Loại hình hoạt động',
         dropdownParent: $('#type2').parent(),
     });
-  
+
     $('#type2').val('').change();
 
     $('#phutrach_import').val('').change();
@@ -41,34 +41,38 @@ $(function () {
 
 
 
-        var buttons = [];
-        if(funAdd == 1) {
-            buttons.push({
-                text: "Thêm mới",
-                className: "add-new btn btn-" + 'primary' + " mt-50",
-                init: function (api, node, config) {
-                    $(node).removeClass("btn-secondary");
-                },
-                action: function (e, dt, node, config) {
-                    actionMenu();
-                }
-            });
-        }
-        if(funImport == 1) {
-            buttons.push({
-                text: "Nhập excel",
-                className: " btn  btn-primary mt-50",
-                init: function (api, node, config) {
-                    $(node).removeClass("btn-secondary");
-                },
-                action: function (e, dt, node, config) {
-                    nhapexcel();
-                },
-            });
-        }
+    var buttons = [];
+    if (funAdd == 1) {
+        buttons.push({
+            text: "Thêm mới",
+            className: "add-new btn btn-" + 'primary' + " mt-50",
+            init: function (api, node, config) {
+                $(node).removeClass("btn-secondary");
+            },
+            action: function (e, dt, node, config) {
+                actionMenu();
+            }
+        });
+    }
+    if (funImport == 1) {
+        buttons.push({
+            text: "Nhập excel",
+            className: " btn  btn-primary mt-50",
+            init: function (api, node, config) {
+                $(node).removeClass("btn-secondary");
+            },
+            action: function (e, dt, node, config) {
+                nhapexcel();
+            },
+        });
+    }
+    var visible = true;
+    if (funEdit != 1 && funDel != 1) {
+        visible = false;
+    }
     // Users List datatable
     if (dtUserTable.length) {
-     var table =   dtUserTable.DataTable({
+        var table = dtUserTable.DataTable({
             // ajax: assetPath + "data/user-list.json", // JSON file to add data
             ajax: baseHome + "/customer/list",
             autoWidth: false,
@@ -78,15 +82,15 @@ $(function () {
                 { data: "phoneNumber" },
                 { data: "website" },
                 { data: "email" },
-                { data: "field"},
-                { data: "classify"},
-                { data: "type"},
-                { data: "provinceId"},
-                { data: "address"},
+                { data: "field" },
+                { data: "classify" },
+                { data: "type" },
+                { data: "provinceId" },
+                { data: "address" },
                 { data: "" },
             ],
             columnDefs: [
-              
+
 
                 {
                     // User full name and username
@@ -101,19 +105,19 @@ $(function () {
                         // Creates full output for row
                         var $row_output =
                             '<div  class="text-wrap width-200">' +
-                           
+
                             '<a href="javascript:void(0)" onclick="loaddata(' + full["id"] + ')" data-toggle="modal" data-target="#updateinfo" class="user_name text-truncate"><span class="text-wrap width-200 font-weight-bold">' +
                             $name +
                             "</span></a>" +
                             '' +
-                          
+
                             "</small>" +
-                           
+
                             "</div>";
                         return $row_output;
                     },
-                   
-                   
+
+
                 },
                 {
                     targets: 1,
@@ -128,7 +132,7 @@ $(function () {
                         };
                         return "<span class='text-truncate align-middle'>" + roleBadgeObj['Subscriber'] + $role + "</span>";
                     },
-                   
+
                 },
                 {
                     targets: 2,
@@ -160,16 +164,17 @@ $(function () {
                     // Actions
                     targets: 9,
                     title: "Thao tác",
+                    visible: visible,
                     orderable: false,
                     render: function (data, type, full, meta) {
                         var html = '';
                         html += '<div d-flex justify-content-start style="width::150px;text-align:left">';
-                        if(funEdit == 1) {
+                        if (funEdit == 1) {
                             html += '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" title="Chỉnh sửa" onclick="loaddata(' + full['id'] + ')">';
                             html += '<i class="fas fa-pencil-alt"></i>';
                             html += '</button> &nbsp;';
                         }
-                        if(funDel == 1) {
+                        if (funDel == 1) {
                             html += '<button type="button" class="btn btn-icon btn-outline-danger waves-effect" title="Xóa" id="confirm-text" onclick="del(' + full['id'] + ')">';
                             html += '<i class="fas fa-trash-alt"></i>';
                             html += '</button>';
@@ -177,7 +182,7 @@ $(function () {
                         html += '</div>'
                         return html;
                     },
-                    width:"15%"
+                    width: "15%"
                 },
             ],
             // order: [[2, "desc"]],
@@ -190,89 +195,94 @@ $(function () {
                 '<"col-sm-12 col-md-6"i>' +
                 '<"col-sm-12 col-md-6"p>' +
                 ">",
-                language: {
-                    sLengthMenu: "Hiển thị _MENU_",
-                    search: "",
-                    searchPlaceholder: "Tìm kiếm...",
-                    paginate: {
-                        // remove previous & next text from pagination
-                        previous: "&nbsp;",
-                        next: "&nbsp;",
-                    },
-                    info:"Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
+            language: {
+                sLengthMenu: "Hiển thị _MENU_",
+                search: "",
+                searchPlaceholder: "Tìm kiếm...",
+                paginate: {
+                    // remove previous & next text from pagination
+                    previous: "&nbsp;",
+                    next: "&nbsp;",
                 },
+                info: "Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
+                infoFiltered: "(lọc từ _MAX_ bản ghi)",
+                sInfoEmpty: "Hiển thị 0 đến 0 của 0 bản ghi",
+            },
+            "oLanguage": {
+                "sZeroRecords": "Không có bản ghi nào"
+            },
             // Buttons with Dropdown
             buttons: buttons,
 
         });
 
     }
-function actionMenu() {
-    $("#addinfo").modal('show');
-    $(".modal-title").html('Thêm khách hàng mới');
-    $('#fullName').val('');
-    $('#phoneNumber').val('');
-    $('#email').val('');
-    $('#shortName_add').val('');
-    $('#website').val('');
-    $('#staffId').val('').change();
-    $('#nationalId').val(1);
-    $('#provinceId').val('').change();
-    $('#status').select2({
-        placeholder: 'Trạng thái',
-        dropdownParent: $('#status').parent(),
-    });
-    $('#status').val('').change();
-}
+    function actionMenu() {
+        $("#addinfo").modal('show');
+        $(".modal-title").html('Thêm khách hàng mới');
+        $('#fullName').val('');
+        $('#phoneNumber').val('');
+        $('#email').val('');
+        $('#shortName_add').val('');
+        $('#website').val('');
+        $('#staffId').val('').change();
+        $('#nationalId').val(1);
+        $('#provinceId').val('').change();
+        $('#status').select2({
+            placeholder: 'Trạng thái',
+            dropdownParent: $('#status').parent(),
+        });
+        $('#status').val('').change();
+    }
 
     // lọc tỉnh
 
-    $('#provinceId2').change(function() {
-             if($(this).val() == 0) {
-                table.column($(this).data('column'))
-                .search('')
-                 .draw()
-            }
-            else {
-                table.column($(this).data('column'))
-                .search($(this).val())
-                .draw()
-            }
-    })
-   // lọc phân loại
-    $('#classify3').change(function() {
-        if($(this).val() == 0) {
+    $('#provinceId2').change(function () {
+        if ($(this).val() == 0) {
             table.column($(this).data('column'))
-            .search('')
-             .draw()
+                .search('')
+                .draw()
         }
         else {
             table.column($(this).data('column'))
-            .search($(this).val())
-            .draw()
+                .search($(this).val())
+                .draw()
         }
-       
+    })
+    // lọc phân loại
+    $('#classify3').change(function () {
+        if ($(this).val() == 0) {
+            table.column($(this).data('column'))
+                .search('')
+                .draw()
+        }
+        else {
+            table.column($(this).data('column'))
+                .search($(this).val())
+                .draw()
+        }
+
     })
 
 
     // lọc loại hình hoạt động
-    $('#type2').change(function() {
-      
-        if($(this).val() == 0) {
+    $('#type2').change(function () {
+
+        if ($(this).val() == 0) {
             table.column($(this).data('column'))
-            .search('')
-             .draw()
+                .search('')
+                .draw()
         }
         else {
             table.column($(this).data('column'))
-            .search($(this).val())
-            .draw()
+                .search($(this).val())
+                .draw()
         }
-       
+
     })
     // 
 
-    
+
 
     // Check Validity
     function checkValidity(el) {
@@ -293,12 +303,12 @@ function actionMenu() {
                 },
                 "phoneNumber": {
                     required: true,
-                    number:true,
-                    min:0
+                    number: true,
+                    min: 0
                 },
                 "email": {
                     required: true,
-                    email:true
+                    email: true
                 },
                 // "website": {
                 //     required: true,
@@ -306,7 +316,7 @@ function actionMenu() {
                 "status": {
                     required: true,
                 },
-                
+
             },
             messages: {
                 "fullName": {
@@ -354,14 +364,14 @@ function actionMenu() {
                 },
                 "phoneNumber1": {
                     required: true,
-                    number:true,
-                    min:0
+                    number: true,
+                    min: 0
                 },
                 "email1": {
                     required: true,
-                    email:true,
+                    email: true,
                 },
-             
+
             },
             messages: {
                 // "shortName": {
@@ -372,17 +382,17 @@ function actionMenu() {
                 },
                 "phoneNumber1": {
                     required: "Bạn chưa nhập số điện thoại!",
-                    number:"Yêu cầu nhập số điện thoại!",
+                    number: "Yêu cầu nhập số điện thoại!",
                     min: "Yều cầu nhập bắt đầu từ 0!"
                 },
                 "email1": {
                     required: "Bạn chưa nhập địa chỉ email!",
-                    email:"Yêu cầu nhập đúng định dạng email!"
+                    email: "Yêu cầu nhập đúng định dạng email!"
                 },
                 "taxCode1": {
                     number: "Yêu cầu nhập số!",
                 },
-               
+
             },
         });
 
@@ -406,7 +416,7 @@ function actionMenu() {
 });
 
 function loaddata(id) {
-    if(funEdit != 1) {
+    if (funEdit != 1) {
         $('.btn-update-customer').css('display', 'none');
     }
     khid = id;
@@ -419,7 +429,7 @@ function loaddata(id) {
         data: { id: id },
         url: baseHome + "/customer/loaddata",
         success: function (data) {
-         console.log(data.fullName);
+            console.log(data.fullName);
             $('#fullName1').val(data.fullName);
             $('#taxCode1').val(data.taxCode);
             $('#address1').val(data.address);
@@ -453,7 +463,7 @@ function loaddata(id) {
 function loaddichvu(id) {
 
     if (dtDVTable.length) {
-    
+
         dtDVTable.DataTable({
             ajax: baseHome + "/customer/loadContact?id=" + id,
             destroy: true,
@@ -466,9 +476,9 @@ function loaddichvu(id) {
                 { data: "facebook" },
             ],
             columnDefs: [
-            
+
             ],
-            
+
             language: {
                 sLengthMenu: "Show _MENU_",
                 search: "Search",
@@ -481,7 +491,7 @@ function loaddichvu(id) {
             },
 
             // For responsive popup
-           
+
         });
     }
 }
@@ -490,7 +500,7 @@ function loaddichvu(id) {
 function loadTransaction(id) {
 
     if (transactionTable.length) {
-    
+
         transactionTable.DataTable({
             ajax: baseHome + "/customer/loadTransaction?id=" + id,
             destroy: true,
@@ -506,19 +516,19 @@ function loadTransaction(id) {
                 {
                     // Actions
                     targets: 1,
-                  
+
                     orderable: false,
                     render: function (data, type, full, meta) {
                         var html = '';
-                       if(full['type'] == 1) {
-                          html =  `<div class="badge badge-pill badge-light-info">Đơn hàng</div>`;
-                       }
-                       else if (full['type'] == 2) {
-                        html =  `<div class="badge badge-pill badge-light-primary">Hợp đồng</div>`;
-                       }
-                       else if(full['type'] == 3) {
-                        html =   `<div class="badge badge-pill badge-light-success">Thanh toán</div>`;
-                       }
+                        if (full['type'] == 1) {
+                            html = `<div class="badge badge-pill badge-light-info">Đơn hàng</div>`;
+                        }
+                        else if (full['type'] == 2) {
+                            html = `<div class="badge badge-pill badge-light-primary">Hợp đồng</div>`;
+                        }
+                        else if (full['type'] == 3) {
+                            html = `<div class="badge badge-pill badge-light-success">Thanh toán</div>`;
+                        }
                         return html;
                     },
                     width: 150
@@ -532,10 +542,10 @@ function loadTransaction(id) {
                         html = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(full['asset']);
                         return html;
                     },
-                 
+
                 },
             ],
-        
+
             language: {
                 sLengthMenu: "Show _MENU_",
                 search: "Search",
@@ -590,7 +600,7 @@ function saveadd() {
     info.shortName = $("#shortName_add").val();
     info.classify = $("#classify_add").val();
     info.status = $("#status").val();
-  
+
     $.ajax({
         type: "POST",
         dataType: "json",
@@ -724,42 +734,42 @@ function load_select2(select2, url, place) {
         async: false,
         url: url,
         success: function (data) {
-           var html ='';
-            if(place != '')
-            html = '<option value="0" >Tất cả</option>';
+            var html = '';
+            if (place != '')
+                html = '<option value="0" >Tất cả</option>';
             data.forEach(function (element, index) {
-                if (element.selected==true) 
-                var select = 'selected';
+                if (element.selected == true)
+                    var select = 'selected';
                 html += `<option data-img="${element.hinh_anh}" ${select} value="${element.id}">${element.text}</option> `;
             });
-     
+
             select2.html(html);
             select2.wrap('<div class="position-relative"></div>').select2({
                 placeholder: place,
                 dropdownParent: select2.parent(),
-              
+
             });
         },
     });
 }
-$(document).on('blur','.phoneNumber', function() {
-   var id = $(this).data('id');
-   var phone = $(this).val();
-   var idCustomer = khid;
-   if(id == 'phoneNumber') {
-    idCustomer = 0;
-   }
-    
-    if(phone != '' && phone.toString().length >= 10 ) { 
+$(document).on('blur', '.phoneNumber', function () {
+    var id = $(this).data('id');
+    var phone = $(this).val();
+    var idCustomer = khid;
+    if (id == 'phoneNumber') {
+        idCustomer = 0;
+    }
+
+    if (phone != '' && phone.toString().length >= 10) {
         $.ajax({
             type: "POST",
             dataType: "json",
-            data: {phone:phone, idCustomer:idCustomer},
+            data: { phone: phone, idCustomer: idCustomer },
             url: baseHome + "/customer/checkPhone",
             success: function (data) {
                 if (data.success) {
                     notyfi_success(data.msg);
-                    if(id == 'phoneNumber') {
+                    if (id == 'phoneNumber') {
                         $('.btn-add-customer').prop('disabled', false);
                     }
                     else {
@@ -767,7 +777,7 @@ $(document).on('blur','.phoneNumber', function() {
                     }
                 }
                 else {
-                    if(id == 'phoneNumber') {
+                    if (id == 'phoneNumber') {
                         $('.btn-add-customer').prop('disabled', true);
                     }
                     else {
@@ -776,7 +786,7 @@ $(document).on('blur','.phoneNumber', function() {
                     notify_error(data.msg);
                 }
             },
-            error: function(){
+            error: function () {
                 notify_error('Số điện thoại đã tồn tại');
             }
         });

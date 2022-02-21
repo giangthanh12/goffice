@@ -67,6 +67,11 @@ $(function () {
             },
         });
     }
+
+    var visible = true;
+    if (funEdit != 1 && funDel != 1) {
+        visible = false;
+    }
     // Users List datatable
     if (dtUserTable.length) {
         var table = dtUserTable.DataTable({
@@ -159,6 +164,7 @@ $(function () {
                     // Actions
                     targets: 9,
                     title: "Thao tác",
+                    visible: visible,
                     orderable: false,
                     render: function (data, type, full, meta) {
                         var html = '';
@@ -199,6 +205,11 @@ $(function () {
                     next: "&nbsp;",
                 },
                 info: "Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
+                infoFiltered: "(lọc từ _MAX_ bản ghi)",
+                sInfoEmpty: "Hiển thị 0 đến 0 của 0 bản ghi",
+            },
+            "oLanguage": {
+                "sZeroRecords": "Không có bản ghi nào"
             },
             // Buttons with Dropdown
             buttons: buttons,
