@@ -223,17 +223,23 @@ $(function () {
                 '<"col-sm-12 col-md-6"i>' +
                 '<"col-sm-12 col-md-6"p>' +
                 ">",
-            language: {
-                sLengthMenu: "Hiển thị _MENU_",
-                search: "",
-                searchPlaceholder: "Tìm kiếm...",
-                paginate: {
-                    // remove previous & next text from pagination
-                    previous: "&nbsp;",
-                    next: "&nbsp;",
+                language: {
+                    sLengthMenu: "Hiển thị _MENU_",
+                    search: "",
+                    searchPlaceholder: "Tìm kiếm...",
+                    paginate: {
+                        // remove previous & next text from pagination
+                        previous: "&nbsp;",
+                        next: "&nbsp;",
+                    },
+                    info: "Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
+                    infoFiltered: "(lọc từ _MAX_ bản ghi)",
+                    "sInfoEmpty": "Hiển thị 0 đến 0 của 0 bản ghi",
+             
                 },
-                info: "Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
-            },
+                "oLanguage": {
+                    "sZeroRecords": "Không có bản ghi nào"
+                  },
             
             // Buttons with Dropdown
             buttons: buttons,

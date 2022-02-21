@@ -19,7 +19,6 @@
                         <table class="user-list-table table">
                             <thead class="thead-light">
                                 <tr>
-                                 
                                     <th>ID</th>
                                     <th>Tên hoạch toán</th>
                                     <th>Loại</th>

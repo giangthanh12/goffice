@@ -81,6 +81,8 @@ $(function () {
                         next: "&nbsp;",
                     },
                     info:"Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
+                    infoFiltered: "(lọc từ _MAX_ bản ghi)",
+
                 },
             // Buttons with Dropdown
             buttons: buttons,
