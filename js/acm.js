@@ -140,7 +140,10 @@ $(function () {
             });
         },
     });
-
+    var visible = true;
+    if(funEdit!=1 || funDel!=1) {
+        visible = false;
+    }
     // Users List datatable
     if (dtUserTable.length) {
         dtUserTable.DataTable({
@@ -222,6 +225,7 @@ $(function () {
                     targets: -1,
                     title: 'Thao tác',
                     orderable: false,
+                    visible: visible,
                     render: function (data, type, full, meta) {
                         var html = "";
                         html +='<div style="width: 80px;">';

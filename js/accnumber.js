@@ -26,6 +26,10 @@ if(funAdd == 1) {
   })
 }
  
+var visible = true;
+if(funEdit!=1 || funDel!=1) {
+    visible = false;
+}
   // Users List datatable
   if (dtUserTable.length) {
     dtUserTable.DataTable({
@@ -61,6 +65,7 @@ if(funAdd == 1) {
           // Actions
           targets: -1,
           title: 'Thao tác',
+          visible: visible,
           orderable: false,
           render: function (data, type, full, meta) {
             var html = "";
