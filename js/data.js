@@ -38,7 +38,10 @@ $(function () {
     var dtUserTable = $(".user-list-table"),
         modal = $("#updateinfo"),
         form = $("#dg");
-
+    var visible = true;
+    if (funEdit != 1 && funDel != 1) {
+        visible = false;
+    }
     // Users List datatable
     if (dtUserTable.length) {
         var table = dtUserTable.DataTable({
@@ -151,6 +154,7 @@ $(function () {
                 {
                     targets: -1,
                     title: 'Thao tác',
+                    visible: visible,
                     render: function (data, type, full, meta) {
                         var html = '<div style="text-align:right;width: 130px;">';
 
@@ -224,6 +228,11 @@ $(function () {
                     next: "&nbsp;",
                 },
                 info: "Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
+                infoFiltered: "(lọc từ _MAX_ bản ghi)",
+                sInfoEmpty: "Hiển thị 0 đến 0 của 0 bản ghi",
+            },
+            "oLanguage": {
+                "sZeroRecords": "Không có bản ghi nào"
             },
             initComplete: function () {
             },

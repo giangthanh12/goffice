@@ -159,6 +159,7 @@ $(function () {
                     // Actions
                     targets: 9,
                     title: "Thao tác",
+                    visible: visible,
                     orderable: false,
                     render: function (data, type, full, meta) {
                         var html = '';
