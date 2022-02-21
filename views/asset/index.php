@@ -176,14 +176,16 @@
 
                                                             <div class="col-lg-4 d-flex mt-1 px-0">
 
-                                                                <img onerror="this.src='<?= HOME ?>/layouts/none_images.png'" id="avatar" alt="Ảnh tài sản" src="" class="user-avatar users-avatar-shadow rounded mr-2 my-25 cursor-pointer" onerror=" this.src='<?= HOME ?>/layouts/none_image.png'" height="90" width="90" />
+                                                                <img onerror="this.src='<?= HOME ?>/layouts/none_images.png'" id="avatar" alt="Ảnh tài sản" src="" class="user-avatar users-avatar-shadow rounded mr-2 my-25 cursor-pointer" height="90" width="90" />
 
                                                                 <div class="media-body col-lg-12 mt-50">
 
-                                                                    <h4 id="tai_san">No name</h4>
+                                                                    <h4 id="tai_san">No name</h4>   
 
                                                                     <div class="d-flex mt-1 px-0">
-
+                                                                        <?php 
+                                                                            if($this->funEdit == 1){
+                                                                        ?>
                                                                         <label class="btn btn-primary mr-75 mb-0" for="hinhanh">
 
                                                                             <span class="d-none d-sm-block">Thay ảnh</span>
@@ -197,6 +199,9 @@
                                                                             </span>
 
                                                                         </label>
+                                                                        <?php 
+                                                                            }
+                                                                        ?>
                                                                     </div>
 
                                                                 </div>
