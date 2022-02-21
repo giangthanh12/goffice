@@ -496,7 +496,12 @@ function loaddata(id) {
             $('#ngay_gio_add').val(tai_san.ngay_gio);
             $('#code_add').val(tai_san.code);
             var taisan_info = result.taisan_info; 
-            $('#avatar').attr('src', taisan_info.hinh_anh);
+            if(taisan_info.hinh_anh != null){
+                $('#avatar').attr('src', taisan_info.hinh_anh);
+            }else{
+                 $('#avatar').attr('src', 'layouts/none_images.png');
+            }
+            // $('#avatar').attr('src', taisan_info.hinh_anh);
             $('#nha_cungcap').val(taisan_info.nha_cungcap);
             $('#dia_chi').val(taisan_info.dia_chi);
             $('#sdt').val(taisan_info.sdt);

@@ -176,7 +176,7 @@
 
                                                             <div class="col-lg-4 d-flex mt-1 px-0">
 
-                                                                <img onerror="this.src='<?= HOME ?>/layouts/none_images.png'" id="avatar" alt="Ảnh tài sản" src="" class="user-avatar users-avatar-shadow rounded mr-2 my-25 cursor-pointer" height="90" width="90" />
+                                                                <img id="avatar" alt="Ảnh tài sản" src="" class="user-avatar users-avatar-shadow rounded mr-2 my-25 cursor-pointer" height="90" width="90" />
 
                                                                 <div class="media-body col-lg-12 mt-50">
 
