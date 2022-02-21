@@ -128,14 +128,21 @@ $(function () {
         // },
       ],
       language: {
+        sLengthMenu: "Hiển thị _MENU_",
+        search: "",
+        searchPlaceholder: "Tìm kiếm...",
         paginate: {
-          // remove previous & next text from pagination
-          previous: "&nbsp;",
-          next: "&nbsp;",
+            // remove previous & next text from pagination
+            previous: "&nbsp;",
+            next: "&nbsp;",
         },
-        sLengthMenu: "Show _MENU_",
-        search: "Search",
-        searchPlaceholder: "Từ khóa ...",
+        info: "Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
+        infoFiltered: "(lọc từ _MAX_ bản ghi)",
+        "sInfoEmpty": "Hiển thị 0 đến 0 của 0 bản ghi",
+ 
+    },
+    "oLanguage": {
+        "sZeroRecords": "Không có bản ghi nào"
       },
       initComplete: function () {
         // Adding role filter once table initialized

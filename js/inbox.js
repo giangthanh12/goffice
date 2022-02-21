@@ -474,6 +474,7 @@ function getCount() {
 // };
 function toggleEmail(id) {
     var type = $('#selectedType').val();
+  
     $.post(
         "inbox/loadMsg", {id:id,type:type},
         function (data, status) {
@@ -533,6 +534,7 @@ function listInbox() {
 $a[0].classList.remove('active');
    $('.item-filter1')[0].classList.add('active');
    $('#page').val(1);
+   getCount();
 }
 
 function listSent() {

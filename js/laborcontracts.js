@@ -114,7 +114,14 @@ $(function () {
                         next: "&nbsp;",
                     },
                     info: "Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
+                    infoFiltered: "(lọc từ _MAX_ bản ghi)",
+                    "sInfoEmpty": "Hiển thị 0 đến 0 của 0 bản ghi",
+             
                 },
+                "oLanguage": {
+                    "sZeroRecords": "Không có bản ghi nào"
+                  },
+                
             // Buttons with Dropdown
             buttons: buttons,
           

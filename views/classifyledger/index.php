@@ -19,7 +19,6 @@
                         <table class="user-list-table table">
                             <thead class="thead-light">
                                 <tr>
-                                 
                                     <th>ID</th>
                                     <th>Tên hoạch toán</th>
                                     <th>Loại</th>
@@ -90,4 +89,4 @@
         funEdit = <?=$this->funEdit?>,
         funDel = <?=$this->funDel?>;
 </script>
-<script src="<?= HOME ?>/js/classifyLedger.js"></script>
+<script src="<?= HOME ?>/js/classifyledger.js"></script>
