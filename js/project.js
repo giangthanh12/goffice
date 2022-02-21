@@ -376,7 +376,10 @@ $(function () {
                 });
             });
   
-    
+            $("body").tooltip({
+                selector: '[data-toggle="tooltip"]',
+                container: "body",
+            });
 
   
     // Tìm kiếm dự án
