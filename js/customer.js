@@ -4,15 +4,15 @@ var transactionTable = $("#transaction-list-table");
 var khid = '';
 $(function () {
     "use strict";
-    return_combobox_multi('#staffId', baseHome + '/customer/getStaff', 'Chọn nhân viên chăm sóc');
-    return_combobox_multi('#nationalId', baseHome + '/customer/getNational', 'Chọn quốc gia');
-    return_combobox_multi('#staffId1', baseHome + '/customer/getStaff', 'Chọn nhân viên chăm sóc');
-    return_combobox_multi('#staffId2', baseHome + '/customer/getStaff', 'Chọn nhân viên chăm sóc');
-    return_combobox_multi('#nationalId1', baseHome + '/customer/getNational', 'Chọn quốc gia');
-    return_combobox_multi('#provinceId', baseHome + '/customer/getProvince', 'Chọn tỉnh thành');
-    return_combobox_multi('#provinceId1', baseHome + '/customer/getProvince', 'Chọn tỉnh thành');
-    // return_combobox_multi('#provinceId2', baseHome + '/customer/getProvince', 'Chọn tỉnh thành');
-    load_select2($('#provinceId2'), baseHome + '/customer/getProvince', 'Chọn tỉnh thành');
+    return_combobox_multi('#staffId', baseHome + '/used_customer/getStaff', 'Chọn nhân viên chăm sóc');
+    return_combobox_multi('#nationalId', baseHome + '/used_customer/getNational', 'Chọn quốc gia');
+    return_combobox_multi('#staffId1', baseHome + '/used_customer/getStaff', 'Chọn nhân viên chăm sóc');
+    return_combobox_multi('#staffId2', baseHome + '/used_customer/getStaff', 'Chọn nhân viên chăm sóc');
+    return_combobox_multi('#nationalId1', baseHome + '/used_customer/getNational', 'Chọn quốc gia');
+    return_combobox_multi('#provinceId', baseHome + '/used_customer/getProvince', 'Chọn tỉnh thành');
+    return_combobox_multi('#provinceId1', baseHome + '/used_customer/getProvince', 'Chọn tỉnh thành');
+    // return_combobox_multi('#provinceId2', baseHome + '/used_customer/getProvince', 'Chọn tỉnh thành');
+    load_select2($('#provinceId2'), baseHome + '/used_customer/getProvince', 'Chọn tỉnh thành');
     $('#provinceId2').val('').change();
     $('#classify').select2({
         placeholder: 'Phân loại khách hàng',
@@ -21,6 +21,10 @@ $(function () {
     $('#type').select2({
         placeholder: 'Loại hình hoạt động',
         dropdownParent: $('#type').parent(),
+    });
+    $('#type1').select2({
+        placeholder: 'Loại hình hoạt động',
+        dropdownParent: $('#type1').parent(),
     });
     $("#classify3").select2({
         placeholder: 'Phân loại khách hàng',
@@ -38,9 +42,6 @@ $(function () {
     var dtUserTable = $(".user-list-table"),
         modal = $("#updateinfo"),
         form = $("#dg");
-
-
-
     var buttons = [];
     if (funAdd == 1) {
         buttons.push({
@@ -66,15 +67,11 @@ $(function () {
             },
         });
     }
-    var visible = true;
-    if (funEdit != 1 && funDel != 1) {
-        visible = false;
-    }
     // Users List datatable
     if (dtUserTable.length) {
         var table = dtUserTable.DataTable({
             // ajax: assetPath + "data/user-list.json", // JSON file to add data
-            ajax: baseHome + "/customer/list",
+            ajax: baseHome + "/used_customer/list",
             autoWidth: false,
             ordering: false,
             columns: [
@@ -83,15 +80,13 @@ $(function () {
                 { data: "website" },
                 { data: "email" },
                 { data: "field" },
-                { data: "classify" },
+                { data: "status" },
                 { data: "type" },
                 { data: "provinceId" },
                 { data: "address" },
                 { data: "" },
             ],
             columnDefs: [
-
-
                 {
                     // User full name and username
                     targets: 0,
@@ -205,11 +200,6 @@ $(function () {
                     next: "&nbsp;",
                 },
                 info: "Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
-                infoFiltered: "(lọc từ _MAX_ bản ghi)",
-                sInfoEmpty: "Hiển thị 0 đến 0 của 0 bản ghi",
-            },
-            "oLanguage": {
-                "sZeroRecords": "Không có bản ghi nào"
             },
             // Buttons with Dropdown
             buttons: buttons,
@@ -218,6 +208,12 @@ $(function () {
 
     }
     function actionMenu() {
+        var validator = $("#dg").validate(); // reset form
+        validator.resetForm();
+        $(".error").removeClass("error"); // loại bỏ validate
+        $('#fullName-error').css('display', 'none');
+        $('#phoneNumber-error').css('display', 'none');
+        $('#status-error').css('display', 'none');
         $("#addinfo").modal('show');
         $(".modal-title").html('Thêm khách hàng mới');
         $('#fullName').val('');
@@ -236,7 +232,6 @@ $(function () {
     }
 
     // lọc tỉnh
-
     $('#provinceId2').change(function () {
         if ($(this).val() == 0) {
             table.column($(this).data('column'))
@@ -261,9 +256,7 @@ $(function () {
                 .search($(this).val())
                 .draw()
         }
-
     })
-
 
     // lọc loại hình hoạt động
     $('#type2').change(function () {
@@ -278,11 +271,8 @@ $(function () {
                 .search($(this).val())
                 .draw()
         }
-
     })
     // 
-
-
 
     // Check Validity
     function checkValidity(el) {
@@ -304,10 +294,11 @@ $(function () {
                 "phoneNumber": {
                     required: true,
                     number: true,
-                    min: 0
+                    min: 0,
+                    minlength:10
                 },
                 "email": {
-                    required: true,
+                    // required: true,
                     email: true
                 },
                 // "website": {
@@ -325,10 +316,11 @@ $(function () {
                 "phoneNumber": {
                     required: "Bạn chưa nhập số điện thoại!",
                     number: "Yêu cầu nhập số điện thoại!",
-                    min: "Yều cầu nhập bắt đầu từ 0!"
+                    min: "Yều cầu nhập bắt đầu từ 0!",
+                    minlength:"Yêu cầu nhập số điện thoại 10 số!"
                 },
                 "email": {
-                    required: "Bạn chưa nhập địa chỉ email!",
+                    // required: "Bạn chưa nhập địa chỉ email!",
                     email: "Yêu cầu nhập đúng định dạng email!",
                 },
                 // "website": {
@@ -356,22 +348,22 @@ $(function () {
                 "fullName1": {
                     required: true,
                 },
-                // "shortName": {
-                //     required: true,
-                // },
+                "type1": {
+                    required: true,
+                },
                 "taxCode1": {
                     number: true,
                 },
                 "phoneNumber1": {
                     required: true,
                     number: true,
-                    min: 0
+                    min: 0,
+                    minlength:10,
+                    maxlength:10
                 },
-                "email1": {
+                "status1": {
                     required: true,
-                    email: true,
                 },
-
             },
             messages: {
                 // "shortName": {
@@ -383,16 +375,18 @@ $(function () {
                 "phoneNumber1": {
                     required: "Bạn chưa nhập số điện thoại!",
                     number: "Yêu cầu nhập số điện thoại!",
-                    min: "Yều cầu nhập bắt đầu từ 0!"
+                    min: "Yều cầu nhập bắt đầu từ 0!",
+                    minlength:"Yêu cầu nhập số điện thoại 10 số!",
+                    maxlength:"Yêu cầu nhập số điện thoại 10 số!"
                 },
-                "email1": {
-                    required: "Bạn chưa nhập địa chỉ email!",
-                    email: "Yêu cầu nhập đúng định dạng email!"
-                },
+                
                 "taxCode1": {
                     number: "Yêu cầu nhập số!",
                 },
 
+                "status1": {
+                    required: "Bạn chưa cập nhật trạng thái!",
+                },
             },
         });
 
@@ -404,10 +398,109 @@ $(function () {
             }
         });
     }
+    if ($('#dgContact').length) {
+        $('#dgContact').validate({
+            errorClass: "error",
+            rules: {
+                "phoneNumberContact": {
+                    required: true,
+                    number: true,
+                    min: 0,
+                    minlength:10,
+                    maxlength:10
+                },
+                "nameContact": {
+                    required: true,
+                },
+                "emailContact": {
+                    email: true,
+                },
+                // "facebook": {
+                //     required: true,
+                // },
+            },
+            messages: {
 
+                "phoneNumberContact": {
+                    required: "Bạn chưa nhập số điện thoại!",
+                    number: "Yêu cầu nhập số điện thoại!",
+                    min: "Yều cầu nhập bắt đầu từ 0!",
+                    minlength:"Yêu cầu nhập số điện thoại 10 số!",
+                    maxlength:"Yêu cầu nhập số điện thoại 10 số!"
+                },
+                "nameContact": {
+                    required: "Yêu cầu nhập tên liên lạc",
+                },
+                "emailContact": {
+                    email: "Yêu cầu nhập địa chỉ email liên lạc",
+                },
+                // "facebook": {
+                //     required: "Yêu cầu nhập địa chỉ facebook",
+                // },
 
+            },
+        });
 
+        $('#dgContact').on("submit", function (e) {
+            var isValid = $('#dgContact').valid();
+            e.preventDefault();
+            if (isValid) {
+                saveContact();
+            }
+        });
+    }
+    if ($('#dgTransaction').length) {
+        $('#dgTransaction').validate({
+            errorClass: "error",
+            rules: {
+                "nameTransaction": {
+                    required: true,
+                },
+                "customerId": {
+                    required: true,
+                },
+                "asset": {
+                    required: true,
+                },
+                "dateTime": {
+                    required: true,
+                },
+                "performedId": {
+                    required: true,
+                },
+               
+            },
+            messages: {
 
+                "nameTransaction": {
+                    required: "Bạn chưa nhập tên hợp đồng",
+                },
+                "customerId": {
+                    required: "Bạn chưa chọn khách hàng",
+                },
+                "asset": {
+                    required: "Bạn chưa nhập tiền giao dịch",
+                },
+                "dateTime": {
+                    required: "Bạn chưa nhập thời gian giao dịch",
+                },
+                "performedId": {
+                    required: "Bạn chưa chọn nhân viên thực hiện",
+                },
+                "type": {
+                    required: "Bạn chưa chọn loại giao dịch",
+                },
+            },
+        });
+
+        $('#dgTransaction').on("submit", function (e) {
+            var isValid = $('#dgTransaction').valid();
+            e.preventDefault();
+            if (isValid) {
+                saveTransaction();
+            }
+        });
+    }
     // To initialize tooltip with body container
     $("body").tooltip({
         selector: '[data-toggle="tooltip"]',
@@ -415,11 +508,60 @@ $(function () {
     });
 });
 
+var urlContact = '';
+var urlTransaction = '';
+function showFormContact() {
+    return_combobox_multi('#positionContact', baseHome + '/used_customer/getPosition', 'Chức danh');
+    var validator = $("#dgContact").validate(); // reset form
+    validator.resetForm();
+    $(".error").removeClass("error"); // loại bỏ validate
+    // $('#dgContact')[0].reset();
+    $('#updateinfoContact').modal('show');
+    $('.modal-title-contact').html('Thêm liên lạc cho khách hàng');
+    urlContact = baseHome + "/contact/add";
+}
+
+function saveContact() {
+
+    var info = {};
+    info.name = $("#nameContact").val();
+    info.customerId = $("#idCustomerContact").val();
+    info.phoneNumber = $("#phoneNumberContact").val();
+    info.email = $("#emailContact").val();
+    info.facebook = $("#facebook").val();
+    info.zalo = $("#zalo").val();
+    info.note = $("#noteContact").val();
+    info.position = $('#positionContact').val();
+
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        data: info,
+        url: urlContact,
+        success: function (data) {
+            if (data.success) {
+                notyfi_success(data.msg);
+                $('#updateinfoContact').modal('hide');
+                $("#dichvu-list-table").DataTable().ajax.reload(null, false);
+            }
+            else
+                notify_error(data.msg);
+        },
+        error: function () {
+            notify_error('Cập nhật không thành công');
+        }
+    });
+}
+
 function loaddata(id) {
     if (funEdit != 1) {
         $('.btn-update-customer').css('display', 'none');
     }
     khid = id;
+    var validator = $("#dg1").validate(); // reset form
+        validator.resetForm();
+        $(".error").removeClass("error"); // loại bỏ validate
+      
     $("#updateinfo").modal('show');
     $('#information-tab').click();
     $(".modal-title").html('Cập nhật thông tin khách hàng');
@@ -427,30 +569,31 @@ function loaddata(id) {
         type: "POST",
         dataType: "json",
         data: { id: id },
-        url: baseHome + "/customer/loaddata",
+        url: baseHome + "/used_customer/loaddata",
         success: function (data) {
-            console.log(data.fullName);
             $('#fullName1').val(data.fullName);
             $('#taxCode1').val(data.taxCode);
             $('#address1').val(data.address);
             $('#phoneNumber1').val(data.phoneNumber);
             $('#email1').val(data.email);
             $('#website1').val(data.website);
-            $('#staffId1').val(data.staffid).change();
-            $('#shortName').val(data.shortName);
+            $('#staffId1').val(data.staffId).change();
+            $('#shortName').val(data.name);
             $('#field1').val(data.field);
             $('#rank1').val(data.rank).change();
-            $('#bussinessName1').val(data.businessName);
-            $('#bussinessAddress1').val(data.businessAddress);
-            $('#bussinessPlace1').val(data.businessPlace);
+            // $('#bussinessName1').val(data.businessName);
+            $('#businessAddress1').val(data.businessAddress);
+            $('#businessPlace1').val(data.businessPlace);
             $('#representative1').val(data.representative);
             $('#authorized1').val(data.authorized);
             $('#note1').val(data.note);
-            $('#classify1').val(data.classify);
+            $('#classify1').val(data.classify).change();
             $('#type1').val(data.type).change();
-            $('#nationalId1').val(data.nationalId).change();
-            $('#provinceId1').val(data.provinceId).change();
-            $('#status1').val(data.status).change();
+            // $('#nationalId1').val(data.nationalId).change();
+            $('#position1').val(data.position).change();
+            // $('#type1').val(data.type).change();
+            $('#status1').val(data.status).change().attr('disabled', false);
+            $('#idCustomerContact').val(id);
             loaddichvu(id);
             loadTransaction(id);
         },
@@ -465,12 +608,13 @@ function loaddichvu(id) {
     if (dtDVTable.length) {
 
         dtDVTable.DataTable({
-            ajax: baseHome + "/customer/loadContact?id=" + id,
+            ajax: baseHome + "/used_customer/loadContact?id=" + id,
             destroy: true,
 
             columns: [
                 // columns according to JSON
                 { data: "name" },
+                { data: 'positionName' },
                 { data: "phoneNumber" },
                 { data: "email" },
                 { data: "facebook" },
@@ -479,18 +623,27 @@ function loaddichvu(id) {
 
             ],
 
-            language: {
-                sLengthMenu: "Show _MENU_",
-                search: "Search",
-                searchPlaceholder: "Search..",
-                paginate: {
-                    // remove previous & next text from pagination
-                    previous: "&nbsp;",
-                    next: "&nbsp;",
-                }
+            dom:
+            '<"d-flex justify-content-between align-items-center header-actions mx-1 row mt-75"' +
+            '<"col-lg-12 col-xl-6" l>' +
+            '<"col-lg-12 col-xl-6 pl-xl-75 pl-0"<"dt-action-buttons text-xl-right text-lg-left text-md-right text-left d-flex align-items-center justify-content-lg-end align-items-center flex-sm-nowrap flex-wrap mr-1"<"mr-1"f>B>>' +
+            ">t" +
+            '<"d-flex justify-content-between mx-2 row mb-1"' +
+            '<"col-sm-12 col-md-6"i>' +
+            '<"col-sm-12 col-md-6"p>' +
+            ">",
+        language: {
+            sLengthMenu: "Hiển thị _MENU_",
+            search: "",
+            searchPlaceholder: "Tìm kiếm...",
+            paginate: {
+                // remove previous & next text from pagination
+                previous: "&nbsp;",
+                next: "&nbsp;",
             },
-
-            // For responsive popup
+            info: "Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
+        },
+        buttons: [],
 
         });
     }
@@ -502,21 +655,22 @@ function loadTransaction(id) {
     if (transactionTable.length) {
 
         transactionTable.DataTable({
-            ajax: baseHome + "/customer/loadTransaction?id=" + id,
+            ajax: baseHome + "/used_customer/loadTransaction?id=" + id,
             destroy: true,
 
             columns: [
                 // columns according to JSON
                 { data: "date" },
-                { data: "type" },
+                { data: "name" },
+                { data: "productName"},
+                { data: "type"},
                 { data: "asset" },
                 { data: "description" },
             ],
             columnDefs: [
                 {
                     // Actions
-                    targets: 1,
-
+                    targets: 3,
                     orderable: false,
                     render: function (data, type, full, meta) {
                         var html = '';
@@ -535,53 +689,57 @@ function loadTransaction(id) {
                 },
                 {
                     // Actions
-                    targets: 2,
+                    targets: 4,
                     orderable: true,
                     render: function (data, type, full, meta) {
                         var html = '';
-                        html = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(full['asset']);
+                        html = formatCurrency(full['asset'].replace(/[,VNĐ]/g,''));
                         return html;
                     },
 
                 },
+                {
+                    // Actions
+                    targets: -1,
+                    title: 'Thao tác',
+                    orderable: false,
+                    render: function (data, type, full, meta) {
+                        var html = '';
+                            html += '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" title="Chỉnh sửa" onclick="loaddataTransaction(' + full['id'] + ')">';
+                            html += '<i class="fas fa-pencil-alt"></i>';
+                            html += '</button> &nbsp;';
+                            html += '<button type="button" class="btn btn-icon btn-outline-danger waves-effect" title="Xóa" id="confirm-text" onclick="delTransaction(' + full['id'] + ')">';
+                            html += '<i class="fas fa-trash-alt"></i>';
+                            html += '</button>';
+                        return html;
+                    },
+                    width: 100
+                },
             ],
 
-            language: {
-                sLengthMenu: "Show _MENU_",
-                search: "Search",
-                searchPlaceholder: "Search..",
-                paginate: {
-                    // remove previous & next text from pagination
-                    previous: "&nbsp;",
-                    next: "&nbsp;",
-                }
+            dom:
+            '<"d-flex justify-content-between align-items-center header-actions mx-1 row mt-75"' +
+            '<"col-lg-12 col-xl-6" l>' +
+            '<"col-lg-12 col-xl-6 pl-xl-75 pl-0"<"dt-action-buttons text-xl-right text-lg-left text-md-right text-left d-flex align-items-center justify-content-lg-end align-items-center flex-sm-nowrap flex-wrap mr-1"<"mr-1"f>B>>' +
+            ">t" +
+            '<"d-flex justify-content-between mx-2 row mb-1"' +
+            '<"col-sm-12 col-md-6"i>' +
+            '<"col-sm-12 col-md-6"p>' +
+            ">",
+        language: {
+            sLengthMenu: "Hiển thị _MENU_",
+            search: "",
+            searchPlaceholder: "Tìm kiếm...",
+            paginate: {
+                // remove previous & next text from pagination
+                previous: "&nbsp;",
+                next: "&nbsp;",
             },
+            info: "Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
+        },
+        buttons: [],
 
-            // For responsive popup
-            responsive: {
-                details: {
-                    display: $.fn.dataTable.Responsive.display.modal({
-                        header: function (row) {
-                            var data = row.data();
-                            return "Details of " + data["name"];
-                        },
-                    }),
-                    type: "column",
-                    renderer: $.fn.dataTable.Responsive.renderer.tableAll({
-                        tableClass: "table",
-                        columnDefs: [
-                            {
-                                targets: 2,
-                                visible: false,
-                            },
-                            {
-                                targets: 3,
-                                visible: false,
-                            },
-                        ],
-                    }),
-                },
-            }
+           
         });
     }
 }
@@ -599,13 +757,14 @@ function saveadd() {
     info.provinceId = $("#provinceId").val();
     info.shortName = $("#shortName_add").val();
     info.classify = $("#classify_add").val();
+    info.type = $("#type").val();
     info.status = $("#status").val();
 
     $.ajax({
         type: "POST",
         dataType: "json",
         data: info,
-        url: baseHome + "/customer/add",
+        url: baseHome + "/used_customer/add",
         success: function (data) {
             if (data.success) {
                 notyfi_success(data.msg);
@@ -622,6 +781,8 @@ function saveadd() {
 }
 
 function saveedit() {
+
+    
     var info = {};
     info.fullName = $("#fullName1").val();
     info.taxCode = $("#taxCode1").val();
@@ -631,26 +792,29 @@ function saveedit() {
     info.email = $("#email1").val();
     info.website = $("#website1").val();
     info.staffId = $("#staffId1").val();
-    info.office = $("#office1").val();
+    // info.office = $("#office1").val();
     info.field = $("#field1").val();
     info.fieldDetail = $("#fieldDetail1").val();
     info.rank = $("#rank1").val();
-    info.bussinessName = $("#bussinessName1").val();
-    info.bussinessAddress = $("#bussinessAddress1").val();
-    info.bussinessPlace = $("#bussinessPlace1").val();
+    // info.bussinessName = $("#bussinessName1").val();
+    info.businessAddress = $("#businessAddress1").val();
+    info.businessPlace = $("#businessPlace1").val();
     info.representative = $("#representative1").val();
     info.authorized = $("#authorized1").val();
     info.note = $("#note1").val();
     info.classify = $("#classify1").val();
     info.type = $("#type1").val();
-    info.nationalId = $("#nationalId1").val();
+    // info.nationalId = $("#nationalId1").val();
+    info.position = $("#position1").val();
     info.provinceId = $("#provinceId1").val();
     info.status = $("#status1").val();
+  
+    // console.log(khid);
     $.ajax({
         type: "POST",
         dataType: "json",
         data: info,
-        url: baseHome + '/customer/update?id=' + khid,
+        url: baseHome + '/used_customer/update?id=' + khid,
         success: function (data) {
             if (data.success) {
                 notyfi_success(data.msg);
@@ -681,7 +845,7 @@ function del(id) {
     }).then(function (result) {
         if (result.value) {
             $.ajax({
-                url: baseHome + "/customer/del",
+                url: baseHome + "/used_customer/del",
                 type: 'post',
                 dataType: "json",
                 data: { id: id },
@@ -709,7 +873,7 @@ function savenhap() {
         type: "POST",
         dataType: "json",
         data: myform,
-        url: baseHome + "/customer/importExcel",
+        url: baseHome + "/used_customer/importExcel",
         contentType: false,
         processData: false,
         success: function (data) {
@@ -726,7 +890,120 @@ function savenhap() {
         }
     });
 }
-
+function showFormTransaction() {
+    return_combobox_multi('#productId', baseHome + '/used_customer/getProduct', 'Sản phẩm');
+    return_combobox_multi('#performedId', baseHome + '/used_customer/getStaff', 'Nhân viên thực hiện');
+    $('#dgTransaction')[0].reset();
+    var validator = $("#dgTransaction").validate(); // reset form
+        validator.resetForm();
+        $(".error").removeClass("error"); // loại bỏ validate
+    $('#modalTransaction').modal('show');
+    $('.modal-title-transaction').html('Thêm lịch sử giao dịch');
+    $("#dateTime").flatpickr({
+        enableTime: true,
+        defaultDate: "today",
+        dateFormat: "d-m-Y H:i",
+        // allowInput:true,
+        // monthSelectorType:"dropdown",
+        // yearSelectorType:"dropdown",
+    });
+    urlTransaction = baseHome + "/used_customer/saveTransaction";
+}
+function saveTransaction() {
+    var info = {};
+    info.name = $("#nameTransaction").val();
+    info.productId = $("#productId").val();
+    info.customerId = $("#idCustomerContact").val();
+    info.asset = $("#asset").val();
+    info.dateTime = $("#dateTime").val();
+    info.performedId = $("#performedId").val();
+    info.type = $("#typeTransaction").val();
+    info.description = $("#description").val();
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        data: info,
+        url:urlTransaction,
+        success: function (data) {
+            if (data.success) {
+                notyfi_success(data.msg);
+                $('#modalTransaction').modal('hide');
+                $("#transaction-list-table").DataTable().ajax.reload(null, false);
+            }
+            else
+                notify_error(data.msg);
+        },
+        error: function () {
+            notify_error('Cập nhật không thành công');
+        }
+    });
+}
+function loaddataTransaction(id) {
+    return_combobox_multi('#productId', baseHome + '/used_customer/getProduct', 'Sản phẩm');
+    return_combobox_multi('#performedId', baseHome + '/used_customer/getStaff', 'Nhân viên thực hiện');
+ 
+    var validator = $("#dgTransaction").validate(); // reset form
+    validator.resetForm();
+    $(".error").removeClass("error"); // loại bỏ validate
+    $('#modalTransaction').modal('show');
+    $('.modal-title-transaction').html('Cập nhật lịch sử giao dịch');
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        data: { id: id },
+        url: baseHome + "/used_customer/loaddataTransaction",
+        success: function (data) {
+            // Default
+            $('#nameTransaction').val(data.name);
+            $('#asset').val(formatCurrency(data.asset.replace(/[,VNĐ]/g,'')));
+            $('#productId').val(data.productId).trigger("change");
+            $('#performedId').val(data.performerId).trigger("change");
+            $('#typeTransaction').val(data.type).trigger("change");
+            $('#description').val(data.description);
+            $("#dateTime").flatpickr({
+                enableTime: true,
+                defaultDate: $('#dateTime').val(data.date),
+                dateFormat: "d-m-Y H:i",
+            });
+            urlTransaction = baseHome + '/used_customer/saveTransaction?id=' + id;
+        },
+        error: function () {
+            notify_error('Lỗi truy xuất database');
+        }
+    });
+}
+function delTransaction(id) {
+    Swal.fire({
+        title: 'Xóa dữ liệu',
+        text: "Bạn có chắc chắn muốn xóa!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Tôi đồng ý',
+        cancelButtonText: 'Hủy',
+        customClass: {
+            confirmButton: 'btn btn-primary',
+            cancelButton: 'btn btn-outline-danger ml-1'
+        },
+        buttonsStyling: false
+    }).then(function (result) {
+        if (result.value) {
+            $.ajax({
+                url: baseHome + "/used_customer/delTransaction",
+                type: 'post',
+                dataType: "json",
+                data: { id: id },
+                success: function (data) {
+                    if (data.success) {
+                        notyfi_success(data.msg);
+                        $("#transaction-list-table").DataTable().ajax.reload(null, false);
+                    }
+                    else
+                        notify_error(data.msg);
+                },
+            });
+        }
+    });
+}
 function load_select2(select2, url, place) {
     $.ajax({
         type: "GET",
@@ -765,7 +1042,7 @@ $(document).on('blur', '.phoneNumber', function () {
             type: "POST",
             dataType: "json",
             data: { phone: phone, idCustomer: idCustomer },
-            url: baseHome + "/customer/checkPhone",
+            url: baseHome + "/used_customer/checkPhone",
             success: function (data) {
                 if (data.success) {
                     notyfi_success(data.msg);
@@ -792,3 +1069,34 @@ $(document).on('blur', '.phoneNumber', function () {
         });
     }
 })
+
+function changeType() {
+    type = $('#type1').val();
+    if (type == 1) {
+        $('#div-businessPlace').addClass('d-none');
+        $('#div-businessAddress').addClass('d-none');
+        $('#div-authorized').addClass('d-none');
+        $('#div-position').addClass('d-none');
+    } else if (type == 2) {
+        $('#div-businessPlace').removeClass('d-none');
+        $('#div-businessAddress').removeClass('d-none');
+        $('#div-authorized').removeClass('d-none');
+        $('#div-position').removeClass('d-none');
+        $('#div-address').addClass('d-none');
+
+    }
+}
+//format_number so_tien
+$('.format_number').on('input', function(e){        
+    $(this).val(formatCurrency(this.value.replace(/[,VNĐ]/g,'')));
+  }).on('keypress',function(e){
+    if(!$.isNumeric(String.fromCharCode(e.which))) e.preventDefault();
+  }).on('paste', function(e){    
+    var cb = e.originalEvent.clipboardData || window.clipboardData;      
+    if(!$.isNumeric(cb.getData('text'))) e.preventDefault();
+  });
+  function formatCurrency(number){
+    var n = number.split('').reverse().join("");
+    var n2 = n.replace(/\d\d\d(?!$)/g, "$&,");    
+    return  n2.split('').reverse().join('');
+}

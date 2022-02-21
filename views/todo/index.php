@@ -229,10 +229,10 @@
                                         </div>
                                         <div class="form-group my-1">
                                             <button type="submit" class="btn btn-primary d-none add-todo-item mr-1">Thêm</button>
-                                            <button type="button" class="btn btn-outline-secondary add-todo-item d-none" data-dismiss="modal">
+                                            <button type="button" class="btn btn-outline-secondary cancel-todo-item" data-dismiss="modal">
                                                 Đóng
                                             </button>
-                                            <button type="button" class="btn btn-primary d-none update-btn update-todo-item mr-1">Cập nhật</button>
+                                            <button type="button" class="btn btn-primary d-none update-btn update-todo-item">Cập nhật</button>
                                             <button type="button" onclick="deleteTask()" class="btn btn-outline-danger update-btn d-none" data-dismiss="modal">Xóa</button>
                                         </div>
                                     </div>

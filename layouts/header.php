@@ -3,7 +3,7 @@ $model = new model();
 $notifications = $model->getNotification();
 ?>
 <!DOCTYPE html>
-<html class="loading semi-dark-layout" lang="en" data-layout="semi-dark-layout" data-textdirection="ltr">
+<html class="loading" lang="en" data-textdirection="ltr">
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -714,7 +714,7 @@ $notifications = $model->getNotification();
     </ul>
     <!-- END: Header-->
     <!-- BEGIN: Main Menu-->
-    <div class="main-menu menu-fixed menu-dark menu-accordion menu-shadow" data-scroll-to-active="true">
+    <div class="main-menu menu-fixed menu-light menu-accordion menu-shadow" data-scroll-to-active="true">
         <div class="navbar-header">
             <ul class="nav navbar-nav flex-row">
 
@@ -730,11 +730,11 @@ $notifications = $model->getNotification();
                             if ($item['id'] == 7) {
                             ?>
                                 <div id="maxlogo">
-                                    <img onerror="this.src='<?=HOME?>/layouts/g-office-logo.png'" src="<?= $item['value'] ?>" height="30" alt="logo">
+                                    <img onerror="this.src='<?=HOME?>/layouts/g-office-logo.png'" src="<?= URLFILE.'/uploads/'. $item['value'] ?>" height="30" alt="logo">
                                 </div>
                             <?php } else { ?>
                                 <div class="brand-logo d-none" id="minlogo">
-                                    <img onerror="this.src='<?=HOME?>/layouts/favicon.png'" src="<?= $item['value'] ?>" height="36" />
+                                    <img onerror="this.src='<?=HOME?>/layouts/favicon.png'" src="<?= URLFILE.'/uploads/'. $item['value'] ?>" height="36" />
                                 </div>
                             <?php
                             }

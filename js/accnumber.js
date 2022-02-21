@@ -38,7 +38,7 @@ if(funEdit!=1 || funDel!=1) {
       ordering: false,
       columns: [
         // columns according to JSON
-        // { data: "" },
+       
         { data: "id" },
         { data: "name" },
         { data: "account" },

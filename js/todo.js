@@ -8,7 +8,7 @@
 ==========================================================================================*/
 
 "use strict";
-
+var assignee = 0;
 $(function () {
 
     var // taskTitle ,
@@ -39,12 +39,13 @@ $(function () {
         listItemFilter = $(".list-group-filters"),
         noResults = $(".no-results"),
         checkboxId = 100,
+        
         isRtl = $("html").attr("data-textdirection") === "rtl";
 
     var assetPath = baseHome + "/styles/app-assets/";
     if ($("body").attr("data-framework") === "laravel") {
         assetPath = $("body").attr("data-asset-path");
-    }
+    }   
 
     $(document).on('click', '.add-to-calendar', function (e) {
         var addCalendar = e.target.checked ? 1 : 0;
@@ -501,6 +502,25 @@ $(function () {
             modalTitle.html('');
         }
 
+        if(baseUser != assignee) {
+            modalTitle.html('Thông tin chi tiết công việc');
+            newTaskForm.find(".new-todo-item-title").attr('disabled',true);
+            flatPickr.attr('disabled',true);
+            taskTag.attr('disabled',true);
+            taskAssignSelect.attr('disabled',true);
+            onProject.attr('disabled',true);
+            addBtn.addClass("d-none");
+            updateBtns.addClass("d-none");
+        } else {
+            newTaskForm.find(".new-todo-item-title").attr('disabled',false);
+            flatPickr.attr('disabled',false);
+            taskTag.attr('disabled',false);
+            taskAssignSelect.attr('disabled',false);
+            onProject.attr('disabled',false);
+            addBtn.addClass("d-none");
+            updateBtns.removeClass("d-none");
+        }
+
     });
 
     // Updating Data Values to Fields
@@ -642,6 +662,7 @@ function listMyTask(catId) {
 
 function listOtherTask(assigneeId) {
     var catId = $('#catId').val();
+    assignee = assigneeId;
     $("#my-task-list").load(window.location.href + "?assignee=" + assigneeId + "&catId=" + catId + " #my-task-list");
 }
 

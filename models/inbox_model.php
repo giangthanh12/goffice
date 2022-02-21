@@ -6,23 +6,24 @@ class inbox_Model extends Model{
 
     function getList($start,$num_per_page,$type){
         $temp = array();
-        $user = '"'.$_SESSION['user']['staffId'].'"';
+        $userReceiveId = '"'.$_SESSION['user']['staffId'].'"';
+        $user = $_SESSION['user']['staffId'];
         if ($type=='sent') {
-            $dieukien = " WHERE status>0 AND senderId=$user";
+            $dieukien = " WHERE status>0 AND senderId=$user and receiverId = '0' ";
             $query = $this->db->query("SELECT id,title,senderId, receiverId, dateTime, link,
                 SUBSTRING(content,1,128) AS subContent, status,
                 (SELECT name FROM staffs WHERE id=senderId) AS senderName,
                 (SELECT avatar FROM staffs WHERE id=senderId) AS avatar
                 FROM events $dieukien ORDER BY dateTime DESC LIMIT $start, $num_per_page ");
         } elseif ($type=='trash') {
-            $dieukien = " WHERE status=0 AND (receiverId LIKE '%$user%' OR senderId=$user) ";
+            $dieukien = " WHERE status=0 AND (receiverId LIKE '%$userReceiveId%' OR senderId=$user) ";
             $query = $this->db->query("SELECT id,title,senderId, receiverId, dateTime, link,
                 SUBSTRING(content,1,128) AS subContent, status,
                 (SELECT name FROM staffs WHERE id=senderId) AS senderName,
                 (SELECT avatar FROM staffs WHERE id=senderId) AS avatar
                 FROM events $dieukien ORDER BY dateTime DESC LIMIT $start, $num_per_page ");
         } else {
-            $dieukien = " WHERE status>0 AND receiverId LIKE '%$user%' ";
+            $dieukien = " WHERE status>0 AND receiverId LIKE '%$userReceiveId%' ";
             $query = $this->db->query("SELECT id,title,senderId, receiverId, dateTime, link,
                 SUBSTRING(content,1,128) AS subContent, status,
                 (SELECT name FROM staffs WHERE id=senderId) AS senderName,
@@ -34,34 +35,37 @@ class inbox_Model extends Model{
         return $temp;
     }
 
-
-
-
-
-
-
     function getCount(){
         $return = array();
-        $user = '"'.$_SESSION['user']['staffId'].'"';
-        $dieukien = " WHERE status>0 AND receiverId LIKE '%$user%' ";
+        $userReceiveId = '"'.$_SESSION['user']['staffId'].'"';
+        $user = $_SESSION['user']['staffId'];
+        $dieukien = " WHERE status>0 AND receiverId LIKE '%$userReceiveId%' ";
         $query = $this->db->query("SELECT COUNT(1) AS total FROM events $dieukien ");
         $temp = $query->fetchAll(PDO::FETCH_ASSOC);
         $return['inbox'] = $temp[0]['total'];
-        $dieukien = " WHERE status>0 AND senderId=$user ";
+        
+        $dieukien = " WHERE status>0 AND senderId=$user and receiverId = '0' ";
         $query = $this->db->query("SELECT COUNT(1) AS total FROM events $dieukien ");
         $temp = $query->fetchAll(PDO::FETCH_ASSOC);
         $return['sent'] = $temp[0]['total'];
 
-        $dieukien = " WHERE status in (1,2) AND receiverId LIKE '%$user%' ";
+        $dieukien = " WHERE status in (1,2) AND receiverId LIKE '%$userReceiveId%' ";
         $query = $this->db->query("SELECT COUNT(1) AS total FROM events $dieukien ");
         $temp = $query->fetchAll(PDO::FETCH_ASSOC);
         $return['notseen'] = $temp[0]['total'];
 
-        $dieukien = " WHERE status=0 AND (receiverId LIKE '%$user%' or senderId=$user) ";
+        $dieukien = " WHERE status=0 AND (receiverId LIKE '%$userReceiveId%' or senderId=$user) ";
         $query = $this->db->query("SELECT COUNT(1) AS total FROM events $dieukien ");
         $temp = $query->fetchAll(PDO::FETCH_ASSOC);
         $return['trash'] = $temp[0]['total'];
         return $return;
+    }
+    function addInboxSend($dataSend) {
+        $query = $this->insert("events", $dataSend);
+        if($query) 
+        return $this->db->lastInsertId();
+        else 
+        return 0;
     }
     function getAvatar($idStaff) {
         $avatar = '';

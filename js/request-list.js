@@ -161,17 +161,17 @@ $(function () {
     }
 
     // Flat Picker
-    if (flatPickr.length) {
-        flatPickr.flatpickr({
-            dateFormat: 'd/m/Y',
-            defaultDate: 'today',
-            onReady: function (selectedDates, dateStr, instance) {
-                if (instance.isMobile) {
-                    $(instance.mobileInput).attr('step', null);
-                }
-            }
-        });
-    }
+    // if (flatPickr.length) {
+    //     flatPickr.flatpickr({
+    //         dateFormat: 'd/m/Y',
+    //         defaultDate: 'today',
+    //         onReady: function (selectedDates, dateStr, instance) {
+    //             if (instance.isMobile) {
+    //                 $(instance.mobileInput).attr('step', null);
+    //             }
+    //         }
+    //     });
+    // }
 
     // Todo Description Editor
     if (taskDesc.length) {
@@ -194,6 +194,13 @@ $(function () {
             // updateBtns.addClass('d-none');
             // $('#btnApprove').removeClass('d-none');
             // $('#btnRefuse').removeClass('d-none');
+            $('#dateTime').val('');
+            $('#dateTime').flatpickr({
+                dateFormat: 'd/m/Y',
+                minDate:"today",
+                defaultDate: 'today',
+            });
+            
             $('#btnUpdate').removeClass('d-none');
             $('#btnApprove').addClass('d-none');
             $('#btnRefuse').addClass('d-none');
@@ -361,6 +368,12 @@ $(function () {
 
     // To open todo list item modal on click of item
     $(document).on('click', '.todo-task-list-wrapper .todo-item', function (e) {
+        $('#dateTime').flatpickr({
+            dateFormat: 'd/m/Y',
+            defaultDate: 'today',
+            minDate:new Date(),
+          
+        });
         var $status = $(this).find('.todo-statusRequest').html();
         newTaskModal.modal('show');
         $('#btnUpdate').addClass('d-none');
@@ -374,8 +387,8 @@ $(function () {
         $("#defineId").attr("disabled", true);
         var $staffId =  $(this).find('.todo-staffId').html();
         $('#staffId').val($staffId).change();
-      var dateTimeRequest =  $(this).find('.datetimeRequest').html();
-      $('#dateTime').val(dateTimeRequest);
+        var dateTimeRequest =  $(this).find('.datetimeRequest').html();
+        $('#dateTime').val(dateTimeRequest);
         var $department =  $(this).find('.todo-departmnetId').html();
         $('#department').val($department).change();
         var $requestId = $(this).find('.todo-idRequest').html();

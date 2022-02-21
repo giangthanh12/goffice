@@ -62,7 +62,7 @@ $(function () {
         dtUserTable.DataTable({
             ajax: baseHome + "/staff/getData",
             ordering: false, // bỏ sắp xếp mặc định
-
+            autoWidth:false,
             columns: [
                 // columns according to JSON
                 { data: "name" },
@@ -210,6 +210,7 @@ $(function () {
 
 
                     },
+                    width:150
                 },
             ],
             // order: [[2, "desc"]],
@@ -222,17 +223,23 @@ $(function () {
                 '<"col-sm-12 col-md-6"i>' +
                 '<"col-sm-12 col-md-6"p>' +
                 ">",
-            language: {
-                sLengthMenu: "Hiển thị _MENU_",
-                search: "",
-                searchPlaceholder: "Tìm kiếm...",
-                paginate: {
-                    // remove previous & next text from pagination
-                    previous: "&nbsp;",
-                    next: "&nbsp;",
+                language: {
+                    sLengthMenu: "Hiển thị _MENU_",
+                    search: "",
+                    searchPlaceholder: "Tìm kiếm...",
+                    paginate: {
+                        // remove previous & next text from pagination
+                        previous: "&nbsp;",
+                        next: "&nbsp;",
+                    },
+                    info: "Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
+                    infoFiltered: "(lọc từ _MAX_ bản ghi)",
+                    "sInfoEmpty": "Hiển thị 0 đến 0 của 0 bản ghi",
+             
                 },
-                info: "Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
-            },
+                "oLanguage": {
+                    "sZeroRecords": "Không có bản ghi nào"
+                  },
             
             // Buttons with Dropdown
             buttons: buttons,
@@ -650,7 +657,8 @@ function changeImage() {
             data = JSON.parse(data);
             if (data.success) {
                 notyfi_success(data.msg);
-                $('#avatar').attr('src', data.filename);
+                var imgUrl = baseHome+'/users/gemstech/uploads/nhanvien/'+data.filename;
+                $('#avatar').attr('src', imgUrl);
                 $(".user-list-table").DataTable().ajax.reload(null, false);
             } else
                 notify_error(data.msg);
