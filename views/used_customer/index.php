@@ -3,14 +3,14 @@
     <div class="header-navbar-shadow"></div>
     <div class="content-wrapper container-xxl p-0">
         <div class="content-header row">
-        <div class="content-header-left col-md-9 col-12 mb-2">
+        <!-- <div class="content-header-left col-md-9 col-12 mb-2">
                     <div class="row breadcrumbs-top">
                         <div class="col-12">
                             <h2 class="content-header-title float-left mb-0" style="border-right: none;">Khách hàng sử dụng dịch vụ</h2>
                         </div>
                     </div>
                 </div>
-        </div>
+        </div> -->
         </div>
         <div class="content-body">
             <!-- users list start -->
@@ -290,6 +290,7 @@
                                                                         <option value="7">Dịch vụ ăn uống</option>
                                                                         <option value="8">Vận tải hành khách</option>
                                                                         <option value="9">Logistic</option>
+                                                                        <option value="10">Khác</option>
                                                                     </select>
                                                                     <!-- <input id="field1" name="field1" type="text" class="form-control" placeholder="Lĩnh vực kinh doanh" /> -->
                                                                 </div>

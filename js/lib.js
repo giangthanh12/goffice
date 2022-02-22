@@ -26,7 +26,7 @@ connection.onmessage = function (message) {
             var avatar = baseUrlFile + "/uploads/nhanvien/" + data.avatar;
             var title = data.title;
             var content = data.content;
-            var idInboxs = data.inboxId;
+            var idInboxs = data.listInboxId;
             var idInbox;
             console.log(receiverid,senderid,avatar,title,content);
             var url = baseHome+'/inbox';

@@ -404,7 +404,7 @@ $(function () {
                         action:'send',
                         receiverid: response.data.receiverId,
                         senderid:baseUser,
-                        inboxId:response.data.idInbox,
+                        listInboxId:response.data.idInbox,
                         avatar:response.data.avatar,
                         title:response.data.title,
                         content:response.data.content,
