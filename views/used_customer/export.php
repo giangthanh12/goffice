@@ -2,8 +2,8 @@
 require_once 'libs/phpexcel/PHPExcel.php';
 // $sql = new Model();
 $objPHPExcel = new PHPExcel();
-$objPHPExcel->getProperties()->setCreator("Bảng Lương")
-    ->setLastModifiedBy("Bảng Lương")
+$objPHPExcel->getProperties()->setCreator("Khách hàng")
+    ->setLastModifiedBy("Khách hàng")
     ->setTitle("Office 2007 XLSX Test Document")
     ->setSubject("Office 2007 XLSX Test Document")
     ->setDescription("Test document for Office 2007 XLSX, generated using PHP classes.")
@@ -126,7 +126,7 @@ $objPHPExcel->setActiveSheetIndex(0);
 
 // Redirect output to a client’s web browser (Excel2007)
 header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-header('Content-Disposition: attachment;filename="bang_luong_thang_'.$this->month.'_nam_'.$this->year.'('.date("d_m_Y").').xlsx"');
+header('Content-Disposition: attachment;filename="khach_hang_'.'('.date("d_m_Y").').xlsx"');
 header('Cache-Control: max-age=0');
 // If you're serving to IE 9, then the following may be needed
 header('Cache-Control: max-age=1');
