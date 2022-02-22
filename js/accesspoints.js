@@ -43,6 +43,7 @@ $(function () {
                     // Actions
                     targets: -1,
                     title: 'Thao tác',
+                    visible: (funEdit != 1 && funDel != 1) ? false : true,
                     orderable: false,
                     render: function (data, type, row, meta) {
                         var html = '';

@@ -122,6 +122,7 @@ $(function () {
                 {
                     // User Role
                     targets: 3,
+                    
                     render: function (data, type, full, meta) {
                         var $phone = full["phoneNumber"];
                         if ($phone != '') {
@@ -182,6 +183,7 @@ $(function () {
                 {
                     // Actions
                     targets: -1,
+                    visible: (funEdit != 1 && funDel != 1) ? false : true,
                     // title: feather.icons["database"].toSvg({ class: "font-medium-3 text-success mr-50" }),
                     orderable: false,
                     render: function (data, type, full, meta) {
