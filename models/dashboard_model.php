@@ -102,7 +102,7 @@ class dashboard_Model extends Model{
                 $month = '0'.$month;
                 $yearMonth = $year.'-'.$month;
                 $where = " WHERE status = 1 AND signatureDate LIKE '$yearMonth%' ";
-                $query = $this->db->query("SELECT quantity,discount,vat,productId,quantity
+                $query = $this->db->query("SELECT quantity,discount,vat,productId
                 FROM contracts a $where");
                 $temp = $query->fetchAll(PDO::FETCH_ASSOC);
                 if(count($temp)>0) {
@@ -134,11 +134,11 @@ class dashboard_Model extends Model{
 
                 $where = " WHERE status = 1 AND dateTime LIKE '$yearMonth%' ";
                 $query = $this->db->query("SELECT IFNULL(SUM(asset),0) AS profit
-                FROM ledger $where AND type = 1");
+                FROM ledger $where AND action = 1");
                 $profit = $query->fetchAll(PDO::FETCH_ASSOC);
                 array_push($arrProfit2, ROUND($profit[0]['profit']/1000000,2));
                 $query = $this->db->query("SELECT IFNULL(SUM(asset),0) AS loss
-                FROM ledger $where AND type = 2");
+                FROM ledger $where AND action = 2");
                 $loss = $query->fetchAll(PDO::FETCH_ASSOC);
                 array_push($arrLoss2, ROUND($loss[0]['loss']/1000000,2));
 
