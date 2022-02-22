@@ -159,7 +159,7 @@ class dashboard_Model extends Model{
         $arrNewCustomer = [];
         $arrMonth = [];
         $now = $year.'-'.$month;
-        $where = " WHERE status = 1 AND createDate LIKE '$now%' ";
+        $where = " WHERE date LIKE '$now%' ";
         $query = $this->db->query("SELECT COUNT(id) AS newCustomer
         FROM customers $where");
         $temp = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -175,7 +175,7 @@ class dashboard_Model extends Model{
         for($i = 0; $i < 7; $i++) {
             $month = date("M",strtotime("-$i month"));
             $yearMonth = date("Y-m",strtotime("-$i month"));
-            $where = " WHERE status = 1 AND date LIKE '$yearMonth%' ";
+            $where = " WHERE date LIKE '$yearMonth%' ";
             $query = $this->db->query("SELECT COUNT(id) AS newCustomer
             FROM customers $where ");
             $temp = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -210,10 +210,10 @@ class dashboard_Model extends Model{
         } else {
             $changeData = 0;
         }
-
-        array_push($arrData, $changeData);
+        
+        array_push($arrData, round($changeData,2));
         $noChangeData = 100-$changeData;
-        array_push($arrData, $noChangeData);
+        array_push($arrData, round($noChangeData,2));
         $result['arrData'] = $arrData;
         return $result;
     }
