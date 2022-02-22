@@ -30,7 +30,7 @@ $(function () {
         placeholder: 'Phân loại khách hàng',
         dropdownParent: $("#classify3").parent(),
     });
-    $("#classify3").val(1).change();
+    $("#classify3").val(2).change();
     $('#type2').select2({
         placeholder: 'Loại hình hoạt động',
         dropdownParent: $('#type2').parent(),
