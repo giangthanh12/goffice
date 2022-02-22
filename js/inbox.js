@@ -402,6 +402,7 @@ $(function () {
                     var data = {
                         type:'inbox',
                         action:'send',
+                        path:taxCode,
                         receiverid: response.data.receiverId,
                         senderid:baseUser,
                         listInboxId:response.data.idInbox,
@@ -409,7 +410,7 @@ $(function () {
                         title:response.data.title,
                         content:response.data.content,
                 };
-        
+                console.log(data);
            
                     connection.send(JSON.stringify(data));
 
