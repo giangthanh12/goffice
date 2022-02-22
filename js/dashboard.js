@@ -6,7 +6,13 @@
     Author: PIXINVENT
     Author URL: http://www.themeforest.net/user/pixinvent
 ==========================================================================================*/
-
+function take_decimal_number(num, n) {
+  //num : số cần xử lý
+  //n: số chữ số sau dấu phẩy cần lấy
+  let base = 10 ** n;
+  let result = Math.round(num * base) / base;
+  return result;
+}
 $(window).on('load', function () {
   'use strict';
 
@@ -338,7 +344,7 @@ $(window).on('load', function () {
             value: {
               offsetY: -15,
               formatter: function (val) {
-                return parseInt(val) + '%';
+                return take_decimal_number(val, 2) + "%";
               }
             },
             total: {
@@ -346,7 +352,8 @@ $(window).on('load', function () {
               offsetY: 15,
               label: 'Đã chuyển đổi',
               formatter: function (w) {
-                return arrData[0]+'%';
+                return take_decimal_number(arrData[0],2) + '%';
+                
               }
             }
           }

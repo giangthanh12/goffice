@@ -758,7 +758,7 @@ $notifications = $model->getNotification();
                 <li class=" nav-item">
                     <a class="d-flex align-items-center" href="">
                         <i data-feather="home"></i>
-                        <span class="menu-title text-truncate" data-i18n="Dashboards">Trang chủ</span>
+                        <span class="menu-title text-truncate" data-i18n="Dashboards">INSIGHT</span>
                     </a>
                 </li>
                 <?php
