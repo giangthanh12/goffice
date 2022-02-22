@@ -236,13 +236,13 @@
                                                             <div class="col-lg-2 col-md-2">
                                                                 <div class="form-group">
                                                                     <label for="code_add">Mã tài sản</label>
-                                                                    <input id="code_add" type="text" disabled class="form-control"  name="code_add" />
+                                                                    <input id="code_add" type="text" readonly class="form-control"  name="code_add" />
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-2 col-md-2">
                                                                 <div class="form-group">
                                                                     <label for="so_luong_add">Số lượng</label>
-                                                                    <input id="so_luong_add" type="number" class="form-control" disabled name="so_luong_add" />
+                                                                    <input id="so_luong_add" type="number" class="form-control" readonly name="so_luong_add" />
                                                                 </div>
                                                             </div>
                                                            

@@ -116,21 +116,14 @@ $(function () {
                 next: "&nbsp;",
             },
             info:"Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
-        },  
+            infoFiltered: "(lọc từ _MAX_ bản ghi)",
+            sInfoEmpty : "Hiển thị 0 đến 0 của 0 bản ghi",        }, 
+            "oLanguage": {
+              "sZeroRecords": "Không có bản ghi nào"
+            },  
         // Buttons with Dropdown
         buttons: buttons,
-       
-        language: {
-          sLengthMenu: "Hiển thị _MENU_",
-          search: "",
-          searchPlaceholder: "Tìm kiếm...",
-          paginate: {
-              // remove previous & next text from pagination
-              previous: "&nbsp;",
-              next: "&nbsp;",
-          },
-          info:"Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
-      },       
+      
         initComplete: function () {
           // Adding plan filter once table initialized
           this.api()

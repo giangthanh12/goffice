@@ -30,7 +30,7 @@ $(function () {
         placeholder: 'Phân loại khách hàng',
         dropdownParent: $("#classify3").parent(),
     });
-    $("#classify3").val('').change();
+    $("#classify3").val(1).change();
     $('#type2').select2({
         placeholder: 'Loại hình hoạt động',
         dropdownParent: $('#type2').parent(),
@@ -254,6 +254,9 @@ $(function () {
                 .draw()
         }
     })
+    table.column(5)
+    .search($('#classify3').val())
+    .draw()
     // lọc phân loại
     $('#classify3').change(function () {
         if ($(this).val() == 0) {
