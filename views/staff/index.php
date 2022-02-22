@@ -400,9 +400,11 @@
                                                         <h6 class="py-1 mx-1 mb-0 font-medium-2">
                                                             <i data-feather="lock" class="font-medium-3 mr-25"></i>
                                                             <span class="align-middle">Chi tiết</span>
+                                                            <?php if($this->funEdit == 1) { ?>
                                                             <button class="dt-button add-new-contact btn btn-primary mt-50" onclick="showFormContract()" tabindex="0" aria-controls="DataTables_Table_0" type="button">
                                                                 <span>Thêm mới</span>
                                                             </button>
+                                                            <?php } ?>
                                                         </h6>
                                                         <table class="table table-striped table-borderless"
                                                             id="record-list-table">

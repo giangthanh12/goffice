@@ -93,7 +93,7 @@ class used_customer_Model extends Model
     }
     function listObj()
     {
-        $query = $this->db->query("SELECT * FROM customers WHERE status > 0  ORDER BY id DESC ");
+        $query = $this->db->query("SELECT * FROM customers WHERE status > 0  ORDER BY fullName ASC ");
         $result['data'] = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }
