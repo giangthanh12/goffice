@@ -69,7 +69,7 @@ class data extends Controller
         $customerId = $this->model->addCustomer($data);
 
         if ($customerId > 0) {
-            $this->model->updateObj($dataId, ['status' => 6]);
+            $this->model->updateObj($dataId, ['createDate' => date("Y-m-d"),'status' => 6]);
             $data = [
                 'name' => $_REQUEST['leadName'],
                 'customerId' => $customerId,
