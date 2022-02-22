@@ -406,6 +406,8 @@ if ($('#status').length) {
                 "sdt": {
                     number: true,
                     min:0,
+                    minlength: 10,
+                    maxlength: 10
                 },
                 "bao_hanh_add": {
                     number: true,
@@ -446,6 +448,8 @@ if ($('#status').length) {
                 "sdt": {
                     number: "Yêu cầu nhập số",
                     min:"Yêu cầu nhập số bắt đầu từ 0",
+                    minlength: "Yêu cầu nhập đủ 10 số",
+                    maxlength: "Yêu cầu nhập đủ 10 số"
                 },
             },
             
@@ -501,7 +505,6 @@ function loaddata(id) {
             }else{
                  $('#avatar').attr('src', 'layouts/none_images.png');
             }
-            // $('#avatar').attr('src', taisan_info.hinh_anh);
             $('#nha_cungcap').val(taisan_info.nha_cungcap);
             $('#dia_chi').val(taisan_info.dia_chi);
             $('#sdt').val(taisan_info.sdt);
