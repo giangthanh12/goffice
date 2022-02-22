@@ -36,6 +36,11 @@ $(function(){
     //         window.location.href = baseUrl + 'login';
     //     }, 100);
     // }
+
+    $("body").tooltip({
+        selector: '[data-toggle="tooltip"]',
+        container: "body",
+    });
 });
 var buttons = [];
 if(funAdd == 1) {

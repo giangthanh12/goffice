@@ -204,6 +204,11 @@ $(function () {
                     next: "&nbsp;",
                 },
                 info: "Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
+                infoFiltered: "(lọc từ _MAX_ bản ghi)",
+                sInfoEmpty: "Hiển thị 0 đến 0 của 0 bản ghi",
+            },
+            "oLanguage": {
+                "sZeroRecords": "Không có bản ghi nào"
             },
             // Buttons with Dropdown
             buttons: buttons,
@@ -299,7 +304,8 @@ $(function () {
                     required: true,
                     number: true,
                     min: 0,
-                    minlength:10
+                    minlength:10,
+                    maxlength:10
                 },
                 "email": {
                     // required: true,
@@ -319,9 +325,11 @@ $(function () {
                 },
                 "phoneNumber": {
                     required: "Bạn chưa nhập số điện thoại!",
-                    number: "Yêu cầu nhập số điện thoại!",
+                    number: "Yêu cầu nhập số!",
                     min: "Yều cầu nhập bắt đầu từ 0!",
-                    minlength:"Yêu cầu nhập số điện thoại 10 số!"
+                    minlength:"Yêu cầu nhập đủ 10 số!",
+                    maxlength:"Yêu cầu nhập đủ 10 số!"
+
                 },
                 "email": {
                     // required: "Bạn chưa nhập địa chỉ email!",
@@ -357,6 +365,8 @@ $(function () {
                 },
                 "taxCode1": {
                     number: true,
+                    minlength:10,
+                    maxlength:13
                 },
                 "phoneNumber1": {
                     required: true,
@@ -386,6 +396,8 @@ $(function () {
                 
                 "taxCode1": {
                     number: "Yêu cầu nhập số!",
+                    minlength: "Yêu cầu nhập tối thiểu 10 số!",
+                    maxlength: "Yêu cầu nhập tối đa 13 số!"
                 },
 
                 "status1": {
@@ -655,7 +667,10 @@ function loaddichvu(id) {
 
 //load transaction
 function loadTransaction(id) {
-
+    var visible = true;
+    if(funEdit != 1 && funDel != 1) {
+        visible = false;
+    }
     if (transactionTable.length) {
 
         transactionTable.DataTable({
@@ -706,6 +721,7 @@ function loadTransaction(id) {
                     // Actions
                     targets: -1,
                     title: 'Thao tác',
+                    visible: visible,
                     orderable: false,
                     render: function (data, type, full, meta) {
                         var html = '';

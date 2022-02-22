@@ -259,6 +259,8 @@ $(function () {
                 },
                 phoneNumber: {
                     required: true,
+                    minlength: 10,
+                    maxlength: 10
                 },
             },
             messages: {
@@ -267,6 +269,8 @@ $(function () {
                 },
                 "phoneNumber": {
                     required: "Bạn chưa nhập số điện thoại!",
+                    minlength: "yêu cầu nhập đủ 10 số",
+                    maxlength: "yêu cầu nhập đủ 10 số"
                 }
             },
         });
@@ -280,15 +284,27 @@ $(function () {
                     required: true
                 },
                 phoneNumber: {
-                    required: true
+                    required: true,
+                    minlength: 10,
+                    maxlength: 10
                 },
+                etaxCode:{
+                    minlength: 10,
+                    maxlength: 13
+                }
             },
             messages: {
                 "name": {
                     required: "Bạn chưa nhập tên khách hàng!",
                 },
                 "phoneNumber": {
-                    required: "Bạn chưa nhập số điện thoại!"
+                    required: "Bạn chưa nhập số điện thoại!",
+                    minlength: "yêu cầu nhập đủ 10 số",
+                    maxlength: "yêu cầu nhập đủ 10 số"
+                },
+                "etaxCode":{
+                    minlength: "yêu cầu nhập tối thiểu 10 số",
+                    maxlength: "yêu cầu nhập tối đa 13 số",
                 }
             },
         });
