@@ -67,6 +67,16 @@ $(function () {
             },
         });
     }
+    buttons.push({
+        text: "Xuất excel",
+        className: " btn  btn-primary mt-50",
+        init: function (api, node, config) {
+            $(node).removeClass("btn-secondary");
+        },
+        action: function (e, dt, node, config) {
+            exportexcel();
+        },
+    });
 
     var visible = true;
     if (funEdit != 1 && funDel != 1) {
@@ -1114,4 +1124,7 @@ $('.format_number').on('input', function(e){
     var n = number.split('').reverse().join("");
     var n2 = n.replace(/\d\d\d(?!$)/g, "$&,");    
     return  n2.split('').reverse().join('');
+}
+function exportexcel(){
+    window.location.href = baseHome + '/used_customer/exportexcel';
 }
