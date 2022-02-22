@@ -63,6 +63,7 @@ class data extends Controller
             'field' => $json['data']['field'],
             'note' => $json['data']['note'],
             'taxCode' => $json['data']['taxCode'],
+            'createDate' => date("Y-m-d"),
             'status' => 1
         ];
         $customerId = $this->model->addCustomer($data);

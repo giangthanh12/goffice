@@ -6,15 +6,16 @@ class dashboard_Model extends Model{
 
     function getdata(){
         $data = array();
-        $nguoinhan = $_SESSION['user']['nhan_vien'];
-        $query = $this->db->query("SELECT tieu_de,
-            (SELECT name FROM nhanvien WHERE id=nguoi_gui) AS nguoigui
-            FROM events WHERE tinh_trang IN (1,2) AND nguoi_nhan=$nguoinhan ORDER BY ngay_gio DESC LIMIT 1 ");
+        $nguoinhan = $_SESSION['user']['staffId'];
+        
+        $query = $this->db->query("SELECT content,
+            (SELECT name FROM staffs WHERE id=senderId) AS nguoigui
+            FROM events WHERE status IN (1,2) AND receiverId=$nguoinhan ORDER BY dateTime DESC LIMIT 1 ");
         if ($query) {
             $temp = $query->fetchAll(PDO::FETCH_ASSOC);
             $data['thongbao'] = isset($temp[0])?$temp[0]:array();
             $query = $this->db->query("SELECT COUNT(1) AS total
-                FROM events WHERE tinh_trang IN (1,2) AND nguoi_nhan=$nguoinhan ");
+                FROM events WHERE status IN (1,2) AND receiverId=$nguoinhan ");
             if ($query) {
                 $temp = $query->fetchAll(PDO::FETCH_ASSOC);
                 $data['tinmoi'] = $temp[0]['total'];
@@ -50,8 +51,8 @@ class dashboard_Model extends Model{
         if ($file=='')
             return false;
         else {
-            $data = ['hinh_anh'=>$file];
-            $query = $this->update("nhanvien", $data, " id=$id ");
+            $data = ['avatar'=>$file];
+            $query = $this->update("staffs", $data, " id=$id ");
             return $query;
         }
     }
