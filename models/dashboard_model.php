@@ -159,7 +159,7 @@ class dashboard_Model extends Model{
         $arrNewCustomer = [];
         $arrMonth = [];
         $now = $year.'-'.$month;
-        $where = " WHERE status = 1 AND date LIKE '$now%' ";
+        $where = " WHERE status = 1 AND createDate LIKE '$now%' ";
         $query = $this->db->query("SELECT COUNT(id) AS newCustomer
         FROM customers $where");
         $temp = $query->fetchAll(PDO::FETCH_ASSOC);
