@@ -97,11 +97,11 @@ class project extends Controller
         } else if (self::$funEdit == 1 && $id > 0) {
             $name = $_REQUEST['name'];
             $managerId = $_REQUEST['managerId'];
-            if (count($_REQUEST['memberId']) < 2) {
-                $memberId = implode(',', $_REQUEST['memberId']);
-            } else {
+            // if (count($_REQUEST['memberId']) < 2) {
+            //     $memberId = implode(',', $_REQUEST['memberId']);
+            // } else {
                 $memberId = str_replace(']', '', str_replace('[', '', json_encode($_REQUEST['memberId'])));
-            }
+            // }
             $process = !empty($_REQUEST['process']) ? $_REQUEST['process'] : 0;
             $level = $_REQUEST['level'];
             $description = $_REQUEST['description'];
