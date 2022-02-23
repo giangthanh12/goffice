@@ -275,7 +275,7 @@
                                                 <select class="select2 form-control w-100" id="email-to" name="email-to[]" multiple>
                                                     <option value="0">All</option>
                                                     <?php foreach($this->employee AS $item)
-                                                        echo '<option value="'.$item['id'].'">'.$item['name'].'</option>';
+                                                        echo '<option data-avatar="'.$item['avatar'].'" value="'.$item['id'].'">'.$item['name'].'</option>';
                                                     ?>
                                                     <!-- <option data-avatar="1-small.png" value="Jane Foster">Jane Foster</option>
                                                     <option data-avatar="3-small.png" value="Donna Frank">Donna Frank</option>
