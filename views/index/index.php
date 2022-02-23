@@ -126,7 +126,7 @@
                                         <div class="row">
                                             <div class="col-6">
                                                 <h4 class="card-title mb-1">Tỷ lệ chuyển đổi</h4>
-                                                <div class="font-small-2">Tháng <?php echo date('m');?></div>
+                                                <div class="font-small-2">Tháng <?php echo date('m-Y');?></div>
                                                 <h5 class="mb-1" id="change-data"></h5>
                                                 <!-- <p class="card-text text-muted font-small-2">
                                                     <span class="font-weight-bolder">68.2%</span><span> more earnings than last month.</span>

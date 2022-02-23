@@ -253,6 +253,7 @@ $(window).on('load', function () {
     colors: [window.colors.solid.info],
     series: [
       {
+        name: "Số khách hàng mới",
         data: arrNewCustomer,
       }
     ],
