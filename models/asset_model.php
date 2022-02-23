@@ -28,8 +28,14 @@ class asset_model extends Model
         return $result;
     }
 
-
-
+    function addAssetGroup($data) {
+        $query = $this->insert("taisan_nhom",$data);
+        return $query;
+    }
+    function addUnitAsset($data) {
+        $query = $this->insert("donvidoluong",$data);
+        return $query;
+    }
     function loadListHisRecall($id)
     {
         $result['data'] = array();

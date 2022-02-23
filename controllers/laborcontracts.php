@@ -53,7 +53,6 @@ class laborcontracts extends Controller
             'description' => $description,
             'status' =>1
         );
-       
         if($this->model->addDepartment($data)){
             $jsonObj['message'] = 'Cập nhật dữ liệu thành công';
             $jsonObj['code'] = 200;

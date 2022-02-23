@@ -46,11 +46,29 @@ class asset extends Controller{
         $data = $this->model->loadListHisIssue($id);
         echo json_encode($data);
     }
+    function addUnitAsset() {
+        $name = $_REQUEST['nameUnitAsset'];
+        $data = array(
+            'name' => $name,
+        );
+        if($this->model->addUnitAsset($data)){
+            $jsonObj['msg'] = 'Cập nhật dữ liệu thành công';
+            $jsonObj['success'] = true;
+        } else {
+            $jsonObj['msg'] = 'Lỗi cập nhật database';
+            $jsonObj['success'] = false;
+        }
+        echo json_encode($jsonObj);
+    }
+
+
+
     function loadListHisRecall() {
         $id = isset($_REQUEST['id'])?$_REQUEST['id']:0;
         $data = $this->model->loadListHisRecall($id);
         echo json_encode($data);
     }
+   
     function loaddata()
     {
         $id=isset($_REQUEST['id'])?$_REQUEST['id']:0;

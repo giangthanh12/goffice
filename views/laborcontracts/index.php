@@ -45,6 +45,7 @@
                                     <span aria-hidden="true">&times;</span>
                                     </button> -->
                                 </div>
+                                
                                 <div class="modal-body">
                                     <!-- <input type="hidden" id="id" name="id" /> -->
                                     <div class="card">
@@ -53,7 +54,7 @@
                                                 <!-- <div class="row mt-1"> -->
                                                 <div class="form-group">
                                                     <label for="nameDepartment">Tên phòng ban</label>
-                                                    <input type="text" class="form-control" id="nameDepartment" placeholder="Nhập tên phòng ban" id="nameDepartment" required />
+                                                    <input type="text" class="form-control" id="nameDepartment" placeholder="Nhập tên phòng ban" name="nameDepartment" required />
                                                 </div>
 
                                                 <div class="form-group">
