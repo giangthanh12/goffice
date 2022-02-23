@@ -6,15 +6,16 @@ class dashboard_Model extends Model{
 
     function getdata(){
         $data = array();
-        $nguoinhan = $_SESSION['user']['nhan_vien'];
-        $query = $this->db->query("SELECT tieu_de,
-            (SELECT name FROM nhanvien WHERE id=nguoi_gui) AS nguoigui
-            FROM events WHERE tinh_trang IN (1,2) AND nguoi_nhan=$nguoinhan ORDER BY ngay_gio DESC LIMIT 1 ");
+        $nguoinhan = $_SESSION['user']['staffId'];
+        
+        $query = $this->db->query("SELECT content,
+            (SELECT name FROM staffs WHERE id=senderId) AS nguoigui
+            FROM events WHERE status IN (1,2) AND receiverId=$nguoinhan ORDER BY dateTime DESC LIMIT 1 ");
         if ($query) {
             $temp = $query->fetchAll(PDO::FETCH_ASSOC);
             $data['thongbao'] = isset($temp[0])?$temp[0]:array();
             $query = $this->db->query("SELECT COUNT(1) AS total
-                FROM events WHERE tinh_trang IN (1,2) AND nguoi_nhan=$nguoinhan ");
+                FROM events WHERE status IN (1,2) AND receiverId=$nguoinhan ");
             if ($query) {
                 $temp = $query->fetchAll(PDO::FETCH_ASSOC);
                 $data['tinmoi'] = $temp[0]['total'];
@@ -50,8 +51,8 @@ class dashboard_Model extends Model{
         if ($file=='')
             return false;
         else {
-            $data = ['hinh_anh'=>$file];
-            $query = $this->update("nhanvien", $data, " id=$id ");
+            $data = ['avatar'=>$file];
+            $query = $this->update("staffs", $data, " id=$id ");
             return $query;
         }
     }
@@ -70,13 +71,13 @@ class dashboard_Model extends Model{
             $where = " WHERE status = 1 AND dateTime LIKE '$yearMonth%' ";
 
             $query = $this->db->query("SELECT IFNULL(SUM(asset),0) AS profit
-            FROM ledger $where AND type = 1");
+            FROM ledger $where AND action = 1");
             $profit = $query->fetchAll(PDO::FETCH_ASSOC);
             array_push($arrProfit, ROUND($profit[0]['profit']/1000000,2));
             
 
             $query = $this->db->query("SELECT IFNULL(SUM(asset),0) AS loss
-            FROM ledger $where AND type = 2");
+            FROM ledger $where AND action = 2");
             $loss = $query->fetchAll(PDO::FETCH_ASSOC);
             array_push($arrLoss, ROUND($loss[0]['loss']/1000000,2));
             array_push($arrMonth, $month);
@@ -101,7 +102,7 @@ class dashboard_Model extends Model{
                 $month = '0'.$month;
                 $yearMonth = $year.'-'.$month;
                 $where = " WHERE status = 1 AND signatureDate LIKE '$yearMonth%' ";
-                $query = $this->db->query("SELECT quantity,discount,vat,productId,quantity
+                $query = $this->db->query("SELECT quantity,discount,vat,productId
                 FROM contracts a $where");
                 $temp = $query->fetchAll(PDO::FETCH_ASSOC);
                 if(count($temp)>0) {
@@ -133,11 +134,11 @@ class dashboard_Model extends Model{
 
                 $where = " WHERE status = 1 AND dateTime LIKE '$yearMonth%' ";
                 $query = $this->db->query("SELECT IFNULL(SUM(asset),0) AS profit
-                FROM ledger $where AND type = 1");
+                FROM ledger $where AND action = 1");
                 $profit = $query->fetchAll(PDO::FETCH_ASSOC);
                 array_push($arrProfit2, ROUND($profit[0]['profit']/1000000,2));
                 $query = $this->db->query("SELECT IFNULL(SUM(asset),0) AS loss
-                FROM ledger $where AND type = 2");
+                FROM ledger $where AND action = 2");
                 $loss = $query->fetchAll(PDO::FETCH_ASSOC);
                 array_push($arrLoss2, ROUND($loss[0]['loss']/1000000,2));
 
@@ -158,7 +159,7 @@ class dashboard_Model extends Model{
         $arrNewCustomer = [];
         $arrMonth = [];
         $now = $year.'-'.$month;
-        $where = " WHERE status = 1 AND date LIKE '$now%' ";
+        $where = " WHERE date LIKE '$now%' ";
         $query = $this->db->query("SELECT COUNT(id) AS newCustomer
         FROM customers $where");
         $temp = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -174,7 +175,7 @@ class dashboard_Model extends Model{
         for($i = 0; $i < 7; $i++) {
             $month = date("M",strtotime("-$i month"));
             $yearMonth = date("Y-m",strtotime("-$i month"));
-            $where = " WHERE status = 1 AND date LIKE '$yearMonth%' ";
+            $where = " WHERE date LIKE '$yearMonth%' ";
             $query = $this->db->query("SELECT COUNT(id) AS newCustomer
             FROM customers $where ");
             $temp = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -209,10 +210,10 @@ class dashboard_Model extends Model{
         } else {
             $changeData = 0;
         }
-
-        array_push($arrData, $changeData);
+        
+        array_push($arrData, round($changeData,2));
         $noChangeData = 100-$changeData;
-        array_push($arrData, $noChangeData);
+        array_push($arrData, round($noChangeData,2));
         $result['arrData'] = $arrData;
         return $result;
     }

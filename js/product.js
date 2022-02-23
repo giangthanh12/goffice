@@ -192,9 +192,9 @@ $(function () {
                 "type": {
                     required: true,
                 },
-                "supplier": {
-                    required: true,
-                },
+                // "supplier": {
+                //     required: true,
+                // },
                 "unit": {
                     required: true,
                 },
@@ -215,9 +215,9 @@ $(function () {
                 "type": {
                     required: "Bạn chưa nhập loại sản phẩm",
                 },
-                "supplier": {
-                    required: "Bạn chưa nhập tên nhà cung cấp",
-                },
+                // "supplier": {
+                //     required: "Bạn chưa nhập tên nhà cung cấp",
+                // },
                 "unit": {
                     required: "Bạn chưa nhập đơn vị tính",
                 },

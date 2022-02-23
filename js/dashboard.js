@@ -6,7 +6,13 @@
     Author: PIXINVENT
     Author URL: http://www.themeforest.net/user/pixinvent
 ==========================================================================================*/
-
+function take_decimal_number(num, n) {
+  //num : số cần xử lý
+  //n: số chữ số sau dấu phẩy cần lấy
+  let base = 10 ** n;
+  let result = Math.round(num * base) / base;
+  return result;
+}
 $(window).on('load', function () {
   'use strict';
 
@@ -20,7 +26,7 @@ $(window).on('load', function () {
   var $earningsStrokeColor2 = '#28c76f66';
   var $earningsStrokeColor3 = '#28c76f33';
 
-  var $statisticsOrderChart = document.querySelector('#statistics-order-chart');
+  // var $statisticsOrderChart = document.querySelector('#statistics-order-chart');
   var $statisticsProfitChart = document.querySelector('#statistics-profit-chart');
   var $earningsChart = document.querySelector('#earnings-chart');
   var $revenueReportChart = document.querySelector('#revenue-report-chart');
@@ -33,7 +39,7 @@ $(window).on('load', function () {
   var $browserStateChartDanger = document.querySelector('#browser-state-chart-danger');
   var $goalOverviewChart = document.querySelector('#goal-overview-radial-bar-chart');
 
-  var statisticsOrderChartOptions;
+  // var statisticsOrderChartOptions;
   var statisticsProfitChartOptions;
   var earningsChartOptions;
   var revenueReportChartOptions;
@@ -46,7 +52,7 @@ $(window).on('load', function () {
   var browserStateDangerChartOptions;
   var goalOverviewChartOptions;
 
-  var statisticsOrderChart;
+  // var statisticsOrderChart;
   var statisticsProfitChart;
   var earningsChart;
   var revenueReportChart;
@@ -145,70 +151,70 @@ $(window).on('load', function () {
 
   //------------ Statistics Bar Chart ------------
   //----------------------------------------------
-  statisticsOrderChartOptions = {
-    chart: {
-      height: 70,
-      type: 'bar',
-      stacked: true,
-      toolbar: {
-        show: false
-      }
-    },
-    grid: {
-      show: false,
-      padding: {
-        left: 0,
-        right: 0,
-        top: -15,
-        bottom: -15
-      }
-    },
-    plotOptions: {
-      bar: {
-        horizontal: false,
-        columnWidth: '20%',
-        startingShape: 'rounded',
-        colors: {
-          backgroundBarColors: [$barColor, $barColor, $barColor, $barColor, $barColor],
-          backgroundBarRadius: 5
-        }
-      }
-    },
-    legend: {
-      show: false
-    },
-    dataLabels: {
-      enabled: false
-    },
-    colors: [window.colors.solid.warning],
-    series: [
-      {
-        name: '2020',
-        data: [45, 85, 65, 45, 65]
-      }
-    ],
-    xaxis: {
-      labels: {
-        show: false
-      },
-      axisBorder: {
-        show: false
-      },
-      axisTicks: {
-        show: false
-      }
-    },
-    yaxis: {
-      show: false
-    },
-    tooltip: {
-      x: {
-        show: false
-      }
-    }
-  };
-  statisticsOrderChart = new ApexCharts($statisticsOrderChart, statisticsOrderChartOptions);
-  statisticsOrderChart.render();
+  // statisticsOrderChartOptions = {
+  //   chart: {
+  //     height: 70,
+  //     type: 'bar',
+  //     stacked: true,
+  //     toolbar: {
+  //       show: false
+  //     }
+  //   },
+  //   grid: {
+  //     show: false,
+  //     padding: {
+  //       left: 0,
+  //       right: 0,
+  //       top: -15,
+  //       bottom: -15
+  //     }
+  //   },
+  //   plotOptions: {
+  //     bar: {
+  //       horizontal: false,
+  //       columnWidth: '20%',
+  //       startingShape: 'rounded',
+  //       colors: {
+  //         backgroundBarColors: [$barColor, $barColor, $barColor, $barColor, $barColor],
+  //         backgroundBarRadius: 5
+  //       }
+  //     }
+  //   },
+  //   legend: {
+  //     show: false
+  //   },
+  //   dataLabels: {
+  //     enabled: false
+  //   },
+  //   colors: [window.colors.solid.warning],
+  //   series: [
+  //     {
+  //       name: '2020',
+  //       data: [45, 85, 65, 45, 65]
+  //     }
+  //   ],
+  //   xaxis: {
+  //     labels: {
+  //       show: false
+  //     },
+  //     axisBorder: {
+  //       show: false
+  //     },
+  //     axisTicks: {
+  //       show: false
+  //     }
+  //   },
+  //   yaxis: {
+  //     show: false
+  //   },
+  //   tooltip: {s
+  //     x: {
+  //       show: false
+  //     }
+  //   }
+  // };
+  // statisticsOrderChart = new ApexCharts($statisticsOrderChart, statisticsOrderChartOptions);
+  // statisticsOrderChart.render();
 
   //------------ Statistics Line Chart ------------
   //-----------------------------------------------
@@ -247,6 +253,7 @@ $(window).on('load', function () {
     colors: [window.colors.solid.info],
     series: [
       {
+        name: "Số khách hàng mới",
         data: arrNewCustomer,
       }
     ],
@@ -338,7 +345,7 @@ $(window).on('load', function () {
             value: {
               offsetY: -15,
               formatter: function (val) {
-                return parseInt(val) + '%';
+                return take_decimal_number(val, 2) + "%";
               }
             },
             total: {
@@ -346,7 +353,8 @@ $(window).on('load', function () {
               offsetY: 15,
               label: 'Đã chuyển đổi',
               formatter: function (w) {
-                return arrData[0]+'%';
+                return take_decimal_number(arrData[0],2) + '%';
+                
               }
             }
           }

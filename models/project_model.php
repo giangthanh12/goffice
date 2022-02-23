@@ -4,13 +4,15 @@ class project_Model extends Model{
         parent::__construst();
     }
     function get_data() {
-            $query = $this->db->query("SELECT id, image, name, level,process,
+        $role = $_SESSION['user']['classify'];
+        $staffId = '"'.$_SESSION['user']['staffId'].'"';
+            $query = $this->db->query("SELECT id, image, name, level,process,memberId,
             DATE_FORMAT(deadline,'%d-%m-%Y') as deadline,
             (SELECT avatar FROM staffs WHERE id=a.managerId) AS avatar,
             (SELECT name FROM projectlevels WHERE id=a.level) AS nameLevel,
             (SELECT color FROM projectlevels WHERE id=a.level) AS colorLevel,
             (SELECT color FROM projectstatus WHERE id=a.status) AS colorStatus
-            FROM projects a WHERE status > 0 ORDER BY id DESC");
+            FROM projects a WHERE status > 0 AND (managerId = $staffId OR memberId LIKE '%$staffId%') OR $role = 1 ORDER BY id DESC");
             $row = $query->fetchAll(PDO::FETCH_ASSOC);
             return $row;
     }
@@ -59,6 +61,8 @@ class project_Model extends Model{
         return $query;
     }
     function filterLevel($filter, $status) {
+        $role = $_SESSION['user']['classify'];
+        $staffId = '"'.$_SESSION['user']['staffId'].'"';
   
         $condition = "WHERE status > 0";
         if(!empty($status))
@@ -74,7 +78,7 @@ class project_Model extends Model{
            (SELECT name FROM projectlevels WHERE id=a.level) AS nameLevel,
            (SELECT color FROM projectlevels WHERE id=a.level) AS colorLevel,
            (SELECT color FROM projectstatus WHERE id=a.status) AS colorStatus
-            FROM projects a $condition ORDER BY id DESC ");
+            FROM projects a $condition AND (managerId = $staffId OR memberId LIKE '%$staffId%') OR $role = 1 ORDER BY id DESC ");
             $data = $query->fetchAll(PDO::FETCH_ASSOC);
             return $data;
     }

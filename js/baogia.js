@@ -74,7 +74,7 @@ $(function () {
               '<br> <span class="font-weight-bold">Balance:</span> ' +
               $balance +
               '<br> <span class="font-weight-bold">Due Date:</span> ' +
-              $dueDate +
+              moment($dueDate).format('DD-MM-YYYY') +
               "</span>'>" +
               '<div class="avatar avatar-status ' +
               roleObj[$invoiceStatus].class +
@@ -201,16 +201,16 @@ $(function () {
               '<div class="dropdown-menu dropdown-menu-right">' +
               '<a href="javascript:void(0);" class="dropdown-item">' +
               feather.icons['download'].toSvg({ class: 'font-small-4 mr-50' }) +
-              'Download</a>' +
+              'Tải</a>' +
               '<a onclick="edit(' + full['invoice_id'] + ',' + full['status'] + ')" href="javascript:void(0);" class="dropdown-item">' +
               feather.icons['edit'].toSvg({ class: 'font-small-4 mr-50' }) +
-              'Edit</a>' +
+              'Sửa</a>' +
               '<a onclick="del(' + full['invoice_id'] + ')" href="javascript:void(0);" class="dropdown-item">' +
               feather.icons['trash'].toSvg({ class: 'font-small-4 mr-50' }) +
-              'Delete</a>' +
+              'Xóa</a>' +
               '<a href="javascript:void(0);" class="dropdown-item">' +
               feather.icons['copy'].toSvg({ class: 'font-small-4 mr-50' }) +
-              'Duplicate</a>' +
+              'Sao</a>' +
               '</div>' +
               '</div>' +
               '</div>'
@@ -229,14 +229,20 @@ $(function () {
         '<"col-sm-12 col-md-6"p>' +
         '>',
       language: {
-        sLengthMenu: 'Show _MENU_',
-        search: 'Search',
-        searchPlaceholder: 'Search Invoice',
+        sLengthMenu: "Hiển thị _MENU_",
+        search: "",
+        searchPlaceholder: "Tìm kiếm...",
         paginate: {
           // remove previous & next text from pagination
           previous: '&nbsp;',
           next: '&nbsp;'
-        }
+        },
+        info: "Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
+        infoFiltered: "(lọc từ _MAX_ bản ghi)",
+        "sInfoEmpty": "Hiển thị 0 đến 0 của 0 bản ghi",
+      },
+      "oLanguage": {
+        "sZeroRecords": "Không có bản ghi nào"
       },
       // Buttons with Dropdown
       buttons: [
