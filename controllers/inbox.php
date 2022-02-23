@@ -55,7 +55,7 @@ class inbox extends Controller
         $_REQUEST['email-to'] = $this->model->getIdStaff();
         $title = $_REQUEST['emailSubject'];
         $content = $_REQUEST['body'];
-        $avatar = $this->model->getAvatar($_SESSION['user']['staffId']);
+        $info = $this->model->getInfoSender($_SESSION['user']['staffId']);
         $data = array('senderId'=>$_SESSION['user']['staffId'], 'title'=>$title, 'content'=>$content,
             'receiverId'=>$receiverId, 'status'=>1, 'dateTime'=>date('Y-m-d H:i:s'), 'link'=>'inbox');
         $files = $_FILES['files'];
@@ -74,6 +74,7 @@ class inbox extends Controller
         }
         $row = 0;
         $dataInboxReceiver= [];
+
         $dataSend = array('senderId'=>$_SESSION['user']['staffId'], 'title'=>$title, 'content'=>$content,
         'receiverId'=>0, 'status'=>1, 'dateTime'=>date('Y-m-d H:i:s'), 'link'=>'inbox');
         $idInbox = $this->model->addInboxSend($dataSend);
@@ -92,7 +93,7 @@ class inbox extends Controller
         }
       
         if ($row > 0) {
-            $jsonObj['data'] = array('senderId'=>$_SESSION['user']['staffId'], 'avatar'=>$avatar, 'title'=>$title, 'content'=>$content,
+            $jsonObj['data'] = array('senderId'=>$_SESSION['user']['staffId'], 'avatar'=>$info['avatar'],'nameSender'=>$info['name'] ,'title'=>$title, 'content'=>$content,
             'receiverId'=>$_REQUEST['email-to'], 'status'=>1,'idInbox'=>$dataInboxReceiver, 'dateTime'=>date('Y-m-d H:i:s'), 'link'=>'inbox');
             $jsonObj['msg'] = "Đã gửi thông báo thành công";
             $jsonObj['success'] = true;
