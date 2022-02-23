@@ -126,7 +126,7 @@
                                         <div class="row">
                                             <div class="col-6">
                                                 <h4 class="card-title mb-1">Tỷ lệ chuyển đổi</h4>
-                                                <div class="font-small-2">This Month</div>
+                                                <div class="font-small-2">Tháng <?php echo date('m');?></div>
                                                 <h5 class="mb-1" id="change-data"></h5>
                                                 <!-- <p class="card-text text-muted font-small-2">
                                                     <span class="font-weight-bolder">68.2%</span><span> more earnings than last month.</span>
@@ -149,7 +149,7 @@
                             <div class="row mx-0">
                                 <div class="col-md-12 col-12 revenue-report-wrapper">
                                     <div class="d-sm-flex justify-content-between align-items-center mb-3">
-                                        <h4 class="card-title mb-50 mb-sm-0">Profit/Loss</h4>
+                                        <h4 class="card-title mb-50 mb-sm-0">Báo cáo thu chi</h4>
                                         <div class="d-flex align-items-center">
                                             <div class="d-flex align-items-center mr-2">
                                                 <span class="bullet bullet-success font-small-3 mr-50 cursor-pointer"></span>
@@ -237,7 +237,7 @@
                             <div class="row mx-0">
                                 <div class="col-md-12 col-12 revenue-report-wrapper">
                                     <div class="d-sm-flex justify-content-between align-items-center mb-3">
-                                        <h4 class="card-title mb-50 mb-sm-0">Cash flow</h4>
+                                        <h4 class="card-title mb-50 mb-sm-0">Báo cáo dòng tiền</h4>
                                         <div class="d-flex align-items-center">
                                             <div class="d-flex align-items-center mr-2">
                                                 <span class="bullet bullet-primary font-small-3 mr-50 cursor-pointer"></span>
