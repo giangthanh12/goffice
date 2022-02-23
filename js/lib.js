@@ -23,7 +23,7 @@ connection.onmessage = function (message) {
         if (data.receiverid.includes(baseUser)) {
             var receiverid = data.receiverid;
             var senderid = data.senderid;
-            var avatar = baseUrlFile + "/uploads/nhanvien/" + data.avatar;
+            var avatar = data.avatar;
             var title = data.title;
             var content = data.content;
             var idInboxs = data.listInboxId;

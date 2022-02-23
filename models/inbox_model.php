@@ -67,13 +67,13 @@ class inbox_Model extends Model{
         else 
         return 0;
     }
-    function getAvatar($idStaff) {
-        $avatar = '';
-        $query = $this->db->query("SELECT avatar FROM staffs where status > 0 and status < 7 and id = $idStaff");
+    function getInfoSender($idStaff) {
+        $info = '';
+        $query = $this->db->query("SELECT name,avatar FROM staffs where status > 0 and status < 7 and id = $idStaff");
         $temp = $query->fetchAll(PDO::FETCH_ASSOC);
-        if(!empty($temp[0]['avatar'])) 
-        $avatar = $temp[0]['avatar'];
-        return $avatar;
+        if(!empty($temp[0])) 
+        $info = $temp[0];
+        return $info;
     }
     function deleteMsg($ids,$type){
         if($type == 'trash') {
