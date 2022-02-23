@@ -47,6 +47,8 @@ class timesheets extends Controller
         }
         $month = isset($_REQUEST['month']) ? $_REQUEST['month'] : date('m');
         $year = isset($_REQUEST['year']) ? $_REQUEST['year'] : date('Y');
+        $this->model->getCong($month, $year);
+        return;
         if ($this->model->getCong($month, $year)) {
             $jsonObj['message'] = "Tạo bảng chấm công thành công";
             $jsonObj['code'] = 200;

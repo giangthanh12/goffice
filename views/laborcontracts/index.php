@@ -34,6 +34,48 @@
                             </thead>
                         </table>
                     </div>
+
+                    <!-- add phong ban -->
+                    <div class="modal fade text-left" style="z-index: 10000;" id="addDepartment" tabindex="-1" role="dialog" aria-labelledby="myModalLabel16" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="titleDepartment"></h4>
+                                    <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                    </button> -->
+                                </div>
+                                <div class="modal-body">
+                                    <!-- <input type="hidden" id="id" name="id" /> -->
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <form class="form-validate" enctype="multipart/form-data" id="fm1">
+                                                <!-- <div class="row mt-1"> -->
+                                                <div class="form-group">
+                                                    <label for="nameDepartment">Tên phòng ban</label>
+                                                    <input type="text" class="form-control" id="nameDepartment" placeholder="Nhập tên phòng ban" id="nameDepartment" required />
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="ghi_chu">Ghi chú</label>
+                                                    <textarea id="descDepartment" name="descDepartment" type="text" class="form-control " ></textarea>
+                                                </div>
+
+                                                <div class="d-flex flex-sm-row flex-column mt-2">
+                                                    <button type="submit" class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Thêm mới</button>
+                                                    <button type="reset" class="btn btn-outline-secondary" data-dismiss="modal">Bỏ qua</button>
+                                                </div>
+                                                <!-- </div> -->
+                                            </form>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end phong ban -->
+
                     <div class="modal fade text-left" id="add-contract" role="dialog" aria-labelledby="myModalLabel16" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                             <div class="modal-content">
@@ -123,7 +165,7 @@
                                                         <input type="text" id="description" name="description" type="text" class="form-control " />
                                                     </div>
                                                     <div class="col-12 d-flex flex-sm-row flex-column mt-2">
-                                                        <button type="button" onclick="save()" class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1" id="btnUpdate">Cập nhật</button>
+                                                        <button type="submit"  class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1" id="btnUpdate">Cập nhật</button>
                                                         <button type="reset" class="btn btn-outline-secondary" data-dismiss="modal">Bỏ qua</button>
                                                     </div>
                                                 </div>

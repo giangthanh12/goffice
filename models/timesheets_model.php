@@ -6,7 +6,6 @@ class timesheets_model extends Model
     {
         parent::__construct();
     }
-
     function listObj($month, $year)
     {
         $result = array();
@@ -135,49 +134,52 @@ class timesheets_model extends Model
             $dataCong[$key]['year'] = $nam;
             $dataCong[$key]['month'] = $thang;
             $totalWorkDate = 0;
+          
             foreach ($temp as $item) {
                 $date = $item['date'];
-                $shift = $this->getShift($shiftId, $date);
+                $shift = $this->getShift($shiftId, $date); // lấy ca làm việc của một nhân viên
+             
+                //     [lunInterval] => 1.5
+                //     [in] => 08:30:00
+                //     [out] => 18:00:00
+                //     [lunStart] => 12:00:00
+         
                 if (count($shift) == 0)
                     continue;
-                $timeIn = strtotime($item['checkInTime']);
-                $timeOut = strtotime($item['checkOutTime']);
-                $shiftIn = strtotime($shift['in']);
-                $shiftOut = strtotime($shift['out']);
-                $lunInterval = $shift['lunInterval'];
-                $lunStart = strtotime($shift['lunStart']);
-                $muonsang = $shiftIn + 1800;
-                $somsang = $lunStart - 1800;
-                $giochieu = $lunStart + ($lunInterval * 3600);
-                $somchieu = $giochieu - 1800;
-                $muonchieu = $giochieu + 1800;
+                $timeIn = strtotime($item['checkInTime']); // giờ user checkin
+                $timeOut = strtotime($item['checkOutTime']);// giờ user checkout
+                $shiftIn = strtotime($shift['in']);// giờ chuẩn checkin theo ca làm việc
+                $shiftOut = strtotime($shift['out']);// giờ chuẩn checkout theo ca làm việc
+                $lunInterval = $shift['lunInterval'];// giờ nghỉ trưa
+                $lunStart = strtotime($shift['lunStart']); // giờ bắt đầu nghỉ trưa
+            
+                $muonsang = $shiftIn + 1800; //tạo điều kiện thời gian vào muộn 30p
+                $somsang = $lunStart - 1800; //tạo điều kiện thời gian ra sớm vào sáng 30p
+                $giochieu = $lunStart + ($lunInterval * 3600);  //thời gian bắt đầu buổi chiều
+                $somchieu = $timeOut - 1800;  // Thời gian vào sớm buổi chiều
+                $muonchieu = $giochieu + 1800;  // Thời gian về muộn biểu chiều
                 $sang = 0;
                 $chieu = 0;
-//                echo $date;
-//                  echo "<br>";
-//                echo $shiftOut;
-//                echo "<br>";
-//                echo $giochieu;
-//                echo "<br>";
-                if (($shiftOut <= $giochieu)) // Chấm công ca sáng
+           
+                if (($shiftOut <= $giochieu)) // (giờ chuẩn checkout nhỏ hơn giờ chiều) Chấm công ca sáng
                 {
-                    if (($timeIn < $shiftIn) && ($timeOut > $lunStart))
+                    if (($timeIn < $shiftIn) && ($timeOut > $lunStart)) // giờ vào của user < giờ vào quy định theo ca và giờ ra user > bắt đầu giờ trưa
                         $sang = 0.5;
-                    elseif (($timeIn > $muonsang) || ($timeOut < $somsang))
+                    elseif (($timeIn > $muonsang) || ($timeOut < $somsang))// giờ user checkin lớn hơn muộn sáng hoặc thời gian ra < thời gian ra sớm sáng
                         $sang = 0; //nghỉ không báo
                     else
                         $sang = 0.5; //đi muộn hoặc về sớm
-                } elseif (($shiftIn > $lunStart))// Chấm công ca chiều
+                } elseif (($shiftIn > $lunStart))//(Giờ chuẩn vào lớn hơn giờ trưa) Chấm công ca chiều
                 {
-                    if (($timeIn < $giochieu) && ($timeOut > $shiftOut))
+                    if (($timeIn < $giochieu) && ($timeOut > $shiftOut)) // giờ vào user < giờ chiều and giờ ra user lớn hơn giờ ra của ca
                         $chieu = 0.5;
-                    elseif (($timeIn > $muonchieu) || ($timeOut < $somchieu))
+                    elseif (($timeIn > $muonchieu) || ($timeOut < $somchieu)) // giờ vào user lớn hơn muộn chiều hoặc giờ ra user nhỏ hơn sớm chiều 
                         $chieu = 0; //nghỉ không báo
                     else
                         $chieu = 0.5; //đi muộn hoặc về sớm
-                } elseif (($shiftIn <= $lunStart) && ($shiftOut >= $giochieu)) {// Chấm công $fulltime
+                } elseif (($shiftIn <= $lunStart) && ($shiftOut >= $giochieu)) {//(giờ vào ca nhỏ hơn gio trưa và giờ ra theo ca lớn hơn giờ chiều ) Chấm công $fulltime
                     {
-                        if (($timeIn < $shiftIn) && ($timeOut > $lunStart))
+                        if (($timeIn < $shiftIn) && ($timeOut > $lunStart)) // giờ user checkin < giờ vào ca hoặc giờ user checkout > giờ bắt đầu trưa
                             $sang = 0.5;
                         elseif (($timeIn > $muonsang) || ($timeOut < $somsang))
                             $sang = 0; //nghỉ không báo
@@ -193,9 +195,14 @@ class timesheets_model extends Model
                 }
                 $arrDate = explode("-", $date);
                 $date1 = $arrDate[2];
+    
                 $totalWorkDate += ($sang + $chieu);
                 $dataCong[$key]['date_' . $date1] = $sang + $chieu;
             }
+            // echo "<pre>";
+            // print_r($dataCong);
+            // echo "</pre>";
+            // return;
             //Công theo phép
             $dieukien = " WHERE status=2 AND staffId=$staffId AND date<='$today' AND date LIKE '$thangnam%' ";
             $query = $this->db->query("SELECT shift,date FROM onleave $dieukien  ");
