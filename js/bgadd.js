@@ -212,6 +212,7 @@ $(function () {
     //     });
     // }
 
+
     // Item details select onchange
     $(document).on("change", ".item-details", function () {
         var $this = $(this);
@@ -366,39 +367,86 @@ $(function () {
         $('#totalAmount').text(Comma(invoiceTotal+taxTotal));
     });
 
-    newCusForm.on("submit", function(e) { // thêm khách hàng
-        e.preventDefault();
-        var isValid = newCusForm.valid();
-        if (isValid) {
-            var cusName = $("#customer-name").val();
-            var cusAdd= $("#customer-address").val();
-            var city = $("#customer-country").val();
-            var cusContact = $("#customerContact").val();
-            var cusPhone = $("#customerPhone").val();
-            var cusEmail = $("#customer-email").val();
-            $.ajax({
-                type: "POST",
-                dataType: "json",
-                data: {cusName:cusName, cusAdd:cusAdd, city:city, cusContact:cusContact, cusPhone:cusPhone, cusEmail:cusEmail},
-                async: false,
-                url: "baogia/newCustomer",
-                success: function(result) {
-                    if (result.success == true) {
-                        notyfi_success(result.msg);
-                        $('#add-new-customer-sidebar').modal("hide");
-                        // $(".invoiceto").select2("destroy");
-                        // $(".invoiceto").select2({
-                        //     data: result.data,
-                        // });
-                        // // $("#history").load(window.location.href + "?id=" + id + " #history");
-                    } else {
-                        notify_error(result.msg);
-                        return false;
-                    }
+
+    if(newCusForm.length){
+        newCusForm.validate({
+            errorClass: "error",
+            rules: {
+                customerPhone: {
+                    required: true,
+                    minlength: 10,
+                    maxlength: 10
                 },
-            });
-        }
-    });
+                "customer-name": {
+                    required: true,
+                   
+                },
+                "customerContact": {
+                    required: true,
+                   
+                },
+                "customer-email": {
+                    required: true,
+                   
+                },
+            },
+            messages:{
+                customerPhone:{
+                    required: "Bạn chưa nhập số điên thoại!",
+                    minlength: "Yêu cầu nhập đủ 10 số!",
+                    maxlength: "Yêu cầu nhập đủ 10 số!"
+                },
+                "customer-name": {
+                    required: "Bạn chưa nhập tên khách hàng!",
+                   
+                },
+                "customerContact": {
+                    required: "Bạn chưa nhập tên khách hàng!",
+                   
+                },
+                "customer-email": {
+                    required: "Bạn chưa nhập tên khách hàng!",
+                   
+                },
+            }
+    
+        });
+
+        newCusForm.on("submit", function(e) { // thêm khách hàng
+            e.preventDefault();
+            var isValid = newCusForm.valid();
+            if (isValid) {
+                var cusName = $("#customer-name").val();
+                var cusAdd= $("#customer-address").val();
+                var city = $("#customer-country").val();
+                var cusContact = $("#customerContact").val();
+                var cusPhone = $("#customerPhone").val();
+                var cusEmail = $("#customer-email").val();
+                $.ajax({
+                    type: "POST",
+                    dataType: "json",
+                    data: {cusName:cusName, cusAdd:cusAdd, city:city, cusContact:cusContact, cusPhone:cusPhone, cusEmail:cusEmail},
+                    async: false,
+                    url: "baogia/newCustomer",
+                    success: function(result) {
+                        if (result.success == true) {
+                            notyfi_success(result.msg);
+                            $('#add-new-customer-sidebar').modal("hide");
+                            // $(".invoiceto").select2("destroy");
+                            // $(".invoiceto").select2({
+                            //     data: result.data,
+                            // });
+                            // // $("#history").load(window.location.href + "?id=" + id + " #history");
+                        } else {
+                            notify_error(result.msg);
+                            return false;
+                        }
+                    },
+                });
+            }
+        });
+    }
+    
 
     $(document).on("click", "#btnSave", function () {  // ghi nháp
         var items = sourceItem.repeaterVal();
@@ -658,3 +706,26 @@ function changeStart() {
         });
     }
 }
+
+// function formValidate(){
+//      if(newCusForm.length){
+//     newCusForm.validdate({
+//         errorClass: "error",
+//         rules: {
+//             customerPhone: {
+//                 required: true,
+//                 minlength: 10,
+//                 maxlength: 10
+//             }
+//         },
+//         messages:{
+//             customerPhone:{
+//                 required: "Bạn chưa nhập số điên thoại!",
+//                 minlength: "Yêu cầu nhập đủ 10 số!",
+//                 maxlength: "Yêu cầu nhập đủ 10 số!"
+//             }
+//         }
+
+//     });
+// }
+// }

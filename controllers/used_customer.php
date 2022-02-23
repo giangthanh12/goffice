@@ -288,7 +288,11 @@ class used_customer extends Controller
         }
         echo json_encode($jsonObj);
     }
-
+    function exportexcel() {
+        $this->view->data = $this->model->listObj();
+     
+        $this->view->render('used_customer/export');
+    }
     function importExcel()
     {
         if (self::$funImport == 0) {

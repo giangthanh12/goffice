@@ -409,10 +409,9 @@ $(function () {
                         avatar:response.data.avatar,
                         title:response.data.title,
                         content:response.data.content,
+                        dateTime:response.data.dateTime,
                 };
-                console.log(data);
-           
-                    connection.send(JSON.stringify(data));
+                connection.send(JSON.stringify(data));
 
 
                     $('#compose-mail').modal('hide');

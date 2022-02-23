@@ -341,7 +341,7 @@
                                 <form id="newCus">
                                     <div class="form-group">
                                         <label for="customer-name" class="form-label">Tên khách hàng</label>
-                                        <input type="text" class="form-control" id="customer-name" placeholder="Tên viết tắt" required/>
+                                        <input type="text" class="form-control" name="customer-name" id="customer-name" placeholder="Tên viết tắt" />
                                     </div>
                                     <div class="form-group">
                                         <label for="customer-address" class="form-label">Địa chỉ</label>
@@ -358,15 +358,15 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="customer-name" class="form-label">Người liên hệ</label>
-                                        <input type="text" class="form-control" id="customerContact" placeholder="Người nhận báo giá" />
+                                        <input type="text" class="form-control" name="customerContact" id="customerContact" placeholder="Người nhận báo giá" />
                                     </div>
                                     <div class="form-group">
                                         <label for="customer-contact" class="form-label">Điện thoại</label>
-                                        <input type="number" class="form-control" id="customerPhone" placeholder="09x xxx xxxx" required/>
+                                        <input type="number" class="form-control" name="customerPhone" id="customerPhone" placeholder="09x xxx xxxx" />
                                     </div>
                                     <div class="form-group">
                                         <label for="customer-email" class="form-label">Email</label>
-                                        <input type="email" class="form-control" id="customer-email" placeholder="example@domain.com" required />
+                                        <input type="email" class="form-control" name="customer-email" id="customer-email" placeholder="example@domain.com" />
                                     </div>
                                     <div class="form-group d-flex flex-wrap mt-2">
                                         <button type="submit" class="btn btn-primary mr-1" >Thêm</button>
