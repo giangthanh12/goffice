@@ -103,20 +103,20 @@ $(function () {
         if (!option.id) {
             return option.text;
         }
-        var avatarImg = feather.icons["user"].toSvg({
-            class: "mr-0",
-        });
+        // var avatarImg = feather.icons["user"].toSvg({
+        //     class: "mr-0",
+        // });
+        var avatarImg = "<img src='https://e7.pngegg.com/pngimages/901/452/png-clipart-computer-icons-users-group-avatar-computer-icons-users-group.png' alt='avatar' />";
         if ($(option.element).data("avatar")) {
-            avatarImg = "<img src='" + assetPath + "images/avatars/" + $(option.element).data("avatar") + "' alt='avatar' />";
+            var imgUrl = baseHome + '/users/gemstech/uploads/nhanvien/';
+            avatarImg = "<img onerror= this.src='https://velo.vn/goffice-test/layouts/useravatar.png' src='" + imgUrl + $(option.element).data("avatar") + "' alt='avatar' />";
         }
-
         var $avatar = "<div class='d-flex flex-wrap align-items-center'>" + "<div class='avatar avatar-sm my-0 mr-50'>" + "<span class='avatar-content'>" + avatarImg + "</span>" + "</div>" + option.text + "</div>";
-
         return $avatar;
     }
     if (emailTo.length) {
         emailTo.wrap('<div class="position-relative"></div>').select2({
-            placeholder: "Select value",
+            placeholder: "Người nhận",
             dropdownParent: emailTo.parent(),
             closeOnSelect: false,
             templateResult: renderGuestAvatar,
@@ -398,7 +398,6 @@ $(function () {
                         response.data.receiverId.splice(response.data.receiverId.indexOf(baseUser),1);
                         console.log(response.data.receiverId);
                     }
-
                     var data = {
                         type:'inbox',
                         action:'send',
@@ -406,11 +405,13 @@ $(function () {
                         receiverid: response.data.receiverId,
                         senderid:baseUser,
                         listInboxId:response.data.idInbox,
-                        avatar:response.data.avatar,
+                        avatar:baseHome + '/users/gemstech/uploads/nhanvien/'+response.data.avatar,
+                        nameSender:response.data.nameSender,
                         title:response.data.title,
                         content:response.data.content,
                         dateTime:response.data.dateTime,
                 };
+                console.log(data);
                 connection.send(JSON.stringify(data));
 
 
