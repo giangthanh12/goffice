@@ -457,7 +457,7 @@
                         </div>
                     </div>
       <!-- showFormTransaction -->
-      <div class="modal fade text-left" id="modalTransaction" tabindex="-1" role="dialog" aria-labelledby="myModalLabel16" aria-hidden="true">
+      <div class="modal fade text-left" id="modalTransaction" style="z-index:1000000;"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel16" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">

@@ -28,9 +28,6 @@
                         </table>
                     </div>
 
-
-
-
                     <div class="modal modal-slide-in new-user-modal fade" id="updateinfo">
 
                         <div class="modal-dialog">

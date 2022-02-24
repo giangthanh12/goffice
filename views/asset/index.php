@@ -30,7 +30,7 @@
                         </table>
                     </div>
 
-                    <div class="modal modal-slide-in new-user-modal fade" id="addinfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel16" aria-hidden="true">
+                    <div class="modal modal-slide-in new-user-modal fade" id="addinfo" role="dialog" aria-labelledby="myModalLabel16" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -76,6 +76,8 @@
                                                         <div class="form-group">
                                                             <label for="nhom_ts">Nhóm</label>
                                                             <select name="nhom_ts" id="nhom_ts" class="select2 form-control "></select>
+                                                        
+                                                            </select>
                                                         </div>
                                                     </div>
 
@@ -498,6 +500,85 @@
 
                     </div>
                     <!---END modal cap phat-->
+                    
+
+
+                    <!---modal add group asset-->
+                    <div class="modal modal-slide-in new-user-modal fade" id="modalGroupAsset">
+
+                        <div class="modal-dialog">
+
+                            <form class="add-new-user modal-content pt-0" id="formGroupAsset">
+
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">×</button>
+
+                                <div class="modal-header mb-1">
+
+                                    <h5 class="modal-title" id="titleGroupAsset">Thêm nhóm tài sản mới</h5>
+                                </div>
+                                <div class="modal-body flex-grow-1">
+
+                                    <div class="form-group">
+
+                                        <label class="form-label" for="nameGroupAsset">Tên nhóm</label>
+
+                                        <input type="text" class="form-control dt-full-name" id="nameGroupAsset" name="nameGroupAsset" />
+
+                                    </div>
+
+                                    <div class="form-group">
+
+                                        <label class="form-label" for="descGroupAsset">Mô tả</label>
+
+                                        <textarea name="descGroupAsset" id="descGroupAsset" class="form-control"></textarea>
+
+                                    </div>
+
+                                    <button type="submit" class="btn btn-primary mr-1 data-submit">Lưu</button>
+
+                                    <button type="reset" class="btn btn-outline-secondary" data-dismiss="modal">Bỏ qua</button>
+
+                                </div>
+
+                            </form>
+
+                        </div>
+
+                    </div>
+                    <!---END modal group asset--->
+
+
+                    <!---modal add group asset-->
+                    <div class="modal modal-slide-in new-user-modal fade" id="modalUnitAsset">
+
+                        <div class="modal-dialog">
+
+                            <form class="add-new-user modal-content pt-0" id="formUnitAsset">
+
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">×</button>
+
+                                <div class="modal-header mb-1">
+
+                                    <h5 class="modal-title" id="titleUnitAsset">Thêm đơn vị tài sản</h5>
+                                </div>
+                                <div class="modal-body flex-grow-1">
+
+                                    <div class="form-group">
+                                        <label class="form-label" for="nameUnitAsset">Tên đơn vị</label>
+                                        <input type="text" class="form-control dt-full-name" id="nameUnitAsset" name="nameUnitAsset" />
+                                    </div>
+                                    <button type="submit" class="btn btn-primary mr-1 data-submit">Lưu</button>
+                                    <button type="reset" class="btn btn-outline-secondary" data-dismiss="modal">Bỏ qua</button>
+
+                                </div>
+
+                            </form>
+
+                        </div>
+
+                    </div>
+                    <!---END modal group asset--->
+
 
 
                     <!--end modal-->

@@ -46,8 +46,9 @@ connection.onmessage = function (message) {
            else {
                $('#showNotifi').html(`<span id="countNotifications" class="badge badge-pill badge-danger badge-up">1</span>`);
            }
-           var countNoti1 =   $('#countNotifications1').html().slice(0,1);
-           $('#countNotifications1').html(Number(countNoti1)+1+' tin');
+       
+
+           $('#countNotifications1').html(Number(countNoti)+1+' tin');
             var bellInterval =  setInterval(function() {
                 $('.bell-icon').toggleClass( "bell" );
             },100)
@@ -616,8 +617,34 @@ function return_combobox_multi(id_input, url_data, place) {
     $(id_input).select2({
         placeholder: place,
         dropdownParent: $(id_input).parent(),
+ 
     });
     $(id_input).html(html);
+
+}
+
+
+function return_combobox_multi_add(id_input, url_data, place,nameFunction) {
+    var str_data = load_data(url_data);
+    var Objdata = JSON.parse(str_data.responseText);
+    var html = '';
+    jQuery.map(Objdata, function (n, i) {
+        html += '<option value="' + n.id + '">' + n.text + '</option>';
+    });
+    $(id_input).select2({
+        placeholder: place,
+        dropdownParent: $(id_input).parent(),
+        language: {
+        noResults: function() {
+            return '<a onclick="'+nameFunction+'()"  href="javascript:void(0)">+Thêm mới</a>';
+        }
+        },escapeMarkup: function (markup) {
+            return markup;
+        }
+ 
+    });
+    $(id_input).html(html);
+
 }
 
 function load_form(id_form, url_data) {

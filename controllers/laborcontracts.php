@@ -43,7 +43,25 @@ class laborcontracts extends Controller
         $data = $this->model->listObj($viewAll);
         echo json_encode($data);
     }
-
+    function addDepartment() {
+     
+        $name = isset($_REQUEST['nameDepartment']) ? $_REQUEST['nameDepartment'] : '';
+        $description = isset($_REQUEST['descDepartment']) ? $_REQUEST['descDepartment'] : '';
+     
+        $data = array(
+            'name' => $name,
+            'description' => $description,
+            'status' =>1
+        );
+        if($this->model->addDepartment($data)){
+            $jsonObj['message'] = 'Cập nhật dữ liệu thành công';
+            $jsonObj['code'] = 200;
+        } else {
+            $jsonObj['message'] = 'Cập nhật dữ liệu không thành công';
+            $jsonObj['code'] = 401;
+        }
+        echo json_encode($jsonObj);
+    }
     function listDel()
     {
         $data = $this->model->listDel();

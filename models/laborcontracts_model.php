@@ -20,6 +20,10 @@ class laborcontracts_model extends Model
         $result['data'] = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }
+    function addDepartment($data) {
+        $query = $this->insert("department",$data);
+        return $query;
+    }
 
     function get_data_combo()
     {

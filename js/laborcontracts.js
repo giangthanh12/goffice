@@ -9,6 +9,20 @@ $(function () {
     return_combobox_multi('#workPlaceId', baseHome + '/common/workPlaces', 'Địa điểm làm việc');
     "use strict";
 
+
+    $('#departmentId').select2({   
+              placeholder: "Lựa chọn phòng ban",           
+              language: {
+                    noResults: function() {
+                        return '<a onclick="loadDepartment()"  href="javascript:void(0)">+Thêm mới</a>';
+                      }
+                    },escapeMarkup: function (markup) {
+                         return markup;
+                    }
+              });
+ 
+
+
     var dtUserTable = $(".user-list-table"),
         modal = $("#add-contract"),
         form = $("#dg"), buttons = [];
@@ -169,13 +183,77 @@ $(function () {
         });
     }
 
+
+
+     // Form Validation
+     if ($('#fm1').length) {
+        $('#fm1').validate({
+            errorClass: "error",
+            rules: {
+                "nameDepartment": {
+                    required: true,
+                },
+            },
+            messages: {
+                "nameDepartment": {
+                    required: "Yêu cầu nhập tên phòng ban",
+                },
+            },
+        });
+
+        $('#fm1').on("submit", function (e) {
+            var isValid = $('#fm1').valid();
+            e.preventDefault();
+            if (isValid) {
+                addDepartment();
+            }
+        });
+    }
+
     // To initialize tooltip with body container
     $("body").tooltip({
         selector: '[data-toggle="tooltip"]',
         container: "body",
     });
 });
+function loadDepartment() {
+$('#addDepartment').modal('show');
+$('#titleDepartment').html('Thêm phòng ban');
+$('#nameDepartment').val('');
+$('#descDepartment').val('');
+}
 
+function   addDepartment() {
+    var formData = new FormData($('#fm1')[0]);
+    $.ajax({
+        url: baseHome + "/laborcontracts/addDepartment",
+        type: 'POST',
+        data: formData,
+        async: false,
+        cache: false,
+        contentType: false,
+        enctype: 'multipart/form-data',
+        processData: false,
+        dataType: "json",
+        success: function (data) {
+            if (data.code == 200) {
+                notyfi_success(data.message);
+                $('#addDepartment').modal('hide');
+                return_combobox_multi('#departmentId', baseHome + '/common/departments', 'Lựa chọn phòng ban');
+                $('#departmentId').select2({              
+                    language: {
+                          noResults: function() {
+                              return '<a onclick="loadDepartment()"  href="javascript:void(0)">+Thêm mới</a>';
+                            }
+                          },escapeMarkup: function (markup) {
+                               return markup;
+                          }
+                    });
+            } else
+                notify_error(data.message);
+        }
+    });
+}
 function showAdd() {
     var validator = $('#fm').validate(); // reset form
         validator.resetForm();

@@ -2,10 +2,13 @@ var url = '';
 
 $(function () {
     
-    return_combobox_multi('#don_vi', baseHome + '/asset/don_vi', 'Đơn vị');
-    return_combobox_multi('#nhom_ts', baseHome + '/asset/nhomtaisan', 'Nhóm tài sản');
+    return_combobox_multi_add('#don_vi', baseHome + '/asset/don_vi', 'Đơn vị', 'loadUnitAsset');
+    return_combobox_multi_add('#nhom_ts', baseHome + '/asset/nhomtaisan', 'Nhóm tài sản','loadGroupAsset');
     return_combobox_multi('#nhan_vien', baseHome + '/asset/getStaff', 'Nhân viên');
 
+
+
+  
     var dtUserTable = $(".user-list-table"),
         modal = $("#updateinfo"),
         nhom_ts = $("#nhom_ts"),
@@ -243,6 +246,12 @@ if ($('#status').length) {
 
     }
     function actionMenu(){
+        $(document).on('select2:open', () => {
+            // console.log($('input.select2-search__field')[0].isContentEditable = true);
+            // $('input.select2-search__field')[0].isContentEditable = true
+            $('.select2-search__field')[0].focus();
+            console.log($('.select2-search__field')[0]);
+        });
         var validator = $("#dg").validate(); // reset form
         validator.resetForm();
         $(".error").removeClass("error"); // loại bỏ validate
@@ -463,8 +472,58 @@ if ($('#status').length) {
             }
         });
     }
+    // validate group asset
+
+     if ($('#formGroupAsset').length) {
+        $('#formGroupAsset').validate({
+            errorClass: "error",
+            rules: {
+                "nameGroupAsset": {
+                    required: true,
+                },
+            },
+            messages: {
+                "nameGroupAsset": {
+                    required: "Bạn chưa điền tên nhóm tài sản",
+                },
+            },
+        });
+
+        $('#formGroupAsset').on("submit", function (e) {
+            var isValid = $('#formGroupAsset').valid();
+            e.preventDefault();
+            if (isValid) {
+                addGroupAsset();
+            }
+        });
+    }
 
 
+
+    if ($('#formUnitAsset').length) {
+        $('#formUnitAsset').validate({
+            errorClass: "error",
+            rules: {
+                "nameUnitAsset": {
+                    required: true,
+                },
+            },
+            messages: {
+                "nameUnitAsset": {
+                    required: "Bạn chưa điền tên nhóm tài sản",
+                },
+            },
+        });
+
+        $('#formUnitAsset').on("submit", function (e) {
+            var isValid = $('#formUnitAsset').valid();
+            e.preventDefault();
+            if (isValid) {
+                addUnitAsset();
+            }
+        });
+    }
+  // end validate group asset
 
 
     // To initialize tooltip with body container
@@ -473,7 +532,64 @@ if ($('#status').length) {
         container: "body",
     });
 });
-
+function loadGroupAsset() {
+    $('#modalGroupAsset').modal('show');
+    $('#titleGroupAsset').html('Thêm nhóm tài sản mới');
+    $('#nameGroupAsset').val('');
+    $('#descGroupAsset').val('');
+}
+function loadUnitAsset() {
+    $('#modalUnitAsset').modal('show');
+    $('#titleUnitAsset').html('Thêm đơn vị tài sản mới');
+    $('#nameGroupAsset').val('');
+    $('#descGroupAsset').val('');
+}
+function addGroupAsset() {
+    var formData = new FormData($('#formGroupAsset')[0]);
+    $.ajax({
+        url: baseHome + "/asset/addGroupAsset",
+        type: 'POST',
+        data: formData,
+        async: false,
+        cache: false,
+        contentType: false,
+        enctype: 'multipart/form-data',
+        processData: false,
+        dataType: "json",
+        success: function (data) {
+            if (data.success) {
+                notyfi_success(data.msg);
+                $('#modalGroupAsset').modal('hide');
+                return_combobox_multi_add('#nhom_ts', baseHome + '/asset/nhomtaisan', 'Nhóm tài sản','loadGroupAsset');
+               
+            } else
+                notify_error(data.msg);
+        }
+    });
+}
+function addUnitAsset() {
+    var formData = new FormData($('#formUnitAsset')[0]);
+    $.ajax({
+        url: baseHome + "/asset/addUnitAsset",
+        type: 'POST',
+        data: formData,
+        async: false,
+        cache: false,
+        contentType: false,
+        enctype: 'multipart/form-data',
+        processData: false,
+        dataType: "json",
+        success: function (data) {
+            if (data.success) {
+                notyfi_success(data.msg);
+                $('#modalUnitAsset').modal('hide');
+                return_combobox_multi_add('#don_vi', baseHome + '/asset/don_vi', 'Đơn vị', 'loadUnitAsset');
+               
+            } else
+                notify_error(data.msg);
+        }
+    });
+}
 function loaddata(id) {
    if(funEdit != 1) {
        $('#btn_update_asset').css('display','none');
