@@ -24,8 +24,10 @@ class timekeeping extends Controller
 
     function index()
     {
-    
+        $page = 'timekeeping';
+        
         require "layouts/header.php";
+       
         $this->view->funAdd = self::$funAdd;
         $this->view->funEdit = self::$funEdit;
         $this->view->render("timekeeping/index");
@@ -74,7 +76,7 @@ class timekeeping extends Controller
         if ($this->model->checkout()) {
             $jsonObj['message'] = "Đã checkout";
             $jsonObj['code'] = 200;
-            $jsonObj['data'] = [];
+            $jsonObj['data'] = $this->model->checkout();
         } else {
             $jsonObj['message'] = "Checkout không thành công";
             $jsonObj['code'] = 403;

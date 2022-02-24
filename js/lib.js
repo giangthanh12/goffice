@@ -224,23 +224,44 @@ function commentMe() { // notify khi co comment cong viec lien quan
     });
 
 }
+// var element = $('#checkoutBtnHeader')[0];
+// console.log(element);
 
-$('#checkoutBtn').on('click', function () {
+// $('#checkoutBtnHeader').click(function() {
+//     alert('ok');
+// })
+function checkout() {
     $.ajax({
         type: "POST",
         dataType: "json",
     //    data: {staffIdid: baseUser, ip: user.ip},
         url: baseHome + '/index/checkOutBtn',
         success: function (data) {
-            selectStaff.val(baseUser).trigger("change");
-            calendar.refetchEvents();
+           if(data.code == 200) {
             notyfi_success(data.message);
+            var dataSend = {
+                type:'checkout',
+                action:'send',
+                path:taxCode,
+                staffId: data.data.staffId,
+                date:data.data.date,
+                checkInTime:data.data.checkOutTime,
+            };
+            connection.send(JSON.stringify(dataSend));
+           }
+            // console.log($('#selectStaff')[0]);
+            // $('#selectStaff').val(baseUser).trigger("change");
+            // calendar.refetchEvents();
+           
         },
         error: function () {
             notify_error('Lỗi truy xuất database');
         }
     });
-});
+}
+
+
+
 
 function chatMe() { //notiffy khi có tin nhắn mới trong chatbox
     $.ajax({
@@ -682,6 +703,15 @@ function checkIn() {
         url: baseHome + "/index/checkIn",
         success: function (data) {
             if (data.code == 200) {
+                var dataSend = {
+                    type:'checkin',
+                    action:'send',
+                    path:taxCode,
+                    staffId: data.data.staffId,
+                    date:data.data.date,
+                    checkInTime:data.data.checkInTime,
+                };
+                connection.send(JSON.stringify(dataSend));
                 notyfi_success(data.message);
                 $('#checkIn').empty();
                 $('#checkoutBtn').removeClass('d-none');

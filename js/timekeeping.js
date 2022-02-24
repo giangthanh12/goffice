@@ -603,6 +603,16 @@ document.addEventListener('DOMContentLoaded', function () {
             url: baseHome + '/timekeeping/checkout',
             success: function (data) {
                 selectStaff.val(baseUser).trigger("change");
+                var dataSend = {
+                    type:'checkout',
+                    action:'send',
+                    path:taxCode,
+                    staffId: data.data.staffId,
+                    date:data.data.date,
+                    checkInTime:data.data.checkOutTime,
+                };
+                console.log(dataSend);
+                connection.send(JSON.stringify(dataSend));
                 calendar.refetchEvents();
                 notyfi_success(data.message);
             },
@@ -611,6 +621,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     });
+
 
     // Update công
     updateEventBtn.on('click', function () {
