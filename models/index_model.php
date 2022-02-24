@@ -33,6 +33,8 @@ class index_model extends Model
         if ($this->checkChamCong()) {
             $data = array('staffId' => $staffId, 'date' => $today, 'checkInTime' => date("H:i:s"), 'status' => 1);
             $ok = $this->insert("timekeeping", $data);
+            if($ok)
+            $ok = $data;
         }
         return $ok;
     }
@@ -52,9 +54,12 @@ class index_model extends Model
         $ok = false;
         $today = date("Y-m-d");
         $staffId = $_SESSION['user']['staffId'];
+        $array = ['staffId'=>$staffId, 'date'=>$today];
         $where = " staffId=$staffId AND date = '$today' ";
         $data = ['checkOutTime' => date("H:i:s")];
         $ok = $this->update("timekeeping", $data, $where);
+        if($ok)
+        $ok = array_merge($array, $data);
         return $ok;
     }
 }

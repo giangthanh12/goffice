@@ -141,7 +141,7 @@ $notifications = $model->getNotification();
                             $class = "d-none";?>
                             
                           
-                        <button class="btn btn-success btn-toggle-sidebar btn-block waves-effect waves-float <?= $class ?> waves-light" id="checkoutBtn">
+                        <button onclick="<?= isset($page) && $page == 'timekeeping' ? 'checkoutTimekeeping' : 'checkout' ?>()" class="btn btn-success   btn-toggle-sidebar btn-block waves-effect waves-float <?= $class ?> waves-light" id="<?= isset($page) && $page == 'timekeeping' ? 'checkoutBtn' : 'btncheckout' ?>">
                             <span class="align-middle">Checkout</span>
                         </button>
                         

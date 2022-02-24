@@ -57,16 +57,16 @@
                                     <th></th>
                                 </tr>
                             </thead>
-                            <tfoot>
+                            <!-- <tfoot>
                                 <tr>
                                     <th colspan="12" ></th>
-                                    <!-- <th  id="total"></th> -->
                                     <th colspan="2"  id="total"></th>
                                 </tr>
-                            </tfoot>
+                            </tfoot> -->
                         </table>
+                        <div id="total2" style="font-weight:bold; margin-top: -28px; padding-right: 20px;"></div>
                     </div>
-
+                         
                     <div class="modal fade text-left" id="updateinfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel16" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered modal" role="document">
                             <div class="modal-content">
@@ -111,7 +111,6 @@
                                                     </button>
                                                 </div>
                                             </form>
-
                                         </div>
                                     </div>
                                 </div>

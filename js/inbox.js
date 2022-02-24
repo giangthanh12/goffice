@@ -411,7 +411,6 @@ $(function () {
                         content:response.data.content,
                         dateTime:response.data.dateTime,
                 };
-                console.log(data);
                 connection.send(JSON.stringify(data));
                     $('#compose-mail').modal('hide');
                 }

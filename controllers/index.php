@@ -39,8 +39,8 @@ class index extends Controller
             $jsonObj['data'] = [];
             echo json_encode($jsonObj);
             return false;
-
         }
+        $jsonObj['data'] = $checkin;
         $jsonObj['message'] = "Chấm công thành công. Chúc bạn có 1 ngày làm việc vui vẻ!";
         $jsonObj['code'] = 200;
         echo json_encode($jsonObj);
@@ -63,10 +63,12 @@ class index extends Controller
             echo json_encode($jsonObj);
             return false;
         }
+  
+      
         if ($this->model->checkOutBtn()) {
             $jsonObj['message'] = "Đã checkout";
             $jsonObj['code'] = 200;
-            $jsonObj['data'] = [];
+            $jsonObj['data'] = $this->model->checkOutBtn();
         } else {
             $jsonObj['message'] = "Checkout không thành công";
             $jsonObj['code'] = 403;
