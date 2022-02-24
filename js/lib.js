@@ -245,7 +245,7 @@ function checkout() {
                 path:taxCode,
                 staffId: data.data.staffId,
                 date:data.data.date,
-                checkInTime:data.data.checkOutTime,
+                checkOutTime:data.data.checkOutTime,
             };
             connection.send(JSON.stringify(dataSend));
            }

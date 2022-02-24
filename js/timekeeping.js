@@ -609,7 +609,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     path:taxCode,
                     staffId: data.data.staffId,
                     date:data.data.date,
-                    checkInTime:data.data.checkOutTime,
+                    checkOutTime:data.data.checkOutTime,
                 };
                 console.log(dataSend);
                 connection.send(JSON.stringify(dataSend));
