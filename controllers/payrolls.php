@@ -50,8 +50,9 @@ class payrolls extends Controller
             $staffId = $_SESSION['user']['staffId'];
         else
             $staffId = isset($_REQUEST['staffId']) ? $_REQUEST['staffId'] : 0;
-   
+        
         $data['data'] = $this->model->listObj($month, $year, $staffId,self::$funCheck);
+        $total = 0;
         foreach($data['data'] as $key=>$value) {
             $salary = ($value['basicSalary'] / $value['wokingDays']) * $value['totalWorkDays'];
                $provisionalSalary = $salary;
@@ -63,8 +64,10 @@ class payrolls extends Controller
                $totalSalary -= $value['insurance'];
                $totalSalary -= $value['advance'];
                $data['data'][$key]['thuclinh'] = round($totalSalary);
+               $total+= round($totalSalary);
            }
-        echo json_encode($data);
+           $data['total'] = $total;
+           echo json_encode($data);
     }
 
     function addPayRolls()

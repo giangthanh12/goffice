@@ -524,6 +524,9 @@ function toggleEmail(id) {
     );
 }
 
+$(document).on('click', '.select2-results__option',function() {
+    $('.select2-search__field').val('');
+})
 function listInbox() {
     $(".email-app-details").removeClass('show');
     $("#selectedType").val('inbox');

@@ -1,6 +1,8 @@
 var url = '';
 var index = 0;
+
 $(function () {
+ 
     "use strict";
     return_combobox_multi('#month', baseHome + '/common/thang', 'Chọn nhân viên');
     return_combobox_multi('#year', baseHome + '/common/nam', 'Chọn loại khách hàng');
@@ -14,21 +16,29 @@ $(function () {
             ajax: baseHome + "/payrolls/list?month=" + month + "&year=" + year,
             autoWidth: false,
             ordering: false,
+            serverSide:true,
+            processing: true,
             fixedColumns:   {
                 left: 2
             },
-            drawCallback: function () {
-                var api = this.api();
-            
-                var  total = api
-                .column( 14 )
-                .data()
-                .reduce( function (a, b) {
-                    return a +  b;
-                }, 0 );
-                $('#total').html(
-                 '<div style="text-align:right;  font-size:1rem;">Tổng: '+Comma(total)+'</div>'
-                );
+            drawCallback: function (settings) {
+                // var tfood = $('.user-list-table').find('<tr>')
+                // var api = this.api();
+                // console.log(settings.json.total);
+                // var  total = api
+                // .column( 14 )
+                // .data()
+                // .reduce( function (a, b) {
+                //     return a +  b;
+                // }, 0 );
+                // total = settings.json.total;
+                // alert(settings.json.total);
+                // $('#total').html(
+                //  '<div style="text-align:right;  font-size:1rem;">Tổng: '+Comma(settings.json.total)+'</div>'
+                // );
+                $('#total2').html(
+                    '<div style="text-align:right;  font-size: 20px;">Tổng thực lĩnh: '+Comma(settings.json.total)+'</div>'
+                   );
               },
             searching: true,
             "lengthMenu": [[7, 15, 25, 50], [7, 15, 25, 50, "All"]],
@@ -220,9 +230,9 @@ $(function () {
                     previous: "&nbsp;",
                     next: "&nbsp;",
                 },  
-                info:"Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
-                infoFiltered: "(lọc từ _MAX_ bản ghi)",
-                sInfoEmpty : "Hiển thị 0 đến 0 của 0 bản ghi",            },
+                info:"",
+                infoFiltered: "",
+                sInfoEmpty : "",            },
             // Buttons with Dropdown
             buttons: [ 
                 
@@ -270,7 +280,6 @@ $(function () {
         });
 
     }
-
 });
 
 
