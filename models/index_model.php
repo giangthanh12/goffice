@@ -46,6 +46,17 @@ class index_model extends Model
         $ok = $this->update("timekeeping", $data, $where);
         return $ok;
     }
+
+    function checkOutBtn()
+    {
+        $ok = false;
+        $today = date("Y-m-d");
+        $staffId = $_SESSION['user']['staffId'];
+        $where = " staffId=$staffId AND date = '$today' ";
+        $data = ['checkOutTime' => date("H:i:s")];
+        $ok = $this->update("timekeeping", $data, $where);
+        return $ok;
+    }
 }
 
 ?>
