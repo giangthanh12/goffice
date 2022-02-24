@@ -136,6 +136,16 @@ $notifications = $model->getNotification();
                             </button>
                         <?php } ?>
                     </li>
+                    <li class="nav-item d-lg-block" id="checkOut" >
+                        <?php if($model->checkChamCong()) 
+                            $class = "d-none";?>
+                            
+                          
+                        <button class="btn btn-success btn-toggle-sidebar btn-block waves-effect waves-float <?= $class ?> waves-light" id="checkoutBtn">
+                            <span class="align-middle">Checkout</span>
+                        </button>
+                        
+                    </li>
                 </ul>
                 <div class="avatar-group" style="padding-left:5px;" id="online_users"></div>
                 <!-- <ul class="nav navbar-nav">
@@ -199,53 +209,53 @@ $notifications = $model->getNotification();
                 }
             </style>
             <ul class="nav navbar-nav align-items-center ml-auto">
-            <li class="nav-item dropdown dropdown-notification mr-25">
+                <li class="nav-item dropdown dropdown-notification mr-25">
                     <a class="nav-link" href="javascript:void(0);" data-toggle="dropdown">
-                        <i class="ficon bell-icon"  data-feather="bell"></i>
+                        <i class="ficon bell-icon" data-feather="bell"></i>
                         <div id="showNotifi">
-                        <?php if(!empty($notifications)) { ?>
-                            <span id="countNotifications" class="badge badge-pill badge-danger badge-up"><?=  count($notifications)?></span>
-                           
-                        <?php } ?>
+                            <?php if (!empty($notifications)) { ?>
+                                <span id="countNotifications" class="badge badge-pill badge-danger badge-up"><?= count($notifications) ?></span>
+
+                            <?php } ?>
                         </div>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-media dropdown-menu-right">
                         <li class="dropdown-menu-header">
                             <div class="dropdown-header d-flex">
                                 <h4 class="notification-title mb-0 mr-auto">Thông báo</h4>
-                                <div id="countNotifications1" class="badge badge-pill badge-light-primary"><?= !empty($notifications) ? count($notifications): '0' ?> tin</div>
+                                <div id="countNotifications1" class="badge badge-pill badge-light-primary"><?= !empty($notifications) ? count($notifications) : '0' ?> tin</div>
                             </div>
                         </li>
                         <li class="scrollable-container media-list notification-items">
                             <?php foreach ($notifications as $item) { ?>
-                            <a  data-id="<?= $item['id'] ?>" class="d-flex notification-item<?=$item['id']?>" href="<?= HOME ?>/inbox">
-                                <div class="media d-flex align-items-start">
-                                    <div class="media-left">
-                                        <div class="avatar">
-                                            <img onerror="this.src='<?=HOME?>/layouts/useravatar.png'" src="<?php echo ROOT_DIR. '/uploads/nhanvien/'.$item['avatar'] ?>" alt="avatar" width="32" height="32">
+                                <a data-id="<?= $item['id'] ?>" class="d-flex notification-item<?= $item['id'] ?>" href="<?= HOME ?>/inbox">
+                                    <div class="media d-flex align-items-start">
+                                        <div class="media-left">
+                                            <div class="avatar">
+                                                <img onerror="this.src='<?= HOME ?>/layouts/useravatar.png'" src="<?php echo ROOT_DIR . '/uploads/nhanvien/' . $item['avatar'] ?>" alt="avatar" width="32" height="32">
+                                            </div>
+                                        </div>
+                                        <div class="media-body">
+                                            <p class="media-heading">
+                                                <span class="font-weight-bolder"><?= $item['title'] ?></span>
+                                            </p>
+                                            <small class="notification-text">
+                                                <?php
+                                                $str = $item['content'];
+                                                $arrayStr = explode(' ', $item['content']);
+                                                if (count($arrayStr) > 7) {
+                                                    $arrayStr = explode(' ', $item['content']);
+                                                    $str = implode(' ', array_slice($arrayStr, 0, 7)) . '...';
+                                                }
+                                                echo $str;
+                                                ?>
+                                            </small>
                                         </div>
                                     </div>
-                                    <div class="media-body">
-                                        <p class="media-heading">
-                                            <span class="font-weight-bolder"><?= $item['title'] ?></span>
-                                        </p>
-                                        <small class="notification-text">
-                                            <?php
-                                            $str = $item['content'];
-                                            $arrayStr = explode(' ',$item['content']);
-                                            if(count($arrayStr) > 7) {
-                                                $arrayStr = explode(' ',$item['content']);
-                                                $str = implode(' ',array_slice($arrayStr,0,7)).'...';
-                                            }
-                                            echo $str;
-                                            ?>
-                                        </small>
-                                    </div>
-                                </div>
-                            </a>
+                                </a>
                             <?php } ?>
-                            </li>
-                      
+                        </li>
+
                     </ul>
                 </li>
                 <!-- <li class="nav-item dropdown dropdown-language">
@@ -730,11 +740,11 @@ $notifications = $model->getNotification();
                             if ($item['id'] == 7) {
                             ?>
                                 <div id="maxlogo">
-                                    <img onerror="this.src='<?=HOME?>/layouts/g-office-logo.png'" src="<?= URLFILE.'/uploads/'. $item['value'] ?>" height="30" alt="logo">
+                                    <img onerror="this.src='<?= HOME ?>/layouts/g-office-logo.png'" src="<?= URLFILE . '/uploads/' . $item['value'] ?>" height="30" alt="logo">
                                 </div>
                             <?php } else { ?>
                                 <div class="brand-logo d-none" id="minlogo">
-                                    <img onerror="this.src='<?=HOME?>/layouts/favicon.png'" src="<?= URLFILE.'/uploads/'. $item['value'] ?>" height="36" />
+                                    <img onerror="this.src='<?= HOME ?>/layouts/favicon.png'" src="<?= URLFILE . '/uploads/' . $item['value'] ?>" height="36" />
                                 </div>
                             <?php
                             }

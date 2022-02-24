@@ -224,6 +224,23 @@ function commentMe() { // notify khi co comment cong viec lien quan
 
 }
 
+$('#checkoutBtn').on('click', function () {
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+    //    data: {staffIdid: baseUser, ip: user.ip},
+        url: baseHome + '/index/checkOutBtn',
+        success: function (data) {
+            selectStaff.val(baseUser).trigger("change");
+            calendar.refetchEvents();
+            notyfi_success(data.message);
+        },
+        error: function () {
+            notify_error('Lỗi truy xuất database');
+        }
+    });
+});
+
 function chatMe() { //notiffy khi có tin nhắn mới trong chatbox
     $.ajax({
         type: "GET",
@@ -640,6 +657,7 @@ function checkIn() {
             if (data.code == 200) {
                 notyfi_success(data.message);
                 $('#checkIn').empty();
+                $('#checkoutBtn').removeClass('d-none');
             } else
                 notify_error(data.message);
         },
