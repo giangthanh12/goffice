@@ -5,6 +5,7 @@ $(function () {
     var dtUserTable = $(".user-list-table"),
         form = $("#fm");
 
+       
     // Users List datatable
     if (dtUserTable.length) {
         dtUserTable.DataTable({
@@ -28,7 +29,7 @@ $(function () {
                 {
                     // Actions
                     targets: -1,
-                    title: feather.icons["database"].toSvg({class: "font-medium-3 text-success mr-50"}),
+                    title: 'Thao tác',
                     orderable: false,
                     render: function (data, type, row, meta) {
                         var html = '';
@@ -62,8 +63,13 @@ $(function () {
                         previous: "&nbsp;",
                         next: "&nbsp;",
                     },
-                    info: "Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
+                    info:"Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
+                    infoFiltered: "(lọc từ _MAX_ bản ghi)",
+                    sInfoEmpty : "Hiển thị 0 đến 0 của 0 bản ghi", 
                 },
+                "oLanguage": {
+                    "sZeroRecords": "Không có bản ghi nào"
+                  },
             // Buttons with Dropdown
             buttons: [
                 {
