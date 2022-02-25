@@ -136,12 +136,12 @@ $notifications = $model->getNotification();
                             </button>
                         <?php } ?>
                     </li>
-                    <li class="nav-item d-lg-block" id="checkOut">
-                        <?php if ($model->checkChamCong())
-                            $class = "d-none"; ?>
-
-
-                        <button onclick="<?= isset($page) && $page == 'timekeeping' ? 'checkoutTimekeeping' : 'checkout' ?>()" class="btn btn-success   btn-toggle-sidebar btn-block waves-effect waves-float <?= $class ?> waves-light" id="<?= isset($page) && $page == 'timekeeping' ? 'checkoutBtn' : 'btncheckout' ?>">
+                    <li class="nav-item d-lg-block" id="checkOut" >
+                        <?php if($model->checkChamCong()) 
+                            $class = "d-none";?>
+                            
+                          
+                        <button onclick="<?= isset($page) && $page == 'timekeeping' ? false : 'checkout()' ?>" class="btn btn-success   btn-toggle-sidebar btn-block waves-effect waves-float <?= $class ?> waves-light" id="<?= isset($page) && $page == 'timekeeping' ? 'checkoutBtn' : 'btncheckout' ?>">
                             <span class="align-middle">Checkout</span>
                         </button>
 

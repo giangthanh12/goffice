@@ -4,8 +4,6 @@ $(function () {
 
     var dtUserTable = $(".user-list-table"),
         form = $("#fm");
-
-       
     // Users List datatable
     if (dtUserTable.length) {
         dtUserTable.DataTable({
@@ -67,9 +65,9 @@ $(function () {
                     infoFiltered: "(lọc từ _MAX_ bản ghi)",
                     sInfoEmpty : "Hiển thị 0 đến 0 của 0 bản ghi", 
                 },
-                "oLanguage": {
-                    "sZeroRecords": "Không có bản ghi nào"
-                  },
+                 "oLanguage": {
+                        "sZeroRecords": "Không có bản ghi nào"
+                      },
             // Buttons with Dropdown
             buttons: [
                 {
@@ -79,10 +77,6 @@ $(function () {
                         $(node).removeClass("btn-secondary");
                     },
                     action: function (e, dt, node, config) {
-                        var validator = $("#fm").validate(); // reset form
-                        validator.resetForm();
-                        $(".error").removeClass("error"); 
-                
                         $("#dgAccesspoint").modal('show');
                         $(".modal-title").html('Thêm loại hợp đồng mới');
                         $('#name').val('');
@@ -116,9 +110,6 @@ $(function () {
 });
 
 function loaddata(id) {
-    var validator = $("#fm").validate(); // reset form
-        validator.resetForm();
-        $(".error").removeClass("error"); // loại bỏ validate
     $("#dgAccesspoint").modal('show');
     $(".modal-title").html('Cập nhật thông tin loại hợp đồng');
     $.ajax({
