@@ -55,9 +55,10 @@ class todo_Model extends Model
     }
 
     function getProject()
-    {
+    {   
+        $role = $_SESSION['user']['classify'];
         $employee = '"' . $_SESSION['user']['staffId'] . '"';
-        $dieukien = " WHERE status>0 AND memberId LIKE '%$employee%' ";
+        $dieukien = " WHERE status > 0 AND managerId = $employee OR $role = 1 OR memberId LIKE '%$employee%' ";
         $query = $this->db->query("SELECT id, name FROM projects $dieukien ORDER BY id DESC ");
         $data = $query->fetchAll(PDO::FETCH_ASSOC);
         return $data;
@@ -73,11 +74,28 @@ class todo_Model extends Model
     function getEmployee()
     {
         $result = array();
-        $query = $this->db->query("SELECT id, name, avatar
+        $query = $this->db->query("SELECT id, name as text , avatar
               FROM staffs WHERE status IN (1,2,3,4) ORDER BY name ASC");
         if ($query)
             $result = $query->fetchAll(PDO::FETCH_ASSOC);
-        return $result;
+     return $result;
+    }
+
+    function getStaffs($idProject)
+    {
+        $result = array();
+        $query = $this->db->query("SELECT memberId, managerId FROM projects WHERE id = $idProject AND status > 0");
+        $data = $query->fetchAll(PDO::FETCH_ASSOC);
+        $staffIds = explode(',',str_replace('"','',$data[0]['memberId']));
+        array_push($staffIds,$data[0]['managerId']);
+        array_unique($staffIds);
+        $staffIds = implode(',',$staffIds);
+
+        $query = $this->db->query("SELECT id, name as text, avatar
+              FROM staffs WHERE id IN (".$staffIds.") ORDER BY name ASC");
+        if ($query)
+            $result = $query->fetchAll(PDO::FETCH_ASSOC);
+     return $result;
     }
 
     function capnhat($id, $data)
