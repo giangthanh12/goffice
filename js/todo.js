@@ -10,7 +10,7 @@
 "use strict";
 var assignee = 0;
 $(function () {
-
+    
     var // taskTitle ,
         flatPickr = $(".task-due-date"),
         newTaskModal = $(".sidebar-todo-modal"),
@@ -193,6 +193,63 @@ $(function () {
             },
         });
     }
+    // load_select2(taskAssignSelect, baseHome + '/todo/getEmployee', 'Nhân viên thực hiện');
+    // function load_select2(select2, url, place) {
+    //     $.ajax({
+    //         type: "GET",
+    //         dataType: "json",
+    //         async: false,
+    //         url: url,
+    //         success: function (data) {
+    //            var html ='';
+    //             if(place != '')
+    //             html = '<option value="" disabled selected hidden>'+place+'</option>';
+    //             data.forEach(function (element, index) {
+    //                 if (element.selected==true) 
+    //                 var select = 'selected';
+    //                 html += `<option data-img="${element.avatar}" ${select} value="${element.id}">${element.text}</option> `;
+    //             });
+         
+    //             select2.html(html);
+          
+    //         },
+    //     });
+    // }
+    return_combobox_multi(taskAssignSelect, baseHome + '/todo/getEmployee', 'Nhân viên thực hiện');
+    $('#onProject').change(function () {
+        var projectId = $(this).val();
+        if (projectId > 0) {
+            $('#task-assigned').attr('disabled', false);
+            $.ajax({
+                type: "GET",
+                dataType: "json",
+                data: { projectId: projectId },
+                async: false,
+                url: baseHome + "/todo/getStaffs",
+                success: function (data) {
+                    $("#task-assigned").empty(); // xóa value trong select2
+                    console.log(data);
+                    if (data.length > 0) {
+                        $('#task-assigned').select2({
+                            placeholder: "Nhân viên thực hiện",
+                            data: data,
+                        });
+                        $('#task-assigned').val(null).change();
+                    }
+                    else {
+                        $("#task-assigned").empty(); // xóa value trong select2
+                    }
+                },
+            });
+        } else {
+            $('#task-assigned').val(null).change();
+        }
+    })
+
+    $("body").tooltip({
+        selector: '[data-toggle="tooltip"]',
+        container: "body",
+    });
 
     // Task Tags
     if (taskTag.length) {
@@ -293,6 +350,7 @@ $(function () {
             if (isValid) {
                 var taskId = 0;
                 var newTitle = newTaskForm.find(".new-todo-item-title").val();
+                var newProject = onProject.val();
                 var newAssignee = taskAssignSelect.val();
                 var newDeadline = flatPickr.val();
                 var newLabel = taskTag.val();
@@ -301,7 +359,7 @@ $(function () {
                 var addCalendar = 0;
                 $.post(
                     "todo/update",
-                    { id: taskId, newTitle: newTitle, newAssignee: newAssignee, newDeadline: newDeadline, newLabel: newLabel, newDescription: newDescription },
+                    { id: taskId, newTitle: newTitle, newProject: newProject, newAssignee: newAssignee, newDeadline: newDeadline, newLabel: newLabel, newDescription: newDescription },
                     function (data, status) {
                         if (data.success) {
                             toastr["success"](data.msg, "Cập nhật dữ liệu thành công", "Thành công", {
@@ -483,19 +541,26 @@ $(function () {
 
         $("#taskId").val(taskId);
         var $title = $(this).find(".todo-title").html();
-        var thisLabel = $(this).find(".badge-pill").attr("data-id");
         newTaskForm.find(".new-todo-item-title").val($title);
+        
         var assigneeId = $(this).find(".avatar").attr("data-id");
-        taskAssignSelect.val(assigneeId).trigger("change");
+        taskAssignSelect.val(Number(assigneeId)).trigger("change");
+      
         var deadline = $(this).find("#deadline").text();
         flatPickr.val(deadline);
+        
         var thisLabel = $(this).find(".badge-pill").attr("data-id");
         taskTag.val(thisLabel).trigger("change");
+        
         var projectId = $(this).find(".taskProject").text();
         onProject.val(projectId).trigger("change");
+      
+
         var desc = $(this).find(".taskDescription").html();
         var quill_editor = $("#task-desc .ql-editor");
         quill_editor[0].innerHTML = desc;
+
+
         var status = $(this).find(".statusProject").html();
         if (status == 6) {
             $('.update-todo-item').addClass('d-none');
@@ -531,7 +596,7 @@ $(function () {
             if (isValid) {
                 var taskId = $("#taskId").val();
                 var newTitle = newTaskForm.find(".new-todo-item-title").val();
-                var newProject = onProject.val();
+                var newProject = $('#onProject').val();
                 var newAssignee = taskAssignSelect.val();
                 var newDeadline = flatPickr.val();
                 var newLabel = taskTag.val();

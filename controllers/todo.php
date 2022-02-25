@@ -138,6 +138,18 @@ class todo extends Controller
         echo json_encode($jsonObj);
     }
 
+    function getStaffs(){
+        $idProject = $_REQUEST['projectId'];
+        $data = $this->model->getStaffs($idProject);
+  
+        echo json_encode($data);
+    }
+
+    function getEmployee(){
+        $data = $this->model->getEmployee();
+        echo json_encode($data);
+    }
+
     // function getData(){
     //     $nhanvien = (isset($_REQUEST['nhanvien']) && $_REQUEST['nhanvien']>0)?$_REQUEST['nhanvien']:$_SESSION['user']['staffId'];
     //     $json = $this->model->get_data($nhanvien);
@@ -210,5 +222,4 @@ class todo extends Controller
     //     $data = $this->model->checkcomm();
     //     echo json_encode($data);
     // }
-
 }

@@ -89,7 +89,7 @@
                                             $avatar = HOME . '/users/gemstech/uploads/nhanvien/' . $item['avatar'];
                                         else
                                             $avatar = HOME . '/users/gemstech/uploads/useravatar.png';
-                                        echo '<option data-img="' . $avatar . '" value="' . $item['id'] . '">' . $item['name'] . '</option>';
+                                        echo '<option data-img="' . $avatar . '" value="' . $item['id'] . '">' . $item['text'] . '</option>';
                                     }
                                     ?>
                                 </select>
@@ -139,6 +139,7 @@
                                                 <span class="taskDescription d-none">' . $item['description'] . '</span>
                                                 <span class="taskProject d-none">' . $item['projectId'] . '</span>
                                                 <span class="statusProject d-none">' . $item['status'] . '</span>
+                                                
                                             </div>
                                         </div>
                                         <div class="custom-control custom-switch">
@@ -189,15 +190,7 @@
                                             <div class="form-group position-relative">
                                                 <label for="task-assigned" class="form-label d-block">Người thực hiện</label>
                                                 <select class="select2 form-control" id="task-assigned" name="task-assigned">
-                                                    <?php
-                                                    foreach ($this->employee as $item) {
-                                                        if ($item['avatar'] != '')
-                                                            $avatar = HOME . '/users/gemstech/uploads/nhanvien/' . $item['avatar'];
-                                                        else
-                                                            $avatar = HOME . '/users/gemstech/uploads/useravatar.png';
-                                                        echo '<option data-img="' . $avatar . '" value="' . $item['id'] . '">' . $item['name'] . '</option>';
-                                                    }
-                                                    ?>
+                                                  
                                                 </select>
                                             </div>
                                             <div class="form-group">
