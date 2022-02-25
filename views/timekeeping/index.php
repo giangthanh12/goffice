@@ -7,11 +7,11 @@
         </div>
         <div class="content-body">
             <div class="row">
-                <div class="col-lg-2 card-body d-flex justify-content-center">
-                    <!-- <button class="btn btn-success btn-toggle-sidebar btn-block waves-effect waves-float waves-light" id="checkoutBtn">
+                <!-- <div class="col-lg-2 card-body d-flex justify-content-center">
+                    <button class="btn btn-success btn-toggle-sidebar btn-block waves-effect waves-float waves-light" id="checkoutBtn">
                         <span class="align-middle">Checkout</span>
-                    </button> -->
-                </div>
+                    </button>
+                </div> -->
                 <div class="col-lg-3 card-body">
                     <select class="select2 select-label form-control " id="selectStaff" name="selectStaff">
                     </select>
