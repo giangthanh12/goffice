@@ -136,15 +136,15 @@ $notifications = $model->getNotification();
                             </button>
                         <?php } ?>
                     </li>
-                    <li class="nav-item d-lg-block" id="checkOut" >
-                        <?php if($model->checkChamCong()) 
-                            $class = "d-none";?>
-                            
-                          
+                    <li class="nav-item d-lg-block" id="checkOut">
+                        <?php if ($model->checkChamCong())
+                            $class = "d-none"; ?>
+
+
                         <button onclick="<?= isset($page) && $page == 'timekeeping' ? 'checkoutTimekeeping' : 'checkout' ?>()" class="btn btn-success   btn-toggle-sidebar btn-block waves-effect waves-float <?= $class ?> waves-light" id="<?= isset($page) && $page == 'timekeeping' ? 'checkoutBtn' : 'btncheckout' ?>">
                             <span class="align-middle">Checkout</span>
                         </button>
-                        
+
                     </li>
                 </ul>
                 <div class="avatar-group" style="padding-left:5px;" id="online_users"></div>
@@ -767,7 +767,11 @@ $notifications = $model->getNotification();
             <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
                 <li class=" nav-item">
                     <a class="d-flex align-items-center" href="">
-                        <i data-feather="home"></i>
+                        <!-- <i data-feather="home"></i> -->
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M25.8333 2.45831H24.6392V1.25C24.6392 0.559625 24.0796 0 23.3892 0C22.6988 0 22.1392 0.559625 22.1392 1.25V2.45831H9.875V1.25C9.875 0.559625 9.31537 0 8.625 0C7.93462 0 7.375 0.559625 7.375 1.25V2.45831H6.18094C2.77275 2.45831 0 5.23106 0 8.63919V25.8191C0 29.2272 2.77275 32 6.18094 32H25.8334C29.2415 32 32.0142 29.2272 32.0142 25.8191V8.63919C32.0142 5.23106 29.2415 2.45831 25.8333 2.45831V2.45831ZM6.18094 4.95831H7.375V7.39581C7.375 8.08619 7.93462 8.64581 8.625 8.64581C9.31537 8.64581 9.875 8.08619 9.875 7.39581V4.95831H22.1392V7.39581C22.1392 8.08619 22.6989 8.64581 23.3892 8.64581C24.0796 8.64581 24.6392 8.08619 24.6392 7.39581V4.95831H25.8334C27.863 4.95831 29.5142 6.60956 29.5142 8.63919V9.83331H2.5V8.63919C2.5 6.60956 4.15125 4.95831 6.18094 4.95831V4.95831ZM25.8333 29.5H6.18094C4.15125 29.5 2.5 27.8487 2.5 25.8191V12.3333H29.5142V25.8191C29.5142 27.8487 27.863 29.5 25.8333 29.5V29.5ZM11.1042 17.25C11.1042 17.9404 10.5446 18.5 9.85419 18.5H7.39587C6.7055 18.5 6.14587 17.9404 6.14587 17.25C6.14587 16.5596 6.7055 16 7.39587 16H9.85419C10.5445 16 11.1042 16.5596 11.1042 17.25ZM25.8684 17.25C25.8684 17.9404 25.3088 18.5 24.6184 18.5H22.1601C21.4697 18.5 20.9101 17.9404 20.9101 17.25C20.9101 16.5596 21.4697 16 22.1601 16H24.6184C25.3087 16 25.8684 16.5596 25.8684 17.25V17.25ZM18.4792 17.25C18.4792 17.9404 17.9196 18.5 17.2292 18.5H14.7709C14.0805 18.5 13.5209 17.9404 13.5209 17.25C13.5209 16.5596 14.0805 16 14.7709 16H17.2292C17.9195 16 18.4792 16.5596 18.4792 17.25ZM11.1042 24.625C11.1042 25.3154 10.5446 25.875 9.85419 25.875H7.39587C6.7055 25.875 6.14587 25.3154 6.14587 24.625C6.14587 23.9346 6.7055 23.375 7.39587 23.375H9.85419C10.5445 23.375 11.1042 23.9346 11.1042 24.625ZM25.8684 24.625C25.8684 25.3154 25.3088 25.875 24.6184 25.875H22.1601C21.4697 25.875 20.9101 25.3154 20.9101 24.625C20.9101 23.9346 21.4697 23.375 22.1601 23.375H24.6184C25.3087 23.375 25.8684 23.9346 25.8684 24.625V24.625ZM18.4792 24.625C18.4792 25.3154 17.9196 25.875 17.2292 25.875H14.7709C14.0805 25.875 13.5209 25.3154 13.5209 24.625C13.5209 23.9346 14.0805 23.375 14.7709 23.375H17.2292C17.9195 23.375 18.4792 23.9346 18.4792 24.625Z" fill="black" />
+                        </svg>
+
                         <span class="menu-title text-truncate" data-i18n="Dashboards">INSIGHT</span>
                     </a>
                 </li>
@@ -783,19 +787,26 @@ $notifications = $model->getNotification();
                     </li>
                     <li class=" nav-item">
                         <a class="d-flex align-items-center" href="#">
-                            <i data-feather="user-define"></i>
+                            <!-- <i data-feather="user-define"></i> -->
+                            <img class="mr-2" src="<?= HOME ?>/layouts/icon/admin.svg" width="20" height="20" alt="admin.svg" />
                             <span class="menu-title text-truncate" data-i18n="File Manager">Quản lý tài khoản</span>
                         </a>
                         <ul class="menu-content">
                             <li <?= ($url[0] == 'group_roles') ? 'class="active"' : '' ?>>
                                 <a class="d-flex align-items-center" href="group_roles">
-                                    <i data-feather="group-roles"></i>
+                                    <!-- <i data-feather="group-roles"></i> -->
+                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <rect width="16" height="16" rx="8" fill="black" />
+                                    </svg>
                                     <span class="menu-item text-truncate" data-i18n="LoginV1">Nhóm quyền hạn</span>
                                 </a>
                             </li>
                             <li <?= ($url[0] == 'listusers') ? 'class="active"' : '' ?>>
                                 <a class="d-flex align-items-center" href="listusers">
-                                    <i data-feather="list-users"></i>
+                                    <!-- <i data-feather="list-users"></i> -->
+                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <rect width="16" height="16" rx="8" fill="black" />
+                                    </svg>
                                     <span class="menu-item text-truncate" data-i18n="LoginV1">Danh sách tài khoản</span>
                                 </a>
                             </li>
@@ -821,7 +832,8 @@ $notifications = $model->getNotification();
                 ?>
                     <li class="<?= $active ?> nav-item">
                         <a class="d-flex align-items-center" href="<?= $parMenu['link'] ?>">
-                            <i class="<?= $parMenu['icon'] ?>"></i>
+                            <!-- <i class="<?= $parMenu['icon'] ?>"></i> -->
+                            <img class="mr-2" src="<?= HOME ?>/layouts/icon/<?= $parMenu['icon'] ?>" width="20" height="20" alt="<?= $parMenu['icon'] ?>" />
                             <span class="menu-title text-truncate" data-i18n="<?= $parMenu['name'] ?>"><?= $parMenu['name'] ?></span>
                         </a>
                         <?php
@@ -840,7 +852,8 @@ $notifications = $model->getNotification();
                                 ?>
                                     <li <?= $activeSub ?>>
                                         <a class="d-flex align-items-center" href="<?= $subMenu['link'] ?>">
-                                            <i class="<?= $subMenu['icon'] ?>"></i>
+                                            <!-- <i class="<?= $subMenu['icon'] ?>"></i> -->
+                                            <img class="mr-2" onerror="this.src=\''+baseHome+'/layouts/icon/sub-menu1.svg\'" src="<?= HOME ?>/layouts/icon/<?= $subMenu['icon'] ?>" width="11" height="11" alt="<?= $subMenu['icon'] ?>" />
                                             <span class="menu-item text-truncate" data-i18n="<?= $subMenu['name'] ?>"><?= $subMenu['name'] ?></span>
                                         </a>
                                         <?php
@@ -856,7 +869,8 @@ $notifications = $model->getNotification();
                                                 ?>
                                                     <li <?= $activeSub2 ?>>
                                                         <a class="d-flex align-items-center" href="<?= $subMenu2['link'] ?>">
-                                                            <i class="<?= $subMenu2['icon'] ?>"></i>
+                                                            <!-- <i class="<?= $subMenu2['icon'] ?>"></i> -->
+                                                            <img class="mr-2" onerror="this.src=\''+baseHome+'/layouts/icon/sub-menu2.svg\'" src="<?= HOME ?>/layouts/icon/<?= $subMenu2['icon'] ?>" width="11" height="11" alt="<?= $subMenu2['icon'] ?>" />
                                                             <span class="menu-item text-truncate" data-i18n="<?= $subMenu2['name'] ?>"><?= $subMenu2['name'] ?></span>
                                                         </a>
                                                     </li>
@@ -889,7 +903,8 @@ $notifications = $model->getNotification();
                 ?>
                     <li class="<?= $active ?> nav-item">
                         <a class="d-flex align-items-center" href="<?= $parMenu['link'] ?>">
-                            <i class="<?= $parMenu['icon'] ?>"></i>
+                            <!-- <i class="<?= $parMenu['icon'] ?>"></i> -->
+                            <img class="mr-2" src="<?= HOME ?>/layouts/icon/<?= $parMenu['icon'] ?>" width="20" height="20" alt="<?= $parMenu['icon'] ?>" />
                             <span class="menu-title text-truncate" data-i18n="<?= $parMenu['name'] ?>"><?= $parMenu['name'] ?></span>
                         </a>
                         <?php
@@ -908,7 +923,8 @@ $notifications = $model->getNotification();
                                 ?>
                                     <li <?= $activeSub ?>>
                                         <a class="d-flex align-items-center" href="<?= $subMenu['link'] ?>">
-                                            <i class="<?= $subMenu['icon'] ?>"></i>
+                                            <!-- <i class="<?= $subMenu['icon'] ?>"></i> -->
+                                            <img class="mr-2" onerror="this.src=\''+baseHome+'/layouts/icon/sub-menu1.svg\'" src="<?= HOME ?>/layouts/icon/<?= $subMenu['icon'] ?>" width="11" height="11" alt="<?= $subMenu['icon'] ?>" />
                                             <span class="menu-item text-truncate" data-i18n="<?= $subMenu['name'] ?>"><?= $subMenu['name'] ?></span>
                                         </a>
                                         <?php
@@ -924,7 +940,8 @@ $notifications = $model->getNotification();
                                                 ?>
                                                     <li <?= $activeSub2 ?>>
                                                         <a class="d-flex align-items-center" href="<?= $subMenu2['link'] ?>">
-                                                            <i class="<?= $subMenu2['icon'] ?>"></i>
+                                                            <!-- <i class="<?= $subMenu2['icon'] ?>"></i> -->
+                                                            <img class="mr-2" onerror="this.src=\''+baseHome+'/layouts/sub-menu2.svg\'" src="<?= HOME ?>/layouts/icon/<?= $subMenu2['icon'] ?>" width="11" height="11" alt="<?= $subMenu2['icon'] ?>" />
                                                             <span class="menu-item text-truncate" data-i18n="<?= $subMenu2['name'] ?>"><?= $subMenu2['name'] ?></span>
                                                         </a>
                                                     </li>
