@@ -23,21 +23,22 @@ $(function () {
             ajax: baseHome + "/menu/list",
             ordering: false,
             columns: [
-                {data: "name"},
-                {data: "link"},
-                {data: "icon"},
-                {data: "type"},
-                {data: "active"},
-                {data: ""},
+                { data: "name" },
+                { data: "link" },
+                { data: "icon" },
+                { data: "type" },
+                { data: "active" },
+                { data: "" },
             ],
             columnDefs: [
 
                 {
                     targets: 2,
                     render: function (data, type, full, meta) {
-
-                        return `<i class="${full['icon']}"></i>`;
-
+                        var $image = baseHome + '/layouts/none_images.png';
+                        if (full["icon"] != '')
+                            $image = baseHome + '/layouts/icon/' + full["icon"];
+                        return '<img class="mr-2" onerror="this.src=\''+baseHome+'/layouts/none_images.png\'" src="'+$image+'" width="16" height="16" alt="'+full['icon']+'" />';
                     },
                 },
                 {
@@ -56,7 +57,7 @@ $(function () {
                 {
                     // Actions
                     targets: -1,
-                    title: feather.icons["database"].toSvg({class: "font-medium-3 text-success mr-50"}),
+                    title: feather.icons["database"].toSvg({ class: "font-medium-3 text-success mr-50" }),
                     orderable: false,
                     render: function (data, type, full, meta) {
                         var html = '';
@@ -177,7 +178,7 @@ function loaddata(id) {
     $.ajax({
         type: "POST",
         dataType: "json",
-        data: {id: id},
+        data: { id: id },
         url: baseHome + "/menu/loaddata",
         success: function (data) {
             $('#name').val(data.name);
@@ -251,7 +252,7 @@ function xoa(id) {
                 url: baseHome + "/menu/del",
                 type: 'post',
                 dataType: "json",
-                data: {id: id},
+                data: { id: id },
                 success: function (data) {
                     return_combobox_multi('#parentId', baseHome + '/menu/combo', 'Lựa chọn cha cho menu');
                     if (data.code == 200) {
