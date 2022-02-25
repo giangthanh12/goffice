@@ -247,7 +247,7 @@ function checkout() {
                 date:data.data.date,
                 checkOutTime:data.data.checkOutTime,
             };
-            // connection.send(JSON.stringify(dataSend));
+            connection.send(JSON.stringify(dataSend));
            }
             // console.log($('#selectStaff')[0]);
             // $('#selectStaff').val(baseUser).trigger("change");
