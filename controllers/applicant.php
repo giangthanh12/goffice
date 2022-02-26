@@ -30,15 +30,66 @@ class applicant extends Controller
         $this->view->render("applicant/index");
         require "layouts/footer.php";
     }
+    function importExcel() {
+    
+        require_once 'libs/phpexcel/PHPExcel/IOFactory.php';
+        try {
+            $inputFileType = PHPExcel_IOFactory::identify($_FILES['fileExcel']['tmp_name']);
+            $objReader = PHPExcel_IOFactory::createReader($inputFileType);
+            $objPHPExcel = $objReader->load($_FILES['fileExcel']['tmp_name']);
+            $objReader->setReadDataOnly(true);
+            $objWorksheet = $objPHPExcel->getActiveSheet();
+            $highestRow = $objWorksheet->getHighestRow();
+            $highestColumn = $objWorksheet->getHighestColumn();
+            $highestColumnIndex = PHPExcel_Cell::columnIndexFromString($highestColumn);
+            $banghi = 0;
+            $staffid = isset($_REQUEST['staffId2']) ? $_REQUEST['staffId2'] : '';
+            $staffInCharge = isset($_SESSION['user']['id']) ? $_SESSION['user']['id'] : false;
+            for ($row = 3; $row <= $highestRow; $row++) {
+                $fullName = $objPHPExcel->getActiveSheet()->getCell("B$row")->getValue();
+                $gender = $objPHPExcel->getActiveSheet()->getCell("C$row")->getValue();
+                $dob = $objPHPExcel->getActiveSheet()->getCell("D$row")->getValue();
+                $phoneNumber = $objPHPExcel->getActiveSheet()->getCell("E$row")->getValue();
+                $email = $objPHPExcel->getActiveSheet()->getCell("F$row")->getValue();
+                
+                $data = [
+                    'fullName' => $fullName,
+                    'gender' => $gender,
+                    'dob' => date('Y-m-d',strtotime(str_replace('/', '-', $dob))),
+                    'phoneNumber' => $phoneNumber,
+                    'email' => $email,
+                    'status' => 1
+                ];
+                if ($this->model->addObj($data))
+                    $banghi++;
+            }
+            if ($banghi > 0) {
+                $jsonObj['msg'] = "Cập nhật thành công $banghi data";
+                $jsonObj['success'] = true;
+            } else {
+                $jsonObj['msg'] = "Lỗi cập nhật database";
+                $jsonObj['success'] = false;
+            }
+        } catch (Exception $e) {
+            $jsonObj['msg'] = "Import dữ liệu không thành công";
+            $jsonObj['success'] = false;
+        }
+        echo json_encode($jsonObj);
+    }
 
     function getProvince() {
         $data = $this->model->getProvince();
         echo json_encode($data);
     }
-
+    function exportexcel() {
+        $this->view->data = $this->model->listObj();
+        $this->view->render('applicant/export');
+    }
     function list()
     {
-        $data = $this->model->listObj();
+       $filter = isset($_REQUEST['filter']) ? $_REQUEST['filter'] : 1;
+        $data = $this->model->listObj($filter);
+ 
         echo json_encode($data);
     }
 

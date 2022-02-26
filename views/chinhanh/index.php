@@ -44,9 +44,15 @@
                                                     <label for="name">Tên chi nhánh</label>
                                                     <input type="text" class="form-control" id="name" placeholder="Nhập tên chi nhánh" name="name" required/>
                                                 </div>
+                                               
+                                                <div class="form-group">
+                                                    <label for="workspaces">Địa điểm làm việc</label>
+                                                    <select class="select2 form-control" multiple="multiple" data-msg-required="Bạn chưa chọn vị trí phòng ban" required id="workspaces"
+                                                    name="workspaces[]"></select>
+                                                </div>
                                                 <div class="form-group">
                                                     <label for="address">Địa chỉ</label>
-                                                    <textarea id="address" name="address" type="text" class="form-control " /></textarea>
+                                                    <textarea id="address" name="address" type="text" class="form-control"></textarea>
                                                 </div>
                                                 <div class="d-flex flex-sm-row flex-column mt-2">
                                                     <button type="button" onclick="savecn()" class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Cập nhật</button>

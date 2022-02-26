@@ -6,6 +6,9 @@ var dtKNTable = $("#kinhnghiem-list-table");
 $(function () {
     return_combobox_multi('#position', baseHome + '/recruitmentcamp/getPosition', 'Vị trí');
     return_combobox_multi('#position1', baseHome + '/recruitmentcamp/getPosition', 'Vị trí');
+    load_select2($('#position-filter'),  baseHome + '/recruitmentcamp/getPosition', 'Lọc theo vị trí')
+    // return_combobox_multi('#position-filter', baseHome + '/recruitmentcamp/getPosition', 'Lọc theo vị trí');
+    $('#position-filter').val('').change();
     var basicPickr = $('.flatpickr-basic');
     // Default
     if (basicPickr.length) {
@@ -41,7 +44,32 @@ $(function () {
             });
     }
 
-    
+    buttons.push(
+        {
+            text: "Nhập excel",
+            className: "btn  btn-primary mt-50",
+            init: function (api, node, config) {
+                $(node).removeClass("btn-secondary");
+            },
+            action: function (e, dt, node, config) {
+                nhapexcel();
+            }
+        });
+
+        buttons.push(
+            {
+                text: "Xuất excel",
+                attr: {
+                    "style": "display:inherit"
+                },
+                className: "btn  btn-primary mt-50",
+                init: function (api, node, config) {
+                    $(node).removeClass("btn-secondary");
+                },
+                action: function (e, dt, node, config) {
+                   exportexcel();
+                }
+            });
 
     const FLATPICKR_CUSTOM_YEAR_SELECT = 'flatpickr-custom-year-select';
     const initDatePicker = function (inputId) {
@@ -108,9 +136,11 @@ $(function () {
 
     // Users List datatable
     if (dtUserTable.length) {
-        dtUserTable.DataTable({
+     var tableApplicant =   dtUserTable.DataTable({
             autoWidth: false,
+            ordering: false,
             ajax: baseHome + "/applicant/list",
+      
             columns: [
         
                 { data: "fullName" },
@@ -118,13 +148,18 @@ $(function () {
                 { data: "email" },
                 { data: "phoneNumber" },
                 { data: "cv" },
+                { data: "position"},
                 { data: "" },
             ],
             columnDefs: [
                 {
+                    targets: 5,
+                    visible: false
+                },
+                {
+                  
                     // User full name and username
                     targets: 0,
-                
                     render: function (data, type, full, meta) {
                         var $name = full["fullName"],
                          
@@ -496,6 +531,25 @@ if ($('#fm-tab4').length) {
             savekn();
         }
     });
+
+
+    $('#filterApplicant').change(function() {
+        var valueFilter = $(this).val();
+        tableApplicant.ajax.url(baseHome + "/applicant/list?filter="+valueFilter).load();
+    })
+  
+    $('#position-filter').change(function () {
+        if ($(this).val() == 0) {
+            tableApplicant.column($(this).data('column'))
+                .search('')
+                .draw()
+        }
+        else {
+            tableApplicant.column($(this).data('column'))
+                .search($(this).val())
+                .draw()
+        }
+    })
 }
 
 
@@ -512,6 +566,12 @@ if ($('#fm-tab4').length) {
     });
 });
 
+
+
+function nhapexcel() {
+    $("#nhapexcel").modal('show');
+    $("#modal-title1").html('Nhập ứng viên từ file excel');
+}
 
 function loadRecruitment(id) {
     return_combobox_multi('#campId', baseHome + '/applicant/getRecruitmentCamp?id='+id, 'Chiến dịch');
@@ -635,7 +695,7 @@ function loaddata(id) {
             $('#showFileCv').html('');
             $('#fileCv').val(data.cv);
             if(data.cv !== '') {
-                var urlfile = baseHome + '/users/gemstech/' +data.cv;
+                var urlfile = baseHome + '/users/gemstech/uploads/ungvien/' +data.cv;
             //   $('#viewfile').html(`<a id="showFileCv" target="_blank" href="" style="color: blue;">Tải xuống <i class="fas fa-download"></i></a>`)
                 $('#showFileCv').attr('href',urlfile)
                 $('#showFileCv').html(`Tải xuống <i class="fas fa-download"></i>`);
@@ -948,7 +1008,29 @@ function loadmember(id) {
         }
     });
 }
-
+function savenhap() {
+    var myform = new FormData($("#fm-nhapexcel")[0]);
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        data: myform,
+        url: baseHome + "/applicant/importExcel",
+        contentType: false,
+        processData: false,
+        success: function (data) {
+            if (data.success) {
+                notyfi_success(data.msg);
+                $('#nhapexcel').modal('hide');
+                $(".user-list-table").DataTable().ajax.reload(null, false);
+            }
+            else
+                notify_error(data.msg);
+        },
+        error: function () {
+            notify_error('Cập nhật không thành công');
+        }
+    });
+}
 function savemember() {
     var member = {};
     member.ten_day_du = $("#ttuv1").val();
@@ -1388,4 +1470,32 @@ $('.format_number').on('input', function(e){
     var n = number.split('').reverse().join("");
     var n2 = n.replace(/\d\d\d(?!$)/g, "$&,");    
     return  n2.split('').reverse().join('');
+}
+function exportexcel() {
+    window.location.href = baseHome + '/applicant/exportexcel';
+}
+function load_select2(select2, url, place) {
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        async: false,
+        url: url,
+        success: function (data) {
+            var html = '';
+            if (place != '')
+                html = '<option value="0" >Tất cả</option>';
+            data.forEach(function (element, index) {
+                if (element.selected == true)
+                    var select = 'selected';
+                html += `<option ${select} value="${element.id}">${element.text}</option> `;
+            });
+
+            select2.html(html);
+            select2.wrap('<div class="position-relative"></div>').select2({
+                placeholder: place,
+                dropdownParent: select2.parent(),
+
+            });
+        },
+    });
 }

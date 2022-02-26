@@ -7,10 +7,24 @@
         <div class="content-body">
             <!-- users list start -->
             <section class="app-user-list">
-                <!-- users filter start -->
-             
-                <!-- users filter end -->
-                <!-- list section start -->
+            <div class="card">
+                    <div class="d-flex justify-content-between align-items-center mx-50 row pt-2 pb-2">
+                        <div class="col-md-3">
+                            <select id="filterApplicant" data-column="5" class="select2 form-control" name="filterApplicant">
+                                <option value="1">Lọc theo thời gian</option>
+                                <option value="2">Lọc theo tên từ a-z</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <select id="position-filter" data-column="5" class="form-control" name="position-filter">
+                            </select>
+                        </div>
+                        <img src="<?= HOME ?>/layouts/tooltip.png" style="margin: 0 15px" width="25px" id="current_ip" data-toggle="tooltip" data-placement="right" data-original-title="Là chức năng quản lý toàn bộ thông tin đến khách hàng đã và đang mua sản phẩm/ sử dụng dịch vụ của doanh nghiệp " data-trigger="click">
+                    </div>
+                </div>
+
+
+
                 <div class="card">
                     <div class="d-flex justify-content-between align-items-center mx-50 row pt-2 pb-2">
                         <img src="<?=HOME?>/layouts/tooltip.png" style="margin: 0 15px" width="25px" id="current_ip" data-toggle="tooltip" data-placement="right" data-original-title="Là chức năng quản lý toàn bộ thông tin cá nhân của ứng viên tham gia ứng tuyển công tác tại doanh nghiệp" data-trigger="click" >
@@ -24,6 +38,7 @@
                                     <th>Email</th>
                                     <th>Điện thoại</th>
                                     <th>CV</th>
+                                    <th></th>
                                     <th>...</th>
                                 </tr>
                             </thead>
@@ -108,6 +123,41 @@
                     </div>
 
                     <!--  -->
+                    <!-- Nhập excel  -->
+                    <div class="modal fade text-left" id="nhapexcel" tabindex="-1" aria-labelledby="myModalLabel18" aria-hidden="true" role="dialog">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="modal-title1">Nhập khách hàng từ excel</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">×</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form id="fm-nhapexcel">
+                                        <div class="form-group">
+                                            <label class="form-label mr-4" for="file">Tải file mẫu</label>
+                                            <a target="_blank" href="<?= URLFILE ?>/uploads/bieumau/danhsachungvien.xlsx" style="color: blue;">Tải xuống <i class="fas fa-download"></i></a>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label" for="file">File upload</label>
+                                            <div class="custom-file">
+                                                <input type="file" class="custom-file-input" id="fileExcel" name="fileExcel">
+                                                <label class="custom-file-label" for="fileExcel">Chọn file</label>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary waves-effect waves-float waves-light" data-dismiss="modal" onclick="savenhap()">Xác nhận</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- kết thúc excel -->
+
+
+
 
                     <!-- Thêm chiến dịch theo ứng viên -->
                     <div class="modal modal-slide-in new-user-modal fade" id="modalCandidate" tabindex="-1" role="dialog" aria-labelledby="myModalLabel16" aria-hidden="true">

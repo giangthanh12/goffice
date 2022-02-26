@@ -81,37 +81,60 @@ class Model
 
     function getMenus($parentId, $type)
     {
-        $classUser = $_SESSION['user']['classify'];
-        $userId = $_SESSION['user']['id'];
-        $groupId = $_SESSION['user']['groupId'];
-        $menus = [];
-        if ($classUser == 1) {
-            $dieukien = " WHERE active = 1 AND parentId=$parentId AND type=$type ";
-            $query = $this->db->query("SELECT id,link,icon,name FROM g_menus $dieukien ORDER BY sortOrder");
-            $menus = $query->fetchAll();
-        } else {
-            $listMenu = '';
-            $query = $this->db->query("SELECT menuIds FROM grouproles WHERE id=$groupId AND status=1");
-            $temp = $query->fetchAll(PDO::FETCH_ASSOC);
-            if (isset($temp[0]['menuIds']) && $temp[0]['menuIds'] != '')
-                $listMenu = $temp[0]['menuIds'];
-            $query = $this->db->query("SELECT menuIds FROM userroles WHERE userId=$userId AND status=1");
-            $temp = $query->fetchAll(PDO::FETCH_ASSOC);
-            if (isset($temp[0]['menuIds']) && $temp[0]['menuIds'] != '') {
-                if ($listMenu != '')
-                    $listMenu .= ',' . $temp[0]['menuIds'];
-                else
-                    $listMenu = $temp[0]['menuIds'];
-            }
-
-            $dieukien = " WHERE active = 1 AND parentId=$parentId AND type=$type ";
-            if ($listMenu != '') {
-                $dieukien .= " AND id IN ($listMenu) ";
+        $taxcode = $_SESSION['folder'];
+            if($taxcode == 'gemstech') {
+                $classUser = $_SESSION['user']['classify'];
+            $userId = $_SESSION['user']['id'];
+            $groupId = $_SESSION['user']['groupId'];
+            $menus = [];
+            if ($classUser == 1) {
+                $dieukien = " WHERE active = 1 AND parentId=$parentId AND type=$type ";
                 $query = $this->db->query("SELECT id,link,icon,name FROM g_menus $dieukien ORDER BY sortOrder");
                 $menus = $query->fetchAll();
+            } else {
+                $listMenu = '';
+                $query = $this->db->query("SELECT menuIds FROM grouproles WHERE id=$groupId AND status=1");
+                $temp = $query->fetchAll(PDO::FETCH_ASSOC);
+                if (isset($temp[0]['menuIds']) && $temp[0]['menuIds'] != '')
+                    $listMenu = $temp[0]['menuIds'];
+                $query = $this->db->query("SELECT menuIds FROM userroles WHERE userId=$userId AND status=1");
+                $temp = $query->fetchAll(PDO::FETCH_ASSOC);
+                if (isset($temp[0]['menuIds']) && $temp[0]['menuIds'] != '') {
+                    if ($listMenu != '')
+                        $listMenu .= ',' . $temp[0]['menuIds'];
+                    else
+                        $listMenu = $temp[0]['menuIds'];
+                }
+
+                $dieukien = " WHERE active = 1 AND parentId=$parentId AND type=$type ";
+                if ($listMenu != '') {
+                    $dieukien .= " AND id IN ($listMenu) ";
+                    $query = $this->db->query("SELECT id,link,icon,name FROM g_menus $dieukien ORDER BY sortOrder");
+                    $menus = $query->fetchAll();
+                }
             }
+            return $menus;
         }
-        return $menus;
+        else {
+            $curl = curl_init();
+            curl_setopt_array($curl, array(
+            CURLOPT_URL => 'https://velo.vn/customers/customer_functions/getPackets?token=e594864995037d740cadc97edd181702',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => array('taxCode' => $taxcode),
+            CURLOPT_HTTPHEADER => array(
+                'Cookie: PHPSESSID=6mumjsl1rup8dl54nj9tol88rn'
+            ),
+            ));
+            $response = curl_exec($curl);
+            curl_close($curl);
+            echo $response;
+        }
     }
 
     function getFunctions($menuLink)

@@ -10,7 +10,7 @@ class chinhanh extends Controller{
         if ($checkMenuRole == false)
             header('location:' . HOME);
         $funcs = $model->getFunctions('chinhanh');
-      
+        
         foreach ($funcs as $item) {
             if ($item['function'] == 'add')
                 self::$funAdd = 1;
@@ -21,6 +21,11 @@ class chinhanh extends Controller{
         }
 
     }
+    function getWorkspaces() {
+        $json = $this->model->getWorkspaces();
+        echo json_encode($json);
+    }
+
     function index(){
         require "layouts/header.php";
         $this->view->funAdd = self::$funAdd;
@@ -59,8 +64,14 @@ class chinhanh extends Controller{
         $name = isset($_REQUEST['name']) ? $_REQUEST['name'] : '';
         $address = isset($_REQUEST['address']) ? $_REQUEST['address'] : '';
         $status = 1;
+        $workspaces = '';
+        foreach ($_REQUEST['workspaces'] as $item) {
+            $workspaces.= json_encode($item);
+        }
+        $workspaces = str_replace('""', '","',$workspaces);
         $data = array(
             'name' => $name,
+            'workplaceIds'=>$workspaces,
             'address' => $address,
             'status' => $status
         );
@@ -85,8 +96,14 @@ class chinhanh extends Controller{
         $id = $_REQUEST['id'];
         $name = isset($_REQUEST['name']) ? $_REQUEST['name'] : '';
         $address = isset($_REQUEST['address']) ? $_REQUEST['address'] : '';
+        $workspaces = '';
+        foreach ($_REQUEST['workspaces'] as $item) {
+            $workspaces.= json_encode($item);
+        }
+        $workspaces = str_replace('""', '","',$workspaces);
         $data = array(
             'name' => $name,
+            'workplaceIds'=>$workspaces,
             'address' => $address
         );
         if($this->model->updateObj($id, $data)){

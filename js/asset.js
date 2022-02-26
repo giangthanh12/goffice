@@ -246,12 +246,7 @@ if ($('#status').length) {
 
     }
     function actionMenu(){
-        $(document).on('select2:open', () => {
-            // console.log($('input.select2-search__field')[0].isContentEditable = true);
-            // $('input.select2-search__field')[0].isContentEditable = true
-            $('.select2-search__field')[0].focus();
-            console.log($('.select2-search__field')[0]);
-        });
+       
         var validator = $("#dg").validate(); // reset form
         validator.resetForm();
         $(".error").removeClass("error"); // loại bỏ validate
