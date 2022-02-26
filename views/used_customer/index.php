@@ -193,6 +193,11 @@
                                                         <i class="fa fa-money-bill-wave"></i><span class="d-none d-sm-block">Lịch sử giao dịch</span>
                                                     </a>
                                                 </li>
+                                                <li class="nav-item" id="tab2">
+                                                    <a class="nav-link d-flex align-items-center" id="account-tab" data-toggle="tab" href="#productUsed" aria-controls="productUsed" role="tab" aria-selected="true">
+                                                        <i class="fa fa-money-bill-wave"></i><span class="d-none d-sm-block">Sản phẩm đã sử dụng</span>
+                                                    </a>
+                                                </li>
                                             </ul>
                                             <div class="tab-content">
                                                 <div class="tab-pane active" id="information" aria-labelledby="information-tab" role="tabpanel">
@@ -449,6 +454,29 @@
                                                         </table>
                                                     </div>
                                                 </div>
+
+                                                 <!-- Sản phẩm đã dùng -->
+                                                 <div class="tab-pane" id="productUsed" aria-labelledby="account-tab" role="tabpanel">
+                                                    <div class="table-responsive border rounded mt-1">
+                                                        <h6 class="py-1 mx-1 mb-0 font-medium-2">
+                                                            <i data-feather="lock" class="font-medium-3 mr-25"></i>
+                                                            <span class="align-middle">Chi tiết</span>
+                                                        </h6>
+                                                        <table class="table table-striped table-borderless" id="product-list-table">
+                                                            <thead class="thead-light ">
+                                                                <tr>
+                                                                    <th>Tên sản phẩm</th>
+                                                                    <th>Loại</th>
+                                                                    <th>Nhà cung cấp</th>
+                                                                    <th>Thuế</th>
+                                                                    <th>Giá</th>
+                                                                </tr>
+                                                            </thead>
+                                                        </table>
+                                                    </div>
+                                                </div>
+
+
                                             </div>
                                         </div>
                                     </div>
@@ -548,7 +576,6 @@
                                                         <select id="positionContact" name="positionContact" class="form-control">
 
                                                         </select>
-
                                                     </div>
                                                     <div class="col-md-6 form-group">
                                                         <label for="phoneNumberContact">Số điện thoại</label>

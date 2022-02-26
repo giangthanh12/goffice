@@ -27,7 +27,6 @@ class phongban extends Controller{
         $this->view->render("phongban/index");
         require "layouts/footer.php";
     }
- 
 
     function listdata()
     {
@@ -37,6 +36,10 @@ class phongban extends Controller{
 
     function combo(){
         $json = $this->model->get_data_combo();
+        echo json_encode($json);
+    }
+    function getPosition() {
+        $json = $this->model->getPosition();
         echo json_encode($json);
     }
 
@@ -56,10 +59,17 @@ class phongban extends Controller{
             return false;
         }
         $name = isset($_REQUEST['name']) ? $_REQUEST['name'] : '';
+        $postionIds = '';
+        foreach ($_REQUEST['position'] as $item) {
+            $postionIds.= json_encode($item);
+        }
+        $postionIds = str_replace('""', '","',$postionIds);
+     
         $description = isset($_REQUEST['description']) ? $_REQUEST['description'] : '';
         $status = 1;
         $data = array(
             'name' => $name,
+            'positionIds'=>$postionIds,
             'description' => $description,
             'status' => $status
         );
@@ -84,8 +94,14 @@ class phongban extends Controller{
         $id = $_REQUEST['id'];
         $name = isset($_REQUEST['name']) ? $_REQUEST['name'] : '';
         $description = isset($_REQUEST['description']) ? $_REQUEST['description'] : '';
+        $postionIds = '';
+        foreach ($_REQUEST['position'] as $item) {
+            $postionIds.= json_encode($item);
+        }
+        $postionIds = str_replace('""', '","',$postionIds);
         $data = array(
             'name' => $name,
+            'positionIds'=>$postionIds,
             'description' => $description
         );
         if($this->model->updateObj($id, $data)){

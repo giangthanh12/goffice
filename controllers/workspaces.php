@@ -38,6 +38,11 @@ class workspaces extends Controller{
         $json = $this->model->get_data_combo();
         echo json_encode($json);
     }
+   
+    function getAccesspoints() {
+        $json = $this->model->getAccesspoints();
+        echo json_encode($json);
+    }
 
     function loaddata()
     {
@@ -63,8 +68,14 @@ class workspaces extends Controller{
         $branch = isset($_REQUEST['branch']) ? $_REQUEST['branch'] : '';
         $diachi = isset($_REQUEST['dia_chi']) ? $_REQUEST['dia_chi'] : '';
         $tinhtrang = 1;
+        $accesspointIds = '';
+        foreach ($_REQUEST['accesspointIds'] as $item) {
+            $accesspointIds.= json_encode($item);
+        }
+        $accesspointIds = str_replace('""', '","',$accesspointIds);
         $data = array(
             'name' => $name,
+            'accesspointIds'=>$accesspointIds,
             'branchId' => $branch,
             'address' => $diachi,
             'status' => $tinhtrang,
@@ -91,9 +102,15 @@ class workspaces extends Controller{
         $name = isset($_REQUEST['name']) ? $_REQUEST['name'] : '';
         $branch = isset($_REQUEST['branch']) ? $_REQUEST['branch'] : '';
         $diachi = isset($_REQUEST['dia_chi']) ? $_REQUEST['dia_chi'] : '';
+        $accesspointIds = '';
+        foreach ($_REQUEST['accesspointIds'] as $item) {
+            $accesspointIds.= json_encode($item);
+        }
+        $accesspointIds = str_replace('""', '","',$accesspointIds);
         $data = array(
             'name' => $name,
             'branchId' => $branch,
+            'accesspointIds'=>$accesspointIds,
             'address' => $diachi,
         );
         if($this->model->updateObj($id, $data)){

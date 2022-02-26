@@ -30,9 +30,6 @@
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h4 class="modal-title" id="myModalLabel16"></h4>
-                                    <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                    </button> -->
                                 </div>
                                 <div class="modal-body">
                                     <!-- <input type="hidden" id="id" name="id" /> -->
@@ -44,11 +41,11 @@
                                                     <input type="text" class="form-control" id="name" placeholder="Nhập tên vị trí" name="name" required/>
                                                 </div>
 
-<!--                                                <div class="form-group">-->
-<!--                                                    <label for="departmentId">Phòng ban</label>-->
-<!--                                                    <select id="departmentId" class="select2 form-control" name="departmentId">-->
-<!--                                                    </select>-->
-<!--                                                </div>-->
+                                               <div class="form-group">
+                                                   <label for="departmentId">Phòng ban</label>
+                                                   <select id="departmentId" class="select2 form-control" data-msg-required="Bạn chưa chọn phòng ban" required  name="departmentId">
+                                                   </select>
+                                               </div>
 
                                                 <div class="form-group">
                                                     <label for="ghi_chu">Ghi chú</label>

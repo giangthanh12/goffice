@@ -57,9 +57,11 @@ class position extends Controller{
         }
         $name = isset($_REQUEST['name']) ? $_REQUEST['name'] : '';
         $description = isset($_REQUEST['description']) ? $_REQUEST['description'] : '';
+        $departmentId = isset($_REQUEST['departmentId']) ? $_REQUEST['departmentId'] : 1;
         $status = 1;
         $data = array(
             'name' => $name,
+            'departmentId'=>$departmentId,
             'description' => $description,
             'status' => $status
         );
@@ -84,8 +86,10 @@ class position extends Controller{
         $id = $_REQUEST['id'];
         $name = isset($_REQUEST['name']) ? $_REQUEST['name'] : '';
         $description = isset($_REQUEST['description']) ? $_REQUEST['description'] : '';
+        $departmentId = isset($_REQUEST['departmentId']) ? $_REQUEST['departmentId'] : 1;
         $data = array(
             'name' => $name,
+            'departmentId'=>$departmentId,
             'description' => $description
         );
         if($this->model->updateObj($id, $data)){
