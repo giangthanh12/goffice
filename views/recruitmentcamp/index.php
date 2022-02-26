@@ -171,7 +171,7 @@
                                                                     <input id="yearOfExperience" type="text" class="form-control" name="yearOfExperience" />
                                                                 </div>
                                                             </div>
-<!--                                                       
+                                                            <!--
                                                             <div class="col-lg-4 col-md-6">
                                                                 <div class="form-group">
                                                                     <label for="status">Trạng thái</label>
