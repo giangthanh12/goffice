@@ -80,12 +80,12 @@ class Model
     }
 
     function getMenus($parentId, $type)
-    {
+    { $classUser = $_SESSION['user']['classify'];
+        $userId = $_SESSION['user']['id'];
+        $groupId = $_SESSION['user']['groupId'];
         $taxcode = $_SESSION['folder'];
             if($taxcode == 'gemstech') {
-                $classUser = $_SESSION['user']['classify'];
-            $userId = $_SESSION['user']['id'];
-            $groupId = $_SESSION['user']['groupId'];
+               
             $menus = [];
             if ($classUser == 1) {
                 $dieukien = " WHERE active = 1 AND parentId=$parentId AND type=$type ";
@@ -133,7 +133,46 @@ class Model
             ));
             $response = curl_exec($curl);
             curl_close($curl);
-            echo $response;
+           
+            $response = json_decode($response);
+            $menuIds = $response->data;
+            $menus = [];
+            if($parentId == 0) {
+                $where = " and id in ($menuIds) ";
+            }
+            else {
+                $where = '';
+            }
+            
+
+            if ($classUser == 1) {
+                $dieukien = " WHERE active = 1 AND parentId=$parentId AND type=$type $where";
+                $query = $this->db->query("SELECT id,link,icon,name FROM g_menus $dieukien ORDER BY sortOrder");
+                $menus = $query->fetchAll();
+                
+            } else {
+                $listMenu = '';
+                $query = $this->db->query("SELECT menuIds FROM grouproles WHERE id=$groupId AND status=1");
+                $temp = $query->fetchAll(PDO::FETCH_ASSOC);
+                if (isset($temp[0]['menuIds']) && $temp[0]['menuIds'] != '')
+                    $listMenu = $temp[0]['menuIds'];
+                $query = $this->db->query("SELECT menuIds FROM userroles WHERE userId=$userId AND status=1");
+                $temp = $query->fetchAll(PDO::FETCH_ASSOC);
+                if (isset($temp[0]['menuIds']) && $temp[0]['menuIds'] != '') {
+                    if ($listMenu != '')
+                        $listMenu .= ',' . $temp[0]['menuIds'];
+                    else
+                        $listMenu = $temp[0]['menuIds'];
+                }
+
+                $dieukien = " WHERE active = 1 AND parentId=$parentId AND type=$type ";
+                if ($listMenu != '') {
+                    $dieukien .= " AND id IN ($listMenu) ";
+                    $query = $this->db->query("SELECT id,link,icon,name FROM g_menus $dieukien ORDER BY sortOrder");
+                    $menus = $query->fetchAll();
+                }
+            }
+            return $menus;
         }
     }
 
