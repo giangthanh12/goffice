@@ -12,28 +12,20 @@ class applicant_Model extends Model{
         return $result;
     }
 
-    function listObj(){
+    function listObj($filter){
+    $orderBy = $filter == 1 ? ' ORDER BY id DESC ' : ' ORDER BY fullName ASC ';
         $ungvien = array();
         $query = $this->db->query("SELECT *,
             IF(image='','".URLFILE."/uploads/useravatar.png',image) AS image,
             DATE_FORMAT(dob,'%d-%m-%Y') as dob
-            FROM applicants WHERE status = 1 ORDER BY id DESC");
+            FROM applicants WHERE status = 1 $orderBy");
         if ($query)
             $ungvien['data'] = $query->fetchAll(PDO::FETCH_ASSOC);
         return $ungvien;
     }
-    // function getRecruitmentCamp($id) {
-    //     $result = array();
-    //     $query = $this->db->query("SELECT *,
-    //         (SELECT fullName FROM applicants WHERE id = a.canId) AS fullName,
-    //         (SELECT gender FROM applicants WHERE id = a.canId) AS gender,
-    //         (SELECT email FROM applicants WHERE id = a.canId) AS email,
-    //         (SELECT phoneNumber FROM applicants WHERE id = a.canId) AS phoneNumber,
-    //         (SELECT status FROM applicants WHERE id = a.canId) AS status
-    //         FROM sortlist a WHERE status = 1 AND campId = $id ORDER BY ID DESC");
-    //     $result['data'] = $query->fetchAll(PDO::FETCH_ASSOC);
-    //     return $result;
-    // }
+    function exportexcel() {
+        
+    }
 
     function getRecruitmentCamp($id) {
         $query = $this->db->query("SELECT campId FROM sortlist WHERE status = 1 AND canId = $id");

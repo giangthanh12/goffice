@@ -101,6 +101,7 @@ $(function () {
 function actionMenu() {
     $("#updateinfo").modal('show');
     $(".modal-title").html('Thêm vị trí mới');
+    $('#departmentId').val('').change();
     $('#name').val('');
     $('#description').val('');
     url = baseHome + "/position/add";
@@ -158,7 +159,7 @@ function loaddata(id) {
         success: function (data) {
             $('#name').val(data.name);
             $('#description').val(data.description);
-
+            $('#departmentId').val(data.departmentId).change();
             url = baseHome + '/position/update?id=' + id;
         },
         error: function () {

@@ -41,6 +41,13 @@ class workspaces_Model extends Model{
             $result = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }
+    function getAccesspoints() {
+        $result = array();
+        $query = $this->db->query("SELECT id, name AS `text` FROM accesspoints WHERE status = 1");
+        if ($query)
+            $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
 
     function updateObj($id, $data)
     {

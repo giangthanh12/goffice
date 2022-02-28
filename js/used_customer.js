@@ -1,6 +1,7 @@
 var url = '';
 var dtDVTable = $("#dichvu-list-table");
 var transactionTable = $("#transaction-list-table");
+var productTable = $("#product-list-table");
 var khid = '';
 $(function () {
     "use strict";
@@ -535,6 +536,9 @@ $(function () {
 
 var urlContact = '';
 var urlTransaction = '';
+
+
+
 function showFormContact() {
     return_combobox_multi('#positionContact', baseHome + '/used_customer/getPosition', 'Chức danh');
     var validator = $("#dgContact").validate(); // reset form
@@ -620,6 +624,7 @@ function loaddata(id) {
             $('#status1').val(data.status).change().attr('disabled', false);
             $('#idCustomerContact').val(id);
             loaddichvu(id);
+            loadProductUsed(id);
             loadTransaction(id);
         },
         error: function () {
@@ -657,22 +662,130 @@ function loaddichvu(id) {
             '<"col-sm-12 col-md-6"i>' +
             '<"col-sm-12 col-md-6"p>' +
             ">",
-        language: {
-            sLengthMenu: "Hiển thị _MENU_",
-            search: "",
-            searchPlaceholder: "Tìm kiếm...",
-            paginate: {
-                // remove previous & next text from pagination
-                previous: "&nbsp;",
-                next: "&nbsp;",
+            language: {
+                sLengthMenu: "Hiển thị _MENU_",
+                search: "",
+                searchPlaceholder: "Tìm kiếm...",
+                paginate: {
+                    // remove previous & next text from pagination
+                    previous: "&nbsp;",
+                    next: "&nbsp;",
+                },
+                info: "Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
+                infoFiltered: "(lọc từ _MAX_ bản ghi)",
+                sInfoEmpty: "Hiển thị 0 đến 0 của 0 bản ghi",
             },
-            info: "Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
-        },
+            "oLanguage": {
+                "sZeroRecords": "Không có bản ghi nào"
+            },
         buttons: [],
 
         });
     }
 }
+//load product used 
+
+    function loadProductUsed(id) {
+      
+        if (productTable.length) {
+            productTable.DataTable({
+                ajax: baseHome + "/used_customer/loadProductUsed?id=" + id,
+                destroy: true,
+                columns: [
+                    // columns according to JSON
+                    { data: "productName" },
+                    { data: "productType"},
+                    { data: "productSupplier"},
+                    { data: "productVat" },
+                    { data: "productprice" },
+                ],
+                columnDefs: [
+                    {
+                        // Actions
+                        targets: 1,
+                        orderable: false,
+                        render: function (data, type, full, meta) {
+                            var html = '';
+                            if (full['type'] == 1) {
+                                html = `<div class="badge badge-pill badge-light-info">Sản phẩm</div>`;
+                            }
+                            else if (full['type'] == 2) {
+                                html = `<div class="badge badge-pill badge-light-primary">Dịch vụ</div>`;
+                            }
+                            return html;
+                        },
+                        width: 150
+                    },
+                    {
+                        // Actions
+                        targets: 4,
+                        orderable: true,
+                        render: function (data, type, full, meta) {
+                            var html = '';
+                            html = formatCurrency(full['asset'].replace(/[,VNĐ]/g,''));
+                            return html;
+                        },
+    
+                    },
+                    {
+                        // Actions
+                        targets: 3,
+                        orderable: true,
+                        render: function (data, type, full, meta) {
+                            return data+'%';
+                        },
+    
+                    },
+                    // {
+                    //     // Actions
+                    //     targets: -1,
+                    //     title: 'Thao tác',
+                    //     orderable: false,
+                    //     render: function (data, type, full, meta) {
+                    //         var html = '';
+                    //             html += '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" title="Chỉnh sửa" onclick="loaddataTransaction(' + full['id'] + ')">';
+                    //             html += '<i class="fas fa-pencil-alt"></i>';
+                    //             html += '</button> &nbsp;';
+                    //             html += '<button type="button" class="btn btn-icon btn-outline-danger waves-effect" title="Xóa" id="confirm-text" onclick="delTransaction(' + full['id'] + ')">';
+                    //             html += '<i class="fas fa-trash-alt"></i>';
+                    //             html += '</button>';
+                    //         return html;
+                    //     },
+                    //     width: 100
+                    // },
+                ],
+    
+                dom:
+                '<"d-flex justify-content-between align-items-center header-actions mx-1 row mt-75"' +
+                '<"col-lg-12 col-xl-6" l>' +
+                '<"col-lg-12 col-xl-6 pl-xl-75 pl-0"<"dt-action-buttons text-xl-right text-lg-left text-md-right text-left d-flex align-items-center justify-content-lg-end align-items-center flex-sm-nowrap flex-wrap mr-1"<"mr-1"f>B>>' +
+                ">t" +
+                '<"d-flex justify-content-between mx-2 row mb-1"' +
+                '<"col-sm-12 col-md-6"i>' +
+                '<"col-sm-12 col-md-6"p>' +
+                ">",
+                language: {
+                    sLengthMenu: "Hiển thị _MENU_",
+                    search: "",
+                    searchPlaceholder: "Tìm kiếm...",
+                    paginate: {
+                        // remove previous & next text from pagination
+                        previous: "&nbsp;",
+                        next: "&nbsp;",
+                    },
+                    info: "Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
+                    infoFiltered: "(lọc từ _MAX_ bản ghi)",
+                    sInfoEmpty: "Hiển thị 0 đến 0 của 0 bản ghi",
+                },
+                "oLanguage": {
+                    "sZeroRecords": "Không có bản ghi nào"
+                },
+            buttons: [],
+    
+               
+            });
+        }
+    }
 
 //load transaction
 function loadTransaction(id) {
@@ -682,7 +795,6 @@ function loadTransaction(id) {
         transactionTable.DataTable({
             ajax: baseHome + "/used_customer/loadTransaction?id=" + id,
             destroy: true,
-
             columns: [
                 // columns according to JSON
                 { data: "date" },
@@ -751,17 +863,22 @@ function loadTransaction(id) {
             '<"col-sm-12 col-md-6"i>' +
             '<"col-sm-12 col-md-6"p>' +
             ">",
-        language: {
-            sLengthMenu: "Hiển thị _MENU_",
-            search: "",
-            searchPlaceholder: "Tìm kiếm...",
-            paginate: {
-                // remove previous & next text from pagination
-                previous: "&nbsp;",
-                next: "&nbsp;",
+            language: {
+                sLengthMenu: "Hiển thị _MENU_",
+                search: "",
+                searchPlaceholder: "Tìm kiếm...",
+                paginate: {
+                    // remove previous & next text from pagination
+                    previous: "&nbsp;",
+                    next: "&nbsp;",
+                },
+                info: "Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
+                infoFiltered: "(lọc từ _MAX_ bản ghi)",
+                sInfoEmpty: "Hiển thị 0 đến 0 của 0 bản ghi",
             },
-            info: "Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
-        },
+            "oLanguage": {
+                "sZeroRecords": "Không có bản ghi nào"
+            },
         buttons: [],
 
            

@@ -81,6 +81,12 @@ class used_customer extends Controller
         echo json_encode($data);
     }
 
+    function loadProductUsed() {
+        $id = $_GET['id'];
+        $data = $this->model->loadProductUsed($id);
+        echo json_encode($data);
+    }
+
     function add()
     {
         if (self::$funAdd == 0) {
@@ -257,6 +263,7 @@ class used_customer extends Controller
         $json = $this->model->getTransaction($id);
         echo json_encode($json);
     }
+    
     function delTransaction($id) {
         $id = $_REQUEST['id'];
         $data = ['status' => 0];
@@ -372,6 +379,7 @@ class used_customer extends Controller
         }
         echo json_encode($jsonObj);
     }
+   
     function checkPhone()
     {
         $idCustomer = $_REQUEST['idCustomer'];

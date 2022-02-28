@@ -97,6 +97,18 @@ class used_customer_Model extends Model
         $result['data'] = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }
+    function loadProductUsed($id) {
+        $query = $this->db->query("SELECT *,
+        DATE_FORMAT(dateTime,'%d-%m-%Y %H:%i') as date,
+        (SELECT name from products where id = transaction.productId) AS productName, 
+        (SELECT type from products where id = transaction.productId) AS productType, 
+        (SELECT supplier from products where id = transaction.productId) AS productSupplier, 
+        (SELECT vat from products where id = transaction.productId) AS productVat, 
+        (SELECT price from products where id = transaction.productId) AS productprice
+        FROM transaction WHERE status = 1 AND customerId = $id GROUP BY productId  ORDER BY id DESC ");
+        $result['data'] = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
     function getdata($id)
     {
         $result = array();
