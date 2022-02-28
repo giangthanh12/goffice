@@ -65,20 +65,17 @@ class define_request extends Controller
 
         $name = isset($_REQUEST['name1']) ? $_REQUEST['name1'] : '';
         $object = isset($_REQUEST['object1']) ? $_REQUEST['object1'] : '';
-        // $sortorder = isset($_REQUEST['thu_tu']) ? $_REQUEST['thu_tu'] : '';
-        // $reviewer = isset($_REQUEST['tham_chieu']) ? $_REQUEST['tham_chieu'] : '';
-        // $processor = isset($_REQUEST['xu_ly']) ? $_REQUEST['xu_ly'] : [];
-
+       
+ if (isset($_REQUEST['object1']) && !empty($object) && isset($_REQUEST['name1'])) {
         $data = array(
             'name' => $name,
             'status' => 1
         );
         $this->model->addObj($data);
         $lastId = $this->model->getLastId();
-
+    
         //object
-        if (isset($_REQUEST['object1']) && !empty($object)) {
-            try {
+       
                 foreach ($object as $item) {
                     $dataObject = [
                         'name' => $item,
@@ -89,12 +86,9 @@ class define_request extends Controller
                 }
                 $jsonObj['msg'] = 'Cập nhật thành công';
                 $jsonObj['success'] = true;
-            } catch (\Throwable $th) {
-                $jsonObj['msg'] = 'Cập nhật không thành công';
-                $jsonObj['success'] = false;
-            }
+          
         } else {
-            $jsonObj['msg'] = 'Cập nhật không thành công';
+            $jsonObj['msg'] = 'Yêu cầu nhập đủ thông tin';
             $jsonObj['success'] = false;
         }
 
@@ -105,6 +99,9 @@ class define_request extends Controller
     {
         $lastId = $this->model->getLastId();
         $ndata = [];
+        $jsonObj['msg'] = 'Bạn chưa thêm bước thực hiện!';
+        $jsonObj['success'] = true;
+
         $arrStep = isset($_REQUEST['stepArr']) ? $_REQUEST['stepArr'] : '';
         if ($arrStep != '') {
             $arrStep = json_decode($arrStep);
