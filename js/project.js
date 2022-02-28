@@ -3,6 +3,7 @@
 "use strict";
 
 $(function () {
+   
     var taskTitle,
         flatPickr = $(".task-due-date"),
         newTaskModal = $(".sidebar-todo-modal"),
@@ -29,8 +30,8 @@ $(function () {
         // checkboxId = 100,
         isRtl = $("html").attr("data-textdirection") === "rtl";
     list_to_do();
-    load_select($('#level'), baseHome + '/project/getLevelProject','Cấp độ dự án');
-    load_select($('#status'), baseHome + '/project/getStatusProject', 'Trạng thái dự án');
+    load_select($('#level'), baseHome + '/project/getLevelProject','Cấp độ dự án','loadLevelProject');
+    load_select($('#status'), baseHome + '/project/getStatusProject', 'Trạng thái dự án', 'loadStatusProject');
     
     
     $('#level').change(function() {
@@ -48,6 +49,7 @@ $(function () {
         var style = $('option:selected', statusProject).attr('style');
         $(statusProject).attr('style', `${style}`);
      }
+
     // if it is not touch device
     if (!$.app.menu.is_touch_device()) {
         if (sidebarMenuList.length > 0) {
@@ -132,7 +134,101 @@ $(function () {
         return $person;
     }
 
-    
+
+    // status project
+    if($('#formStatusProject').length){
+        $('#formStatusProject').validate({
+            errorClass: "error",
+            rules: {
+                "nameStatusProject": {
+                    required: true,
+                },
+            },
+            messages: {
+                "nameStatusProject": {
+                    required: "Bạn chưa nhập tên trình trạng!",
+                },
+            },
+        });
+        $('#formStatusProject').on("submit", function (e) {
+            var isValid = $('#formStatusProject').valid();
+            e.preventDefault();
+            if (isValid) {
+                addStatusProject();
+            }
+        });
+    }
+
+    if($('#formLevelProject').length){
+        $('#formLevelProject').validate({
+            errorClass: "error",
+            rules: {
+                "nameLevelProject": {
+                    required: true,
+                },
+            },
+            messages: {
+                "nameLevelProject": {
+                    required: "Bạn chưa nhập tên cấp độ!",
+                },
+            },
+        });
+        $('#formLevelProject').on("submit", function (e) {
+            var isValid = $('#formLevelProject').valid();
+            e.preventDefault();
+            if (isValid) {
+                addLevelProject();
+            }
+        });
+    }
+   
+    function addStatusProject(){
+        var formData = new FormData($('#formStatusProject')[0]);
+        $.ajax({
+            url: baseHome + "/project/addStatusProject",
+            type: 'POST',
+            data: formData,
+            async: false,
+            cache: false,
+            contentType: false,
+            enctype: 'multipart/form-data',
+            processData: false,
+            dataType: "json",
+            success: function (data) {
+                if (data.success) {
+                    notyfi_success(data.msg);
+                    $('#modelStatusProject').modal('hide');
+                    load_select($('#status'), baseHome + '/project/getStatusProject', 'Trạng thái dự án', 'loadStatusProject');
+                    
+                } else
+                    notify_error(data.msg);
+            }
+        });
+    }
+
+    function addLevelProject(){
+        var formData = new FormData($('#formLevelProject')[0]);
+        $.ajax({
+            url: baseHome + "/project/addLevelProject",
+            type: 'POST',
+            data: formData,
+            async: false,
+            cache: false,
+            contentType: false,
+            enctype: 'multipart/form-data',
+            processData: false,
+            dataType: "json",
+            success: function (data) {
+                if (data.success) {
+                    notyfi_success(data.msg);
+                    $('#modelLevelProject').modal('hide');
+                    load_select($('#level'), baseHome + '/project/getLevelProject','Cấp độ dự án','loadLevelProject');
+                    
+                } else
+                    notify_error(data.msg);
+            }
+        });
+    }
 
     // Task Tags
     if (taskTag.length) {
@@ -430,6 +526,20 @@ $(window).on("resize", function () {
     }
 });
 
+function loadStatusProject(){
+    $('#modelStatusProject').modal('show');
+    $('#titleStatusProject').html('Thêm tình trạng dự án mới');
+    $('#nameStatusProject').val('');
+    $('#colorStatusProject').val('');
+}
+
+function loadLevelProject(){
+    $('#modelLevelProject').modal('show');
+    $('#titleLevelProject').html('Thêm cấp độ dự án mới');
+    $('#nameLevelProject').val('');
+    $('#colorLevelProject').val('');
+}
+
 // load nhân viên
 function load_select2(select2, url, place) {
     $.ajax({
@@ -453,7 +563,7 @@ function load_select2(select2, url, place) {
     });
 }
 
-function load_select(selectId,url,place) {
+function load_select(selectId,url,place,nameFunction) {
     $.ajax({
         type: "GET",
         dataType: "json",
@@ -468,7 +578,18 @@ function load_select(selectId,url,place) {
 
             selectId.html(html);
             //test
+            selectId.select2({
+                placeholder: place,
+                dropdownParent: selectId.parent(),
+                language: {
+                noResults: function() {
+                    return '<a onclick="'+nameFunction+'()"  href="javascript:void(0)">+Thêm mới</a>';
+                }
+                },escapeMarkup: function (markup) {
+                    return markup;
+                }
          
+            });
             if (selectId.length) {
                 function renderBullets(option) {
                     if (!option.id) {
@@ -481,13 +602,17 @@ function load_select(selectId,url,place) {
 
                 selectId.wrap('<div class="position-relative"></div>').select2({
                     placeholder: place,
-                    // dropdownParent: selectCongSang.parent(),
+                    dropdownParent: selectId.parent(),
+                  
                     templateResult: renderBullets,
                     templateSelection: renderBullets,
-                    minimumResultsForSearch: -1,
-                    escapeMarkup: function (es) {
-                        return es;
-                    }
+                    language: {
+                        noResults: function() {
+                            return '<a onclick="'+nameFunction+'()"  href="javascript:void(0)">+Thêm mới</a>';
+                        }
+                        },escapeMarkup: function (markup) {
+                            return markup;
+                        },
                 });
             }
         },
