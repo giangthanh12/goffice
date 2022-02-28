@@ -200,7 +200,6 @@ function showStepButton() {
 
     return_combobox_multi('#n_tham_chieu' + step, baseHome + '/common/nhanvien', 'Lựa chọn người tham chiếu');
     return_combobox_multi('#n_xu_ly' + step, baseHome + '/common/nhanvien', 'Lựa chọn người xử lý');
-
     arrStep.push(step);
     step++;
 
@@ -239,7 +238,6 @@ function showAdd() {
     url = baseHome + "/define_request/add";
     urlstep = baseHome + "/define_request/addstep";
 }
-
 
 function loaddata(id) {
     if (funEdit == 1) {
@@ -292,7 +290,7 @@ function loaddata(id) {
                     '<div class="col-md-1 col-12" style="padding-right:0 !important;">' +
                     '<div class="form-group">' +
                     '<label for="thu_tu">Thứ Tự</label>' +
-                    '<input id="thu_tu' + data.step[J]["id"] + '" name="thu_tu' + data.step[J]["id"] + '" type="number" class="form-control" placeholder="Thứ tự" value="' + data.step[J]["sortorder"] + '"/>' +
+                    '<input id="thu_tu' + data.step[J]["id"] + '" name="thu_tu' + data.step[J]["id"] + '" type="number" class="form-control" placeholder="Thứ tự" value="' + data.step[J]["sortorder"] + '" required/>' +
                     '</div></div>' +
                     '<div class="col-md-3 col-12" style="padding-right:0 !important;">' +
                     '<div class="form-group">' +
@@ -340,9 +338,28 @@ function loaddata(id) {
     });
 }
 
-
+ 
 function update() {
-    var frmdefine = new FormData($("#frm-1")[0]);
+    $('#frm-1').validate({
+        rules: {
+            "name1": {
+                required: true,
+            },
+            // "object1[]": {
+            //     required: true,
+            // },
+        },
+        messages: {
+            "name1": {
+                required: "Yêu cầu nhập tên yêu cầu!!",
+            },
+            // "object1[]": {
+            //     required: "Yêu cầu nhập tên đối tượng!!",
+            // },
+        },
+    
+    submitHandler: function (form){
+    var frmdefine = new FormData(form);
     $.ajax({
         type: "POST",
         dataType: "json",
@@ -381,6 +398,9 @@ function update() {
             notify_error('Cập nhật không thành công');
         }
     });
+}
+});
+$('#frm-1').submit();
 }
 
 function xoa(id) {
