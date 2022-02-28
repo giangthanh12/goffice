@@ -11,6 +11,13 @@ class chinhanh_Model extends Model{
         return $result;
     }
 
+    function getWorkspaces(){
+        $result = array();
+        $query = $this->db->query("SELECT id, name AS text FROM workplaces WHERE status > 0 ");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
     function listObj(){
         $query = $this->db->query("SELECT *
             FROM branch WHERE status > 0 ORDER BY id DESC ");

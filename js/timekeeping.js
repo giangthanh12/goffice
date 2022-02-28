@@ -611,7 +611,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     date:data.data.date,
                     checkOutTime:data.data.checkOutTime,
                 };
-                console.log(dataSend);
+                // console.log(dataSend);
                 connection.send(JSON.stringify(dataSend));
                 calendar.refetchEvents();
                 notyfi_success(data.message);

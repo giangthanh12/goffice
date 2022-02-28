@@ -1,5 +1,6 @@
 
 $(function () {
+    return_combobox_multi('#accesspointIds', baseHome + '/workspaces/getAccesspoints', 'Vị trí thực hiện');
     var str_data = load_data(baseHome + '/workspaces/getBranch');
     var Objdata = JSON.parse(str_data.responseText);
     var html = '';
@@ -110,7 +111,9 @@ function actionMenu() {
     $(".modal-title").html('Thêm nơi làm việc mới');
     $('#name').val('');
     $('#branch').val(0).trigger("Change");
+    $('#accesspointIds').val([]).change();
     $('#dia_chi').val('');
+
     url = baseHome + "/workspaces/add";
 }
     // Check Validity
@@ -166,6 +169,8 @@ function loaddata(id) {
         success: function (data) {
             $('#name').val(data.name);
             $('#branch').val(data.branchId).trigger("change");
+            $('#accesspointIds').val(data.accesspointIds.replaceAll('"','').split(',')).change();
+       
             $('#dia_chi').val(data.address);
 
             url = baseHome + '/workspaces/update?id=' + id;

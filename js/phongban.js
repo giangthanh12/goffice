@@ -1,6 +1,6 @@
 var url = '';
 $(function () {
-
+    return_combobox_multi('#position', baseHome + '/phongban/getPosition', 'Vị trí thực hiện');
     "use strict";
 
     var dtUserTable = $(".user-list-table"),
@@ -107,6 +107,7 @@ function actionMenu() {
     $("#updateinfo").modal('show');
     $(".modal-title").html('Thêm phòng ban mới');
     $('#name').val('');
+    $('#position').val([]).change();
     $('#description').val('');
     url = baseHome + "/phongban/add";
 }
@@ -161,7 +162,9 @@ function loaddata(id) {
         data: { id: id },
         url: baseHome + "/phongban/loaddata",
         success: function (data) {
+          
             $('#name').val(data.name);
+            $('#position').val(data.positionIds.replaceAll('"','').split(',')).change();
             $('#description').val(data.description);
             url = baseHome + '/phongban/update?id=' + id;
         },
@@ -177,6 +180,7 @@ function savepb() {
             "name": {
                 required: "Bạn chưa nhập tên phòng ban!",
             }
+            
         },
         submitHandler: function (form) {
             var formData = new FormData(form);

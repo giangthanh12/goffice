@@ -44,10 +44,14 @@
                                                 </div>
 
                                                 <div class="form-group">
+                                                    <label for="position">Vị trí phòng ban</label>
+                                                    <select class="select2 form-control" multiple="multiple" data-msg-required="Bạn chưa chọn vị trí phòng ban" required id="position"
+                                                    name="position[]"></select>
+                                                </div>
+                                                <div class="form-group">
                                                     <label for="ghi_chu">Ghi chú</label>
                                                     <textarea id="description" name="description" type="text" class="form-control " /></textarea>
                                                 </div>
-
                                                 <div class="d-flex flex-sm-row flex-column mt-2">
                                                     <button type="button" onclick="savepb()" class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Cập nhật</button>
                                                     <button type="reset" class="btn btn-outline-secondary" data-dismiss="modal">Bỏ qua</button>

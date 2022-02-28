@@ -17,6 +17,12 @@ class phongban_Model extends Model{
         $result['data'] = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }
+    function getPosition() {
+        $result = array();
+        $query = $this->db->query("SELECT id, name AS text FROM position WHERE status > 0 ");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
 
     function addObj($data)
     {

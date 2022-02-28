@@ -52,7 +52,12 @@
                                                         <option value="">Chọn chi nhánh</option>
                                                     </select>
                                                 </div>
-
+                                                <div class="form-group">
+                                                    <label for="accesspointIds">Điểm truy cập wifi</label>
+                                                    <div class="form-group">
+                                                    <select class="select2 form-control" multiple="multiple" data-msg-required="Bạn chưa chọn điểm truy cập wifi" required id="accesspointIds"
+                                                    name="accesspointIds[]"></select>
+                                                </div>
                                                 <div class="form-group">
                                                     <label for="dia_chi">Địa chỉ</label>
                                                     <textarea id="dia_chi" name="dia_chi" type="text" class="form-control "></textarea>

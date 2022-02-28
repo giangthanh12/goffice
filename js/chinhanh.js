@@ -1,8 +1,7 @@
 var url="";
 $(function () {
-
+    return_combobox_multi('#workspaces', baseHome + '/chinhanh/getWorkspaces', 'Vị trí thực hiện');
     "use strict";
-
     var dtUserTable = $(".user-list-table"),
         modal = $("#updateinfo"),
         form = $("#dg");
@@ -100,6 +99,7 @@ $(function () {
         $("#updateinfo").modal('show');
         $(".modal-title").html('Thêm chi nhánh mới');
         $('#name').val('');
+        $('#workspaces').val([]).change();
         $('#ip').val('');
         $('#address').val('');
         url = baseHome + "/chinhanh/add";
@@ -156,6 +156,7 @@ function loaddata(id) {
         url: baseHome + "/chinhanh/loaddata",
         success: function (data) {
             $('#name').val(data.name);
+            $('#workspaces').val(data.workplaceIds.replaceAll('"','').split(',')).change();
             $('#address').val(data.address);
 
             url = baseHome + '/chinhanh/update?id=' + id;
