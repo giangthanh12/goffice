@@ -44,7 +44,7 @@
                                                                                 data-feather="user"></i></span>
                                                                 </div>
                                                                 <input type="text" id="username" class="form-control"
-                                                                       required
+                                                                       
                                                                        name="username" placeholder="Username"/>
                                                             </div>
                                                         </div>
@@ -98,7 +98,7 @@
                                                                                 data-feather="phone"></i></span>
                                                                 </div>
                                                                 <input type="text" id="extNum" class="form-control"
-                                                                       required
+                                                                       
                                                                        name="extNum" placeholder="Số máy nhánh"/>
                                                             </div>
                                                         </div>

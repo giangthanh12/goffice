@@ -53,7 +53,7 @@ $(function () {
                 {
                     // Actions
                     targets: -1,
-                    title: feather.icons["database"].toSvg({ class: "font-medium-3 text-success mr-50" }),
+                    title: 'Thao tác',
                     orderable: false,
                     render: function (data, type, full, meta) {
                         var html = '';
@@ -189,6 +189,26 @@ function getData(id) {
 }
 function save() {
     $('#fm').validate({
+        errorClass: "error",
+        rules: {
+            "username": {
+                required: true,
+            },
+            "password": {
+                required: true,
+            },
+           
+        },
+        messages: {
+            "username": {
+                required: "Yêu cầu nhập tên đăng nhập!",
+            },
+            "password": {
+                required: "Yêu cầu nhập mật khẩu!",
+            },
+           
+
+        },
         submitHandler: function (form) {
             var formData = new FormData(form);
             $.ajax({

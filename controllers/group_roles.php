@@ -26,12 +26,12 @@ class group_roles extends Controller{
     function addGroupRole()
     {
         $name = (isset($_REQUEST['name']) && $_REQUEST['name'] != '') ? $_REQUEST['name'] : '';
-        if($name == ''){
-            $jsonObj['msg'] = 'Tên nhóm không được để trống!';
-            $jsonObj['success'] = false;
-            echo json_encode($jsonObj);
-            return false;
-        }
+        // if($name == ''){
+        //     $jsonObj['msg'] = 'Tên nhóm không được để trống!';
+        //     $jsonObj['success'] = false;
+        //     echo json_encode($jsonObj);
+        //     return false;
+        // }
         $data = array(
             'name' => $name,
             'status' => 1
