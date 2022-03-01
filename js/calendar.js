@@ -66,6 +66,12 @@ document.addEventListener('DOMContentLoaded', function () {
     filterInput = $('.input-filter'),
     btnDeleteEvent = $('.btn-delete-event'),
     calendarEditor = $('#event-description-editor');
+
+  jQuery.validator.setDefaults({
+    // This will ignore all hidden elements alongside `contenteditable` elements
+    // that have no `name` attribute
+    ignore: ":hidden, [contenteditable='true']:not([name])"
+  });
   // Description Editor
   if (calendarEditor.length) {
     var calDescEditor = new Quill("#event-description-editor", {
@@ -572,8 +578,8 @@ document.addEventListener('DOMContentLoaded', function () {
       var description = quill_editor[0].innerHTML;
       var eventData = {
         title: sidebar.find(eventTitle).val(),
-        startDate: startDate.val(),
-        endDate: endDate.val(),
+        startDate: $('#start-date').val(),
+        endDate: $('#end-date').val(),
         description: description,
         objectType: eventLabel.val(),
         objectId: objectId,
