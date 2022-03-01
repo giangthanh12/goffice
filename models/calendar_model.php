@@ -14,15 +14,15 @@ class calendar_model extends Model
         $query = $this->db->query("SELECT *
         FROM calendars a $dieukien ");
         $temp = $query->fetchAll(PDO::FETCH_ASSOC);
-        foreach ($temp as $key => $value) {
-            $startDate = date("Y-m-d", strtotime(str_replace('/', '-', $value['startDate'])));
-            $endDate = date("Y-m-d", strtotime(str_replace('/', '-', $value['endDate'])));
-            if ($endDate > $startDate) {
-                $temp[$key]['allDay'] = 1;
-            } else {
-                $temp[$key]['allDay'] = 0;
-            }
-        }
+        // foreach ($temp as $key => $value) {
+        //     $startDate = date("Y-m-d", strtotime(str_replace('/', '-', $value['startDate'])));
+        //     $endDate = date("Y-m-d", strtotime(str_replace('/', '-', $value['endDate'])));
+        //     if ($endDate > $startDate) {
+        //         $temp[$key]['allDay'] = 1;
+        //     } else {
+        //         $temp[$key]['allDay'] = 0;
+        //     }
+        // }
         return $temp;
     }
 

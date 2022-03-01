@@ -218,14 +218,14 @@ document.addEventListener('DOMContentLoaded', function () {
     btnDeleteEvent.removeClass('d-none');
 
     eventTitle.val(eventToUpdate.title);
-    start.setDate(eventToUpdate.start, true, 'Y-m-d');
+    start.setDate(eventToUpdate.start, true, 'Y-m-d H:i:s');
     startDate.attr("disabled", true);
     // start.prop('disabled', true);
     // eventToUpdate.allDay === true ? allDaySwitch.prop('checked', true) : allDaySwitch.prop('checked', false);
     // allDaySwitch.attr("disabled", true);
     eventToUpdate.extendedProps.endDate !== null
-      ? end.setDate(eventToUpdate.extendedProps.endDate, true, 'Y-m-d')
-      : end.setDate(eventToUpdate.start, true, 'Y-m-d');
+      ? end.setDate(eventToUpdate.extendedProps.endDate, true, 'Y-m-d H:i:s')
+      : end.setDate(eventToUpdate.start, true, 'Y-m-d H:i:s');
     endDate.attr("disabled", true);
     sidebar.find(eventLabel).val(eventToUpdate.extendedProps.calendar).trigger('change');
     eventLabel.attr("disabled", true);
@@ -310,10 +310,10 @@ document.addEventListener('DOMContentLoaded', function () {
         if (data.data) {
           let i = 0;
           data.data.forEach(function (item) {
-            let allday = false;
-            if (item.allDay == 1) {
-              allday = true;
-            }
+            // let allday = false;
+            // if (item.allDay == 1) {
+            //   allday = true;
+            // }
             let arr = [];
             if (item.id > 0) {
               arr = {
@@ -322,7 +322,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 title: item.title,
                 start: new Date(item.startDate),
                 end: new Date(item.endDate),
-                allDay: allday,
+                // allDay: allday,
                 extendedProps: {
                   calendar: item.objectType,
                   objectId: item.objectId,
