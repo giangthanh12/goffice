@@ -104,30 +104,31 @@ $(function () {
     }
 
     // Form Validation
-    if (form.length) {
-        form.validate({
-            errorClass: "error",
-            rules: {
-                "user-fullname": {
-                    required: true,
-                },
-                "user-name": {
-                    required: true,
-                },
-                "user-email": {
-                    required: true,
-                },
-            },
-        });
+    // if (form.length) {
+    //     form.validate({
+    //         errorClass: "error",
+    //         rules: {
+    //             "name": {
+    //                 required: true,
+    //             },
+               
+    //         },
+    //         message: {
+    //             "name": {
+    //                 required: "Yêu cầu nhập tên nhóm!",
+    //             },
+    //         }
+    //     });
 
-        form.on("submit", function (e) {
-            var isValid = form.valid();
-            e.preventDefault();
-            if (isValid) {
-                modal.modal("hide");
-            }
-        });
-    }
+    //     form.on("submit", function (e) {
+    //         var isValid = form.valid();
+    //         e.preventDefault();
+    //         if (isValid) {
+    //             // modal.modal("hide");
+    //             saveGroupRole()
+    //         }
+    //     });
+    // }
 
     // To initialize tooltip with body container
     $("body").tooltip({
@@ -155,12 +156,32 @@ function getGroupRole(id) {
 }
 
 function saveGroupRole() {
-    var info = {};
-    info.name = $("#name").val();
+    // var info = {};
+    // info.name = $("#name").val();
+    $('#dg').validate({
+        errorClass: "error",
+        rules: {
+            "name": {
+                required: true,
+            },
+           
+        },
+        messages: {
+            "name": {
+                required: "Yêu cầu nhập tên nhóm!",
+            },
+        },
+        submitHandler: function (form) {
+    var formData = new FormData(form);
     $.ajax({
         type: "POST",
         dataType: "json",
-        data: info,
+        data: formData,
+        async: false,
+        cache: false,
+        contentType: false,
+        enctype: 'multipart/form-data',
+        processData: false,
         url: url,
         success: function (data) {
             if (data.success) {
@@ -178,6 +199,9 @@ function saveGroupRole() {
                 notify_error('Cập nhật không thành công');
         }
     });
+}
+});
+$('#dg').submit();
 }
 
 function setRoles(id)
