@@ -40,6 +40,16 @@ class project_Model extends Model
         return $result;
     }
 
+    function addStatusProject($data){
+        $result = $this->insert('projectstatus', $data);
+        return $result;
+    }
+
+    function addLevelProject($data){
+        $result = $this->insert('projectlevels', $data);
+        return $result;
+    }    
+
     function updateProject($id, $data)
     {
         if ($id > 0) {

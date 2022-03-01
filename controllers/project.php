@@ -49,6 +49,69 @@ class project extends Controller
         $json = $this->model->getStatusProject();
         echo json_encode($json);
     }
+
+    function addStatusProject(){
+        if(self::$funAdd == 1) {
+            $name = isset($_REQUEST['nameStatusProject']) ? $_REQUEST['nameStatusProject'] : '';
+            $color = isset($_REQUEST['colorStatusProject']) ? $_REQUEST['colorStatusProject'] : '';
+            if(empty($name) || empty($color)) {
+                $jsonObj['msg'] = 'Thông tin bạn nhập không chính xác';
+                $jsonObj['success'] = false;
+            }
+            else {
+                $data = array(
+                    'name' => $name,
+                    'color'=>$color,
+                    'status' => 2
+                );
+                if($this->model->addStatusProject($data)){
+                    $jsonObj['msg'] = 'Cập nhật dữ liệu thành công';
+                    $jsonObj['success'] = true;
+                } else {
+                    $jsonObj['msg'] = 'Lỗi cập nhật database';
+                    $jsonObj['success'] = false;
+                }
+            }
+        }
+        else {
+            $jsonObj['msg'] = 'Không có quyền truy cập';
+            $jsonObj['success'] = false;
+        }
+        
+        echo json_encode($jsonObj);
+    }
+
+    function addLevelProject(){
+        if(self::$funAdd == 1) {
+            $name = isset($_REQUEST['nameLevelProject']) ? $_REQUEST['nameLevelProject'] : '';
+            $color = isset($_REQUEST['colorLevelProject']) ? $_REQUEST['colorLevelProject'] : '';
+            if(empty($name) || empty($color)) {
+                $jsonObj['msg'] = 'Thông tin bạn nhập không chính xác';
+                $jsonObj['success'] = false;
+            }
+            else {
+                $data = array(
+                    'name' => $name,
+                    'color'=>$color,
+                    'status' => 2
+                );
+                if($this->model->addLevelProject($data)){
+                    $jsonObj['msg'] = 'Cập nhật dữ liệu thành công';
+                    $jsonObj['success'] = true;
+                } else {
+                    $jsonObj['msg'] = 'Lỗi cập nhật database';
+                    $jsonObj['success'] = false;
+                }
+            }
+        }
+        else {
+            $jsonObj['msg'] = 'Không có quyền truy cập';
+            $jsonObj['success'] = false;
+        }
+        
+        echo json_encode($jsonObj);
+    }
+
     function getStaff()
     {
         $json = $this->model->getStaff();
