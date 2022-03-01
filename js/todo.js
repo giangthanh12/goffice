@@ -660,10 +660,10 @@ $(function () {
         todoFilter.on("keyup", function () {
             var value = $(this).val().toLowerCase();
             if (value !== "") {
-                $(".todo-item").filter(function () {
+                $(".todo-items").filter(function () {
                     $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
                 });
-                var tbl_row = $(".todo-item:visible").length; //here tbl_test is table name
+                var tbl_row = $(".todo-items:visible").length; //here tbl_test is table name
 
                 //Check if table has row or not
                 if (tbl_row == 0) {
