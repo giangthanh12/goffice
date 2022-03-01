@@ -114,7 +114,7 @@
                                     $addCalendar = '';
                                     if($item['addCalendar'] != 0) $addCalendar = 'checked';
                                     echo '
-                                    <li class="">
+                                    <li class="todo-items">
                                         <div class="todo-title-wrapper todo-item pb-2">
                                             <div class="todo-title-area">
                                                 <span class="taskId d-none">' . $item['id'] . '</span>
