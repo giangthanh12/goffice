@@ -77,7 +77,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i data-feather="search" class="text-muted"></i></span>
                                     </div>
-                                    <input type="text" class="form-control" id="todo-search" placeholder="" aria-label="Search..." aria-describedby="todo-search" />
+                                    <input type="text" class="form-control" id="todo-search" placeholder="Tìm kiếm..." aria-label="Search..." aria-describedby="todo-search" />
                                 </div>
                             </div>
                             <div class="dropdown">

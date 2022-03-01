@@ -484,7 +484,7 @@
                                         <div class="col-lg-12 col-md-12">
                                             <div class="form-group">
                                                 <label for="dateIssue">Ngày cấp</label>
-                                                <input disabled id="dateIssue" type="text" class="form-control flatpickr-basic" name="dateIssue" />
+                                                <input readonly id="dateIssue" type="text" class="form-control flatpickr-basic" name="dateIssue" />
                                             </div>
                                             <div class="form-group">
                                                 <label for="descIssue">Ghi chú</label>
@@ -618,7 +618,7 @@
                                         <div class="col-lg-12 col-md-12">
                                             <div class="form-group">
                                                 <label for="ngay_gio_th">Ngày trả</label>
-                                                <input disabled id="ngay_gio_th" type="text" class="form-control flatpickr-basic" name="ngay_gio_th" />
+                                                <input readonly id="ngay_gio_th" type="text" class="form-control flatpickr-basic" name="ngay_gio_th" />
                                             </div>
                                             <div class="form-group">
                                                 <label for="ghi_chu_th">Ghi chú</label>
