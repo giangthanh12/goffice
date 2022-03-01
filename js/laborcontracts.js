@@ -157,103 +157,13 @@ $(function () {
         }
     }
 
-    // Form Validation
-    if (form.length) {
-        form.validate({
-            errorClass: "error",
-            rules: {
-                "name": {
-                    required: true,
-                },
-                "staffId": {
-                    required: true,
-                },
-                "user-email": {
-                    required: true,
-                },
-            },
-        });
-
-        form.on("submit", function (e) {
-            var isValid = form.valid();
-            e.preventDefault();
-            if (isValid) {
-                modal.modal("hide");
-            }
-        });
-    }
-
-
-
-     // Form Validation
-     if ($('#fm1').length) {
-        $('#fm1').validate({
-            errorClass: "error",
-            rules: {
-                "nameDepartment": {
-                    required: true,
-                },
-            },
-            messages: {
-                "nameDepartment": {
-                    required: "Yêu cầu nhập tên phòng ban",
-                },
-            },
-        });
-
-        $('#fm1').on("submit", function (e) {
-            var isValid = $('#fm1').valid();
-            e.preventDefault();
-            if (isValid) {
-                addDepartment();
-            }
-        });
-    }
-
     // To initialize tooltip with body container
     $("body").tooltip({
         selector: '[data-toggle="tooltip"]',
         container: "body",
     });
 });
-function loadDepartment() {
-$('#addDepartment').modal('show');
-$('#titleDepartment').html('Thêm phòng ban');
-$('#nameDepartment').val('');
-$('#descDepartment').val('');
-}
 
-function   addDepartment() {
-    var formData = new FormData($('#fm1')[0]);
-    $.ajax({
-        url: baseHome + "/laborcontracts/addDepartment",
-        type: 'POST',
-        data: formData,
-        async: false,
-        cache: false,
-        contentType: false,
-        enctype: 'multipart/form-data',
-        processData: false,
-        dataType: "json",
-        success: function (data) {
-            if (data.code == 200) {
-                notyfi_success(data.message);
-                $('#addDepartment').modal('hide');
-                return_combobox_multi('#departmentId', baseHome + '/common/departments', 'Lựa chọn phòng ban');
-                $('#departmentId').select2({              
-                    language: {
-                          noResults: function() {
-                              return '<a onclick="loadDepartment()"  href="javascript:void(0)">+Thêm mới</a>';
-                            }
-                          },escapeMarkup: function (markup) {
-                               return markup;
-                          }
-                    });
-            } else
-                notify_error(data.message);
-        }
-    });
-}
 function showAdd() {
     var validator = $('#fm').validate(); // reset form
         validator.resetForm();
@@ -354,53 +264,27 @@ function loaddata(id) {
 }
 
 function save() {
-    $('#fm').validate({
-        // messages: {
-        //     "name": {
-        //         required: "Bạn chưa nhập tên hợp đồng!",
-        //     },
-        //     "type": {
-        //         required: "Bạn chưa chọn loại hợp đồng!",
-        //     },
-        //     "staffId": {
-        //         required: "Bạn chưa chọn nhân viên!",
-        //     },
-        //     "departmentId": {
-        //         required: "Bạn chưa chọn phòng ban!",
-        //     },
-        //     "position": {
-        //         required: "Bạn chưa chọn vị tri!",
-        //     },
-        //     "branchId": {
-        //         required: "Bạn chưa chọn chi nhánh!",
-        //     },
-        //     "shiftId": {
-        //         required: "Bạn chưa chọn ca làm việc!",
-        //     },
-        //     "workPlaceId": {
-        //         required: "Bạn chưa chọn địa điểm làm việc!",
-        //     },
-        //     "basicSalary": {
-        //         required: "Bạn chưa nhập lương cơ bản!",
-        //     },
-        //     "salaryPercentage": {
-        //         required: "Bạn chưa nhập tỷ lệ lương!",
-        //     },
-        //     "startDate": {
-        //         required: "Bạn chưa ngày ký hợp đồng!",
-        //     }
-        // },
-        submitHandler: function (form) {
-            var formData = new FormData(form);
+    var info = {};
+    info.name = $("#name").val();
+    info.basicSalary = $("#basicSalary").val();
+    info.salaryPercentage = $("#salaryPercentage").val();
+    info.insuranceSalary = $("#insuranceSalary").val();
+    info.allowance = $("#allowance").val();
+    info.startDate = $("#startDate").val();
+    info.stopDate = $("#stopDate").val();
+    info.staffId = $("#staffId").val();
+    info.workPlaceId = $('#workPlaceId').val();
+    info.shiftId = $('#shiftId').val();
+    info.departmentId = $("#departmentId").val();
+    info.position = $("#position").val();
+    info.branchId = $("#branchId").val();
+    info.type = $("#type").val();
+    info.status = $("#status").val();
+    info.description = $("#description").val();
             $.ajax({
                 url: url,
                 type: 'POST',
-                data: formData,
-                async: false,
-                cache: false,
-                contentType: false,
-                enctype: 'multipart/form-data',
-                processData: false,
+                data: info,
                 dataType: "json",
                 success: function (data) {
                     if (data.code == 200) {
@@ -413,9 +297,6 @@ function save() {
             });
             return false;
         }
-    });
-    $('#fm').submit();
-}
 
 function xoa(id) {
     Swal.fire({
