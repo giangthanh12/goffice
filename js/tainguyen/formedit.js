@@ -33,21 +33,46 @@ $(function(){
         });
     
     });
-});
 
-
-
-function save(){
-    var required = $('input,textarea,select').filter('[required]:visible');
-    var allRequired = true;
-    required.each(function(){
-        if($(this).val().length == 0){
-            allRequired = false;
+    if($('#tainguyen-fm').length){
+        $('#tainguyen-fm').validate({
+            errorClass: "error",
+            rules: {
+                "name": {
+                    required: true,
+                },
+                "link": {
+                    required: true,
+                },
+                "username" :{
+                    required: true,
+                },
+                "ten_dang_nhap": {
+                    email: true,
+                }
+            },
+            messages: {
+                "name": {
+                    required: "Yêu cầu nhập tên tài nguyên!",
+                },
+                "link": {
+                    required: "Yêu cầu nhập link!",
+                },
+                "username" :{
+                    required: "Yêu cầu nhập tên đăng nhập!",
+                },
+                "ten_dang_nhap": {
+                    email: "Yêu cầu nhập email!",
+                }
+        }  
+        });
+        $('#tainguyen-fm').on("submit", function (e) {
+            var isValid = $('#tainguyen-fm').valid();
+            e.preventDefault();
+            if (isValid) {
+                save_form_reject('#tainguyen-fm', baseHome + '/tainguyen/update', baseHome + '/tainguyen');
+            }
+        });
         }
-    });
-    if(allRequired){
-        save_form_reject('#tainguyen-fm', baseHome + '/tainguyen/update', baseHome + '/tainguyen');
-    }else{
-        notify_error('Bạn chưa điền đủ thông tin');
-    }
-}
+
+});

@@ -27,7 +27,7 @@
                                     <div class="col-md-6 col-12">
                                         <div class="form-group">
                                             <label for="first-name-column">Tên tài nguyên</label>
-                                            <input type="text" id="name" class="form-control" placeholder="Tên tài nguyên" name="name" required="" />
+                                            <input type="text" id="name" class="form-control" placeholder="Tên tài nguyên" name="name" />
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-12">
@@ -63,7 +63,7 @@
                                     <div class="col-md-6 col-12">
                                         <div class="form-group">
                                             <label for="email-id-column">Tên đăng nhập</label>
-                                            <input type="email" id="username" class="form-control" name="username" placeholder="Tên đăng nhập" />
+                                            <input type="text" id="username" class="form-control" name="username" placeholder="Tên đăng nhập" />
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-12">
@@ -80,7 +80,7 @@
                                         </div>
                                     </div>
                                     <div class="col-12 text-center">
-                                        <button type="button" class="btn btn-primary mr-1" onclick="save()">Ghi dữ liệu</button>
+                                        <button type="submit" class="btn btn-primary mr-1">Ghi dữ liệu</button>
                                         <button type="reset" class="btn btn-outline-danger" onclick="window.location.href='./tainguyen'">Hủy bỏ</button>
                                     </div>
                                 </div>
