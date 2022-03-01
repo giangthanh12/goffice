@@ -103,9 +103,9 @@
                     </div>
 
                     <!-- Modal to edit user -->
-                    <div class="modal fade text-left" id="updateinfo" role="dialog" aria-labelledby="myModalLabel16"
+                    <div class="modal fade" id="updateinfo"  aria-labelledby="myModalLabel16"
                         aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+                        <div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h4 class="modal-title" id="myModalLabel16">Cập nhật thông tin nhân sự</h4>

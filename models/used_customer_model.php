@@ -97,18 +97,47 @@ class used_customer_Model extends Model
         $result['data'] = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }
+    // function loadProductUsed($id) {
+    //     $query = $this->db->query("SELECT *,
+    //     DATE_FORMAT(dateTime,'%d-%m-%Y %H:%i') as date,
+    //     (SELECT name from products where id = transaction.productId) AS productName, 
+    //     (SELECT type from products where id = transaction.productId) AS productType, 
+    //     (SELECT supplier from products where id = transaction.productId) AS productSupplier, 
+    //     (SELECT vat from products where id = transaction.productId) AS productVat, 
+    //     (SELECT price from products where id = transaction.productId) AS productprice
+    //     FROM transaction WHERE status = 1 AND customerId = $id GROUP BY productId  ORDER BY id DESC ");
+    //     $result['data'] = $query->fetchAll(PDO::FETCH_ASSOC);
+    //     return $result;
+    // }
     function loadProductUsed($id) {
         $query = $this->db->query("SELECT *,
-        DATE_FORMAT(dateTime,'%d-%m-%Y %H:%i') as date,
-        (SELECT name from products where id = transaction.productId) AS productName, 
-        (SELECT type from products where id = transaction.productId) AS productType, 
-        (SELECT supplier from products where id = transaction.productId) AS productSupplier, 
-        (SELECT vat from products where id = transaction.productId) AS productVat, 
-        (SELECT price from products where id = transaction.productId) AS productprice
-        FROM transaction WHERE status = 1 AND customerId = $id GROUP BY productId  ORDER BY id DESC ");
-        $result['data'] = $query->fetchAll(PDO::FETCH_ASSOC);
-        return $result;
+        DATE_FORMAT(date,'%d-%m-%Y') as date,
+        DATE_FORMAT(validDate,'%d-%m-%Y') as validDate
+        FROM quotation WHERE status = 2 AND customerId = $id ORDER BY id DESC ");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        $data = [];
+        foreach($result as $key=>$item) {
+            $query = $this->db->query("SELECT *,
+                (SELECT name from products where id = subquotation.goods) AS productName, 
+                (SELECT type from products where id = subquotation.goods) AS productType, 
+                (SELECT DATE_FORMAT(date,'%d-%m-%Y') as date from quotation where id = subquotation.quotationId) AS date, 
+                (SELECT DATE_FORMAT(validDate,'%d-%m-%Y') as validDate from quotation where id = subquotation.quotationId) AS validDate, 
+                (SELECT supplier from products where id = subquotation.goods) AS productSupplier, 
+                (SELECT vat from products where id = subquotation.goods) AS productVat, 
+                (SELECT price from products where id = subquotation.goods) AS productprice
+                FROM subquotation WHERE status = 1 AND quotationId  = ".$item['id']." ORDER BY id DESC ");
+                $data[] = $query->fetchAll(PDO::FETCH_ASSOC);
+            }
+            $resultQuotation['data'] = [];
+            if(count($data) > 0) {
+                for ($i=0; $i < count($data); $i++) { 
+                    $resultQuotation['data'] = array_merge($resultQuotation['data'], $data[$i]);
+                }
+            }
+            return $resultQuotation;
     }
+
+
     function getdata($id)
     {
         $result = array();

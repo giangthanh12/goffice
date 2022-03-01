@@ -14,7 +14,6 @@ $(function () {
                 noCalendar: true,
                 time_24hr: true,
                 dateFormat: "H:i:S",
-               
             });
         }
 
@@ -249,15 +248,16 @@ $(function () {
         form.validate({
             errorClass: "error",
             rules: {
-                "user-fullname": {
+                "ca": {
                     required: true,
                 },
-                "user-name": {
-                    required: true,
+               
+            },
+            messages: {
+                "ca": {
+                    required: "Yêu cầu nhập tên ca làm việc",
                 },
-                "user-email": {
-                    required: true,
-                },
+               
             },
         });
 
@@ -265,17 +265,36 @@ $(function () {
             var isValid = form.valid();
             e.preventDefault();
             if (isValid) {
-                modal.modal("hide");
+                savetk();
             }
         });
     }
-
+    Date.prototype.addHours= function(h){
+        this.setHours(this.getHours()+h);
+        return this;
+    }
+   
     // To initialize tooltip with body container
     $("body").tooltip({
         selector: '[data-toggle="tooltip"]',
         container: "body",
     });
 });
+
+function changeTime(el1,el2) {
+        let val = el1.val();
+        let d = new Date("July 21, 1983 "+val);
+        console.log(d.addHours(1));
+        d = d.getHours()+':'+d.getMinutes()+':'+d.getSeconds();
+        el2.val('');
+        el2.flatpickr({
+         enableTime: true,
+         noCalendar: true,
+         time_24hr: true,
+         minTime: d,
+         dateFormat: "H:i:S",
+     });
+}
 
 function loaddata(id) {
     $(".modal-title").html('Cập nhật thông tin giờ làm việc');

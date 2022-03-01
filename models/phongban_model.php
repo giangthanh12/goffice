@@ -23,6 +23,10 @@ class phongban_Model extends Model{
         $result = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }
+    function addPosition($data) {
+        $query = $this->insert("position",$data);
+        return $query;
+    }
 
     function addObj($data)
     {

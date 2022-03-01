@@ -698,6 +698,8 @@ function loaddichvu(id) {
                     { data: "productSupplier"},
                     { data: "productVat" },
                     { data: "productprice" },
+                    { data: "date" },
+                    { data: "validDate" }
                 ],
                 columnDefs: [
                     {
@@ -706,10 +708,10 @@ function loaddichvu(id) {
                         orderable: false,
                         render: function (data, type, full, meta) {
                             var html = '';
-                            if (full['type'] == 1) {
+                            if (full['productType'] == 1) {
                                 html = `<div class="badge badge-pill badge-light-info">Sản phẩm</div>`;
                             }
-                            else if (full['type'] == 2) {
+                            else if (full['productType'] == 2) {
                                 html = `<div class="badge badge-pill badge-light-primary">Dịch vụ</div>`;
                             }
                             return html;
@@ -719,10 +721,10 @@ function loaddichvu(id) {
                     {
                         // Actions
                         targets: 4,
-                        orderable: true,
+                        orderable: false,
                         render: function (data, type, full, meta) {
                             var html = '';
-                            html = formatCurrency(full['asset'].replace(/[,VNĐ]/g,''));
+                            html = formatCurrency(full['productprice'].replace(/[,VNĐ]/g,''));
                             return html;
                         },
     
@@ -730,7 +732,7 @@ function loaddichvu(id) {
                     {
                         // Actions
                         targets: 3,
-                        orderable: true,
+                        orderable: false,
                         render: function (data, type, full, meta) {
                             return data+'%';
                         },

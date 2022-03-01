@@ -60,7 +60,7 @@
                                                     <div class="col-lg-3 col-md-6">
                                                         <div class="form-group">
                                                             <label for="name">Thứ 2</label>
-                                                            <input id="t2_in" name="t2_in" type="text" class="form-control flatpicker" />
+                                                            <input id="t2_in" onchange="changeTime($('#t2_in'), $('#t2_out'))" name="t2_in" type="text" class="form-control flatpicker" />
                                                             <input id="t2_out" name="t2_out" type="text" class="form-control flatpicker" />
                                                         </div>
                                                     </div>
@@ -68,42 +68,42 @@
                                                     <div class="col-lg-3 col-md-6">
                                                         <div class="form-group">
                                                             <label for="name">Thứ 3</label>
-                                                            <input id="t3_in" name="t3_in" type="text" class="form-control flatpicker" />
+                                                            <input id="t3_in" name="t3_in" onchange="changeTime($('#t3_in'), $('#t3_out'))" type="text" class="form-control flatpicker" />
                                                             <input id="t3_out" name="t3_out" type="text" class="form-control flatpicker" />
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-3 col-md-6">
                                                         <div class="form-group">
                                                             <label for="name">Thứ 4</label>
-                                                            <input id="t4_in" name="t4_in" type="text" class="form-control flatpicker" />
+                                                            <input id="t4_in" name="t4_in" onchange="changeTime($('#t4_in'), $('#t4_out'))" type="text" class="form-control flatpicker" />
                                                             <input id="t4_out" name="t4_out" type="text" class="form-control flatpicker" />
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-3 col-md-6">
                                                         <div class="form-group">
                                                             <label for="name">Thứ 5</label>
-                                                            <input id="t5_in" name="t5_in" type="text" class="form-control flatpicker" />
+                                                            <input id="t5_in" name="t5_in" onchange="changeTime($('#t5_in'), $('#t5_out'))" type="text" class="form-control flatpicker" />
                                                             <input id="t5_out" name="t5_out" type="text" class="form-control flatpicker" />
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-3 col-md-6">
                                                         <div class="form-group">
                                                             <label for="name">Thứ 6</label>
-                                                            <input id="t6_in" name="t6_in" type="text" class="form-control flatpicker" />
+                                                            <input id="t6_in" name="t6_in" onchange="changeTime($('#t6_in'), $('#t6_out'))"  type="text" class="form-control flatpicker" />
                                                             <input id="t6_out" name="t6_out" type="text" class="form-control flatpicker" />
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-3 col-md-6">
                                                         <div class="form-group">
                                                             <label for="name">Thứ 7</label>
-                                                            <input id="t7_in" name="t7_in" type="text" class="form-control flatpicker" />
+                                                            <input id="t7_in" name="t7_in" onchange="changeTime($('#t7_in'), $('#t7_out'))" type="text" class="form-control flatpicker" />
                                                             <input id="t7_out" name="t7_out" type="text" class="form-control flatpicker" />
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-3 col-md-6">
                                                         <div class="form-group">
                                                             <label for="name">Chủ nhật</label>
-                                                            <input id="cn_in" name="cn_in" type="text" class="form-control flatpicker" />
+                                                            <input id="cn_in" onchange="changeTime($('#cn_in'), $('#cn_out'))" name="cn_in" type="text" class="form-control flatpicker" />
                                                             <input id="cn_out" name="cn_out" type="text" class="form-control flatpicker" />
                                                         </div>
                                                     </div>
@@ -111,14 +111,14 @@
                                                         <div class="form-group">
                                                             <label for="name">Nghỉ trưa</label>
                                                             <input id="lunStart" name="lunStart" type="text" class="form-control flatpicker" />
-                                                            <input id="lunInterval" name="lunInterval" type="number" class="form-control" />
+                                                            <input id="lunInterval" placeholder="Thời lượng nghỉ" name="lunInterval" type="number" class="form-control" />
                                                         </div>
                                                     </div>
                                                   
 
                             
                                                     <div class="col-12 d-flex flex-sm-row flex-column mt-2">
-                                                        <button type="button" onclick="savetk()" class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Cập nhật</button>
+                                                        <button type="submit"  class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Cập nhật</button>
                                                         <button type="reset" class="btn btn-outline-secondary" data-dismiss="modal">Bỏ qua</button>
                                                     </div>
                                                 </div>
