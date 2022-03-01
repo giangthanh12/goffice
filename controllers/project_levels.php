@@ -49,11 +49,6 @@ class project_levels extends Controller{
             $name = isset($_REQUEST['name']) ? $_REQUEST['name'] : '';
             $color = isset($_REQUEST['color']) ? $_REQUEST['color'] : '';
             $status = isset($_REQUEST['status']) ? $_REQUEST['status'] : 1;
-            if(empty($name) || empty($color)) {
-                $jsonObj['msg'] = 'Thông tin bạn nhập không chính xác';
-                $jsonObj['success'] = false;
-            }
-            else {
                 $data = array(
                     'name' => $name,
                     'color'=>$color,
@@ -66,7 +61,6 @@ class project_levels extends Controller{
                     $jsonObj['msg'] = 'Lỗi cập nhật database';
                     $jsonObj['success'] = false;
                 }
-            }
         }
         else {
             $jsonObj['msg'] = 'Không có quyền truy cập';

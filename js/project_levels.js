@@ -164,13 +164,12 @@ $(function () {
                 "name": {
                     required: true,
                 },
-                "color": {
-                    required: true,
-                },
-                "user-email": {
-                    required: true,
-                },
             },
+            messages: {
+                "name": {
+                    required: "Yêu cầu nhập tên cấp độ!",
+                },
+            }
         });
 
         form.on("submit", function (e) {
@@ -178,6 +177,7 @@ $(function () {
             e.preventDefault();
             if (isValid) {
                 modal.modal("hide");
+                saveLevelProject();
             }
         });
     }
