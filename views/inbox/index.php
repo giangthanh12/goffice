@@ -315,7 +315,7 @@
                                             <a class="text-body toggle-bcc" href="javascript:void(0);"><i data-feather="x"></i></a>
                                         </div>
                                         <div class="compose-mail-form-field">
-                                            <label for="emailSubject">Chủ đề: </label>
+                                            <label style="width: 60px;" for="emailSubject">Chủ đề: </label>
                                             <input type="text" id="emailSubject" class="form-control"  name="emailSubject" />
                                         </div>
                                         <div id="message-editor">

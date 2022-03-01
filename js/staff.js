@@ -153,7 +153,7 @@ $(function () {
                         var $text = '';
                         switch ($status) {
                             case '1':
-                                $text = "Thực tập sinh";
+                                $text = "Fresher";
                                 break;
                             case '2':
                                 $text = "Thử việc";
@@ -282,7 +282,7 @@ $(function () {
                 staffCode: {
                     required: true,
                 },
-                name: {
+                fullName: {
                     required: true,
                 },
                 email: {
@@ -302,10 +302,10 @@ $(function () {
             },
             messages: {
                 staffCode: {
-                    required: "Bạn chưa nhập mã nhân viên",
+                    required: "Bạn chưa nhập mã nhân viên!",
                 },
-                name: {
-                    required: "Bạn chưa nhập họ tên!",
+                fullName: {
+                    required: "Bạn chưa nhập tên nhân viên!",
                 },
                 email: {
                     required: "Bạn chưa nhập email!",

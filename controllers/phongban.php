@@ -82,6 +82,22 @@ class phongban extends Controller{
         }
         echo json_encode($jsonObj);
     }
+    function addPosition() {
+        $name = $_REQUEST['namePosition'];
+        $description = $_REQUEST['descPosition'];
+        $data = array(
+            'name' => $name,
+            'description' => $description
+        );
+        if($this->model->addPosition($data)){
+            $jsonObj['msg'] = 'Cập nhật dữ liệu thành công';
+            $jsonObj['success'] = true;
+        } else {
+            $jsonObj['msg'] = 'Lỗi cập nhật database';
+            $jsonObj['success'] = false;
+        }
+        echo json_encode($jsonObj);
+    }
 
     function update()
     {

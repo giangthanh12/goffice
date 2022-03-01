@@ -44,7 +44,7 @@
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <label for="position">Vị trí phòng ban</label>
+                                                    <label for="position">Chức vụ</label>
                                                     <select class="select2 form-control" multiple="multiple" data-msg-required="Bạn chưa chọn vị trí phòng ban" required id="position"
                                                     name="position[]"></select>
                                                 </div>
@@ -65,6 +65,40 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- Thêm chức vụ -->
+                    <div class="modal fade text-left" id="modalPositionAdd"  role="dialog" aria-labelledby="titlePosition" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="titlePosition"></h4>
+                                </div>
+                                <div class="modal-body">
+                                    <!-- <input type="hidden" id="id" name="id" /> -->
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <form class="form-validate" enctype="multipart/form-data" id="formPosition">
+                                                <div class="form-group">
+                                                    <label for="namePosition">Tên gọi</label>
+                                                    <input type="text" class="form-control" id="namePosition" placeholder="Nhập tên chức vụ" name="namePosition" required/>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="descPosition">Ghi chú</label>
+                                                    <textarea id="descPosition" name="descPosition" type="text" class="form-control " ></textarea>
+                                                </div>
+                                                <div class="d-flex flex-sm-row flex-column mt-2">
+                                                    <button type="submit" class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Cập nhật</button>
+                                                    <button type="reset" class="btn btn-outline-secondary" data-dismiss="modal">Bỏ qua</button>
+                                                </div>
+                                            </form>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Kết thúc chức vụ -->
                 </div>
             </section>
         </div>

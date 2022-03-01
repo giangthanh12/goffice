@@ -1,6 +1,6 @@
 var url = '';
 $(function () {
-    return_combobox_multi('#position', baseHome + '/phongban/getPosition', 'Vị trí thực hiện');
+    return_combobox_multi_add('#position', baseHome + '/phongban/getPosition', 'Vị trí thực hiện', 'loadPositionAdd');
     "use strict";
 
     var dtUserTable = $(".user-list-table"),
@@ -145,6 +145,32 @@ function actionMenu() {
             }
         });
     }
+    //form validate addPosition
+    if ($('#formPosition').length) {
+        $('#formPosition').validate({
+            errorClass: "error",
+            rules: {
+                "namePosition": {
+                    required: true,
+                },
+            },
+            messages: {
+                "namePosition": {
+                    required: "Bạn chưa điền tên chức vụ",
+                },
+            },
+        });
+
+        $('#formPosition').on("submit", function (e) {
+            var isValid = $('#formPosition').valid();
+            e.preventDefault();
+            if (isValid) {
+                addPosition();
+            }
+        });
+    }
+
+    //end form addPosition
 
     // To initialize tooltip with body container
     $("body").tooltip({
@@ -152,7 +178,35 @@ function actionMenu() {
         container: "body",
     });
 });
-
+function loadPositionAdd() {
+    $('#modalPositionAdd').modal('show');
+    $('#titlePosition').html('Thêm chức vụ cho phòng ban');
+    $('#namePosition').val('');
+    $('#descPosition').val('');
+}
+function addPosition() {
+    var formData = new FormData($('#formPosition')[0]);
+    $.ajax({
+        url: baseHome + "/phongban/addPosition",
+        type: 'POST',
+        data: formData,
+        async: false,
+        cache: false,
+        contentType: false,
+        enctype: 'multipart/form-data',
+        processData: false,
+        dataType: "json",
+        success: function (data) {
+            if (data.success) {
+                notyfi_success(data.msg);
+                $('#modalPositionAdd').modal('hide');
+                return_combobox_multi_add('#position', baseHome + '/phongban/getPosition', 'Vị trí thực hiện', 'loadPositionAdd');
+               
+            } else
+                notify_error(data.msg);
+        }
+    });
+}
 function loaddata(id) {
     $("#updateinfo").modal('show');
     $(".modal-title").html('Cập nhật thông tin phòng ban');
