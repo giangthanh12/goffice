@@ -151,13 +151,12 @@ $(function () {
                 "name": {
                     required: true,
                 },
-                "color": {
-                    required: true,
-                },
-                "user-email": {
-                    required: true,
-                },
             },
+            messages:{
+                "name": {
+                    required: "Yêu cầu nhập tên trạng thái",
+                },
+            }
         });
 
         form.on("submit", function (e) {
@@ -165,6 +164,7 @@ $(function () {
             e.preventDefault();
             if (isValid) {
                 modal.modal("hide");
+                saveStatusProject();
             }
         });
     }
@@ -196,7 +196,7 @@ function loaddata(id) {
     });
 }
 // dùng chung cho phần update và thêm
-function saveLevelProject() {
+function saveStatusProject() {
     
     var info = {};
     info.name = $("#name").val();

@@ -150,13 +150,12 @@ $(function () {
                 "name": {
                     required: true,
                 },
-                "color": {
-                    required: true,
-                },
-                "user-email": {
-                    required: true,
-                },
             },
+            messages:{
+                "name": {
+                    required: "Yêu cầu nhập tên tình trạng!",
+                },
+            }
         });
 
         form.on("submit", function (e) {
@@ -164,6 +163,7 @@ $(function () {
             e.preventDefault();
             if (isValid) {
                 modal.modal("hide");
+                saveStatusTask();
             }
         });
     }

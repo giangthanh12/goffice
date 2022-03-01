@@ -42,11 +42,11 @@ class task_status extends Controller{
             $name = isset($_REQUEST['name']) ? $_REQUEST['name'] : '';
             $color = isset($_REQUEST['color']) ? $_REQUEST['color'] : '';
             $status = isset($_REQUEST['status']) ? $_REQUEST['status'] : 1;
-            if(empty($name) || empty($color)) {
-                $jsonObj['msg'] = 'Thông tin bạn nhập không chính xác';
-                $jsonObj['success'] = false;
-            }
-            else {
+            // if(empty($name) || empty($color)) {
+            //     $jsonObj['msg'] = 'Thông tin bạn nhập không chính xác';
+            //     $jsonObj['success'] = false;
+            // }
+            // else {
                 $data = array(
                     'name' => $name,
                     'color'=>$color,
@@ -60,7 +60,7 @@ class task_status extends Controller{
                     $jsonObj['success'] = false;
                 }
             }
-        }
+        // }
         else {
             $jsonObj['msg'] = 'Không có quyền truy cập';
             $jsonObj['success'] = false;
