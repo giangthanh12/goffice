@@ -251,10 +251,10 @@ class asset extends Controller{
         );
        
         if($this->model->addIssue($data)){
-            $jsonObj['msg'] = 'Cập nhật dữ liệu thành công';
+            $jsonObj['msg'] = 'Cấp phát tài sản thành công';
             $jsonObj['success'] = true;
         } else {
-            $jsonObj['msg'] = 'Lỗi cập nhật database';
+            $jsonObj['msg'] = 'Cấp phát tài sản thất bại';
             $jsonObj['success'] = false;
         }
    
@@ -278,10 +278,10 @@ class asset extends Controller{
             'tinh_trang' => 1
         );
         if($this->model->add_thuhoi($data)){
-            $jsonObj['msg'] = 'Cập nhật dữ liệu thành công';
+            $jsonObj['msg'] = 'Thu hồi tài sản thành công';
             $jsonObj['success'] = true;
         } else {
-            $jsonObj['msg'] = 'Lỗi cập nhật database';
+            $jsonObj['msg'] = 'Thu hồi tài sản thất bại';
             $jsonObj['success'] = false;
         }
  
