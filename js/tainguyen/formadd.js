@@ -22,8 +22,8 @@ $(function(){
 
         return_combobox_multi('#phan_loai', baseHome + '/phanloai/combo', 'Lựa chọn phân loại');
         return_combobox_multi('#nha_cung_cap', baseHome + '/tainguyen/combo', 'Lựa chọn nhà cung cấp'); 
-        return_combobox_multi('#chu_so_huu', baseHome + '/customer/combo', 'Lựa chọn chủ sở hữu'); 
-        $('#nguoi_tao').val(user.nhan_vien);
+        return_combobox_multi('#chu_so_huu', baseHome + '/khachhang/combo', 'Lựa chọn chủ sở hữu'); 
+        $('#nguoi_tao').val(baseUser.nhan_vien);
     // }else{
     //     setInterval(function(){
     //         notify_error(auth.responseJSON.msg);
@@ -32,19 +32,38 @@ $(function(){
     //     }, 2000);
     // }
     
-});
-
-function save(){
-    var required = $('input,textarea,select').filter('[required]:visible');
-    var allRequired = true;
-    required.each(function(){
-        if($(this).val() == ''){
-            allRequired = false;
+    if($('#tainguyen-fm').length){
+        $('#tainguyen-fm').validate({
+            errorClass: "error",
+            rules: {
+                "name": {
+                    required: true,
+                },
+                "link": {
+                    required: true,
+                },
+                "username" :{
+                    required: true,
+                },
+            },
+            messages: {
+                "name": {
+                    required: "Yêu cầu nhập tên tài nguyên!",
+                },
+                "link": {
+                    required: "Yêu cầu nhập link!",
+                },
+                "username" :{
+                    required: "Yêu cầu nhập tên đăng nhập!",
+                },
+        }  
+        });
+        $('#tainguyen-fm').on("submit", function (e) {
+            var isValid = $('#tainguyen-fm').valid();
+            e.preventDefault();
+            if (isValid) {
+                save_form_reject('#tainguyen-fm', baseHome + '/tainguyen/add', baseHome + '/tainguyen');
+            }
+        });
         }
-    });
-    if(allRequired){
-        save_form_reject('#tainguyen-fm', baseHome + '/tainguyen/add', baseHome + '/tainguyen');
-    }else{
-        notify_error('Bạn chưa điền đủ thông tin');
-    }
-}
+});
