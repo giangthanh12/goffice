@@ -137,6 +137,65 @@ $(function () {
         container: "body",
     });
 
+    $.validator.addMethod("mytst", function (value, element) {
+        var flag = true;
+                
+      $("[name^=object1]").each(function (i, j) {
+        $(this).parent('div').find('label.error').remove();
+        $(this).attr('style', 'border-color:#D8D6DE !important');
+                if ($.trim($(this).val()) == '') {
+                    flag = false;
+                        $(this).parent('div').append('<label  id="obj'+i+'-error" class="error">Yêu cầu nhập tên đối tượng</label>');
+                        $(this).css("borderColor", "#ea5455");
+                        }
+                    });
+                    return flag;
+            }, "");
+
+    if($('#frm-1').length){
+         $('#frm-1').validate({
+        rules: {
+            "name1": {
+                required: true,
+            },
+            "object1[]": {
+                mytst: true,
+            },
+        },
+        messages: {
+            "name1": {
+                required: "Yêu cầu nhập tên yêu cầu!!",
+            },
+            // "object1[]": {
+            //     mytst: "Yêu cầu nhập tên đối tượng!!",
+            // },
+        },
+});
+
+$('#frm-1').on("submit", function (e) {
+    var isValid = $('#frm-1').valid();
+    e.preventDefault();
+    if (isValid) {
+        $('#frm-1').modal("hide");
+        update();
+    }
+});
+    }
+
+    if($('#frm-2').length){
+        $('#frm-2').validate({
+     
+});
+
+$('#frm-2').on("submit", function (e) {
+   var isValid = $('#frm-2').valid();
+   e.preventDefault();
+   if (isValid) {
+       $('#frm-2').modal("hide");
+       update();
+   }
+});
+   }
 });
 
 //object
@@ -147,7 +206,7 @@ function addobjectbutton1() {
     var j = Number(sttobj1) + 1;
 
     $('#sttobj1').val(j);
-    $('#listobject1').append('<div class="row form-group" id="objupdate-' + j + '"><div class="col col-md-3"><input type="hidden" name="Oid[]" value=""></div><div class="col-12 col-md-7"><input type="text" name="object1[]" placeholder="Đối tượng" class="form-control object"></div><button type="button" class="btn btn-icon btn-outline-danger waves-effect " onclick="remove1(' + j + ')"><i class="fas fa-trash-alt"></i></button></div>'
+    $('#listobject1').append('<div class="row form-group" id="objupdate-' + j + '"><div class="col col-md-3"><input type="hidden" name="Oid[]" value=""></div><div class="col-12 col-md-7"><input id="obj0" type="text" name="object1[]" placeholder="Đối tượng" class="form-control object"></div><button type="button" style ="height: 40px;" class="btn btn-icon btn-outline-danger waves-effect " onclick="remove1(' + j + ')"><i class="fas fa-trash-alt"></i></button></div>'
     );
 }
 
@@ -160,6 +219,7 @@ function remove1(x1) {
 }
 //steps
 function showStepButton() {
+    $('#delStep').removeClass('d-none');
     $('#stepList').append(
         '<div data-repeater-item class="step-item" id="arr-' + step + '">' +
         '<div class = "row d-flex align-items-end" >' +
@@ -220,7 +280,9 @@ function removeStepById(id) {
     if (index !== -1) {
         stepIds.splice(index, 1);
     }
-
+    if($('.step-item').length == 1){
+        $('#delStep').addClass('d-none');
+    }
 }
 
 function showAdd() {
@@ -265,7 +327,7 @@ function loaddata(id) {
             for (var j = 0; j < x; j++) {
                 var buttonDel = '';
                 if(funEdit == 1)
-                   buttonDel = '<button type="button" class="btn btn-icon btn-outline-danger waves-effect remove-button" onclick="remove1(' + j + ')"><i class="fas fa-trash-alt"></i></button>';
+                   buttonDel = '<button type="button" style ="height: 40px;" class="btn btn-icon btn-outline-danger waves-effect remove-button" onclick="remove1(' + j + ')"><i class="fas fa-trash-alt"></i></button>';
                 $("#listobject1").append(
                     '<div class="row form-group" id="objupdate-' + j + '"><div class="col col-md-3"></div><div class="col-12 col-md-7"><input type="text" name="object1[]" value="' +
                     data.object[j]["name"] +
@@ -310,7 +372,7 @@ function loaddata(id) {
                     '</div>' +
                     '</div>' +
                     '<div class="col-md-1 col-12" style="padding-right:0 !important;">' +
-                    '<div class="form-group">' +
+                    '<div id="delStep" class="form-group">' +
                      
                      buttonDelStep
                     +
@@ -329,6 +391,10 @@ function loaddata(id) {
                 stepIds.push(data.step[J]["id"]);
 
             }
+            var numdiv = $('.step-item').length;
+            if(numdiv == 1){
+                $('#delStep').addClass('d-none');
+            }
             url = baseHome + "/define_request/update?id=" + defineId;
             urlstep = baseHome + "/define_request/updatestep?defineId=" + defineId;
         },
@@ -340,26 +406,7 @@ function loaddata(id) {
 
  
 function update() {
-    $('#frm-1').validate({
-        rules: {
-            "name1": {
-                required: true,
-            },
-            // "object1[]": {
-            //     required: true,
-            // },
-        },
-        messages: {
-            "name1": {
-                required: "Yêu cầu nhập tên yêu cầu!!",
-            },
-            // "object1[]": {
-            //     required: "Yêu cầu nhập tên đối tượng!!",
-            // },
-        },
-    
-    submitHandler: function (form){
-    var frmdefine = new FormData(form);
+    var frmdefine = new FormData($("#frm-1")[0]);
     $.ajax({
         type: "POST",
         dataType: "json",
@@ -398,9 +445,6 @@ function update() {
             notify_error('Cập nhật không thành công');
         }
     });
-}
-});
-$('#frm-1').submit();
 }
 
 function xoa(id) {
