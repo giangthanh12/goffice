@@ -218,14 +218,14 @@ document.addEventListener('DOMContentLoaded', function () {
     btnDeleteEvent.removeClass('d-none');
 
     eventTitle.val(eventToUpdate.title);
-    start.setDate(eventToUpdate.start, true, 'Y-m-d H:i:s');
+    start.setDate(eventToUpdate.start, true, 'Y-m-d');
     startDate.attr("disabled", true);
     // start.prop('disabled', true);
     // eventToUpdate.allDay === true ? allDaySwitch.prop('checked', true) : allDaySwitch.prop('checked', false);
     // allDaySwitch.attr("disabled", true);
     eventToUpdate.extendedProps.endDate !== null
-      ? end.setDate(eventToUpdate.extendedProps.endDate, true, 'Y-m-d H:i:s')
-      : end.setDate(eventToUpdate.start, true, 'Y-m-d H:i:s');
+      ? end.setDate(eventToUpdate.extendedProps.endDate, true, 'Y-m-d')
+      : end.setDate(eventToUpdate.start, true, 'Y-m-d');
     endDate.attr("disabled", true);
     sidebar.find(eventLabel).val(eventToUpdate.extendedProps.calendar).trigger('change');
     eventLabel.attr("disabled", true);
@@ -310,10 +310,10 @@ document.addEventListener('DOMContentLoaded', function () {
         if (data.data) {
           let i = 0;
           data.data.forEach(function (item) {
-            // let allday = false;
-            // if (item.allDay == 1) {
-            //   allday = true;
-            // }
+            let allday = false;
+            if (item.allDay == 1) {
+              allday = true;
+            }
             let arr = [];
             if (item.id > 0) {
               arr = {
@@ -322,7 +322,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 title: item.title,
                 start: new Date(item.startDate),
                 end: new Date(item.endDate),
-                // allDay: allday,
+                allDay: allday,
                 extendedProps: {
                   calendar: item.objectType,
                   objectId: item.objectId,
@@ -439,8 +439,8 @@ document.addEventListener('DOMContentLoaded', function () {
       addEventBtn.removeClass('d-none');
       updateEventBtn.addClass('d-none');
       btnDeleteEvent.addClass('d-none');
-      startDate.val(date);
-      endDate.val(date);
+      startDate.val(date).change();
+      // endDate.val();
       startDate.attr("disabled", false);
       endDate.attr("disabled", false);
       eventLabel.attr("disabled", false);
@@ -724,15 +724,21 @@ function loadAdd() {
     });
   }
   $('#start-date').attr("disabled", false);
-  $('#end-date').attr("disabled", false);
+  $('#end-date').attr("disabled", true);
   $('#select-label').attr("disabled", false);
 }
 
 function changeStartDate() {
   if (add == 0) {
-    var startDay = new Date($('#start-date').val());
-    var date = new Date();
-    if (startDay >= date) {
+    var startDay1 = new Date($('#start-date').val());
+    var date1 = new Date();
+    startDay = moment(startDay1).format('YYYY-MM-DD');
+    date = moment(date1).format('YYYY-MM-DD');
+    // alert(date);
+    $('#end-date').attr('disabled',false);
+    if (startDay > date) {
+
+      $('#end-date').val(moment(startDay).format('YYYY-MM-DD'));
       if ($('#end-date').length) {
         var end = $('#end-date').flatpickr({
           enableTime: true,
@@ -746,11 +752,12 @@ function changeStartDate() {
         });
       }
     } else {
+      $('#end-date').val(moment(date1.setHours(date1.getHours() + 2)).format('YYYY-MM-DD HH:MM'));
       if ($('#end-date').length) {
         var end = $('#end-date').flatpickr({
           enableTime: true,
           altFormat: 'Y-m-dTH:i:S',
-          minDate: startDay,
+          minDate: 'today',
           onReady: function (selectedDates, dateStr, instance) {
             if (instance.isMobile) {
               $(instance.mobileInput).attr('step', null);
