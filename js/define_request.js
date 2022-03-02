@@ -147,11 +147,9 @@ function addobjectbutton1() {
     var j = Number(sttobj1) + 1;
 
     $('#sttobj1').val(j);
-    $('#listobject1').append('<div class="row form-group" id="objupdate-' + j + '"><div class="col col-md-3"><input type="hidden" name="Oid[]" value=""></div><div class="col-12 col-md-7"><input autofocus type="text" name="object1[]" placeholder="Đối tượng" class="form-control object"></div><button type="button" class="btn btn-icon btn-outline-danger waves-effect " onclick="remove1(' + j + ')"><i class="fas fa-trash-alt"></i></button></div>'
+    $('#listobject1').append('<div class="row form-group" id="objupdate-' + j + '"><div class="col col-md-3"><input type="hidden" name="Oid[]" value=""></div><div class="col-12 col-md-7"><input type="text" name="object1[]" placeholder="Đối tượng" class="form-control object"></div><button type="button" class="btn btn-icon btn-outline-danger waves-effect " onclick="remove1(' + j + ')"><i class="fas fa-trash-alt"></i></button></div>'
     );
-
-    
-            }
+}
 
 function removeobj(i) {
     $('#obj-' + i).remove();
@@ -340,81 +338,66 @@ function loaddata(id) {
     });
 }
 
-var count = 0;
+ 
 function update() {
-    $("[name^=object1]").each(function (i, j) {
-        if ($.trim($(this).val()) == '') {
-            count += 1;
-        }
-        else {
-            count = 0;
-        }
-    });
-    if(count > 0) {
-        notify_error('Vui lòng nhập tên đối tượng');
-    }
-
-
-        $('#frm-1').validate({
+    $('#frm-1').validate({
         rules: {
             "name1": {
                 required: true,
             },
+            // "object1[]": {
+            //     required: true,
+            // },
         },
         messages: {
             "name1": {
                 required: "Yêu cầu nhập tên yêu cầu!!",
             },
+            // "object1[]": {
+            //     required: "Yêu cầu nhập tên đối tượng!!",
+            // },
         },
     
     submitHandler: function (form){
-    if(count == 0) {
-        var frmdefine = new FormData(form);
-        $.ajax({
-            type: "POST",
-            dataType: "json",
-            data: frmdefine,
-            url: url,
-            contentType: false,
-            processData: false,
-            success: function (data) {
-                if (data.success) {
-                    var frmstep = new FormData($("#frm-2")[0]);
-                    $.ajax({
-                        type: "POST",
-                        dataType: "json",
-                        data: frmstep,
-                        url: urlstep + '&stepArr=' + JSON.stringify(arrStep) + '&stepIds=' + stepIds,
-                        contentType: false,
-                        processData: false,
-                        success: function (data) {
-                            if (data.success) {
-                                notyfi_success(data.msg);
-                                $('#info-contract').modal('hide');
-                                $(".user-list-table").DataTable().ajax.reload(null, false);
-                            }
-                            else
-                                notify_error(data.msg);
-                        },
-                        error: function () {
-                            notify_error('Cập nhật không thành công');
+    var frmdefine = new FormData(form);
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        data: frmdefine,
+        url: url,
+        contentType: false,
+        processData: false,
+        success: function (data) {
+            if (data.success) {
+                var frmstep = new FormData($("#frm-2")[0]);
+                $.ajax({
+                    type: "POST",
+                    dataType: "json",
+                    data: frmstep,
+                    url: urlstep + '&stepArr=' + JSON.stringify(arrStep) + '&stepIds=' + stepIds,
+                    contentType: false,
+                    processData: false,
+                    success: function (data) {
+                        if (data.success) {
+                            notyfi_success(data.msg);
+                            $('#info-contract').modal('hide');
+                            $(".user-list-table").DataTable().ajax.reload(null, false);
                         }
-                    });
-                }
-                else
-                    notify_error(data.msg);
-            },
-            error: function () {
-                notify_error('Cập nhật không thành công');
+                        else
+                            notify_error(data.msg);
+                    },
+                    error: function () {
+                        notify_error('Cập nhật không thành công');
+                    }
+                });
             }
-        });
-    }
-    else {
-        // notify_error('Vui lòng nhập tên đối tượng');
-    }
-   
-  
-    
+            else
+                notify_error(data.msg);
+        },
+        error: function () {
+            notify_error('Cập nhật không thành công');
+        }
+    });
 }
 });
 $('#frm-1').submit();
