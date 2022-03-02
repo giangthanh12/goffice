@@ -415,6 +415,7 @@
                                                                     <th>Giới tính</th>
                                                                     <th>Email</th>
                                                                     <th>Số điện thoại</th>
+                                                                    <th>CV</th>
                                                                     <th>Trạng thái</th>
                                                                     <th></th>
                                                                 </tr>

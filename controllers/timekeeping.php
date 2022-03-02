@@ -40,8 +40,9 @@ class timekeeping extends Controller
     {
 //        $jsonObj['msg'] = "Error";
 //        $jsonObj['code'] = 401;
-        $month = (isset($_REQUEST['month']) && ($_REQUEST['month'] != '')) ? $_REQUEST['month'] : date("m");
-        $year = (isset($_REQUEST['year']) && ($_REQUEST['year'] != '')) ? $_REQUEST['year'] : date("Y");
+        $month = (isset($_REQUEST['thang']) && ($_REQUEST['thang'] != '')) ? $_REQUEST['thang'] : date("m");
+        $year = (isset($_REQUEST['nam']) && ($_REQUEST['nam'] != '')) ? $_REQUEST['nam'] : date("Y");
+       
         $staffId = isset($_REQUEST['staffId']) ? $_REQUEST['staffId'] : $_SESSION['user']['staffId'];
         $data = $this->model->getTimekeeping($staffId, $month, $year);
         if ($data) {
