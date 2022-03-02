@@ -287,7 +287,7 @@ document.addEventListener('DOMContentLoaded', function () {
         $.ajax({
             type: "POST",
             dataType: "json",
-            data: {staffId: staffId, nam: nam, thang: thang},
+            data: {staffId: staffId, year: nam, month: thang},
             url: baseHome + '/timekeeping/getTimeKeeping',
             success: function (data) {
                 events = [];
