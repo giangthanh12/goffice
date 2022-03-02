@@ -12,7 +12,7 @@ $(function () {
     var dtUserTable = $(".user-list-table"),
         modal = $("#updateinfo"),
         form = $("#dg");
-var   datePicker = $(".flatpickr-basic");
+var datePicker = $(".flatpickr-basic");
         if (datePicker.length) {
             datePicker.flatpickr({
                 dateFormat: 'd-m-Y',
@@ -166,7 +166,7 @@ var   datePicker = $(".flatpickr-basic");
 
     }
     $.validator.addMethod('le', function (value, element, param) {
-        return this.optional(element) || value <= $(param).val();
+        return this.optional(element) || value < $(param).val();
     }, 'Invalid value');
     $.validator.addMethod('leluong', function(value, element, param) {
        console.log($(param).val().replaceAll(',', ''));
@@ -184,7 +184,6 @@ var   datePicker = $(".flatpickr-basic");
         validator.resetForm();
         $(".error").removeClass("error"); // loại bỏ validate
         $("#addinfo").modal('show');
-        // console.log(new Date($('#startDate').val()));
         var strStartDate = $('#startDate').val();
         var day = Number(strStartDate.slice(0,2));
         var month = Number(strStartDate.slice(3,5));
@@ -509,7 +508,6 @@ function loaddata(id) {
         data: { id: id },
         url: baseHome + "/recruitmentcamp/loaddata",
         success: function (data) {
-            
             $('#title1').val(data.title);
             $('#inChargeId1').val(data.inChargeId).change();
             $('#followerId1').val(data.followerId.split(',')).change();
@@ -523,7 +521,11 @@ function loaddata(id) {
             $('#minSalary1').val(formatCurrency(data.minSalary.replace(/[,VNĐ]/g,'')));
             $('#maxSalary1').val(formatCurrency(data.maxSalary.replace(/[,VNĐ]/g,'')));
             $('#quantity1').val(data.quantity);
+            if(data.quantity == 0) 
+            $('#quantity1').val('');
             $('#minAge1').val(data.minAge);
+            if(data.minAge == 0) 
+            $('#minAge1').val('');
             $('#maxAge1').val(data.maxAge);
             $('#educationLevel1').val(data.educationLevel);
             $('#professional1').val(data.professional);
@@ -534,8 +536,6 @@ function loaddata(id) {
                 var file = baseHome + '/users/gemstech/' +data.file;
                 $('#viewfile').html(`<a target="_blank" href="${file}" style="color: blue;">Tải xuống <i class="fas fa-download"></i></a>`)
             }
-           
-          
             loadListCandidate(id);
             $('#campId').val(id);
         },
@@ -671,6 +671,7 @@ function loadListCandidate(id) {
                 { data: "gender" },
                 { data: "email" },
                 { data: "phoneNumber" },
+                { data: "cv" },
                 { data: "status" },
                 { data: ""}
         
@@ -703,15 +704,23 @@ function loadListCandidate(id) {
                 //     orderable: false,
                 //     width:200
                 // },
-                // {
-                //     // Actions
-                //     targets: 3,
-                //     orderable: false,
-               
-                // },
+                {
+                    orderable: false,
+                    targets: 4,
+                    render: function (data, type, full, meta) {
+                       var html = '';
+                      
+                       if(full['cv'] !== '') {
+                        var urlfile = baseUrlFile + '/uploads/ungvien/' +full['cv'];
+                        html +=  `<div id="viewfile"><a target="_blank" href="${urlfile}" style="color: blue;">Tải xuống <i class="fas fa-download"></i></a> </div>`;
+                    }
+                    return html;
+                    },
+                    width:150
+                },
                 {
                     // Actions
-                    targets: 4,
+                    targets: 5,
                     orderable: false,
                     render: function (data, type, full, meta) {
                       if(full['status'] == 2) {
@@ -727,7 +736,7 @@ function loadListCandidate(id) {
                 {
                     // Actions
                     targets: -1,
-                    title: feather.icons["database"].toSvg({ class: "font-medium-3 text-center text-success mr-50" }),
+                    title: "Thao tác",
                     orderable: false,
                     render: function (data, type, full, meta) {
                         var html = '';

@@ -36,6 +36,7 @@ class recruitmentcamp_Model extends Model{
             (SELECT gender FROM applicants WHERE id = a.canId) AS gender,
             (SELECT email FROM applicants WHERE id = a.canId) AS email,
             (SELECT phoneNumber FROM applicants WHERE id = a.canId) AS phoneNumber,
+            (SELECT cv FROM applicants WHERE id = a.canId) AS cv,
             (SELECT status FROM applicants WHERE id = a.canId) AS status
             FROM sortlist a WHERE status = 1 AND campId = $id ORDER BY ID DESC");
         $result['data'] = $query->fetchAll(PDO::FETCH_ASSOC);

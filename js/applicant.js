@@ -1112,6 +1112,7 @@ function loadlisthv(id) {
                 {
                     targets: 2,
                 },
+                
                 {
                     // Actions
                     targets: -1,
