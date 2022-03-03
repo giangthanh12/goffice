@@ -90,6 +90,7 @@ connection.onmessage = function (message) {
                             // body: data.content
                         },
                         data: {
+                            userToken: item.user_token,
                             inboxId: item.inboxId,
                             link: 'inbox'
                         }
