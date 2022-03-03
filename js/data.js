@@ -407,6 +407,13 @@ function loaddata(id) {
             $('#econnectorName').val(data.connectorName);
             $('#etaxCode').val(data.taxCode);
             $('#etype').val(data.type);
+            if(data.type == 0) {
+                $('#etype').select2({
+                    placeholder: 'Lĩnh vực hoạt động'
+                });
+                $('#etype').val('').change();
+            }
+            $('#etype').val(data.type).change();
             $('#description').val('');
             $('#listnhatky').html('');
             datareports.map(history => {

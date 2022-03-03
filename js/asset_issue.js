@@ -175,15 +175,17 @@ function loaddata(id) {
         data: { id: id },
         url: baseHome + "/asset_issue/loaddata",
         success: function (data) {
+            console.log(data);
             return_combobox_multi('#tai_san', baseHome + '/asset_issue/getAllAsset', 'Tài sản');
-            $('#id').val(data.id);
+            // $('#id').val(data.id);
             $("#tai_san").attr("disabled", true);
             $("#tai_san").val(data.tai_san).change();
             $("#nhan_vien").val(data.nhan_vien).trigger('change');
-            $('#so_luong').val(data.so_luong);
-            $('#dat_coc').val(formatCurrency(data.dat_coc.replace(/[,VNĐ]/g,'')));
+            // $('#so_luong').val(data.so_luong);
+            $('#dat_coc').val(Comma(data.dat_coc));
             $('#ngay_gio').val(data.ngay_gio);
             $('#ghi_chu').val(data.ghi_chu);
+            // alert(data.ghi_chu);
  
             url = baseHome + '/asset_issue/update?id=' + id;
         },
