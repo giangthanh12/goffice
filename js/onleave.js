@@ -352,6 +352,11 @@ $(function () {
       overlay.removeClass("show");
     }
   }
+
+  $("body").tooltip({
+    selector: '[data-toggle="tooltip"]',
+    container: "body",
+});
 });
 
 $(window).on("resize", function () {

@@ -115,7 +115,7 @@
                                 ?>
                             </ul>
                             <div class="no-results">
-                                <h5>No Items Found</h5>
+                                <h5>Không có bản ghi nào</h5>
                             </div>
                         </div>
                         <!-- Todo List ends -->
