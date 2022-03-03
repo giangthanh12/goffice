@@ -41,7 +41,8 @@
 <script src="<?=HOME?>/styles/app-assets/vendors/js/extensions/toastr.min.js"></script>
 <script src="<?=HOME?>/styles/app-assets/vendors/js/extensions/sweetalert2.all.min.js"></script>
 <script src="<?=HOME?>/styles/app-assets/vendors/js/jkanban/jkanban.min.js"></script>
-
+<script type="text/javascript" src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script type="text/javascript" src="https://www.gstatic.com/firebasejs/8.10.0/firebase-messaging.js"></script>
 <script>
     $(window).on('load', function() {
         // $('#minlogo').hide();
