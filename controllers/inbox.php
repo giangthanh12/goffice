@@ -96,7 +96,7 @@ class inbox extends Controller
       
         if ($row > 0) {
             $jsonObj['data'] = array('senderId'=>$_SESSION['user']['staffId'], 'avatar'=>$info['avatar'],'nameSender'=>$info['name'] ,'title'=>$title, 'content'=>$content,
-            'receiverId'=>$_REQUEST['email-to'], 'status'=>1,'idInbox'=>$dataInboxReceiver, 'dateTime'=>date('Y-m-d H:i:s'), 'link'=>'inbox');
+            'receiverId'=>$_REQUEST['email-to'], 'status'=>1,'idInbox'=>$dataInboxReceiver,'inboxIds'=>$inboxIds, 'dateTime'=>date('Y-m-d H:i:s'), 'link'=>'inbox');
             $jsonObj['msg'] = "Đã gửi thông báo thành công";
             $jsonObj['success'] = true;
         } else {
@@ -240,5 +240,3 @@ class inbox extends Controller
     // }
 
 }
-
-?>
