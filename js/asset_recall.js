@@ -23,7 +23,7 @@ $(function () {
             // ajax: assetPath + "data/user-list.json", // JSON file to add data
             ajax: baseHome + "/asset_recall/listdata",
             columns: [
-                { data: "ngay_gio" },
+                { data: "ngay_gio_format" },
                 { data:"nameIssue"},
                 { data: "code" },
                 { data: "name_taisan" },

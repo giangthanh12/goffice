@@ -708,7 +708,7 @@ function updateInfoStaff() {
 function addStaff() {
     var info = {};
     info.staffCode = $("#staffCode").val();
-    info.name = $("#name").val();
+    info.name = $("#fullName").val();
     info.phoneNumber = $("#phoneNumber").val();
     info.birthday = $("#birthday").val();
     info.email = $("#email").val();

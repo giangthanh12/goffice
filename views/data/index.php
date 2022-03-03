@@ -179,7 +179,18 @@
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="etype">Lĩnh vực hoạt động</label>
-                                                        <input type="text" id="etype" class="form-control" name="type" placeholder="Lĩnh vực hoạt động" />
+                                                        <select class="form-control select2" name="type" id="etype">
+                                                                        <option value="1">Công nghệ thông tin</option>
+                                                                        <option value="2">Chứng khoán đầu tư</option>
+                                                                        <option value="3">Tài chính ngân hàng</option>
+                                                                        <option value="4">Du lịch - khách hàng</option>
+                                                                        <option value="5">Xây dựng - bất động sản</option>
+                                                                        <option value="6">Sản xuất chế tạo</option>
+                                                                        <option value="7">Dịch vụ ăn uống</option>
+                                                                        <option value="8">Vận tải hành khách</option>
+                                                                        <option value="9">Logistic</option>
+                                                                        <option value="10">Khác</option>
+                                                                    </select> 
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="estaffId">Phụ trách</label>
