@@ -303,7 +303,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="todoTitleAdd" class="form-label">Link ghi âm</label>
-                                <input type="text" id="name" name="name" class="new-todo-item-title form-control" placeholder="Link ghi âm" />
+                                <input type="text" id="linkRecord" name="linkRecord" class="new-todo-item-title form-control" placeholder="Link ghi âm" />
                                 <input type="hidden" id="id" name="id">
                             </div>
                         </div>

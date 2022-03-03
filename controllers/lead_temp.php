@@ -62,7 +62,8 @@ class lead_temp extends Controller
         if (isset($_REQUEST['id'])) {
             $id = $_REQUEST['id'];
             $comment = $_REQUEST['comment'];
-            $data = ['leadId' => $id, 'staffId' => $_SESSION['user']['staffId'], 'content' => $comment, 'dateTime' => date('Y-m-d H:i:s'), 'status' => 1];
+            $record = $_REQUEST['record'];
+            $data = ['leadId' => $id, 'staffId' => $_SESSION['user']['staffId'], 'content' => $comment,'linkToRecord' => $record ,'dateTime' => date('Y-m-d H:i:s'), 'status' => 1];
             $temp = $this->model->insertTakeCareHistory($data);
             if ($temp == []) {
                 $jsonObj['msg'] = "Cập nhật không thành công";
