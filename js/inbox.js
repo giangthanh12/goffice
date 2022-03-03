@@ -404,6 +404,7 @@ $(function () {
                         path:taxCode,
                         receiverid: response.data.receiverId,
                         senderid:baseUser,
+                        inboxIds: response.data.inboxIds,
                         listInboxId:response.data.idInbox,
                         avatar:baseHome + '/users/gemstech/uploads/nhanvien/'+response.data.avatar,
                         nameSender:response.data.nameSender,

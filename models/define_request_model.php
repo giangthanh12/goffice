@@ -72,6 +72,16 @@ class define_request_model extends Model
         return $result[0]['id'];
     }
 
+    function getNameDefine(){
+        $result   = array();
+        $dieukien = " WHERE status = 1 ORDER BY id DESC LIMIT 1 ";
+        $query           = $this->db->query("SELECT name FROM definerequests $dieukien ");
+        if ($query)
+            $result  = $query->fetchAll(PDO::FETCH_ASSOC);
+
+        return $result[0]['name'];
+    }
+
     function addObject($dataObject)
     {
         $query = $this->insert("requestobjects", $dataObject);
@@ -127,8 +137,12 @@ class define_request_model extends Model
 
     function delObjects($listId, $id)
     {
-        if ($listId != '') {
-            $query = $this->db->query("SELECT id FROM requestobjects WHERE defineId = $id AND status = 1 AND id NOT IN ($listId)");
+        $where = " id NOT IN (0) ";
+        if($listId != '') {
+            $where = " id NOT IN ($listId) ";
+        }
+      
+            $query = $this->db->query("SELECT id FROM requestobjects WHERE defineId = $id AND status = 1 AND $where");
             $temp = $query->fetchAll(PDO::FETCH_ASSOC);
             if (count($temp) > 0) {
                 foreach ($temp as $item) {
@@ -136,7 +150,8 @@ class define_request_model extends Model
                     $this->update("requestobjects", ['status' => 0], "id = $idobj");
                 }
             }
-        }
+      
+    
         return true;
     }
 

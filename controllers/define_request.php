@@ -66,7 +66,7 @@ class define_request extends Controller
         $name = isset($_REQUEST['name1']) ? $_REQUEST['name1'] : '';
         $object = isset($_REQUEST['object1']) ? $_REQUEST['object1'] : '';
        
- if (isset($_REQUEST['object1']) && !empty($object) && isset($_REQUEST['name1'])) {
+ if (isset($_REQUEST['name1'])) {
         $data = array(
             'name' => $name,
             'status' => 1
@@ -75,42 +75,52 @@ class define_request extends Controller
         $lastId = $this->model->getLastId();
     
         //object
-       
-                foreach ($object as $item) {
-                    $dataObject = [
-                        'name' => $item,
-                        'defineId' => $lastId,
-                        'status' => 1
-                    ];
-                    $this->model->addObject($dataObject);
-                }
-                $jsonObj['msg'] = 'Cập nhật thành công';
-                $jsonObj['success'] = true;
-          
+       if(isset($_REQUEST['object1']) && !empty($object)){
+        foreach ($object as $item) {
+            $dataObject = [
+                'name' => $item,
+                'defineId' => $lastId,
+                'status' => 1
+            ];
+            $this->model->addObject($dataObject);
+        }
+       }
+        $jsonObj['msg'] = 'Cập nhật thành công';
+        $jsonObj['success'] = true;
         } else {
-            $jsonObj['msg'] = 'Yêu cầu nhập đủ thông tin';
+            $jsonObj['msg'] = 'Cập nhật không thành công';
             $jsonObj['success'] = false;
         }
 
         echo json_encode($jsonObj);
     }
-
     function addstep()
     {
+    
         $lastId = $this->model->getLastId();
+        $nameDefine = $this->model->getNameDefine();
+      
         $ndata = [];
-        $jsonObj['msg'] = 'Bạn chưa thêm bước thực hiện!';
-        $jsonObj['success'] = true;
+        
+        if($nameDefine == ''){
+            $jsonObj['msg'] = 'Bạn chưa nhập tên yêu cầu!';
+            $jsonObj['success'] = false;
+            echo json_encode($jsonObj);
+            return false;
+        }
+    
 
         $arrStep = isset($_REQUEST['stepArr']) ? $_REQUEST['stepArr'] : '';
-        if ($arrStep != '') {
+    
+        if ($arrStep != '[]') {
             $arrStep = json_decode($arrStep);
             for ($n = 0; $n < count($arrStep); $n++) {
                 $namestep = isset($_REQUEST['n_ten_buoc' . $arrStep[$n]]) ? $_REQUEST['n_ten_buoc' . $arrStep[$n]] : '';
                 $sortorder = $_REQUEST['n_thu_tu' . $arrStep[$n]];
                 $reviewer = isset($_REQUEST['n_tham_chieu' . $arrStep[$n]]) ? $_REQUEST['n_tham_chieu' . $arrStep[$n]] : '';
                 $ntemp = isset($_REQUEST['n_xu_ly' . $arrStep[$n]]) ? $_REQUEST['n_xu_ly' . $arrStep[$n]] : [];
-                if (count($ntemp) > 0)
+                if(!empty($namestep) && !empty($sortorder) && !empty($reviewer) && !empty($ntemp)){
+                    if (count($ntemp) > 0)
                     $processor = implode(",", $ntemp);
                 else
                     $processor = '';
@@ -127,7 +137,18 @@ class define_request extends Controller
                     $jsonObj['msg'] = 'Cập nhật dữ liệu không thành công';
                     $jsonObj['success'] = false;
                 }
+                }else{
+                    $this->model->delObj($lastId, ["status" => 0]);
+                    $jsonObj['msg'] = 'Yêu cầu nhập đủ dữ liệu bước thực hiện';
+                    $jsonObj['success'] = false;
+                }
+               
             }
+        }else{
+            $this->model->delObj($lastId, ["status" => 0]);
+            $jsonObj['msg'] = 'Bạn chưa thêm bước thực hiện!';
+            $jsonObj['success'] = false;
+            // echo json_encode($jsonObj);
         }
 
         echo json_encode($jsonObj);
@@ -142,58 +163,49 @@ class define_request extends Controller
             return false;
         }
         $id = $_REQUEST['id'];
-        $idobj = $_REQUEST['Oid'];
+        $idobj =isset( $_REQUEST['Oid']) ?  $_REQUEST['Oid'] : [];
+
         $name = isset($_REQUEST['name1']) ? $_REQUEST['name1'] : '';
-        $object = isset($_REQUEST['object1']) ? $_REQUEST['object1'] : '';
-
-
+        $object = isset($_REQUEST['object1']) ? $_REQUEST['object1'] : [];
+        //update name request
+        $dataDefine = array(
+            'name' => $name,
+        );
+        $this->model->updateObj($id, $dataDefine);
+        //update name object
         $listId = '';
         for ($j = 0; $j < count($object); $j++) {
             $listId .= $idobj[$j] . ",";
         }
         $listId = rtrim($listId, ",");
 
-        if ($this->model->delObjects($listId, $id)) {
-            $dataDefine = array(
-                'name' => $name,
-            );
-            $this->model->updateObj($id, $dataDefine);
+        $this->model->delObjects($listId, $id);
+        // if ($listId != '' ) {
+          
             for ($i = 0; $i < count($object); $i++) {
                 $ObjId = $idobj[$i];
+                
                 $ok = $this->model->checkObject($id, $ObjId);
                 if ($ok == 1) {
                     $dataObject = array(
                         'name' => $object[$i],
                     );
-                    if ($this->model->updateObject($ObjId, $dataObject)) {
-                        $jsonObj['msg'] = 'Cập nhật dữ liệu thành công';
-                        $jsonObj['success'] = true;
-                    } else {
-                        $jsonObj['msg'] = 'Cập nhật dữ liệu không thành công';
-                        $jsonObj['success'] = false;
-                    }
+                    $this->model->updateObject($ObjId, $dataObject);
+                   
                 } else {
                     $dataObject = array(
                         'name' => $object[$i],
                         'status' => 1,
                         'defineId' => $id
                     );
-                    if ($this->model->addObject($dataObject)) {
-                        $jsonObj['msg'] = 'Cập nhật dữ liệu thành công';
-                        $jsonObj['success'] = true;
-                    } else {
-                        $jsonObj['msg'] = 'Cập nhật dữ liệu không thành công';
-                        $jsonObj['success'] = false;
-                    }
+                    $this->model->addObject($dataObject);
+                  
                 }
             }
-        } else {
-            $jsonObj['msg'] = 'Cập nhật dữ liệu không thành công';
-            $jsonObj['success'] = false;
-        }
-
-
-        echo json_encode($jsonObj);
+       
+            $jsonObj['msg'] = 'Cập nhật dữ liệu thành công';
+            $jsonObj['success'] = true;
+            echo json_encode($jsonObj);
     }
 
     function updatestep()

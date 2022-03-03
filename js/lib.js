@@ -12,7 +12,7 @@ function getParameterByName(name, url) { // lay tham so qua URL
 }
 
 // Web socket create and processs
-let connection = new WebSocket('wss://velo.vn:1337/'+taxCode+'?staffId=' + baseUser);
+let connection = new WebSocket('wss://velo.vn:1337/' + taxCode + '?staffId=' + baseUser);
 connection.onopen = function () {
     console.log("Open connection!");
 };
@@ -28,43 +28,43 @@ connection.onmessage = function (message) {
             var content = data.content;
             var idInboxs = data.listInboxId;
             var idInbox;
-            console.log(receiverid,senderid,avatar,title,content);
-            var url = baseHome+'/inbox';
-            idInboxs.forEach(function(element) {
-             
-               if(Number(element.receiverId) == baseUser) {
-               idInbox = element.inboxId;
-             
-               }
-            });
-          
-            // notifList(receiverid, senderid, title, avatar, content);
-           if($('#countNotifications').length > 0) {
-            var countNoti =  $('#countNotifications').html();
-            $('#countNotifications').html(Number(countNoti)+1);
-           } 
-           else {
-               $('#showNotifi').html(`<span id="countNotifications" class="badge badge-pill badge-danger badge-up">1</span>`);
-           }
-       
+            console.log(receiverid, senderid, avatar, title, content);
+            var url = baseHome + '/inbox';
+            idInboxs.forEach(function (element) {
 
-           $('#countNotifications1').html(Number(countNoti)+1+' tin');
-            var bellInterval =  setInterval(function() {
-                $('.bell-icon').toggleClass( "bell" );
-            },100)
-            setTimeout(function(){
+                if (Number(element.receiverId) == baseUser) {
+                    idInbox = element.inboxId;
+
+                }
+            });
+
+            // notifList(receiverid, senderid, title, avatar, content);
+            if ($('#countNotifications').length > 0) {
+                var countNoti = $('#countNotifications').html();
+                $('#countNotifications').html(Number(countNoti) + 1);
+            }
+            else {
+                $('#showNotifi').html(`<span id="countNotifications" class="badge badge-pill badge-danger badge-up">1</span>`);
+            }
+
+
+            $('#countNotifications1').html(Number(countNoti) + 1 + ' tin');
+            var bellInterval = setInterval(function () {
+                $('.bell-icon').toggleClass("bell");
+            }, 100)
+            setTimeout(function () {
                 clearInterval(bellInterval);
-            },3000);
-            if(content.length > 90) {
-                content = content.slice(0,90)+'...';
+            }, 3000);
+            if (content.length > 90) {
+                content = content.slice(0, 90) + '...';
             }
             $('.media-list').append(`
             <a data-id="${idInbox}" class="d-flex notification-item${idInbox}" href="${url}">
                 <div class="media d-flex align-items-start">
                     <div class="media-left">
                         <div class="avatar">`+
-                        '<img onerror='+"this.src='https://velo.vn/goffice-test/layouts/useravatar.png'"+' src="'+  avatar + '" alt="avatar" height="32" width="32" />'+
-                        `</div>
+                '<img onerror=' + "this.src='https://velo.vn/goffice-test/layouts/useravatar.png'" + ' src="' + avatar + '" alt="avatar" height="32" width="32" />' +
+                `</div>
                     </div>
                     <div class="media-body">
                         <p class="media-heading">
@@ -76,6 +76,38 @@ connection.onmessage = function (message) {
             </a>`);
             notifyMe(receiverid, senderid, title, avatar, content, 'inbox');
         }
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            data: { receiverId: data.receiverid, inboxIds: data.inboxIds },
+            url: baseHome + "/fcm_token/getFcmToken",
+            success: function (res) {
+                res.data.forEach(function (item) {
+                    let body = {
+                        to: item.fcm_token,
+                        notification: {
+                            title: "Bạn có một thông báo mới",
+                            // body: data.content
+                        },
+                        data: {
+                            inboxId: item.inboxId,
+                            link: 'inbox'
+                        }
+                    }
+                    let options = {
+                        method: "POST",
+                        headers: {
+                            'Authorization': "key=AAAAhvTgZQQ:APA91bFl7i1Ctp7aXma6CTwGEYY7dU1t2Bdni2e8PeurScHCI0b6XHw0wHppJV9zroO4skW3K7O8T5cEKxzK4h278Z83DZaf2zXLnsajn5p_JmbeaxImKfVbd3dc-I9uoyh6vQkvCZqN",
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(body)
+                    }
+                    fetch("https://fcm.googleapis.com/fcm/send", options).then(res => {
+                        console.log(res);
+                    }).catch(e => console.log(e))
+                });
+            }
+        });
     } else if (data.type == 'chatbox') {
         if (activeurl == 'chatbox') {
             actionchat(data);
@@ -184,19 +216,19 @@ function notifList(receiverid, senderid, title, avatar, content) { // notify khi
     $('.media-list').toast('show');
     var img = baseUrlFile + "/uploads/nhanvien/" + avatar;
 
-    $('#avatar-nofi').attr('src',img);
+    $('#avatar-nofi').attr('src', img);
     $('#title-nofi').html(title);
     // $('#content-nofi').html(content);
-        
-     var str = content;
+
+    var str = content;
     var arrayStr = explode(' ', content);
     if (count(arrayStr) > 7) {
         arrayStr = explode(' ', content);
         str = implode(' ', array_slice(arrayStr, 0, 7)) + '...';
     }
     $('#content-nofi').html(str);
-                                               
-        // alert('ok');
+
+    // alert('ok');
 
 }
 
@@ -234,25 +266,25 @@ function checkout() {
     $.ajax({
         type: "POST",
         dataType: "json",
-    //    data: {staffIdid: baseUser, ip: user.ip},
+        //    data: {staffIdid: baseUser, ip: user.ip},
         url: baseHome + '/index/checkOutBtn',
         success: function (data) {
-           if(data.code == 200) {
-            notyfi_success(data.message);
-            var dataSend = {
-                type:'checkout',
-                action:'send',
-                path:taxCode,
-                staffId: data.data.staffId,
-                date:data.data.date,
-                checkOutTime:data.data.checkOutTime,
-            };
-            connection.send(JSON.stringify(dataSend));
-           }
+            if (data.code == 200) {
+                notyfi_success(data.message);
+                var dataSend = {
+                    type: 'checkout',
+                    action: 'send',
+                    path: taxCode,
+                    staffId: data.data.staffId,
+                    date: data.data.date,
+                    checkOutTime: data.data.checkOutTime,
+                };
+                connection.send(JSON.stringify(dataSend));
+            }
             // console.log($('#selectStaff')[0]);
             // $('#selectStaff').val(baseUser).trigger("change");
             // calendar.refetchEvents();
-           
+
         },
         error: function () {
             notify_error('Lỗi truy xuất database');
@@ -655,14 +687,14 @@ function return_combobox_multi(id_input, url_data, place) {
     $(id_input).select2({
         placeholder: place,
         dropdownParent: $(id_input).parent(),
- 
+
     });
     $(id_input).html(html);
 
 }
 
 
-function return_combobox_multi_add(id_input, url_data, place,nameFunction) {
+function return_combobox_multi_add(id_input, url_data, place, nameFunction) {
     var str_data = load_data(url_data);
     var Objdata = JSON.parse(str_data.responseText);
     var html = '';
@@ -673,13 +705,13 @@ function return_combobox_multi_add(id_input, url_data, place,nameFunction) {
         placeholder: place,
         dropdownParent: $(id_input).parent(),
         language: {
-        noResults: function() {
-            return '<a onclick="'+nameFunction+'()"  href="javascript:void(0)">+Thêm mới</a>';
-        }
-        },escapeMarkup: function (markup) {
+            noResults: function () {
+                return '<a onclick="' + nameFunction + '()"  href="javascript:void(0)">+Thêm mới</a>';
+            }
+        }, escapeMarkup: function (markup) {
             return markup;
         }
- 
+
     });
     $(id_input).html(html);
 
@@ -704,12 +736,12 @@ function checkIn() {
         success: function (data) {
             if (data.code == 200) {
                 var dataSend = {
-                    type:'checkin',
-                    action:'send',
-                    path:taxCode,
+                    type: 'checkin',
+                    action: 'send',
+                    path: taxCode,
                     staffId: data.data.staffId,
-                    date:data.data.date,
-                    checkInTime:data.data.checkInTime,
+                    date: data.data.date,
+                    checkInTime: data.data.checkInTime,
                 };
                 connection.send(JSON.stringify(dataSend));
                 notyfi_success(data.message);
