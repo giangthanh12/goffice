@@ -137,12 +137,18 @@ class Model
             $response = json_decode($response);
             $menuIds = $response->data;
             $menus = [];
-            if($parentId == 0) {
-                $where = " and id in ($menuIds) ";
+            if(empty($menuIds)) {
+                $where = " and id in (0) ";
             }
             else {
-                $where = '';
+                if($parentId == 0) {
+                    $where = " and id in ($menuIds) ";
+                }
+                else {
+                    $where = '';
+                }
             }
+            
             
 
             if ($classUser == 1) {
