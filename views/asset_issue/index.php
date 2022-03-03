@@ -69,7 +69,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="ghi_chu">Ghi chú</label>
-                                            <textarea id="ghi_chu" disabled class="form-control" name="ghi_chu"></textarea>
+                                            <textarea id="ghi_chu" class="form-control" name="ghi_chu"></textarea>
                                         </div>
                                     <button type="reset" class="btn btn-outline-secondary" data-dismiss="modal">Bỏ qua</button>
                                     </div>
