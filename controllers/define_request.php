@@ -103,13 +103,13 @@ class define_request extends Controller
         $ndata = [];
         
         if($nameDefine == ''){
+            $this->model->delObj($lastId, ["status" => 0]);
             $jsonObj['msg'] = 'Bạn chưa nhập tên yêu cầu!';
             $jsonObj['success'] = false;
             echo json_encode($jsonObj);
             return false;
         }
     
-
         $arrStep = isset($_REQUEST['stepArr']) ? $_REQUEST['stepArr'] : '';
     
         if ($arrStep != '[]') {
