@@ -74,6 +74,7 @@ class inbox extends Controller
         }
         $row = 0;
         $dataInboxReceiver= [];
+        $inboxIds= [];
 
         $dataSend = array('senderId'=>$_SESSION['user']['staffId'], 'title'=>$title, 'content'=>$content,
         'receiverId'=>0, 'status'=>1, 'dateTime'=>date('Y-m-d H:i:s'), 'link'=>'inbox');
@@ -88,6 +89,7 @@ class inbox extends Controller
             $data = array('senderId'=>$_SESSION['user']['staffId'], 'title'=>$title, 'content'=>$content,
             'receiverId'=>json_encode([$item]), 'status'=>1, 'dateTime'=>date('Y-m-d H:i:s'), 'link'=>'inbox');
             $idInbox = $this->model->add($data);
+            $inboxIds[] = $idInbox;
             $dataInboxReceiver[] = array('inboxId'=> $idInbox, 'receiverId'=>$item);
             $row++;
         }
