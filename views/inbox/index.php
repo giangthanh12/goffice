@@ -342,7 +342,7 @@
                                         <div class="compose-footer-wrapper">
                                             <div class="btn-wrapper d-flex align-items-center">
                                                 <div class="btn-group dropup mr-1">
-                                                    <button type="submit" class="btn btn-primary" onclick="sendMsg()">Gửi</button>
+                                                    <button type="submit" class="btn btn-primary" >Gửi</button>
                                                     <!-- <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-reference="parent">
                                                         <span class="sr-only">Toggle Dropdown</span>
                                                     </button>
