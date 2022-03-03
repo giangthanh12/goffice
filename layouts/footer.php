@@ -42,6 +42,9 @@
 <script src="<?=HOME?>/styles/app-assets/vendors/js/extensions/sweetalert2.all.min.js"></script>
 <script src="<?=HOME?>/styles/app-assets/vendors/js/jkanban/jkanban.min.js"></script>
 
+
+
+
 <script>
     $(window).on('load', function() {
         // $('#minlogo').hide();
