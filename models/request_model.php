@@ -161,7 +161,14 @@ class request_model extends Model
         if ($query){
             $data = $query->fetchAll(PDO::FETCH_ASSOC);
             foreach($data as $key=>$item){
+                $defineId = $item['defineId'];
                 $requestId = $item['id'];
+
+                $qr = $this->db->query("SELECT id,processors
+                FROM requeststeps a WHERE status > 0 AND defineId=$defineId 
+                ORDER BY sortorder ASC");
+                $data[$key]['processorId']=$qr->fetchAll(PDO::FETCH_ASSOC);
+                
                 $qr = $this->db->query("SELECT *,
                 (SELECT name FROM requeststeps WHERE id=a.stepId) as stepName,
                 (SELECT name FROM staffs WHERE id=a.staffId) as staffName

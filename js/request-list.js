@@ -378,13 +378,16 @@ $(function () {
         newTaskModal.modal('show');
         $('#btnUpdate').addClass('d-none');
         $('#btnDel').addClass('d-none');
+        $('#btnApprove').addClass('d-none');
+        $('#btnRefuse').addClass('d-none');
+        
         taskTag.val('').trigger('change');
         // taskTitle = $(this).find('.todo-title');
         var $title = $(this).find('.todo-title').html();
         $('#title').val($title);
         var $defineId =  $(this).find('.todo-defineId').html();
         $('#defineId').val($defineId).change();
-        $("#defineId").attr("disabled", true);
+        // $("#defineId").attr("disabled", true);
         var $staffId =  $(this).find('.todo-staffId').html();
         $('#staffId').val($staffId).change();
         var dateTimeRequest =  $(this).find('.datetimeRequest').html();
@@ -394,20 +397,34 @@ $(function () {
         var $requestId = $(this).find('.todo-idRequest').html();
         $('#requestId').val($requestId);
         var $stepId = $(this).find('.todo-stepId').html();
-
-        var statusStepFirst =  Number($(this).find('.todo-stepFirstStatus').html());
+        var $processorId = JSON.parse($(this).find('.todo-processorsId').html());
+        var statusStepFirst = Number($(this).find('.todo-stepFirstStatus').html());
         $('#stepId').val($stepId);
-        $('#btnApprove').removeClass('d-none');
-        $('#btnRefuse').removeClass('d-none');
+     
+        var processorIds;
+        $processorId.forEach(function (item) {
+            if(item.id == $stepId)
+            processorIds = item.processors;
+        });
+        if(processorIds.split(',').includes(baseUser)) 
+            { 
+                console.log('ok');
+                $('#btnApprove').removeClass('d-none');
+                $('#btnRefuse').removeClass('d-none');
+            }
+
+
         if($status == 2 || $status == 3) {
-        $('#btnApprove').addClass('d-none');
-        $('#btnRefuse').addClass('d-none');
-        }
+            $('#btnApprove').addClass('d-none');
+            $('#btnRefuse').addClass('d-none');
+            }
         // người tạo mới có quyền sửa
-        if(statusStepFirst == 1 & $staffId == baseUser) {
-            $('#btnUpdate').removeClass('d-none');
-            $('#btnDel').removeClass('d-none');
-        }
+        if(statusStepFirst == 1 && $staffId == baseUser) {
+                $('#btnUpdate').removeClass('d-none');
+                $('#btnDel').removeClass('d-none');
+            }
+        //người xử lý có quyền duyệt, từ chối
+       
         url = baseHome + '/request/editRequest?id=' + $requestId;
         // load comment form
         $.ajax({
@@ -581,8 +598,11 @@ function initRequest(defineId,status){
         data:{defineId:defineId,status:status},
         success: function (data) {
             data.forEach(function (item){
+                console.log(item);
                var indexStep = item.processors.length-1;
-               console.log(item['processors'][0])
+            //    console.log(item['processors'][0]);
+            //    var procesStep = item['processorId'].processors;
+            //    console.log(indexStep); 
                 var html='<li class="todo-item" style="width: 100%">' +
                     '<div class="todo-title-wrapper">' +
                     '<div class="todo-title-area">' +
@@ -594,6 +614,7 @@ function initRequest(defineId,status){
                     '<span class="d-none todo-stepId">'+item['processors'][indexStep].stepId+'</span>' +
                     '<span class="d-none todo-stepFirstStatus">'+item['processors'][0].status+'</span>' +
                     '<span class="d-none todo-statusRequest">'+item.status+'</span>' +
+                    '<span class="d-none todo-processorsId">'+JSON.stringify(item['processorId'])+'</span>' +
                     '</div>' +
                     '</div>' +
                     '<div class="todo-item-action">' +
