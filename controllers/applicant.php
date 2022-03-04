@@ -82,7 +82,7 @@ class applicant extends Controller
         echo json_encode($data);
     }
     function exportexcel() {
-        $this->view->data = $this->model->listObj();
+        $this->view->data = $this->model->listObj(1);
         $this->view->render('applicant/export');
     }
     function list()

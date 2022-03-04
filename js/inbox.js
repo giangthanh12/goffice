@@ -106,7 +106,7 @@ $(function () {
         // var avatarImg = feather.icons["user"].toSvg({
         //     class: "mr-0",
         // });
-        var avatarImg = "<img src='https://e7.pngegg.com/pngimages/901/452/png-clipart-computer-icons-users-group-avatar-computer-icons-users-group.png' alt='avatar' />";
+        var avatarImg = "<img src='https://cdn1.iconfinder.com/data/icons/developer-set-2/512/multiple-512.png' alt='avatar' />";
         if ($(option.element).data("avatar")) {
             var imgUrl = baseHome + '/users/gemstech/uploads/nhanvien/';
             avatarImg = "<img onerror= this.src='https://velo.vn/goffice-test/layouts/useravatar.png' src='" + imgUrl + $(option.element).data("avatar") + "' alt='avatar' />";
@@ -116,7 +116,7 @@ $(function () {
     }
     if (emailTo.length) {
         emailTo.wrap('<div class="position-relative"></div>').select2({
-            placeholder: "Người nhận",
+            // placeholder: "Người nhận",
             dropdownParent: emailTo.parent(),
             closeOnSelect: false,
             templateResult: renderGuestAvatar,
@@ -404,6 +404,7 @@ $(function () {
                         path:taxCode,
                         receiverid: response.data.receiverId,
                         senderid:baseUser,
+                        inboxIds: response.data.inboxIds,
                         listInboxId:response.data.idInbox,
                         avatar:baseHome + '/users/gemstech/uploads/nhanvien/'+response.data.avatar,
                         nameSender:response.data.nameSender,
@@ -526,6 +527,17 @@ function toggleEmail(id) {
 $(document).on('click', '.select2-results__option',function() {
     $('.select2-search__field').val('');
 })
+
+$(document).on('click', '.select2-selection__choice__remove',function() {
+   $('#select2-email-to-results').css('display','none');
+})
+
+
+$(document).on('blur', '.select2-selection--multiple',function() {
+    $('#select2-email-to-results').css('display','block');
+ })
+
+
 function listInbox() {
     $(".email-app-details").removeClass('show');
     $("#selectedType").val('inbox');

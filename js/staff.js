@@ -153,7 +153,7 @@ $(function () {
                         var $text = '';
                         switch ($status) {
                             case '1':
-                                $text = "Thực tập sinh";
+                                $text = "Fresher";
                                 break;
                             case '2':
                                 $text = "Thử việc";
@@ -282,7 +282,7 @@ $(function () {
                 staffCode: {
                     required: true,
                 },
-                name: {
+                fullName: {
                     required: true,
                 },
                 email: {
@@ -302,10 +302,10 @@ $(function () {
             },
             messages: {
                 staffCode: {
-                    required: "Bạn chưa nhập mã nhân viên",
+                    required: "Bạn chưa nhập mã nhân viên!",
                 },
-                name: {
-                    required: "Bạn chưa nhập họ tên!",
+                fullName: {
+                    required: "Bạn chưa nhập tên nhân viên!",
                 },
                 email: {
                     required: "Bạn chưa nhập email!",
@@ -454,6 +454,9 @@ $(function () {
                 },
                 "salaryPercentage": {
                     required: true,
+                    number: true,
+                    min:1,
+                    max:100
                 },
 
                 "allowance": {
@@ -480,6 +483,9 @@ $(function () {
                 },
                 "salaryPercentage": {
                     required: "Bạn chưa nhập % lương",
+                    number: "Yêu cầu nhập số!",
+                    min:'Yêu cầu nhập tối thiểu 1',
+                    max:'Yêu cầu nhập tối đa 100',
                 },
                 "startDate": {
                     required: "Bạn chưa nhập ngày bắt đầu",
@@ -702,7 +708,7 @@ function updateInfoStaff() {
 function addStaff() {
     var info = {};
     info.staffCode = $("#staffCode").val();
-    info.name = $("#name").val();
+    info.name = $("#fullName").val();
     info.phoneNumber = $("#phoneNumber").val();
     info.birthday = $("#birthday").val();
     info.email = $("#email").val();
@@ -801,13 +807,23 @@ function delContract(id) {
 
 var urlContract = '';
 function showFormContract() {
+
     $('#formContract')[0].reset();
     $('#add-contract').modal('show');
     var validator = $("#formContract").validate(); // reset form
     validator.resetForm();
     $(".error").removeClass("error"); // loại bỏ validate
 
-
+    // var strStartDate = $('#startDate').val();
+    //     var day = Number(strStartDate.slice(0,2));
+    //     var month = Number(strStartDate.slice(3,5));
+    //     var year = Number(strStartDate.slice(6,10));
+    // $('#stopDate').flatpickr({
+    //     dateFormat: 'd-m-Y',
+    //     altFormat: "F j, Y",
+    //     minDate: new Date(year,month,day).fp_incr(1),
+    //     defaultDate: new Date(year,month,day).fp_incr(1),
+    // });
     $('.modal-title-contract').html('Thêm hợp đồng cho nhân viên');
     urlContract = baseHome + "/staff/addContract";
 }
@@ -901,7 +917,18 @@ function loadRecord(id) {
         });
     }
 }
-
+$('#startDate').change(function() {
+    $('#stopDate').val('');
+    var strStartDate = $('#startDate').val();
+    var arrayDate = strStartDate.split('/');
+    var result = new Date(arrayDate[2]+'/'+arrayDate[1]+'/'+arrayDate[0]);
+    var minDate = result.setDate(result.getDate() + 1);
+    $('#stopDate').flatpickr({
+        dateFormat: 'd-m-Y',
+        altFormat: "F j, Y",
+        minDate: minDate,
+    });
+})
 function loaddataContract(id) {
     $('#add-contract').modal('show');
     $('.modal-title-contract').html('Cập nhật hợp đồng cho nhân viên');
@@ -996,4 +1023,20 @@ function createCodeStaff() {
 
     let staffCode = id + '' + codeRandom;
     $("#staffCode").val(staffCode);
+}
+
+
+//format_number so_tien
+$('.format_number').on('input', function(e){        
+    $(this).val(formatCurrency(this.value.replace(/[,VNĐ]/g,'')));
+  }).on('keypress',function(e){
+    if(!$.isNumeric(String.fromCharCode(e.which))) e.preventDefault();
+  }).on('paste', function(e){    
+    var cb = e.originalEvent.clipboardData || window.clipboardData;      
+    if(!$.isNumeric(cb.getData('text'))) e.preventDefault();
+  });
+  function formatCurrency(number){
+    var n = number.split('').reverse().join("");
+    var n2 = n.replace(/\d\d\d(?!$)/g, "$&,");    
+    return  n2.split('').reverse().join('');
 }

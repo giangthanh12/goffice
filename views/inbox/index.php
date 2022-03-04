@@ -315,7 +315,7 @@
                                             <a class="text-body toggle-bcc" href="javascript:void(0);"><i data-feather="x"></i></a>
                                         </div>
                                         <div class="compose-mail-form-field">
-                                            <label for="emailSubject">Chủ đề: </label>
+                                            <label style="width: 60px;" for="emailSubject">Chủ đề: </label>
                                             <input type="text" id="emailSubject" class="form-control"  name="emailSubject" />
                                         </div>
                                         <div id="message-editor">
@@ -342,7 +342,7 @@
                                         <div class="compose-footer-wrapper">
                                             <div class="btn-wrapper d-flex align-items-center">
                                                 <div class="btn-group dropup mr-1">
-                                                    <button type="submit" class="btn btn-primary" onclick="sendMsg()">Gửi</button>
+                                                    <button type="submit" class="btn btn-primary" >Gửi</button>
                                                     <!-- <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-reference="parent">
                                                         <span class="sr-only">Toggle Dropdown</span>
                                                     </button>

@@ -78,12 +78,14 @@ class used_customer extends Controller
     {
         $id = $_GET['id'];
         $data = $this->model->loadTransaction($id);
+      
         echo json_encode($data);
     }
 
     function loadProductUsed() {
         $id = $_GET['id'];
         $data = $this->model->loadProductUsed($id);
+   
         echo json_encode($data);
     }
 
