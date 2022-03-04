@@ -98,7 +98,7 @@
                                 <form class="event-form needs-validation" data-ajax="false" novalidate>
                                     <div class="form-group">
                                         <label for="title" class="form-label">Tiêu đề</label>
-                                        <input type="text" class="form-control" id="title" name="title" placeholder="Event Title" required />
+                                        <input type="text" class="form-control" id="title" name="title" placeholder="Sự kiện" required />
                                     </div>
                                     <div class="form-group">
                                         <label for="select-label" class="form-label">Loại</label>

@@ -55,6 +55,7 @@ $(function () {
     if (datepicker.length) {
         datepicker.each(function () {
             $(this).flatpickr({
+                dateFormat: "d-m-Y",
                 defaultDate: date,
             });
         });
@@ -62,6 +63,7 @@ $(function () {
 
     if (dueDate.length) {
         dueDate.flatpickr({
+            dateFormat: "d-m-Y",
             defaultDate: new Date(date.getFullYear(), date.getMonth(), date.getDate() + 30),
         });
     }
@@ -699,7 +701,7 @@ function changeStart() {
     var startDate = $('#date').val();
     if ($('#validDate').length) {
         $('#validDate').flatpickr({
-            dateFormat: "Y-m-d",
+            dateFormat: "d-m-Y",
             defaultDate: "",
             readonly: true,
             minDate: startDate
