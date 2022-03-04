@@ -10,7 +10,9 @@
                 <!-- list section start -->
                 <div class="card">
                     <div class="d-flex justify-content-between align-items-center mx-50 row pt-2 ">
-                        <img src="<?=HOME?>/layouts/tooltip.png" style="margin: 0 15px" width="25px" id="current_ip" data-toggle="tooltip" data-placement="right" data-original-title="Quản lý toàn bộ vị trí văn phòng, địa điểm làm việc của doanh nghiệp" data-trigger="click" >
+                    <h2 class="content-header-title float-left mb-2" id="title_module">
+                       Địa điểm làm việc <img src="<?=HOME?>/layouts/tooltip.png" style="margin: 0 15px" width="25px" id="current_ip" data-toggle="tooltip" data-placement="right" data-original-title="Quản lý toàn bộ vị trí văn phòng, địa điểm làm việc của doanh nghiệp" data-trigger="click" >
+                    </h2>
                     </div> 
                     <div class="card-datatable table-responsive pt-0">
                         <table class="user-list-table table">

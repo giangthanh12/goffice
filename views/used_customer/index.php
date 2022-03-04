@@ -18,6 +18,9 @@
                 <!-- users filter start -->
                 <div class="card">
                     <div class="d-flex justify-content-between align-items-center mx-50 row pt-2 pb-2">
+                    <h2 class="content-header-title float-left mb-2" id="title_module">
+                        Khách hàng  <img src="<?= HOME ?>/layouts/tooltip.png" style="margin: 0 15px" width="25px" id="current_ip" data-toggle="tooltip" data-placement="right" data-original-title="Là chức năng quản lý toàn bộ thông tin đến khách hàng đã và đang mua sản phẩm/ sử dụng dịch vụ của doanh nghiệp " data-trigger="click">
+                    </h2>
                         <div class="col-md-3 classify3">
                             <select id="classify3" data-column="5" class="select2 form-control" name="classify3">
                                 <option value="0" selected>Tất cả</option>
@@ -38,7 +41,6 @@
                             <select id="provinceId2" data-column="7" class="form-control" name="provinceId2">
                             </select>
                         </div>
-                        <img src="<?= HOME ?>/layouts/tooltip.png" style="margin: 0 15px" width="25px" id="current_ip" data-toggle="tooltip" data-placement="right" data-original-title="Là chức năng quản lý toàn bộ thông tin đến khách hàng đã và đang mua sản phẩm/ sử dụng dịch vụ của doanh nghiệp " data-trigger="click">
                     </div>
                 </div>
                 <!-- users filter end -->
