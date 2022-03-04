@@ -156,7 +156,7 @@ $(function () {
                                 html += '<p>' + value.content + '</p>';
                                 html += '</div>';
                                 html += '<div class="col-lg-3">';
-                                html += '<p>' + value.linkToRecord + '</p>';
+                                html += '<p><textarea style="background:#E6E6E6;border:1px">' + value.linkToRecord + '</textarea></p>';
                                 html += '</div>';
                                 html += '</div>';
                             });
@@ -548,7 +548,7 @@ $('#list-lead').on('click', '.sidebar-list', function () {
                 html += '<p>' + value.content + '</p>';
                 html += '</div>';
                 html += '<div class="col-lg-3">';
-                html += '<p>' + value.linkToRecord + '</p>';
+                html += '<p><textarea style="background:#E6E6E6;border:1px">' + value.linkToRecord + '</textarea></p>';
                 html += '</div>';
                 html += '</div>';
             });
