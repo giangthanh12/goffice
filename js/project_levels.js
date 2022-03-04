@@ -7,16 +7,16 @@
 $(function () {
 
 
-    return_combobox_multi('#parentId', baseHome + '/menu/combo', 'Lựa chọn cha cho menu');
+    // return_combobox_multi('#parentId', baseHome + '/menu/combo', 'Lựa chọn cha cho menu');
 
-    var basicPickr = $('.flatpickr-basic');
+    // var basicPickr = $('.flatpickr-basic');
    
-    // Default
-    if (basicPickr.length) { // thư viện định dạng ngày tháng năm
-        basicPickr.flatpickr({
-            dateFormat: "d/m/Y",
-        });
-    }
+    // // Default
+    // if (basicPickr.length) { // thư viện định dạng ngày tháng năm
+    //     basicPickr.flatpickr({
+    //         dateFormat: "d/m/Y",
+    //     });
+    // }
     "use strict";
 
     var dtUserTable = $(".user-list-table"),
