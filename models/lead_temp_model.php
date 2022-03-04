@@ -1,3 +1,4 @@
+
 <?php
 class lead_temp_Model extends Model
 {
@@ -35,7 +36,8 @@ class lead_temp_Model extends Model
     {
         $result = array();
         $where = " WHERE status > 0 AND leadId = $id ";
-        $query = $this->db->query("SELECT *,
+        $query = $this->db->query("SELECT id, leadId, staffId, content, linkToRecord, status,
+          DATE_FORMAT(dateTime,'%d-%m-%Y %H:%i:%s') AS ngay_gio,
             (SELECT name FROM staffs WHERE staffs.id = takecare.staffId) AS staffName
             FROM takecare $where ORDER BY dateTime DESC");
         $result = $query->fetchAll(PDO::FETCH_ASSOC);

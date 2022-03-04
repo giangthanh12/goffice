@@ -133,10 +133,11 @@ $(function () {
                 }
 
                 var id = $("#id").val();
+                var record = $("#linkRecord").val();
                 $.ajax({
                     type: "POST",
                     dataType: "json",
-                    data: { id: id, comment: comment },
+                    data: { id: id, comment: comment ,record: record},
                     url: baseHome + "/lead_temp/insertTakeCareHistory",
                     success: function (data) {
                         if (data.success == true) {
@@ -146,13 +147,16 @@ $(function () {
                             data.list.forEach(function (value, index) {
                                 html += '<div class="row">';
                                 html += '<div class="col-lg-3">';
-                                html += '<p>' + value.dateTime + '</p>';
+                                html += '<p>' + value.ngay_gio + '</p>';
                                 html += '</div>';
                                 html += '<div class="col-lg-3">';
                                 html += '<p>' + value.staffName + '</p>';
                                 html += '</div>';
-                                html += '<div class="col-lg-6">';
+                                html += '<div class="col-lg-3">';
                                 html += '<p>' + value.content + '</p>';
+                                html += '</div>';
+                                html += '<div class="col-lg-3">';
+                                html += '<p>' + value.linkToRecord + '</p>';
                                 html += '</div>';
                                 html += '</div>';
                             });
@@ -535,13 +539,16 @@ $('#list-lead').on('click', '.sidebar-list', function () {
             data.forEach(function (value, index) {
                 html += '<div class="row">';
                 html += '<div class="col-lg-3">';
-                html += '<p>' + value.dateTime + '</p>';
+                html += '<p>' + value.ngay_gio + '</p>';
                 html += '</div>';
                 html += '<div class="col-lg-3">';
                 html += '<p>' + value.staffName + '</p>';
                 html += '</div>';
-                html += '<div class="col-lg-6">';
+                html += '<div class="col-lg-3">';
                 html += '<p>' + value.content + '</p>';
+                html += '</div>';
+                html += '<div class="col-lg-3">';
+                html += '<p>' + value.linkToRecord + '</p>';
                 html += '</div>';
                 html += '</div>';
             });
