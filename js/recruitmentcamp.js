@@ -249,22 +249,25 @@ var datePicker = $(".flatpickr-basic");
                     required: true,
                 },
                 "quantity": {
+                    required: true,
                     number:true,
                     min:1
                 },
                 "minSalary": {
-                 
+                    required:true,
                     leluong:"#maxSalary"
                 },
                 "maxSalary": {
-            
+                    required:true,
                 },
                 minAge: {
+                    required:true,
                     number:true,
                     min:18,
                     le: '#maxAge'
                 },
                 "maxAge": {
+                    required:true,
                     number:true,
                     max:40,
                 },
@@ -294,16 +297,19 @@ var datePicker = $(".flatpickr-basic");
                     required: "Bạn chưa chọn vị trí",
                 },
                 "quantity": {
+                    required:"Yêu cầu nhập số lượng tuyển dụng",
                     number:"Yêu cầu nhập số",
                     min:"Yêu cầu nhập số tối thiểu 1",
                 
                 },
                 "minAge": {
+                    required:"Yêu cầu nhập tuổi tối thiểu",
                     number:"Yêu cầu nhập số",
                     min:"Yêu cầu nhập số tối thiểu 18",
                     le:"Tuổi tối thiểu nhỏ hơn tuổi tối đa"
                 },
                 "maxAge": {
+                    required:"Yêu cầu nhập tuổi tối đa",
                     number:"Yêu cầu nhập số",
                     max:"Yêu cầu độ tuổi tối đa 40"
                 },
@@ -311,15 +317,12 @@ var datePicker = $(".flatpickr-basic");
                     number:"Yêu cầu nhập số",
                     min:"Yêu cầu nhập số dương"
                 },
-                // "minSalary": {
-                //     number:"Yêu cầu nhập số",
-                //     min:"Yêu cầu nhập số dương",
-                //     le:"Lương tối thiểu nhỏ hơn lương tối đa"
-                // },
-                // "maxSalary": {
-                //     number:"Yêu cầu nhập số",
-                //     min:"Yêu cầu nhập số dương",
-                // },
+                "minSalary": {
+                    required:"Yêu cầu nhập lương tối thiểu",
+                },
+                "maxSalary": {
+                    required:"Yêu cầu nhập lương tối đa",
+                },
             },
         });
 
@@ -358,20 +361,25 @@ var datePicker = $(".flatpickr-basic");
                     required: true,
                 },
                 "quantity1": {
+                    required:true,
                     number:true,
                     min:1
                 },
                 "minSalary1": {
+                    required:true,
                     leluong:"#maxSalary1"
                 },
                 "maxSalary1": {
+                    required:true,
                 },
                 "minAge1": {
+                    required:true,
                     number:true,
                     min:18,
                     le: '#maxAge1'
                 },
                 "maxAge1": {
+                    required:true,
                     number:true,
                     max:40,
                 },
@@ -401,15 +409,18 @@ var datePicker = $(".flatpickr-basic");
                     required: "Bạn chưa chọn vị trí",
                 },
                 "quantity1": {
+                    required:"Yêu cầu nhập số lượng tuyển dụng",
                     number:"Yêu cầu nhập số",
                     min:"Yêu cầu nhập số tối thiểu 1"
                 },
                 "minAge1": {
+                    required:"Yêu cầu nhập tuổi tối thiểu",
                     number:"Yêu cầu nhập số",
                     min:"Yêu cầu nhập số tối thiểu 18",
                     le:"Tuổi tối thiểu nhỏ hơn tuổi tối đa"
                 },
                 "maxAge1": {
+                    required:"Yêu cầu nhập tuổi tối đa",
                     number:"Yêu cầu nhập số",
                     max:"Yêu cầu độ tuổi tối đa 40"
                 },
@@ -417,16 +428,12 @@ var datePicker = $(".flatpickr-basic");
                     number:"Yêu cầu nhập số",
                     min:"Yêu cầu nhập số dương"
                 },
-                // "minSalary1": {
-                //     number:"Yêu cầu nhập số",
-                //     min:"Yêu cầu nhập số dương",
-                //     le:"Lương tối thiểu nhỏ hơn lương tối đa"
-                // },
-                // "maxSalary1": {
-                //     number:"Yêu cầu nhập số",
-                //     min:"Yêu cầu nhập số dương",
-               
-                // },
+                "minSalary1": {
+                    required:"Yêu cầu nhập lương tối thiểu",
+                },
+                "maxSalary1": {
+                    required:"Yêu cầu nhập lương tối đa",
+                },
                 
             },
         });
