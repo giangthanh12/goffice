@@ -350,6 +350,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Calendar plugins
     var calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth',
+        locale: 'vi',
         events: fetchEvents,
         eventOrder : "id",
         eventTimeFormat: { // like '14:30:00'
@@ -374,6 +375,11 @@ document.addEventListener('DOMContentLoaded', function () {
             // end: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
             end: 'dayGridMonth,listMonth'
         },
+        buttonText: {
+            month: "Tháng",
+            list: "Danh sách"
+          },
+          noEventsText: "Không có bản ghi nào",
         direction: direction,
         initialDate: new Date(),
         navLinks: true, // can click day/week names to navigate views
