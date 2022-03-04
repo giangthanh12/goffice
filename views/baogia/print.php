@@ -17,8 +17,8 @@
                 </td>
                 <td class="col-right">
                     Báo giá số: <?=$this->quote['quote']['id']?><br>
-                    Ngày tạo: <?=$this->quote['quote']['date']?><br>
-                    Có giá trị đến: <?=$this->quote['quote']['validDate']?>
+                    Ngày tạo: <?=$this->quote['quote']['ngay_tao']?><br>
+                    Có giá trị đến: <?=$this->quote['quote']['ngay_ket_thuc']?>
                 </td>
             </tr>
         </table>

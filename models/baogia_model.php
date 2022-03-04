@@ -125,6 +125,8 @@ class Baogia_model extends Model{
     {
         $return = array();
         $query =  $this->db->query("SELECT *,
+             DATE_FORMAT(date,'%d-%m-%Y') as ngay_tao,
+             DATE_FORMAT(validDate,'%d-%m-%Y') as ngay_ket_thuc,
             (SELECT fullName FROM customers WHERE id=customerId) AS khachhang
             FROM quotation WHERE id = $id");
         $temp = $query->fetchAll(PDO::FETCH_ASSOC);

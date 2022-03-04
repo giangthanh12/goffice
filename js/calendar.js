@@ -160,7 +160,7 @@ document.addEventListener('DOMContentLoaded', function () {
   if (startDate.length) {
     var start = startDate.flatpickr({
       enableTime: true,
-      altFormat: 'Y-m-dTH:i:S',
+      altFormat: 'd-m-YTH:i:S',
       onReady: function (selectedDates, dateStr, instance) {
         if (instance.isMobile) {
           $(instance.mobileInput).attr('step', null);
@@ -173,7 +173,7 @@ document.addEventListener('DOMContentLoaded', function () {
   if (endDate.length) {
     var end = endDate.flatpickr({
       enableTime: true,
-      altFormat: 'Y-m-dTH:i:S',
+      altFormat: 'd-m-YTH:i:S',
       onReady: function (selectedDates, dateStr, instance) {
         if (instance.isMobile) {
           $(instance.mobileInput).attr('step', null);
@@ -188,7 +188,7 @@ document.addEventListener('DOMContentLoaded', function () {
     resetValues();
     var start = startDate.flatpickr({
       enableTime: true,
-      altFormat: 'Y-m-dTH:i:S',
+      altFormat: 'd-m-YTH:i:S',
       onReady: function (selectedDates, dateStr, instance) {
         if (instance.isMobile) {
           $(instance.mobileInput).attr('step', null);
@@ -197,7 +197,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     var end = endDate.flatpickr({
       enableTime: true,
-      altFormat: 'Y-m-dTH:i:S',
+      altFormat: 'd-m-YTH:i:S',
       onReady: function (selectedDates, dateStr, instance) {
         if (instance.isMobile) {
           $(instance.mobileInput).attr('step', null);
@@ -356,6 +356,7 @@ document.addEventListener('DOMContentLoaded', function () {
   // Calendar plugins
   var calendar = new FullCalendar.Calendar(calendarEl, {
     initialView: 'dayGridMonth',
+    locale:'vi',
     events: fetchEvents,
     eventTimeFormat: { // like '14:30:00'
       hour: '2-digit',
@@ -392,7 +393,6 @@ document.addEventListener('DOMContentLoaded', function () {
           let newdate = year + "-" + month;
           if (newdate != olddate)
             calendar.refetchEvents();
-
         }
       },
       next: {
@@ -416,6 +416,13 @@ document.addEventListener('DOMContentLoaded', function () {
         }
       },
     },
+    buttonText: {
+      month: "Tháng",
+      day: "Ngày",
+      list: "Danh sách"
+    },
+    allDayText: "Giờ",
+    noEventsText: "Không có bản ghi nào",
     headerToolbar: {
       start: 'sidebarToggle, prev,next, title',
       end: 'dayGridMonth,timeGridDay,listMonth'
@@ -701,7 +708,7 @@ function loadAdd() {
   if ($('#start-date').length) {
     $('#start-date').flatpickr({
       enableTime: true,
-      altFormat: 'Y-m-dTH:i:S',
+      altFormat: 'd-m-YTH:i:S',
       onReady: function (selectedDates, dateStr, instance) {
         if (instance.isMobile) {
           $(instance.mobileInput).attr('step', null);
@@ -714,7 +721,7 @@ function loadAdd() {
   if ($('#end-date').length) {
     $('#end-date').flatpickr({
       enableTime: true,
-      altFormat: 'Y-m-dTH:i:S',
+      altFormat: 'd-m-YTH:i:S',
       minDate: "today",
       onReady: function (selectedDates, dateStr, instance) {
         if (instance.isMobile) {
@@ -742,7 +749,7 @@ function changeStartDate() {
       if ($('#end-date').length) {
         var end = $('#end-date').flatpickr({
           enableTime: true,
-          altFormat: 'Y-m-dTH:i:S',
+          altFormat: 'd-m-YTH:i:S',
           minDate: $('#start-date').val(),
           onReady: function (selectedDates, dateStr, instance) {
             if (instance.isMobile) {
