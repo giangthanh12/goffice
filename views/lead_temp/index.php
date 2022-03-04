@@ -297,6 +297,9 @@
                                         <button class="ql-italic"></button>
                                         <button class="ql-underline"></button>
                                         <button class="ql-align"></button>
+                                        <button class="ql-align" value="center"></button>
+                                        <button class="ql-align" value="right"></button>
+                                        <button class="ql-align" value="justify"></button>
                                         <button class="ql-link"></button>
                                     </span>
                                 </div>
@@ -346,6 +349,9 @@
                                         <button class="ql-italic"></button>
                                         <button class="ql-underline"></button>
                                         <button class="ql-align"></button>
+                                        <button class="ql-align" value="center"></button>
+                                        <button class="ql-align" value="right"></button>
+                                        <button class="ql-align" value="justify"></button>
                                         <button class="ql-link"></button>
                                     </span>
                                 </div>

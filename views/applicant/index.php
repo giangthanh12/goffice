@@ -8,7 +8,7 @@
             <!-- users list start -->
             <section class="app-user-list">
             <div class="card">
-                    <div class="d-flex justify-content-between align-items-center mx-50 row pt-2 pb-2">
+                    <div class="d-flex  align-items-center mx-50 row pt-2 pb-2">
                         <div class="col-md-3">
                             <select id="filterApplicant" data-column="5" class="select2 form-control" name="filterApplicant">
                                 <option value="1">Lọc theo thời gian</option>
@@ -19,7 +19,6 @@
                             <select id="position-filter" data-column="5" class="form-control" name="position-filter">
                             </select>
                         </div>
-                        <img src="<?= HOME ?>/layouts/tooltip.png" style="margin: 0 15px" width="25px" id="current_ip" data-toggle="tooltip" data-placement="right" data-original-title="Là chức năng quản lý toàn bộ thông tin đến khách hàng đã và đang mua sản phẩm/ sử dụng dịch vụ của doanh nghiệp " data-trigger="click">
                     </div>
                 </div>
 

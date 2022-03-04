@@ -16,12 +16,6 @@ class ca extends Controller{
         echo json_encode($data);
     }
 
-    // function combo(){
-    //     $json = $this->model->get_data_combo();
-    //     $this->view->jsonObj = json_encode($json);
-    //     $this->view->render("khachhang/combo");
-    // }
-
     function loaddata()
     {
         $id=isset($_REQUEST['id'])?$_REQUEST['id']:0;

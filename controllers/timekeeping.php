@@ -42,6 +42,7 @@ class timekeeping extends Controller
 //        $jsonObj['code'] = 401;
         $month = (isset($_REQUEST['month']) && ($_REQUEST['month'] != '')) ? $_REQUEST['month'] : date("m");
         $year = (isset($_REQUEST['year']) && ($_REQUEST['year'] != '')) ? $_REQUEST['year'] : date("Y");
+       
         $staffId = isset($_REQUEST['staffId']) ? $_REQUEST['staffId'] : $_SESSION['user']['staffId'];
         $data = $this->model->getTimekeeping($staffId, $month, $year);
         if ($data) {

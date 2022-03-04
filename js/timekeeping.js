@@ -265,6 +265,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // AXIOS: fetchEvents
     // * This will be called by fullCalendar to fetch events. Also this can be used to refetch events.
     // --------------------------------------------------------------------------------------------------
+  
     function fetchEvents(info, successCallback) {
         // Fetch Events from API endpoint reference
         /* $.ajax(
@@ -286,7 +287,7 @@ document.addEventListener('DOMContentLoaded', function () {
         $.ajax({
             type: "POST",
             dataType: "json",
-            data: {staffId: staffId, nam: nam, thang: thang},
+            data: {staffId: staffId, year: nam, month: thang},
             url: baseHome + '/timekeeping/getTimeKeeping',
             success: function (data) {
                 events = [];

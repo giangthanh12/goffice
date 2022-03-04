@@ -470,13 +470,13 @@
                                                                     <th>Nhà cung cấp</th>
                                                                     <th>Thuế</th>
                                                                     <th>Giá</th>
+                                                                    <th>Thời gian bắt đầu</th>
+                                                                    <th>Thời gian kết thúc</th>
                                                                 </tr>
                                                             </thead>
                                                         </table>
                                                     </div>
                                                 </div>
-
-
                                             </div>
                                         </div>
                                     </div>

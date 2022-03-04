@@ -66,6 +66,12 @@ document.addEventListener('DOMContentLoaded', function () {
     filterInput = $('.input-filter'),
     btnDeleteEvent = $('.btn-delete-event'),
     calendarEditor = $('#event-description-editor');
+
+  jQuery.validator.setDefaults({
+    // This will ignore all hidden elements alongside `contenteditable` elements
+    // that have no `name` attribute
+    ignore: ":hidden, [contenteditable='true']:not([name])"
+  });
   // Description Editor
   if (calendarEditor.length) {
     var calDescEditor = new Quill("#event-description-editor", {
@@ -440,8 +446,8 @@ document.addEventListener('DOMContentLoaded', function () {
       addEventBtn.removeClass('d-none');
       updateEventBtn.addClass('d-none');
       btnDeleteEvent.addClass('d-none');
-      startDate.val(date);
-      endDate.val(date);
+      startDate.val(date).change();
+      // endDate.val();
       startDate.attr("disabled", false);
       endDate.attr("disabled", false);
       eventLabel.attr("disabled", false);
@@ -579,8 +585,8 @@ document.addEventListener('DOMContentLoaded', function () {
       var description = quill_editor[0].innerHTML;
       var eventData = {
         title: sidebar.find(eventTitle).val(),
-        startDate: startDate.val(),
-        endDate: endDate.val(),
+        startDate: $('#start-date').val(),
+        endDate: $('#end-date').val(),
         description: description,
         objectType: eventLabel.val(),
         objectId: objectId,
@@ -725,15 +731,21 @@ function loadAdd() {
     });
   }
   $('#start-date').attr("disabled", false);
-  $('#end-date').attr("disabled", false);
+  $('#end-date').attr("disabled", true);
   $('#select-label').attr("disabled", false);
 }
 
 function changeStartDate() {
   if (add == 0) {
-    var startDay = new Date($('#start-date').val());
-    var date = new Date();
-    if (startDay >= date) {
+    var startDay1 = new Date($('#start-date').val());
+    var date1 = new Date();
+    startDay = moment(startDay1).format('YYYY-MM-DD');
+    date = moment(date1).format('YYYY-MM-DD');
+    // alert(date);
+    $('#end-date').attr('disabled',false);
+    if (startDay > date) {
+
+      $('#end-date').val(moment(startDay).format('YYYY-MM-DD'));
       if ($('#end-date').length) {
         var end = $('#end-date').flatpickr({
           enableTime: true,
@@ -747,11 +759,12 @@ function changeStartDate() {
         });
       }
     } else {
+      $('#end-date').val(moment(date1.setHours(date1.getHours() + 2)).format('YYYY-MM-DD HH:MM'));
       if ($('#end-date').length) {
         var end = $('#end-date').flatpickr({
           enableTime: true,
-          altFormat: 'd-m-YTH:i:S',
-          minDate: startDay,
+          altFormat: 'Y-m-dTH:i:S',
+          minDate: 'today',
           onReady: function (selectedDates, dateStr, instance) {
             if (instance.isMobile) {
               $(instance.mobileInput).attr('step', null);

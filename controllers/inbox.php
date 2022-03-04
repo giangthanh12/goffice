@@ -74,6 +74,7 @@ class inbox extends Controller
         }
         $row = 0;
         $dataInboxReceiver= [];
+        $inboxIds= [];
 
         $dataSend = array('senderId'=>$_SESSION['user']['staffId'], 'title'=>$title, 'content'=>$content,
         'receiverId'=>0, 'status'=>1, 'dateTime'=>date('Y-m-d H:i:s'), 'link'=>'inbox');
@@ -88,13 +89,14 @@ class inbox extends Controller
             $data = array('senderId'=>$_SESSION['user']['staffId'], 'title'=>$title, 'content'=>$content,
             'receiverId'=>json_encode([$item]), 'status'=>1, 'dateTime'=>date('Y-m-d H:i:s'), 'link'=>'inbox');
             $idInbox = $this->model->add($data);
+            $inboxIds[] = $idInbox;
             $dataInboxReceiver[] = array('inboxId'=> $idInbox, 'receiverId'=>$item);
             $row++;
         }
       
         if ($row > 0) {
             $jsonObj['data'] = array('senderId'=>$_SESSION['user']['staffId'], 'avatar'=>$info['avatar'],'nameSender'=>$info['name'] ,'title'=>$title, 'content'=>$content,
-            'receiverId'=>$_REQUEST['email-to'], 'status'=>1,'idInbox'=>$dataInboxReceiver, 'dateTime'=>date('Y-m-d H:i:s'), 'link'=>'inbox');
+            'receiverId'=>$_REQUEST['email-to'], 'status'=>1,'idInbox'=>$dataInboxReceiver,'inboxIds'=>$inboxIds, 'dateTime'=>date('Y-m-d H:i:s'), 'link'=>'inbox');
             $jsonObj['msg'] = "Đã gửi thông báo thành công";
             $jsonObj['success'] = true;
         } else {
@@ -238,5 +240,3 @@ class inbox extends Controller
     // }
 
 }
-
-?>

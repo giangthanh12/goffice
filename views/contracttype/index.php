@@ -23,7 +23,7 @@
                     </div>
                     <div class="modal fade text-left" id="dgAccesspoint" tabindex="-1" role="dialog"
                          aria-labelledby="myModalLabel16" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered modal" role="document">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h4 class="modal-title" id="myModalLabel16"></h4>
