@@ -273,7 +273,7 @@
                                             <label for="email-to" class="form-label">Đến: </label>
                                             <div class="flex-grow-1">
                                                 <select class="select2 form-control w-100" id="email-to" name="email-to[]" multiple>
-                                                    <option value="0">All</option>
+                                                    <option data-avatar="" value="0">All</option>
                                                     <?php foreach($this->employee AS $item)
                                                         echo '<option data-avatar="'.$item['avatar'].'" value="'.$item['id'].'">'.$item['name'].'</option>';
                                                     ?>
