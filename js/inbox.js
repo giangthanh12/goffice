@@ -103,26 +103,30 @@ $(function () {
         if (!option.id) {
             return option.text;
         }
-        // var avatarImg = feather.icons["user"].toSvg({
-        //     class: "mr-0",
-        // });
+       
         var avatarImg = "<img src='https://cdn1.iconfinder.com/data/icons/developer-set-2/512/multiple-512.png' alt='avatar' />";
-        if ($(option.element).data("avatar")) {
+        if ($(option.element).data("avatar") != '') {
             var imgUrl = baseHome + '/users/gemstech/uploads/nhanvien/';
             avatarImg = "<img onerror= this.src='https://velo.vn/goffice-test/layouts/useravatar.png' src='" + imgUrl + $(option.element).data("avatar") + "' alt='avatar' />";
         }
+        
         var $avatar = "<div class='d-flex flex-wrap align-items-center'>" + "<div class='avatar avatar-sm my-0 mr-50'>" + "<span class='avatar-content'>" + avatarImg + "</span>" + "</div>" + option.text + "</div>";
         return $avatar;
     }
     if (emailTo.length) {
         emailTo.wrap('<div class="position-relative"></div>').select2({
-            // placeholder: "Người nhận",
+            placeholder: "Người nhận",
             dropdownParent: emailTo.parent(),
             closeOnSelect: false,
             templateResult: renderGuestAvatar,
             templateSelection: renderGuestAvatar,
-            tags: true,
+            // tags: true,
             tokenSeparators: [",", " "],
+            language: {
+                noResults: function () {
+                    return 'Không có kết quả!';
+                }
+            },
             escapeMarkup: function (es) {
                 return es;
             },
