@@ -9,8 +9,12 @@
                 <!-- users filter start -->
                 <div class="card">
                     <div class="d-flex justify-content-between align-items-center mx-50 row pt-2 pb-2">
+                        <h2>
+                        Danh sách tài sản<img src="<?=HOME?>/layouts/tooltip.png" style="margin: 0 15px" width="25px" id="current_ip" data-toggle="tooltip" data-placement="right" data-original-title="Là chức năng quản lý toàn bộ thông tin tài sản thuộc quyền sở hữu của doanh nghiệp" data-trigger="click" >
+                        </h2>
+                        <div class="col-md-4 "></div>
                         <div class="col-md-4 tai_san_fillter"></div><span></span>
-                        <img src="<?=HOME?>/layouts/tooltip.png" style="margin: 0 15px" width="25px" id="current_ip" data-toggle="tooltip" data-placement="right" data-original-title="Là chức năng quản lý toàn bộ thông tin tài sản thuộc quyền sở hữu của doanh nghiệp" data-trigger="click" >
+                        
                     </div>
                 </div>
                 <!-- users filter end -->
