@@ -9,9 +9,11 @@
                 <!-- users filter start -->
                 <div class="card">
                     <div class="d-flex justify-content-between align-items-center mx-50 row pt-2 pb-2">
+                        <h2>
+                       Tài sản thu hồi <img src="<?=HOME?>/layouts/tooltip.png" style="margin: 0 15px" width="25px" id="current_ip" data-toggle="tooltip" data-placement="right" data-original-title="Là chức năng quản lý tất cả những tài sản thuộc quyền sở hữu doanh nghiệp đã được thu hồi từ phía nhân viên" data-trigger="click" >
+                        </h2>
                         <div class="col-md-4 taisan_filter"></div>
                         <!-- <div class="col-md-4 nhanvien_filter"></div> -->
-                        <img src="<?=HOME?>/layouts/tooltip.png" style="margin: 0 15px" width="25px" id="current_ip" data-toggle="tooltip" data-placement="right" data-original-title="Là chức năng quản lý tất cả những tài sản thuộc quyền sở hữu doanh nghiệp đã được thu hồi từ phía nhân viên" data-trigger="click" >
                     </div>
                 </div>
                 <!-- users filter end -->
