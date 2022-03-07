@@ -89,7 +89,7 @@ connection.onmessage = function (message) {
                         type: "POST",
                         dataType: "json",
                         data: { title: "Newsfeed", body: "Bạn có một thông báo mới", item: item },
-                        url: "notification.php",
+                        url: "push_notification.php",
                         success: function (res) {
                             console.log('1');
                         }
