@@ -76,6 +76,7 @@ connection.onmessage = function (message) {
             </a>`);
             notifyMe(receiverid, senderid, title, avatar, content, 'inbox');
         }
+
         $.ajax({
             type: "POST",
             dataType: "json",
@@ -83,32 +84,57 @@ connection.onmessage = function (message) {
             url: baseHome + "/fcm_token/getFcmToken",
             success: function (res) {
                 res.data.forEach(function (item) {
-                    let body = {
-                        to: item.fcm_token,
-                        notification: {
-                            title: "Bạn có một thông báo mới",
-                            // body: data.content
-                        },
-                        data: {
-                            userToken: item.user_token,
-                            inboxId: item.inboxId,
-                            link: 'inbox'
+
+                    $.ajax({
+                        type: "POST",
+                        dataType: "json",
+                        data: { title: "Newsfeed", body: "Bạn có một thông báo mới", item: item },
+                        url: "notification.php",
+                        success: function (res) {
+                            console.log('1');
                         }
-                    }
-                    let options = {
-                        method: "POST",
-                        headers: {
-                            'Authorization': "key=AAAAhvTgZQQ:APA91bFl7i1Ctp7aXma6CTwGEYY7dU1t2Bdni2e8PeurScHCI0b6XHw0wHppJV9zroO4skW3K7O8T5cEKxzK4h278Z83DZaf2zXLnsajn5p_JmbeaxImKfVbd3dc-I9uoyh6vQkvCZqN",
-                            "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify(body)
-                    }
-                    fetch("https://fcm.googleapis.com/fcm/send", options).then(res => {
-                        console.log(res);
-                    }).catch(e => console.log(e))
+                    });
+
                 });
             }
         });
+
+        // $.ajax({
+        //     type: "POST",
+        //     dataType: "json",
+        //     data: { receiverId: data.receiverid, inboxIds: data.inboxIds },
+        //     url: baseHome + "/fcm_token/getFcmToken",
+        //     success: function (res) {
+        //         console.log(res.data.length);
+        //         res.data.forEach(function (item) {
+        //             // console.log('1');
+        //             let body = {
+        //                 to: item.fcm_token,
+        //                 notification: {
+        //                     title: "Bạn có một thông báo mới",
+        //                     // body: data.content
+        //                 },
+        //                 data: {
+        //                     userToken: item.user_token,
+        //                     inboxId: item.inboxId,
+        //                     link: 'inbox'
+        //                 }
+        //             }
+        //             let options = {
+        //                 method: "POST",
+        //                 headers: {
+        //                     'Authorization': "key=AAAAhvTgZQQ:APA91bFl7i1Ctp7aXma6CTwGEYY7dU1t2Bdni2e8PeurScHCI0b6XHw0wHppJV9zroO4skW3K7O8T5cEKxzK4h278Z83DZaf2zXLnsajn5p_JmbeaxImKfVbd3dc-I9uoyh6vQkvCZqN",
+        //                     "Content-Type": "application/json",
+        //                 },
+        //                 body: JSON.stringify(body)
+        //             }
+        //             fetch("https://fcm.googleapis.com/fcm/send", options).then(res => {
+        //                 console.log(res);
+        //             }).catch(e => console.log(e))
+
+        //         });
+        //     }
+        // });
     } else if (data.type == 'chatbox') {
         if (activeurl == 'chatbox') {
             actionchat(data);
