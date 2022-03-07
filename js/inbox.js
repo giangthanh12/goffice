@@ -367,12 +367,26 @@ $(function () {
     $('#form-send').on("submit", function(e) {
         var emailTo = $('#email-to').val();
         var type = $('#selectedType').val();
+      
         if (emailTo.length>0) {
             var formData = new FormData(this);
             // var receiverName = JSON.stringify($("#email-to").val())
             // formData.append('receiverName', receiverName);
             // formData.append('tieude', $("#emailSubject").val());
             var quill_editor = $(".compose-form .ql-editor");
+            if($('#emailSubject').val() == '') {
+                console.log(quill_editor[0].innerHTML);
+                notify_error('Bạn chưa nhập chủ đề');
+                e.preventDefault();
+                return;
+            }
+            if(quill_editor[0].innerHTML == '<p><br></p>') {
+                console.log(quill_editor[0].innerHTML);
+                notify_error('Bạn chưa nhập nội dung gửi');
+                e.preventDefault();
+                return;
+            }
+           
             formData.append('body', quill_editor[0].innerHTML);
             $.ajax({
                 method: "POST",
