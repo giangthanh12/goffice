@@ -121,7 +121,7 @@ $(function () {
             templateResult: renderGuestAvatar,
             templateSelection: renderGuestAvatar,
             // tags: true,
-            tokenSeparators: [",", " "],
+            // tokenSeparators: [",", " "],
             language: {
                 noResults: function () {
                     return 'Không có kết quả!';
