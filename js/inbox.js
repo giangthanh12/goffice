@@ -121,7 +121,7 @@ $(function () {
             templateResult: renderGuestAvatar,
             templateSelection: renderGuestAvatar,
             // tags: true,
-            tokenSeparators: [",", " "],
+            // tokenSeparators: [",", " "],
             language: {
                 noResults: function () {
                     return 'Không có kết quả!';
@@ -367,12 +367,24 @@ $(function () {
     $('#form-send').on("submit", function(e) {
         var emailTo = $('#email-to').val();
         var type = $('#selectedType').val();
+      
         if (emailTo.length>0) {
             var formData = new FormData(this);
             // var receiverName = JSON.stringify($("#email-to").val())
             // formData.append('receiverName', receiverName);
             // formData.append('tieude', $("#emailSubject").val());
             var quill_editor = $(".compose-form .ql-editor");
+            if($('#emailSubject').val() == '') {
+                notify_error('Bạn chưa nhập chủ đề');
+                e.preventDefault();
+                return;
+            }
+            if(quill_editor[0].innerHTML == '<p><br></p>') {
+                notify_error('Bạn chưa nhập nội dung gửi');
+                e.preventDefault();
+                return;
+            }
+           
             formData.append('body', quill_editor[0].innerHTML);
             $.ajax({
                 method: "POST",
