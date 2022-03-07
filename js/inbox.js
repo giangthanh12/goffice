@@ -375,13 +375,11 @@ $(function () {
             // formData.append('tieude', $("#emailSubject").val());
             var quill_editor = $(".compose-form .ql-editor");
             if($('#emailSubject').val() == '') {
-                console.log(quill_editor[0].innerHTML);
                 notify_error('Bạn chưa nhập chủ đề');
                 e.preventDefault();
                 return;
             }
             if(quill_editor[0].innerHTML == '<p><br></p>') {
-                console.log(quill_editor[0].innerHTML);
                 notify_error('Bạn chưa nhập nội dung gửi');
                 e.preventDefault();
                 return;
