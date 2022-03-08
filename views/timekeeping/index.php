@@ -6,17 +6,19 @@
         <div class="content-header row">
         </div>
         <div class="content-body">
-            <div class="row">
-                <!-- <div class="col-lg-2 card-body d-flex justify-content-center">
-                    <button class="btn btn-success btn-toggle-sidebar btn-block waves-effect waves-float waves-light" id="checkoutBtn">
-                        <span class="align-middle">Checkout</span>
-                    </button>
-                </div> -->
+            <div class="card">
+            <div class="d-flex  align-items-center mx-50 row pt-2 pb-2">
+                <h2 class="content-header-title float-left mb-0" id="title_module">
+                        Chấm công <img src="<?=HOME?>/layouts/tooltip.png" style="margin: 0 15px" width="25px" id="current_ip" data-toggle="tooltip" data-placement="right" data-original-title="Là chức năng điểm danh" data-trigger="click" >
+                    </h2>
+                    <div class="col-lg-6 card-body"></div>
                 <div class="col-lg-3 card-body">
                     <select class="select2 select-label form-control " id="selectStaff" name="selectStaff">
                     </select>
                 </div>
             </div>
+            </div>
+        </div>
             <!-- Full calendar start -->
             <section>
                 <div class="app-calendar overflow-hidden border">

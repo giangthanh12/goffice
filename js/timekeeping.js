@@ -92,6 +92,10 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     selectStaff.val(baseUser).trigger("change");
 
+    $("body").tooltip({
+        selector: '[data-toggle="tooltip"]',
+        container: "body",
+    });
     // Label  select
     if (selectCongSang.length) {
         function renderBullets(option) {

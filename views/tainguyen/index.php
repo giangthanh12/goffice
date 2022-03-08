@@ -22,11 +22,6 @@
 
                     <div class="col-12">
 
-                        <h2 class="content-header-title float-left mb-0" id="title_module" style="border-right-width: 0px;">
-
-                            Tài nguyên
-
-                        </h2>
 
                     </div>
 
@@ -66,7 +61,9 @@
 
                         <div class="card">
                             <div class="d-flex justify-content-between align-items-center mx-50 row pt-2 pb-2">
-                                <img src="<?=HOME?>/layouts/tooltip.png" style="margin: 0 15px" width="25px" id="current_ip" data-toggle="tooltip" data-placement="right" data-original-title="Là chức năng quản lý toàn bộ tài khoản của tất cả các ứng dụng mà doanh nghiệp đang sử dụng, thuộc quyền sở hữu của doanh nghiệp " data-trigger="click" >
+                            <h2 class="content-header-title float-left mb-0" id="title_module" style="border-right-width: 0px;">
+                                Tài nguyên   <img src="<?=HOME?>/layouts/tooltip.png" style="margin: 0 15px" width="25px" id="current_ip" data-toggle="tooltip" data-placement="right" data-original-title="Là chức năng quản lý toàn bộ tài khoản của tất cả các ứng dụng mà doanh nghiệp đang sử dụng, thuộc quyền sở hữu của doanh nghiệp " data-trigger="click" >
+                                </h2>
                             </div>
 
                             <table class="datatables-basic table" id="list_tainguyen">

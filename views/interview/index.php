@@ -8,7 +8,10 @@
         <div class="content-body">
             <!-- Full calendar start -->
             <div class="d-flex justify-content-between align-items-center mx-50 row pt-2 pb-2">
-                <img src="<?= HOME ?>/layouts/tooltip.png" style="margin: 0 15px" width="25px" id="current_ip" data-toggle="tooltip" data-placement="right" data-original-title="Là chức năng quản lý lịch tham gia phỏng vấn của các ứng viên" data-trigger="click">
+            <h2 class="content-header-title float-left mb-0" id="title_module" style="border-right-width: 0px;">
+                Lịch phỏng vấn    <img src="<?= HOME ?>/layouts/tooltip.png" style="margin: 0 15px" width="25px" id="current_ip" data-toggle="tooltip" data-placement="right" data-original-title="Là chức năng quản lý lịch tham gia phỏng vấn của các ứng viên" data-trigger="click">
+
+                        </h2>
             </div>
             <section>
                 <div class="app-calendar overflow-hidden border">
