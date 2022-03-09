@@ -103,26 +103,30 @@ $(function () {
         if (!option.id) {
             return option.text;
         }
-        // var avatarImg = feather.icons["user"].toSvg({
-        //     class: "mr-0",
-        // });
+       
         var avatarImg = "<img src='https://cdn1.iconfinder.com/data/icons/developer-set-2/512/multiple-512.png' alt='avatar' />";
-        if ($(option.element).data("avatar")) {
+        if ($(option.element).data("avatar") != '') {
             var imgUrl = baseHome + '/users/gemstech/uploads/nhanvien/';
             avatarImg = "<img onerror= this.src='https://velo.vn/goffice-test/layouts/useravatar.png' src='" + imgUrl + $(option.element).data("avatar") + "' alt='avatar' />";
         }
+        
         var $avatar = "<div class='d-flex flex-wrap align-items-center'>" + "<div class='avatar avatar-sm my-0 mr-50'>" + "<span class='avatar-content'>" + avatarImg + "</span>" + "</div>" + option.text + "</div>";
         return $avatar;
     }
     if (emailTo.length) {
         emailTo.wrap('<div class="position-relative"></div>').select2({
-            // placeholder: "Người nhận",
+            placeholder: "Người nhận",
             dropdownParent: emailTo.parent(),
             closeOnSelect: false,
             templateResult: renderGuestAvatar,
             templateSelection: renderGuestAvatar,
-            tags: true,
-            tokenSeparators: [",", " "],
+            // tags: true,
+            // tokenSeparators: [",", " "],
+            language: {
+                noResults: function () {
+                    return 'Không có kết quả!';
+                }
+            },
             escapeMarkup: function (es) {
                 return es;
             },
@@ -366,12 +370,24 @@ $(function () {
     $('#form-send').on("submit", function(e) {
         var emailTo = $('#email-to').val();
         var type = $('#selectedType').val();
+      
         if (emailTo.length>0) {
             var formData = new FormData(this);
             // var receiverName = JSON.stringify($("#email-to").val())
             // formData.append('receiverName', receiverName);
             // formData.append('tieude', $("#emailSubject").val());
             var quill_editor = $(".compose-form .ql-editor");
+            if($('#emailSubject').val() == '') {
+                notify_error('Bạn chưa nhập chủ đề');
+                e.preventDefault();
+                return;
+            }
+            if(quill_editor[0].innerHTML == '<p><br></p>') {
+                notify_error('Bạn chưa nhập nội dung gửi');
+                e.preventDefault();
+                return;
+            }
+           
             formData.append('body', quill_editor[0].innerHTML);
             $.ajax({
                 method: "POST",

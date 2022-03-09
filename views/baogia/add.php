@@ -38,7 +38,7 @@
                                                     </g>
                                                 </g>
                                             </svg> -->
-                                            <h3 class="text-primary invoice-logo"><img src="https://gemstech.com.vn/uploads/home/logo-2.png" height="40"/></h3>
+                                            <h3 class="text-primary invoice-logo"><img src="<?= HOME ?>/layouts/logo-2.png" height="40"/></h3>
                                         </div>
                                         <p class="card-text mb-25">Số 2, Vương Thừa Vũ</p>
                                         <p class="card-text mb-25">Quận Thanh Xuân, Tp Hà Nội</p>
