@@ -18,9 +18,10 @@ class timesheets_model extends Model
             date_17+date_18+date_19+date_20+date_21+date_22+date_23+date_24+
             date_25+date_26+date_27+date_28+date_29+date_30+date_31)");
         $query = $this->db->query("SELECT *,
-            (SELECT name FROM staffs WHERE id = staffId) AS staffName,
+            -- (SELECT name FROM staffs WHERE id = staffId) AS staffName,
+        IFNULL((SELECT name FROM staffs WHERE id=staffId and status in (1,2,3,4,5)), 'noName') as staffName, 
         (SELECT avatar FROM staffs WHERE id = staffId) AS avatar
-         FROM timesheets $dieukien ");
+         FROM timesheets $dieukien having staffName != 'noName'");
         $result['data'] = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }
