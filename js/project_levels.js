@@ -1,12 +1,4 @@
-
-
-
-
-
-
 $(function () {
-
-
     // return_combobox_multi('#parentId', baseHome + '/menu/combo', 'Lựa chọn cha cho menu');
 
     // var basicPickr = $('.flatpickr-basic');

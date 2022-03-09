@@ -7,7 +7,9 @@
             <div class="content-header-left col-md-9 col-12 mb-2">
                 <div class="row breadcrumbs-top">
                     <div class="col-12">
-                        <h2 class="float-left mb-0">Đề xuất/Yêu cầu</h2>
+                        <h2 class="float-left mb-0">
+                            Đề xuất/Yêu cầu <img src="<?= HOME ?>/layouts/tooltip.png" style="margin: 0 15px" width="25px" id="current_ip" data-toggle="tooltip" data-placement="right" data-original-title="Là chức năng ..." data-trigger="click">
+                        </h2>
                         <div class="breadcrumb-wrapper d-none">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="<?=HOME?>">Trang chủ</a>

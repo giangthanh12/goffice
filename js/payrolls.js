@@ -2,7 +2,11 @@ var url = '';
 var index = 0;
 
 $(function () {
- 
+    $("body").tooltip({
+        selector: '[data-toggle="tooltip"]',
+        container: "body",
+    });
+    
     "use strict";
     return_combobox_multi('#month', baseHome + '/common/thang', 'Chọn nhân viên');
     return_combobox_multi('#year', baseHome + '/common/nam', 'Chọn loại khách hàng');

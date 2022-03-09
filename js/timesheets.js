@@ -1,6 +1,10 @@
 
 $(function () {
     "use strict";
+    $("body").tooltip({
+        selector: '[data-toggle="tooltip"]',
+        container: "body",
+    });
 
     return_combobox_multi('#month', baseHome + '/common/thang', 'Chọn nhân viên');
     return_combobox_multi('#year', baseHome + '/common/nam', 'Chọn loại khách hàng');

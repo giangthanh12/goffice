@@ -305,7 +305,10 @@ $(function () {
     // }
 
     // Filter
-
+    $("body").tooltip({
+        selector: '[data-toggle="tooltip"]',
+        container: "body",
+    });
 
 
     if (emailSearch.length) {

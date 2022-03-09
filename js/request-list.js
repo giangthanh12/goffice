@@ -8,6 +8,10 @@
 ==========================================================================================*/
 
 'use strict';
+$("body").tooltip({
+    selector: '[data-toggle="tooltip"]',
+    container: "body",
+});
 var  todoTaskList = $('.todo-task-list');
 var url;
 var $defineId = '';

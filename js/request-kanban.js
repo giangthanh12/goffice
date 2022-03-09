@@ -14,6 +14,10 @@ var url, boards,
     stepId = 0;
    
 $(function () {
+    $("body").tooltip({
+        selector: '[data-toggle="tooltip"]',
+        container: "body",
+    });
     'use strict';
 
     var assetPath = 'styles/app-assets/';
