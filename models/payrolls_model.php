@@ -18,9 +18,10 @@ class payrolls_model extends Model
                 $where .= " AND staffId=$staffId";
         }
         $query = $this->db->query("SELECT *,
-                (SELECT name FROM staffs WHERE id=a.staffId) as staffName,
-                (SELECT avatar FROM staffs WHERE id=a.staffId) as avatar
-                FROM payrolls a $where ");
+                IFNULL((SELECT name FROM staffs WHERE id=a.staffId and status in (1,2,3,4,5)), 'noName') as staffName, 
+                -- (SELECT name FROM staffs WHERE id=a.staffId) as staffName,
+                (SELECT avatar FROM staffs WHERE id=a.staffId and status in (1,2,3,4,5) ) as avatar
+                FROM payrolls a $where having staffName != 'noName'");
         $result = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }
