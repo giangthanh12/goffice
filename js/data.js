@@ -13,7 +13,6 @@ $(function () {
             readonly: false
         });
     }
-
     return_combobox_multi('#estaffId', baseHome + '/common/nhanvien', 'Chọn nhân viên');
     return_combobox_multi('#esourceId', baseHome + '/common/datasource', 'Chọn nguồn data');
     return_combobox_multi('#sourceId', baseHome + '/common/datasource', 'Chọn nguồn data');
@@ -317,6 +316,11 @@ $(function () {
                 description: {
                     required: true
                 }
+            },
+            messages: {
+                description: {
+                    required: "Yêu cầu nhập nội dung nhật ký!"
+                }
             }
         });
     });
@@ -342,6 +346,12 @@ $(function () {
                 opportunity: {
                     required: true
                 }
+            },
+            messages: {
+                leadName: {
+                    required: "Yêu cầu nhập tên cơ hội!"
+                },
+               
             }
         });
     });
@@ -417,7 +427,7 @@ function loaddata(id) {
             $('#description').val('');
             $('#listnhatky').html('');
             datareports.map(history => {
-                return $('#listnhatky').append('<div class="media mb-1"><div class="avatar bg-light-success my-0 ml-0 mr-50"><img src="' + history.hinhanh + '" alt="Avatar" height="32" /></div><div class="media-body"><p class="mb-0"><span class="font-weight-bold">' + history.username + '</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<small class="text-muted">' + history.dateTime + '</small></p><p>' + history.description + '</p></div></div>');
+                return $('#listnhatky').append('<div class="media mb-1"><div style="width: 50px;height: 50px;" class="avatar bg-light-success my-0 ml-0 mr-50"><img onerror='+"this.src='https://velo.vn/goffice-test/layouts/useravatar.png'"+' style="width: 50px;height: 50px;" src="' + history.hinhanh + '" alt="Avatar" height="32" /></div><div class="media-body"><p class="mb-0"><span class="font-weight-bold">' + history.username + '</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<small class="text-muted">' + history.dateTime + '</small></p><p>' + history.description + '</p></div></div>');
             });
             var chatUsersListWrapper = $('#listnhatky');
             var chatUserList = new PerfectScrollbar(chatUsersListWrapper[0]);
@@ -537,9 +547,9 @@ function chiadata() {
     rows.each(function (item) {
         listdata += item + ',';
     })
-    console.log(listdata);
+    // console.log(listdata);
     listdata = listdata.slice(0, -1);
-
+    console.log(listdata);
     if (rows.length > 0) {
         $("#chiadata").modal('show');
         $("#modal-title4").html('Chia data');
