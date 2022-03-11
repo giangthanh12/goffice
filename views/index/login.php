@@ -47,7 +47,7 @@
                                  alt="Login V2"/>
                         </div>
                     </div>
-                    <div class="d-flex col-lg-4 align-items-center auth-bg px-2 p-lg-5">
+                    <div class="d-flex col-lg-4 align-items-center auth-bg px-2 p-lg-3">
                         <div class="col-12 col-sm-8 col-md-6 col-lg-12 px-xl-2 mx-auto">
                             <h2 class="card-title font-weight-bold mb-1">Welcome to G-Office</h2>
                             <p class="card-text mb-2">Đăng nhập để bắt đầu phiên làm việc</p>
@@ -102,12 +102,12 @@
                             <div class="divider my-1">
                                 <div class="divider-text">or</div>
                             </div>
-                            <p class="text-center mt-1">
+                            <p class="text-center mt-2">
                                 <span>Email: </span>
                                 <a href="mailto:info@gemstech.com.vn"><span>&nbsp;info@gemstech.com.vn</span></a>
                                 <div class="text-center">
-                                    <img style="width:40%" src="<?= HOME ?>/layouts/qr1.jpg" alt="">
-                                    <img style="width:40%" src="<?= HOME ?>/layouts/qr2.jpg" alt="">
+                                    <img style="width:30%;margin-right: 40px;" src="<?= HOME ?>/layouts/qr1.jpg" alt="">
+                                    <img style="width:30%" src="<?= HOME ?>/layouts/qr2.jpg" alt="">
                                 </div>
                             </p>
                         </div>

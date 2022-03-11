@@ -961,15 +961,15 @@ $notifications = $model->getNotification();
         <div class="navbar-footer" style="padding-left: 25px; padding-top: 15px;">
             <div class="brand-logo d-none" id="minlogo-footer">
                 <img src="layouts/favicon.png" height="26" />
+                
             </div>
             <!-- <h2 class="brand-text">G-OFFICEx</h2> -->
-            <div id="maxlogo-footer">
+            <div id="maxlogo-footer" >
                 <img src="layouts/g-office-logo.png" height="20" alt="logo">
             </div>
-            <div id="qrcode-footer">
-                 <img style="width:40%" src="<?= HOME ?>/layouts/qr1.jpg" alt="">
-                 <img style="width:40%" src="<?= HOME ?>/layouts/qr2.jpg" alt="">
-            </div>
+            <!-- <div id="qrcode-footer">
+                
+            </div> -->
         </div>
     </div>
     <!-- END: Main Menu-->
