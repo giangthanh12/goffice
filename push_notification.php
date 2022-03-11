@@ -8,13 +8,13 @@ $data = array(
     "to" => $item['fcm_token'],
     "notification" => array(
         "title" => $title, 
-        // "body" => $body
+        "body" => "Bạn có thông báo mới"
     ),
     "data" => array(
         // "title" => $title, 
         // "body" => $body,
-        "title" => "Newsfeed", 
-        "body" => "Bạn có thông báo mới",
+        // "title" => $title, 
+        // "body" => $body,
         "inboxId" => $item['inboxId'],
         "link" => "inbox"
     )
