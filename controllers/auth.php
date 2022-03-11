@@ -20,9 +20,41 @@ class auth extends Controller
       $password = md5(md5($_REQUEST['password']));
       $data = $this->model->checkIn($username, $password);
       if (isset($data['id'])) {
+        $taxcode = $_SESSION['folder'];
+        // call g_menus
+        if($taxcode != 'gemstech') {
+          $curl = curl_init();
+          curl_setopt_array($curl, array(
+          CURLOPT_URL => 'https://velo.vn/customers/customer_functions/getPackets?token=e594864995037d740cadc97edd181702',
+          CURLOPT_RETURNTRANSFER => true,
+          CURLOPT_ENCODING => '',
+          CURLOPT_MAXREDIRS => 10,
+          CURLOPT_TIMEOUT => 0,
+          CURLOPT_FOLLOWLOCATION => true,
+          CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+          CURLOPT_CUSTOMREQUEST => 'POST',
+          CURLOPT_POSTFIELDS => array('taxCode' => $taxcode),
+          CURLOPT_HTTPHEADER => array(
+              'Cookie: PHPSESSID=6mumjsl1rup8dl54nj9tol88rn'
+          ),
+          ));
+          $response = curl_exec($curl);
+          curl_close($curl);
+         
+          $response = json_decode($response);
+          $menuIds = $response->data;
+          $_SESSION['menuIds'] = $menuIds;
+        }
+
+
+        
         $jsonObj['code'] = 200;
         $jsonObj['data'] = $data;
         $_SESSION[SID] = true;
+        // set cookie
+        // setcookie(SID, true, time() + 3600,'/');
+        // setcookie('folder', 'gemstech', time() + 3600,'/');
+        // setcookie('username', $username, time() + 3600,'/');
         $_SESSION['user'] = $data;
         $this->model->updateDeadline();
       } else {
@@ -40,6 +72,10 @@ class auth extends Controller
   function logout()
   {
     session_destroy();
+    // setcookie(SID, true, time() - 3600,'/');
+    // setcookie('folder', 'gemstech', time() - 3600,'/');
+    // setcookie('username', $_COOKIE['username'], time() - 3600,'/');
+    // setcookie('SID', $_COOKIE['username'], time() - 3600,'/');
     http_response_code(200);
     $jsonObj['message'] = "Goodbye";
     $jsonObj['code'] = 200;

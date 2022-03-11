@@ -116,31 +116,32 @@ class Model
             return $menus;
         }
         else {
-            $curl = curl_init();
-            curl_setopt_array($curl, array(
-            CURLOPT_URL => 'https://velo.vn/customers/customer_functions/getPackets?token=e594864995037d740cadc97edd181702',
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => '',
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => 'POST',
-            CURLOPT_POSTFIELDS => array('taxCode' => $taxcode),
-            CURLOPT_HTTPHEADER => array(
-                'Cookie: PHPSESSID=6mumjsl1rup8dl54nj9tol88rn'
-            ),
-            ));
-            $response = curl_exec($curl);
-            curl_close($curl);
+            // $curl = curl_init();
+            // curl_setopt_array($curl, array(
+            // CURLOPT_URL => 'https://velo.vn/customers/customer_functions/getPackets?token=e594864995037d740cadc97edd181702',
+            // CURLOPT_RETURNTRANSFER => true,
+            // CURLOPT_ENCODING => '',
+            // CURLOPT_MAXREDIRS => 10,
+            // CURLOPT_TIMEOUT => 0,
+            // CURLOPT_FOLLOWLOCATION => true,
+            // CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            // CURLOPT_CUSTOMREQUEST => 'POST',
+            // CURLOPT_POSTFIELDS => array('taxCode' => $taxcode),
+            // CURLOPT_HTTPHEADER => array(
+            //     'Cookie: PHPSESSID=6mumjsl1rup8dl54nj9tol88rn'
+            // ),
+            // ));
+            // $response = curl_exec($curl);
+            // curl_close($curl);
            
-            $response = json_decode($response);
-            $menuIds = $response->data;
+            // $response = json_decode($response);
+            // $menuIds = $response->data;
             $menus = [];
-            if(empty($menuIds)) {
+            if(empty($_SESSION['menuIds'])) {
                 $where = " and id in (0) ";
             }
             else {
+                $menuIds = $_SESSION['menuIds'];
                 if($parentId == 0) {
                     $where = " and id in ($menuIds) ";
                 }
@@ -181,7 +182,22 @@ class Model
             return $menus;
         }
     }
-
+  function checkUsername($username)
+  {
+    $query = $this->db->query("SELECT id, username, staffId,classify,groupId,token, extNum, sipPass,
+        (SELECT accesspoints FROM staffs WHERE id=staffId) AS accesspoints,
+          (SELECT name FROM staffs WHERE id=staffId) AS staffName,
+       (SELECT email FROM staffs WHERE id=staffId) AS email,
+          (SELECT avatar FROM staffs WHERE id=staffId) AS avatar
+        /*(SELECT ip FROM branch WHERE branch.id=(SELECT branch FROM laborcontract
+        WHERE laborcontract.staffId=users.staffId LIMIT 1)) AS ipBranch */
+          FROM users WHERE status=1 AND usernameMd5 = '$username'");
+    $row = $query->fetchAll(PDO::FETCH_ASSOC);
+    if (isset($row[0]))
+      return $row[0];
+    else
+      return [];
+  }
     function getFunctions($menuLink)
     {
         $classUser = $_SESSION['user']['classify'];
