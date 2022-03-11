@@ -966,6 +966,10 @@ $notifications = $model->getNotification();
             <div id="maxlogo-footer">
                 <img src="layouts/g-office-logo.png" height="20" alt="logo">
             </div>
+            <div id="qrcode-footer">
+                 <img style="width:40%" src="<?= HOME ?>/layouts/qr1.jpg" alt="">
+                 <img style="width:40%" src="<?= HOME ?>/layouts/qr2.jpg" alt="">
+            </div>
         </div>
     </div>
     <!-- END: Main Menu-->

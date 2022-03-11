@@ -105,6 +105,10 @@
                             <p class="text-center mt-1">
                                 <span>Email: </span>
                                 <a href="mailto:info@gemstech.com.vn"><span>&nbsp;info@gemstech.com.vn</span></a>
+                                <div class="text-center">
+                                    <img style="width:40%" src="<?= HOME ?>/layouts/qr1.jpg" alt="">
+                                    <img style="width:40%" src="<?= HOME ?>/layouts/qr2.jpg" alt="">
+                                </div>
                             </p>
                         </div>
                     </div>
