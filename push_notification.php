@@ -6,9 +6,10 @@ define('API_ACCESS_KEY', 'AAAAhvTgZQQ:APA91bFl7i1Ctp7aXma6CTwGEYY7dU1t2Bdni2e8Pe
 
 $data = array(
     "to" => $item['fcm_token'],
-    // "notification" => array(
-    //     "title" => $title, 
-    //     "body" => $body),
+    "notification" => array(
+        "title" => $title, 
+        // "body" => $body
+    ),
     "data" => array(
         // "title" => $title, 
         // "body" => $body,
