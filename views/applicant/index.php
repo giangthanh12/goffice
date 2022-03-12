@@ -62,7 +62,7 @@
                                         <div class="card-body">
                                             <form class="form-validate" enctype="multipart/form-data" id="dg">
                                                 <div class="form-group">
-                                                    <label for="fullName">Họ và tên</label>
+                                                    <label for="fullName">Họ và tên<span style="color:red;">*</span></label>
                                                     <input type="text" class="form-control" id="fullName" name="fullName" />
                                                 </div>
 
@@ -84,12 +84,12 @@
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <label for="phoneNumber">Số điện thoại</label>
+                                                    <label for="phoneNumber">Số điện thoại<span style="color:red;">*</span></label>
                                                     <input type="text" class="form-control phoneNumber" data-id="phoneNumber" id="phoneNumber" name="phoneNumber" />
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <label for="email">Email</label>
+                                                    <label for="email">Email<span style="color:red;">*</span></label>
                                                     <input type="text" class="form-control" id="email" name="email" />
                                                 </div>
 

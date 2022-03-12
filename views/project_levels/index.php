@@ -52,14 +52,14 @@
                                             <form class="form-validate" enctype="multipart/form-data" id="dg">
                                                 <div class="row mt-1">
                                                     <div class="col-md-12 form-group">
-                                                    <label for="link">Tên cấp độ</label>
+                                                    <label for="link">Tên cấp độ<span style="color:red;">*</span></label>
                                                         <input id="name" name="name" type="text" class="form-control" />
                                                     </div>
                                                     <div class="col-md-12 form-group">
                                                         <label for="color">Mã màu</label>
                                                         <input id="color" name="color" type="text" class="form-control" />
                                                     </div>
-                                                    <div class="col-md-12  form-group">
+                                                    <div class="col-md-12 form-group d-none">
                                                         <label for="status">Tình trạng</label>
                                                         <select id="status" class="form-control" name="status">
                                                             <option value="1">Chưa kích hoạt</option>

@@ -10,11 +10,11 @@
                 <div class="card">
                     <div class="d-flex justify-content-between align-items-center mx-50 row pt-2 pb-2">
                         <h2>
-                        Danh sách tài sản<img src="<?=HOME?>/layouts/tooltip.png" style="margin: 0 15px" width="25px" id="current_ip" data-toggle="tooltip" data-placement="right" data-original-title="Là chức năng quản lý toàn bộ thông tin tài sản thuộc quyền sở hữu của doanh nghiệp" data-trigger="click" >
+                            Danh sách tài sản<img src="<?= HOME ?>/layouts/tooltip.png" style="margin: 0 15px" width="25px" id="current_ip" data-toggle="tooltip" data-placement="right" data-original-title="Là chức năng quản lý toàn bộ thông tin tài sản thuộc quyền sở hữu của doanh nghiệp" data-trigger="click">
                         </h2>
                         <div class="col-md-4 "></div>
                         <div class="col-md-4 tai_san_fillter"></div><span></span>
-                        
+
                     </div>
                 </div>
                 <!-- users filter end -->
@@ -50,11 +50,11 @@
                                             <form class="form-validate" enctype="multipart/form-data" id="dg">
                                                 <div class="row mt-1">
                                                     <div class="col-lg-12">
-                                                        <label for="step" class="form-control-label">Mã tài sản</label>
+                                                        <label for="step" class="form-control-label">Mã tài sản<span style="color:red;">*</span></label>
                                                         <div class="form-group">
                                                             <div class="row">
                                                                 <div class="col-sm-9">
-                                                                    <input type="text" id="code" name="code"  class="form-control">
+                                                                    <input type="text" id="code" name="code" class="form-control">
                                                                 </div>
                                                                 <div class="col-sm-3">
                                                                     <button type="button" class="btn btn-primary" id="createCode" onclick="createCodeAsset()">+</button>
@@ -65,29 +65,29 @@
                                                     <br>
                                                     <div class="col-lg-12">
                                                         <div class="form-group">
-                                                            <label for="name">Tên tài sản</label>
+                                                            <label for="name">Tên tài sản<span style="color:red;">*</span></label>
                                                             <input id="name" name="name" type="text" class="form-control" onblur="check_name();" />
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-12 col-md-12">
                                                         <div class="form-group">
-                                                            <label for="don_vi">Đơn vị</label>
+                                                            <label for="don_vi">Đơn vị<span style="color:red;">*</span></label>
                                                             <select name="don_vi" id="don_vi" class="select2 form-control"></select>
                                                         </div>
                                                     </div>
 
                                                     <div class="col-lg-12 col-md-12">
                                                         <div class="form-group">
-                                                            <label for="nhom_ts">Nhóm</label>
+                                                            <label for="nhom_ts">Nhóm<span style="color:red;">*</span></label>
                                                             <select name="nhom_ts" id="nhom_ts" class="select2 form-control "></select>
-                                                        
+
                                                             </select>
                                                         </div>
                                                     </div>
 
                                                     <div class="col-lg-6 col-md-12">
                                                         <div class="form-group">
-                                                            <label for="so_tien">Số tiền 1 đơn vị</label>
+                                                            <label for="so_tien">Số tiền 1 đơn vị<span style="color:red;">*</span></label>
                                                             <input id="so_tien" type="text" class="form-control format_number" name="so_tien" />
                                                         </div>
                                                     </div>
@@ -186,27 +186,27 @@
 
                                                                 <div class="media-body col-lg-12 mt-50">
 
-                                                                    <h4 id="tai_san">No name</h4>   
+                                                                    <h4 id="tai_san">No name</h4>
 
                                                                     <div class="d-flex mt-1 px-0">
-                                                                        <?php 
-                                                                            if($this->funEdit == 1){
+                                                                        <?php
+                                                                        if ($this->funEdit == 1) {
                                                                         ?>
-                                                                        <label class="btn btn-primary mr-75 mb-0" for="hinhanh">
+                                                                            <label class="btn btn-primary mr-75 mb-0" for="hinhanh">
 
-                                                                            <span class="d-none d-sm-block">Thay ảnh</span>
+                                                                                <span class="d-none d-sm-block">Thay ảnh</span>
 
-                                                                            <input class="form-control" type="file" id="hinhanh" name="hinhanh" hidden accept="image/png, image/jpeg, image/jpg" onchange="thayanh()" />
+                                                                                <input class="form-control" type="file" id="hinhanh" name="hinhanh" hidden accept="image/png, image/jpeg, image/jpg" onchange="thayanh()" />
 
-                                                                            <span class="d-block d-sm-none">
+                                                                                <span class="d-block d-sm-none">
 
-                                                                                <i class="mr-0" data-feather="edit"></i>
+                                                                                    <i class="mr-0" data-feather="edit"></i>
 
-                                                                            </span>
+                                                                                </span>
 
-                                                                        </label>
-                                                                        <?php 
-                                                                            }
+                                                                            </label>
+                                                                        <?php
+                                                                        }
                                                                         ?>
                                                                     </div>
 
@@ -242,7 +242,7 @@
                                                             <div class="col-lg-2 col-md-2">
                                                                 <div class="form-group">
                                                                     <label for="code_add">Mã tài sản</label>
-                                                                    <input id="code_add" type="text" readonly class="form-control"  name="code_add" />
+                                                                    <input id="code_add" type="text" readonly class="form-control" name="code_add" />
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-2 col-md-2">
@@ -251,7 +251,7 @@
                                                                     <input id="so_luong_add" type="number" class="form-control" readonly name="so_luong_add" />
                                                                 </div>
                                                             </div>
-                                                           
+
                                                             <div class="col-lg-2 col-md-3">
                                                                 <div class="form-group">
                                                                     <label for="don_vi_add">Đơn vị</label>
@@ -333,9 +333,9 @@
 
 
                                                             <div class="col-12 d-flex flex-sm-row flex-column mt-2">
-                                                             
-                                                                    <button type="submit" id="btn_update_asset" class="btn  btn-add btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Cập nhật</button>
-                                                              
+
+                                                                <button type="submit" id="btn_update_asset" class="btn  btn-add btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Cập nhật</button>
+
                                                                 <button type="reset" class="btn btn-outline-secondary" data-dismiss="modal">Bỏ qua</button>
                                                             </div>
 
@@ -385,7 +385,7 @@
                                                                 <tr>
                                                                     <th>Thời gian</th>
                                                                     <th>Mã sản phẩm</th>
-                                                                    <th>Mã cấp phát</th> 
+                                                                    <th>Mã cấp phát</th>
                                                                     <th>Tài sản</th>
                                                                     <th>Tiền cọc</th>
                                                                     <th>Ghi chú</th>
@@ -470,7 +470,7 @@
                                     <div class="row">
                                         <div class="col-lg-12 col-md-12">
                                             <div class="form-group">
-                                                <label class="form-label" for="nhan_vien">Nhân viên</label>
+                                                <label class="form-label" for="nhan_vien">Nhân viên<span style="color:red;">*</span></label>
                                                 <select name="nhan_vien" id="nhan_vien" class="select2 form-control"></select>
                                             </div>
 
@@ -481,7 +481,7 @@
                                         </div>
                                         <div class="col-lg-12 col-md-12">
                                             <div class="form-group">
-                                                <label for="dat_coc">Đặt cọc</label>
+                                                <label for="dat_coc">Đặt cọc<span style="color:red;">*</span></label>
                                                 <input id="dat_coc" type="text" class="form-control format_number" name="dat_coc" />
                                             </div>
                                         </div>
@@ -504,7 +504,7 @@
 
                     </div>
                     <!---END modal cap phat-->
-                    
+
 
 
                     <!---modal add group asset-->
@@ -628,7 +628,7 @@
                                                 <label for="ghi_chu_th">Ghi chú</label>
                                                 <textarea id="ghi_chu_th" class="form-control" name="ghi_chu_th"></textarea>
                                             </div>
-                                            <button type="button" id="btn_add_th" onclick="saveth()" class="btn btn-primary mr-1 data-submit" >Thu hồi</button>
+                                            <button type="button" id="btn_add_th" onclick="saveth()" class="btn btn-primary mr-1 data-submit">Thu hồi</button>
                                             <button type="reset" class="btn btn-outline-secondary" data-dismiss="modal">Bỏ qua</button>
                                         </div>
                                     </div>
@@ -647,11 +647,11 @@
     </div>
 </div>
 <script>
-    var funAdd = <?=$this->funAdd?>,
-        funIssue = <?=$this->funIssue?>,
-        funRecall = <?=$this->funRecall?>,
-        funEdit = <?=$this->funEdit?>,
-        funDel = <?=$this->funDel?>;
-     console.log(funAdd,funIssue,funRecall,funEdit,funDel);
+    var funAdd = <?= $this->funAdd ?>,
+        funIssue = <?= $this->funIssue ?>,
+        funRecall = <?= $this->funRecall ?>,
+        funEdit = <?= $this->funEdit ?>,
+        funDel = <?= $this->funDel ?>;
+    console.log(funAdd, funIssue, funRecall, funEdit, funDel);
 </script>
 <script src="<?= HOME ?>/js/asset.js"></script>

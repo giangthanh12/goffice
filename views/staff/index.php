@@ -41,19 +41,19 @@
                                     <h5 class="modal-title" id="exampleModalLabel">Thêm nhân viên mới</h5>
                                 </div>
                                 <div class="modal-body flex-grow-1">
-                                    <label class="form-label" for="fullName">Tên nhân viên</label>
+                                    <label class="form-label" for="fullName">Tên nhân viên<span style="color:red;">*</span></label>
                                     <div class="form-group">
                                         <input type="text" id="fullName" name="fullName" class="form-control"
                                             placeholder="Tên nhân viên" />
                                     </div>
                                     <div class="form-group">
-                                        <label class="form-label" for="phoneNumber">Điện thoại</label>
+                                        <label class="form-label" for="phoneNumber">Điện thoại<span style="color:red;">*</span></label>
                                         <input type="text" id="phoneNumber" class="form-control dt-uname"
                                             placeholder="Số điện thoại" aria-label="jdoe1"
                                             aria-describedby="basic-icon-default-uname2" name="phoneNumber" />
                                     </div>
                                     <div class="form-group">
-                                        <label class="form-label" for="email">Email</label>
+                                        <label class="form-label" for="email">Email<span style="color:red;">*</span></label>
                                         <input type="text" id="email" class="form-control dt-email"
                                             placeholder="Email cá nhân" aria-label="john.doe@example.com"
                                             aria-describedby="basic-icon-default-email2" name="email" />
@@ -78,7 +78,7 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="birthday">Ngày sinh</label>
+                                        <label for="birthday">Ngày sinh<span style="color:red;">*</span></label>
                                         <input id="birthday" placeholder="DD/MM/YYYY" name="birthday" type="text"
                                             class="form-control  flatpickr-basic" />
                                     </div>
@@ -254,7 +254,7 @@
                                                             </div>
                                                             <div class="col-lg-4 col-md-6">
                                                                 <div class="form-group">
-                                                                    <label for="name1">Họ và tên</label>
+                                                                    <label for="name1">Họ và tên<span style="color:red;">*</span></label>
                                                                     <input id="name1" type="text" class="form-control"
                                                                         name="name1" />
                                                                 </div>
@@ -268,14 +268,14 @@
                                                             </div>
                                                             <div class="col-lg-4 col-md-6">
                                                                 <div class="form-group">
-                                                                    <label for="phoneNumber1">Điện thoại</label>
+                                                                    <label for="phoneNumber1">Điện thoại<span style="color:red;">*</span></label>
                                                                     <input id="phoneNumber1" type="text"
                                                                         class="form-control" name="phoneNumber1" />
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-4 col-md-6">
                                                                 <div class="form-group">
-                                                                    <label for="email1">Email</label>
+                                                                    <label for="email1">Email<span style="color:red;">*</span></label>
                                                                     <input id="email1" type="text" class="form-control"
                                                                         placeholder="Email cá nhân" name="email1" />
                                                                 </div>

@@ -41,12 +41,12 @@
                                             <form class="form-validate" enctype="multipart/form-data" id="fm">
                                                 <!-- <div class="row mt-1"> -->
                                                 <div class="form-group">
-                                                    <label for="name">Tên phòng ban</label>
+                                                    <label for="name">Tên phòng ban<span style="color:red;">*</span></label>
                                                     <input type="text" class="form-control" id="name" placeholder="Nhập tên phòng ban" name="name" required />
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <label for="position">Chức vụ</label>
+                                                    <label for="position">Chức vụ<span style="color:red;">*</span></label>
                                                     <select class="select2 form-control" multiple="multiple" data-msg-required="Bạn chưa chọn vị trí phòng ban" required id="position"
                                                     name="position[]"></select>
                                                 </div>
