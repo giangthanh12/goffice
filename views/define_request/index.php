@@ -49,7 +49,7 @@
                                             <form class="form-validate" enctype="multipart/form-data" id="frm-1">
                                                 <div class="row mt-1">
                                                     <div class="col-md-6 form-group">
-                                                        <label for="name1">Yêu cầu</label>
+                                                        <label for="name1">Yêu cầu<span style="color:red;">*</span></label>
                                                         <input id="name1" name="name1" type="text" class="form-control" />
                                                     </div>
                                                     <!-- <div class="col-md-6 form-group"></div> -->
