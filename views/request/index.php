@@ -1,4 +1,4 @@
-<link rel="stylesheet" type="text/css" href="<?=HOME?>/styles/app-assets/css/pages/app-todo.css">
+<link rel="stylesheet" type="text/css" href="<?= HOME ?>/styles/app-assets/css/pages/app-todo.css">
 <!-- BEGIN: Content-->
 <div class="app-content content todo-application">
     <div class="content-overlay"></div>
@@ -12,7 +12,7 @@
                     </h2>
                     <div class="breadcrumb-wrapper d-none">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="<?=HOME?>">Trang chủ</a>
+                            <li class="breadcrumb-item"><a href="<?= HOME ?>">Trang chủ</a>
                             </li>
                         </ol>
                     </div>
@@ -22,7 +22,7 @@
         <div class="content-header-right text-md-right col-md-3 col-12 d-md-block d-none">
             <div class="form-group breadcrumb-right">
                 <div class="dropdown">
-                    <a class="btn-icon btn btn-primary btn-round btn-sm" href="<?=HOME?>/request/kanbanview" aria-haspopup="true" aria-expanded="false">
+                    <a class="btn-icon btn btn-primary btn-round btn-sm" href="<?= HOME ?>/request/kanbanview" aria-haspopup="true" aria-expanded="false">
                         <i data-feather="align-center"></i>
                     </a>
                 </div>
@@ -36,7 +36,7 @@
                     <div class="todo-app-menu">
                         <div class="add-task">
                             <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#new-task-modal">
-                               Tạo yêu cầu
+                                Tạo yêu cầu
                             </button>
                         </div>
                         <div class="sidebar-menu-list">
@@ -54,16 +54,16 @@
                             </div>
                             <div class="mt-3 px-2 d-flex justify-content-between">
                                 <h6 class="section-label mb-1">Đề xuất/Yêu cầu</h6>
-<!--                                <i data-feather="plus" class="cursor-pointer"></i>-->
+                                <!--                                <i data-feather="plus" class="cursor-pointer"></i>-->
                             </div>
                             <div class="list-group list-group-labels">
                                 <?php
-                                    foreach ($this->requestDefines as $define){
+                                foreach ($this->requestDefines as $define) {
                                 ?>
-                                <a href="javascript:void(0)" onclick="chooseRequest(<?=$define['id']?>)" class="list-group-item chooseRequest-item list-group-item-action d-flex align-items-center">
-                                    <span class="bullet bullet-sm bullet-primary mr-1"></span><?=$define['name']?>
-                                </a>
-                                <?php }?>
+                                    <a href="javascript:void(0)" onclick="chooseRequest(<?= $define['id'] ?>)" class="list-group-item chooseRequest-item list-group-item-action d-flex align-items-center">
+                                        <span class="bullet bullet-sm bullet-primary mr-1"></span><?= $define['name'] ?>
+                                    </a>
+                                <?php } ?>
                             </div>
                         </div>
                     </div>
@@ -168,74 +168,69 @@
                     <!-- Right Sidebar starts -->
                     <div class="modal modal-slide-in sidebar-todo-modal fade" id="new-task-modal">
                         <div class="modal-dialog sidebar-lg">
-                        <div class="modal-content p-0">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">×</button>
-                            <div class="modal-header mb-1">
-                                <h5 class="modal-title" id="modalTitle">Tạo yêu cầu</h5>
-                            </div>
-                            <div class="modal-body flex-grow-1">
-                                <ul class="nav nav-tabs tabs-line">
-                                    <li class="nav-item">
-                                        <a class="nav-link nav-link-update active" data-toggle="tab" href="#tab-update">
-                                            <i data-feather="edit"></i>
-                                            <span class="align-middle">Thông tin</span>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link nav-link-activity" data-toggle="tab" href="#tab-activity">
-                                            <i data-feather="activity"></i>
-                                            <span class="align-middle">Chi tiết</span>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link nav-link-comments" data-toggle="tab" href="#tab-comments">
-                                            <i data-feather="message-square"></i>
-                                            <span class="align-middle">Phản hồi</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                                <div class="tab-content mt-2">
-                                    <div class="tab-pane tab-pane-update fade show active" id="tab-update"
-                                         role="tabpanel">
-                                        <form id="fmInfo">
-                                            <input type="hidden" name="requestId" id="requestId" value="">
-                                            <input type="hidden" name="stepId" id="stepId" value="">
-                                           
-                                            <div class="form-group">
-                                                <label class="form-label" for="department">Yêu cầu</label>
-                                                <select class="form-control" id="defineId"
-                                                        name="defineId" required>
-                                                    <!-- <option value="">&nbsp;</option> -->
-                                                    <?php
-                                                    foreach ($this->requestDefines as $item) {
+                            <div class="modal-content p-0">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">×</button>
+                                <div class="modal-header mb-1">
+                                    <h5 class="modal-title" id="modalTitle">Tạo yêu cầu</h5>
+                                </div>
+                                <div class="modal-body flex-grow-1">
+                                    <ul class="nav nav-tabs tabs-line">
+                                        <li class="nav-item">
+                                            <a class="nav-link nav-link-update active" data-toggle="tab" href="#tab-update">
+                                                <i data-feather="edit"></i>
+                                                <span class="align-middle">Thông tin</span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link nav-link-activity" data-toggle="tab" href="#tab-activity">
+                                                <i data-feather="activity"></i>
+                                                <span class="align-middle">Chi tiết</span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link nav-link-comments" data-toggle="tab" href="#tab-comments">
+                                                <i data-feather="message-square"></i>
+                                                <span class="align-middle">Phản hồi</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                    <div class="tab-content mt-2">
+                                        <div class="tab-pane tab-pane-update fade show active" id="tab-update" role="tabpanel">
+                                            <form id="fmInfo">
+                                                <input type="hidden" name="requestId" id="requestId" value="">
+                                                <input type="hidden" name="stepId" id="stepId" value="">
+
+                                                <div class="form-group">
+                                                    <label class="form-label" for="department">Yêu cầu<span style="color:red;">*</span></label>
+                                                    <select class="form-control" id="defineId" name="defineId" required>
+                                                        <!-- <option value="">&nbsp;</option> -->
+                                                        <?php
+                                                        foreach ($this->requestDefines as $item) {
                                                         ?>
-                                                             <option value="<?= $item['id'] ?>"><?= $item['name'] ?></option>
-                                                    <?php } ?>
-                                                </select>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="form-label" for="title">Tiêu đề</label>
-                                                <input type="text" id="title" name="title" class="form-control"
-                                                        required/>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="form-label" for="dateTime">Ngày tạo</label>
-                                                <input type="text" id="dateTime" name="dateTime" class="form-control task-due-date"  required/>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="form-label" for="department">Phòng ban</label>
-                                                <select class="select2 select2-label form-control" id="department"
-                                                        name="department">
-                                                    <!-- <option value="">&nbsp;</option> -->
-                                                    <?php
-                                                    foreach ($this->departments as $item) {
+                                                            <option value="<?= $item['id'] ?>"><?= $item['name'] ?></option>
+                                                        <?php } ?>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="form-label" for="title">Tiêu đề<span style="color:red;">*</span></label>
+                                                    <input type="text" id="title" name="title" class="form-control" required />
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="form-label" for="dateTime">Ngày tạo</label>
+                                                    <input type="text" id="dateTime" name="dateTime" class="form-control task-due-date" required />
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="form-label" for="department">Phòng ban</label>
+                                                    <select class="select2 select2-label form-control" id="department" name="department">
+                                                        <!-- <option value="">&nbsp;</option> -->
+                                                        <?php
+                                                        foreach ($this->departments as $item) {
                                                         ?>
-                                                        <option data-color="badge-light-success"
-                                                                value="<?= $item['id'] ?>"><?= $item['text'] ?></option>
-                                                    <?php } ?>
-                                                </select>
-                                            </div>
-                                            <!-- <div class="form-group" id="processorLabel">
+                                                            <option data-color="badge-light-success" value="<?= $item['id'] ?>"><?= $item['text'] ?></option>
+                                                        <?php } ?>
+                                                    </select>
+                                                </div>
+                                                <!-- <div class="form-group" id="processorLabel">
                                                 <label class="form-label">Người duyệt</label>
                                                 <ul class="pl-0" id="processor"></ul>
                                             </div>
@@ -243,33 +238,30 @@
                                                 <label class="form-label">Người từ chối</label>
                                                 <ul class="pl-0" id="refuser"></ul>
                                             </div> -->
-                                            <div class="form-group">
-                                                <label class="form-label" for="staffId">Người tạo</label>
-                                                <select class="select2 select2-label form-control" id="staffId"
-                                                        name="staffId" required>
-                                                    <!-- <option value="">&nbsp;</option> -->
-                                                    <?php
-                                                    foreach ($this->staffs as $item) {
+                                                <div class="form-group">
+                                                    <label class="form-label" for="staffId">Người tạo</label>
+                                                    <select class="select2 select2-label form-control" id="staffId" name="staffId" required>
+                                                        <!-- <option value="">&nbsp;</option> -->
+                                                        <?php
+                                                        foreach ($this->staffs as $item) {
                                                         ?>
-                                                        <option data-avatar="<?= $item['avatar'] ?>"
-                                                                value="<?= $item['id'] ?>"><?= $item['name'] ?></option>
-                                                    <?php } ?>
-                                                </select>
-                                            </div>
-                                        </form>
-                                    </div>
-                                    <div class="tab-pane tab-pane-activity pb-1 fade" id="tab-activity" role="tabpanel">
-                                        <form id="fmProperties">
-                                            <div class="form-group">
-                                                <label class="form-label" for="property_1">Tên thuộc tính</label>
-                                                <input type="text" id="property_1" name="property_1"
-                                                       class="form-control" placeholder="Tên thuộc tính"/>
-                                            </div>
-                                        </form>
-                                    </div>
-                                    <div class="tab-pane tab-pane-comments pb-1 fade" id="tab-comments" role="tabpanel">
-                                        <div class="media mb-1">
-                                            <!-- <div class="avatar bg-light-success my-0 ml-0 mr-50">
+                                                            <option data-avatar="<?= $item['avatar'] ?>" value="<?= $item['id'] ?>"><?= $item['name'] ?></option>
+                                                        <?php } ?>
+                                                    </select>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="tab-pane tab-pane-activity pb-1 fade" id="tab-activity" role="tabpanel">
+                                            <form id="fmProperties">
+                                                <div class="form-group">
+                                                    <label class="form-label" for="property_1">Tên thuộc tính</label>
+                                                    <input type="text" id="property_1" name="property_1" class="form-control" placeholder="Tên thuộc tính" />
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="tab-pane tab-pane-comments pb-1 fade" id="tab-comments" role="tabpanel">
+                                            <div class="media mb-1">
+                                                <!-- <div class="avatar bg-light-success my-0 ml-0 mr-50">
                                                 <span class="avatar-content">HJ</span>
                                             </div>
                                             <div class="media-body">
@@ -277,42 +269,42 @@
                                                 <small class="text-muted">Today 11:00 AM</small>
                                             </div> -->
 
-                                            <section class="basic-timeline" style="width:100%;">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="card">
-                                <div class="card-body">
-                                    <ul class="timeline" id="timelineComment">
-                             
-                                    </ul>
+                                                <section class="basic-timeline" style="width:100%;">
+                                                    <div class="row">
+                                                        <div class="col-lg-12">
+                                                            <div class="card">
+                                                                <div class="card-body">
+                                                                    <ul class="timeline" id="timelineComment">
+
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </section>
+
+
+
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                    
-                    </div>
-                </section>
-
-
-
+                                <div class="modal-footer">
+                                    <div class="form-group">
+                                        <div class="d-flex flex-wrap">
+                                            <button class="btn btn-primary mr-1" style="margin-bottom: 15px;" id="btnUpdate">Cập nhật
+                                            </button>
+                                            <button type="button" class="btn btn-success mr-1 d-none " style="margin-bottom: 15px;" id="btnApprove" onclick="">Duyệt
+                                            </button>
+                                            <button type="button" class="btn btn-outline-danger d-none" style="margin-bottom: 15px;" id="btnRefuse">Từ chối
+                                            </button>
+                                            <button type="button" class="btn btn-danger mr-1 d-none" style="margin-bottom: 15px;" id="btnDel">Xóa
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="modal-footer">
-                                <div class="form-group">
-                                    <div class="d-flex flex-wrap">
-                                        <button class="btn btn-primary mr-1" style="margin-bottom: 15px;" id="btnUpdate">Cập nhật
-                                        </button>
-                                        <button type="button" class="btn btn-success mr-1 d-none " style="margin-bottom: 15px;" id="btnApprove" onclick="">Duyệt
-                                        </button>
-                                        <button type="button" class="btn btn-outline-danger d-none" style="margin-bottom: 15px;" id="btnRefuse">Từ chối
-                                        </button>
-                                        <button type="button" class="btn btn-danger mr-1 d-none" style="margin-bottom: 15px;" id="btnDel">Xóa
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                         </div>
                     </div>
                     <!-- Right Sidebar ends -->
@@ -324,13 +316,13 @@
 </div>
 <!-- BEGIN: Page JS-->
 <script>
-    var funEdit = '<?=$this->funEdit?>',
-        funApprove = '<?=$this->funApprove?>',
-        funRefuse = '<?=$this->funRefuse?>',
-        funDel = '<?=$this->funDel?>',
-        funAdd = '<?=$this->funAdd?>';
+    var funEdit = '<?= $this->funEdit ?>',
+        funApprove = '<?= $this->funApprove ?>',
+        funRefuse = '<?= $this->funRefuse ?>',
+        funDel = '<?= $this->funDel ?>',
+        funAdd = '<?= $this->funAdd ?>';
 </script>
-<script src="<?=HOME?>/js/request-list.js"></script>
+<script src="<?= HOME ?>/js/request-list.js"></script>
 <style>
     .colorDefine {
         color: rgb(115, 103, 240);
