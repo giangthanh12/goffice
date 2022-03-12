@@ -80,7 +80,7 @@
                                                 <div class="row mt-1">
                                                     <div class="col-lg-6 col-md-6">
                                                         <div class="form-group">
-                                                            <label for="fullName">Tên khách hàng</label>
+                                                            <label for="fullName">Tên khách hàng<span style="color:red;">*</span></label>
                                                             <input id="fullName" type="text" class="form-control" name="fullName" placeholder="Tên khách hàng" />
                                                         </div>
                                                     </div>
@@ -92,7 +92,7 @@
                                                     </div>
                                                     <div class="col-lg-6 col-md-6">
                                                         <div class="form-group">
-                                                            <label for="phoneNumber">Số điện thoại</label>
+                                                            <label for="phoneNumber">Số điện thoại<span style="color:red;">*</span></label>
                                                             <input id="phoneNumber" type="text" data-id="phoneNumber" class="form-control phoneNumber" name="phoneNumber" placeholder="Số điện thoại" />
                                                         </div>
                                                     </div>
@@ -147,7 +147,7 @@
                                                     </div>
                                                     <div class="col-lg-6 col-md-6">
                                                         <div class="form-group">
-                                                            <label for="status">Trạng thái</label>
+                                                            <label for="status">Trạng thái<span style="color:red;">*</span></label>
                                                             <select id="status" class="select2 form-control" name="status">
                                                             <option value="1" selected>Khách hàng tiềm năng</option>
                                                             <option value="2">Khách hàng đang dùng dịch vụ</option>
@@ -207,7 +207,7 @@
                                                         <div class="row mt-1">
                                                             <div class="col-lg-4 col-md-6">
                                                                 <div class="form-group">
-                                                                    <label for="fullName1">Tên khách hàng</label>
+                                                                    <label for="fullName1">Tên khách hàng<span style="color:red;">*</span></label>
                                                                     <input id="fullName1" type="text" class="form-control" name="fullName1" placeholder="Tên khách hàng" />
                                                                 </div>
                                                             </div>
@@ -258,7 +258,7 @@
 
                                                             <div class="col-lg-4 col-md-6">
                                                                 <div class="form-group">
-                                                                    <label for="phoneNumber1">Số điện thoại</label>
+                                                                    <label for="phoneNumber1">Số điện thoại<span style="color:red;">*</span></label>
                                                                     <input id="phoneNumber1" data-id="phoneNumber1" type="text" class="form-control phoneNumber" name="phoneNumber1" placeholder="Số điện thoại" />
                                                                 </div>
                                                             </div>
@@ -392,7 +392,7 @@
                                                             </div>
                                                             <div class="col-lg-4 col-md-6">
                                                                 <div class="form-group">
-                                                                    <label for="status1">Trạng thái</label>
+                                                                    <label for="status1">Trạng thái<span style="color:red;">*</span></label>
                                                                     <select id="status1" class="select2 form-control" name="status1">
                                                                         <option value="1" selected>Khách hàng tiềm năng</option>
                                                                         <option value="2">Khách hàng đang dùng dịch vụ</option>
@@ -580,7 +580,7 @@
                                                         </select>
                                                     </div>
                                                     <div class="col-md-6 form-group">
-                                                        <label for="phoneNumberContact">Số điện thoại</label>
+                                                        <label for="phoneNumberContact">Số điện thoại<span style="color:red;">*</span></label>
                                                         <input id="phoneNumberContact" name="phoneNumberContact" type="text" class="form-control" />
                                                     </div>
                                                     <div class="col-md-6 form-group">

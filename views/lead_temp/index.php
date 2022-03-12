@@ -260,7 +260,7 @@
                                         <?php } ?>
                                     </div>
                                     <hr style="border-top: 1px solid black; margin:1rem;">
-                                    <div class="takecare-history-detail" id="history">
+                                    <div class="takecare-history-detail" id="history" style="height: 787px; overflow: scroll;">
                                     </div>
                                 </div>
                             </div>
@@ -332,7 +332,7 @@
                     <div class="modal-body flex-grow-1 pb-sm-0 pb-3">
                         <div class="action-tags">
                             <div class="form-group">
-                                <label for="leadName" class="form-label">Tên cơ hội</label>
+                                <label for="leadName" class="form-label">Tên cơ hội<span style="color:red;">*</span></label>
                                 <input type="text" id="leadName" name="leadName" class="new-todo-item-title form-control" placeholder="Tên cơ hội" />
                                 <input type="hidden" id="id" name="id">
                             </div>
@@ -357,7 +357,7 @@
                                 </div>
                             </div>
                             <div class="form-group position-relative">
-                                <label for="task-assigned" class="form-label d-block">Khách hàng</label>
+                                <label for="task-assigned" class="form-label d-block">Khách hàng<span style="color:red;">*</span></label>
                                 <select class="select2 form-control" id="leadCustomer" name="leadCustomer" required onchange="changeCustomer()">
                                     <option value="-1">Khách hàng mới</option>
                                     <?php
