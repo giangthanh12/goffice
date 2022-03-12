@@ -69,13 +69,13 @@ class baogia extends Controller{
     function save(){ // ghi nhap
         $id = $_REQUEST['id'];
         $customer = $_REQUEST['customer'];
-        $date = $_REQUEST['date'];
-        $validDate = $_REQUEST['validdate'];
+        $date = date("Y-m-d", strtotime(str_replace('/', '-', $_REQUEST['date'])));
+        $validDate = date("Y-m-d", strtotime(str_replace('/', '-', $_REQUEST['validdate'])));
         $note = $_REQUEST['note'];
         $items = $_REQUEST['items'];
         $total = str_replace(',','',$_REQUEST['total']);
         $tax = str_replace(',','',$_REQUEST['tax']);
-        $data = ['customerId'=>$customer, 'amount'=>$total, 'vat'=>$tax, 'note'=>$note, 'status'=>1, 'date'=>$date, 'validDate'=>$validDate];
+        $data = ['customerId'=>$customer, 'amount'=>$total, 'vat'=>$tax, 'note'=>$note, 'status'=>1, 'date'=>$date, 'validDate'=>$validDate, 'staffId'=>$_SESSION['user']['staffId']];
         $quoteid = $this->model->saveQuote($id,$data,$items);
         if ($quoteid>0) {
             $jsonObj['msg'] = "Đã ghi báo giá";

@@ -146,17 +146,19 @@ $(function () {
                             var html = '';
                             data.list.forEach(function (value, index) {
                                 html += '<div class="row">';
-                                html += '<div class="col-lg-3">';
+                                html += '<div class="col-lg-2">';
                                 html += '<p>' + value.ngay_gio + '</p>';
                                 html += '</div>';
                                 html += '<div class="col-lg-3">';
                                 html += '<p>' + value.staffName + '</p>';
                                 html += '</div>';
-                                html += '<div class="col-lg-3">';
+                                html += '<div class="col-lg-5">';
                                 html += '<p>' + value.content + '</p>';
                                 html += '</div>';
-                                html += '<div class="col-lg-3">';
-                                html += '<p><textarea style="background:#E6E6E6;border:1px">' + value.linkToRecord + '</textarea></p>';
+                                html += '<div class="col-lg-2">';
+                                if(value.linkToRecord!='') {
+                                    html += '<p><a href="' + value.linkToRecord + '" >Link</a></p>';
+                                }
                                 html += '</div>';
                                 html += '</div>';
                             });
@@ -536,19 +538,22 @@ $('#list-lead').on('click', '.sidebar-list', function () {
         data: { id: leadId },
         success: function (data) {
             var html = '';
+           
             data.forEach(function (value, index) {
                 html += '<div class="row">';
-                html += '<div class="col-lg-3">';
+                html += '<div class="col-lg-2">';
                 html += '<p>' + value.ngay_gio + '</p>';
                 html += '</div>';
                 html += '<div class="col-lg-3">';
                 html += '<p>' + value.staffName + '</p>';
                 html += '</div>';
-                html += '<div class="col-lg-3">';
+                html += '<div class="col-lg-5">';
                 html += '<p>' + value.content + '</p>';
                 html += '</div>';
-                html += '<div class="col-lg-3">';
-                html += '<p><textarea style="background:#E6E6E6;border:1px">' + value.linkToRecord + '</textarea></p>';
+                html += '<div class="col-lg-2">';
+                if(value.linkToRecord!='') {
+                    html += '<p><a href="' + value.linkToRecord + '" >Link</a></p>';
+                }
                 html += '</div>';
                 html += '</div>';
             });
