@@ -97,7 +97,7 @@
                             <div class="modal-body flex-grow-1 pb-sm-0 pb-3">
                                 <form class="event-form needs-validation" data-ajax="false" novalidate>
                                     <div class="form-group">
-                                        <label for="title" class="form-label">Tiêu đề</label>
+                                        <label for="title" class="form-label">Tiêu đề<span style="color:red;">*</span></label>
                                         <input type="text" class="form-control" id="title" name="title" placeholder="Sự kiện" required />
                                     </div>
                                     <div class="form-group">
@@ -111,7 +111,7 @@
                                         </select>
                                     </div>
                                     <div class="form-group position-relative">
-                                        <label for="start-date" class="form-label">Ngày bắt đầu</label>
+                                        <label for="start-date" class="form-label">Ngày bắt đầu<span style="color:red;">*</span></label>
                                         <input type="text" class="form-control" id="start-date" name="start-date" placeholder="Ngày bắt đầu" onchange="changeStartDate()" />
                                     </div>
                                     <div class="form-group position-relative">
