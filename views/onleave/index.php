@@ -145,7 +145,7 @@
                                     <div class="modal-body flex-grow-1 pb-sm-0 pb-3">
                                         <div class="action-tags">
                                             <div class="form-group">
-                                                <label for="staffId">Tên nhân viên</label>
+                                                <label for="staffId">Tên nhân viên<span style="color:red;">*</span></label>
                                                 <select class="select2 form-control" id="staffId" name="staffId">
                                                 </select>
                                             </div>

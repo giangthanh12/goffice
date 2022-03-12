@@ -26,7 +26,7 @@
                                 <div class="row">
                                     <div class="col-md-6 col-12">
                                         <div class="form-group">
-                                            <label for="first-name-column">Tên tài nguyên</label>
+                                            <label for="first-name-column">Tên tài nguyên<span style="color:red;">*</span></label>
                                             <input type="text" id="name" class="form-control" placeholder="Tên tài nguyên" name="name" />
                                         </div>
                                     </div>
@@ -56,7 +56,7 @@
                                     </div>
                                     <div class="col-md-6 col-12">
                                         <div class="form-group">
-                                            <label for="country-floating">Đường dẫn</label>
+                                            <label for="country-floating">Đường dẫn<span style="color:red;">*</span></label>
                                             <input type="text" id="link" class="form-control" name="link" placeholder="Link liên kết" />
                                         </div>
                                     </div>

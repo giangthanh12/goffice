@@ -53,7 +53,7 @@
                                                 <div class="row mt-1">
                                                     <div class="col-lg-4 col-md-6">
                                                         <div class="form-group">
-                                                            <label for="name">Tên </label>
+                                                            <label for="name">Tên<span style="color:red;">*</span> </label>
                                                             <input id="ca" name="ca" type="text" class="form-control" />
                                                             
                                                         </div>
