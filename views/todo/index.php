@@ -175,7 +175,7 @@
                                         <div class="action-tags">
                                             <div class="form-group">
                                                 <input type="hidden" id="taskId" name="taskId" />
-                                                <label for="todoTitleAdd" class="form-label">Công việc</label>
+                                                <label for="todoTitleAdd" class="form-label">Tên công việc<span style="color:red;">*</span></label>
                                                 <input type="text" id="todoTitleAdd" name="todoTitleAdd" class="new-todo-item-title form-control" />
                                             </div>
                                             <div class="form-group position-relative">
@@ -188,7 +188,7 @@
                                                 </select>
                                             </div>
                                             <div class="form-group position-relative">
-                                                <label for="task-assigned" class="form-label d-block">Người thực hiện</label>
+                                                <label for="task-assigned" class="form-label d-block">Người thực hiện<span style="color:red;">*</span></label>
                                                 <select class="select2 form-control" id="task-assigned" name="task-assigned">
                                                   
                                                 </select>

@@ -99,19 +99,19 @@
                                     <div class="modal-body flex-grow-1 pb-sm-0 pb-3">
                                         <div class="action-tags">
                                             <div class="form-group">
-                                                <label for="todoTitleAdd" class="form-label">Tên dự án</label>
+                                                <label for="todoTitleAdd" class="form-label">Tên dự án<span style="color:red;">*</span></label>
                                                 <input type="text" id="name" name="name" class="new-todo-item-title form-control" placeholder="Title" />
                                                 <input type="hidden" id="id" name="id">
                                             </div>
 
                                             <div class="form-group position-relative">
-                                                <label for="managerId" class="form-label d-block">Quản lý dự án</label>
+                                                <label for="managerId" class="form-label d-block">Quản lý dự án<span style="color:red;">*</span></label>
                                                 <select class="select2 form-control" id="managerId" name="managerId"></select>
                                             </div>
 
 
                                             <div class="form-group">
-                                                <label for="memberId">Giao cho</label>
+                                                <label for="memberId">Giao cho<span style="color:red;">*</span></label>
                                                 <select class="select2 form-control" multiple="multiple" id="memberId" name="memberId">
 
                                                 </select>
@@ -123,7 +123,7 @@
 
                                             <div class="form-group">
                                                 <div class="form-group">
-                                                    <label for="level">Cấp độ</label>
+                                                    <label for="level">Cấp độ<span style="color:red;">*</span></label>
                                                     <select id="level" class="select2 form-control form-control-lg" name="level">
                                                     </select>
                                                 </div>
@@ -148,7 +148,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group position-relative">
-                                            <label for="status" class="form-label d-block">Trạng thái</label>
+                                            <label for="status" class="form-label d-block">Trạng thái<span style="color:red;">*</span></label>
 
                                             <select class="form-control form-control-lg" id="status" name="status">
 
@@ -188,7 +188,7 @@
 
                                     <div class="form-group">
 
-                                        <label class="form-label" for="nameLevelProject">Tên cấp độ</label>
+                                        <label class="form-label" for="nameLevelProject">Tên cấp độ<span style="color:red;">*</span></label>
 
                                         <input type="text" class="form-control dt-full-name" id="nameLevelProject" name="nameLevelProject" />
 
