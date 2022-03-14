@@ -9,7 +9,7 @@
             <div class="row breadcrumbs-top">
                 <div class="col-12">
                     <h2 class="content-header-title float-left mb-0" id="title_module">
-                        Cơ hội <img src="<?=HOME?>/layouts/tooltip.png" style="margin: 0 15px" width="25px" id="current_ip" data-toggle="tooltip" data-placement="right" data-original-title="Là chức năng quản lý thông tin cá nhân, tình trạng và lịch sự chăm sóc của những khách hàng quan tâm đến SP/DV của doanh nghiệp   " data-trigger="click" >
+                        Cơ hội kinh doanh <img src="<?=HOME?>/layouts/tooltip.png" style="margin: 0 15px" width="25px" id="current_ip" data-toggle="tooltip" data-placement="right" data-original-title="Là chức năng quản lý thông tin cá nhân, tình trạng và lịch sự chăm sóc của những khách hàng quan tâm đến SP/DV của doanh nghiệp   " data-trigger="click" >
                     </h2>
                 </div>
             </div>
