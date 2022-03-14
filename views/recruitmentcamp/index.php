@@ -236,7 +236,12 @@
                                                         <i data-feather="info"></i><span class="d-none d-sm-block">Danh sách ứng viên</span>
                                                     </a>
                                                 </li>
-
+                                                <li class="nav-item">
+                                                    <a class="nav-link d-flex align-items-center " id="interviewResult-tab" data-toggle="tab" href="#interviewResult" aria-controls="information" role="tab" aria-selected="false">
+                                                        <i data-feather="info"></i><span class="d-none d-sm-block">Kết quả phỏng vấn</span>
+                                                    </a>
+                                                </li>
+                                              
                                             </ul>
                                             <div class="tab-content">
                                                 <div class="tab-pane active" id="information" aria-labelledby="information-tab" role="tabpanel">
@@ -423,6 +428,29 @@
                                                                     <th>CV</th>
                                                                     <th>Trạng thái</th>
                                                                     <th></th>
+                                                                </tr>
+                                                            </thead>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                                <!-- interview result -->
+                                                <div class="tab-pane card" id="interviewResult" width="100%" aria-labelledby="interviewResult-tab" role="tabpanel">
+                                                    <div class="table-responsive border rounded mt-1">
+                                                        <h6 class="py-1 mx-1 mb-0 font-medium-2">
+                                                            <i data-feather="lock" class="font-medium-3 mr-25"></i>
+                                                            <span class="align-middle">Chi tiết</span>
+                                                       
+                                                        </h6>
+                                                        <table class="table interview-result-table" id="interview-result-table">
+                                                            <thead class="thead-light">
+                                                                <tr>
+                                                                    <th>Ứng viên</th>
+                                                                    <th>Giới tính</th>
+                                                                    <th>Ngày phỏng vấn</th>
+                                                                    <th>Chiến dịch</th>
+                                                                    <th>Số điện thoại</th>
+                                                                    <th>Kết quả</th>
+                                                                    <th ></th>
                                                                 </tr>
                                                             </thead>
                                                         </table>
@@ -734,14 +762,146 @@
                     </div>
                     <!--end modal add/edit bao gia-->
                 </div>
+
+                <div class="modal fade text-left" id="updateinfo2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel16" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="myModalLabel16"></h4>
+
+                                </div>
+                                <div class="modal-body">
+                                    <!-- <input type="hidden" id="id" name="id" /> -->
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <form class="form-validate" enctype="multipart/form-data" id="dg2">
+                                                <input type="hidden" name="applicantId" id="applicantId" />
+                                                <div class="row mt-1">
+                                                    <div class="col-lg-6 col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="name">Tên hợp đồng</label>
+                                                            <input id="nameLabor" type="text" class="form-control" name="nameLabor" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="type">Loại hợp đồng</label>
+                                                            <select id="typeLabor" class="select2 form-control" name="typeLabor">
+                                                                <option value="1">Hợp đồng thử việc</option>
+                                                                <option value="2">Hợp đồng chính thức</option>
+                                                                <option value="3">Hợp đồng thời vụ</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-lg-6 col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="startDate">Ngày bắt đầu hợp đồng</label>
+                                                            <input id="startDateLabor" type="text" class="form-control ngay_gio" name="startDateLabor" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="stopDate">Ngày hết hạn hợp đồng</label>
+                                                            <input id="stopDateLabor" type="text" class="form-control ngay_gio" name="stopDateLabor" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="basicSalary">Lương cơ bản</label>
+                                                            <input id="basicSalaryLabor" type="text" class="form-control format_number" name="basicSalaryLabor" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="allowance">Trợ cấp</label>
+                                                            <input id="allowanceLabor" type="text" class="form-control format_number" name="allowanceLabor" />
+                                                        </div>
+                                                    </div>
+                                                    <!-- <div class="col-lg-6 col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="insuranceSalary">Lương phụ cấp</label>
+                                                            <input id="insuranceSalary" type="text" class="form-control" name="insuranceSalary" />
+                                                        </div>
+                                                    </div> -->
+                                                    <div class="col-lg-6 col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="salaryPercentage">Phần trăm lương</label>
+                                                            <input id="salaryPercentageLabor" type="text" class="form-control" name="salaryPercentageLabor" />
+                                                        </div>
+                                                    </div>
+                                                  
+                                                    <!-- <div class="col-lg-6 col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="allowance">Trợ cấp</label>
+                                                            <input id="allowance" type="text" class="form-control" name="allowance" />
+                                                        </div>
+                                                    </div> -->
+                                                    <div class="col-lg-6 col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="shiftId">Ca làm việc</label>
+                                                            <select id="shiftIdLabor" class="select2 form-control" name="shiftIdLabor">
+                                                            </select>
+                                                        </div>
+                                                    </div>
+
+
+                                                    <div class="col-lg-6 col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="branchId">Chi nhánh</label>
+                                                            <select id="branchIdLabor" class="select2 form-control" name="branchIdLabor">
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="workPlaceId">Địa điểm làm việc</label>
+                                                            <select id="workPlaceIdLabor" class="select2 form-control" name="workPlaceIdLabor">
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="departmentId">Phòng ban</label>
+                                                            <select id="departmentIdLabor" class="select2 form-control" name="departmentIdLabor">
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="position">Vị trí</label>
+                                                            <select id="positionIdLabor" class="select2 form-control" name="positionIdLabor">
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="description">Mô tả</label>
+                                                            <textarea name="descriptionLabor" class="form-control" id="descriptionLabor" cols="" rows=""></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 d-flex flex-sm-row flex-column mt-2">
+                                                        <button type="submit" onclic class="btn btn-primary btn-add-customer mb-1 mb-sm-0 mr-0 mr-sm-1">Cập nhật</button>
+                                                        <button type="reset" class="btn btn-outline-secondary" data-dismiss="modal">Bỏ qua</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
             </section>
         </div>
     </div>
 </div>
 <script>
-    var funAdd = <?= $this->funAdd ?>,
-        funEdit = <?= $this->funEdit ?>,
-        funDel = <?= $this->funDel ?>;
-    console.log(funAdd, funEdit, funDel);
+    var funAdd = <?=$this->funAdd?>,
+        funEdit = <?=$this->funEdit?>,
+        funDel = <?=$this->funDel?>;
+        funSign = <?=$this->funSign?>;
+        console.log(funAdd, funEdit, funDel, funSign);
+     
 </script>
 <script src="<?= HOME ?>/js/recruitmentcamp.js"></script>

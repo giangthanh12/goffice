@@ -2,7 +2,7 @@
 
 class recruitmentcamp extends Controller
 {
-    static private $funAdd = 0, $funEdit = 0, $funDel = 0;
+    static private $funAdd = 0, $funEdit = 0, $funDel = 0, $funSign = 0;
     function __construct()
     {
         parent::__construct();
@@ -13,12 +13,15 @@ class recruitmentcamp extends Controller
         $funcs = $model->getFunctions('recruitmentcamp');
       
         foreach ($funcs as $item) {
+
             if ($item['function'] == 'add')
                 self::$funAdd = 1;
             if ($item['function'] == 'edit')
                 self::$funEdit = 1;
             if ($item['function'] == 'del')
                 self::$funDel = 1;
+            if ($item['function'] == 'signContract')
+                self::$funSign = 1;
         }
     }
     function index(){
@@ -26,6 +29,7 @@ class recruitmentcamp extends Controller
         $this->view->funAdd = self::$funAdd;
         $this->view->funEdit = self::$funEdit;
         $this->view->funDel = self::$funDel;
+        $this->view->funSign = self::$funSign;
         $this->view->render("recruitmentcamp/index");
         require "layouts/footer.php";
     }
@@ -53,7 +57,17 @@ class recruitmentcamp extends Controller
         $jsonObj = $this->model->getBranch();
         echo json_encode($jsonObj);
     }
+
+    function getworkPlace() {
+        $jsonObj = $this->model->getworkPlace();
+        echo json_encode($jsonObj);
+    }
     
+    function getShift() {
+        $jsonObj = $this->model->getShift();
+        echo json_encode($jsonObj);
+    }
+
     function getPosition() {
         $jsonObj = $this->model->getPosition();
         echo json_encode($jsonObj);
@@ -201,6 +215,14 @@ class recruitmentcamp extends Controller
         echo json_encode($jsonObj);
 
     }
+
+    function loadInterviewResult() {
+        $id = $_REQUEST['id'];
+        $jsonObj = $this->model->getInterviewResult($id);
+        echo json_encode($jsonObj);
+
+    }
+
     function delCandidate() {
         if (self::$funEdit == 0) {
             $jsonObj['msg'] = 'Bạn không có quyền sử dụng chức năng này';
@@ -310,6 +332,81 @@ class recruitmentcamp extends Controller
             $jsonObj['success'] = true;
         } else {
             $jsonObj['msg'] = "Xóa dữ liệu không thành công";
+            $jsonObj['success'] = false;
+        }
+        echo json_encode($jsonObj);
+    }
+
+    function changeSt()
+    {
+        if (self::$funDel == 0) {
+            $jsonObj['msg'] = 'Bạn không có quyền sử dụng chức năng này';
+            $jsonObj['success'] = false;
+            echo json_encode($jsonObj);
+            return false;
+        }
+        $id = $_REQUEST['id'];
+        $data = ['status' => 2];
+        if ($this->model->changeSt($id, $data)) {
+            $jsonObj['msg'] = "Đổi trạng thái thành công";
+            $jsonObj['success'] = true;
+        } else {
+            $jsonObj['msg'] = "Đổi trạng thái không thành công";
+            $jsonObj['success'] = false;
+        }
+        echo json_encode($jsonObj);
+    }
+
+    function signContract() {
+        if (self::$funSign == 0) {
+            $jsonObj['msg'] = 'Bạn không có quyền sử dụng chức năng này';
+            $jsonObj['success'] = false;
+            echo json_encode($jsonObj);
+            return false;
+        }
+        $applicantId = $_GET['applicantId'];
+        $id = $_GET['id'];
+        $staffId = $this->model->insertStaffGetId($applicantId);
+        if($staffId  < 0) {
+            $jsonObj['msg'] = 'Lỗi cập nhật database';
+            $jsonObj['success'] = false;
+            echo json_encode($jsonObj);
+            return;
+        }
+  
+        $data = array(
+            'staffId'=>$staffId,
+            'name' => $_REQUEST['nameLabor'],
+            'type' => $_REQUEST['typeLabor'],
+            'startDate' =>date("Y-m-d",strtotime($_REQUEST['startDateLabor'])),
+            'stopDate' => date("Y-m-d",strtotime($_REQUEST['stopDateLabor'])),
+            'basicSalary' => str_replace(',','',$_REQUEST['basicSalaryLabor']),
+            'salaryPercentage' => $_REQUEST['salaryPercentageLabor'],
+            'allowance' => str_replace(',','',$_REQUEST['allowanceLabor']),
+            'position' => $_REQUEST['positionIdLabor'],
+            'branchId' => $_REQUEST['branchIdLabor'],
+            'departmentId' => $_REQUEST['departmentIdLabor'],
+            'description' => $_REQUEST['descriptionLabor'],
+            'workPlaceId'=> $_REQUEST['workPlaceIdLabor'],
+            'shiftId'=> $_REQUEST['shiftIdLabor'],
+            'status' => 1
+        );
+     
+        if($this->model->signContract($data,$id,$applicantId)){
+            $jsonObj['msg'] = 'Cập nhật dữ liệu thành công';
+            $jsonObj['success'] = true;
+        } else {
+            $jsonObj['msg'] = 'Lỗi cập nhật database';
+            $jsonObj['success'] = false;
+        }
+        echo json_encode($jsonObj);
+    }
+    function checkQty() {
+        $id = $_REQUEST['id'];
+        if($this->model->checkqty($id)) {
+            $jsonObj['success'] = true;
+        }
+        else {
             $jsonObj['success'] = false;
         }
         echo json_encode($jsonObj);
