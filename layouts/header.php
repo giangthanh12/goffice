@@ -740,11 +740,11 @@ $notifications = $model->getNotification();
                             if ($item['id'] == 7) {
                             ?>
                                 <div id="maxlogo">
-                                    <img onerror="this.src='<?= HOME ?>/layouts/g-office-logo.png'" src="<?= URLFILE . '/uploads/' . $item['value'] ?>" height="30" alt="logo">
+                                    <img onerror="this.src='<?= HOME ?>/layouts/g-office-logo.png'" src="<?=  $item['value'] ?>" height="30" alt="logo">
                                 </div>
                             <?php } else { ?>
                                 <div class="brand-logo d-none" id="minlogo">
-                                    <img onerror="this.src='<?= HOME ?>/layouts/favicon.png'" src="<?= URLFILE . '/uploads/' . $item['value'] ?>" height="36" />
+                                    <img onerror="this.src='<?= HOME ?>/layouts/favicon.png'" src="<?=  $item['value'] ?>" height="36" />
                                 </div>
                             <?php
                             }
