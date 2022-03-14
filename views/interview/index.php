@@ -122,11 +122,11 @@
                                 <form id="interviewForm" class="event-form needs-validation" data-ajax="false" novalidate="novalidate">
                                     <input type="hidden" name="idInterview" id="idInterview">
                                     <div class="form-group">
-                                        <label for="campId" class="form-label">Chương trình tuyển dụng</label>
+                                        <label for="campId" class="form-label">Chương trình tuyển dụng<span style="color:red;">*</span></label>
                                         <select name="campId" id="campId" class="form-control select2"></select>
                                     </div>
                                     <div class="form-group">
-                                        <label for="canId" class="form-label">Ứng viên</label>
+                                        <label for="canId" class="form-label">Ứng viên<span style="color:red;">*</span></label>
                                         <select name="canId" id="canId" class="form-control select2" ></select>
                                     </div>
                                     <div class="row" id="div-cv">
@@ -134,15 +134,15 @@
                                         <p class="form-label col-4"><a id="showFileCv" target="_blank" href="" style="color: blue;">Tải xuống <i class="fas fa-download"></i></a></p>
                                     </div>
                                     <div class="form-group">
-                                        <label for="dateTime" class="form-label">Lịch phỏng vấn</label>
+                                        <label for="dateTime" class="form-label">Lịch phỏng vấn<span style="color:red;">*</span></label>
                                         <input type="text" class="form-control flatpickr-basic" id="dateTime" name="dateTime" placeholder="DD-MM-YYYY" required="true">
                                     </div>
                                     <div class="form-group">
-                                        <label for="dateTime" class="form-label">Giờ phỏng vấn</label>
+                                        <label for="dateTime" class="form-label">Giờ phỏng vấn<span style="color:red;">*</span></label>
                                         <input type="text" class="form-control" id="timeInterview" name="timeInterview" required="true">
                                     </div>
                                     <div class="form-group position-relative">
-                                        <label for="interviewerIds" class="form-label">Người phỏng vấn</label>
+                                        <label for="interviewerIds" class="form-label">Người phỏng vấn<span style="color:red;">*</span></label>
                                         <select name="interviewerIds[]" id="interviewerIds" required data-msg-required="Yêu cầu chọn người phỏng vấn" multiple="multiple" class="form-control select2"></select>
                                     </div>
                                     <!-- <div class="form-group">

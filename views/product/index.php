@@ -42,7 +42,7 @@
                                             <form class="form-validate" id="dg">
                                                 <div class="row mt-1">
                                                     <div class="col-md-12 form-group">
-                                                        <label for="name">Tên dịch vụ</label>
+                                                        <label for="name">Tên dịch vụ<span style="color:red;">*</span></label>
                                                         <input id="name" name="name" type="text" class="form-control" />
                                                     </div>
                                                     <div class="col-md-12 form-group">
@@ -57,15 +57,15 @@
                                                       </select>
                                                     </div>
                                                     <div class="col-md-12 form-group">
-                                                        <label for="unit">Đơn vị tính</label>
+                                                        <label for="unit">Đơn vị tính<span style="color:red;">*</span></label>
                                                         <input id="unit" name="unit" type="text" class="form-control" />
                                                     </div>
                                                     <div class="col-md-12 form-group">
-                                                        <label for="vat">Thuế(VAT)</label>
+                                                        <label for="vat">Thuế(VAT)<span style="color:red;">*</span></label>
                                                         <input id="vat" name="vat" type="text" class="form-control" />
                                                     </div>
                                                     <div class="col-md-12 form-group">
-                                                        <label for="price">Giá thành</label>
+                                                        <label for="price">Giá thành<span style="color:red;">*</span></label>
                                                         <input type="text" id="price" name="price" class="format_number form-control"  />
                                                     </div>
                                                     <div class="col-12 d-flex flex-sm-row flex-column mt-2">

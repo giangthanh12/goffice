@@ -9,7 +9,7 @@
             <div class="row breadcrumbs-top">
                 <div class="col-12">
                     <h2 class="content-header-title float-left mb-0" id="title_module">
-                        Cơ hội <img src="<?=HOME?>/layouts/tooltip.png" style="margin: 0 15px" width="25px" id="current_ip" data-toggle="tooltip" data-placement="right" data-original-title="Là chức năng quản lý thông tin cá nhân, tình trạng và lịch sự chăm sóc của những khách hàng quan tâm đến SP/DV của doanh nghiệp   " data-trigger="click" >
+                        Cơ hội kinh doanh <img src="<?=HOME?>/layouts/tooltip.png" style="margin: 0 15px" width="25px" id="current_ip" data-toggle="tooltip" data-placement="right" data-original-title="Là chức năng quản lý thông tin cá nhân, tình trạng và lịch sự chăm sóc của những khách hàng quan tâm đến SP/DV của doanh nghiệp   " data-trigger="click" >
                     </h2>
                 </div>
             </div>
@@ -260,7 +260,7 @@
                                         <?php } ?>
                                     </div>
                                     <hr style="border-top: 1px solid black; margin:1rem;">
-                                    <div class="takecare-history-detail" id="history">
+                                    <div class="takecare-history-detail" id="history" style="height: 787px; overflow: scroll;">
                                     </div>
                                 </div>
                             </div>
@@ -332,7 +332,7 @@
                     <div class="modal-body flex-grow-1 pb-sm-0 pb-3">
                         <div class="action-tags">
                             <div class="form-group">
-                                <label for="leadName" class="form-label">Tên cơ hội</label>
+                                <label for="leadName" class="form-label">Tên cơ hội<span style="color:red;">*</span></label>
                                 <input type="text" id="leadName" name="leadName" class="new-todo-item-title form-control" placeholder="Tên cơ hội" />
                                 <input type="hidden" id="id" name="id">
                             </div>
@@ -357,7 +357,7 @@
                                 </div>
                             </div>
                             <div class="form-group position-relative">
-                                <label for="task-assigned" class="form-label d-block">Khách hàng</label>
+                                <label for="task-assigned" class="form-label d-block">Khách hàng<span style="color:red;">*</span></label>
                                 <select class="select2 form-control" id="leadCustomer" name="leadCustomer" required onchange="changeCustomer()">
                                     <option value="-1">Khách hàng mới</option>
                                     <?php

@@ -9,31 +9,30 @@
                 <!-- list section start -->
                 <div class="card">
                     <div class="d-flex justify-content-between align-items-center mx-50 row pt-2 ">
-                    <h2 class="content-header-title float-left mb-2" id="title_module">
-                       Điểm truy cập <img src="<?=HOME?>/layouts/tooltip.png" style="margin: 0 15px" width="25px" id="current_ip" data-toggle="tooltip" data-placement="right" data-original-title="Quản lý tên wifi, các địa điểm có thể sử dụng để truy cập internet dùng để chấm công " data-trigger="click" >
-                    </h2>
-                    </div>                    
+                        <h2 class="content-header-title float-left mb-2" id="title_module">
+                            Điểm truy cập <img src="<?= HOME ?>/layouts/tooltip.png" style="margin: 0 15px" width="25px" id="current_ip" data-toggle="tooltip" data-placement="right" data-original-title="Quản lý tên wifi, các địa điểm có thể sử dụng để truy cập internet dùng để chấm công " data-trigger="click">
+                        </h2>
+                    </div>
                     <div class="card-datatable table-responsive pt-0">
                         <table class="user-list-table table">
                             <thead class="thead-light">
-                            <tr>
-                                <th></th>
-                                <th>Điểm truy cập</th>
-                                <th>Địa chỉ</th>
-                                <th>IP</th>
-                                <th>...</th>
-                            </tr>
+                                <tr>
+                                    <th></th>
+                                    <th>Điểm truy cập</th>
+                                    <th>Địa chỉ</th>
+                                    <th>IP</th>
+                                    <th>...</th>
+                                </tr>
                             </thead>
                         </table>
                     </div>
-                    <div class="modal fade text-left" id="dgAccesspoint" tabindex="-1" role="dialog"
-                         aria-labelledby="myModalLabel16" aria-hidden="true">
+                    <div class="modal fade text-left" id="dgAccesspoint" tabindex="-1" role="dialog" aria-labelledby="myModalLabel16" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered modal" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h4 class="modal-title" id="myModalLabel16"></h4>
-                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
                                 <div class="modal-body">
@@ -42,21 +41,14 @@
                                         <div class="card-body">
                                             <form class="form-validate" enctype="multipart/form-data" id="fm">
                                                 <div class="form-group">
-                                                    <label for="name">Điểm truy cập</label>
+                                                    <label for="name">Điểm truy cập<span style="color:red;">*</span></label>
                                                     <div class="input-group input-group-merge">
                                                         <div class="input-group-prepend">
                                                             <span class="input-group-text">
                                                                 <i data-feather='check'></i>
                                                             </span>
                                                         </div>
-                                                        <input
-                                                                type="text"
-                                                                id="name"
-                                                                class="form-control"
-                                                                name="name"
-                                                                placeholder="Điểm truy cập"
-                                                                required
-                                                        />
+                                                        <input type="text" id="name" class="form-control" name="name" placeholder="Điểm truy cập" required />
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
@@ -67,33 +59,20 @@
                                                                 <i data-feather='bookmark'></i>
                                                             </span>
                                                         </div>
-                                                        <input
-                                                                type="text"
-                                                                id="address"
-                                                                class="form-control"
-                                                                name="address"
-                                                                placeholder="Địa chỉ"
-                                                        />
+                                                        <input type="text" id="address" class="form-control" name="address" placeholder="Địa chỉ" />
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="ip">Địa chỉ IP <img src="<?=HOME?>/layouts/tooltip.png" width="15px" id="current_ip" data-toggle="tooltip" data-placement="top" data-original-title="Quản lý các tên" data-trigger="click" ></label>
+                                                    <label for="ip">Địa chỉ IP<span style="color:red;">*</span> <img src="<?= HOME ?>/layouts/tooltip.png" width="15px" id="current_ip" data-toggle="tooltip" data-placement="top" data-original-title="Quản lý các tên" data-trigger="click"></label>
                                                     <div class="input-group input-group-merge">
                                                         <div class="input-group-prepend">
                                                             <span class="input-group-text">
                                                                 <i data-feather='rss'></i>
                                                             </span>
                                                         </div>
-                                                        <input
-                                                                type="text"
-                                                                id="ip"
-                                                                class="form-control"
-                                                                name="ip"
-                                                                placeholder="Địa chỉ IP"
-                                                                required
-                                                        />
+                                                        <input type="text" id="ip" class="form-control" name="ip" placeholder="Địa chỉ IP" required />
                                                     </div>
-                                                    <label for="ip" style="color: red;font-weight: bold;font-size: 15px">IP Hiện tại: <?=$_SERVER['REMOTE_ADDR'];?></label>
+                                                    <label for="ip" style="color: red;font-weight: bold;font-size: 15px">IP Hiện tại: <?= $_SERVER['REMOTE_ADDR']; ?></label>
                                                 </div>
                                             </form>
                                         </div>
@@ -115,8 +94,8 @@
     </div>
 </div>
 <script>
-     var funAdd = <?=$this->funAdd?>,
-        funEdit = <?=$this->funEdit?>,
-        funDel = <?=$this->funDel?>;
+    var funAdd = <?= $this->funAdd ?>,
+        funEdit = <?= $this->funEdit ?>,
+        funDel = <?= $this->funDel ?>;
 </script>
 <script src="<?= HOME ?>/js/accesspoints.js"></script>

@@ -43,19 +43,19 @@
                                             <form class="form-validate" enctype="multipart/form-data" id="fm">
                                                 <!-- <div class="row mt-1"> -->
                                                 <div class="form-group">
-                                                    <label for="name">Tên gọi</label>
+                                                    <label for="name">Tên gọi<span style="color:red;">*</span></label>
                                                     <input type="text" class="form-control" id="name" placeholder="Nhập tên nơi làm việc" name="name" required/>
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <label for="name">Chi nhánh</label>
+                                                    <label for="name">Chi nhánh<span style="color:red;">*</span></label>
                                                     <!-- <input type="text" class="form-control" id="name" placeholder="Nhập tên Chi nhánh" name="name" /> -->
                                                     <select id="branch" name="branch" placeholder="Chi nhánh" class="select2 form-control" required>
                                                         <option value="">Chọn chi nhánh</option>
                                                     </select>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="accesspointIds">Điểm truy cập wifi</label>
+                                                    <label for="accesspointIds">Điểm truy cập wifi<span style="color:red;">*</span></label>
                                                     <div class="form-group">
                                                     <select class="select2 form-control" multiple="multiple" data-msg-required="Bạn chưa chọn điểm truy cập wifi" required id="accesspointIds"
                                                     name="accesspointIds[]"></select>
