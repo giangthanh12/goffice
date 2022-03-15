@@ -9,7 +9,7 @@
                 <div class="sidebar-content email-app-sidebar">
                     <div style="padding: 20px;">
                     <h2 class="content-header-title float-left mb-0" id="title_module">
-                        Inbox <img src="<?=HOME?>/layouts/tooltip.png" style="margin: 0 15px" width="25px" id="current_ip" data-toggle="tooltip" data-placement="right" data-original-title="Là chức năng quản lý hòm thư" data-trigger="click" >
+                        Bảng tin <img src="<?=HOME?>/layouts/tooltip.png" style="margin: 0 15px" width="25px" id="current_ip" data-toggle="tooltip" data-placement="right" data-original-title="Là chức năng quản lý hòm thư" data-trigger="click" >
                     </h2>
                     </div>
                     <div class="email-app-menu">

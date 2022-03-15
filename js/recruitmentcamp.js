@@ -4,6 +4,12 @@ var transactionTable = $("#transaction-list-table");
 var khid = '';
 $(function () {
     "use strict";
+    return_combobox_multi('#branchIdLabor', baseHome + '/recruitmentcamp/getBranch', 'Chi nhánh');
+    return_combobox_multi('#departmentIdLabor', baseHome + '/recruitmentcamp/getDepartment', 'Phòng ban');
+    return_combobox_multi('#positionIdLabor', baseHome + '/recruitmentcamp/getPosition', 'Vị trí');
+    return_combobox_multi('#shiftIdLabor', baseHome + '/recruitmentcamp/getShift', 'Ca làm việc');
+    return_combobox_multi('#workPlaceIdLabor', baseHome + '/recruitmentcamp/getworkPlace', 'Địa điểm làm việc');
+
     return_combobox_multi('#inChargeId', baseHome + '/recruitmentcamp/getStaff', 'Chọn nhân viên chăm sóc');
     return_combobox_multi('#followerId', baseHome + '/recruitmentcamp/getStaff', 'Nhân viên khác');
     return_combobox_multi('#department', baseHome + '/recruitmentcamp/getDepartment', 'Phòng ban');
@@ -12,6 +18,7 @@ $(function () {
     var dtUserTable = $(".user-list-table"),
         modal = $("#updateinfo"),
         form = $("#dg");
+    var form2 = $("#dg2");
 var datePicker = $(".flatpickr-basic");
         if (datePicker.length) {
             datePicker.flatpickr({
@@ -165,6 +172,7 @@ var datePicker = $(".flatpickr-basic");
         });
 
     }
+  
     $.validator.addMethod('le', function (value, element, param) {
         return this.optional(element) || value < $(param).val();
     }, 'Invalid value');
@@ -331,6 +339,93 @@ var datePicker = $(".flatpickr-basic");
             e.preventDefault();
             if (isValid) {
                 saveadd();
+            }
+        });
+    }
+    if (form2.length) {
+        form2.validate({
+            errorClass: "error",
+            rules: {
+                "nameLabor": {
+                    required: true,
+                },
+                "typeLabor": {
+                    required: true,
+                },
+                "basicSalaryLabor": {
+                    required: true,
+
+                },
+                "insuranceSalaryLabor": {
+                    required: true,
+                },
+                "salaryPercentageLabor": {
+                    required: true,
+                    min:1,
+                    max:100
+                },
+                "allowanceLabor": {
+                    required: true,
+                },
+                "positionIdLabor": {
+                    required: true,
+                },
+                "shiftIdLabor": {
+                    required: true,
+                },
+                "workPlaceIdLabor": {
+                    required: true,
+                },
+                "branchIdLabor": {
+                    required: true,
+                },
+                "departmentIdLabor": {
+                    required: true,
+                },
+            
+            },
+            messages: {
+                "nameLabor": {
+                    required: "Bạn chưa nhập tên hợp đồng",
+                },
+                "typeLabor": {
+                    required: "Bạn chưa chọn loại hợp đồng",
+                },
+                "basicSalaryLabor": {
+                    required: "Bạn chưa nhập lương cơ bản",
+                },
+                "allowanceLabor": {
+                    required: "Bạn chưa nhập lương trợ cấp",
+                },
+         
+                "salaryPercentageLabor": {
+                    required: "Bạn chưa nhập phần trăm lương",
+                    min:"Yêu cầu nhập tối thiểu 1",
+                    max:"Yêu cầu nhập tối đa 100"
+                },
+                "positionIdLabor": {
+                    required: "Bạn chưa chọn vị trí",
+                },
+                "branchIdLabor": {
+                    required: "Bạn chưa chọn chi nhánh",
+                },
+                "departmentIdLabor": {
+                    required: "Bạn chưa chọn phòng ban",
+                },
+                "shiftIdLabor": {
+                    required: "Bạn chưa nhập ca làm việc",
+                },
+                "workPlaceIdLabor": {
+                    required: "Bạn chưa nhập địa chỉ làm việc",
+                }
+            },
+        });
+
+        form2.on("submit", function (e) {
+            var isValid = form2.valid();
+            e.preventDefault();
+            if (isValid) {
+                signContract();
             }
         });
     }
@@ -518,15 +613,15 @@ function loaddata(id) {
             $('#title1').val(data.title);
             $('#inChargeId1').val(data.inChargeId).change();
             $('#followerId1').val(data.followerId.split(',')).change();
-            $('#estimateCost1').val(formatCurrency(data.estimateCost.replace(/[,VNĐ]/g,'')));
+            $('#estimateCost1').val(data.estimateCost);
             $('#startDate1').val(data.startDate);
             $('#endDate1').val(data.endDate);
             $('#department1').val(data.department).change();
             $('#branch1').val(data.branch).change();
             $('#position1').val(data.position).change();
             $('#workOn1').val(data.workOn);
-            $('#minSalary1').val(formatCurrency(data.minSalary.replace(/[,VNĐ]/g,'')));
-            $('#maxSalary1').val(formatCurrency(data.maxSalary.replace(/[,VNĐ]/g,'')));
+            $('#minSalary1').val(data.minSalary);
+            $('#maxSalary1').val(data.maxSalary);
             $('#quantity1').val(data.quantity);
             if(data.quantity == 0) 
             $('#quantity1').val('');
@@ -544,6 +639,7 @@ function loaddata(id) {
                 $('#viewfile').html(`<a target="_blank" href="${file}" style="color: blue;">Tải xuống <i class="fas fa-download"></i></a>`)
             }
             loadListCandidate(id);
+            loadInterviewResult(id);
             $('#campId').val(id);
         },
         error: function () {
@@ -665,13 +761,12 @@ function saveedit() {
 
 function loadListCandidate(id) {
 
-
     if ($(".asset-candidate-list-table").length) {
         $(".asset-candidate-list-table").DataTable({
             ajax: baseHome + "/recruitmentcamp/loadListCandidate?id="+id,
             ordering: false,
             destroy: true,
-            "autoWidth": false,
+            autoWidth: false,
             columns: [
                 // columns according to JSON
                 { data: "fullName" },
@@ -748,6 +843,10 @@ function loadListCandidate(id) {
                     render: function (data, type, full, meta) {
                         var html = '';
                         if(full['status'] == 1) {
+                        html += '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" title="Thay đổi trạng thái" onclick="changeSt(' + full['id'] + ')">';
+                        html += '<i class="fas fa-arrow-right"></i>';
+                        html += '</button>&nbsp;';
+
                         html += '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" title="Thêm lịch phỏng vấn" onclick="addCalendar(' + full['canId'] + ')">';
                         html += '<i class="fas fa-calendar"></i>';
                         html += '</button>&nbsp;';
@@ -792,6 +891,125 @@ function loadListCandidate(id) {
     }
 }
 
+function loadInterviewResult(id){
+    if ($('#interview-result-table').length) {
+        
+        $('#interview-result-table').DataTable({
+            ordering: false,
+            destroy: true,
+            autoWidth: false,
+            // ajax: assetPath + "data/user-list.json", // JSON file to add data
+            ajax: baseHome + "/recruitmentcamp/loadInterviewResult?id="+id,
+            columns: [
+                { data: "fullName" },
+                { data: "gender" },
+                { data: "dateTime" },
+                { data: "title" },
+                { data: "phoneNumber" },
+                { data: "result" },
+                { data: ""}
+             
+            ],
+            columnDefs: [
+               
+           
+                {
+                    targets: 1,
+                    render: function (data, type, full, meta) {
+                        var $status = full["gender"];
+                        if ($status == 1) {
+                            return 'Nam';
+                        } else if ($status == 2) {
+                            return 'Nữ';
+                        } else {
+                            return '';
+                        }
+                    },
+                },
+                {
+                    // User full name and username
+                    targets: 5,
+                    responsivePriority: 4,
+                    render: function (data, type, full, meta) {
+                        var $status = full["result"];
+                        var $row_output = '---';
+                            if($status == 2) {
+                                $row_output = `<div class="badge badge-success">Đạt</div>`;
+                            }
+                            else if($status == 3) {
+                                $row_output = `<div class="badge badge-warning">Không đạt</div>`;
+                            }
+                            else if($status == 4) {
+                                $row_output = `<div class="badge badge-danger">Từ chối</div>`;
+                            }
+                            else if($status == 5) {
+                                $row_output = `<div class="badge badge-info">Ký hợp đồng</div>`;
+                            }
+                          
+                        return $row_output;
+                    },
+                },
+                {
+                    // Actions
+                    targets: -1,
+                    title: "Thao tác",
+                    orderable: false,
+                    render: function (data, type, full, meta) {
+                        var html = '';
+                        if(full['result'] == 2 ) {
+                            if(funSign == 1) {
+                                html += '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" title="Chỉnh sửa" onclick="checkqty('+ full['id']+ ',' + full['applicantId'] +','+ full['campId'] + ')">';
+                                html += 'Ký hợp đồng';
+                                html += '</button> &nbsp;';
+                            }
+                           
+                        }
+                        // if(full['result'] == 5 ) {
+                        //     html += '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" title="Chỉnh sửa" onclick="loaddata(' + full['applicantId'] + ')">';
+                        //     html += 'Ký hợp đồng';
+                        //     html += '</button> &nbsp;';
+                        // }
+                        return html;
+                    },
+                    // width: 150
+                },
+            ],
+            // order: [[2, "desc"]],
+            dom:
+                '<"d-flex justify-content-between align-items-center header-actions mx-1 row mt-75"' +
+                '<"col-lg-12 col-xl-6" l>' +
+                '<"col-lg-12 col-xl-6 pl-xl-75 pl-0"<"dt-action-buttons text-xl-right text-lg-left text-md-right text-left d-flex align-items-center justify-content-lg-end align-items-center flex-sm-nowrap flex-wrap mr-1"<"mr-1"f>B>>' +
+                ">t" +
+                '<"d-flex justify-content-between mx-2 row mb-1"' +
+                '<"col-sm-12 col-md-6"i>' +
+                '<"col-sm-12 col-md-6"p>' +
+                ">",
+                language: {
+                    sLengthMenu: "Hiển thị _MENU_",
+                    search: "",
+                    searchPlaceholder: "Tìm kiếm...",
+                    paginate: {
+                        // remove previous & next text from pagination
+                        previous: "&nbsp;",
+                        next: "&nbsp;",
+                    },
+                    info: "Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
+                    infoFiltered: "(lọc từ _MAX_ bản ghi)",
+                    "sInfoEmpty": "Hiển thị 0 đến 0 của 0 bản ghi",
+             
+                },
+                "oLanguage": {
+                    "sZeroRecords": "Không có bản ghi nào"
+                  }, 
+            // Buttons with Dropdown
+            buttons: [],
+           
+        
+        });
+    
+    }
+}
+
 
 function addCalendar(id) {
  
@@ -806,6 +1024,23 @@ function addCalendar(id) {
     defaultDate: "12:00"
 });
 }
+
+function changeSt(id) {
+    $.ajax({
+        url: baseHome + "/recruitmentcamp/changeSt",
+        type: 'post',
+        dataType: "json",
+        data: { id: id },
+        success: function (data) {
+            if (data.success) {
+                notyfi_success(data.msg);
+                $(".asset-candidate-list-table").DataTable().ajax.reload(null, false);
+            }
+            else
+                notify_error(data.msg);
+        },
+    });
+  }
 
 function delCandidate(id) {
     Swal.fire({
@@ -939,4 +1174,107 @@ $('.format_number').on('input', function(e){
     var n = number.split('').reverse().join("");
     var n2 = n.replace(/\d\d\d(?!$)/g, "$&,");    
     return  n2.split('').reverse().join('');
+}
+
+function load(id,applicantId) {
+
+    document.getElementById("dg2").reset(); 
+    if ($('.ngay_gio').length) {
+        $('.ngay_gio').flatpickr({
+            dateFormat: 'd-m-Y',
+            defaultDate: "today",
+        });
+    }
+    $('#updateinfo2').modal('show');
+    var validator = $( "#dg2" ).validate(); // reset form
+    validator.resetForm();
+    $(".error").removeClass("error"); // loại bỏ validate
+    $(".modal-title").html('Ký hợp đồng lao động');
+    $('#branchIdLabor').val('').trigger('change');
+    $('#departmentIdLabor').val('').trigger('change');
+    $('#positionIdLabor').val('').trigger('change');
+    $('#workPlaceIdLabor').val('').trigger('change');
+    $('#shiftIdLabor').val('').trigger('change');
+    $('#typeLabor').val('').trigger('change');
+    url = baseHome + '/recruitmentcamp/signContract?id='+id+'&applicantId=' + applicantId;
+}
+
+function signContract() {
+    var myform = new FormData($("#dg2")[0]);
+    
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        data: myform,
+        url: url,
+        contentType: false,
+        processData: false,
+        success: function (data) {
+            if (data.success) {
+                notyfi_success(data.msg);
+                $('#updateinfo2').modal('hide');
+                $('.interview-result-table').DataTable().ajax.reload(null, false);
+            }
+            else
+                notify_error(data.msg);
+        },
+        error: function () {
+            notify_error('Cập nhật không thành công');
+        }
+    });
+}
+function tranferStaff(applicantId) {
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        url: baseHome + '/recruitmentcamp/tranferStaff',
+        data: {applicantId:applicantId},
+        success: function (data) {
+            if (data.success) {
+                notyfi_success(data.msg);
+                $('.interview-result-table').DataTable().ajax.reload(null, false);
+            }
+            else
+                notify_error(data.msg);
+        },
+        error: function () {
+            notify_error('Cập nhật không thành công');
+        }
+    });
+}
+
+
+// $('.format_number').on('input', function(e){        
+//     $(this).val(formatCurrency(this.value.replace(/[,VNĐ]/g,'')));
+//   }).on('keypress',function(e){
+//     if(!$.isNumeric(String.fromCharCode(e.which))) e.preventDefault();
+//   }).on('paste', function(e){    
+//     var cb = e.originalEvent.clipboardData || window.clipboardData;      
+//     if(!$.isNumeric(cb.getData('text'))) e.preventDefault();
+//   });
+//   function formatCurrency(number){
+//     var n = number.split('').reverse().join("");
+//     var n2 = n.replace(/\d\d\d(?!$)/g, "$&,");    
+//     return  n2.split('').reverse().join('');
+// }
+//check số lượng ứng viên trong chiến dịch
+
+function checkqty(id,applicantId,campId) {
+
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        url: baseHome + '/recruitmentcamp/checkQty',
+        data: {id:campId},
+        success: function (data) {
+            if (data.success) {
+                load(id,applicantId);
+            }
+        },
+        error: function () {
+            notify_error('Số lượng ứng viên đã đủ trong chiến dịch này');
+        }
+       
+    });
+ 
 }

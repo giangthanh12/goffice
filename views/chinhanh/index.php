@@ -43,12 +43,12 @@
                                             <form class="form-validate" enctype="multipart/form-data" id="fm">
                                                 <!-- <div class="row mt-1"> -->
                                                 <div class="form-group">
-                                                    <label for="name">Tên chi nhánh</label>
+                                                    <label for="name">Tên chi nhánh<span style="color:red;">*</span></label>
                                                     <input type="text" class="form-control" id="name" placeholder="Nhập tên chi nhánh" name="name" required/>
                                                 </div>
                                                
                                                 <div class="form-group">
-                                                    <label for="workspaces">Địa điểm làm việc</label>
+                                                    <label for="workspaces">Địa điểm làm việc<span style="color:red;">*</span></label>
                                                     <select class="select2 form-control" multiple="multiple" data-msg-required="Bạn chưa chọn vị trí phòng ban" required id="workspaces"
                                                     name="workspaces[]"></select>
                                                 </div>

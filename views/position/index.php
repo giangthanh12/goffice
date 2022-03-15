@@ -39,12 +39,12 @@
                                         <div class="card-body">
                                             <form class="form-validate" enctype="multipart/form-data" id="fm">
                                                 <div class="form-group">
-                                                    <label for="name">Tên gọi</label>
+                                                    <label for="name">Tên gọi<span style="color:red;">*</span></label>
                                                     <input type="text" class="form-control" id="name" placeholder="Nhập tên vị trí" name="name" required/>
                                                 </div>
 
                                                <div class="form-group">
-                                                   <label for="departmentId">Phòng ban</label>
+                                                   <label for="departmentId">Phòng ban<span style="color:red;">*</span></label>
                                                    <select id="departmentId" class="select2 form-control" data-msg-required="Bạn chưa chọn phòng ban" required  name="departmentId">
                                                    </select>
                                                </div>

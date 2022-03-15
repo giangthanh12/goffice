@@ -8,9 +8,11 @@
             <section class="app-user-list">
                 <!-- list section start -->
                 <div class="card">
-                <h2 class="content-header-title float-left mb-0" id="title_module" style="border-right-width: 0px;">
-                       Cài đặt yêu cầu <img src="<?= HOME ?>/layouts/tooltip.png" style="margin: 0 15px" width="25px" id="current_ip" data-toggle="tooltip" data-placement="right" data-original-title="Là chức năng ..." data-trigger="click">
-                    </h2>
+                <div class="d-flex justify-content-between align-items-center mx-50 row pt-2 pb-2">
+                        <h2 class="content-header-title float-left mb-0" id="title_module" style="border-right-width: 0px;">
+                            Cài đặt yêu cầu <img src="<?= HOME ?>/layouts/tooltip.png" style="margin: 0 15px" width="25px" id="current_ip" data-toggle="tooltip" data-placement="right" data-original-title="Là chức năng ..." data-trigger="click">
+                        </h2>
+                    </div>
                     <div class="card-datatable table-responsive pt-0">
                         <table class="user-list-table table">
                             <thead class="thead-light">
@@ -49,7 +51,7 @@
                                             <form class="form-validate" enctype="multipart/form-data" id="frm-1">
                                                 <div class="row mt-1">
                                                     <div class="col-md-6 form-group">
-                                                        <label for="name1">Yêu cầu</label>
+                                                        <label for="name1">Yêu cầu<span style="color:red;">*</span></label>
                                                         <input id="name1" name="name1" type="text" class="form-control" />
                                                     </div>
                                                     <!-- <div class="col-md-6 form-group"></div> -->

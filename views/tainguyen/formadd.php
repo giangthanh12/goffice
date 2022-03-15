@@ -54,7 +54,7 @@
                                     </div>
                                     <div class="col-md-6 col-12">
                                         <div class="form-group">
-                                            <label for="country-floating">Đường dẫn</label>
+                                            <label for="country-floating">Đường dẫn<span style="color:red;">*</span></label>
                                             <input type="text" id="link" class="form-control" name="link" placeholder="Link liên kết" />
                                         </div>
                                     </div>

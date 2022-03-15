@@ -8,9 +8,11 @@
             <section class="app-user-list">
                 <!-- list section start -->
                 <div class="card">
-                <h2 class="content-header-title float-left mb-0" id="title_module">
-                        Bảng lương <img src="<?=HOME?>/layouts/tooltip.png" style="margin: 0 15px" width="25px" id="current_ip" data-toggle="tooltip" data-placement="right" data-original-title="Là chức năng điểm danh" data-trigger="click" >
-                    </h2>
+                    <div class="d-flex justify-content-between align-items-center mx-50 row pt-2 pb-2">
+                        <h2 class="content-header-title float-left mb-0" id="title_module">
+                            Bảng lương <img src="<?= HOME ?>/layouts/tooltip.png" style="margin: 0 15px" width="25px" id="current_ip" data-toggle="tooltip" data-placement="right" data-original-title="Là chức năng điểm danh" data-trigger="click">
+                        </h2>
+                    </div>
                     <div class="d-flex align-items-center mx-50 row pt-2">
                         <div class="col-md-2 data_nhanvien form-group">
                             <label for="month">Tháng</label>
@@ -69,7 +71,7 @@
                         </table>
                         <div id="total2" style="font-weight:bold; margin-top: -28px; padding-right: 20px;"></div>
                     </div>
-                         
+
                     <div class="modal fade text-left" id="updateinfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel16" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered modal" role="document">
                             <div class="modal-content">

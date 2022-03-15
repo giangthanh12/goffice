@@ -11,7 +11,7 @@ class lead_temp_Model extends Model
     {
         $result = array();
         $where = " WHERE status IN (1,2,3) ";
-        $query = $this->db->query("SELECT id, customerId, name, description, status, DATE_FORMAT(dateTime,'%d-%m-%Y %H:%i:%s') AS dateTime,
+        $query = $this->db->query("SELECT id, customerId, name, description, status, DATE_FORMAT(dateTime,'%d/%m/%Y %H:%i:%s') AS dateTime,
         (SELECT fullName FROM customers WHERE id = lead.customerId) AS fullName
         FROM lead $where ORDER BY id DESC");
         if ($query)
@@ -37,7 +37,7 @@ class lead_temp_Model extends Model
         $result = array();
         $where = " WHERE status > 0 AND leadId = $id ";
         $query = $this->db->query("SELECT id, leadId, staffId, content, linkToRecord, status,
-          DATE_FORMAT(dateTime,'%d-%m-%Y %H:%i:%s') AS ngay_gio,
+          DATE_FORMAT(dateTime,'%d/%m/%Y %H:%i:%s') AS ngay_gio,
             (SELECT name FROM staffs WHERE staffs.id = takecare.staffId) AS staffName
             FROM takecare $where ORDER BY dateTime DESC");
         $result = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -49,7 +49,7 @@ class lead_temp_Model extends Model
         $query = $this->insert("takecare", $data);
         if ($query) {
             $leadId = $data['leadId'];
-            $query = $this->db->query("SELECT *,
+            $query = $this->db->query("SELECT *,DATE_FORMAT(dateTime,'%d/%m/%Y %H:%i:%s') AS ngay_gio,
                 (SELECT name FROM staffs WHERE staffs.id = takecare.staffId) AS staffName
                 FROM takecare WHERE status > 0 AND leadId = $leadId  ORDER BY dateTime DESC");
             $result = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -106,7 +106,7 @@ class lead_temp_Model extends Model
             $where .= " AND dateTime <= '$toDate' ";
         }
         $query = $this->db->query("SELECT id, customerId, name, description, status,
-            DATE_FORMAT(dateTime,'%d-%m-%Y %H:%i:%s') AS dateTime,
+            DATE_FORMAT(dateTime,'%d/%m/%Y %H:%i:%s') AS dateTime,
             (SELECT fullName FROM customers WHERE customers.id = lead.customerId) AS fullName
             FROM lead $where ORDER BY id DESC ");
         $temp = $query->fetchAll(PDO::FETCH_ASSOC);
