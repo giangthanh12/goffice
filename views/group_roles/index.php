@@ -21,7 +21,7 @@
                         </table>
                     </div>
                     <div class="modal fade text-left" id="updateinfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel16" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered modal" role="document">
+                        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h4 class="modal-title" id="myModalLabel16"></h4>
@@ -35,7 +35,54 @@
                                                     <label for="name">Tên nhóm</label>
                                                     <input type="text" id="name" name="name" class="form-control" />
                                                 </div>
-
+                                                <!-- phân quyền -->
+                                                <div class="col-12"> 
+                                                    <div class="table-responsive border rounded mt-1">
+                                                        <table class="table table-striped table-borderless">
+                                                            <thead class="thead-light" id="theadSetRoles_add">
+                                                                <tr>
+                                                                    <th>Chức năng</th>
+                                                                    <th></th>
+                                                                    <th></th>
+                                                                    <th></th>
+                                                                    <th></th>
+                                                                    <th></th>
+                                                                    <th></th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody id="bodySetRoles_add">
+                                                                <tr>
+                                                                    <td>Admin</td>
+                                                                    <td>
+                                                                        <div class="custom-control custom-checkbox">
+                                                                            <input type="checkbox" class="custom-control-input" id="admin-read" />
+                                                                            <label class="custom-control-label" for="admin-read">Read</label>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="custom-control custom-checkbox">
+                                                                            <input type="checkbox" class="custom-control-input" id="admin-write" />
+                                                                            <label class="custom-control-label" for="admin-write">Write</label>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="custom-control custom-checkbox">
+                                                                            <input type="checkbox" class="custom-control-input" id="admin-create" />
+                                                                            <label class="custom-control-label" for="admin-create">Create</label>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="custom-control custom-checkbox">
+                                                                            <input type="checkbox" class="custom-control-input" id="admin-delete" />
+                                                                            <label class="custom-control-label" for="admin-delete">Delete</label>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                                <!-- end phân quyền -->
                                                 <div class="d-flex flex-sm-row flex-column mt-2">
                                                     <button type="button" onclick="saveGroupRole()" class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Cập nhật</button>
                                                     <button type="reset" class="btn btn-outline-secondary" data-dismiss="modal">Bỏ qua</button>
@@ -44,6 +91,8 @@
 
                                         </div>
                                     </div>
+
+                                    
                                 </div>
                             </div>
                         </div>

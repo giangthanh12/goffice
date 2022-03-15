@@ -88,6 +88,18 @@ class laborcontracts extends Controller
         $type = isset($_REQUEST['type']) ? $_REQUEST['type'] : 0;
         $status = isset($_REQUEST['status']) ? $_REQUEST['status'] : 1;
         $description = isset($_REQUEST['description']) ? $_REQUEST['description'] : '';
+        // tải file hợp đồng
+        $filename = $_FILES['file']['name'];
+        $fname = explode('.',$filename);
+        $fname = functions::convertname($fname[0]);
+        
+        // $file = $_REQUEST['file'];
+        if ($filename != '') {
+            $dir = ROOT_DIR . '/uploads/laborcontract/';
+            $file = functions::uploadfile('file', $dir, $fname);
+            if ($file != '')
+                $file = $file;
+        }
         $data = array(
             'name' => $name,
             'basicSalary' => $basicSalary,
@@ -103,6 +115,7 @@ class laborcontracts extends Controller
             'workPlaceId'=>$workPlaceId,
             'type' => $type,
             'status' => $status,
+            'file'=>$file,
             'description' => $description
         );
         $contractId = $this->model->addObj($data);
@@ -114,6 +127,17 @@ class laborcontracts extends Controller
             $jsonObj['code'] = 401;
         }
         echo json_encode($jsonObj);
+    }
+    // in hợp đồng
+    function printLaborcontract() {
+        $id = $_REQUEST['idLaborcontract'];
+        // get file laborcontract
+        $laborcontract = $this->model->getLaborcontract($id);
+        if($laborcontract != '') {
+            $this->view->laborcontract = $laborcontract;
+            $this->view->render("laborcontracts/print");
+        }
+
     }
 
     function update()
@@ -153,6 +177,7 @@ class laborcontracts extends Controller
         $status = isset($_REQUEST['status']) ? $_REQUEST['status'] : 1;
         $description = isset($_REQUEST['description']) ? $_REQUEST['description'] : '';
         $workPlaceId = isset($_REQUEST['workPlaceId']) ? $_REQUEST['workPlaceId'] : 0;
+      
         $data = array(
             'name' => $name,
             'basicSalary' => $basicSalary,
@@ -170,6 +195,18 @@ class laborcontracts extends Controller
             'status' => $status,
             'description' => $description
         );
+           // tải file hợp đồng
+           $filename = $_FILES['file']['name'];
+           $fname = explode('.',$filename);
+           $fname = functions::convertname($fname[0]);
+           
+           // $file = $_REQUEST['file'];
+           if ($filename != '') {
+               $dir = ROOT_DIR . '/uploads/laborcontract/';
+               $file = functions::uploadfile('file', $dir, $fname);
+               if ($file != '')
+                  $data['file'] = $file;
+           }
         if ($this->model->updateObj($id, $data)) {
             $jsonObj['message'] = 'Cập nhật dữ liệu thành công';
             $jsonObj['code'] = 200;

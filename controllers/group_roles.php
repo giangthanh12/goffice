@@ -19,27 +19,33 @@ class group_roles extends Controller{
     function getGroupRole()
     {
         $id = isset($_REQUEST['id']) ? $_REQUEST['id'] : 0;
-        $json = $this->model->getGroupRole($id);
+        $json['data'] = $this->model->getGroupRole($id);
+        // 
+        $json['data2'] = $this->model->getMenusByGroup($id);
         echo json_encode($json);
     }
 
     function addGroupRole()
     {
         $name = (isset($_REQUEST['name']) && $_REQUEST['name'] != '') ? $_REQUEST['name'] : '';
-        // if($name == ''){
-        //     $jsonObj['msg'] = 'Tên nhóm không được để trống!';
-        //     $jsonObj['success'] = false;
-        //     echo json_encode($jsonObj);
-        //     return false;
-        // }
+        $listMenus = isset($_REQUEST['menus']) ? $_REQUEST['menus'] : '';
+        $listFuncs = isset($_REQUEST['functions']) ? $_REQUEST['functions'] : '';
         $data = array(
             'name' => $name,
             'status' => 1
         );
-        if($this->model->addGroupRole($data)){
-            $jsonObj['msg'] = 'Cập nhật dữ liệu thành công';
-            $jsonObj['success'] = true;
-        } else {
+        $idGroup = $this->model->addGroupRole($data);
+        if($idGroup > 0) {
+            $data = ['menuIds'=>$listMenus,'functionIds'=>$listFuncs];
+            if($this->model->updateGroupRole($idGroup, $data)){
+                $jsonObj['msg'] = 'Cập nhật dữ liệu thành công';
+                $jsonObj['success'] = true;
+            }else{
+                $jsonObj['msg'] = 'Cập nhật dữ liệu không thành công';
+                $jsonObj['success'] = false;
+            }
+        }
+        else {
             $jsonObj['msg'] = 'Cập nhật dữ liệu không thành công';
             $jsonObj['success'] = false;
         }
@@ -50,8 +56,12 @@ class group_roles extends Controller{
     {
         $id = $_REQUEST['id'];
         $name = isset($_REQUEST['name']) ? $_REQUEST['name'] : '';
+        $listMenus = isset($_REQUEST['menus']) ? $_REQUEST['menus'] : '';
+        $listFuncs = isset($_REQUEST['functions']) ? $_REQUEST['functions'] : '';
         $data = array(
-            'name' => $name
+            'name' => $name,
+            'menuIds'=>$listMenus,
+            'functionIds'=>$listFuncs
         );
         if($this->model->updateGroupRole($id, $data)){
             $jsonObj['msg'] = 'Cập nhật dữ liệu thành công';
@@ -80,6 +90,11 @@ class group_roles extends Controller{
     function getMenus(){
         $groupId = isset($_REQUEST['groupId']) ? $_REQUEST['groupId'] : 0;
         $json = $this->model->getMenusByGroup($groupId);
+        echo json_encode($json);
+    }
+    function getMenusAdd(){
+        // $groupId = isset($_REQUEST['groupId']) ? $_REQUEST['groupId'] : 0;
+        $json = $this->model->getMenu();
         echo json_encode($json);
     }
 //

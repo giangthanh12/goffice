@@ -56,6 +56,25 @@ class group_roles_model extends Model
         }
         return $result;
     }
+   
+    function getMenu() {
+        $query = $this->db->query("SELECT *,parentId as cha
+        FROM g_menus WHERE active > 0 ORDER BY sortOrder,id");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        $result = functions::dequy($result, 0, 1);
+        foreach ($result as $key => $menu) {
+            $menuId = $menu['id'];
+            // $result[$key]['checked'] = 0;
+            // if (in_array($menuId, $listMenus))
+            //     $result[$key]['checked'] = 1;
+            $qr = $this->db->query("SELECT *,parentId as cha
+            FROM g_functions WHERE active > 0 AND menuId = $menuId ORDER BY sortOrder,id");
+            $temp = $qr->fetchAll(PDO::FETCH_ASSOC);
+            $result[$key]['functions'] = $temp;
+        }
+        return $result;
+    }
+
 
     function getGroupRole($id)
     {
@@ -70,7 +89,10 @@ class group_roles_model extends Model
     function addGroupRole($data)
     {
         $query = $this->insert("grouproles", $data);
-        return $query;
+        if ($query)
+        return $this->db->lastInsertId(); 
+        else
+        return 0;
     }
 
     function updateGroupRole($id, $data)

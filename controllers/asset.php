@@ -127,7 +127,8 @@ class asset extends Controller{
             'so_tien' => $_REQUEST['so_tien_add'],
             'ngay_gio' =>date("Y-m-d",strtotime($_REQUEST['ngay_gio_add'])),
             'khau_hao' => $_REQUEST['khau_hao_add'],
-            'bao_hanh' => $_REQUEST['bao_hanh_add']
+            'bao_hanh' => $_REQUEST['bao_hanh_add'],
+            'tinh_trang' => $_REQUEST['statusAsset'],
         );
         $data_info = array(
             'nha_cungcap' => $_REQUEST['nha_cungcap'],
