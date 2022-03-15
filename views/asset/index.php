@@ -245,12 +245,12 @@
                                                                     <input id="code_add" type="text" readonly class="form-control"  name="code_add" />
                                                                 </div>
                                                             </div>
-                                                            <div class="col-lg-2 col-md-2">
+                                                            <!-- <div class="col-lg-2 col-md-2">
                                                                 <div class="form-group">
                                                                     <label for="so_luong_add">Số lượng</label>
                                                                     <input id="so_luong_add" type="number" class="form-control" readonly name="so_luong_add" />
                                                                 </div>
-                                                            </div>
+                                                            </div> -->
                                                            
                                                             <div class="col-lg-2 col-md-3">
                                                                 <div class="form-group">
@@ -283,7 +283,14 @@
                                                                     <input id="bao_hanh_add" type="text" class="form-control" name="bao_hanh_add" />
                                                                 </div>
                                                             </div>
-
+                                                            <div class="col-lg-2 col-md-2">
+                                                                <div class="form-group">
+                                                                    <label for="statusAsset">Trạng thái</label>
+                                                                    <select name="statusAsset" id="statusAsset" class="form-control select2">
+                                                                   
+                                                                    </select>
+                                                                </div>
+                                                            </div>
                                                             <div class="col-12">
 
                                                                 <h4 class="mb-1 mt-2">

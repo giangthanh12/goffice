@@ -37,7 +37,23 @@ class laborcontracts_model extends Model
         else
             return 0;
     }
-
+    function getLaborcontract($id) {
+        $query = $this->db->query("SELECT *,
+          (SELECT name FROM contracttype WHERE id = a.type) as typeName,
+          (SELECT name FROM staffs WHERE id = a.staffId) as staffName,
+          (SELECT name FROM department WHERE id = a.departmentId) as nameDepartment,
+          (SELECT name FROM position WHERE id = a.position) as namePosition,
+          (SELECT name FROM branch WHERE id = a.branchId) as branchName,
+          (SELECT name FROM workplaces WHERE id = a.workPlaceId) as nameWorkplace,
+          (SELECT name FROM shift WHERE id = a.shiftId) as nameShift
+          
+         FROM laborcontract a WHERE status > 0 and id = $id");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        $laborcontract = $result[0];
+       
+        return $laborcontract;
+    }
+ 
     function getdata($id,$viewAll)
     {
         $result = array();

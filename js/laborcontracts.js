@@ -47,9 +47,9 @@ $(function () {
             columns: [
                 // columns according to JSON
                 {data: "id"},
-                {data: "name"},
-                {data: "typeName"},
                 {data: "staffName"},
+                {data: "typeName"},
+                {data: "name"},
                 {data: "status"},
                 {data: "type"},
                 {data: ""},
@@ -59,7 +59,7 @@ $(function () {
                     targets: 1,
                     render: function (data, type, full, meta) {
                         return '<a href="javascript:void(0)" onclick="loaddata(' + full["id"] + ')" >' +
-                            '<span class="align-middle font-weight-bold" style="padding: 5px;">' + full["name"] + "</span></a>";
+                            '<span class="align-middle font-weight-bold" style="padding: 5px;">' + full["staffName"] + "</span></a>";
                     },
                     width: 200
                 },
@@ -99,6 +99,10 @@ $(function () {
                             html += '<i class="fas fa-pencil-alt"></i>';
                             html += '</button> &nbsp;';
                         }
+                      
+                        html += '<button type="button" class="btn btn-icon btn-outline-warning waves-effect" title="Xem chi tiết"  onclick="print(' + full['id'] + ')">';
+                        html += '  <i class="fas fa-eye"></i>';
+                        html += '</button>  &nbsp;';
                         if (funDel == 1) {
                             html += '<button type="button" class="btn btn-icon btn-outline-danger waves-effect" title="Xóa" id="confirm-text" onclick="xoa(' + full['id'] + ')">';
                             html += '<i class="fas fa-trash-alt"></i>';
@@ -106,7 +110,7 @@ $(function () {
                         }
                         return html;
                     },
-                    width: 100
+                    width: 200
                 },
             ],
             order: [[0, "desc"]],
@@ -156,6 +160,26 @@ $(function () {
             submitBtn.attr("disabled", true);
         }
     }
+    //validate form validation
+    // Form Validation
+    if ($('#fm').length) {
+        $('#fm').validate({
+            errorClass: "error",
+            rules: {
+              
+            },
+           
+        });
+
+        $('#fm').on("submit", function (e) {
+            var isValid = $('#fm').valid();
+            e.preventDefault();
+            if (isValid) {
+                // newUserSidebar.modal("hide");
+                save();
+            }
+        });
+    }
 
     // To initialize tooltip with body container
     $("body").tooltip({
@@ -165,6 +189,7 @@ $(function () {
 });
 
 function showAdd() {
+    $('.showfile').html('');
     var validator = $('#fm').validate(); // reset form
         validator.resetForm();
         $(".error").removeClass("error"); // loại bỏ validate
@@ -174,21 +199,23 @@ function showAdd() {
         $('#btnUpdate').addClass('d-none');
     $("#add-contract").modal('show');
     $(".modal-title").html('Thêm hợp đồng mới');
-    $('#staffId').val('').trigger('change');
-    $('#name').val('');
-    $('#basicSalary').val('');
-    $('#allowance').val('');
-    $('#insuranceSalary').val('');
-    $('#startDate').val('');
-    $('#stopDate').val('');
-    $('#shiftId').val('').trigger('change');
-    $('#departmentId').val('').trigger('change');
-    $('#position').val('').trigger('change');
-    $('#type').val('').trigger('change');
-    $('#workPlaceId').val('').trigger('change');
-    $('#branchId').val('').trigger('change');
-    $('#status').val('1').trigger('change');
-    $('#description').val('');
+    // $('#staffId').val('').trigger('change');
+    // $('#name').val('');
+    // $('#basicSalary').val('');
+    // $('#allowance').val('');
+    // $('#insuranceSalary').val('');
+    // $('#startDate').val('');
+    // $('#stopDate').val('');
+    // $('#shiftId').val('').trigger('change');
+    // $('#departmentId').val('').trigger('change');
+    // $('#position').val('').trigger('change');
+    // $('#type').val('').trigger('change');
+    // $('#workPlaceId').val('').trigger('change');
+    // $('#branchId').val('').trigger('change');
+    // $('#status').val('1').trigger('change');
+    // $('#description').val('');
+    // $('#file').val('').change();
+    $('#fm')[0].reset();
     var basicPickr = $('.flatpickr-basic');
     // Default
     if (basicPickr.length) {
@@ -203,6 +230,9 @@ function showAdd() {
     }
     url = baseHome + "/laborcontracts/add";
 }
+
+
+
 
 function loaddata(id) {
     var validator = $('#fm').validate(); // reset form
@@ -242,6 +272,12 @@ function loaddata(id) {
             $('#shiftId').val(data.shiftId).trigger("change");
             $('#workPlaceId').val(data.workPlaceId).trigger('change');
             $('#description').val(data.description);
+            // check file hop dong
+            $('.showfile').html('');
+            if(data.file != '') {
+                const urlFile = baseUrlFile+'/uploads/laborcontract/'+data.file;
+                $('.showfile').html(`<a target="_blank" href="${urlFile}" style="color: blue;">Tải xuống <i class="fas fa-download"></i></a>`)
+            }
             var basicPickr = $('.flatpickr-basic');
             if (basicPickr.length) {
                 basicPickr.flatpickr({
@@ -264,28 +300,31 @@ function loaddata(id) {
 }
 
 function save() {
-    var info = {};
-    info.name = $("#name").val();
-    info.basicSalary = $("#basicSalary").val();
-    info.salaryPercentage = $("#salaryPercentage").val();
-    info.insuranceSalary = $("#insuranceSalary").val();
-    info.allowance = $("#allowance").val();
-    info.startDate = $("#startDate").val();
-    info.stopDate = $("#stopDate").val();
-    info.staffId = $("#staffId").val();
-    info.workPlaceId = $('#workPlaceId').val();
-    info.shiftId = $('#shiftId').val();
-    info.departmentId = $("#departmentId").val();
-    info.position = $("#position").val();
-    info.branchId = $("#branchId").val();
-    info.type = $("#type").val();
-    info.status = $("#status").val();
-    info.description = $("#description").val();
+    // var info = {};
+    // info.name = $("#name").val();
+    // info.basicSalary = $("#basicSalary").val();
+    // info.salaryPercentage = $("#salaryPercentage").val();
+    // info.insuranceSalary = $("#insuranceSalary").val();
+    // info.allowance = $("#allowance").val();
+    // info.startDate = $("#startDate").val();
+    // info.stopDate = $("#stopDate").val();
+    // info.staffId = $("#staffId").val();
+    // info.workPlaceId = $('#workPlaceId').val();
+    // info.shiftId = $('#shiftId').val();
+    // info.departmentId = $("#departmentId").val();
+    // info.position = $("#position").val();
+    // info.branchId = $("#branchId").val();
+    // info.type = $("#type").val();
+    // info.status = $("#status").val();
+    // info.description = $("#description").val();
+    var myform = new FormData($('#fm')[0]);
             $.ajax({
                 url: url,
                 type: 'POST',
-                data: info,
+                data: myform,
                 dataType: "json",
+                contentType: false,
+                processData: false,
                 success: function (data) {
                     if (data.code == 200) {
                         notyfi_success(data.message);
@@ -298,6 +337,10 @@ function save() {
             return false;
         }
 
+        // xem chi tiết hợp đồng
+function print(id) {
+    window.location = 'laborcontracts/printLaborcontract?idLaborcontract='+id;
+}
 function xoa(id) {
     Swal.fire({
         title: 'Xóa dữ liệu',

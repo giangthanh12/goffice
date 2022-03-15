@@ -604,7 +604,7 @@ function loaddata(id) {
             $('#name_add').val(tai_san.name);
             $("#don_vi_add").val(tai_san.don_vi).change();
             $("#nhom_ts_add").val(tai_san.nhom_ts).change();
-            $('#so_luong_add').val(tai_san.so_luong);
+            // $('#so_luong_add').val(tai_san.so_luong);
             $('#khau_hao_add').val(tai_san.khau_hao);
             $('#bao_hanh_add').val(tai_san.bao_hanh);
             $("#so_tien_add").val(Comma(tai_san.so_tien));
@@ -620,6 +620,21 @@ function loaddata(id) {
             $('#dia_chi').val(taisan_info.dia_chi);
             $('#sdt').val(taisan_info.sdt);
             $('#ghi_chu').val(taisan_info.ghi_chu);
+            // cập nhật trạng thái cho tài Sản
+            $('#statusAsset').html(`
+            <option data-color="#FF9F43" value="3">Báo hỏng</option>
+            <option data-color="#EA5455" value="4">Báo mất</option>
+            <option data-color="#00CFE8" value="1">Khả dụng</option>
+            `)
+            if(tai_san.tinh_trang == 2) {
+                $('#statusAsset').html(`
+                <option data-color="#FF9F43" value="3">Báo hỏng</option>
+                <option data-color="#EA5455" value="4">Báo mất</option>
+                <option data-color="#EA5455" value="2">Đã cấp phát</option>
+                <option data-color="#00CFE8" value="1">Khả dụng</option>
+                `)
+            }
+            $('#statusAsset').val(tai_san.tinh_trang).change();
             url = baseHome + '/asset/update?id=' + id;
             loadTableHisIssue(id);
             loadTableHisRecall(id);

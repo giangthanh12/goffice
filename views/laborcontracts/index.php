@@ -28,9 +28,9 @@
                             <thead class="thead-light">
                                 <tr>
                                     <th></th>
-                                    <th>Tên hợp đồng</th>
-                                    <th>Loại hợp đồng</th>
                                     <th>Nhân viên</th>
+                                    <th>Loại hợp đồng</th>
+                                    <th>Tên hợp đồng</th>
                                     <th>Tình trạng</th>
                                     <th></th>
                                     <th>...</th>
@@ -127,8 +127,15 @@
                                                         <label for="description">Ghi chú</label>
                                                         <input type="text" id="description" name="description" type="text" class="form-control " />
                                                     </div>
+                                                    <div class="col-md-4 form-group">
+                                                        <label for="file">Tải hợp đồng</label>
+                                                        <input type="file" id="file" name="file"  class="form-control " />
+                                                        <div class="showfile">
+                                                        
+                                                        </div>
+                                                    </div>
                                                     <div class="col-12 d-flex flex-sm-row flex-column mt-2">
-                                                        <button type="submit"  class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1" onclick="save()" id="btnUpdate">Cập nhật</button>
+                                                        <button type="submit"  class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1" id="btnUpdate">Cập nhật</button>
                                                         <button type="reset" class="btn btn-outline-secondary" data-dismiss="modal">Bỏ qua</button>
                                                     </div>
                                                 </div>
