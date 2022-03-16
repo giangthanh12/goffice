@@ -4,6 +4,7 @@ class Bootstrap
 {
     function __construct()
     {
+      
         $url = isset($_GET['url']) ? $_GET['url'] : null;
         $url = rtrim($url, '/');
         $url = explode('/', $url);
@@ -34,7 +35,8 @@ class Bootstrap
             require "views/index/changePassword.php";
             return false;
         }
-        if (!isset($_SESSION[SID])) {
+        // if (!isset($_SESSION[SID])) {
+        if (!isset($_COOKIE[SID])) {
             if (empty($url[0])) {
                 require "views/index/login.php";
                 return false;
@@ -43,6 +45,7 @@ class Bootstrap
                 return false;
             }
         }
+        
         if (empty($url[0])) {
             $url[0] = "index";
         }

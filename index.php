@@ -15,7 +15,7 @@ if ($url[0] == "saveFolder") {
 }
 if (isset($_SESSION['folder'])) {
     $folder = $_SESSION['folder'];
-  
+    
 // function isMobile() {
 //     return preg_match("/(android|avantgo|blackberry|bolt|boost|cricket|docomo|fone|hiptop|mini|mobi|palm|phone|pie|tablet|up\.browser|up\.link|webos|wos)/i", $_SERVER["HTTP_USER_AGENT"]);
 // }
@@ -43,7 +43,49 @@ if (isset($_SESSION['folder'])) {
     } elseif($url[0] == "changePassword") {
         require "views/index/changePassword.php";
     } else {
-        require "views/index/login.php";
+        if(isset($_COOKIE['folder']) && isset($_COOKIE['username'])) {
+          define('SID', md5(HOME . "-" . $_COOKIE['folder']));
+          if (file_exists('users/' . $_COOKIE['folder'] . '/startup.php')) {
+            require 'users/' . $_COOKIE['folder'] . '/startup.php';
+            require 'libs/database.php';
+            require 'libs/model.php';
+            require 'libs/controller.php';
+            require 'libs/view.php';
+            require 'libs/functions.php';
+            require 'libs/mailin.php';
+            $_SESSION['folder'] = $_COOKIE['folder'];
+            $model = new model();
+            $user =  $model->checkUsername($_COOKIE['username']);
+            if($user != [])  {
+              $_SESSION['user'] = $user;
+              require 'libs/bootstrap.php';
+              $app = new bootstrap();
+              // header('location:' . HOME);
+            }
+            else {
+              setcookie(SID, true, time() - 604800,'/');
+              setcookie('folder', $_COOKIE['folder'], time() - 604800,'/');
+              setcookie('username', $_COOKIE['username'], time() - 604800,'/');
+              session_destroy();
+              require "views/index/login.php";
+            }
+          }
+          else {
+           
+            setcookie(SID, true, time() - 604800,'/');
+            setcookie('folder', $_COOKIE['folder'], time() - 604800,'/');
+            setcookie('username', $_COOKIE['username'], time() - 604800,'/');
+            session_destroy();
+            require "views/index/login.php";
+          }
+        
+        }
+   
+        else {
+            require "views/index/login.php";
+        }
+        
+        
     }
 }
 // }
