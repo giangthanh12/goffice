@@ -196,13 +196,13 @@ class dashboard_Model extends Model{
         $now = $year.'-'.$month;
 
         $query1 = $this->db->query("SELECT COUNT(id) AS changeData
-        FROM data WHERE status = 1 AND createDate LIKE '$now%'");
+        FROM data WHERE status = 6 AND createDate LIKE '$now%'");
         $temp1 = $query1->fetchAll(PDO::FETCH_ASSOC);
         $changeData = $temp1[0]['changeData'];
         $result['changeData'] = $temp1[0]['changeData'];
 
         $query2 = $this->db->query("SELECT COUNT(id) AS totalData
-        FROM data WHERE status > 0 AND createDate LIKE '$now%'");
+        FROM data WHERE status > 0 AND inputDate LIKE '$now%'");
         $temp2 = $query2->fetchAll(PDO::FETCH_ASSOC);
         $totalData = $temp2[0]['totalData'];
         if($changeData>0) {
