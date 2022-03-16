@@ -137,11 +137,11 @@ class Model
             // $response = json_decode($response);
             // $menuIds = $response->data;
             $menus = [];
-            if(empty($_SESSION['menuIds'])) {
+            if(empty($_COOKIE['menuIds'])) {
                 $where = " and id in (0) ";
             }
             else {
-                $menuIds = $_SESSION['menuIds'];
+                $menuIds = $_COOKIE['menuIds'];
                 if($parentId == 0) {
                     $where = " and id in ($menuIds) ";
                 }

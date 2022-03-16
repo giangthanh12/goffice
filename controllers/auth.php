@@ -43,7 +43,8 @@ class auth extends Controller
          
           $response = json_decode($response);
           $menuIds = $response->data;
-          $_SESSION['menuIds'] = $menuIds;
+          // $_SESSION['menuIds'] = $menuIds;
+          setcookie('menuIds', $menuIds, time() + 604800,'/');
         }
 
 
@@ -53,8 +54,9 @@ class auth extends Controller
         $_SESSION[SID] = true;
         // set cookie
         setcookie(SID, true, time() + 604800,'/');
-        setcookie('folder', 'gemstech', time() + 604800,'/');
+        setcookie('folder',$_SESSION['folder'] , time() + 604800,'/');
         setcookie('username', $username, time() + 604800,'/');
+        
         $_SESSION['user'] = $data;
         $this->model->updateDeadline();
       } else {
@@ -71,10 +73,14 @@ class auth extends Controller
 
   function logout()
   {
-    session_destroy();
+    
     setcookie(SID, true, time() - 604800,'/');
-    setcookie('folder', 'gemstech', time() - 604800,'/');
+    setcookie('folder', $_COOKIE['folder'], time() - 604800,'/');
     setcookie('username', $_COOKIE['username'], time() - 604800,'/');
+    if(isset($_COOKIE['menuIds'])) {
+      setcookie('menuIds', $_COOKIE['menuIds'], time() - 604800,'/');
+    }
+    session_destroy();
     http_response_code(200);
     $jsonObj['message'] = "Goodbye";
     $jsonObj['code'] = 200;

@@ -63,18 +63,19 @@ if (isset($_SESSION['folder'])) {
               // header('location:' . HOME);
             }
             else {
-              session_destroy();
               setcookie(SID, true, time() - 604800,'/');
-              setcookie('folder', 'gemstech', time() - 604800,'/');
+              setcookie('folder', $_COOKIE['folder'], time() - 604800,'/');
               setcookie('username', $_COOKIE['username'], time() - 604800,'/');
+              session_destroy();
               require "views/index/login.php";
             }
           }
           else {
-            session_destroy();
+           
             setcookie(SID, true, time() - 604800,'/');
-            setcookie('folder', 'gemstech', time() - 604800,'/');
+            setcookie('folder', $_COOKIE['folder'], time() - 604800,'/');
             setcookie('username', $_COOKIE['username'], time() - 604800,'/');
+            session_destroy();
             require "views/index/login.php";
           }
         
