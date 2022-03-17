@@ -46,7 +46,7 @@
                                                     <input type="hidden" id="id" name="id">
                                                     <div class="col-lg-12 col-md-12">
                                                         <div class="form-group">
-                                                            <label for="name">Tên hoạch toán</label>
+                                                            <label for="name">Tên hoạch toán <span style="color:red;">(*)</span></label>
                                                             <input type="text" id="name" name="name" class="form-control " placeholder="">
                                                         </div>
                                                     </div>

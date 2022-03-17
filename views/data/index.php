@@ -70,8 +70,7 @@
                             <table class="user-list-table table">
                                 <thead class="thead-light">
                                     <tr>
-                                    
-                                        <th></th>
+                                    <th><input type="checkbox" name="select_all" value="1" id="example-select-all"></th>
                                         <th>Họ tên</th>
                                         <th>Số điện thoại</th>
                                         <th>Phân loại</th>

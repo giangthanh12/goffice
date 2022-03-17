@@ -843,9 +843,9 @@ function loadListCandidate(id) {
                     render: function (data, type, full, meta) {
                         var html = '';
                         if(full['status'] == 1) {
-                        html += '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" title="Thay đổi trạng thái" onclick="changeSt(' + full['id'] + ')">';
-                        html += '<i class="fas fa-arrow-right"></i>';
-                        html += '</button>&nbsp;';
+                        // html += '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" title="Thay đổi trạng thái" onclick="changeSt(' + full['id'] + ')">';
+                        // html += '<i class="fas fa-arrow-right"></i>';
+                        // html += '</button>&nbsp;';
 
                         html += '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" title="Thêm lịch phỏng vấn" onclick="addCalendar(' + full['canId'] + ')">';
                         html += '<i class="fas fa-calendar"></i>';
@@ -1022,6 +1022,13 @@ function addCalendar(id) {
     noCalendar: true,
     dateFormat: "H:i",
     defaultDate: "12:00"
+});
+ //ngày
+ $('#dateTime').flatpickr({
+    enableTime: true,
+    dateFormat: "d-m-Y",
+    defaultDate: "today",
+    minDate: "today"
 });
 }
 

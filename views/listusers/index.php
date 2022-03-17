@@ -22,7 +22,7 @@
                             </thead>
                         </table>
                     </div>
-                    <div class="modal fade text-left" id="updateinfo" tabindex="-1" role="dialog"
+                    <div class="modal fade text-left" id="updateinfo"  role="dialog"
                          aria-labelledby="myModalLabel16" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered modal" role="document">
                             <div class="modal-content">
@@ -35,7 +35,7 @@
                                         <div class="card-body">
                                             <form class="form-validate" enctype="multipart/form-data" id="fm">
                                                 <div class="col-12">
-                                                    <label for="fname-icon">Username</label>
+                                                    <label for="fname-icon">Tên đăng nhập</label>
                                                     <div class="form-group row">
                                                         <div class="col-sm-12">
                                                             <div class="input-group input-group-merge">
@@ -73,7 +73,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-12">
-                                                    <label for="password">Password</label>
+                                                    <label for="password">Mật khẩu</label>
                                                     <div class="form-group row">
                                                         <div class="col-sm-12">
                                                             <div class="input-group input-group-merge">
@@ -83,13 +83,13 @@
                                                                 </div>
                                                                 <input type="password" id="password"
                                                                        class="form-control" name="password"
-                                                                       placeholder="Password"/>
+                                                                       />
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-12">
-                                                    <label for="fname-icon">extNum</label>
+                                                    <label for="fname-icon">Số máy nhánh</label>
                                                     <div class="form-group row">
                                                         <div class="col-sm-12">
                                                             <div class="input-group input-group-merge">
@@ -99,13 +99,13 @@
                                                                 </div>
                                                                 <input type="text" id="extNum" class="form-control"
                                                                        
-                                                                       name="extNum" placeholder="Số máy nhánh"/>
+                                                                       name="extNum"/>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-12">
-                                                    <label for="password">Sip password</label>
+                                                    <label for="password">Mật khẩu nhánh</label>
                                                     <div class="form-group row">
                                                         <div class="col-sm-12">
                                                             <div class="input-group input-group-merge">
@@ -115,7 +115,7 @@
                                                                 </div>
                                                                 <input type="password" id="sipPass"
                                                                        class="form-control" name="sipPass"
-                                                                       placeholder="sip password"/>
+                                                                       />
                                                             </div>
                                                         </div>
                                                     </div>

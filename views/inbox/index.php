@@ -360,7 +360,7 @@
                                                     <label for="file-input">
                                                         <i data-feather="paperclip" width="17" height="17" class="ml-50"></i>
                                                     </label>
-                                                    <input id="file-input" name="files[]" type="file" class="d-none" multiple />
+                                                    <input id="file-input" name="files[]" type="file" class="d-none"  multiple/>
                                                 </div>
                                                 <ul id="listfile" style="list-style:none"></ul>
                                             </div>

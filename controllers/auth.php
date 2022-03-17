@@ -53,9 +53,11 @@ class auth extends Controller
         $jsonObj['data'] = $data;
         $_SESSION[SID] = true;
         // set cookie
-        setcookie(SID, true, time() + 604800,'/');
+        setcookie(SID, true, time() + 604800,'/',);
         setcookie('folder',$_SESSION['folder'] , time() + 604800,'/');
         setcookie('username', $username, time() + 604800,'/');
+
+        // setcookie("testcookie", "value1hostonly", time(), "/", HOME, 0, true);
         
         $_SESSION['user'] = $data;
         $this->model->updateDeadline();

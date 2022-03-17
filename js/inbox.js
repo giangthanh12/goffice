@@ -177,7 +177,7 @@ $(function () {
             emailBCC.val([]).trigger("change");
             wrapperCC.hide();
             wrapperBCC.hide();
-
+            $('#listfile').html('');
             // quill editor content
             var quill_editor = $(".compose-form .ql-editor");
             quill_editor[0].innerHTML = "";
@@ -354,7 +354,8 @@ $(function () {
     }
 
     $("#file-input").change(function(e){
-         var html = $('#listfile').html();
+        var html = '';
+         $('#listfile').html('');
          var files = e.target.files;
          for(var i=0;i<files.length;i++){
             html += '<li>'+files[i].name+'<li>';
@@ -470,7 +471,10 @@ function getCount() {
                     if(data.notseen == 0) {
                         $('#countnotsee').css('display','none');
                     }
-                    $('#countnotsee').html(data.notseen);
+                    else {
+                        $('#countnotsee').html(data.notseen);
+                    }
+                   
             // } else {
             //     notify_error(data.msg);
                

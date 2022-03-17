@@ -568,7 +568,7 @@ function savenhatky() {
 //     console.log(item);
 //    // If checkbox doesn't exist in DOM
 // });
-
+chiadata();
 function chiadata() {
     // var inputs = document.querySelectorAll('input[type="checkbox"]');
     // console.log(inputs);
@@ -577,22 +577,13 @@ function chiadata() {
    // If checkbox doesn't exist in DOM
 // });
     // $("#chiacho").val('').change();
-    var listdata = '';
     var table = $(".user-list-table").DataTable();
-    table.$('input[type="checkbox"]').each(function(){
-        if(this.checked) {
-        listdata += this.getAttribute('value') + ',';
-        }
+    var rows = table.column(0).checkboxes.selected();
+    var listdata = '';
+    rows.each(function (item) {
+        listdata += item + ',';
     })
-    listdata = listdata.slice(0, -1); // đâu là id của checkbox m thíc lm j thì lm
-
-    // console.log(listdata);
-    // var rows = table.column(0).checkboxes.selected();
-    // var listdata = '';
-    // rows.each(function (item) {
-    //     listdata += item + ',';
-    // })
-    // console.log(listdata);
+    console.log(listdata);
     // listdata = listdata.slice(0, -1);
     // console.log(listdata);
     // if (rows.length > 0) {

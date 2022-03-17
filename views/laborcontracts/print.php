@@ -105,7 +105,7 @@
     <div class="chuky"></div>
     <div class="noprint">
         <button class="linkbutton" onClick="window.print();">In ngay</button>
-        <button class="linkbutton" onClick="window.location.href = '<?=HOME?>/baogia'">Quay lại danh sách báo giá</button>
+        <button class="linkbutton" onClick="window.location.href = '<?=HOME?>/baogia'">Quay lại danh sách hợp đồng</button>
     </div>
 </body>
 </html>

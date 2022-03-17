@@ -99,7 +99,7 @@
                                                     </div>
                                                     <div class="col-md-4 form-group">
                                                         <label for="salaryPercentage">Tỉ lệ lương (%)<span style="color:red;">*</span></label>
-                                                        <input id="salaryPercentage" data-msg-required="Yêu cầu nhập tỉ lệ lương" type="text" class="form-control" name="salaryPercentage" value="100" required/>
+                                                        <input id="salaryPercentage" data-msg-required="Yêu cầu nhập tỉ lệ lương" type="text" class="form-control" name="salaryPercentage" required/>
                                                     </div>
 
                                                     <div class="col-md-4 form-group">
