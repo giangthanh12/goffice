@@ -50,9 +50,9 @@ $(function () {
             "ordering": false,
             "autoWidth": false,
             "fixedColumns": true,
-            select: {
-                style: 'multi'
-            },
+            // select: {
+            //     style: 'multi'
+            // },
 
             columns: [
                 // columns according to JSON
@@ -77,14 +77,26 @@ $(function () {
                 //     },
                 // },
                 {
-                    'targets': 0,
-                    'searchable': false,
-                    'orderable': false,
-                    'className': 'dt-body-center',
-                    'render': function (data, type, full, meta){
-                        return '<input type="checkbox" name="id[]" value="' + $('<div/>').text(data).html() + '">';
+                    // For Checkboxes
+                    targets: 0,
+                    render: function (data, type, full, meta) {
+
+                        return (
+                            '<div class="custom-control custom-checkbox"> <input class="custom-control-input dt-checkboxes" type="checkbox" value="" id="checkbox' +
+                            data +
+                            '" /><label class="custom-control-label" for="checkbox' +
+                            data +
+                            '"></label></div>'
+                        );
+                    },
+                    select: {
+                        style: 'multi'
+                    },
+                    checkboxes: {
+                        selectAllRender:
+                            '<div class="custom-control custom-checkbox"> <input class="custom-control-input" type="checkbox" value="" id="checkboxSelectAll" /><label class="custom-control-label" for="checkboxSelectAll"></label></div>'
                     }
-                 },
+                },
                 {
                     targets: 1,
                     width: '30%',
@@ -349,44 +361,6 @@ $(function () {
         selector: '[data-toggle="tooltip"]',
         container: "body",
     });
-    $('#example-select-all').on('click', function(){
-        // Get all rows with search applied
-        var rows = table.rows({ 'search': 'applied' }).nodes();
-        console.log(rows);
-        // Check/uncheck checkboxes for all rows in the table
-        $('input[type="checkbox"]', rows).prop('checked', this.checked);
-     });
-     $(document).on('change', 'input[type="checkbox"]', function(){
-        // If checkbox is not checked
-        if(!this.checked){
-           var el = $('#example-select-all').get(0);
-           console.log(el);
-           // If "Select all" control is checked and has 'indeterminate' property
-           if(el && el.checked && ('indeterminate' in el)){
-              // Set visual state of "Select all" control 
-              // as 'indeterminate'
-              el.checked = false;
-           }
-        }
-     });
-   
-
-     //
-     table.$('input[type="checkbox"]').each(function(){
-        // If checkbox doesn't exist in DOM
-        // if(!$.contains(document, this)){
-        //    // If checkbox is checked
-        //    if(this.checked){
-        //       // Create a hidden element
-        //       $(form).append(
-        //          $('<input>')
-        //             .attr('type', 'hidden')
-        //             .attr('name', this.name)
-        //             .val(this.value)
-        //       );
-        //    }
-        // }
-     });
 });
 
 function search() {
@@ -563,45 +537,26 @@ function savenhatky() {
     }
 }
 
-// var table = $(".user-list-table").DataTable();
-// table.$('input[type="checkbox"]').each(function(item){
-//     console.log(item);
-//    // If checkbox doesn't exist in DOM
-// });
-
 function chiadata() {
-    // var inputs = document.querySelectorAll('input[type="checkbox"]');
-    // console.log(inputs);
-// $().each(function(item){
-//     console.log(item);
-   // If checkbox doesn't exist in DOM
-// });
-    // $("#chiacho").val('').change();
-    var listdata = '';
+    $("#chiacho").val('').change();
     var table = $(".user-list-table").DataTable();
-    table.$('input[type="checkbox"]').each(function(){
-        if(this.checked) {
-        listdata += this.getAttribute('value') + ',';
-        }
-    })
-    listdata = listdata.slice(0, -1); // đâu là id của checkbox m thíc lm j thì lm
+    var rows = table.column(0).checkboxes.selected();
 
+
+    var listdata = '';
+    rows.each(function (item) {
+        listdata += item + ',';
+    })
     // console.log(listdata);
-    // var rows = table.column(0).checkboxes.selected();
-    // var listdata = '';
-    // rows.each(function (item) {
-    //     listdata += item + ',';
-    // })
-    // console.log(listdata);
-    // listdata = listdata.slice(0, -1);
-    // console.log(listdata);
-    // if (rows.length > 0) {
-    //     $("#chiadata").modal('show');
-    //     $("#modal-title4").html('Chia data');
-    //     $("#data").val(listdata);
-    // } else {
-    //     notify_error('Không có bản ghi nào được chọn');
-    // }
+    listdata = listdata.slice(0, -1);
+    console.log(listdata);
+    if (rows.length > 0) {
+        $("#chiadata").modal('show');
+        $("#modal-title4").html('Chia data');
+        $("#data").val(listdata);
+    } else {
+        notify_error('Không có bản ghi nào được chọn');
+    }
 }
 
 function savechia() {
