@@ -228,13 +228,13 @@ $(function () {
                 url: baseHome + "/todo/getStaffs",
                 success: function (data) {
                     $("#task-assigned").empty(); // xóa value trong select2
-                    console.log(data);
+                    // console.log(data);
                     if (data.length > 0) {
                         $('#task-assigned').select2({
                             placeholder: "Nhân viên thực hiện",
                             data: data,
                         });
-                        $('#task-assigned').val(null).change();
+                        $('#task-assigned').val().change();
                     }
                     else {
                         $("#task-assigned").empty(); // xóa value trong select2
@@ -543,7 +543,7 @@ $(function () {
         var $title = $(this).find(".todo-title").html();
         newTaskForm.find(".new-todo-item-title").val($title);
         
-        var assigneeId = $(this).find(".avatar").attr("data-id");
+        var assigneeId = $(this).find(".avatar").attr("data-id");   
         taskAssignSelect.val(Number(assigneeId)).trigger("change");
       
         var deadline = $(this).find("#deadline").text();
