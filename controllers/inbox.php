@@ -59,6 +59,11 @@ class inbox extends Controller
         $data = array('senderId'=>$_SESSION['user']['staffId'], 'title'=>$title, 'content'=>$content,
             'receiverId'=>$receiverId, 'status'=>1, 'dateTime'=>date('Y-m-d H:i:s'), 'link'=>'inbox');
         $files = $_FILES['files'];
+        // echo "<pre>";
+        // print_r($files);
+        // echo "</pre>";
+        // return;
+        $attachmentFile = '';
         if($_FILES['files']['name'][0]!='') {
             $dir = ROOT_DIR . '/uploads/dinhkem/';
             $filenames = '';
@@ -70,14 +75,15 @@ class inbox extends Controller
                     else
                         $filenames .= ','.$fname;
             }
-            $data['attachmentFile']=$filenames;
+            $attachmentFile=$filenames;
         }
+       
         $row = 0;
         $dataInboxReceiver= [];
         $inboxIds= [];
 
         $dataSend = array('senderId'=>$_SESSION['user']['staffId'], 'title'=>$title, 'content'=>$content,
-        'receiverId'=>0, 'status'=>1, 'dateTime'=>date('Y-m-d H:i:s'), 'link'=>'inbox');
+        'receiverId'=>0, 'status'=>1, 'dateTime'=>date('Y-m-d H:i:s'), 'attachmentFile'=>$attachmentFile, 'link'=>'inbox');
         $idInbox = $this->model->addInboxSend($dataSend);
         if($idInbox < 0) {
             $jsonObj['msg'] = "Lỗi khi cập nhật database".$receiverId;
@@ -87,7 +93,7 @@ class inbox extends Controller
         }
         foreach($_REQUEST['email-to'] as $key=>$item) {
             $data = array('senderId'=>$_SESSION['user']['staffId'], 'title'=>$title, 'content'=>$content,
-            'receiverId'=>json_encode([$item]), 'status'=>1, 'dateTime'=>date('Y-m-d H:i:s'), 'link'=>'inbox');
+            'receiverId'=>json_encode([$item]), 'status'=>1, 'dateTime'=>date('Y-m-d H:i:s'), 'attachmentFile'=>$attachmentFile, 'link'=>'inbox');
             $idInbox = $this->model->add($data);
             $inboxIds[] = $idInbox;
             $dataInboxReceiver[] = array('inboxId'=> $idInbox, 'receiverId'=>$item);
