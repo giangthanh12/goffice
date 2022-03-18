@@ -65,14 +65,14 @@
 
                                             <div class="col-lg-3 col-md-6">
                                                 <div class="form-group">
-                                                    <label for="dateTime">Thời gian</label>
+                                                    <label for="dateTime">Thời gian<span style="color:red;">(*)</span></label>
                                                     <input type="text" id="dateTime" name="dateTime"
                                                         class="form-control " placeholder="Chọn thời gian">
                                                 </div>
                                             </div>
                                             <div class="col-lg-3 col-md-6">
                                                 <div class="form-group">
-                                                    <label for="content">Diễn giải</label>
+                                                    <label for="content">Diễn giải<span style="color:red;">(*)</span></label>
                                                     <input id="content" type="text" class="form-control"
                                                         name="content" />
                                                 </div>
@@ -86,14 +86,14 @@
                                             </div>
                                             <div class="col-lg-3 col-md-6">
                                                 <div class="form-group">
-                                                    <label for="account">Tài khoản</label>
+                                                    <label for="account">Tài khoản<span style="color:red;">(*)</span></label>
                                                     <select name="account" id="account" required
                                                         class="select2 form-control"></select>
                                                 </div>
                                             </div>
                                             <div class="col-lg-3 col-md-6">
                                                 <div class="form-group">
-                                                    <label for="classify">Phân loại hoạch toán</label>
+                                                    <label for="classify">Phân loại hoạch toán<span style="color:red;">(*)</span></label>
                                                     <select name="classify" id="classify" class="form-control select2">
                                                     </select>
                                                 </div>
@@ -120,8 +120,8 @@
 
                                             <div class="col-lg-6 col-md-6">
                                                 <div class="form-group">
-                                                    <label for="authorized">Nhân viên</label>
-                                                    <select name="authorized" id="authorized" class="form-control">
+                                                    <label for="authorized">Nhân viên<span style="color:red;">(*)</span></label>
+                                                    <select name="authorized" id="authorized" class="form-control select2">
 
                                                     </select>
 
@@ -130,7 +130,7 @@
 
                                             <div class="col-lg-6 col-md-6">
                                                 <div class="form-group">
-                                                    <label for="asset">Số tiền</label>
+                                                    <label for="asset">Số tiền<span style="color:red;">(*)</span></label>
                                                     <input id="asset" type="text" class="form-control" name="asset" />
 
                                                 </div>

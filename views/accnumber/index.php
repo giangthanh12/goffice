@@ -49,13 +49,13 @@
                                                     <input type="hidden" id="id" name="id">
                                                     <div class="col-lg-3 col-md-6">
                                                         <div class="form-group">
-                                                            <label for="name">Tên tài khoản</label>
-                                                            <input type="text" id="name" class="form-control " placeholder="Nhập tên tài khoản">
+                                                            <label for="name">Tên tài khoản<span style="color:red;">(*)</span></label>
+                                                            <input type="text" name="name" id="name" class="form-control " >
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-3 col-md-6">
                                                         <div class="form-group">
-                                                            <label for="account">Số tài khoản</label>
+                                                            <label for="account">Số tài khoản<span style="color:red;">(*)</span></label>
                                                             <input id="account" type="text" class="form-control" name="account" />
                                                         </div>
                                                     </div>

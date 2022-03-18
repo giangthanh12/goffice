@@ -647,7 +647,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 dateTime: $('#dateTime').val() + ' ' + $('#timeInterview').val(),
                 interviewerIds: $('#interviewerIds').val(),
                 result: $('#result').val(),
-                note: $('#note').val(),
+                note:  $('#note').find(".ql-editor p").html(),
             };
             $.ajax({
                 type: "POST",
@@ -742,18 +742,28 @@ function loadAdd() {
     $(".modal-title").html('Thêm mới lịch phỏng vấn');
     $('#updateInterview').html('Thêm');
     $('#div-cv').addClass('d-none');
+
+
+    //ngày
     $('.flatpickr-basic').flatpickr({
         enableTime: true,
         dateFormat: "d-m-Y",
+        defaultDate: "today",
         minDate: "today"
     });
+    //giờ
     $('#timeInterview').flatpickr({
         enableTime: true,
         noCalendar: true,
         dateFormat: "H:i",
         defaultDate: "12:00"
     });
-    $('#result').val(1).change();
+    $('#idInterview').val('');
+    $('#campId').val('').change();
+    $('#canId').val('').change();
+    $('#interviewerIds').val('').change();
+
+    $('#idInterview').val('');
     $('#note').val('');
     $('#div-result').addClass('d-none');
 }

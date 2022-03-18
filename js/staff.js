@@ -63,6 +63,8 @@ $(function () {
             ajax: baseHome + "/staff/getData",
             ordering: false, // bỏ sắp xếp mặc định
             autoWidth:false,
+            pageLength : 7,
+            lengthMenu: [7, 10, 20],
             columns: [
                 // columns according to JSON
                 { data: "name" },

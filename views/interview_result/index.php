@@ -54,13 +54,13 @@
                                                 <div class="row mt-1">
                                                     <div class="col-lg-6 col-md-6">
                                                         <div class="form-group">
-                                                            <label for="name">Tên hợp đồng</label>
+                                                            <label for="name">Tên hợp đồng<span style="color:red;">(*)</span></label>
                                                             <input id="name" type="text" class="form-control" name="name" />
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-6 col-md-6">
                                                         <div class="form-group">
-                                                            <label for="type">Loại hợp đồng</label>
+                                                            <label for="type">Loại hợp đồng<span style="color:red;">(*)</span></label>
                                                             <select id="type" class="select2 form-control" name="type">
                                                                 <option value="1">Hợp đồng thử việc</option>
                                                                 <option value="2">Hợp đồng chính thức</option>
@@ -83,13 +83,13 @@
                                                     </div>
                                                     <div class="col-lg-6 col-md-6">
                                                         <div class="form-group">
-                                                            <label for="basicSalary">Lương cơ bản</label>
+                                                            <label for="basicSalary">Lương cơ bản<span style="color:red;">(*)</span></label>
                                                             <input id="basicSalary" type="text" class="form-control format_number" name="basicSalary" />
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-6 col-md-6">
                                                         <div class="form-group">
-                                                            <label for="allowance">Trợ cấp</label>
+                                                            <label for="allowance">Trợ cấp<span style="color:red;">(*)</span></label>
                                                             <input id="allowance" type="text" class="form-control format_number" name="allowance" />
                                                         </div>
                                                     </div>
@@ -101,7 +101,7 @@
                                                     </div> -->
                                                     <div class="col-lg-6 col-md-6">
                                                         <div class="form-group">
-                                                            <label for="salaryPercentage">Phần trăm lương</label>
+                                                            <label for="salaryPercentage">Phần trăm lương<span style="color:red;">(*)</span></label>
                                                             <input id="salaryPercentage" type="text" class="form-control" name="salaryPercentage" />
                                                         </div>
                                                     </div>
@@ -114,7 +114,7 @@
                                                     </div> -->
                                                     <div class="col-lg-6 col-md-6">
                                                         <div class="form-group">
-                                                            <label for="shiftId">Ca làm việc</label>
+                                                            <label for="shiftId">Ca làm việc<span style="color:red;">(*)</span></label>
                                                             <select id="shiftId" class="select2 form-control" name="shiftId">
                                                             </select>
                                                         </div>
@@ -123,28 +123,28 @@
 
                                                     <div class="col-lg-6 col-md-6">
                                                         <div class="form-group">
-                                                            <label for="branchId">Chi nhánh</label>
+                                                            <label for="branchId">Chi nhánh<span style="color:red;">(*)</span></label>
                                                             <select id="branchId" class="select2 form-control" name="branchId">
                                                             </select>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-6 col-md-6">
                                                         <div class="form-group">
-                                                            <label for="workPlaceId">Địa điểm làm việc</label>
+                                                            <label for="workPlaceId">Địa điểm làm việc<span style="color:red;">(*)</span></label>
                                                             <select id="workPlaceId" class="select2 form-control" name="workPlaceId">
                                                             </select>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-6 col-md-6">
                                                         <div class="form-group">
-                                                            <label for="departmentId">Phòng ban</label>
+                                                            <label for="departmentId">Phòng ban<span style="color:red;">(*)</span></label>
                                                             <select id="departmentId" class="select2 form-control" name="departmentId">
                                                             </select>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-6 col-md-6">
                                                         <div class="form-group">
-                                                            <label for="position">Vị trí</label>
+                                                            <label for="position">Vị trí<span style="color:red;">(*)</span></label>
                                                             <select id="position" class="select2 form-control" name="position">
                                                             </select>
                                                         </div>

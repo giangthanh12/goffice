@@ -17,6 +17,14 @@ $(function () {
         success: function (data) {
             $("#staffId").select2({
                 data: data,
+                dropdownParent: $("#staffId").parent(),
+                language: {
+                noResults: function() {
+                    return 'Không có kết quả';
+                }
+                },escapeMarkup: function (markup) {
+                    return markup;
+                }
             });
         },
     });
@@ -29,6 +37,14 @@ $(function () {
         success: function (data) {
             $("#groupId").select2({
                 data: data,
+                dropdownParent: $("#groupId").parent(),
+                language: {
+                noResults: function() {
+                    return 'Không có kết quả';
+                }
+                },escapeMarkup: function (markup) {
+                    return markup;
+                }
             });
         },
     });

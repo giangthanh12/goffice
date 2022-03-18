@@ -166,7 +166,20 @@ $(function () {
         $('#fm').validate({
             errorClass: "error",
             rules: {
-              
+                salaryPercentage: {
+                    min: 1,
+                    max:100,
+                    number:true
+                },
+                
+            },
+            messages: {
+                salaryPercentage: {
+                    min: "Yêu cầu nhập tối thiểu 1",
+                    max:"Yêu cầu nhập tối đa 100",
+                    number:"Yêu cầu nhập số"
+                },
+                
             },
            
         });
@@ -190,32 +203,32 @@ $(function () {
 
 function showAdd() {
     $('.showfile').html('');
-    var validator = $('#fm').validate(); // reset form
-        validator.resetForm();
-        $(".error").removeClass("error"); // loại bỏ validate
+    // var validator = $('#fm').validate(); // reset form
+    //     validator.resetForm();
+    //     $(".error").removeClass("error"); // loại bỏ validate
     if (funAdd == 1)
         $('#btnUpdate').removeClass('d-none');
     else
         $('#btnUpdate').addClass('d-none');
     $("#add-contract").modal('show');
     $(".modal-title").html('Thêm hợp đồng mới');
-    // $('#staffId').val('').trigger('change');
+    $('#staffId').val('').trigger('change');
     // $('#name').val('');
     // $('#basicSalary').val('');
     // $('#allowance').val('');
     // $('#insuranceSalary').val('');
     // $('#startDate').val('');
     // $('#stopDate').val('');
-    // $('#shiftId').val('').trigger('change');
-    // $('#departmentId').val('').trigger('change');
-    // $('#position').val('').trigger('change');
-    // $('#type').val('').trigger('change');
-    // $('#workPlaceId').val('').trigger('change');
-    // $('#branchId').val('').trigger('change');
-    // $('#status').val('1').trigger('change');
+    $('#shiftId').val('').trigger('change');
+    $('#departmentId').val('').trigger('change');
+    $('#position').val('').trigger('change');
+    $('#type').val('').trigger('change');
+    $('#workPlaceId').val('').trigger('change');
+    $('#branchId').val('').trigger('change');
+    $('#status').val('1').trigger('change');
     // $('#description').val('');
     // $('#file').val('').change();
-    $('#fm')[0].reset();
+    // $('#fm')[0].reset();
     var basicPickr = $('.flatpickr-basic');
     // Default
     if (basicPickr.length) {

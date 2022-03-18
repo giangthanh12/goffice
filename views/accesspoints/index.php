@@ -63,7 +63,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="ip">Địa chỉ IP<span style="color:red;">*</span> <img src="<?= HOME ?>/layouts/tooltip.png" width="15px" id="current_ip" data-toggle="tooltip" data-placement="top" data-original-title="Quản lý các tên" data-trigger="click"></label>
+                                                    <label for="ip">Địa chỉ IP<span style="color:red;">*</span></label>
                                                     <div class="input-group input-group-merge">
                                                         <div class="input-group-prepend">
                                                             <span class="input-group-text">

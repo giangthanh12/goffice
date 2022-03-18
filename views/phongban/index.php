@@ -45,11 +45,11 @@
                                                     <input type="text" class="form-control" id="name" placeholder="Nhập tên phòng ban" name="name" required />
                                                 </div>
 
-                                                <div class="form-group">
+                                                <!-- <div class="form-group">
                                                     <label for="position">Chức vụ<span style="color:red;">*</span></label>
                                                     <select class="select2 form-control" multiple="multiple" data-msg-required="Bạn chưa chọn vị trí phòng ban" required id="position"
                                                     name="position[]"></select>
-                                                </div>
+                                                </div> -->
                                                 <div class="form-group">
                                                     <label for="ghi_chu">Ghi chú</label>
                                                     <textarea id="description" name="description" type="text" class="form-control " /></textarea>
