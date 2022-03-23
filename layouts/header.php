@@ -815,12 +815,14 @@ $notifications = $model->getNotification();
                     </li>
                 <?php } ?>
                 <!--            Truy cập nhanh-->
+                <?php $menus = $model->getMenus(0, 3); ?> 
+                <?php if(!empty($menus)) { ?>
                 <li class="navigation-header">
                     <span data-i18n="Truy cập nhanh">Truy cập nhanh</span>
                     <i data-feather="more-horizontal"></i>
                 </li>
+                <?php } ?>
                 <?php
-                $menus = $model->getMenus(0, 3);
                 foreach ($menus as $parMenu) {
                     $hasSub = 0;
                     if ($parMenu['link'] == $url[0])
