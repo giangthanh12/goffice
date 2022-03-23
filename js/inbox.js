@@ -105,7 +105,7 @@ $(function () {
         }
        
         var avatarImg = "<img src='https://cdn1.iconfinder.com/data/icons/developer-set-2/512/multiple-512.png' alt='avatar' />";
-        if ($(option.element).data("avatar") != '') {
+        if ($(option.element).data("avatar") != 'all') {
             var imgUrl = baseHome + '/users/gemstech/uploads/nhanvien/';
             avatarImg = "<img onerror= this.src='https://velo.vn/goffice-test/layouts/useravatar.png' src='" + imgUrl + $(option.element).data("avatar") + "' alt='avatar' />";
         }
