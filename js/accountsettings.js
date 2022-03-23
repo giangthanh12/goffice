@@ -90,18 +90,23 @@ function thayanh() {
     });
 }
 
-function xoaanh() {
-    $.ajax({
-        type: "post",
-        url: baseHome + "/accountsettings/xoaanh",
-        success: function (data) {
-            if (data.success) {
-                $('#avatar').attr('src', baseHome + '/layouts/useravatar.png');
-                $('#hungsua2').attr('src', baseHome + '/layouts/useravatar.png');
-            }
-        },
-    });
-}
+// function xoaanh() {
+//     $.ajax({
+//         type: "post",
+//         url: baseHome + "/accountsettings/xoaanh",
+//         success: function (data) {
+//             if (data.success) {
+//                 notyfi_success(data.msg);
+//                 $('#avatar').attr('src', baseHome + '/layouts/useravatar.png');
+//                 $('#hungsua2').attr('src', baseHome + '/layouts/useravatar.png');
+//             }
+//             else{ 
+//                 notify_error(data.msg);
+//             }
+           
+//         },
+//     });
+// }
 
 
 function save() {
