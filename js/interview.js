@@ -764,6 +764,7 @@ function loadAdd() {
     $('#interviewerIds').val('').change();
 
     $('#idInterview').val('');
-    $('#note').val('');
+    var quill_editor = $('#note').find(".ql-editor p");
+        quill_editor.html('');
     $('#div-result').addClass('d-none');
 }

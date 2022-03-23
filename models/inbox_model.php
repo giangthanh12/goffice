@@ -52,7 +52,7 @@ class inbox_Model extends Model{
         $dieukien = " WHERE status in (1,2) AND receiverId LIKE '%$userReceiveId%' ";
         $query = $this->db->query("SELECT COUNT(1) AS total FROM events $dieukien ");
         $temp = $query->fetchAll(PDO::FETCH_ASSOC);
-        $return['notseen'] = $temp[0]['total'];
+        $return['notseen'] = $temp[0]['total'] > 0 ? $temp[0]['total'] : '';
 
         $dieukien = " WHERE status=0 AND (receiverId LIKE '%$userReceiveId%' or senderId=$user) ";
         $query = $this->db->query("SELECT COUNT(1) AS total FROM events $dieukien ");

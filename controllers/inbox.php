@@ -58,13 +58,8 @@ class inbox extends Controller
         $info = $this->model->getInfoSender($_SESSION['user']['staffId']);
         $data = array('senderId'=>$_SESSION['user']['staffId'], 'title'=>$title, 'content'=>$content,
             'receiverId'=>$receiverId, 'status'=>1, 'dateTime'=>date('Y-m-d H:i:s'), 'link'=>'inbox');
-        $files = $_FILES['files'];
-        // echo "<pre>";
-        // print_r($files);
-        // echo "</pre>";
-        // return;
-        $attachmentFile = '';
-        if($_FILES['files']['name'][0]!='') {
+            $attachmentFile = '';
+            if($_FILES['files']['name'][0]!='') {
             $dir = ROOT_DIR . '/uploads/dinhkem/';
             $filenames = '';
             for($i=0;$i<count($_FILES['files']['name']);$i++) {
@@ -75,7 +70,7 @@ class inbox extends Controller
                     else
                         $filenames .= ','.$fname;
             }
-            $attachmentFile=$filenames;
+            $attachmentFile = $filenames;
         }
        
         $row = 0;
@@ -93,7 +88,7 @@ class inbox extends Controller
         }
         foreach($_REQUEST['email-to'] as $key=>$item) {
             $data = array('senderId'=>$_SESSION['user']['staffId'], 'title'=>$title, 'content'=>$content,
-            'receiverId'=>json_encode([$item]), 'status'=>1, 'dateTime'=>date('Y-m-d H:i:s'), 'attachmentFile'=>$attachmentFile, 'link'=>'inbox');
+            'receiverId'=>json_encode([$item]), 'status'=>1,'attachmentFile'=>$attachmentFile, 'dateTime'=>date('Y-m-d H:i:s'), 'link'=>'inbox');
             $idInbox = $this->model->add($data);
             $inboxIds[] = $idInbox;
             $dataInboxReceiver[] = array('inboxId'=> $idInbox, 'receiverId'=>$item);
