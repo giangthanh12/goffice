@@ -50,20 +50,22 @@ class accountsettings extends Controller
         echo json_encode($jsonObj);
     }
 
-    function xoaanh()
-    {
-        $id = isset($_SESSION['user']['staffId']) ? $_SESSION['user']['staffId'] : 0;
-        $data = [
-            'avatar' => ''
-        ];
-        if ($this->model->updateObj($id, $data)) {
-            $_SESSION['user']['avatar'] = URLFILE.'/uploads/avatar-s-11.jpg';
-            $jsonObj['success'] = true;
-        } else {
-            $jsonObj['success'] = false;
-        }
-        echo json_encode($jsonObj);
-    }
+    // function xoaanh()
+    // {
+    //     $id = isset($_SESSION['user']['staffId']) ? $_SESSION['user']['staffId'] : 0;
+    //     $data = [
+    //         'avatar' => ''
+    //     ];
+    //     if ($this->model->updateObj($id, $data)) {
+    //         $_SESSION['user']['avatar'] = URLFILE.'/uploads/avatar-s-11.jpg';
+    //         $jsonObj['msg'] = "Cập nhật dữ liệu thành công";
+    //         $jsonObj['success'] = true;
+    //     } else {
+    //         $jsonObj['msg'] = "Lỗi khi cập nhật database";
+    //         $jsonObj['success'] = false;
+    //     }
+    //     echo json_encode($jsonObj);
+    // }
 
     function update()
     {
