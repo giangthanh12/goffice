@@ -15,6 +15,7 @@ class interview_Model extends Model
         return $result;
     }
 
+    
     // function getCandidate($campId) {
     //     $result = array();
     //     $query = $this->db->query("SELECT canId as id,

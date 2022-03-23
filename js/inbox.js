@@ -468,7 +468,7 @@ function getCount() {
                     $('#countInbox').html('Hộp thư ('+data.inbox+')');
                     $('#countSent').html('Đã gửi ('+data.sent+')');
                     $('#countTrash').html('Thùng rác ('+data.trash+')');
-                    if(data.notseen == 0) {
+                    if(data.notseen == '') {
                         $('#countnotsee').css('display','none');
                     }
                     else {

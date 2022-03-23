@@ -571,7 +571,7 @@ $notifications = $model->getNotification();
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown-user">
                         <a class="dropdown-item" href="accountsettings">
-                            <i class="mr-50" data-feather="user"></i> Profile </a>
+                            <i class="mr-50" data-feather="user"></i> Hồ sơ </a>
                         <!-- <a class="dropdown-item" href="app-email.html">
                             <i class="mr-50" data-feather="mail"></i> Inbox </a>
                         <a class="dropdown-item" href="app-todo.html">
@@ -586,7 +586,7 @@ $notifications = $model->getNotification();
                         <a class="dropdown-item" href="page-faq.html">
                             <i class="mr-50" data-feather="help-circle"></i> FAQ </a> -->
                         <a class="dropdown-item" href="javascript:void()" onclick="logout()">
-                            <i class="mr-50" data-feather="power"></i> Logout </a>
+                            <i class="mr-50" data-feather="power"></i> Đăng xuất </a>
                     </div>
                 </li>
             </ul>
@@ -734,23 +734,22 @@ $notifications = $model->getNotification();
                         <!-- <h2 class="brand-text">G-OFFICEx</h2> -->
                         <?php
                         $logo = $model->getLogo();
-                        foreach ($logo as $item) {
                         ?>
                             <?php
-                            if ($item['id'] == 7) {
+                                $logomaxconfig = 'https://velo.vn/goffice/layouts/g-office-logo.png';
+                                $logominconfig = 'https://velo.vn/goffice/layouts/favicon.png';
+                                $logomax = isset($logo[7]) ? $logo[7]['value'] : '';
+                                $logomin = isset($logo[8]) ? $logo[8]['value'] : '';
                             ?>
                                 <div id="maxlogo">
-                                    <img onerror="this.src='<?= HOME ?>/layouts/g-office-logo.png'" src="<?=  $item['value'] ?>" height="30" alt="logo">
+                                    <img onerror="this.src='<?= $logomaxconfig ?>'" src="<?= $logomax ?>" height="30" alt="logo">
                                 </div>
-                            <?php } else { ?>
+                         
                                 <div class="brand-logo d-none" id="minlogo">
-                                    <img onerror="this.src='<?= HOME ?>/layouts/favicon.png'" src="<?=  $item['value'] ?>" height="36" />
+                                    <img onerror="this.src='<?= $logominconfig ?>'" src="<?=  $logomin ?>" height="36" />
                                 </div>
-                            <?php
-                            }
-                            ?>
-                    </a>
-                <?php } ?>
+                           
+             
                 </li>
 
                 <li class="nav-item nav-toggle">
