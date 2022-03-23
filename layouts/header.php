@@ -734,12 +734,13 @@ $notifications = $model->getNotification();
                         <!-- <h2 class="brand-text">G-OFFICEx</h2> -->
                         <?php
                         $logo = $model->getLogo();
+
                         ?>
                             <?php
                                 $logomaxconfig = 'https://velo.vn/goffice/layouts/g-office-logo.png';
                                 $logominconfig = 'https://velo.vn/goffice/layouts/favicon.png';
-                                $logomax = isset($logo[7]) ? $logo[7]['value'] : '';
-                                $logomin = isset($logo[8]) ? $logo[8]['value'] : '';
+                                $logomax = isset($logo[0]) ? $logo[0]['value'] : '';
+                                $logomin = isset($logo[1]) ? $logo[1]['value'] : '';
                             ?>
                                 <div id="maxlogo">
                                     <img onerror="this.src='<?= $logomaxconfig ?>'" src="<?= $logomax ?>" height="30" alt="logo">
