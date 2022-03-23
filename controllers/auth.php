@@ -16,7 +16,7 @@ class auth extends Controller
   function login()
   {
     if (isset($_REQUEST['username']) && isset($_REQUEST['password'])) {
-      $username = md5($_REQUEST['username']);
+      $username = md5(trim($_REQUEST['username']));
       $password = md5(md5($_REQUEST['password']));
       $data = $this->model->checkIn($username, $password);
       if (isset($data['id'])) {

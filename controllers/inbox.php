@@ -72,12 +72,13 @@ class inbox extends Controller
             }
             $attachmentFile = $filenames;
         }
+       
         $row = 0;
         $dataInboxReceiver= [];
         $inboxIds= [];
 
         $dataSend = array('senderId'=>$_SESSION['user']['staffId'], 'title'=>$title, 'content'=>$content,
-        'receiverId'=>0, 'status'=>1, 'dateTime'=>date('Y-m-d H:i:s'),'attachmentFile'=>$attachmentFile, 'link'=>'inbox');
+        'receiverId'=>0, 'status'=>1, 'dateTime'=>date('Y-m-d H:i:s'), 'attachmentFile'=>$attachmentFile, 'link'=>'inbox');
         $idInbox = $this->model->addInboxSend($dataSend);
         if($idInbox < 0) {
             $jsonObj['msg'] = "Lỗi khi cập nhật database".$receiverId;

@@ -90,7 +90,7 @@
                                             <!-- upload and reset button -->
                                             <div class="media-body mt-75 ml-1">
                                                 <label for="hinhanh" class="btn btn-sm btn-primary mb-75 mr-75">Tải lên</label>
-                                                <button class="btn btn-sm btn-outline-secondary mb-75" onclick="xoaanh()">Reset</button>
+                                                <!-- <button class="btn btn-sm btn-outline-secondary mb-75" onclick="xoaanh()">Reset</button> -->
                                                 <form id="upload-avt">
                                                     <input type="file" id="hinhanh" name="hinhanh" hidden accept="image/*" onchange="thayanh()" />
                                                 </form>
