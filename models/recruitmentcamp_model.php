@@ -57,6 +57,19 @@ class recruitmentcamp_Model extends Model{
         return $result;
     }
 
+    function getRecruimentResult($id) {
+        $result = array();
+        $query = $this->db->query("SELECT id,title,quantity, 
+        (SELECT name FROM department WHERE STATUS = 1 AND id = recruitmentcamp.department) AS department, 
+        (SELECT name FROM position WHERE STATUS = 1 AND id = recruitmentcamp.position) AS position, 
+        (SELECT COUNT(1) FROM interview WHERE STATUS = 1 AND campId = recruitmentcamp.id) AS countInterview, 
+        (SELECT COUNT(1) FROM interview WHERE STATUS = 1 AND campId = recruitmentcamp.id AND result in (2,5)) AS countqualified, 
+        (SELECT COUNT(1) FROM interview WHERE STATUS = 1 AND campId = recruitmentcamp.id AND result = 5) AS countReceived 
+        FROM recruitmentcamp WHERE STATUS = 1 AND id = $id ORDER BY id DESC");
+        $result['data'] = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
     function getStaff() {
         $result = array();
         $query = $this->db->query("SELECT id, name AS `text` FROM staffs WHERE status > 0");
