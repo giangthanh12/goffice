@@ -69,7 +69,7 @@ class inbox_Model extends Model{
     }
     function getInfoSender($idStaff) {
         $info = '';
-        $query = $this->db->query("SELECT name,avatar FROM staffs where status > 0 and status < 7 and id = $idStaff");
+        $query = $this->db->query("SELECT name,avatar FROM staffs where status in (1,2,3,4,0) and id = $idStaff");
         $temp = $query->fetchAll(PDO::FETCH_ASSOC);
         if(!empty($temp[0])) 
         $info = $temp[0];
@@ -105,7 +105,7 @@ class inbox_Model extends Model{
     function getEmployee(){
         $result = array();
         $query = $this->db->query("SELECT id, name, avatar
-              FROM staffs WHERE status IN (1,2,3,4) ORDER BY name ASC");
+              FROM staffs WHERE status IN (1,2,3,4,0) ORDER BY name ASC"); // -1 là admin
         if ($query)
             $result = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;
@@ -133,7 +133,7 @@ class inbox_Model extends Model{
 
     function getIdStaff() {
         $result = [];
-        $query = $this->db->query("SELECT id FROM staffs WHERE status>0 AND status<7");
+        $query = $this->db->query("SELECT id FROM staffs WHERE status IN (1,2,3,4,0)");
         if ($query) {
             $temp = $query->fetchAll(PDO::FETCH_ASSOC);
             foreach($temp as $item) {
