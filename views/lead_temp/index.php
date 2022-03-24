@@ -65,7 +65,7 @@
                     <div id="users-list" class="chat-user-list-wrapper list-group" style="position: relative;">
                         <div class="row">
                             <div class="col-lg-8">
-                                <h4 class="chat-list-title container-xxl">Cơ hội</h4>
+                                <h4 class="chat-list-title container-xxl">Danh sách</h4>
                             </div>
                             <div class="col-lg-4">
                                 <div class="icon-sidebar-left">
