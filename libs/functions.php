@@ -37,7 +37,7 @@ class functions {
                 $i++;
             }
             if (move_uploaded_file($filetemp, $target))
-                return $name;
+                return $newfile;
             else
                 return '';
         }
