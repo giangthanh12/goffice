@@ -1,4 +1,4 @@
-<?php
+ <?php
 class todo_Model extends Model
 {
     function __construct()
@@ -23,13 +23,15 @@ class todo_Model extends Model
             //     (SELECT name FROM tasklabels WHERE id=a.label) AS labelText,
             //     (SELECT COUNT(1) FROM commenttasks WHERE taskId=a.id) AS comment
             //     FROM tasks a $dieukien ORDER BY id DESC ");
-        } elseif ($catid == 4)
+        } elseif ($catid == 4){
             $dieukien = " WHERE assigneeId=$nhanvien AND status=0 ";
         // $query = $this->db->query("SELECT id, title, label, assigneeId, description, deadline,status,
         //     (SELECT avatar FROM staffs WHERE id=a.assignerId) AS avatar, projectId,
         //     (SELECT name FROM tasklabels WHERE id=a.label) AS labelText,
         //     (SELECT COUNT(1) FROM commenttasks WHERE taskId=a.id) AS comment
         //     FROM tasks a $dieukien ORDER BY id DESC ");
+        } elseif ($catid == 7)
+             $dieukien = " WHERE assignerId=$nhanvien AND status IN (1,2,3,4,5) ";
         else {
             $dieukien = " WHERE assigneeId=$nhanvien AND status IN (1,2,3,4,5) ";
         }

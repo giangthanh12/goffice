@@ -734,6 +734,7 @@ $notifications = $model->getNotification();
                         <!-- <h2 class="brand-text">G-OFFICEx</h2> -->
                         <?php
                         $logo = $model->getLogo();
+
                         ?>
                             <?php
                                 $logomaxconfig = 'https://velo.vn/goffice/layouts/g-office-logo.png';

@@ -280,7 +280,7 @@ class Model
     }
     function getNotification() {
     
-        $staffId = $_SESSION['user']['staffId'];
+        $staffId ='"'.$_SESSION['user']['staffId'].'"';
         $query = $this->db->query("SELECT id,title,content,
         (SELECT avatar FROM staffs where  id = events.senderId) as avatar
          FROM events where receiverId LIKE '%$staffId%' AND status in (1,2)  ORDER BY id DESC");
