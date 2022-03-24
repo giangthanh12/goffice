@@ -400,7 +400,9 @@ $(function () {
                 processData: false, // do not transform to query string
                 dataType: "json",
             }).done(function(response) {
+                console.log(response);
                 if (response.success) {
+                    console.log(1);
                     getCount();
                     $("#my-task-list").load(window.location.href + "?type="+type+" #my-task-list");
               
@@ -767,15 +769,25 @@ function forwardMsg() {
 }
 
 $('#my-task-list').scroll(function (e) {
-    console.log($('#my-task-list')[0].scrollHeight);
-    console.log($('#my-task-list')[0].offsetHeight);
-   
-   var page;
+    // console.log($('#my-task-list')[0].scrollHeight);
+    // console.log($('#my-task-list')[0].offsetHeight); //
+    // console.log($('#my-task-list')[0].scrollTop);
+    // console.log($('#my-task-list')[0].scrollTop + $('#my-task-list')[0].offsetHeight);
+    // console.log($('#my-task-list')[0].scrollHeight);
    var selectedType = $('#selectedType').val();
+//    var page = $('#page').val();
+//    console.log(page);
+//    return;
+    var page = $('#page').val();
+    if(page == 'false')
+    return;
+  
     // $('#chat_id').textbox({value: scroll.scrollTop + scroll.offsetHeight});
-    if ($('#my-task-list')[0].scrollTop + $('#my-task-list')[0].offsetHeight >= $('#my-task-list')[0].scrollHeight) {
-        page = $('#page').val();
+    if ($('#my-task-list')[0].scrollTop + $('#my-task-list')[0].offsetHeight >= $('#my-task-list')[0].scrollHeight-3) {
+      
         page++;
+        console.log('ok');
+        console.log(page);
         $.ajax(
             {
                 type: 'get',
@@ -827,6 +839,9 @@ $('#my-task-list').scroll(function (e) {
                                     </li>
                             `)
                         })
+                    }
+                    else {
+                        $('#page').val('false');
                     }
                 }
             })

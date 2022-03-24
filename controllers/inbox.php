@@ -50,35 +50,38 @@ class inbox extends Controller
 
     function sendMsg()
     {
-        $receiverId = json_encode($_REQUEST['email-to']);
+        $receiverId = $_REQUEST['email-to'];
         if ($receiverId=='["0"]')
-        $_REQUEST['email-to'] = $this->model->getIdStaff();
+        $receiverId = $this->model->getIdStaff(); // gửi all
+
+    
         $title = $_REQUEST['emailSubject'];
         $content = $_REQUEST['body'];
         $info = $this->model->getInfoSender($_SESSION['user']['staffId']);
-        $data = array('senderId'=>$_SESSION['user']['staffId'], 'title'=>$title, 'content'=>$content,
-            'receiverId'=>$receiverId, 'status'=>1, 'dateTime'=>date('Y-m-d H:i:s'), 'link'=>'inbox');
-            $attachmentFile = '';
-            if($_FILES['files']['name'][0]!='') {
-            $dir = ROOT_DIR . '/uploads/dinhkem/';
-            $filenames = '';
-            for($i=0;$i<count($_FILES['files']['name']);$i++) {
-                $fname = functions::upfiles($_FILES['files']['name'][$i], $_FILES['files']['size'][$i], $_FILES['files']['tmp_name'][$i], $dir);
-                if ($fname!='')
-                    if($filenames=='')
-                        $filenames = $fname;
-                    else
-                        $filenames .= ','.$fname;
-            }
-            $attachmentFile = $filenames;
+        // gửi file
+        $attachmentFile = '';
+        if($_FILES['files']['name'][0]!='') {
+        $dir = ROOT_DIR . '/uploads/dinhkem/';
+        $filenames = '';
+        for($i=0;$i<count($_FILES['files']['name']);$i++) {
+            $fname = functions::upfiles($_FILES['files']['name'][$i], $_FILES['files']['size'][$i], $_FILES['files']['tmp_name'][$i], $dir);
+            if ($fname!='')
+                if($filenames=='')
+                    $filenames = $fname;
+                else
+                    $filenames .= ','.$fname;
         }
-       
+        $attachmentFile = $filenames;
+    }
+ 
+      
         $row = 0;
         $dataInboxReceiver= [];
         $inboxIds= [];
 
         $dataSend = array('senderId'=>$_SESSION['user']['staffId'], 'title'=>$title, 'content'=>$content,
         'receiverId'=>0, 'status'=>1, 'dateTime'=>date('Y-m-d H:i:s'), 'attachmentFile'=>$attachmentFile, 'link'=>'inbox');
+      
         $idInbox = $this->model->addInboxSend($dataSend);
         if($idInbox < 0) {
             $jsonObj['msg'] = "Lỗi khi cập nhật database".$receiverId;
@@ -86,7 +89,7 @@ class inbox extends Controller
             echo json_encode($jsonObj);
             return;
         }
-        foreach($_REQUEST['email-to'] as $key=>$item) {
+        foreach($receiverId as $key=>$item) {
             $data = array('senderId'=>$_SESSION['user']['staffId'], 'title'=>$title, 'content'=>$content,
             'receiverId'=>json_encode([$item]), 'status'=>1,'attachmentFile'=>$attachmentFile, 'dateTime'=>date('Y-m-d H:i:s'), 'link'=>'inbox');
             $idInbox = $this->model->add($data);
@@ -94,7 +97,6 @@ class inbox extends Controller
             $dataInboxReceiver[] = array('inboxId'=> $idInbox, 'receiverId'=>$item);
             $row++;
         }
-      
         if ($row > 0) {
             $jsonObj['data'] = array('senderId'=>$_SESSION['user']['staffId'], 'avatar'=>$info['avatar'],'nameSender'=>$info['name'] ,'title'=>$title, 'content'=>$content,
             'receiverId'=>$_REQUEST['email-to'], 'status'=>1,'idInbox'=>$dataInboxReceiver,'inboxIds'=>$inboxIds, 'dateTime'=>date('Y-m-d H:i:s'), 'link'=>'inbox');
