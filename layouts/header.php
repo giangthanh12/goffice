@@ -738,8 +738,8 @@ $notifications = $model->getNotification();
                             <?php
                                 $logomaxconfig = 'https://velo.vn/goffice/layouts/g-office-logo.png';
                                 $logominconfig = 'https://velo.vn/goffice/layouts/favicon.png';
-                                $logomax = isset($logo[7]) ? $logo[7]['value'] : '';
-                                $logomin = isset($logo[8]) ? $logo[8]['value'] : '';
+                                $logomax = isset($logo[0]) ? $logo[0]['value'] : '';
+                                $logomin = isset($logo[1]) ? $logo[1]['value'] : '';
                             ?>
                                 <div id="maxlogo">
                                     <img onerror="this.src='<?= $logomaxconfig ?>'" src="<?= $logomax ?>" height="30" alt="logo">
@@ -763,7 +763,7 @@ $notifications = $model->getNotification();
         </div>
         <div class="shadow-bottom"></div>
         <div class="main-menu-content">
-            <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
+            <ul class="navigation navigation-main mt-2" id="main-menu-navigation" data-menu="menu-navigation">
                 <li class=" nav-item">
                     <a class="d-flex align-items-center" href="">
                         <!-- <i data-feather="home"></i> -->
