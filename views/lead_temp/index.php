@@ -9,7 +9,7 @@
             <div class="row breadcrumbs-top">
                 <div class="col-12">
                     <h2 class="content-header-title float-left mb-0" id="title_module">
-                        Cơ hội kinh doanh <img src="<?=HOME?>/layouts/tooltip.png" style="margin: 0 15px" width="25px" id="current_ip" data-toggle="tooltip" data-placement="right" data-original-title="Là chức năng quản lý thông tin cá nhân, tình trạng và lịch sự chăm sóc của những khách hàng quan tâm đến SP/DV của doanh nghiệp   " data-trigger="click" >
+                        Cơ hội kinh doanh <img src="<?= HOME ?>/layouts/tooltip.png" style="margin: 0 15px" width="25px" id="current_ip" data-toggle="tooltip" data-placement="right" data-original-title="Là chức năng quản lý thông tin cá nhân, tình trạng và lịch sự chăm sóc của những khách hàng quan tâm đến SP/DV của doanh nghiệp   " data-trigger="click">
                     </h2>
                 </div>
             </div>
@@ -149,96 +149,101 @@
                         <div class="active-chat">
                             <!-- User Chat messages -->
                             <div class="user-chats">
-                                <div class="chats">
-                                    <div class="row customer-item">
-                                        <div class="content-right-detail col-lg-6">
-                                            <label>Thông tin khách hàng</label>
-                                            
-                                        </div>
-                                        <div class="content-right-icon col-lg-2" style="margin-left: 300px;margin-top: 10px;" id="btn-baogia">
-                                            <!-- <i class='bx bx-trash-alt bx-sm'></i> -->
-                                            <!-- <i class='bx bx-pencil bx-sm'></i> -->
-                                        </div>
-                                    </div>
-                                    <hr style="border-top: 1px solid black; margin:1rem;">
-                                    <div class="content-right-info row">
-                                        <div class="col-lg-6">
-                                            <div class="row">
-                                                <div class="col-lg-5">
-                                                    <p>Khách hàng:</p>
-                                                </div>
-                                                <div class="col-lg-7">
-                                                    <p id="fullName"></p>
-                                                </div>
+                                <div style="padding-top: 70px; padding-left: 160px;" id="banner">
+                                    <h5 style="padding-left: 60px;margin-bottom: 50px;">Chọn cơ hội kinh doanh bạn muốn xem thông tin</h5>
+                                    <img width="550px" src="<?= HOME ?>/layouts/lead_temp.png" alt="">
+                                </div>
+                                <div class=" d-none" id="show-detail">
+                                    <div class="chats">
+                                        <div class="row customer-item">
+                                            <div class="content-right-detail col-lg-6">
+                                                <label>Thông tin khách hàng</label>
+
                                             </div>
-                                            <div class="row">
-                                                <div class="col-lg-5">
-                                                    <p>Mã số thuế:</p>
-                                                </div>
-                                                <div class="col-lg-7">
-                                                    <p id="taxCode"></p>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-lg-5">
-                                                    <p>Địa chỉ:</p>
-                                                </div>
-                                                <div class="col-lg-7">
-                                                    <p id="address"></p>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-lg-5">
-                                                    <p>Loại khách hàng:</p>
-                                                </div>
-                                                <div class="col-lg-7">
-                                                    <p id="type"></p>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-lg-5">
-                                                    <p>Người phụ trách:</p>
-                                                </div>
-                                                <div class="col-lg-7">
-                                                    <p id="staffName"></p>
-                                                </div>
+                                            <div class="content-right-icon col-lg-6 text-center" style="padding: 2px 27px 0 280px;" id="btn-baogia">
+                                                <!-- <i class='bx bx-trash-alt bx-sm'></i> -->
+                                                <!-- <i class='bx bx-pencil bx-sm'></i> -->
                                             </div>
                                         </div>
-                                        <div class="col-lg-6">
-                                            <div class="row">
-                                                <div class="col-lg-5">
-                                                    <p>Tình trạng:</p>
+                                        <hr style="border-top: 1px solid black; margin:1rem;">
+                                        <div class="content-right-info row">
+                                            <div class="col-lg-6">
+                                                <div class="row">
+                                                    <div class="col-lg-5">
+                                                        <p>Khách hàng:</p>
+                                                    </div>
+                                                    <div class="col-lg-7">
+                                                        <p id="fullName"></p>
+                                                    </div>
                                                 </div>
-                                                <div class="col-lg-7">
-                                                    <div id="status" class="btn-right-info">
+                                                <div class="row">
+                                                    <div class="col-lg-5">
+                                                        <p>Mã số thuế:</p>
+                                                    </div>
+                                                    <div class="col-lg-7">
+                                                        <p id="taxCode"></p>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-5">
+                                                        <p>Địa chỉ:</p>
+                                                    </div>
+                                                    <div class="col-lg-7">
+                                                        <p id="address"></p>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-5">
+                                                        <p>Loại khách hàng:</p>
+                                                    </div>
+                                                    <div class="col-lg-7">
+                                                        <p id="type"></p>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-5">
+                                                        <p>Người phụ trách:</p>
+                                                    </div>
+                                                    <div class="col-lg-7">
+                                                        <p id="staffName"></p>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="row">
-                                                <div class="col-lg-5">
-                                                    <p>Người đại diện:</p>
+                                            <div class="col-lg-6">
+                                                <div class="row">
+                                                    <div class="col-lg-5">
+                                                        <p>Tình trạng:</p>
+                                                    </div>
+                                                    <div class="col-lg-7">
+                                                        <div id="status" class="btn-right-info">
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <div class="col-lg-7">
-                                                    <p id="representative"></p>
+                                                <div class="row">
+                                                    <div class="col-lg-5">
+                                                        <p>Người đại diện:</p>
+                                                    </div>
+                                                    <div class="col-lg-7">
+                                                        <p id="representative"></p>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-lg-5">
-                                                    <p>Số điện thoại:</p>
+                                                <div class="row">
+                                                    <div class="col-lg-5">
+                                                        <p>Số điện thoại:</p>
+                                                    </div>
+                                                    <div class="col-lg-7">
+                                                        <p id="phoneNumber"></p>
+                                                    </div>
                                                 </div>
-                                                <div class="col-lg-7">
-                                                    <p id="phoneNumber"></p>
+                                                <div class="row">
+                                                    <div class="col-lg-5">
+                                                        <p>Email:</p>
+                                                    </div>
+                                                    <div class="col-lg-7">
+                                                        <p id="email"></p>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-lg-5">
-                                                    <p>Email:</p>
-                                                </div>
-                                                <div class="col-lg-7">
-                                                    <p id="email"></p>
-                                                </div>
-                                            </div>
-                                            <!-- <div class="row">
+                                                <!-- <div class="row">
                                                 <div class="col-lg-5">
                                                     <p>Ngày tạo:</p>
                                                 </div>
@@ -246,25 +251,28 @@
                                                     <p id="dateTime"></p>
                                                 </div>
                                             </div> -->
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="takecare-item">
-                                    <div class="row">
-                                        <div class="takecare-history col-lg-8 col-md-8">
-                                            <label>Lịch sử chăm sóc</label>
-                                        </div>
-                                        <?php if ($this->funtakecare == 1) { ?>
-                                            <div class="float-right col-lg-3 col-md-3" style="padding-top:15px;">
-                                                <i class='bx bx-plus-circle bx-md float-right' onclick="showModalTakeCare()"></i>
                                             </div>
-                                        <?php } ?>
+                                        </div>
                                     </div>
-                                    <hr style="border-top: 1px solid black; margin:1rem;">
-                                    <div class="takecare-history-detail" id="history" style="height: 787px; overflow: scroll;">
+                                    <div class="takecare-item">
+                                        <div class="row">
+                                            <div class="takecare-history col-lg-8 col-md-8">
+                                                <label>Lịch sử chăm sóc</label>
+                                            </div>
+                                            <?php if ($this->funtakecare == 1) { ?>
+                                                <div class="float-right col-lg-3 col-md-3" style="padding-top:15px;">
+                                                    <i class='bx bx-plus-circle bx-md float-right' onclick="showModalTakeCare()"></i>
+                                                </div>
+                                            <?php } ?>
+                                        </div>
+                                        <hr style="border-top: 1px solid black; margin:1rem;">
+                                        <div class="takecare-history-detail" id="history" style="height: 787px; overflow: scroll;">
+                                        </div>
                                     </div>
                                 </div>
+
                             </div>
+
                         </div>
                         <!--/ Active Chat -->
                     </section>
@@ -648,6 +656,6 @@
 
 </div>
 <script>
-var funEdit = <?=$this->funEdit?>;
+    var funEdit = <?= $this->funEdit ?>;
 </script>
 <script src="<?= HOME ?>/js/lead_temp.js"></script>

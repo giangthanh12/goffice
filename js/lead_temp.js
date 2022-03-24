@@ -503,7 +503,7 @@ $('#list-lead').on('click', '.sidebar-list', function () {
         dataType: "json",
         data: { id: customerId },
         success: function (data) {
-            $('#btn-baogia').html('<a style="text-align: center" class="form-control btn-primary" href='+ baseHome +'/baogia/add>Báo giá</a>');
+            $('#btn-baogia').html('<a class="form-control btn-primary" href="'+ baseHome +'/baogia/add"> Báo giá </a>')
             $('#fullName').html(data.fullName);
             $('#taxCode').html(data.taxCode);
             $('#address').html(data.address);
@@ -527,6 +527,8 @@ $('#list-lead').on('click', '.sidebar-list', function () {
                 $('#status').html('<button class="btn-statement-red">Khách hàng đã dùng dịch vụ</button>');
             else
                 $('#status').html('<button class="btn-statement-yellow">Chưa rõ</button>');
+            $('#banner').addClass('d-none');
+            $('#show-detail').removeClass('d-none');
         },
     });
     // let status = $(this).data("status");

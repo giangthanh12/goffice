@@ -764,7 +764,7 @@ $notifications = $model->getNotification();
         </div>
         <div class="shadow-bottom"></div>
         <div class="main-menu-content">
-            <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
+            <ul class="navigation navigation-main mt-2" id="main-menu-navigation" data-menu="menu-navigation">
                 <li class=" nav-item">
                     <a class="d-flex align-items-center" href="">
                         <!-- <i data-feather="home"></i> -->
