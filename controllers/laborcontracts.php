@@ -89,6 +89,12 @@ class laborcontracts extends Controller
         $status = isset($_REQUEST['status']) ? $_REQUEST['status'] : 1;
         $description = isset($_REQUEST['description']) ? $_REQUEST['description'] : '';
         // tải file hợp đồng
+        // checkfolder
+        // echo URLFILE.'/uploads/laborcontract';
+        // return;
+        if(!is_dir('users/'.$_COOKIE['folder'].'/uploads/laborcontract')) {
+            mkdir('users/'.$_COOKIE['folder'].'/uploads/laborcontract');
+        } 
         $filename = $_FILES['file']['name'];
         $fname = explode('.',$filename);
         $fname = functions::convertname($fname[0]);
