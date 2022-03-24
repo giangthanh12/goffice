@@ -153,8 +153,9 @@
                                     <div class="row customer-item">
                                         <div class="content-right-detail col-lg-6">
                                             <label>Thông tin khách hàng</label>
+                                            
                                         </div>
-                                        <div class="content-right-icon col-lg-6">
+                                        <div class="content-right-icon col-lg-2" style="margin-left: 300px;margin-top: 10px;" id="btn-baogia">
                                             <!-- <i class='bx bx-trash-alt bx-sm'></i> -->
                                             <!-- <i class='bx bx-pencil bx-sm'></i> -->
                                         </div>
