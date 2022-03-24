@@ -1018,6 +1018,8 @@ function loadRecruimentResult(id){
             ordering: false,
             destroy: true,
             autoWidth: false,
+            searching: false,
+            paginate:false,
             // ajax: assetPath + "data/user-list.json", // JSON file to add data
             ajax: baseHome + "/recruitmentcamp/loadRecruimentResult?id="+id,
             columns: [
@@ -1027,14 +1029,6 @@ function loadRecruimentResult(id){
                 { data: "countReceived" },
              
             ],
-            // columnDefs: [
-               
-           
-                
-               
-               
-            // ],
-            // order: [[2, "desc"]],
             dom:
                 '<"d-flex justify-content-between align-items-center header-actions mx-1 row mt-75"' +
                 '<"col-lg-12 col-xl-6" l>' +
@@ -1045,14 +1039,6 @@ function loadRecruimentResult(id){
                 '<"col-sm-12 col-md-6"p>' +
                 ">",
                 language: {
-                    sLengthMenu: "Hiển thị _MENU_",
-                    search: "",
-                    searchPlaceholder: "Tìm kiếm...",
-                    paginate: {
-                        // remove previous & next text from pagination
-                        previous: "&nbsp;",
-                        next: "&nbsp;",
-                    },
                     info: "Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
                     infoFiltered: "(lọc từ _MAX_ bản ghi)",
                     "sInfoEmpty": "Hiển thị 0 đến 0 của 0 bản ghi",
