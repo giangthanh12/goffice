@@ -223,6 +223,13 @@ class recruitmentcamp extends Controller
 
     }
 
+    function loadRecruimentResult() {
+        $id = $_REQUEST['id'];
+        $jsonObj = $this->model->getRecruimentResult($id);
+        echo json_encode($jsonObj);
+
+    }
+
     function delCandidate() {
         if (self::$funEdit == 0) {
             $jsonObj['msg'] = 'Bạn không có quyền sử dụng chức năng này';

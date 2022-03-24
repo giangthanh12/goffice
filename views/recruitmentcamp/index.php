@@ -241,6 +241,11 @@
                                                         <i data-feather="info"></i><span class="d-none d-sm-block">Kết quả phỏng vấn</span>
                                                     </a>
                                                 </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link d-flex align-items-center " id="interviewResult-tab" data-toggle="tab" href="#recruimentResult" aria-controls="information" role="tab" aria-selected="false">
+                                                        <i data-feather="info"></i><span class="d-none d-sm-block">Kết quả chiến dịch</span>
+                                                    </a>
+                                                </li>
                                               
                                             </ul>
                                             <div class="tab-content">
@@ -451,6 +456,27 @@
                                                                     <th>Số điện thoại</th>
                                                                     <th>Kết quả</th>
                                                                     <th ></th>
+                                                                </tr>
+                                                            </thead>
+                                                        </table>
+                                                    </div>
+                                                </div>
+
+                                                <div class="tab-pane card" id="recruimentResult" width="100%" aria-labelledby="recruimentResult-tab" role="tabpanel">
+                                                    <div class="table-responsive border rounded mt-1">
+                                                        <h6 class="py-1 mx-1 mb-0 font-medium-2">
+                                                            <i data-feather="lock" class="font-medium-3 mr-25"></i>
+                                                            <span class="align-middle">Chi tiết</span>
+                                                       
+                                                        </h6>
+                                                        <table class="table recruiment-result-table" id="recruiment-result-table">
+                                                            <thead class="thead-light">
+                                                                <tr>
+                                                                    <th>Kế hoạch tuyển dụng</th>
+                                                                    <th>Số phỏng vấn</th>
+                                                                    <th>Số đạt yêu cầu</th>
+                                                                    <th>Số nhận việc</th>
+                                                                    
                                                                 </tr>
                                                             </thead>
                                                         </table>
