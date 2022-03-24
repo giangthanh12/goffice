@@ -503,7 +503,7 @@ $('#list-lead').on('click', '.sidebar-list', function () {
         dataType: "json",
         data: { id: customerId },
         success: function (data) {
-            $('#btn-baogia').html('<button class="form-control btn-primary" href='+ baseHome +'/baogia/add> Báo giá </button>')
+            $('#btn-baogia').html('<a style="text-align: center" class="form-control btn-primary" href='+ baseHome +'/baogia/add>Báo giá</a>');
             $('#fullName').html(data.fullName);
             $('#taxCode').html(data.taxCode);
             $('#address').html(data.address);
