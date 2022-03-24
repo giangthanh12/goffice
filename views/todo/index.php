@@ -30,6 +30,9 @@
                                     <i data-feather="mail" class="font-medium-3 mr-50"></i>
                                     <span class="align-middle"> Việc đang làm</span>
                                 </a>
+                                <a href="javascript:void(0)" onclick="listMyTask(7)" class="list-group-item list-group-item-action">
+                                    <i data-feather="trending-up" class="font-medium-3 mr-50"></i> <span class="align-middle">Việc đã giao</span>
+                                </a>
                                 <a href="javascript:void(0)" onclick="listMyTask(2)" class="list-group-item list-group-item-action">
                                     <i data-feather="star" class="font-medium-3 mr-50"></i> <span class="align-middle">Trễ deadline</span>
                                 </a>
