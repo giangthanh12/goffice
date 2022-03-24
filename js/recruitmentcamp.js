@@ -640,6 +640,7 @@ function loaddata(id) {
             }
             loadListCandidate(id);
             loadInterviewResult(id);
+            loadRecruimentResult(id);
             $('#campId').val(id);
         },
         error: function () {
@@ -993,6 +994,51 @@ function loadInterviewResult(id){
                         previous: "&nbsp;",
                         next: "&nbsp;",
                     },
+                    info: "Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
+                    infoFiltered: "(lọc từ _MAX_ bản ghi)",
+                    "sInfoEmpty": "Hiển thị 0 đến 0 của 0 bản ghi",
+             
+                },
+                "oLanguage": {
+                    "sZeroRecords": "Không có bản ghi nào"
+                  }, 
+            // Buttons with Dropdown
+            buttons: [],
+           
+        
+        });
+    
+    }
+}
+
+function loadRecruimentResult(id){
+    if ($('#recruiment-result-table').length) {
+        
+        $('#recruiment-result-table').DataTable({
+            ordering: false,
+            destroy: true,
+            autoWidth: false,
+            searching: false,
+            paginate:false,
+            // ajax: assetPath + "data/user-list.json", // JSON file to add data
+            ajax: baseHome + "/recruitmentcamp/loadRecruimentResult?id="+id,
+            columns: [
+                { data: "quantity" },
+                { data: "countInterview" },
+                { data: "countqualified" },
+                { data: "countReceived" },
+             
+            ],
+            dom:
+                '<"d-flex justify-content-between align-items-center header-actions mx-1 row mt-75"' +
+                '<"col-lg-12 col-xl-6" l>' +
+                '<"col-lg-12 col-xl-6 pl-xl-75 pl-0"<"dt-action-buttons text-xl-right text-lg-left text-md-right text-left d-flex align-items-center justify-content-lg-end align-items-center flex-sm-nowrap flex-wrap mr-1"<"mr-1"f>B>>' +
+                ">t" +
+                '<"d-flex justify-content-between mx-2 row mb-1"' +
+                '<"col-sm-12 col-md-6"i>' +
+                '<"col-sm-12 col-md-6"p>' +
+                ">",
+                language: {
                     info: "Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
                     infoFiltered: "(lọc từ _MAX_ bản ghi)",
                     "sInfoEmpty": "Hiển thị 0 đến 0 của 0 bản ghi",
