@@ -59,6 +59,9 @@ class inbox extends Controller
         $content = $_REQUEST['body'];
         $info = $this->model->getInfoSender($_SESSION['user']['staffId']);
         // gửi file
+        if(!is_dir('users/'.$_COOKIE['folder'].'/uploads/dinhkem')) {
+            mkdir('users/'.$_COOKIE['folder'].'/uploads/dinhkem');
+        } 
         $attachmentFile = '';
         if($_FILES['files']['name'][0]!='') {
         $dir = ROOT_DIR . '/uploads/dinhkem/';
@@ -73,8 +76,6 @@ class inbox extends Controller
         }
         $attachmentFile = $filenames;
     }
- 
-      
         $row = 0;
         $dataInboxReceiver= [];
         $inboxIds= [];

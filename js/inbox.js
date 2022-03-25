@@ -527,6 +527,7 @@ function toggleEmail(id) {
                 $('#msgSubject').text(data.data['title']);
                 $('#dateTime').text(data.data['dateTime']);
                 $('#msgContent').html(data.data['content']);
+                $('#attachedFiles').html('');
                 if (data.data['attachmentFile'].length>0) {
                     var files = data.data['attachmentFile'].split(",");
                     var attachedFiles = '<ul>';
