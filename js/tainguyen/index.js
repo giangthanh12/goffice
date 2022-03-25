@@ -63,7 +63,7 @@ function render_table(){
             { data: 'name' },
             { data: 'chusohuu' },
             { data: 'phanloai' },
-            { data: 'nhacungcap' },
+            // { data: 'nhacungcap' },
             { data: 'nguoitao' },
             { data: 'id' }
         ],
@@ -157,7 +157,8 @@ function detail(idh){
     var Objdata = responseData.data[0];
     // console.log(responseData);
     $('#tentainguyen').text(Objdata.name); $('#chusohuu').text(Objdata.chusohuu);
-    $('#phanloai').text(Objdata.phanloai); $('#nhacungcap').text(Objdata.nhacungcap);
+    $('#phanloai').text(Objdata.phanloai); 
+    // $('#nhacungcap').text(Objdata.nhacungcap);
     $('#tendangnhap').text(Objdata.username); $('#matkhau').text(Objdata.password);
     $('#nguoitao').text(Objdata.nguoitao); $('#duongdan').text(Objdata.link);
     $('#ghichu').text(Objdata.note);

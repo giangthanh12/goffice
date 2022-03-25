@@ -38,13 +38,13 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-6 col-12">
+                                    <!-- <div class="col-md-6 col-12">
                                         <div class="form-group">
                                             <label for="city-column">Nhà cung cấp</label>
                                             <select id="nha_cung_cap" class="form-control" name="nha_cung_cap">
                                             </select>
                                         </div>
-                                    </div>
+                                    </div> -->
                                     <div class="col-md-6 col-12">
                                         <div class="form-group">
                                             <label for="company-column">Phân loại</label>

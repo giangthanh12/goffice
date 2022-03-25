@@ -79,7 +79,7 @@
                                         <th>Chủ sở hữu</th>
 
                                         <th>Phân loại</th>
-                                        <th>Nhà cung cấp</th>
+                                        <!-- <th>Nhà cung cấp</th> -->
                                         <th>Người tạo</th>
 
                                         <th></th>
@@ -134,13 +134,13 @@
 
                                 </div>
 
-                                <div class="form-group">
+                                <!-- <div class="form-group">
 
                                     <label class="form-label" for="name">Nhà cung cấp</label><br />
 
                                     <span class="font-weight-bold text-primary" id="nhacungcap">Gemstech</span>
 
-                                </div>
+                                </div> -->
 
                                 <div class="form-group">
 

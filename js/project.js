@@ -33,6 +33,10 @@ $(function () {
     load_select($('#level'), baseHome + '/project/getLevelProject','Cấp độ dự án','loadLevelProject');
     load_select($('#status'), baseHome + '/project/getStatusProject', 'Trạng thái dự án', 'loadStatusProject');
     
+    $('.flatpickr-basic').flatpickr({
+        dateFormat: "d-m-Y",
+        minDate: "today",
+    });
     
     $('#level').change(function() {
         changeColorLevel();
