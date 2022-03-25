@@ -678,36 +678,43 @@ $('#btnUpdate').on('click', function () {
                 success: function (result) {
                    console.log(result);
                     if (result.code == 200) {
+                        if(result.countObject) {
+                            var requestId = result.data.requestId;
+                            var defineId = $('#defineId').val();
+                            console.log(defineId); // tên yêu cầu
+                            console.log(requestId);// đề xuất ý kiến theo yêu cầu
+                            $('#fmProperties').validate({
+                                submitHandler: function (formPro) {
+                                    var formDataPro = new FormData(formPro);
+                                    $.ajax({
+                                        url: baseHome + '/request/saveProperties?defineId=' + defineId + '&requestId=' + requestId,
+                                        type: 'POST',
+                                        data: formDataPro,
+                                        async: false,
+                                        cache: false,
+                                        contentType: false,
+                                        // enctype: 'multipart/form-data',
+                                        processData: false,
+                                        dataType: "json",
+                                        success: function (data) {
+                                            if (data.code == 200) {
+                                                initRequest(0,0);
+                                                $('.modal').modal('hide');
+                                                notyfi_success(result.message);
+                                            } else
+                                                notify_error(result.message);
+                                        }
+                                    });
+                                }
+                            });
+                            $('#fmProperties').submit();
+                           
+                        }else{
+                            initRequest(0,0);
+                            $('.modal').modal('hide');
+                            notyfi_success(result.message);
+                        }
                       
-                        var requestId = result.data.requestId;
-                        var defineId = $('#defineId').val();
-                        console.log(defineId);
-                        console.log(requestId);
-                        $('#fmProperties').validate({
-                            submitHandler: function (formPro) {
-                                var formDataPro = new FormData(formPro);
-                                $.ajax({
-                                    url: baseHome + '/request/saveProperties?defineId=' + defineId + '&requestId=' + requestId,
-                                    type: 'POST',
-                                    data: formDataPro,
-                                    async: false,
-                                    cache: false,
-                                    contentType: false,
-                                    // enctype: 'multipart/form-data',
-                                    processData: false,
-                                    dataType: "json",
-                                    success: function (data) {
-                                        if (data.code == 200) {
-                                            initRequest(0,0);
-                                            $('.modal').modal('hide');
-                                            notyfi_success(result.message);
-                                        } else
-                                            notify_error(result.message);
-                                    }
-                                });
-                            }
-                        });
-                        $('#fmProperties').submit();
                     } else
                         notify_error(result.message);
                 }

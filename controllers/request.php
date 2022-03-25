@@ -173,6 +173,9 @@ class request extends Controller
         if(self::$funAdd!=1)
             return false;
         $defineId = !empty($_REQUEST['defineId']) ? $_REQUEST['defineId'] : 0;
+        // check xem có đối tượng trong yêu cầu
+        
+
         $process = $this->model->getAllStep($defineId);
         $data['defineId'] = $defineId;
         $jsonObj = [];
@@ -227,6 +230,12 @@ class request extends Controller
         } else {
             $jsonObj['code'] = 400;
             $jsonObj['message'] = "Tạo yêu cầu thất bại!";
+        }
+        
+        if($this->model->countObject($defineId)) {
+            $jsonObj['countObject'] = true;
+        }else{
+            $jsonObj['countObject'] = false;
         }
         echo json_encode($jsonObj);
     }
@@ -297,9 +306,16 @@ class request extends Controller
         $data = [];
         foreach ($properties as $item) {
             $propertyValue = isset($_REQUEST['property_' . $item['id']]) ? $_REQUEST['property_' . $item['id']] : '';
-            $dataPro['requestId'] = $requestId;
-            $dataPro['objectId'] = $item['id'];
-            $dataPro['value'] = $propertyValue;
+            // if($propertyValue != ''){
+                $dataPro['requestId'] = $requestId;
+                $dataPro['objectId'] = $item['id'];
+                $dataPro['value'] = $propertyValue;
+            // }else{
+            //     $dataPro['requestId'] = $requestId;
+            //     $dataPro['objectId'] = '';
+            //     $dataPro['value'] = $propertyValue;
+            // }
+           
             $propertyId = $this->model->getSubrequestId($requestId, $item['id']);
             if ($propertyId > 0) {
                 $ok = $this->model->updateProperty($propertyId, $dataPro);

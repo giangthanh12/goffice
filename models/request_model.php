@@ -327,7 +327,20 @@ class request_model extends Model
     {
         return $this->update("requests", $data, "id=$id AND status=1");
     }
+    function countObject($defineId)
+    {
+        $result = false;
+        $where = " WHERE status > 0 AND defineId=$defineId ";
+        $query = $this->db->query("SELECT COUNT(id) AS total
+            FROM requestobjects $where ");
+        $data = $query->fetchAll(PDO::FETCH_ASSOC);
+        if ($data[0]['total'] > 0){
+                    $result = true;
+        } 
 
+        return $result;
+        
+    }
     function updateProperty($id, $data)
     {
         return $this->update("subrequests", $data, "id=$id");
