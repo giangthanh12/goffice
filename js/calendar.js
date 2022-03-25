@@ -224,7 +224,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // eventToUpdate.allDay === true ? allDaySwitch.prop('checked', true) : allDaySwitch.prop('checked', false);
     // allDaySwitch.attr("disabled", true);
     eventToUpdate.extendedProps.endDate !== null
-      ? end.setDate(eventToUpdate.extendedProps.endDate, true, 'Y-m-d')
+      ? end.setDate(eventToUpdate.extendedProps.endDate, true, 'Y-m-d H:i')
       : end.setDate(eventToUpdate.start, true, 'Y-m-d');
     endDate.attr("disabled", true);
     sidebar.find(eventLabel).val(eventToUpdate.extendedProps.calendar).trigger('change');
