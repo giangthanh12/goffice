@@ -65,6 +65,7 @@ class interview_result_Model extends Model{
             $result = $result[0];
             $data = array(
                 'name'=>$result['fullName'],
+                'staffCode'=>mt_rand(100000, 999999),
                 'phoneNumber'=>$result['phoneNumber'],
                 'email'=>$result['email'],
                 'gender'=>$result['gender'],
