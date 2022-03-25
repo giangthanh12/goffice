@@ -3,7 +3,7 @@ $(function(){
     // if(auth.responseJSON.success){
 
         return_combobox_multi('#classify', baseHome + '/phanloai/combo', 'Lựa chọn phân loại');
-        return_combobox_multi('#supplier', baseHome + '/tainguyen/combo', 'Lựa chọn nhà cung cấp');
+        // return_combobox_multi('#supplier', baseHome + '/tainguyen/combo', 'Lựa chọn nhà cung cấp');
         return_combobox_multi('#owner', baseHome + '/khachhang/combo', 'Lựa chọn chủ sở hữu');
         // let searchParams = new URLSearchParams(window.location.search);
         // var param = searchParams.get('id');

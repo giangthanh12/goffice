@@ -38,14 +38,14 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-6 col-12">
+                                    <!-- <div class="col-md-6 col-12">
                                         <div class="form-group">
                                             <label for="city-column">Nhà cung cấp</label>
                                             <select id="supplier" class="form-control" name="supplier">
                                             <option value="">Lựa chọn nhà cung cấp</option>
                                             </select>
                                         </div>
-                                    </div>
+                                    </div> -->
                                     <div class="col-md-6 col-12">
                                         <div class="form-group">
                                             <label for="company-column">Phân loại</label>
