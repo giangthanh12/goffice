@@ -29,7 +29,7 @@ $(function () {
         levelProject = $('#level'),
         // checkboxId = 100,
         isRtl = $("html").attr("data-textdirection") === "rtl";
-    list_to_do();
+        list_to_do();
     load_select($('#level'), baseHome + '/project/getLevelProject','Cấp độ dự án','loadLevelProject');
     load_select($('#status'), baseHome + '/project/getStatusProject', 'Trạng thái dự án', 'loadStatusProject');
     
@@ -375,7 +375,7 @@ $(function () {
                 var managerId = $("#managerId").val();
                 var memberId = $('#memberId').val();
                 var process = $("#process").val();
-                var date = $(".sidebar-todo-modal .task-due-date").val();
+                var date = $("#deadline").val();
                 var description = taskDesc.find(".ql-editor p").html();
                 var status = $("#status").val();
                 var level = $("#level").val();
