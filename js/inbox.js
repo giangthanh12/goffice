@@ -768,7 +768,7 @@ function forwardMsg() {
     quill_editor[0].innerHTML = content;
     $("#compose-mail").modal("show");
 }
-
+$('#page').val(1);
 $('#my-task-list').scroll(function (e) {
     // console.log($('#my-task-list')[0].scrollHeight);
     // console.log($('#my-task-list')[0].offsetHeight); //
@@ -789,6 +789,7 @@ $('#my-task-list').scroll(function (e) {
         page++;
         console.log('ok');
         console.log(page);
+        $('#page').val(page);
         $.ajax(
             {
                 type: 'get',
@@ -846,6 +847,7 @@ $('#my-task-list').scroll(function (e) {
                     }
                 }
             })
+       
             // .always(function () {
             //     // Sau khi thực hiện xong ajax thì ẩn hidden và cho trạng thái gửi ajax = false
             //     $loadding.addClass('hidden');
@@ -854,3 +856,8 @@ $('#my-task-list').scroll(function (e) {
         return false;
     }
 });
+
+
+
+
+

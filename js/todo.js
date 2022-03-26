@@ -234,7 +234,7 @@ $(function () {
                             placeholder: "Nhân viên thực hiện",
                             data: data,
                         });
-                        $('#task-assigned').val().change();
+                        $('#task-assigned').val('').change();
                     }
                     else {
                         $("#task-assigned").empty(); // xóa value trong select2
@@ -297,6 +297,7 @@ $(function () {
     // On add new item button click, clear sidebar-right field fields
     if (addTaskBtn.length) {
         addTaskBtn.on("click", function (e) {
+            return_combobox_multi(taskAssignSelect, baseHome + '/todo/getEmployee', 'Nhân viên thực hiện');
             addBtn.removeClass("d-none");
             updateBtns.addClass("d-none");
             modalTitle.text("Thêm công việc");
@@ -543,8 +544,6 @@ $(function () {
         var $title = $(this).find(".todo-title").html();
         newTaskForm.find(".new-todo-item-title").val($title);
         
-        var assigneeId = $(this).find(".avatar").attr("data-id");   
-        taskAssignSelect.val(Number(assigneeId)).trigger("change");
       
         var deadline = $(this).find("#deadline").text();
         flatPickr.val(deadline);
@@ -554,7 +553,9 @@ $(function () {
         
         var projectId = $(this).find(".taskProject").text();
         onProject.val(projectId).trigger("change");
-      
+
+        var assigneeId = $(this).find(".avatar").attr("data-id");   
+        $('#task-assigned').val(Number(assigneeId)).change();
 
         var desc = $(this).find(".taskDescription").html();
         var quill_editor = $("#task-desc .ql-editor");
