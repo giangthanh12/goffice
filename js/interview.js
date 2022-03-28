@@ -647,7 +647,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 dateTime: $('#dateTime').val() + ' ' + $('#timeInterview').val(),
                 interviewerIds: $('#interviewerIds').val(),
                 result: $('#result').val(),
-                note:  $('#note').find(".ql-editor p").html(),
+                note:  $('#note').find(".ql-editor").html(),
             };
             $.ajax({
                 type: "POST",
