@@ -129,7 +129,7 @@
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label for="task-due-date" class="form-label">Deadline</label>
+                                                <label for="task-due-date" class="form-label">Deadline<span style="color:red;">*</span></label>
                                                 <input type="text" class="form-control flatpickr-basic" id="deadline" name="task-due-date" />
                                             </div>
 
