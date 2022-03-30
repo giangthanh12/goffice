@@ -2,6 +2,7 @@ var url = '';
 $arrMenu = [];
 $arrFunc = [];
 $userId = 0;
+ketqua = [];
 $(function () {
 
     "use strict";
@@ -180,7 +181,7 @@ $(function () {
         container: "body",
     });
 });
-
+var dataMenu;
 function getData(id) {
     $("#updateinfo").modal('show');
     $(".modal-title").html('Sửa thông tin user');
@@ -210,7 +211,7 @@ function save() {
             "username": {
                 required: true,
             },
-            "password": {
+            "groupId": {
                 required: true,
             },
            
@@ -219,8 +220,8 @@ function save() {
             "username": {
                 required: "Yêu cầu nhập tên đăng nhập!",
             },
-            "password": {
-                required: "Yêu cầu nhập mật khẩu!",
+            "groupId": {
+                required: "Yêu cầu chọn nhóm",
             },
            
 
@@ -291,6 +292,7 @@ function setRoles(userId)
         data: { userId: userId},
         url: baseHome + "/listusers/getMenus",
         success: function (data) {
+            dataMenu = data;
             $('#bodySetRoles').html('');
             $('#theadSetRoles').html('');
             $html = '';
@@ -301,7 +303,14 @@ function setRoles(userId)
                     $level += '---';
                 $function = menu.functions;
                 $html += '<tr>' +
-                    '<td>'+$level+menu.name+'</td>';
+                    '<td>'+$level+menu.name;
+                    if(menu.level == 0) {
+                        $html += '<div class="custom-control custom-checkbox">' +
+                        '<input type="checkbox" class="custom-control-input" id="checkAll'+menu.id+'" onclick="checkAll('+menu.id+', this.checked, this)" />'+
+                        '<label class="custom-control-label" for="checkAll'+menu.id+'"></label>' +
+                        '</div>';
+                    }
+                    $html += '</td>';
                 $checkedMenu = '';
                 $disableMenu = '';
                 if(menu.checked==1)
@@ -312,7 +321,7 @@ function setRoles(userId)
                     $arrMenu.push(menu.id);
                 $html+='<td>' +
                     '<div class="custom-control custom-checkbox">' +
-                    '<input type="checkbox" class="custom-control-input" '+$checkedMenu+' '+$disableMenu+' id="menu_'+menu.id+'" onclick="setMenuRole('+menu.id+','+userId+',this.checked)" />' +
+                    '<input type="checkbox" class="custom-control-input" '+$checkedMenu+' '+$disableMenu+' id="menu_'+menu.id+'" data-userId="'+userId+'" onclick="setMenuRole('+menu.id+','+userId+',this.checked)" />' +
                     '<label class="custom-control-label" for="menu_'+menu.id+'">View</label>' +
                     '</div>' +
                     '</td>';
@@ -327,7 +336,7 @@ function setRoles(userId)
                         $arrFunc.push(func.id);
                     $html+='<td>' +
                         '<div class="custom-control custom-checkbox">' +
-                        '<input type="checkbox" class="custom-control-input" '+$checkedFunc+' '+$disabledFunc+' id="function_'+func.id+'" onclick="setFunctionRole('+func.id+','+userId+',this.checked)" />' +
+                        '<input type="checkbox" class="custom-control-input function_add'+menu.id+'" data-userId="'+userId+'" data-idfunction="'+func.id+'" '+$checkedFunc+' '+$disabledFunc+' id="function_'+func.id+'" onclick="setFunctionRole('+func.id+','+userId+',this.checked)" />' +
                         '<label class="custom-control-label" for="function_'+func.id+'">'+func.name+'</label>' +
                         '</div>' +
                         '</td>';
@@ -344,6 +353,69 @@ function setRoles(userId)
     });
 }
 
+function checkAll(cha,check,item) {
+  
+    
+    
+    var dataMenuChild = dequy(dataMenu,cha)
+    console.log(dataMenuChild);
+    // có cha của hrm đi tìm các checkbox menu con
+    if(check) {
+        if(!$('#menu_'+Number(cha))[0].checked && !$('#menu_'+Number(cha))[0].disabled) {
+            $('#menu_add'+Number(cha)).prop('checked', true);  
+            setMenuRole(cha,0,true)
+        }
+        
+        $.each(dataMenuChild, function( index, menu ) { 
+            
+            if(!$('#menu_'+Number(menu))[0].checked && !$('#menu_'+Number(menu))[0].disabled) {
+                console.log('ok');
+                $('#menu_'+Number(menu)).prop('checked', true);    
+                setMenuRole(menu,$('#menu_'+Number(menu))[0].getAttribute('data-userId'),true);
+            }
+            // $('#function_add'+menu).checked = true;
+             $(".function_add"+Number(menu)).each(function() {
+                 if(!this.checked && !this.disable) {
+                    this.checked=true;
+                    setFunctionRole(this.getAttribute('data-userId'),0,true);
+                    setFunctionRole(this.getAttribute('data-idfunction'),this.getAttribute('data-userId'),true);
+                 }
+            });  
+        })
+        // console.log($('#menu_'+Number(cha))[0]);
+    }
+    else {
+        // if($('#menu_add'+Number(cha))[0].checked) {
+        //     $('#menu_add'+Number(cha)).prop('checked', false);  
+        //     setMenuRole(cha,0,false)
+        // }
+        // $('#menu_add'+Number(cha)).prop('checked', false);  
+        // $.each(dataMenuChild, function( index, menu ) { 
+        //     if($('#menu_add'+Number(menu))[0].checked) {
+        //         setMenuRole(menu,0,false)
+        //         $('#menu_add'+Number(menu)).prop('checked', false);  
+        //     }
+        //     // $('#function_add'+menu).checked = true;
+        //      $(".function_add"+Number(menu)).each(function() {
+        //         if(this.checked) {
+        //             this.checked=false;
+        //             setFunctionRole(this.getAttribute('data-idfunction'),0,false);
+        //          }
+        //     });  
+        // })
+    }
+}
+function dequy(menus,parentid) {
+   
+    if (ketqua.length == 0) ketqua= [];
+    $.each(menus, function( index, menu ) {
+        if(menu.parentId == parentid) {
+            ketqua.push(menu.id);
+            dequy(menus,menu.id);
+         }
+      });
+    return ketqua;
+}
 function deleteUser(id) {
     Swal.fire({
         title: 'Xóa dữ liệu',

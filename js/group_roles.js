@@ -2,6 +2,7 @@ var url = '';
 $arrMenu = [];
 $arrFunc = [];
 $groupId = 0;
+ketqua = [];
 $(function () {
 
     "use strict";
@@ -135,6 +136,7 @@ $(function () {
         container: "body",
     });
 });
+var dataMenu;
 function addGroupRole() {
     $(".modal-title").html('Thêm nhóm quyền mới');
     $('#name').val('');
@@ -145,6 +147,7 @@ function addGroupRole() {
         dataType: "json",
         url: baseHome + "/group_roles/getMenusAdd",
         success: function (data) {
+            dataMenu = data;
             console.log(data);
             $arrMenu = [];
             $arrFunc = [];
@@ -158,18 +161,25 @@ function addGroupRole() {
                     $level += '---';
                 $function = menu.functions;
                 $html += '<tr>' +
-                    '<td>'+$level+menu.name+'</td>';
+                    '<td>'+$level+menu.name;
+                    if(menu.level == 0) {
+                        $html += '<div class="custom-control custom-checkbox">' +
+                        '<input type="checkbox" class="custom-control-input" id="checkAll'+menu.id+'" onclick="checkAll('+menu.id+', this.checked, this)" />'+
+                       '<label class="custom-control-label" for="checkAll'+menu.id+'"></label>' +
+                        '</div>';
+                    }
+                $html += '</td>';
                 $checkedMenu = '';
                 $html+='<td>' +
                     '<div class="custom-control custom-checkbox">' +
-                    '<input type="checkbox" class="custom-control-input" id="menu_add'+menu.id+'" onclick="setMenuRole('+menu.id+',0,this.checked)" />' +
+                    '<input type="checkbox" class="custom-control-input menu_add_'+menu.cha+'"  id="menu_add'+menu.id+'" onclick="setMenuRole('+menu.id+',0,this.checked)" />' +
                     '<label class="custom-control-label" for="menu_add'+menu.id+'">Xem</label>' +
                     '</div>' +
                     '</td>';
                     $function.forEach(function (func){
                         $html+='<td>' +
                             '<div class="custom-control custom-checkbox">' +
-                            '<input type="checkbox" class="custom-control-input"  id="function_add'+func.id+'" onclick="setFunctionRole('+func.id+',0,this.checked)" />' +
+                            '<input type="checkbox" class="custom-control-input function_add'+menu.id+'" data-idfunction="'+func.id+'"  id="function_add'+func.id+'" onclick="setFunctionRole('+func.id+',0,this.checked)" />' +
                             '<label class="custom-control-label" for="function_add'+func.id+'">'+func.name+'</label>' +
                             '</div>' +
                             '</td>';
@@ -184,6 +194,68 @@ function addGroupRole() {
     });
 }
 
+function checkAll(cha,check,item) {
+    ketqua = [];
+    
+    
+    var dataMenuChild = dequy(dataMenu,cha)
+    // có cha của hrm đi tìm các checkbox menu con
+    if(check) {
+        if(!$('#menu_add'+Number(cha))[0].checked) {
+            $('#menu_add'+Number(cha)).prop('checked', true);  
+            setMenuRole(cha,0,true)
+        }
+        
+        $.each(dataMenuChild, function( index, menu ) { 
+            
+            if(!$('#menu_add'+Number(menu))[0].checked) {
+                $('#menu_add'+Number(menu)).prop('checked', true);    
+                setMenuRole(menu,0,true)
+            }
+           
+            // $('#function_add'+menu).checked = true;
+             $(".function_add"+Number(menu)).each(function() {
+                 if(!this.checked) {
+                    this.checked=true;
+                    setFunctionRole(this.getAttribute('data-idfunction'),0,true);
+                 }
+                
+            });  
+        })
+    }
+    else {
+        if($('#menu_add'+Number(cha))[0].checked) {
+            $('#menu_add'+Number(cha)).prop('checked', false);  
+            setMenuRole(cha,0,false)
+        }
+        $('#menu_add'+Number(cha)).prop('checked', false);  
+        $.each(dataMenuChild, function( index, menu ) { 
+            if($('#menu_add'+Number(menu))[0].checked) {
+                setMenuRole(menu,0,false)
+                $('#menu_add'+Number(menu)).prop('checked', false);  
+            }
+            // $('#function_add'+menu).checked = true;
+             $(".function_add"+Number(menu)).each(function() {
+                if(this.checked) {
+                    this.checked=false;
+                    setFunctionRole(this.getAttribute('data-idfunction'),0,false);
+                 }
+            });  
+        })
+    }
+}
+
+ function dequy(menus,parentid) {
+   
+    if (ketqua.length == 0) ketqua= [];
+    $.each(menus, function( index, menu ) {
+        if(menu.parentId == parentid) {
+            ketqua.push(menu.id);
+            dequy(menus,menu.id);
+         }
+      });
+    return ketqua;
+}
 
 function getGroupRole(id) {
     $("#updateinfo").modal('show');
@@ -194,6 +266,7 @@ function getGroupRole(id) {
         data: { id: id },
         url: baseHome + "/group_roles/getGroupRole",
         success: function (data) {
+            dataMenu = data.data2;
             $('#name').val(data.data.name);
             //load menu
             $arrMenu = [];
@@ -208,7 +281,15 @@ function getGroupRole(id) {
                     $level += '---';
                 $function = menu.functions;
                 $html += '<tr>' +
-                    '<td>'+$level+menu.name+'</td>';
+                    '<td>'+$level+menu.name;
+                    if(menu.level == 0) {
+                        $html += '<div class="custom-control custom-checkbox">' +
+                        '<input type="checkbox" class="custom-control-input" id="checkAll'+menu.id+'" onclick="checkAll('+menu.id+', this.checked, this)" />'+
+                       '<label class="custom-control-label" for="checkAll'+menu.id+'"></label>' +
+                        '</div>';
+                    }
+                    
+                   $html += '</td>';
                 $checkedMenu = '';
                 if(menu.checked==1) {
                     $checkedMenu = 'checked';
@@ -216,7 +297,7 @@ function getGroupRole(id) {
                 }
                 $html+='<td>' +
                     '<div class="custom-control custom-checkbox">' +
-                    '<input type="checkbox" class="custom-control-input" '+$checkedMenu+' id="menu_add'+menu.id+'" onclick="setMenuRole('+menu.id+','+id+',this.checked)" />' +
+                    '<input type="checkbox" class="custom-control-input" '+$checkedMenu+' id="menu_add'+menu.id+'" onclick="setMenuRole('+menu.id+',0,this.checked)" />' +
                     '<label class="custom-control-label" for="menu_add'+menu.id+'">Xem</label>' +
                     '</div>' +
                     '</td>';
@@ -228,7 +309,7 @@ function getGroupRole(id) {
                         }
                         $html+='<td>' +
                             '<div class="custom-control custom-checkbox">' +
-                            '<input type="checkbox" class="custom-control-input" '+$checkedFunc+' id="function_add'+func.id+'" onclick="setFunctionRole('+func.id+','+id+',this.checked)" />' +
+                            '<input type="checkbox" class="custom-control-input function_add'+menu.id+'" data-idfunction="'+func.id+'" '+$checkedFunc+' id="function_add'+func.id+'" onclick="setFunctionRole('+func.id+',0,this.checked)" />' +
                             '<label class="custom-control-label" for="function_add'+func.id+'">'+func.name+'</label>' +
                             '</div>' +
                             '</td>';
@@ -236,6 +317,7 @@ function getGroupRole(id) {
                 $html+='</tr>';
             })
             $('#bodySetRoles_add').html($html);
+            
             url = baseHome + '/group_roles/updateGroupRole?id=' + id;
         },
         error: function () {
@@ -425,6 +507,7 @@ function setMenuRole(menuId,groupId,check){
 }
 
 function updateRoles(){
+ 
     $.ajax({
         url: baseHome + "/group_roles/updateRoles",
         type: 'post',
