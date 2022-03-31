@@ -20,10 +20,10 @@ $(function () {
                 data: data,
                 dropdownParent: $("#staffId").parent(),
                 language: {
-                noResults: function() {
-                    return 'Không có kết quả';
-                }
-                },escapeMarkup: function (markup) {
+                    noResults: function () {
+                        return 'Không có kết quả';
+                    }
+                }, escapeMarkup: function (markup) {
                     return markup;
                 }
             });
@@ -40,10 +40,10 @@ $(function () {
                 data: data,
                 dropdownParent: $("#groupId").parent(),
                 language: {
-                noResults: function() {
-                    return 'Không có kết quả';
-                }
-                },escapeMarkup: function (markup) {
+                    noResults: function () {
+                        return 'Không có kết quả';
+                    }
+                }, escapeMarkup: function (markup) {
                     return markup;
                 }
             });
@@ -77,7 +77,7 @@ $(function () {
                         html += '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" title="Chỉnh sửa" onclick="getData(' + full["id"] + ')">';
                         html += '<i class="fas fa-pencil-alt"></i>';
                         html += '</button> &nbsp;';
-                        html += '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" title="Set roles" onclick="setRoles(' + full["id"] + ','+full["groupId"] +')">';
+                        html += '<button type="button" class="btn btn-icon btn-outline-primary waves-effect" title="Set roles" onclick="setRoles(' + full["id"] + ',' + full["groupId"] + ')">';
                         html += '<i class="fas fa-arrows-alt"></i>';
                         html += '</button> &nbsp;';
                         html += '<button type="button" class="btn btn-icon btn-outline-danger waves-effect" title="Xóa" onclick="deleteUser(' + full["id"] + ')">';
@@ -127,9 +127,10 @@ $(function () {
                     previous: "&nbsp;",
                     next: "&nbsp;",
                 },
-                info:"Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
+                info: "Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
                 infoFiltered: "(lọc từ _MAX_ bản ghi)",
-                sInfoEmpty : "Hiển thị 0 đến 0 của 0 bản ghi",              },
+                sInfoEmpty: "Hiển thị 0 đến 0 của 0 bản ghi",
+            },
             "oLanguage": {
                 "sZeroRecords": "Không có bản ghi nào"
             },
@@ -214,7 +215,7 @@ function save() {
             "groupId": {
                 required: true,
             },
-           
+
         },
         messages: {
             "username": {
@@ -223,7 +224,7 @@ function save() {
             "groupId": {
                 required: "Yêu cầu chọn nhóm",
             },
-           
+
 
         },
         submitHandler: function (form) {
@@ -239,7 +240,7 @@ function save() {
                 processData: false,
                 dataType: "json",
                 success: function (data) {
-                    if (data.code==200) {
+                    if (data.code == 200) {
                         notyfi_success(data.message);
                         $('#updateinfo').modal('hide');
                         $(".user-list-table").DataTable().ajax.reload(null, false);
@@ -271,7 +272,7 @@ function saveGroupRole() {
                 notify_error(data.msg);
         },
         error: function () {
-            if(data.msg)
+            if (data.msg)
                 notyfi_success(data.msg);
             else
                 notify_error('Cập nhật không thành công');
@@ -279,17 +280,16 @@ function saveGroupRole() {
     });
 }
 
-function setRoles(userId)
-{
+function setRoles(userId) {
     $("#setroles").modal('show');
     $("#title-2").html('Phân quyền');
     $arrFunc = [];
     $arrMenu = [];
-    $userId=userId;
+    $userId = userId;
     $.ajax({
         type: "POST",
         dataType: "json",
-        data: { userId: userId},
+        data: { userId: userId },
         url: baseHome + "/listusers/getMenus",
         success: function (data) {
             dataMenu = data;
@@ -297,123 +297,155 @@ function setRoles(userId)
             $('#theadSetRoles').html('');
             $html = '';
             $thead = '';
-            data.forEach(function (menu){
+            data.forEach(function (menu) {
                 $level = '';
-                for($i=0;$i<menu.level;$i++)
+                for ($i = 0; $i < menu.level; $i++)
                     $level += '---';
                 $function = menu.functions;
                 $html += '<tr>' +
-                    '<td>'+$level+menu.name;
-                    if(menu.level == 0) {
-                        $html += '<div class="custom-control custom-checkbox">' +
-                        '<input type="checkbox" class="custom-control-input" id="checkAll'+menu.id+'" onclick="checkAll('+menu.id+', this.checked, this)" />'+
-                        '<label class="custom-control-label" for="checkAll'+menu.id+'"></label>' +
+                    '<td>' + $level + menu.name;
+                if (menu.level == 0) {
+                    $html += '<div class="custom-control custom-checkbox">' +
+                        '<input type="checkbox" class="custom-control-input" id="checkAll' + menu.id + '" onclick="checkAll(' + menu.id + ', this.checked, this)" />' +
+                        '<label class="custom-control-label" for="checkAll' + menu.id + '">Chọn tất cả</label>' +
                         '</div>';
-                    }
-                    $html += '</td>';
+                    // check all checkbox selected items
+
+                }
+                $html += '</td>';
                 $checkedMenu = '';
                 $disableMenu = '';
-                if(menu.checked==1)
+                if (menu.checked == 1)
                     $checkedMenu = 'checked';
-                if(menu.disable==1)
+                if (menu.disable == 1)
                     $disableMenu = 'disabled';
-                if(menu.checked==1 && menu.disable!=1)
+                if (menu.checked == 1 && menu.disable != 1)
                     $arrMenu.push(menu.id);
-                $html+='<td>' +
+                $html += '<td>' +
                     '<div class="custom-control custom-checkbox">' +
-                    '<input type="checkbox" class="custom-control-input" '+$checkedMenu+' '+$disableMenu+' id="menu_'+menu.id+'" data-userId="'+userId+'" onclick="setMenuRole('+menu.id+','+userId+',this.checked)" />' +
-                    '<label class="custom-control-label" for="menu_'+menu.id+'">View</label>' +
+                    '<input type="checkbox" class="custom-control-input" ' + $checkedMenu + ' ' + $disableMenu + ' id="menu_' + menu.id + '" data-userId="' + userId + '" onclick="setMenuRole(' + menu.id + ',' + userId + ',this.checked)" />' +
+                    '<label class="custom-control-label" for="menu_' + menu.id + '">View</label>' +
                     '</div>' +
                     '</td>';
-                $function.forEach(function (func){
+                $function.forEach(function (func) {
                     $checkedFunc = '';
-                    if(func.checked==1)
+                    if (func.checked == 1)
                         $checkedFunc = 'checked';
                     $disabledFunc = '';
-                    if(func.disable==1)
+                    if (func.disable == 1)
                         $disabledFunc = 'disabled';
-                    if(func.checked==1 && func.disable!=1)
+                    if (func.checked == 1 && func.disable != 1)
                         $arrFunc.push(func.id);
-                    $html+='<td>' +
+                    $html += '<td>' +
                         '<div class="custom-control custom-checkbox">' +
-                        '<input type="checkbox" class="custom-control-input function_add'+menu.id+'" data-userId="'+userId+'" data-idfunction="'+func.id+'" '+$checkedFunc+' '+$disabledFunc+' id="function_'+func.id+'" onclick="setFunctionRole('+func.id+','+userId+',this.checked)" />' +
-                        '<label class="custom-control-label" for="function_'+func.id+'">'+func.name+'</label>' +
+                        '<input type="checkbox" class="custom-control-input function_add' + menu.id + '" data-userId="' + userId + '" data-idfunction="' + func.id + '" ' + $checkedFunc + ' ' + $disabledFunc + ' id="function_' + func.id + '" onclick="setFunctionRole(' + func.id + ',' + userId + ',this.checked)" />' +
+                        '<label class="custom-control-label" for="function_' + func.id + '">' + func.name + '</label>' +
                         '</div>' +
                         '</td>';
                 })
-                $html+='</tr>';
+                $html += '</tr>';
+
             })
             $('#bodySetRoles').html($html);
-            console.log($arrMenu);
-            console.log($arrFunc);
+            console.log(checkAllCheckbox());
+            // console.log($arrMenu);
+            // console.log($arrFunc);
         },
         error: function () {
             notify_error('Lỗi truy xuất database');
         }
     });
 }
+//checkallselected
 
-function checkAll(cha,check,item) {
-  
-    
-    
-    var dataMenuChild = dequy(dataMenu,cha)
-    console.log(dataMenuChild);
-    // có cha của hrm đi tìm các checkbox menu con
-    if(check) {
-        if(!$('#menu_'+Number(cha))[0].checked && !$('#menu_'+Number(cha))[0].disabled) {
-            $('#menu_add'+Number(cha)).prop('checked', true);  
-            setMenuRole(cha,0,true)
+
+// checkall
+function checkAllCheckbox() {
+    let a = 0;
+    $.each(dataMenu, function (index, menu) {
+        if (menu.level == 0) {
+            a = 0;
+            ketqua = [];
+            let dataMenuChild = dequy(dataMenu, menu.id);
+            if (!$('#menu_' + Number(menu.id))[0].checked) 
+                a++;
+            $.each(dataMenuChild, function (index, menu) {
+                if (!$('#menu_' + Number(menu))[0].checked)
+                    a++;
+                // $('#function_add'+menu).checked = true;
+                $(".function_add" + Number(menu)).each(function () {
+                    if (!this.checked)
+                        a++;
+                });
+            })
+            $('#checkAll' + Number(menu.id)).prop('checked', false);
+            if(a==0) 
+            $('#checkAll' + Number(menu.id)).prop('checked', true);
         }
-        
-        $.each(dataMenuChild, function( index, menu ) { 
-            
-            if(!$('#menu_'+Number(menu))[0].checked && !$('#menu_'+Number(menu))[0].disabled) {
+
+    })
+    return dataMenu;
+}
+
+
+function checkAll(cha, check, item) {
+    ketqua = [];
+    var dataMenuChild = dequy(dataMenu, cha)
+    // có cha của hrm đi tìm các checkbox menu con
+    if (check) {
+        if (!$('#menu_' + Number(cha))[0].checked && !$('#menu_' + Number(cha))[0].disabled) {
+            $('#menu_' + Number(cha)).prop('checked', true);
+            setMenuRole(cha, $('#menu_' + Number(cha))[0].getAttribute('data-userId'), true)
+        }
+
+        $.each(dataMenuChild, function (index, menu) {
+
+            if (!$('#menu_' + Number(menu))[0].checked && !$('#menu_' + Number(menu))[0].disabled) {
                 console.log('ok');
-                $('#menu_'+Number(menu)).prop('checked', true);    
-                setMenuRole(menu,$('#menu_'+Number(menu))[0].getAttribute('data-userId'),true);
+                $('#menu_' + Number(menu)).prop('checked', true);
+                setMenuRole(menu, $('#menu_' + Number(menu))[0].getAttribute('data-userId'), true);
             }
             // $('#function_add'+menu).checked = true;
-             $(".function_add"+Number(menu)).each(function() {
-                 if(!this.checked && !this.disable) {
-                    this.checked=true;
-                    setFunctionRole(this.getAttribute('data-userId'),0,true);
-                    setFunctionRole(this.getAttribute('data-idfunction'),this.getAttribute('data-userId'),true);
-                 }
-            });  
+            $(".function_add" + Number(menu)).each(function () {
+                if (!this.checked && !this.disabled) {
+                    this.checked = true;
+                    setFunctionRole(this.getAttribute('data-userId'), 0, true);
+                    setFunctionRole(this.getAttribute('data-idfunction'), this.getAttribute('data-userId'), true);
+                }
+            });
         })
         // console.log($('#menu_'+Number(cha))[0]);
     }
     else {
-        // if($('#menu_add'+Number(cha))[0].checked) {
-        //     $('#menu_add'+Number(cha)).prop('checked', false);  
-        //     setMenuRole(cha,0,false)
-        // }
-        // $('#menu_add'+Number(cha)).prop('checked', false);  
-        // $.each(dataMenuChild, function( index, menu ) { 
-        //     if($('#menu_add'+Number(menu))[0].checked) {
-        //         setMenuRole(menu,0,false)
-        //         $('#menu_add'+Number(menu)).prop('checked', false);  
-        //     }
-        //     // $('#function_add'+menu).checked = true;
-        //      $(".function_add"+Number(menu)).each(function() {
-        //         if(this.checked) {
-        //             this.checked=false;
-        //             setFunctionRole(this.getAttribute('data-idfunction'),0,false);
-        //          }
-        //     });  
-        // })
+        if ($('#menu_' + Number(cha))[0].checked && !$('#menu_' + Number(cha))[0].disabled) {
+            $('#menu_' + Number(cha)).prop('checked', false);
+            setMenuRole(cha, $('#menu_' + Number(cha))[0].getAttribute('data-userId'), false)
+        }
+        $.each(dataMenuChild, function (index, menu) {
+            if ($('#menu_' + Number(menu))[0].checked && !$('#menu_' + Number(menu))[0].disabled) {
+                console.log('ok');
+                $('#menu_' + Number(menu)).prop('checked', false);
+                setMenuRole(menu, $('#menu_' + Number(menu))[0].getAttribute('data-userId'), false);
+            }
+            $(".function_add" + Number(menu)).each(function () {
+                if (this.checked && !this.disabled) {
+                    this.checked = false;
+                    setFunctionRole(this.getAttribute('data-userId'), 0, false);
+                    setFunctionRole(this.getAttribute('data-idfunction'), this.getAttribute('data-userId'), false);
+                }
+            });
+        })
     }
 }
-function dequy(menus,parentid) {
-   
-    if (ketqua.length == 0) ketqua= [];
-    $.each(menus, function( index, menu ) {
-        if(menu.parentId == parentid) {
+function dequy(menus, parentid) {
+
+    if (ketqua.length == 0) ketqua = [];
+    $.each(menus, function (index, menu) {
+        if (menu.parentId == parentid) {
             ketqua.push(menu.id);
-            dequy(menus,menu.id);
-         }
-      });
+            dequy(menus, menu.id);
+        }
+    });
     return ketqua;
 }
 function deleteUser(id) {
@@ -436,7 +468,7 @@ function deleteUser(id) {
                 dataType: "json",
                 data: { id: id },
                 success: function (data) {
-                    if (data.code==200) {
+                    if (data.code == 200) {
                         notyfi_success(data.message);
                         $(".user-list-table").DataTable().ajax.reload(null, false);
                     }
@@ -448,17 +480,17 @@ function deleteUser(id) {
     });
 }
 
-function setFunctionRole(funcId,userId,check){
-
-    if(check){
+function setFunctionRole(funcId, userId, check) {
+    checkAllCheckbox();
+    if (check) {
         $arrFunc.push(funcId.toString());
-    }else{
+    } else {
         var index = $arrFunc.indexOf(funcId.toString());
         if (index !== -1) {
             $arrFunc.splice(index, 1);
         }
     }
-    
+
     // $.ajax({
     //     url: baseHome + "/listusers/setFunctionRole",
     //     type: 'post',
@@ -469,10 +501,11 @@ function setFunctionRole(funcId,userId,check){
     // });
 }
 
-function setMenuRole(menuId,userId,check){
-    if(check){
+function setMenuRole(menuId, userId, check) {
+    checkAllCheckbox();
+    if (check) {
         $arrMenu.push(menuId.toString());
-    }else{
+    } else {
         var index = $arrMenu.indexOf(menuId.toString());
         if (index !== -1) {
             $arrMenu.splice(index, 1);
@@ -488,16 +521,16 @@ function setMenuRole(menuId,userId,check){
     // });
 }
 
-function updateRoles(){
+function updateRoles() {
     // console.log($arrMenu);
     // console.log($arrFunc);
     $.ajax({
         url: baseHome + "/listusers/updateRoles",
         type: 'post',
         dataType: "json",
-        data: { menus:$arrMenu,userId:$userId,functions:$arrFunc},
+        data: { menus: $arrMenu, userId: $userId, functions: $arrFunc },
         success: function (data) {
-            if (data.code==200) {
+            if (data.code == 200) {
                 $("#setroles").modal('hide');
                 notyfi_success(data.message);
                 $(".user-list-table").DataTable().ajax.reload(null, false);

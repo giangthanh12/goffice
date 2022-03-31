@@ -165,7 +165,7 @@ function addGroupRole() {
                     if(menu.level == 0) {
                         $html += '<div class="custom-control custom-checkbox">' +
                         '<input type="checkbox" class="custom-control-input" id="checkAll'+menu.id+'" onclick="checkAll('+menu.id+', this.checked, this)" />'+
-                       '<label class="custom-control-label" for="checkAll'+menu.id+'"></label>' +
+                       '<label class="custom-control-label" for="checkAll'+menu.id+'">Chọn tất cả</label>' +
                         '</div>';
                     }
                 $html += '</td>';
@@ -193,7 +193,32 @@ function addGroupRole() {
         }
     });
 }
+function checkAllCheckbox() {
+    let a = 0;
+    $.each(dataMenu, function (index, menu) {
+        if (menu.level == 0) {
+            a = 0;
+            ketqua = [];
+            let dataMenuChild = dequy(dataMenu, menu.id);
+            if (!$('#menu_add' + Number(menu.id))[0].checked) 
+                a++;
+            $.each(dataMenuChild, function (index, menu) {
+                if (!$('#menu_add' + Number(menu))[0].checked)
+                    a++;
+                // $('#function_add'+menu).checked = true;
+                $(".function_add" + Number(menu)).each(function () {
+                    if (!this.checked)
+                        a++;
+                });
+            })
+            $('#checkAll' + Number(menu.id)).prop('checked', false);
+            if(a==0) 
+            $('#checkAll' + Number(menu.id)).prop('checked', true);
+        }
 
+    })
+    return dataMenu;
+}
 function checkAll(cha,check,item) {
     ketqua = [];
     
@@ -285,7 +310,7 @@ function getGroupRole(id) {
                     if(menu.level == 0) {
                         $html += '<div class="custom-control custom-checkbox">' +
                         '<input type="checkbox" class="custom-control-input" id="checkAll'+menu.id+'" onclick="checkAll('+menu.id+', this.checked, this)" />'+
-                       '<label class="custom-control-label" for="checkAll'+menu.id+'"></label>' +
+                       '<label class="custom-control-label" for="checkAll'+menu.id+'">Chọn tất cả</label>' +
                         '</div>';
                     }
                     
@@ -317,7 +342,7 @@ function getGroupRole(id) {
                 $html+='</tr>';
             })
             $('#bodySetRoles_add').html($html);
-            
+            checkAllCheckbox();
             url = baseHome + '/group_roles/updateGroupRole?id=' + id;
         },
         error: function () {
@@ -469,6 +494,7 @@ function deleteGroupRole(id) {
 }
 
 function setFunctionRole(funcId,groupId,check){
+    checkAllCheckbox();
     if(check){
         $arrFunc.push(funcId.toString());
     }else{
@@ -488,6 +514,7 @@ function setFunctionRole(funcId,groupId,check){
 }
 
 function setMenuRole(menuId,groupId,check){
+    checkAllCheckbox();
     if(check){
         $arrMenu.push(menuId.toString());
     }else{

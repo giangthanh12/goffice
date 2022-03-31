@@ -12,13 +12,16 @@ function getParameterByName(name, url) { // lay tham so qua URL
 }
 
 // Web socket create and processs
-let connection = new WebSocket('wss://velo.vn:1337/' + taxCode + '?staffId=' + baseUser);
+// let connection = new WebSocket('wss://velo.vn:1337/' + taxCode + '?staffId=' + baseUser);
+let connection = new WebSocket('ws://localhost:1337/'+ taxCode + '?staffId=' + baseUser);
 connection.onopen = function () {
     console.log("Open connection!");
 };
 
 connection.onmessage = function (message) {
+    console.log(message);
     var data = JSON.parse(message.data);
+    console.log(data);
     if (data.type == 'inbox') {
         if (data.receiverid.includes(baseUser)) {
             var receiverid = data.receiverid;
@@ -149,7 +152,7 @@ connection.onmessage = function (message) {
         if (receiver.includes(baseUser)) {
             commentMe();
         }
-    } else if (data.type == 'user') {
+    } else if (data.type == 'user' && data.path == taxCode) {
         $.ajax({
             type: "GET",
             dataType: "json",
