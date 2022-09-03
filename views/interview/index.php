@@ -169,11 +169,14 @@
                                         <div id="note" class="border-bottom-0"></div>
                                         <div class="d-flex justify-content-end desc-toolbar border-top-0">
                                             <span class="ql-formats mr-0">
-                                                <button class="ql-bold"></button>
-                                                <button class="ql-italic"></button>
-                                                <button class="ql-underline"></button>
-                                                <button class="ql-align"></button>
-                                                <button class="ql-link"></button>
+                                            <button class="ql-bold"></button>
+                                            <button class="ql-italic"></button>
+                                            <button class="ql-underline"></button>
+                                            <button class="ql-align"></button>
+                                            <button class="ql-align" value="center"></button>
+                                            <button class="ql-align" value="right"></button>
+                                            <button class="ql-align" value="justify"></button>
+                                            <button class="ql-link"></button>
                                             </span>
                                         </div>
                                     </div>

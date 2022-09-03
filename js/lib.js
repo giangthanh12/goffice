@@ -717,10 +717,8 @@ function return_combobox_multi(id_input, url_data, place) {
     $(id_input).select2({
         placeholder: place,
         dropdownParent: $(id_input).parent(),
-
     });
     $(id_input).html(html);
-
 }
 
 

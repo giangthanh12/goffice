@@ -1,27 +1,22 @@
 <?php
-$url = isset($_GET['url']) ? $_GET['url'] : null;
+$url = isset($_SERVER["REQUEST_URI"]) ? $_SERVER["REQUEST_URI"] : null;
 $url = rtrim($url, '/');
 $url = explode('/', $url);
+
 session_start();
 date_default_timezone_set("Asia/Ho_Chi_Minh");
 ini_set('display_errors', 1);
-define('HOME', 'http://' . $_SERVER['HTTP_HOST'] . '/web-g-office');
+define('HOME', 'https://' . $_SERVER['HTTP_HOST'] . '/web-g-office');
 
 
-if ($url[0] == "saveFolder") {
+if ( array_key_exists(2,$url) && $url[2] == "saveFolder") {
+  
     if(isset($_REQUEST['folder']))
         $_SESSION['folder'] = $_REQUEST['folder'];
     return false;
 }
 if (isset($_SESSION['folder'])) {
     $folder = $_SESSION['folder'];
-    
-// function isMobile() {
-//     return preg_match("/(android|avantgo|blackberry|bolt|boost|cricket|docomo|fone|hiptop|mini|mobi|palm|phone|pie|tablet|up\.browser|up\.link|webos|wos)/i", $_SERVER["HTTP_USER_AGENT"]);
-// }
-// if(isMobile())
-//     header('Location: https://vdata.com.vn/vpdtm/');
-// else {
     if (file_exists('users/' . $folder . '/startup.php')) {
         require 'users/' . $folder . '/startup.php';
         define('SID', md5(HOME . "-" . $folder));
@@ -38,9 +33,10 @@ if (isset($_SESSION['folder'])) {
         $app = new bootstrap();
     }
 } else {
-    if($url[0] == "forgetPassword") {
+  
+    if(array_key_exists(2,$url) && $url[2] == "forgetPassword") {
         require "views/index/forgetPassword.php";
-    } elseif($url[0] == "changePassword") {
+    } elseif(array_key_exists(2,$url) && $url[2] == "changePassword") {
         require "views/index/changePassword.php";
     } else {
         if(isset($_COOKIE['folder']) && isset($_COOKIE['username'])) {
@@ -71,7 +67,7 @@ if (isset($_SESSION['folder'])) {
             }
           }
           else {
-           
+         
             setcookie(SID, true, time() - 604800,'/');
             setcookie('folder', $_COOKIE['folder'], time() - 604800,'/');
             setcookie('username', $_COOKIE['username'], time() - 604800,'/');
@@ -82,6 +78,7 @@ if (isset($_SESSION['folder'])) {
         }
    
         else {
+      
             require "views/index/login.php";
         }
         

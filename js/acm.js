@@ -314,6 +314,9 @@ $(function () {
         });
     }
 
+
+
+
    function actionMenuPay() {
     return_combobox_multi('#classify',baseHome + "/acm/getClassify?type=2", 'Phân loại');
     var validator = $("#dg").validate(); // reset form
@@ -477,6 +480,21 @@ $(function () {
         container: "body",
     });
 });
+const putMethod = {
+    method: 'DELETE', // Method itself
+    headers: {
+     'Content-type': 'application/json; charset=UTF-8' // Indicates the content 
+    },
+    // body: JSON.stringify(someData) // We send data in JSON format
+   }
+
+// var ids = '1,2,3,4';
+// fetch('http://localhost/gofficev3/mainapi/gemstech/account/deleteAccount?ids='+ids+'&token=0e30633e00c7ac2d2c2d9b7c78da2395', {
+// method: 'DELETE',
+// })
+// .then(res => res.text()) // or res.json()
+// .then(res => console.log(res))
+
 
 function showAccountBalance() {
     $.ajax({

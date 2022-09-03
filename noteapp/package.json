@@ -1,0 +1,17 @@
+{
+  "name": "websocket",
+  "version": "1.0.0",
+  "description": "Su dung websocket ",
+  "main": "gofficesocket.js",
+  "scripts": {
+    "test": "Goffice"
+  },
+  "author": "Quynh90st",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "socket.io": "^4.4.0",
+    "websocket": "^1.0.34",
+    "xhr2": "^0.2.1"
+  }
+}

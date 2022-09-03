@@ -627,11 +627,14 @@ function load_select(selectId,url,place,nameFunction) {
 
 // lấy dự án
 function list_to_do() {
+    
     $.ajax({
         type: "GET",
         dataType: "json",
         async: false,
         data: {status:status},
+        processing: true,
+        serverSide: true,
         url: baseHome + "/project/getdata",
         success: function (data) {
      
@@ -711,7 +714,7 @@ function load_status_project() {
     });
 }
 load_status_project() 
-var status;
+let status = "";
 function filterStatus(element) {
     status = element.getAttribute('data-status');
     filterProject(status);

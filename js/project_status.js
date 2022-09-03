@@ -39,7 +39,10 @@ $(function () {
     if (dtUserTable.length) {
         dtUserTable.DataTable({
             // ajax: assetPath + "data/user-list.json", // JSON file to add data
+            "processing": true,
+            // "serverSide": true,
             ajax: baseHome + "/project_status/list",
+            // dataType: "json",
             ordering: false,
             columns: [
                 { data: "name" },
